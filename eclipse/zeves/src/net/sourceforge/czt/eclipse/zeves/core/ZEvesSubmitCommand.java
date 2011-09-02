@@ -104,7 +104,19 @@ public class ZEvesSubmitCommand implements ZEvesExecCommand {
     		return Status.CANCEL_STATUS;
     	}
 		
-		// wait until reconcile, because submit could have been done before data is parsed
+		/*
+		 * ask the editor to reconcile - this is done for several reasons.
+		 * First, updates could have been done right before the submit and we
+		 * require an up-to-date AST to perform the submit. Forcing reconcile
+		 * allows us to avoid waiting for the delayed reconciler to kick in.
+		 * 
+		 * Secondly, the option to reconcile on parse ("parse automatically")
+		 * may have been switched off for the Z Editor. For this reason, we
+		 * need to force reconcile manually to get an AST altogether.
+		 */
+		editor.forceReconcile();
+		
+		// wait until reconcile completes
     	ZEditorUtil.runOnReconcile(editor, documentVersion, new ReconcileRunnable() {
 			@Override
 			protected void run(ParsedData parsedData) {

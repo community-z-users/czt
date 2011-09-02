@@ -47,7 +47,7 @@ public enum ZCompiler
   /**
    * Parse the input in an fEditor
    */
-  public ParsedData parse(ZEditor editor)
+  public ParsedData parse(ZEditor editor, BigInteger documentVersion)
   {
     IDocument document = editor.getDocumentProvider().getDocument(
         editor.getEditorInput());
@@ -56,9 +56,8 @@ public enum ZCompiler
 
     final IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
     final String name = file.getName();
-    // get document version before the document, which will ensure 
-    // the document is up-to-date or newer for that version.
-    final BigInteger documentVersion = editor.getDocumentVersion();
+    // The document version was retrieved before the document contents, which 
+    // will ensure the document is up-to-date or newer for that version.
     final Source source = new StringSource(document.get(), name);
     source.setMarkup(editor.getMarkup()); // or Markup.UNICODE
     source.setEncoding(editor.getEncoding()); // for Unicode

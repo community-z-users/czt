@@ -173,6 +173,7 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/TermP
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/ZProblemSeverity.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.properties -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorModel.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorUtil.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/outline/ChainTermVisitor.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/outline/CztTreeNode.java -text

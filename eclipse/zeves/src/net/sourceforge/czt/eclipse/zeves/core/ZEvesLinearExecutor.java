@@ -10,9 +10,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 
 /**
  * An executor for Z/Eves commands. The linear executor maintains a queue of

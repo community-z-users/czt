@@ -2,17 +2,10 @@
 package net.sourceforge.czt.eclipse.editors;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
-import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.editors.parser.ZCompiler;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.util.CztUI;
-
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorModel;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
@@ -24,6 +17,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
  * A reconciling strategy for parsing Z specifications.
  * 
  * @author Chengdong Xu
+ * @author Andrius Velykis
  */
 public class ZReconcilingStrategy
     implements
@@ -32,7 +26,7 @@ public class ZReconcilingStrategy
 {
   private ITextEditor fEditor;
 
-  private IDocument fDocument;
+//  private IDocument fDocument;
 
   private IProgressMonitor fProgressMonitor;
 
@@ -57,6 +51,7 @@ public class ZReconcilingStrategy
   /**
    * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#setProgressMonitor(org.eclipse.core.runtime.IProgressMonitor)
    */
+  @Override
   public void setProgressMonitor(IProgressMonitor monitor)
   {
     fProgressMonitor = monitor;
@@ -65,14 +60,16 @@ public class ZReconcilingStrategy
   /**
    * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#setDocument(org.eclipse.jface.text.IDocument)
    */
+  @Override
   public void setDocument(IDocument document)
   {
-    fDocument = document;
+//    fDocument = document;
   }
 
   /**
    * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#initialReconcile()
    */
+  @Override
   public void initialReconcile()
   {
     safeReconcile(true);
@@ -81,6 +78,7 @@ public class ZReconcilingStrategy
   /**
    * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.jface.text.reconciler.DirtyRegion, org.eclipse.jface.text.IRegion)
    */
+  @Override
   public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion)
   {
     safeReconcile(false);
@@ -89,6 +87,7 @@ public class ZReconcilingStrategy
   /**
    * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.jface.text.IRegion)
    */
+  @Override
   public void reconcile(IRegion partition)
   {
     safeReconcile(false);
@@ -131,39 +130,20 @@ public class ZReconcilingStrategy
     
     if (!((ZEditor)fEditor).isParsingEnabled())
       return;
-
-    final ParsedData[] data = new ParsedData[1];
+    
+    ZEditorModel editorModel = ((ZEditor) fEditor).getModel();
+    editorModel.reconcile();
+    
+    // Always notify listeners, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=55969 for the final solution
     try {
-        SafeRunner.run(new ISafeRunnable()
-        {
-          public void run()
-          {
-
-            ZCompiler compiler = ZCompiler.getInstance();
-            if (compiler != null) {
-              data[0] = compiler.parse((ZEditor) fEditor);
-            }
-          }
-
-          public void handleException(Throwable ex)
-          {
-            IStatus status = new Status(IStatus.ERROR, CztUI.ID_PLUGIN,
-                IStatus.OK, "Error in CZT during reconcile", ex); //$NON-NLS-1$
-            CZTPlugin.getDefault().getLog().log(status);
-          }
-        });
-    } finally {
-      // Always notify listeners, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=55969 for the final solution
-      try {
-        if (fIsZReconcilingListener) {
-          IProgressMonitor pm = fProgressMonitor;
-          if (pm == null)
-            pm = new NullProgressMonitor();
-          fZReconcilingListener.reconciled(data[0], !fNotify, pm);
-        }
-      } finally {
-        fNotify = true;
+      if (fIsZReconcilingListener) {
+        IProgressMonitor pm = fProgressMonitor;
+        if (pm == null)
+          pm = new NullProgressMonitor();
+        fZReconcilingListener.reconciled(editorModel.getParsedData(), !fNotify, pm);
       }
+    } finally {
+      fNotify = true;
     }
   }
 }

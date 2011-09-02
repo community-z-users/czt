@@ -77,6 +77,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -115,7 +116,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
@@ -420,14 +420,6 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     }
   }
 
-  /**
-   * Mutex for the reconciler. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=63898
-   * for a description of the problem.
-   * <p>
-   * TODO remove once the underlying problem (https://bugs.eclipse.org/bugs/show_bug.cgi?id=66176) is solved.
-   * </p>
-   */
-  //	private final Object fReconcilerLock= new Object();
   private String fFileType = null;
 
   private Markup fMarkup = Markup.LATEX;
@@ -512,17 +504,8 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /** The projection support */
   private ProjectionSupport fProjectionSupport;
 
-  /** The parsed tree */
-  private ParsedData fParsedData;
-
   /** The term selector */
   private Selector fTermHighlightSelector;
-
-  /** The term currently highlighted */
-  private Term fHighlightedTerm = null;
-
-  /** The styled text */
-  private StyledText text;
 
   /** Preference key for matching brackets */
   protected final static String MATCHING_BRACKETS = ZEditorConstants.MATCHING_BRACKETS;
@@ -560,12 +543,11 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   private boolean fReportProblemsWhileEditing;
   
   /**
-   * The version of the currently edited document. This version is being incremented 
-   * with each edit and is used as a baseline to check whether the underlying 
-   * ParsedData model matches the document. The version is used by the reconciler to 
-   * tag the model (ParsedData) version.
+   * The underlying model for the Z editor, which contains parsed CZT AST.
+   * The model encapsulates functionality to reconcile itself from the
+   * editor document and perform synchronization.
    */
-  private BigInteger documentVersion = BigInteger.ZERO;
+  private final ZEditorModel model = new ZEditorModel(this);
   
   private final ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
 
@@ -698,8 +680,6 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
     fProjectionAnnotationModel = projectionViewer
         .getProjectionAnnotationModel();
-
-    text = getSourceViewer().getTextWidget();
     
     // enable font updates
     FontUpdater.enableFor(getSourceViewer(),
@@ -712,10 +692,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       @Override
       public IInformationControl createInformationControl(Shell shell)
       {
-        boolean cutDown = false;
-        int style = cutDown ? SWT.NONE : (SWT.V_SCROLL | SWT.H_SCROLL);
         return new DefaultInformationControl(shell);
         // TODO: find an IInformationProvider that show HTML, so we can do this:
+        // boolean cutDown = false;
+        // int style = cutDown ? SWT.NONE : (SWT.V_SCROLL | SWT.H_SCROLL);
         //return new DefaultInformationControl(shell, SWT.RESIZE | SWT.TOOL,
         //    style, new HTMLTextPresenter(cutDown));
       }
@@ -850,7 +830,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       public void documentChanged(DocumentEvent event)
       {
         // increment document version with each document change
-        incrementDocumentVersion();
+        model.incrementDocumentVersion();
       }
     }
     
@@ -872,12 +852,31 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     });
   }
   
-  private void incrementDocumentVersion() {
-    this.documentVersion = this.documentVersion.add(BigInteger.ONE);
+  public ZEditorModel getModel() {
+    return model;
   }
   
   public BigInteger getDocumentVersion() {
-    return this.documentVersion;
+    return model.getDocumentVersion();
+  }
+  
+  public void forceReconcile() {
+    Job reconcileJob = new Job("Reconciling")
+    {
+      
+      @Override
+      protected IStatus run(IProgressMonitor monitor)
+      {
+        getModel().reconcile();
+        
+        // fire notifications
+        reconciled(getParsedData(), true, new NullProgressMonitor());
+        
+        return Status.OK_STATUS;
+      }
+    };
+    
+    reconcileJob.schedule();
   }
 
   protected ZSpecDecorationSupport getZSpecDecorationSupport(
@@ -942,7 +941,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     ZContentOutlinePage page = new ZContentOutlinePage(fOutlinerContextMenuId,
         this);
     fOutlineSelectionChangedListener.install(page);
-    setOutlinePageInput(page, this.fParsedData);
+    setOutlinePageInput(page, model.getParsedData());
     return page;
   }
 
@@ -1284,9 +1283,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     if (!fMarkOccurrenceAnnotations)
       return;
 
-    if (this.fParsedData == null)
-      return;
-    Selector termSelector = this.fParsedData.createTermSelector();
+    Selector termSelector = model.getParsedData().createTermSelector();
     if (termSelector == null)
       return;
     IDocument document = getDocumentProvider().getDocument(getEditorInput());
@@ -1643,11 +1640,17 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   public void doRevertToSaved()
   {
     super.doRevertToSaved();
+    updateOnSave();
+  }
+
+  private void updateOnSave()
+  {
     if (!fReportProblemsWhileEditing) {
-      createMarkers(fParsedData.getErrors(),
+      ParsedData parsedData = model.getParsedData();
+      createMarkers(parsedData.getErrors(),
         ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
             .getDocument(getEditorInput()));
-      updateOutlinePage(fParsedData);
+      updateOutlinePage(parsedData);
     }
   }
 
@@ -1661,12 +1664,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   public void doSave(IProgressMonitor progressMonitor)
   {
     super.doSave(progressMonitor);
-    if (!fReportProblemsWhileEditing) {
-      createMarkers(fParsedData.getErrors(),
-        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
-            .getDocument(getEditorInput()));
-      updateOutlinePage(fParsedData);
-    }
+    updateOnSave();
   }
 
   /** The <code>ZEditor</code> implementation of this 
@@ -1677,12 +1675,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   public void doSaveAs()
   {
     super.doSaveAs();
-    if (!fReportProblemsWhileEditing) {
-      createMarkers(fParsedData.getErrors(),
-        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
-            .getDocument(getEditorInput()));
-      updateOutlinePage(fParsedData);
-    }
+    updateOnSave();
   }
 
   /** The <code>JavaEditor</code> implementation of this 
@@ -1718,7 +1711,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * @return an adapter for the required type or <code>null</code>
    */
   @Override
-  public Object getAdapter(Class required)
+  public Object getAdapter(@SuppressWarnings("rawtypes") Class required)
   {
     if (IContentOutlinePage.class.equals(required)) {
       if (fOutlinePage == null) {
@@ -1846,14 +1839,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
   public ParsedData getParsedData()
   {
-    if (this.fParsedData == null)
-      this.fParsedData = new ParsedData(this, BigInteger.ZERO);
-    return this.fParsedData;
-  }
-
-  public void setParsedData(ParsedData data)
-  {
-    this.fParsedData = data;
+    return model.getParsedData();
   }
 
   public Position findWordOfOffset(IDocument document, int offset)
@@ -2354,18 +2340,18 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   public void reconciled(ParsedData parsedData, boolean forced,
       IProgressMonitor progressMonitor)
   {
-    fParsedData = parsedData;
-    if (fReportProblemsWhileEditing || !this.isDirty())
-      if (fParsedData != null)
-        createMarkers(fParsedData.getErrors(),
-            ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
-              .getDocument(getEditorInput()));
-    updateOutlinePage(fParsedData);
-
-    // Notify listeners
+    // Notify listeners first - something may have been waiting on reconcile
     for (Object listener : fReconcilingListeners.getListeners()) {
       ((IZReconcilingListener) listener).reconciled(parsedData, forced, progressMonitor);
     }
+    
+    // report errors and update outline in the end
+    if (fReportProblemsWhileEditing || !this.isDirty()) {
+      createMarkers(model.getParsedData().getErrors(),
+          ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
+            .getDocument(getEditorInput()));
+    }
+    updateOutlinePage(model.getParsedData());
 
     // Update Z Outline page selection
 //    if (!forced && !progressMonitor.isCanceled()) {

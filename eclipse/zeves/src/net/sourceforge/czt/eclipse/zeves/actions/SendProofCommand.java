@@ -87,6 +87,10 @@ public abstract class SendProofCommand extends AbstractHandler {
 			ZEvesPlugin.getDefault().log(e);
 		}
 		
+		// ask the editor to reconcile to avoid waiting for the 
+		// delayed reconciler to kick in
+		editor.forceReconcile();
+		
 		SubmitToPointCommand.submitToOffset(editor, posEnd + addOffset);
 	}
 	
