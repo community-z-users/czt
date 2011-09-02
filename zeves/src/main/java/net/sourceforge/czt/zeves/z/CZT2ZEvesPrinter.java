@@ -2473,7 +2473,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
                                              + term.getZName().toString() + " into Z/Eves format."));
       }
 
-      // AV: Ignore generics here?
+      // AV: Ignore generics here? Leo: yes, as you cannot give it explicitly in this case?
 
       Expr left = exprList.get(0);
 
@@ -2499,14 +2499,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     else
     {
       String genActuals = "";
+      result = "";
       if (!term.getZExprList().isEmpty() && term.getExplicit() != null && term.getExplicit())
       {
         genActuals = getGenActuals(term.getZExprList());
+        result += "(";
       }
       // Don't call getRefName here, but name directly (e.g., name not to be treated as a possible operator).
       // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
       //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
-      result = getName(term.getName()) + genActuals;
+      result += getName(term.getName());
+      if (!genActuals.isEmpty())
+        result += ")" + genActuals;
     }
     assert result != null && !result.equals("");
     return result;
