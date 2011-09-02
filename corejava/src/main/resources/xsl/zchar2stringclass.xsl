@@ -81,6 +81,7 @@ public interface ZString
   String ZCINIT = "zcstinit";
   String ZCSTATE = "zcstate";
   String ZRETRIEVE = "zretrieve";
+  String ZREFINES = "zrefines";
   
   /**
    * The separator that is used when representing operators as strings
