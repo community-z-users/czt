@@ -22,7 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
 
-public class ZEvesSubmitCommand implements ZEvesExecCommand {
+public class ZEvesSubmitCommand extends AbstractExecCommand {
 	
 	private final ZEditor editor;
 	private final BigInteger documentVersion;
@@ -39,17 +39,7 @@ public class ZEvesSubmitCommand implements ZEvesExecCommand {
 	}
 
 	@Override
-	public boolean canMerge(ZEvesExecCommand command) {
-		return false;
-	}
-
-	@Override
-	public ZEvesExecCommand merge(ZEvesExecCommand command) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public IStatus execute(IProgressMonitor monitor) {
+	public IStatus doExecute(IProgressMonitor monitor) {
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
@@ -158,15 +148,6 @@ public class ZEvesSubmitCommand implements ZEvesExecCommand {
 			zEvesExec.finish();
 		}
 
-		// set caret position in display thread
-		editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				ZEditorUtil.setCaretPosition(editor, offset);
-				editor.getSite().getPage().activate(editor);
-			}
-		});
-		
 		return Status.OK_STATUS;
 	}
 

@@ -9,20 +9,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
-public class ZEvesResetCommand implements ZEvesExecCommand {
+public class ZEvesResetCommand extends AbstractExecCommand {
 
 	@Override
-	public boolean canMerge(ZEvesExecCommand command) {
-		return false;
-	}
-
-	@Override
-	public ZEvesExecCommand merge(ZEvesExecCommand command) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public IStatus execute(IProgressMonitor monitor) {
+	public IStatus doExecute(IProgressMonitor monitor) {
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		
@@ -40,11 +30,7 @@ public class ZEvesResetCommand implements ZEvesExecCommand {
 		// also remove all markers
 		ResourceUtil.clearMarkers(clearedPaths);
 		
-		completed();
-		
 		return Status.OK_STATUS;
 	}
-	
-	protected void completed() {	}
 	
 }

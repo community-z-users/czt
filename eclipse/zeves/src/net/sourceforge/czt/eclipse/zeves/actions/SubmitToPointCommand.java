@@ -9,6 +9,7 @@ import net.sourceforge.czt.eclipse.zeves.core.ZEvesSubmitCommand;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -35,6 +36,18 @@ public class SubmitToPointCommand extends AbstractHandler {
 //			throw new ExecutionException("Prover is not running");
 		}
 		
-		prover.getExecutor().addCommand(new ZEvesSubmitCommand(editor, offset));
+		prover.getExecutor().addCommand(new ZEvesSubmitCommand(editor, offset) {
+			@Override
+			protected void completed(IStatus result) {
+				// set caret position in display thread
+				editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						ZEditorUtil.setCaretPosition(editor, offset);
+						editor.getSite().getPage().activate(editor);
+					}
+				});
+			}
+		});
 	}
 }

@@ -310,9 +310,10 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendProofCommand.jav
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSelectionProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSimpleProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractExecCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/IZEvesExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ResourceUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEves.java -text svneol=unset#text/plain
-eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesExecVisitor.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesLinearExecutor.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesMarkers.java -text svneol=unset#text/plain

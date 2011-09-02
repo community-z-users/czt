@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-public class ZEvesUndoCommand implements ZEvesExecCommand {
+public class ZEvesUndoCommand implements IZEvesExecCommand {
 	
 	private final ITextEditor editor;
 	private final int offset;
@@ -25,7 +25,7 @@ public class ZEvesUndoCommand implements ZEvesExecCommand {
 	}
 	
 	@Override
-	public boolean canMerge(ZEvesExecCommand command) {
+	public boolean canMerge(IZEvesExecCommand command) {
 		if (command instanceof ZEvesUndoCommand) {
 			return editor == ((ZEvesUndoCommand) command).editor;
 		}
@@ -34,7 +34,7 @@ public class ZEvesUndoCommand implements ZEvesExecCommand {
 	}
 	
 	@Override
-	public ZEvesExecCommand merge(ZEvesExecCommand command) {
+	public IZEvesExecCommand merge(IZEvesExecCommand command) {
 		if (offset <= ((ZEvesUndoCommand) command).offset) {
 			return this;
 		} else {

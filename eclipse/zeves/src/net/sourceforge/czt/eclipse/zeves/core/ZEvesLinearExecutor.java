@@ -22,14 +22,14 @@ import org.eclipse.core.runtime.jobs.JobChangeAdapter;
  */
 public class ZEvesLinearExecutor {
 
-	private Queue<ZEvesExecCommand> commands = new ConcurrentLinkedQueue<ZEvesExecCommand>();
+	private Queue<IZEvesExecCommand> commands = new ConcurrentLinkedQueue<IZEvesExecCommand>();
 	
 	private final Job execJob = new Job("Sending to Z/Eves") {
 		
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			
-			ZEvesExecCommand command = getNextCommand();
+			IZEvesExecCommand command = getNextCommand();
 			if (command == null) {
 				// nothing to execute
 				return Status.OK_STATUS;
@@ -53,7 +53,7 @@ public class ZEvesLinearExecutor {
 		
 	}
 	
-	public void addCommand(ZEvesExecCommand command) {
+	public void addCommand(IZEvesExecCommand command) {
 		Assert.isNotNull(command);
 		
 		commands.add(command);
@@ -62,15 +62,15 @@ public class ZEvesLinearExecutor {
 		execJob.schedule();
 	}
 	
-	private ZEvesExecCommand getNextCommand() {
+	private IZEvesExecCommand getNextCommand() {
 		
-		ZEvesExecCommand first = commands.poll();
+		IZEvesExecCommand first = commands.poll();
 		if (first == null) {
 			return null;
 		}
 		
 		// try merging commands
-		ZEvesExecCommand command;
+		IZEvesExecCommand command;
 		while ((command = commands.peek()) != null) {
 			if (first.canMerge(command)) {
 				// merge the commands, so remove from the queue

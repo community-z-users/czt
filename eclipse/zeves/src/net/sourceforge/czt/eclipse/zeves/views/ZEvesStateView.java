@@ -396,7 +396,7 @@ public class ZEvesStateView extends ViewPart {
 			
 			ZEvesPlugin.getZEves().getExecutor().addCommand(new ZEvesResetCommand() {
 				@Override
-				protected void completed() {
+				protected void completed(IStatus result) {
 					fireUpdateState();
 				}
 			});
@@ -461,7 +461,7 @@ public class ZEvesStateView extends ViewPart {
 			
 			prover.getExecutor().addCommand(new ZEvesUndoSectionCommand(selectedSection) {
 				@Override
-				protected void completed(boolean success) {
+				protected void completed(IStatus result) {
 					// update the view
 					fireUpdateState();
 				}
