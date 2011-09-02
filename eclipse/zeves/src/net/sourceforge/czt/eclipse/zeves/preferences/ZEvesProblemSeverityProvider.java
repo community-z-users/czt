@@ -1,10 +1,13 @@
 package net.sourceforge.czt.eclipse.zeves.preferences;
 
+import java.util.Arrays;
+
 import net.sourceforge.czt.eclipse.editors.parser.IZProblemSeverityProvider;
 import net.sourceforge.czt.eclipse.editors.parser.ZProblemSeverity;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.zeves.ErrorMessage;
 import net.sourceforge.czt.typecheck.zeves.WarningMessage;
 
 import static net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferenceConstants.*;
@@ -28,25 +31,27 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 				return getSeverityPref(SEVERITY_UNDECIDABLE_SCHEMA_CALCULUS);
 			}
 			
-			if (WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING.name().equals(messageKey)) {
+			if (oneOf(messageKey, 
+					WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING.name(),
+					ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING.name())) {
 				return getSeverityPref(SEVERITY_UNDECLARED_NAME_ERROR);
 			}
 			
 			if (oneOf(messageKey, 
-					WarningMessage.SUBST_CMD_INVALID_EQS, 
-					WarningMessage.SUBST_CMD_INVALID_INVOKE,
-					WarningMessage.SPLIT_CMD_INVALID_PRED,
-					WarningMessage.APPLY_CMD_INVALID,
-					WarningMessage.SUBST_CMD_INVALID_INVOKE)) {
+					WarningMessage.SUBST_CMD_INVALID_EQS.name(), 
+					WarningMessage.SUBST_CMD_INVALID_INVOKE.name(),
+					WarningMessage.SPLIT_CMD_INVALID_PRED.name(),
+					WarningMessage.APPLY_CMD_INVALID.name(),
+					WarningMessage.SUBST_CMD_INVALID_INVOKE.name())) {
 				return getSeverityPref(SEVERITY_PROOF_COMMAND_PARSE_PROBLEMS);
 			}
 			
 			if (oneOf(messageKey, 
-					WarningMessage.SUBST_CMD_EXPR_EQS, 
-					WarningMessage.APPLY_CMD_EXPR,
-					WarningMessage.IGNORE_PROOF_EXPR,
-					WarningMessage.IGNORE_PROOF_PRED,
-					WarningMessage.IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK)) {
+					WarningMessage.SUBST_CMD_EXPR_EQS.name(), 
+					WarningMessage.APPLY_CMD_EXPR.name(),
+					WarningMessage.IGNORE_PROOF_EXPR.name(),
+					WarningMessage.IGNORE_PROOF_PRED.name(),
+					WarningMessage.IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK.name())) {
 				return getSeverityPref(SEVERITY_PROOF_COMMAND_UNCHECKED_EXPR);
 			}
 			
@@ -55,27 +60,37 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 			}
 			
 			if (oneOf(messageKey, 
-					WarningMessage.ZSECT_THMTBL_ERROR, 
-					WarningMessage.ZSECT_PROOFTBL_ERROR)) {
+					WarningMessage.ZSECT_THMTBL_ERROR.name(), 
+					WarningMessage.ZSECT_PROOFTBL_ERROR.name())) {
 				return getSeverityPref(SEVERITY_TABLE_PROBLEMS);
 			}
 			
 			if (WarningMessage.PARENT_ERRORS_WARNING.name().equals(messageKey)) {
 				return getSeverityPref(SEVERITY_PARENT_PROBLEMS);
 			}
+			
+			if (oneOf(messageKey, 
+					ErrorMessage.USE_CMD_THMREF.name(), 
+					ErrorMessage.APPLY_CMD_THMNAME.name(),
+					ErrorMessage.SUBST_CMD_PRED_INVOKE.name(),
+					ErrorMessage.WITH_CMD_THMNAME.name())) {
+				// typecheck theorem references
+				return getSeverityPref(SEVERITY_INCOMPATIBLE_THEOREM_REF);
+			}
+			
+			if (oneOf(messageKey, 
+					ErrorMessage.QNT_CMD_INST.name(), 
+					ErrorMessage.USE_CMD_REPL.name())) {
+				// typecheck instantiations
+				return getSeverityPref(SEVERITY_INCOMPATIBLE_INSTS);
+			}
 		}
 		
 		return null;
 	}
 	
-	private boolean oneOf(String messageKey, WarningMessage... messages) {
-		for (WarningMessage message : messages) {
-			if (message.name().equals(messageKey)) {
-				return true;
-			}
-		}
-		
-		return false;
+	private boolean oneOf(String messageKey, String... messages) {
+		return Arrays.asList(messages).contains(messageKey);
 	}
 	
 	private ZProblemSeverity getSeverityPref(String prefKey) {

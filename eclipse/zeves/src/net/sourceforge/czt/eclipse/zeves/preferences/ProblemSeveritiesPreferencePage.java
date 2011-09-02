@@ -73,6 +73,12 @@ public class ProblemSeveritiesPreferencePage extends PreferencePage implements
 	    createOption(sectionGroup, "Unchecked expressions in proof commands:", 
 	    		ZEvesPreferenceConstants.SEVERITY_PROOF_COMMAND_UNCHECKED_EXPR);
 	    
+	    createOption(sectionGroup, "Incompatible theorem references in proof commands:", 
+	    		ZEvesPreferenceConstants.SEVERITY_INCOMPATIBLE_THEOREM_REF);
+	    
+	    createOption(sectionGroup, "Incompatible variable instantiations in proof commands:", 
+	    		ZEvesPreferenceConstants.SEVERITY_INCOMPATIBLE_INSTS);
+	    
 	    createOption(sectionGroup, "Undecidable schema calculus expression within conjecture:", 
 	    		ZEvesPreferenceConstants.SEVERITY_UNDECIDABLE_SCHEMA_CALCULUS);
 	    
@@ -87,14 +93,6 @@ public class ProblemSeveritiesPreferencePage extends PreferencePage implements
 	    
 	    createOption(sectionGroup, "Unknown Z term:", 
 	    		ZEvesPreferenceConstants.SEVERITY_UNKNOWN_TERM);
-
-	    
-	    
-//	    addCheckBox(
-//	        main,
-//	        "Generate feasibility VCs",
-//	        "Generate feasibility verification conditions when paragraphs are submitted to Z/Eves",
-//	        ZEvesPreferenceConstants.PROP_GENERATE_FEASIBILITY_VCS);
 
 	    Dialog.applyDialogFont(main);
 	    return main;

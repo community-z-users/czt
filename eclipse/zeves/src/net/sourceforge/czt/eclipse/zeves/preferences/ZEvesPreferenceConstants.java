@@ -18,6 +18,8 @@ public class ZEvesPreferenceConstants {
 	public static final String SEVERITY_UNKNOWN_TERM = SEVERITY_PREF + ".UNKNOWN_TERM";
 	public static final String SEVERITY_TABLE_PROBLEMS = SEVERITY_PREF + ".TABLE_PROBLEMS";
 	public static final String SEVERITY_PARENT_PROBLEMS = SEVERITY_PREF + ".PARENT_PROBLEMS";
+	public static final String SEVERITY_INCOMPATIBLE_THEOREM_REF = SEVERITY_PREF + ".INCOMPATIBLE_THEOREM_REF";
+	public static final String SEVERITY_INCOMPATIBLE_INSTS = SEVERITY_PREF + ".INCOMPATIBLE_INCOMPATIBLE_INSTS";
 
 	public static void initializeDefaultValues(IPreferenceStore store) {
 		
@@ -28,7 +30,9 @@ public class ZEvesPreferenceConstants {
 				SEVERITY_UNDECLARED_NAME_ERROR,
 				SEVERITY_UNKNOWN_TERM,
 				SEVERITY_TABLE_PROBLEMS,
-				SEVERITY_PARENT_PROBLEMS);
+				SEVERITY_PARENT_PROBLEMS,
+				SEVERITY_INCOMPATIBLE_THEOREM_REF,
+				SEVERITY_INCOMPATIBLE_INSTS);
 		
 //	    store.setDefault(PROP_GENERATE_FEASIBILITY_VCS, true);
 	}
