@@ -151,7 +151,9 @@ public enum ConcreteSyntaxSymbol
   FREETYPE_LIST("List of freetypes"),
   PARA_LIST("List of paragraphs"),
   RENAME_LIST("List of pairs of names"),
-  STROKE_LIST("List of strokes");
+  STROKE_LIST("List of strokes"),
+
+  ZREFINES("Z refinment link");
 
 
   private final String description_;
