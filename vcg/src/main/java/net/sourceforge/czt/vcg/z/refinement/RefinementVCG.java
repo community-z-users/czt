@@ -59,6 +59,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     retrieveName_ = null;
     concreteStateName_ = null;
     fsbCheck_ = new RefinementVCCollector(factory);
+    setRefKind(PROP_VCG_REFINEMENT_KIND_DEFAULT);
+    setRefiningIO(PROP_VCG_REFINEMENT_IO_DEFAULT);
   }
 
   @Override
@@ -111,6 +113,16 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     return PROP_VCG_REFINEMENT_ZSTATE_NAME_DEFAULT;
   }
 
+  protected boolean defaultRefiningIO()
+  {
+    return PROP_VCG_REFINEMENT_IO_DEFAULT;
+  }
+
+  protected RefKind defaultRefinementKind()
+  {
+    return PROP_VCG_REFINEMENT_KIND_DEFAULT;
+  }
+
   protected String defaultConcreteStateName()
   {
     return PROP_VCG_REFINEMENT_CONCRETE_STATE_NAME_DEFAULT;
@@ -132,8 +144,16 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     String ret = getManager().hasProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME) ?
           manager.getProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME) :
           defaultZStateName();
+    boolean refIo = getManager().hasProperty(PROP_VCG_REFINEMENT_IO) ?
+          manager.getBooleanProperty(PROP_VCG_REFINEMENT_IO) :
+          defaultRefiningIO();
+    RefKind refKind = getManager().hasProperty(PROP_VCG_REFINEMENT_KIND) ?
+          RefKind.valueOf(manager.getProperty(PROP_VCG_REFINEMENT_KIND)) :
+          defaultRefinementKind();
     setConcreteStateName(concreteSt);
     setRetrieveName(ret);
+    setRefiningIO(refIo);
+    setRefKind(refKind);
   }
 
   @Override
@@ -142,6 +162,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     super.reset();
     setConcreteStateName(null);
     setRetrieveName(null);
+    setRefiningIO(defaultRefiningIO());
+    setRefKind(defaultRefinementKind());
   }
 
   @Override
@@ -152,6 +174,10 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
             String.valueOf(defaultConcreteStateName()));
     manager.setProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME,
             String.valueOf(defaultRetrieveName()));
+    manager.setProperty(PROP_VCG_REFINEMENT_IO,
+            String.valueOf(defaultRefiningIO()));
+    manager.setProperty(PROP_VCG_REFINEMENT_KIND,
+            String.valueOf(defaultRefinementKind()));
   }
 
   protected RefinementVCCollector getRefVCCollector()
@@ -217,6 +243,17 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
       retrieveName_ = null;
       getRefVCCollector().setConcreteStateName(null);
     }
+  }
+
+  protected final void setRefiningIO(boolean v)
+  {
+    getRefVCCollector().setRefiningIO(v);
+  }
+
+  protected final void setRefKind(RefKind v)
+  {
+    getRefVCCollector().setRefKind(v);
+    
   }
 
   @Override

@@ -35,7 +35,6 @@ import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
-import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.BindingUtils;
@@ -63,6 +62,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
@@ -499,7 +499,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   // FSB(S == [D | P]) ==> before(D)  = {} XOR after(D) = {} => \exists bindings(S) @ P
   // FSB(S == [D | P]) ==> before(D) != {} &&  after(D)!= {} => \forall before(D) | userPre(Op) @ \exists after(D) @ P
   // FSB(S == [D | P]) ==> before(D)  = {} &&  after(D) = {} => P, where its free variables must be in (type-) context
-  protected Pred handleSchema(Definition schDef)
+  protected Pred handleSchema(Definition schDef) throws CztException
   {
     assert schDef != null && schDef.getDefinitionKind().isSchemaReference();
     // for schemas add

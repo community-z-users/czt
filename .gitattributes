@@ -1007,6 +1007,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnnVisit
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/TrivialFeasibilityVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefKind.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementPropertyKeys.java -text

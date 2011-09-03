@@ -19,14 +19,13 @@
 
 package net.sourceforge.czt.vcg.z.refinement;
 
-import java.util.Collections;
-import java.util.SortedSet;
-import net.sourceforge.czt.parser.z.ZStateInfo;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.vcg.util.BindingUtils;
+import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.vcg.util.Definition;
-import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCType;
@@ -35,10 +34,9 @@ import net.sourceforge.czt.vcg.z.transformer.refinement.ZPredTransformerRef;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -53,7 +51,12 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   private ZName retrieve_;
   private ZNameList concreetStateGenParams_;
   private ZNameList retrieveGenParams_;
-  
+  private RefKind refKind_;
+  private boolean refIO_;
+
+  private List<Pair<ZName, ZName>> opsToRefineNamePairs_;
+  private Map<ZName, Definition> definitions_;
+
   /**
    *
    */
@@ -68,10 +71,15 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   public RefinementVCCollector(Factory factory)
   {
     super(factory);
-    setConcreteStateName(null);
-    setRetrieveName(null);
+    definitions_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
+    opsToRefineNamePairs_ = new ArrayList<Pair<ZName, ZName>>();
     predTransformer_ = new ZPredTransformerRef(factory, this);
     predTransformer_.setApplyTransformer(PROP_VCG_REFINEMENT_APPLY_TRANSFORMERS_DEFAULT);
+
+    setConcreteStateName(null);
+    setRetrieveName(null);
+    setRefiningIO(PROP_VCG_REFINEMENT_IO_DEFAULT);
+    setRefKind(PROP_VCG_REFINEMENT_KIND_DEFAULT);
     setCreateZSchemas(PROP_VCG_REFINEMENT_CREATE_ZSCHEMAS_DEFAULT);
   }
 
@@ -95,6 +103,26 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   protected ZName getRetrieveName()
   {
     return retrieve_;
+  }
+
+  protected final void setRefiningIO(boolean v)
+  {
+    refIO_ = v;
+  }
+
+  protected boolean isRefiningIO()
+  {
+    return refIO_;
+  }
+
+  protected final void setRefKind(RefKind v)
+  {
+    refKind_ = v;
+  }
+
+  protected RefKind getRefKind()
+  {
+    return refKind_;
   }
 
   @Override
@@ -173,4 +201,22 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       retrieveGenParams_ = termDef.getGenericParams();
     }
   }
+
+  @Override
+  protected Pred handleSchema(Definition schDef) throws CztException
+  {
+    Pred result = super.handleSchema(schDef);
+
+    /*
+    Definition old = definitions_.put(schDef.getDefName(), schDef);
+    if (old != null)
+    {
+      throw new CztException(createVCCollectionException("Duplicated definitions are not allowed: " + schDef.getDefName()));
+    }*/
+
+
+    return result;
+  }
+
+
 }
