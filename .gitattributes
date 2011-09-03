@@ -639,6 +639,7 @@ parser-zeves/src/test/resources/tests/zeves/zevesopt.tex -text
 parser-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
 parser-zeves/src/test/resources/tests/zeves/zopt.tex -text
 parser-zeves/src/test/resources/tests/zeves/zstateref.tex -text
+parser-zeves/src/test/resources/tests/zeves/zstateref.zed8 -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/doc/parser.eps -text
 parser/doc/parser.jpg -text

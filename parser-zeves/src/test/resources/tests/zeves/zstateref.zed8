@@ -1,0 +1,45 @@
+─ section zstateref parents zstate_toolkit └ 
+
+╷ foo : ℕ |
+ foo = 1 └ 
+
+╷ bar : ℕ |
+ bar > foo └ zstate ┌ S 
+x : ℕ |
+ bar > x └ zstinit ┌ SInit 
+S ′ |
+ x′ = 0 └ zastate ┌ AState 
+x : ℙ ℕ |
+ x ≠ ∅ └ zastinit ┌ ASInit 
+AState ′ |
+ x′ = { 0 } └ zcstinit ┌ CState 
+y : seq ℕ |
+ y ≠ ⟨ ⟩ └ zcstinit ┌ CStInit 
+CState ′ |
+ y′ = ⟨ 0 ⟩ └ zretrieve ┌ Retr 
+AState 
+CState |
+ ran y = x └ 
+
+One schema with no z state info
+┌ Nothing 
+ΔAState |
+ true └ 
+
+┌ NothingAgain 
+ΔCState |
+ true └ 
+
+┌ AOp 
+ΔAState 
+i? : ℕ |
+ x′ = x ∪ { i? } └
+
+It's okay to have zrefines, but cannot have spaces between it and SCH token.
+zrefines{AOp}┌ COp 
+ΔCState 
+i? : ℕ |
+ y′ = y ⁀ ⟨ i? ⟩ └ 
+
+PS: horizontally defined schemas *cannot* have state tags. That's because
+unboxed paragraphs accept multiple items and would mean more complicated lexing.

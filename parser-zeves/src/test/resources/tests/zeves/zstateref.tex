@@ -3,6 +3,17 @@
    \SECTION zstateref \parents zstate\_toolkit
 \end{zsection}
 
+\begin{axdef}
+   foo: \nat
+\where
+   foo = 1
+\end{axdef}
+
+\begin{axdef}
+   bar: \nat
+\where
+   bar > foo
+\end{axdef}
 
 \zstate
 \begin{schema}{S}
@@ -66,3 +77,21 @@ One schema with no z state info
 \where
    true
 \end{schema}
+
+\begin{schema}{AOp}
+   \Delta AState \\
+   i?: \nat
+\where
+   x' = x \cup \{i?\}
+\end{schema}
+
+\zrefines{AOp}
+\begin{schema}{COp}
+   \Delta CState \\
+   i?: \nat
+\where
+   y' = y \cat \langle i? \rangle
+\end{schema}
+
+PS: horizontally defined schemas *cannot* have state tags. That's because
+unboxed paragraphs accept multiple items and would mean more complicated lexing.

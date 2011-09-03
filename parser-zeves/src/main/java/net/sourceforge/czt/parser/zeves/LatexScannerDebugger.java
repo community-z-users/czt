@@ -55,7 +55,6 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.SimpleFormatter;
-import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zeves.util.PrintVisitor;
 
@@ -111,7 +110,6 @@ public class LatexScannerDebugger {
      //sectInfo_.setProperty("czt.debug.ContextFreeScanner", "true");
      //sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
      //sectInfo_.setProperty("czt.debug.*", "true");
-
     net.sourceforge.czt.java_cup.runtime.Scanner scanner;
      if (source.getMarkup().equals(Markup.UNICODE))
        scanner = new UnicodeScanner(source, sectInfo_.getProperties());
