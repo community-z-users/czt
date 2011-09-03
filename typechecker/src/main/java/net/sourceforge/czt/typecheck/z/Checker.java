@@ -36,7 +36,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.util.CztException;
