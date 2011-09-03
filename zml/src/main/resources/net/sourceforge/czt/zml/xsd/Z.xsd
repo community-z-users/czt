@@ -1159,6 +1159,13 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="ZRefinesAnn" type="Z:ZRefinesAnn" substitutionGroup="Z:Ann">
+    <xs:annotation>
+      <xs:documentation>
+         Z Refinement annotation. It contains to names for the abstract and concrete names.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- The Base Type hierarchy.
        These usually appear inside annotations
@@ -2177,4 +2184,26 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="ZRefinesAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann">
+        <xs:sequence>
+          <xs:element ref="Z:Name" minOccurs="2" maxOccurs="2"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ZStateInfo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NONE"/>
+      <xs:enumeration value="INIT"/>
+      <xs:enumeration value="STATE"/>
+      <xs:enumeration value="ASTATE"/>
+      <xs:enumeration value="CSTATE"/>
+      <xs:enumeration value="AINIT"/>
+      <xs:enumeration value="CINIT"/>
+      <xs:enumeration value="RETRIEVE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
 </xs:schema>
