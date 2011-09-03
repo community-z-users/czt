@@ -96,7 +96,7 @@ public class <class/>
 </add:zeves>
     for (String s : SymMap.getMap().keySet()) {
       if (! map.containsKey(s)) {
-        String msg = "No category for " + s + " found";
+        final String msg = "No new line category for token or keyword " + s + " was found.";
         System.err.println(msg);
         throw new IllegalStateException(msg);
       }

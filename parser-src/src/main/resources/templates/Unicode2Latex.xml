@@ -438,6 +438,9 @@ parser code {:
   protected void write(String s)
   {
     try {
+      // TODO: remove this ugly hack... :-(
+      // " zrefines{AOp} "
+      if (s.trim().startsWith(ZString.ZREFINES)) s = "\\" + s.trim() + "\n";
       writer_.write(s);
     }
     catch(IOException e) {
@@ -602,7 +605,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    SECTION, PARENTS, // used by the SectHeadScanner within ContextFreeScanner
                    WHERE, // the latex \where command
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
-                   ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE,
+                   ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE, ZREFINES,
  <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
@@ -1042,37 +1045,44 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
 optZStInfo ::=
              ZSTATE //optNL
              {:
-                RESULT = resultFF("\n\\zstate\n", ZString.ZSTATE);
+                RESULT = resultFF("\n\\zstate\n", ZString.ZSTATE + ZString.NL);
              :}
              |
              ZSTINIT //optNL
              {:
-                RESULT = resultFF("\n\\zstinit\n", ZString.ZINIT);
+                RESULT = resultFF("\n\\zstinit\n", ZString.ZINIT + ZString.NL);
              :}
              |
              ZASTATE //optNL
              {:
-                RESULT = resultFF("\n\\zastate\n", ZString.ZASTATE);
+                RESULT = resultFF("\n\\zastate\n", ZString.ZASTATE + ZString.NL);
              :}
              |
              ZASTINIT //optNL
              {:
-                RESULT = resultFF("\n\\zastinit\n", ZString.ZAINIT);
+                RESULT = resultFF("\n\\zastinit\n", ZString.ZAINIT + ZString.NL);
              :}
              |
              ZCSTATE //optNL
              {:
-                RESULT = resultFF("\n\\zcstate\n", ZString.ZCSTATE);
+                RESULT = resultFF("\n\\zcstate\n", ZString.ZCSTATE + ZString.NL);
              :}
              |
              ZCSTINIT //optNL
              {:
-                RESULT = resultFF("\n\\zcsinit\n", ZString.ZCINIT);
+                RESULT = resultFF("\n\\zcsinit\n", ZString.ZCINIT + ZString.NL);
              :}
              |
              ZRETRIEVE //optNL
              {:
-                RESULT = resultFF("\n\\zretrieve\n", ZString.ZRETRIEVE);
+                RESULT = resultFF("\n\\zretrieve\n", ZString.ZRETRIEVE + ZString.NL);
+             :}
+             |
+             ZREFINES LBRACE decorword:s RBRACE // optNL
+             {:
+                String name = s.getName();
+                RESULT = resultFF("\n\\zrefines{" + name + "}\n",
+                  ZString.ZREFINES + ZString.LBRACE + name + ZString.RBRACE + ZString.NL);
              :}
              |
              // empty

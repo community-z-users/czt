@@ -433,6 +433,7 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
 </add:zeves>
 
 %state Z
+%state ZREF_STATE
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -450,7 +451,12 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
   ({NL}|{SPACE})* "zcstate" ({SPACE}|{NL})+    { return symbol(Sym.ZCSTATE);   }
   ({NL}|{SPACE})* "zcstinit" ({SPACE}|{NL})+   { return symbol(Sym.ZCSTINIT);  }
   ({NL}|{SPACE})* "zretrieve" ({SPACE}|{NL})+  { return symbol(Sym.ZRETRIEVE); }
+  ({NL}|{SPACE})* "zrefines" / {LBRACE} {ALPHASTR} {RBRACE} { yybegin(ZREF_STATE); return symbol(Sym.ZREFINES); }
 
+
+//   ({NL}|{SPACE})* "zrefines" {LBRACE} / {ALPHASTR} {RBRACE} ({SPACE} | {NL})* { yybegin(ZREF_STATE); return symbol(Sym.ZREFINES); }
+
+  
 &lt;YYINITIAL&gt; {
   <add:pattern>
   /* Z joker paragraph */
@@ -660,4 +666,25 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
                    throw new ScanException(msg, getLocation());
                 }
 }
+
+&lt;ZREF_STATE&gt; {
+  {LBRACE}      {  return symbol(Sym.LBRACE); }
+  {RBRACE}      {
+                   yybegin(YYINITIAL);
+                   return symbol(Sym.RBRACE);
+                }
+
+  {DECORWORD}   {
+                   Symbol sym = symbol(Sym.DECORWORD, new Decorword(yytext(), getLocation()));
+                   return sym;
+                }
+
+   .            {
+                   String msg = "Unexpected character "+ yytext() + "(" +
+                     "\\u" + Integer.toString(yytext().charAt(0), 16) +
+                     ") inside para";
+                   throw new ScanException(msg, getLocation());
+                }
+}
+
 </scanner>

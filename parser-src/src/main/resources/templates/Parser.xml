@@ -1123,6 +1123,16 @@ action code
       parserState_.addLocAnn(term, locInfo);
     }
 
+    private void addZStateRefInfo(Term term, Object ozsi, Name n)
+    {
+       if (ozsi != null)
+       {
+          if (ozsi instanceof ZRefinesAnn)
+            ((ZRefinesAnn)ozsi).setConcreteName(n);
+          term.getAnns().add(ozsi);
+       }
+    }
+
     private int computeLength(LocInfo start, LocInfo end)
     {
       final int startStart = start.getStart();
@@ -2197,7 +2207,7 @@ terminal LocInfo
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
-        ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE,
+        ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE, ZREFINES,
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
@@ -2363,8 +2373,12 @@ non terminal AxPara
     abbreviationDefinition,
     schema;
 
-non terminal ZStateInfo
-    optZStateInfo;
+//non terminal ZStateInfo
+non terminal Object
+    optZStRefInfo;  // either ZStateInfo or ZRefinesAnn
+
+//non terminal ZRefines
+//    optZRefines;
 
 non terminal ConstDecl
     letDefinition;
@@ -3659,7 +3673,7 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        optZStateInfo:ozsi
+        optZStRefInfo:ozsi
         SCH:sch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL schemaText:st END:end
@@ -3667,10 +3681,10 @@ schema ::=
            RESULT = factory_.createSchema(n, null, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(sch, end));
-           if (ozsi != null) RESULT.getAnns().add(ozsi);
+           addZStateRefInfo(RESULT, ozsi, n);
         :}
         |
-        optZStateInfo:ozsi
+        optZStRefInfo:ozsi
         GENSCH:gensch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL formalParameters:fp schemaText:st END:end
@@ -3678,11 +3692,11 @@ schema ::=
            RESULT = factory_.createSchema(n, fp, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(gensch, end));
-           if (ozsi != null) RESULT.getAnns().add(ozsi);
+           addZStateRefInfo(RESULT, ozsi, n);
         :}
         ;
 
-optZStateInfo ::=
+optZStRefInfo ::=
         ZSTATE
         {:
            RESULT = ZStateInfo.STATE;
@@ -3716,6 +3730,11 @@ optZStateInfo ::=
         ZRETRIEVE
         {:
            RESULT = ZStateInfo.RETRIEVE;
+        :}
+        |
+        ZREFINES LBRACE name:abs RBRACE
+        {:
+           RESULT = factory_.createZRefinesAnn(abs);
         :}
         |
         // empty

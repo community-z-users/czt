@@ -518,6 +518,27 @@ import net.sourceforge.czt.z.util.ZString;
     }
   }
 
+  // yytext() might contain {IGNORE}* tokens when starting with ZSTATE strings...
+  private String retrieveZState(String yyt)
+  {
+    if (yyt.startsWith(ZString.ZSTATE))
+      return ZString.ZSTATE;
+    else if (yyt.startsWith(ZString.ZINIT))
+      return ZString.ZINIT;
+    else if (yyt.startsWith(ZString.ZASTATE))
+      return ZString.ZASTATE;
+    else if (yyt.startsWith(ZString.ZCSTATE))
+      return ZString.ZCSTATE;
+    else if (yyt.startsWith(ZString.ZAINIT))
+      return ZString.ZAINIT;
+    else if (yyt.startsWith(ZString.ZCINIT))
+      return ZString.ZCINIT;
+    else if (yyt.startsWith(ZString.ZRETRIEVE))
+      return ZString.ZRETRIEVE;
+    else
+      throw new ScanException("Unknown ZState " + yyt, getLocation());
+  }
+
   /**
    * A brace type enumeration.
    */
@@ -556,6 +577,11 @@ import net.sourceforge.czt.z.util.ZString;
      * get "Teste" as the name (!)
      */
     THM_NAME,
+
+    /**
+     * Names for refinement statements
+     */
+    REF_NAME,
 
     <add:zeves>
 
@@ -712,6 +738,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
 %state ZED
 %state MARKUP
 %state COMMENT_STATE
+%state ZREF_STATE
 %state ERROR
 <add:oz>
 %state CLASSCOM
@@ -1029,9 +1056,19 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
   {ZSTATE_INFO} {IGNORE}* / "\\begin"
         {
           String zst = yytext();
-          zst = zst.substring(1, zst.length());
+          // ODOT: this could break if {IGNORE}* actually appear? DONE
+          zst = retrieveZState(zst.substring(1, zst.length())); // remove the "\\"
+          zst += ZString.NL;
           return result(zst);
         }
+  "\\zrefines" {IGNORE}* "{" / {NAME} "}"
+        {
+          yybegin(ZREF_STATE);
+          assert ! addSpace_;
+          braceStack_.push(BraceType.REF_NAME);
+          return result(ZString.ZREFINES + ZString.LBRACE);
+        }
+
   ^{CHAR_MARKUP}
         {
           return result(LatexSym.CHAR_MARKUP);
@@ -1706,6 +1743,41 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
        {
          // do nothing
        }
+}
+
+&lt;ZREF_STATE&gt; {
+  "}" {NL}
+      {
+        // check this is a matching "}" for "\\Label{"
+        boolean okay = !braceStack_.empty();
+        BraceType brace = null;
+        if (okay)
+        {
+          brace = (BraceType) braceStack_.pop();
+          okay = brace.equals(BraceType.REF_NAME);
+        }
+        if (!okay) {
+          final ErrorType errorType = ErrorType.ERROR;
+          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
+        }
+        yybegin(YYINITIAL);
+        return result(ZString.RBRACE);
+      }
+
+  ({LETTER} | [0-9])*
+        {
+          // To aid low-level debugging: ({LETTER} | [0-9])*
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
+  .
+        {
+          // To aid low-level debugging: .  // OR SHOULD THIS BE A CATCH ALL ERROR? No good to pass to the parser as DECORWORD
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
 }
 
 <add:zeves>
