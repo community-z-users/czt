@@ -61,7 +61,8 @@ public enum ZToken
   ZASTINIT(ZString.ZAINIT, NewlineCategory.NEITHER),
   ZCSTATE(ZString.ZCSTATE, NewlineCategory.NEITHER),
   ZCSTINIT(ZString.ZCINIT, NewlineCategory.NEITHER),
-  ZRETRIEVE(ZString.ZRETRIEVE, NewlineCategory.NEITHER);
+  ZRETRIEVE(ZString.ZRETRIEVE, NewlineCategory.NEITHER),
+  ZREFINES(ZString.ZREFINES, NewlineCategory.NEITHER);
 
   private String spelling_;
   private NewlineCategory newlineCategory_;

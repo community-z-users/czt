@@ -33,7 +33,6 @@ import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
 import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.parser.z.ZKeyword;
-import net.sourceforge.czt.parser.z.ZStateInfo;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
@@ -367,6 +366,14 @@ public class AstToPrintTreeVisitor
           break;
       }
       //list.add(0, ZToken.NL);
+    }
+    if (term.hasAnn(ZRefinesAnn.class))
+    {
+      ZRefinesAnn zr = term.getAnn(ZRefinesAnn.class);
+      list.add(0, ZToken.ZREFINES);
+      list.add(1, ZToken.LBRACE);
+      list.add(2, visit(zr.getAbstractName()));
+      list.add(3, ZToken.RBRACE);
     }
   }
 

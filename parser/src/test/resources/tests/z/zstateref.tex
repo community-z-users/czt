@@ -64,3 +64,34 @@
 \where
    \ran~y = x
 \end{schema}
+
+One schema with no z state info
+\begin{schema}{Nothing}
+   \Delta AState
+\where
+   true
+\end{schema}
+
+\begin{schema}{NothingAgain}
+   \Delta CState
+\where
+   true
+\end{schema}
+
+\begin{schema}{AOp}
+   \Delta AState \\
+   i?: \nat
+\where
+   x' = x \cup \{i?\}
+\end{schema}
+
+\zrefines{AOp}
+\begin{schema}{COp}
+   \Delta CState \\
+   i?: \nat
+\where
+   y' = y \cat \langle i? \rangle
+\end{schema}
+
+PS: horizontally defined schemas *cannot* have state tags. That's because
+unboxed paragraphs accept multiple items and would mean more complicated lexing.

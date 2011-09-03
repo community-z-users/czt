@@ -1156,6 +1156,15 @@ public class ZPrintVisitor
     throw new PrintException("Unexpected term TypeAnn.");
   }
 
+  public Object visitZRefinesAnn(ZRefinesAnn term)
+  {
+    print(ZToken.ZREFINES);
+    print(ZToken.LBRACE);
+    visit(term.getAbstractName());
+    print(ZToken.RBRACE);
+    return null;
+  }
+
   public Object visitUnparsedPara(UnparsedPara unparsedPara)
   {
     // TODO: What to do with UnparsedPara?

@@ -24,6 +24,7 @@ import java.io.Writer;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -93,6 +94,13 @@ public class UnicodePrinter
 //    }
 //  }
 
+  // avoid printing spaces around zrefines{DECOWORD}
+  // 0 = zrefines
+  // 1 = {
+  // 2 = DECORWORD
+  // 3 = }
+  private int zRefinesState = -1;
+
   @Override
   public void printToken(Token token)
   {
@@ -116,9 +124,26 @@ public class UnicodePrinter
       else
       {
         print(token.spelling());
+        // flag not to add spaces
+        if (ZToken.ZREFINES.equals(token))
+        {
+          zRefinesState++;
+        }
+        else if (zRefinesState >= 0 && ZToken.RBRACE.equals(token))
+        {
+          if (zRefinesState != 3)
+            throw new PrintException("Invalid zrefines state " + zRefinesState + "; expected 3");
+          zRefinesState = -1;
+          //return;
+        }
       }
+      if (zRefinesState >= 0) zRefinesState++;
+      if (zRefinesState > 3)
+        throw new PrintException("Invalid zrefines state " + zRefinesState + "; expected <= 3");
 
-      if (!ZToken.TEXT.getName().equals(token.getName()) &&
+      if(!(zRefinesState >= 0) &&
+         !ZToken.TEXT.getName().equals(token.getName())
+             &&
           !ZToken.NL.equals(token))
       {
         if (addExtraNLFor(token))
