@@ -485,3 +485,10 @@
     result.getName().add(oldName);
     return result;
   }
+  
+  public ZRefinesAnn createZRefinesAnn(Name abstractName)
+  {
+    ZRefinesAnn result = createZRefinesAnn();
+    result.getName().add(abstractName);
+    return result;
+  }
