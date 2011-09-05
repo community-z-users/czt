@@ -549,6 +549,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       word = "&empty;";
     }
+    else if (word.equals(ZString.BIGCUP))
+    {
+      word = "&bigcup;";
+    }
+    else if (word.equals(ZString.BIGCAP))
+    {
+      word = "&bigcap;";
+    }
     else if (ROMAN_NAMES.contains(word))
     {
       word = format(ROMAN_PATTERN, word);
@@ -662,14 +670,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     else if (word.equals(ZString.CAP))
     {
       result = "&cap;";
-    }
-    else if (word.equals(ZString.BIGCUP))
-    {
-      result = "&bigcup;";
-    }
-    else if (word.equals(ZString.BIGCAP))
-    {
-      result = "&bigcap;";
     }
     else if (word.equals(ZString.SETMINUS))
     {
