@@ -25,7 +25,7 @@ public class ParsedData
   
   private List<CztError> fErrorList = new ArrayList<CztError>();
 
-  private SectionManager manager_;
+  private final SectionManager manager_;
 
   private Spec spec_;
   
@@ -37,20 +37,20 @@ public class ParsedData
 
   private final BigInteger documentVersion;
 
-  public ParsedData(Object source, BigInteger documentVersion)
+  public ParsedData(Object source, BigInteger documentVersion, SectionManager manager)
   {
     this.documentVersion = documentVersion;
-    source_ = source;
+    this.source_ = source;
+    this.manager_ = manager;
   }
 
-  public void setData(Spec spec, SectionManager manager, IDocument document)
+  public void setData(Spec spec, IDocument document)
   {
     spec_ = spec;
     posProvider = new TermPositionProvider(document);
-    manager_ = manager;
     fTermSelector = new Selector(spec);
     //		outputTypeAnns(spec);
-    fNameInfoMap = NameInfoResolver.resolve(spec, manager);
+    fNameInfoMap = NameInfoResolver.resolve(spec, manager_);
   }
   
   public void setErrors(List<CztError> errors)

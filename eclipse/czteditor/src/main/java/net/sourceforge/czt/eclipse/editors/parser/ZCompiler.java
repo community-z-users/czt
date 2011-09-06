@@ -69,7 +69,7 @@ public enum ZCompiler
     //System.out.println("DEBUG: setting czt.path to "+dir);
     sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
 
-    ParsedData parsedData = new ParsedData(editor, documentVersion);
+    ParsedData parsedData = new ParsedData(editor, documentVersion, sectMan);
     
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();
@@ -97,7 +97,7 @@ public enum ZCompiler
       }
 
       if (parsed.getSect().size() > 0) {
-        parsedData.setData(parsed, sectMan, document);
+        parsedData.setData(parsed, document);
       }
     }
 

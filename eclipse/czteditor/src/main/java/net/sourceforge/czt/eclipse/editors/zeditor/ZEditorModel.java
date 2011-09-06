@@ -66,7 +66,7 @@ public class ZEditorModel
   }
   
   private ParsedData emptyData(BigInteger version) {
-    return new ParsedData(editor, version);
+    return new ParsedData(editor, version, CZTPlugin.getDefault().getSectionManager());
   }
   
   private void setParsedData(ParsedData parsedData) {
