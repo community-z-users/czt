@@ -5,28 +5,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecVisitor;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesPosVisitor;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot.ProofResult;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot.IProofSnapshotEntry;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot.ISnapshotEntry;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
-import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 import net.sourceforge.czt.zeves.response.ZEvesProverCmd;
 import net.sourceforge.czt.zeves.response.form.ZEvesBlurb;
@@ -53,7 +48,6 @@ public class ZEditorResults {
 		}
 		
 		IDocument document = ZEditorUtil.getDocument(editor);
-		IPositionProvider<Term> posProvider = new TermPositionProvider(document);
 		
 		final String filePath = ResourceUtil.getPath(resource);
 		final ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
@@ -76,96 +70,51 @@ public class ZEditorResults {
 		
 		final IZInfoObject[] data = new IZInfoObject[targetPositions.size()];
 		
-		ParsedData parsedData = editor.getParsedData();
-		ZEvesPosVisitor commandVisitor = new ZEvesPosVisitor(posProvider, beforeOffset, afterOffset) {
-
-			@Override
-			protected void visitPara(Para term, Position position) {
-				
-				Object result = snapshot.getResult(filePath, getCurrentSectionName(), position);
-				
-				if (result == null) {
-					return;
-				}
-				
-				IZInfoObject resultInfo;
-				if (result instanceof ZEvesException) {
-					resultInfo = new ZEvesErrorObject(
-							editor, getCurrentSect(), position, term, (ZEvesException) result);
-				} else {
-					resultInfo = new ZEvesParaObject(
-							editor, getCurrentSect(), position, term, result);
-				}
-				
-				collect(position, resultInfo);
-			}
-
-			@Override
-			protected void visitProofScriptHead(ProofScript term, Position pos) {
-				// for proof script head, show the goal step
-				visitProofScriptStep(term, null, pos);
-			}
-
-			@Override
-			protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
-				visitProofScriptStep(script, command, pos);
-			}
-			
-			private void visitProofScriptStep(ProofScript script, ProofCommand command, Position pos) {
-				Object result = snapshot.getProofResult(filePath, getCurrentSectionName(), pos);
-				
-				if (result == null) {
-					return;
-				}
-				
-				IZInfoObject resultInfo;
-				if (result instanceof ZEvesException) {
-					resultInfo = new ZEvesErrorObject(
-							editor, getCurrentSect(), pos, script, (ZEvesException) result);
-				} else if (command == null && result instanceof ZEvesOutput) {
-					
-					// goal
-					resultInfo = new ZEvesProofObject(
-							editor, getCurrentSect(), pos, script, command, 
-							ZEvesExecVisitor.GOAL_STEP_INDEX, (ZEvesOutput) result);
-					
-				} else if (result instanceof ProofResult) {
-					
-					ProofResult proofResult = (ProofResult) result;
-					resultInfo = new ZEvesProofObject(
-							editor, getCurrentSect(), pos, script, command, 
-							proofResult.getStepIndex(), proofResult.getResult());
-				} else {
-					// just output currently whatever the result
-					// TODO proof command?
-					resultInfo = new ZEvesParaObject(
-							editor, getCurrentSect(), pos, script, result);
-				}
-				
-				collect(pos, resultInfo);
-			}
-			
-			private void collect(Position pos, IZInfoObject result) {
-				
-				for (int index = 0; index < targetPositions.size(); index++) {
-					Position targetPos = targetPositions.get(index);
-					if (includePos(pos, targetPos)) {
-						data[index] = result;
-						return;
-					}
-				}
-			}
-			
-			private boolean includePos(Position pos, Position range) {
-				if (range == null) {
-					return false;
-				}
-				
-				return includePos(pos, range.getOffset(), range.getLength());
-			}
-		};
+		// find all entries in the snapshot for the given position
+		List<ISnapshotEntry> snapshotEntries = snapshot.getEntries(filePath, 
+				new Position(beforeOffset, afterOffset - beforeOffset));
 		
-		commandVisitor.execSpec(parsedData.getSpec());
+		for (ISnapshotEntry entry : snapshotEntries) {
+
+			String sectionName = entry.getSectionName();
+			Position pos = entry.getPosition();
+			
+			IZInfoObject resultInfo;
+			if (entry instanceof IProofSnapshotEntry) {
+				
+				IProofSnapshotEntry proofEntry = (IProofSnapshotEntry) entry;
+				
+				// proof/goal entry
+				resultInfo = new ZEvesProofObject(
+						editor, sectionName, pos, 
+						proofEntry.getGoalName(), proofEntry.getStepIndex(), 
+						proofEntry.getSource(), proofEntry.getResult());
+			} else {
+				
+				Object result = entry.getResult();
+				Term source = entry.getSource();
+				if (result instanceof ZEvesException) {
+					// error
+					resultInfo = new ZEvesErrorObject(
+							editor, sectionName, pos, source, (ZEvesException) result);
+					
+				} else if (result != null) {
+					resultInfo = new ZEvesParaObject(
+							editor, sectionName, pos, (Para) source, result);
+				} else {
+					resultInfo = null;
+				}
+			}
+			
+			// collect into respective slots
+			for (int index = 0; index < targetPositions.size(); index++) {
+				Position targetPos = targetPositions.get(index);
+				if (includePos(pos, targetPos)) {
+					data[index] = resultInfo;
+					break;
+				}
+			}
+		}
 		
 		for (IZInfoObject result : data) {
 			if (result != null) {
@@ -174,6 +123,14 @@ public class ZEditorResults {
 		}
 		
 		return null;
+	}
+	
+	private static boolean includePos(Position pos, Position range) {
+		if (range == null) {
+			return false;
+		}
+		
+		return ZEvesPosVisitor.includePos(pos, range.getOffset(), range.getLength());
 	}
 
 	private static List<Position> getTargetPositions(IDocument document, int caretPos) {
@@ -243,36 +200,32 @@ public class ZEditorResults {
 		extends PlatformObject implements IZInfoObject {
 		
 		private final ZEditor editor;
-		private final ZSect section;
+		private final String sectionName;
 		private final Position position;
-		private final T term;
+		private final T source;
 		
-		public ZEditorObject(ZEditor editor, ZSect section, Position position, T term) {
+		public ZEditorObject(ZEditor editor, String sectionName, Position position, T source) {
 			super();
 			this.editor = editor;
-			this.section = section;
+			this.sectionName = sectionName;
 			this.position = position;
-			this.term = term;
+			this.source = source;
 		}
 
 		public ZEditor getEditor() {
 			return editor;
 		}
-
-		public ZSect getSection() {
-			return section;
-		}
 		
 		public String getSectionName() {
-			return section != null ? section.getName() : null;
+			return sectionName;
 		}
 
 		public Position getPosition() {
 			return position;
 		}
-
-		public T getTerm() {
-			return term;
+		
+		public Term getSource() {
+			return source;
 		}
 
 		@Override
@@ -285,9 +238,9 @@ public class ZEditorResults {
 
 		private final ZEvesException ex;
 		
-		public ZEvesErrorObject(ZEditor editor, ZSect section, Position position, Term term,
-				ZEvesException ex) {
-			super(editor, section, position, term);
+		public ZEvesErrorObject(ZEditor editor, String sectionName, Position position,
+				Term source, ZEvesException ex) {
+			super(editor, sectionName, position, source);
 			this.ex = ex;
 		}
 		
@@ -298,7 +251,13 @@ public class ZEditorResults {
 
 		@Override
 		public String loadDescription(IProgressMonitor monitor) throws CoreException {
-			return null;
+			Term source = getSource();
+			if (source == null) {
+				return null;
+			}
+			
+			return "Z/Eves error for: "
+					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
 		}
 	}
 	
@@ -306,9 +265,9 @@ public class ZEditorResults {
 
 		private final Object zEvesPara;
 		
-		public ZEvesParaObject(ZEditor editor, ZSect section, Position position, Para term,
-				Object zEvesPara) {
-			super(editor, section, position, term);
+		public ZEvesParaObject(ZEditor editor, String sectionName, Position position,
+				Para source, Object zEvesPara) {
+			super(editor, sectionName, position, source);
 			this.zEvesPara = zEvesPara;
 		}
 		
@@ -328,29 +287,35 @@ public class ZEditorResults {
 
 		@Override
 		public String loadDescription(IProgressMonitor monitor) throws CoreException {
-			return null;
+			Term source = getSource();
+			if (source == null) {
+				return null;
+			}
+			
+			return "Z/Eves paragraph result for: "
+					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
 		}
 	}
 	
 	public static class ZEvesProofObject extends ZEditorObject<ProofCommand> implements IZInfoObject {
 		
-		private final ProofScript script;
+		private final String goalName;
 		private final Integer zEvesStepIndex;
 		private final ZEvesOutput result;
 		
 		private IProofResultInfo loadedResult;
 		
-		public ZEvesProofObject(ZEditor editor, ZSect section, Position position, ProofScript script,
-				ProofCommand command, Integer zEvesStepIndex, ZEvesOutput result) {
+		public ZEvesProofObject(ZEditor editor, String sectionName, Position position, String goalName,
+				Integer zEvesStepIndex, ProofCommand source, ZEvesOutput result) {
 			
-			super(editor, section, position, command);
-			this.script = script;
+			super(editor, sectionName, position, source);
+			this.goalName = goalName;
 			this.zEvesStepIndex = zEvesStepIndex;
 			this.result = result;
 		}
 
 		public boolean isGoal() {
-			return getTerm() == null;
+			return zEvesStepIndex == ZEvesSnapshot.GOAL_STEP_INDEX;
 		}
 		
 		public int getZEvesStepIndex() {
@@ -358,19 +323,25 @@ public class ZEditorResults {
 		}
 		
 		public String getGoalName() {
-			return script.getZName().accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+			return goalName;
 		}
 
 		@Override
 		public String loadDescription(IProgressMonitor monitor) throws CoreException {
 			
-			ProofCommand command = getTerm();
-			if (command == null) {
+			if (isGoal()) {
 				return "Proof goal for: " + getGoalName();
 			}
 			
-			String commandStr = command.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
-			return "Proof results for: " + commandStr;
+			ProofCommand command = (ProofCommand) getSource();
+			
+			String desc = "Proof results";
+			if (command != null) {
+				String commandStr = command.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+				return desc + " for: " + commandStr;
+			}
+			
+			return desc;
 		}
 		
 		@Override

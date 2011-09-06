@@ -48,8 +48,6 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
  */
 public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<Object> {
 	
-	public static final int GOAL_STEP_INDEX = 1;
-
 	private final CZT2ZEvesPrinter zEvesXmlPrinter;
 	
 	private final ZEvesApi api;
@@ -244,7 +242,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 				handleResult(pos, output);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				handleZEvesException(pos, e);
+				handleZEvesException(pos, term, e);
 				return;
 			}
 	    	
@@ -252,13 +250,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    		int historyIndex = api.getHistoryLength();
 	    		Object zEvesPara = api.getHistoryElement(historyIndex);
 	    		// add result first, because that will be displayed in hover
-	    		snapshot.addParaResult(pos, historyIndex, zEvesPara);
+	    		snapshot.addParaResult(pos, historyIndex, term, zEvesPara);
 	    		handleResult(pos, zEvesPara);
 	    		checkCancelled();
 //	    		handleResult(pos, "History index: " + historyIndex);
 	    		
 	    	} catch (ZEvesException e) {
-	    		handleZEvesException(pos, e);
+	    		handleZEvesException(pos, term, e);
 	    		return;
 	    	}
     	
@@ -277,15 +275,15 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	try {
 
     		// add result first, because that will be displayed in hover
-    		ZEvesOutput result = api.getGoalProofStep(theoremName, GOAL_STEP_INDEX);
-    		snapshot.addGoalResult(pos, result);
+    		ZEvesOutput result = api.getGoalProofStep(theoremName, ZEvesSnapshot.GOAL_STEP_INDEX);
+    		snapshot.addGoalResult(pos, term, result);
     		handleResult(pos, result);
     		checkCancelled();
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
 //	    	handleResult(pos, "Proved: " + goalProved);
     		
     	} catch (ZEvesException e) {
-    		handleZEvesException(pos, e, false);
+    		handleZEvesException(pos, term, e, false);
     		return;
     	} finally {
         	markFinished(unfinishedMarker);
@@ -301,7 +299,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     		api.setCurrentGoalName(theoremName);
     		checkCancelled();
 		} catch (ZEvesException e) {
-			handleZEvesException(pos, e);
+			handleZEvesException(pos, term, e);
 			return false;
 		}
     	
@@ -322,7 +320,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 				handleResult(pos, "Proved: " + goalProved);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				handleZEvesException(pos, e, false);
+				handleZEvesException(pos, term, e, false);
 			}
 			
 		} finally {
@@ -346,7 +344,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 				handleResult(pos, output);
 				checkCancelled();
 			} catch (ZEvesException e) {
-				handleZEvesException(pos, e);
+				handleZEvesException(pos, command, e);
 				return;
 			}
 	    	
@@ -356,14 +354,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    		
 	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
 	    		// add result first, because that will be displayed in hover
-	    		snapshot.addProofResult(pos, script, stepIndex, proofResult);
+	    		snapshot.addProofResult(pos, script, stepIndex, command, proofResult);
 	    		handleResult(pos, proofResult, isResultTrue(proofResult));
 	    		checkCancelled();
 	    		
 //	    		handleResult(pos, "Step index: " + stepIndex);
 	    		
 	    	} catch (ZEvesException e) {
-	    		handleZEvesException(pos, e);
+	    		handleZEvesException(pos, command, e);
 	    		return;
 	    	}
     	
@@ -406,14 +404,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 //    	tryFlush();
     }
 
-    private void handleZEvesException(Position pos, ZEvesException e) {
-    	handleZEvesException(pos, e, true);
+    private void handleZEvesException(Position pos, Term term, ZEvesException e) {
+    	handleZEvesException(pos, term, e, true);
     }
     
-    private void handleZEvesException(Position pos, ZEvesException e, boolean markState) {
+    private void handleZEvesException(Position pos, Term term, ZEvesException e, boolean markState) {
     	
     	if (markState) {
-    		snapshot.addError(pos, e);
+    		snapshot.addError(pos, term, e);
     	}
     	// TODO clear previous markers?
     	

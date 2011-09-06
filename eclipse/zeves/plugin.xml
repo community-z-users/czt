@@ -13,6 +13,16 @@
             name="Move Prover To Selection">
       </command>
       <command
+            categoryId="net.sourceforge.czt.eclipse.zeves"
+            id="net.sourceforge.czt.eclipse.zeves.submitBack"
+            name="Undo Command">
+      </command>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.zeves"
+            id="net.sourceforge.czt.eclipse.zeves.submitNext"
+            name="Submit Next Command">
+      </command>
+      <command
             id="net.sourceforge.czt.eclipse.zeves.proof.reduce"
             name="Reduction">
       </command>
@@ -80,6 +90,16 @@
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
          <toolbar
                id="net.sourceforge.czt.eclipse.zeves.toolbar">
+            <command
+                  commandId="net.sourceforge.czt.eclipse.zeves.submitBack"
+                  icon="icons/submit_back.png"
+                  style="push">
+            </command>
+            <command
+                  commandId="net.sourceforge.czt.eclipse.zeves.submitNext"
+                  icon="icons/submit_next.png"
+                  style="push">
+            </command>
             <command
                   commandId="net.sourceforge.czt.eclipse.zeves.submitToPoint"
                   icon="icons/submit_point.png"
@@ -441,12 +461,27 @@
             class="net.sourceforge.czt.eclipse.zeves.actions.SubmitToPointCommand"
             commandId="net.sourceforge.czt.eclipse.zeves.submitToPoint">
          <activeWhen>
-            <with
-                  variable="activePartId">
-               <equals
-                     value="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor">
-               </equals>
-            </with>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.inZEditor">
+            </reference>
+         </activeWhen>
+      </handler>
+      <handler
+            class="net.sourceforge.czt.eclipse.zeves.actions.EditorBackCommand"
+            commandId="net.sourceforge.czt.eclipse.zeves.submitBack">
+         <activeWhen>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.inZEditor">
+            </reference>
+         </activeWhen>
+      </handler>
+      <handler
+            class="net.sourceforge.czt.eclipse.zeves.actions.EditorSubmitNextCommand"
+            commandId="net.sourceforge.czt.eclipse.zeves.submitNext">
+         <activeWhen>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.inZEditor">
+            </reference>
          </activeWhen>
       </handler>
    </extension>
@@ -755,6 +790,18 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="Shift+M1+Enter">
       </key>
+      <key
+            commandId="net.sourceforge.czt.eclipse.zeves.submitBack"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+ARROW_UP">
+      </key>
+      <key
+            commandId="net.sourceforge.czt.eclipse.zeves.submitNext"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Shift+M1+ARROW_DOWN">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.contexts">
@@ -812,6 +859,15 @@
                      value="net.sourceforge.czt.eclipse.zeves.proof.expr">
                </equals>
             </iterate>
+         </with>
+      </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.zeves.inZEditor">
+         <with
+               variable="activePartId">
+            <equals
+                  value="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor">
+            </equals>
          </with>
       </definition>
    </extension>

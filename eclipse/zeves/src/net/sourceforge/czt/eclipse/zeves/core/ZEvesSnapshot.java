@@ -2,22 +2,22 @@ package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.Position;
 
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 
@@ -65,8 +65,8 @@ public class ZEvesSnapshot {
 		ERROR
 	}
 	
-	private final PositionOverlapComparator posOverlapComparator = new PositionOverlapComparator();
-
+	public static final int GOAL_STEP_INDEX = 1;
+	
 	/**
 	 * Sequential list of unique sections that have result entries within the snapshot
 	 */
@@ -91,13 +91,13 @@ public class ZEvesSnapshot {
 	 * sequence, then {@link #positionResults} contains their entries in the
 	 * same order: [(A, A1), (A, A2), ..., (A, An), (B, B1), ..., (C, C1), ...].
 	 */
-	private final List<Entry<PositionInfo, Object>> positionResults = new ArrayList<Entry<PositionInfo, Object>>();
+	private final List<SnapshotEntry> positionResults = new ArrayList<SnapshotEntry>();
 	
 	/**
 	 * Currently active (updating) section
 	 */
 	private FileSection updatingSection = null;
-	
+
 	/**
 	 * Mark the given section (filePath + sectionName) to be updating. This
 	 * section must either be a new section in the snapshot, or be the last
@@ -130,7 +130,7 @@ public class ZEvesSnapshot {
 			
 			// also add an entry for the section to signal its start
 			// note that this also ensures that sections will always have at least one entry
-			addResult(new PositionInfo(updatingSection, pos, ResultType.SECTION), null);
+			addResult(new SnapshotEntry(updatingSection, pos, ResultType.SECTION, null, null));
 		}
 	}
 	
@@ -156,7 +156,7 @@ public class ZEvesSnapshot {
 		markSectionCompleted(section, true);
 		
 		// also add an entry for the section end
-		addResult(new PositionInfo(section, pos, ResultType.SECTION), null);
+		addResult(new SnapshotEntry(section, pos, ResultType.SECTION, null, null));
 	}
 
 	/**
@@ -172,33 +172,35 @@ public class ZEvesSnapshot {
 	 *            Position of paragraph in the specification file
 	 * @param historyIndex
 	 *            Z/Eves history index assigned for the submitted paragraph
+	 * @param source
+	 *            Source paragraph that generated the result
 	 * @param result
 	 *            Z/Eves result for the submitted paragraph (can be various
 	 *            representations, e.g. ZEvesAxDef, ZEvesGivenDef, etc.)
 	 */
-	public void addParaResult(Position pos, int historyIndex, Object result) {
+	public void addParaResult(Position pos, int historyIndex, Para source, Object result) {
 
 		assertPositionLegal(pos);
 
 		// check that paragraphs are submitted in increasing order
-		ParaPosition lastPos = (ParaPosition) getLastPositionInfo(ResultType.PARA);
-		if (lastPos != null) {
-			Assert.isLegal(historyIndex > lastPos.getHistoryIndex(),
+		ParaSnapshotEntry lastEntry = (ParaSnapshotEntry) getLastEntry(ResultType.PARA);
+		if (lastEntry != null) {
+			Assert.isLegal(historyIndex > lastEntry.getHistoryIndex(),
 					"Paragraph history must be added in increasing order. " 
-							+ "Last index: [" + lastPos.getHistoryIndex() 
+							+ "Last index: [" + lastEntry.getHistoryIndex() 
 							+ "], new: [" + historyIndex + "]");
 		}
 		
-		addResult(new ParaPosition(updatingSection, pos, historyIndex), result);
+		addResult(new ParaSnapshotEntry(updatingSection, pos, historyIndex, source, result));
 	}
 	
 	private void assertPositionLegal(Position pos) {
 		
 		// check positions are added in increasing order for the same section
-		PositionInfo lastPos = getLastPositionInfo();
-		if (lastPos != null && lastPos.getSection().equals(updatingSection)) {
+		SnapshotEntry lastEntry = getLastEntry();
+		if (lastEntry != null && lastEntry.getSection().equals(updatingSection)) {
 			
-			int lastEnd = getEnd(lastPos.getPosition());
+			int lastEnd = getEnd(lastEntry.getPosition());
 			Assert.isLegal(pos.getOffset() >= lastEnd,
 					"Result positions must be added in increasing order. " 
 							+ "Last position: [" + lastEnd 
@@ -206,35 +208,35 @@ public class ZEvesSnapshot {
 		}
 	}
 	
-	private PositionInfo getLastPositionInfo() {
+	private SnapshotEntry getLastEntry() {
 		if (positionResults.isEmpty()) {
 			return null;
 		}
 		
-		return positionResults.get(positionResults.size() - 1).getKey();
+		return positionResults.get(positionResults.size() - 1);
 	}
 	
 	private static int getEnd(Position pos) {
 		return pos != null ? pos.getOffset() + pos.getLength() : -1;
 	}
 	
-	private PositionInfo getLastPositionInfo(ResultType type) {
+	private SnapshotEntry getLastEntry(ResultType type) {
 		
 		for (int index = positionResults.size() - 1; index >= 0; index--) {
-			Entry<PositionInfo, Object> result = positionResults.get(index);
-			if (result.getKey().getType() == type) {
-				return result.getKey();
+			SnapshotEntry result = positionResults.get(index);
+			if (result.getType() == type) {
+				return result;
 			}
 		}
 		
 		return null;
 	}
 	
-	private void addResult(PositionInfo posInfo, Object result) {
-		positionResults.add(new SimpleEntry<PositionInfo, Object>(posInfo, result));
+	private void addResult(SnapshotEntry entry) {
+		positionResults.add(entry);
 		
 		// mark the last entry index for the section
-		lastEntryIndices.put(posInfo.getSection(), positionResults.size() - 1);
+		lastEntryIndices.put(entry.getSection(), positionResults.size() - 1);
 	}
 
 	/**
@@ -245,18 +247,20 @@ public class ZEvesSnapshot {
 	 * 
 	 * @param pos
 	 *            Position of specification part that caused the Z/Eves error
+	 * @param source
+	 *            source term that generated the error, if available
 	 * @param ex
 	 *            The error as ZEvesException
 	 */
-	public void addError(Position pos, ZEvesException ex) {
+	public void addError(Position pos, Term source, ZEvesException ex) {
 		assertPositionLegal(pos);
-		addResult(new PositionInfo(updatingSection, pos, ResultType.ERROR), ex);
+		addResult(new SnapshotEntry(updatingSection, pos, ResultType.ERROR, source, ex));
 	}
 	
 	/**
 	 * Adds a Z/Eves result for a proof script goal ("try-lemma") to the
 	 * snapshot. This method differentiates from a general
-	 * {@link #addProofResult(Position, ProofScript, Integer, ZEvesOutput)} in
+	 * {@link #addProofResult(Position, ProofScript, int, ZEvesOutput)} in
 	 * the way that it will not need to be "undone" during undo: this command
 	 * does not change Z/Eves state.
 	 * 
@@ -267,9 +271,12 @@ public class ZEvesSnapshot {
 	 * @param result
 	 *            Z/Eves result for "try-lemma"
 	 */
-	public void addGoalResult(Position pos, ZEvesOutput result) {
+	public void addGoalResult(Position pos, ProofScript script, ZEvesOutput result) {
 		assertPositionLegal(pos);
-		addResult(new PositionInfo(updatingSection, pos, ResultType.GOAL), result);
+		
+		String goalName = script.getZName().getWord();
+		addResult(new ProofSnapshotEntry(updatingSection, pos, ResultType.GOAL, 
+				goalName, GOAL_STEP_INDEX, null, result));
 	}
 	
 	/**
@@ -286,16 +293,19 @@ public class ZEvesSnapshot {
 	 *            Parent proof script of the command
 	 * @param zEvesStepIndex
 	 *            Z/Eves proof step index assigned for the submitted command
+	 * @param source
+	 *            Source proof command that generated the result
 	 * @param result
 	 *            Z/Eves goal for this proof step
 	 */
-	public void addProofResult(Position pos, ProofScript script, Integer zEvesStepIndex,
-			ZEvesOutput result) {
+	public void addProofResult(Position pos, ProofScript script, int zEvesStepIndex,
+			ProofCommand source, ZEvesOutput result) {
 		
 		assertPositionLegal(pos);
 		
 		String goalName = script.getZName().getWord();
-		addResult(new ProofStepPosition(updatingSection, pos, goalName, zEvesStepIndex), result);
+		addResult(new ProofSnapshotEntry(updatingSection, pos, ResultType.PROOF, 
+				goalName, zEvesStepIndex, source, result));
 	}
 	
 	
@@ -317,7 +327,7 @@ public class ZEvesSnapshot {
 			return -1;
 		}
 		
-		return getEnd(positionResults.get(lastEntryIndex).getKey().getPosition());
+		return getEnd(positionResults.get(lastEntryIndex).getPosition());
 	}
 	
 	private int getLastEntryIndex(String filePath) {
@@ -368,68 +378,59 @@ public class ZEvesSnapshot {
 	 *         any of the submitted results (e.g. error, paragraph result or
 	 *         proof result)
 	 */
-	public Object getResult(String filePath, String sectionName, Position pos) {
+	public List<ISnapshotEntry> getEntries(String filePath, Position pos) {
 		
-		Entry<PositionInfo, Object> result = getResultEntry(new FileSection(filePath, sectionName), pos);
-		if (result == null) {
-			return null;
+		/*
+		 * first of all check easy cases to short-circuit the algorithm if no
+		 * entries are in the file, or if the last entry is before the position
+		 * then no results can be found
+		 */
+		
+		int fileLastEntryIndex = getLastEntryIndex(filePath);
+		if (fileLastEntryIndex < 0) {
+			// this file does not have any results
+			return Collections.emptyList();
 		}
 		
-		return result.getValue();
+		if (getEnd(positionResults.get(fileLastEntryIndex).getPosition()) < pos.getOffset()) {
+			// last file entry is before the position - no results
+			return Collections.emptyList();
+		}
+		
+		// there may be some results - start checking thoroughly
+		
+		List<ISnapshotEntry> overlapEntries = new ArrayList<ISnapshotEntry>();
+		
+		int prevSectionLastEntryIndex = -1;
+		for (int index = 0; index < sections.size(); index++) {
+			
+			FileSection section = sections.get(index);
+			int lastEntryIndex = lastEntryIndices.get(section);
+			
+			if (section.getFilePath().equals(filePath)) {
+				
+				// check section items for overlap
+				for (int e = prevSectionLastEntryIndex + 1; e <= lastEntryIndex; e++) {
+					
+					SnapshotEntry entry = positionResults.get(e);
+					if (isResultEntry(entry) && overlaps(entry.getPosition(), pos)) {
+						overlapEntries.add(entry);
+					}
+				}
+			}
+			
+			prevSectionLastEntryIndex = lastEntryIndex;
+		}
+		
+		return overlapEntries;
 	}
 	
-	/*
-	 * Finds a result entry for the given position. Used binary search algorithm
-	 * to perform the search, because the results list is sorted in increasing
-	 * order (by section index, then by position).
-	 */
-	private Entry<PositionInfo, Object> getResultEntry(FileSection section, Position pos) {
-		// wrap the position into entry to allow for searching
-		Entry<PositionInfo, Object> posKey = 
-				new SimpleEntry<PositionInfo, Object>(new PositionInfo(section, pos, null), null);
-		
-		// do binary search that stops if a position overlapping the given is found
-		int found = Collections.binarySearch(positionResults, posKey, posOverlapComparator);
-		if (found < 0) {
-			return null;
-		}
-		
-		return positionResults.get(found);
+	private static boolean overlaps(Position p1, Position p2) {
+		return p1.overlapsWith(p2.getOffset(), p2.getLength());
 	}
 	
-	/**
-	 * A specialized version of {@link #getResult(String, String, Position)},
-	 * which only differs if the found result is a proof result. In that case,
-	 * returns a {@link ProofResult} object with the result and its Z/Eves step
-	 * index.
-	 * 
-	 * @param filePath
-	 *            Path of file containing the section
-	 * @param sectionName
-	 *            Name of section
-	 * @param pos
-	 *            Position in the specification file
-	 * @return The result with a position that overlaps given position. Can be
-	 *         any of the submitted results (e.g. error, paragraph result or
-	 *         proof result). For proof result, returns a {@link ProofResult}
-	 *         object.
-	 * 
-	 * @see #getResult(String, String, Position)
-	 */
-	public Object getProofResult(String filePath, String sectionName, Position pos) {
-		
-		Entry<PositionInfo, Object> result = getResultEntry(new FileSection(filePath, sectionName), pos);
-		if (result == null) {
-			return null;
-		}
-		
-		PositionInfo posInfo = result.getKey();
-		if (posInfo.getType() == ResultType.PROOF) {
-			int stepIndex = ((ProofStepPosition) posInfo).getStepIndex();
-			return new ProofResult(stepIndex, (ZEvesOutput) result.getValue());
-		}
-		
-		return result.getValue();
+	private boolean isResultEntry(SnapshotEntry entry) {
+		return entry.getType() != ResultType.SECTION;
 	}
 	
 	/**
@@ -500,42 +501,40 @@ public class ZEvesSnapshot {
 			return positionResults.size() - 1;
 		}
 		
-		int index = 0;
-		int skipUntilAfter = -1;
-		for (Iterator<Entry<PositionInfo, Object>> it = positionResults.iterator(); it.hasNext(); index++) {
+		int prevSectionLastEntryIndex = -1;
+		for (int index = 0; index < sections.size(); index++) {
 			
-			PositionInfo resultPos = it.next().getKey();
+			FileSection section = sections.get(index);
+			int lastEntryIndex = lastEntryIndices.get(section);
 			
-			if (index <= skipUntilAfter) {
-				// skipping - still before the position
-				continue;
-			}
-			
-			FileSection section = resultPos.getSection();
-			if (!section.getFilePath().equals(filePath)) {
-				// this section is from other file path - skip until its end
-				skipUntilAfter = lastEntryIndices.get(section);
-				continue;
-			}
-			
-			// here we are in the correct file section, check the position
-			if (getEnd(resultPos.getPosition()) < offset) {
-				// still before the position
+			if (section.getFilePath().equals(filePath)) {
 				
-				if (index == fileLastEntryIndex) {
-					/*
-					 * Reached the last ever entry for this file, which means that
-					 * editing is done after the last entry. Therefore, it makes
-					 * this entry to be the last entry before given offset (next
-					 * step will switch into another section).
-					 */
-					return index;
+				// here we are in the correct file section, check the position
+				for (int e = prevSectionLastEntryIndex + 1; e <= lastEntryIndex; e++) {
+					
+					SnapshotEntry entry = positionResults.get(e);
+					
+					if (getEnd(entry.getPosition()) < offset) {
+						// still before the position
+						
+						if (e == fileLastEntryIndex) {
+							/*
+							 * Reached the last ever entry for this file, which means that
+							 * editing is done after the last entry. Therefore, it makes
+							 * this entry to be the last entry before given offset (next
+							 * step will switch into another section).
+							 */
+							return e;
+						}
+						
+					} else {
+						// this one is already after, so the one before was the "last before"
+						return e - 1;
+					}
 				}
-				
-				continue;
 			}
 			
-			return index - 1;
+			prevSectionLastEntryIndex = lastEntryIndex;
 		}
 		
 		// this means last index ever is before offset (e.g. nothing to remove)
@@ -561,7 +560,7 @@ public class ZEvesSnapshot {
 		FileSection lastRetainedSection = null;
 		if (lastRetainedEntryIndex >= 0) {
 			// mark its section's last index to be this
-			lastRetainedSection = positionResults.get(lastRetainedEntryIndex).getKey().getSection();
+			lastRetainedSection = positionResults.get(lastRetainedEntryIndex).getSection();
 			
 			int previousLastIndex = lastEntryIndices.get(lastRetainedSection);
 			if (lastRetainedEntryIndex < previousLastIndex) {
@@ -573,30 +572,28 @@ public class ZEvesSnapshot {
 			}
 		}
 		
-		List<Entry<PositionInfo, Object>> removeSubList = 
+		List<SnapshotEntry> removeSubList = 
 				positionResults.subList(lastRetainedEntryIndex + 1, positionResults.size());
 		
 		// analyze removed results to know how much to undo the prover
-		for (Entry<PositionInfo, Object> resultEntry : removeSubList) {
+		for (SnapshotEntry resultEntry : removeSubList) {
 			
-			PositionInfo resultPos = resultEntry.getKey();
-			
-			FileSection section = resultPos.getSection();
+			FileSection section = resultEntry.getSection();
 			String resultPath = section.getFilePath();
 			Integer undoOffset = fileUndoOffsets.get(resultPath);
 			if (undoOffset == null) {
 				// first undo offset for this file - mark it down
-				fileUndoOffsets.put(resultPath, resultPos.getPosition().getOffset());
+				fileUndoOffsets.put(resultPath, resultEntry.getPosition().getOffset());
 			}
 			
-			switch (resultPos.getType()) {
+			switch (resultEntry.getType()) {
 			case PARA: {
 				/*
 				 * For paragraphs, mark the first history index available in the
 				 * "remove" zone - then undo through to (including) this
 				 */
 				if (undoThroughHistoryIndex < 0) {
-					undoThroughHistoryIndex = ((ParaPosition) resultPos).getHistoryIndex();
+					undoThroughHistoryIndex = ((ParaSnapshotEntry) resultEntry).getHistoryIndex();
 				}
 				break;
 			}
@@ -606,7 +603,7 @@ public class ZEvesSnapshot {
 				 * each proof steps means one "back" sent to Z/Eves for that
 				 * particular goal
 				 */
-				ProofStepPosition proofPos = (ProofStepPosition) resultPos;
+				ProofSnapshotEntry proofPos = (ProofSnapshotEntry) resultEntry;
 				String goalName = proofPos.getGoalName();
 				
 				// increment undo count
@@ -735,116 +732,6 @@ public class ZEvesSnapshot {
 		return completedSections.contains(section);
 	}
 	
-	private static class PositionInfo {
-		
-		private final FileSection section;
-		private final Position pos;
-		private final ResultType type;
-		
-		public PositionInfo(FileSection section, Position pos, ResultType type) {
-			Assert.isNotNull(section, "File section must be indicated before update");
-			this.section = section;
-			this.pos = pos;
-			this.type = type;
-		}
-		
-		public FileSection getSection() {
-			return section;
-		}
-
-		public Position getPosition() {
-			return pos;
-		}
-
-		public ResultType getType() {
-			return type;
-		}
-	}
-	
-	private static class ParaPosition extends PositionInfo {
-		
-		private final int historyIndex;
-		
-		public ParaPosition(FileSection section, Position pos, int historyIndex) {
-			super(section, pos, ResultType.PARA);
-			this.historyIndex = historyIndex;
-		}
-		
-		public int getHistoryIndex() {
-			return historyIndex;
-		}
-	}
-	
-	private static class ProofStepPosition extends PositionInfo {
-		
-		private final String goalName;
-		private final Integer zEvesStepIndex;
-		
-		public ProofStepPosition(FileSection section, Position pos, String goalName, Integer zEvesStepIndex) {
-			super(section, pos, ResultType.PROOF);
-			this.goalName = goalName;
-			this.zEvesStepIndex = zEvesStepIndex;
-		}
-		
-		public String getGoalName() {
-			return goalName;
-		}
-
-		public Integer getStepIndex() {
-			return zEvesStepIndex;
-		}
-	}
-	
-	private class PositionOverlapComparator implements Comparator<Entry<PositionInfo, Object>> {
-
-		@Override
-		public int compare(Entry<PositionInfo, Object> o1, Entry<PositionInfo, Object> o2) {
-			
-			FileSection s1 = o1.getKey().getSection();
-			FileSection s2 = o2.getKey().getSection();
-			
-			// first check whether the sections are different
-			if (!s1.equals(s2)) {
-				int sectCompare = sections.indexOf(s1) - sections.indexOf(s2);
-				Assert.isTrue(sectCompare != 0, "No duplicates can be in the section list");
-				return sectCompare;
-			}
-			
-			Position p1 = o1.getKey().getPosition();
-			Position p2 = o2.getKey().getPosition();
-			
-			if (p1.overlapsWith(p2.getOffset(), p2.getLength())) {
-				// consider them equal
-				return 0;
-			}
-			
-			if (p1.getOffset() <= p2.getOffset()) {
-				return -1;
-			} else {
-				return 1;
-			}
-		}
-		
-	}
-	
-	public static class ProofResult {
-		private final Integer stepIndex;
-		private final ZEvesOutput result;
-		
-		public ProofResult(Integer stepIndex, ZEvesOutput result) {
-			this.stepIndex = stepIndex;
-			this.result = result;
-		}
-
-		public Integer getStepIndex() {
-			return stepIndex;
-		}
-
-		public ZEvesOutput getResult() {
-			return result;
-		}
-	}
-	
 	/**
 	 * Immutable structure to identify section within its file. This is used to
 	 * have a more general approach of multiple sections per file, thus we need
@@ -899,6 +786,133 @@ public class ZEvesSnapshot {
 			} else if (!sectionName.equals(other.sectionName))
 				return false;
 			return true;
+		}
+	}
+	
+	public interface ISnapshotEntry {
+		
+		public Position getPosition();
+		
+		public String getFilePath();
+		
+		public String getSectionName();
+		
+		public Term getSource();
+		
+		public Object getResult();
+	}
+	
+	public interface IProofSnapshotEntry extends ISnapshotEntry {
+		
+		@Override
+		public ZEvesOutput getResult();
+		
+		@Override
+		public ProofCommand getSource();
+		
+		public String getGoalName();
+		
+		public int getStepIndex();
+		
+	}
+	
+	private static class SnapshotEntry implements ISnapshotEntry {
+		
+		private final FileSection section;
+		private final Position pos;
+		private final ResultType type;
+		
+		private final Term source;
+		private final Object result;
+		
+		public SnapshotEntry(FileSection section, Position pos, ResultType type, Term source, Object result) {
+			Assert.isNotNull(section, "File section must be indicated before update");
+			this.section = section;
+			this.pos = pos;
+			this.type = type;
+			this.source = source;
+			this.result = result;
+		}
+		
+		public FileSection getSection() {
+			return section;
+		}
+
+		@Override
+		public Position getPosition() {
+			return pos;
+		}
+
+		public ResultType getType() {
+			return type;
+		}
+
+		@Override
+		public String getFilePath() {
+			return getSection().getFilePath();
+		}
+
+		@Override
+		public String getSectionName() {
+			return getSection().getSectionName();
+		}
+
+		@Override
+		public Term getSource() {
+			return source;
+		}
+
+		@Override
+		public Object getResult() {
+			return result;
+		}
+	}
+	
+	private static class ParaSnapshotEntry extends SnapshotEntry {
+	
+		private final int historyIndex;
+
+		public ParaSnapshotEntry(FileSection section, Position pos, int historyIndex, 
+				Para source, Object result) {
+			super(section, pos, ResultType.PARA, source, result);
+			this.historyIndex = historyIndex;
+		}
+
+		public int getHistoryIndex() {
+			return historyIndex;
+		}
+	}
+	
+	private static class ProofSnapshotEntry extends SnapshotEntry implements IProofSnapshotEntry {
+		
+		private final String goalName;
+		private final int zEvesStepIndex;
+		
+		public ProofSnapshotEntry(FileSection section, Position pos, ResultType type,
+				String goalName, int zEvesStepIndex, ProofCommand source, ZEvesOutput result) {
+			super(section, pos, type, source, result);
+			this.goalName = goalName;
+			this.zEvesStepIndex = zEvesStepIndex;
+		}
+
+		@Override
+		public String getGoalName() {
+			return goalName;
+		}
+
+		@Override
+		public int getStepIndex() {
+			return zEvesStepIndex;
+		}
+		
+		@Override
+		public ZEvesOutput getResult() {
+			return (ZEvesOutput) super.getResult();
+		}
+
+		@Override
+		public ProofCommand getSource() {
+			return (ProofCommand) super.getSource();
 		}
 	}
 	

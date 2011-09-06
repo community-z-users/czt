@@ -60,7 +60,7 @@ public class ZEvesPosVisitor implements
     	return includePos(pos, startOffset, length);
     }
     
-    protected static boolean includePos(Position pos, int rangeOffset, int rangeLength) {
+    public static boolean includePos(Position pos, int rangeOffset, int rangeLength) {
     	
     	if (pos == null) {
     		// no position?
