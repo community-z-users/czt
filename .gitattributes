@@ -316,6 +316,7 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendSimpleProofComma
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractSubmitCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractUndoCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/IZEvesExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ResourceUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEves.java -text svneol=unset#text/plain
