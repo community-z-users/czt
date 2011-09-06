@@ -11,7 +11,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -34,20 +33,20 @@ public class ZEvesPreferencePage extends PreferencePage implements IWorkbenchPre
 	@Override
 	public void init(IWorkbench workbench) {}
 
-	private Button addCheckBox(Composite parent, String label, String tooltip, String key) {
-		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-
-		Button button = new Button(parent, SWT.CHECK);
-		button.setText(label);
-		button.setToolTipText(tooltip);
-		button.setData(key);
-		button.setLayoutData(gd);
-
-		button.setSelection(getPreferenceStore().getBoolean(key));
-
-		fCheckBoxes.add(button);
-		return button;
-	}
+//	private Button addCheckBox(Composite parent, String label, String tooltip, String key) {
+//		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+//
+//		Button button = new Button(parent, SWT.CHECK);
+//		button.setText(label);
+//		button.setToolTipText(tooltip);
+//		button.setData(key);
+//		button.setLayoutData(gd);
+//
+//		button.setSelection(getPreferenceStore().getBoolean(key));
+//
+//		fCheckBoxes.add(button);
+//		return button;
+//	}
 
 	@Override
 	protected Control createContents(Composite parent) {
