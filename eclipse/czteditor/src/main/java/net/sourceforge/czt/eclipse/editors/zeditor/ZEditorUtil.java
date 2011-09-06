@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -29,8 +30,10 @@ public class ZEditorUtil {
   public static boolean setCaretPosition(ZEditor editor, int position)
   {
     try {
-      editor.getViewer().getTextWidget().setCaretOffset(position);
-//      editor.getViewer().getTextWidget().setSelection(position);
+      StyledText text = editor.getViewer().getTextWidget(); 
+      text.setCaretOffset(position);
+      text.setSelection(position);
+      text.showSelection();
       editor.getViewer().setSelectedRange(position, 0);
     }
     catch (IllegalArgumentException ex) {
