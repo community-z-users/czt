@@ -58,6 +58,11 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
         int submittedOffsetInFile = snapshot.getLastPositionOffset(filePath);
         
         int start = getStartOffset(submittedOffsetInFile);
+        if (start - submittedOffsetInFile > 1) {
+        	// a gap between last submit and new start - make lastSubmit + 1 the start
+        	start = submittedOffsetInFile + 1;
+        }
+        
         int end = getEndOffset(document);
         
         if (start < 0) {

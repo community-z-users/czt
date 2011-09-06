@@ -308,6 +308,8 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesImages.java -text svneo
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/ZEvesPlugin.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/EditorBackCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/EditorSubmitNextCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/OutputViewBackCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/OutputViewSubmitNextCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendExprProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendPredProofCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SendProofCommand.java -text svneol=unset#text/plain

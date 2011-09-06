@@ -196,7 +196,7 @@ public class ZEditorResults {
 		return targetPositions;
 	}
 	
-	private static abstract class ZEditorObject<T extends Term> 
+	public static abstract class ZEditorObject<T extends Term> 
 		extends PlatformObject implements IZInfoObject {
 		
 		private final ZEditor editor;

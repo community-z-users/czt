@@ -28,7 +28,7 @@ public class EditorBackCommand extends AbstractHandler {
 		
 		final ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
 		
-		final ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
 					"The Z/Eves prover is not running.");
@@ -38,42 +38,45 @@ public class EditorBackCommand extends AbstractHandler {
 		prover.getExecutor().addCommand(new ZEvesBackCommand(editor) {
 			@Override
 			protected void completed(IStatus result) {
-				
-				IResource resource = ZEditorUtil.getEditorResource(editor);
-				if (resource == null) {
-					return;
-				}
-				
-				String filePath = ResourceUtil.getPath(resource);
-				ZEvesSnapshot snapshot = prover.getSnapshot();
-				int lastOffset = snapshot.getLastPositionOffset(filePath);
-				
-				if (lastOffset >= 0) {
-					Position peekPos = lastOffset > 0 ? new Position(lastOffset - 1, 1) : new Position(lastOffset);
-					List<ISnapshotEntry> entries = snapshot.getEntries(filePath, peekPos);
-					if (entries.size() > 0) {
-						// get the last one and move the cursor to its start
-						Position pos = entries.get(entries.size() - 1).getPosition();
-						if (pos.getLength() > 0) {
-							// take offset + 1
-							lastOffset = pos.getOffset() + 1;
-						}
-					}
-				}
-				
-				final int caretOffset = lastOffset;
-				
-				// set caret position in display thread
-				editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						ZEditorUtil.setCaretPosition(editor, caretOffset);
-						editor.getSite().getPage().activate(editor);
-					}
-				});
+				updateCaretOnBack(editor);
 			}
 		});
 		
 		return null;
+	}
+	
+	public static void updateCaretOnBack(final ZEditor editor) {
+		IResource resource = ZEditorUtil.getEditorResource(editor);
+		if (resource == null) {
+			return;
+		}
+		
+		String filePath = ResourceUtil.getPath(resource);
+		ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
+		int lastOffset = snapshot.getLastPositionOffset(filePath);
+		
+		if (lastOffset >= 0) {
+			Position peekPos = lastOffset > 0 ? new Position(lastOffset - 1, 1) : new Position(lastOffset);
+			List<ISnapshotEntry> entries = snapshot.getEntries(filePath, peekPos);
+			if (entries.size() > 0) {
+				// get the last one and move the cursor to its start
+				Position pos = entries.get(entries.size() - 1).getPosition();
+				if (pos.getLength() > 0) {
+					// take offset + 1
+					lastOffset = pos.getOffset() + 1;
+				}
+			}
+		}
+		
+		final int caretOffset = lastOffset;
+		
+		// set caret position in display thread
+		editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				ZEditorUtil.setCaretPosition(editor, caretOffset);
+				editor.getSite().getPage().activate(editor);
+			}
+		});
 	}
 }

@@ -33,26 +33,29 @@ public class EditorSubmitNextCommand extends AbstractHandler {
 		prover.getExecutor().addCommand(new ZEvesSubmitNextCommand(editor) {
 			@Override
 			protected void completed(IStatus result) {
-				
-				IResource resource = ZEditorUtil.getEditorResource(editor);
-				if (resource == null) {
-					return;
-				}
-				
-				String filePath = ResourceUtil.getPath(resource);
-				final int lastOffset = prover.getSnapshot().getLastPositionOffset(filePath);
-				
-				// set caret position in display thread
-				editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						ZEditorUtil.setCaretPosition(editor, lastOffset);
-						editor.getSite().getPage().activate(editor);
-					}
-				});
+				updateCaretOnNext(editor);
 			}
 		});
 		
 		return null;
+	}
+	
+	public static void updateCaretOnNext(final ZEditor editor) {
+		IResource resource = ZEditorUtil.getEditorResource(editor);
+		if (resource == null) {
+			return;
+		}
+		
+		String filePath = ResourceUtil.getPath(resource);
+		final int lastOffset = ZEvesPlugin.getZEves().getSnapshot().getLastPositionOffset(filePath);
+		
+		// set caret position in display thread
+		editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				ZEditorUtil.setCaretPosition(editor, lastOffset);
+				editor.getSite().getPage().activate(editor);
+			}
+		});
 	}
 }

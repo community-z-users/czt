@@ -484,6 +484,24 @@
             </reference>
          </activeWhen>
       </handler>
+      <handler
+            class="net.sourceforge.czt.eclipse.zeves.actions.OutputViewBackCommand"
+            commandId="net.sourceforge.czt.eclipse.zeves.submitBack">
+         <activeWhen>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.inOutputView">
+            </reference>
+         </activeWhen>
+      </handler>
+      <handler
+            class="net.sourceforge.czt.eclipse.zeves.actions.OutputViewSubmitNextCommand"
+            commandId="net.sourceforge.czt.eclipse.zeves.submitNext">
+         <activeWhen>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.inOutputView">
+            </reference>
+         </activeWhen>
+      </handler>
    </extension>
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
@@ -792,13 +810,11 @@
       </key>
       <key
             commandId="net.sourceforge.czt.eclipse.zeves.submitBack"
-            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="Shift+M1+ARROW_UP">
       </key>
       <key
             commandId="net.sourceforge.czt.eclipse.zeves.submitNext"
-            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="Shift+M1+ARROW_DOWN">
       </key>
@@ -867,6 +883,15 @@
                variable="activePartId">
             <equals
                   value="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor">
+            </equals>
+         </with>
+      </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.zeves.inOutputView">
+         <with
+               variable="activePartId">
+            <equals
+                  value="net.sourceforge.czt.eclipse.zeves.view.Output">
             </equals>
          </with>
       </definition>
