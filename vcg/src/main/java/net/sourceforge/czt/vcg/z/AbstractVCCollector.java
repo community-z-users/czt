@@ -119,6 +119,11 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     vcCnt_ = 0;
   }
 
+  protected void stepVCCounter()
+  {
+    vcCnt_++;
+  }
+
   /**
    * Visits the given term (e.g., <code>term.accept(this)</code>).
    * It also must take care of default results in case of possibly
@@ -243,7 +248,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     }
 
     // create the result with a unique number for this collector
-    vcCnt_++;
+    stepVCCounter();
     VC<R> result = createVC(vcCnt_, para, getVCType(vc), vc);
 
     // finalise the calculation

@@ -21,7 +21,7 @@ package net.sourceforge.czt.vcg.z.refinement;
 
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.vcg.z.VCG;
-import net.sourceforge.czt.vcg.z.VCGUtils;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils;
 import net.sourceforge.czt.z.ast.Pred;
 
 /**
@@ -29,9 +29,8 @@ import net.sourceforge.czt.z.ast.Pred;
  * @author Leo Freitas
  * @date Aug 31, 2011
  */
-public class RefinementUtils extends VCGUtils<Pred> implements RefinementPropertyKeys
+public class RefinementUtils extends FeasibilityUtils implements RefinementPropertyKeys
 {
-  private boolean doCreateZSchemas_;
 
   /* CLASS SETUP METHODS */
 
@@ -79,56 +78,17 @@ public class RefinementUtils extends VCGUtils<Pred> implements RefinementPropert
   }
 
   @Override
-  protected void printToolUsage()
-  {
-    super.printToolUsage();
-    System.err.println("       -z     create Z schemas for precondition VC.");
-  }
-
-  @Override
-  protected String printToolDefaultFlagsUsage()
-  {
-    return (super.printToolDefaultFlagsUsage()
-              + (getRefinementVCG().isCreatingZSchemas() ? " -z " : ""));
-  }
-
-  @Override
-  protected boolean isKnownArg(String arg)
-  {
-    boolean result = "-z".equals(arg);
-    return result ? result : super.isKnownArg(arg);
-  }
-
-  @Override
-  protected void processArg(String arg)
-  {
-    if (arg.equals("-z"))
-      doCreateZSchemas_ = isKnownArg(arg);
-    else
-      super.processArg(arg);
-  }
-
-  @Override
-  protected void processCollectedProperties()
-  {
-    super.processCollectedProperties();
-    getVCG().getManager().setProperty(
-            PROP_VCG_REFINEMENT_CREATE_ZSCHEMAS,
-            String.valueOf(doCreateZSchemas_));
-  }
-
-  @Override
   protected String getVCFileNameSuffix()
   {
     return VCG_REFINEMENT_SOURCENAME_SUFFIX;
   }
 
   /* UTILITY CLASS STATIC METHODS */
-  private static final RefinementUtils feasibilityUtils_ = new RefinementUtils();
+  private static final RefinementUtils refinementUtils_ = new RefinementUtils();
 
   public static RefinementUtils getRefinementUtils()
   {
-    return feasibilityUtils_;
+    return refinementUtils_;
   }
 
   public static void main(String[] args)

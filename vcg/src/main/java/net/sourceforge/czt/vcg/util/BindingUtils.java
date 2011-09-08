@@ -35,8 +35,13 @@ public final class BindingUtils
   private BindingUtils()
   {
   }
-  public static final BindingFilter AFTER_FILTER = new AfterBindings();
+
+  public static final BindingFilter AFTER_FILTER  = new AfterBindings();
   public static final BindingFilter BEFORE_FILTER = new BeforeBindings();
+  public static final BindingFilter INPUT_FILTER  = new InputBindings();
+  public static final BindingFilter OUTPUT_FILTER = new OutputBindings();
+  public static final BindingFilter STATE_FILTER  = new StateBindings();
+  public static final BindingFilter DASHED_FILTER = new DashedBindings();
 
   /**
    * Filter the given set of bindings according to the binding filter criteria given.
@@ -73,6 +78,26 @@ public final class BindingUtils
   public static SortedSet<Definition> afterBindingsOf(SortedSet<Definition> bindings)
   {
     return filterBindings(bindings, AFTER_FILTER);
+  }
+
+  public static SortedSet<Definition> inputBindingsOf(SortedSet<Definition> bindings)
+  {
+    return filterBindings(bindings, INPUT_FILTER);
+  }
+
+  public static SortedSet<Definition> outputBindingsOf(SortedSet<Definition> bindings)
+  {
+    return filterBindings(bindings, OUTPUT_FILTER);
+  }
+
+  public static SortedSet<Definition> stateBindingsOf(SortedSet<Definition> bindings)
+  {
+    return filterBindings(bindings, STATE_FILTER);
+  }
+
+  public static SortedSet<Definition> dashedBindingsOf(SortedSet<Definition> bindings)
+  {
+    return filterBindings(bindings, DASHED_FILTER);
   }
 
   public static boolean bindingsInvariant(SortedSet<Definition> mixed, SortedSet<Definition> before, SortedSet<Definition> after)

@@ -20,16 +20,22 @@
 package net.sourceforge.czt.vcg.z.refinement;
 
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.Pair;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG;
+import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZRefKind;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -59,15 +65,25 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     retrieveName_ = null;
     concreteStateName_ = null;
     fsbCheck_ = new RefinementVCCollector(factory);
-    setRefKind(PROP_VCG_REFINEMENT_KIND_DEFAULT);
-    setRefiningIO(PROP_VCG_REFINEMENT_IO_DEFAULT);
+    setRefKindDefault(PROP_VCG_REFINEMENT_REFKIND_DEFAULT);
+    //setRefiningIO(PROP_VCG_REFINEMENT_IO_DEFAULT);
   }
 
   @Override
-  protected String getFSBSourceNameSuffix()
+  protected String getVCGSourceNameSuffix()
   {
     return VCG_REFINEMENT_SOURCENAME_SUFFIX;
   }
+
+  @Override
+  protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName)
+  {
+    return super.getVCGCreatedZSectTypeErrorWarningMessage(sectName) +
+            "\nFurthermore, it might happen when Z refinement relationships are not properly set. " +
+            "\nThe current concrete state name is set to '" + getRefVCCollector().getConcreteStateName() +
+            "'; retrieve name is set to '" + getRefVCCollector().getRetrieveName() + "'.";
+  }
+
 
   @Override
   protected boolean defaultAddTrivialVC()
@@ -113,14 +129,9 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     return PROP_VCG_REFINEMENT_ZSTATE_NAME_DEFAULT;
   }
 
-  protected boolean defaultRefiningIO()
+  protected ZRefKind defaultRefinementKind()
   {
-    return PROP_VCG_REFINEMENT_IO_DEFAULT;
-  }
-
-  protected RefKind defaultRefinementKind()
-  {
-    return PROP_VCG_REFINEMENT_KIND_DEFAULT;
+    return PROP_VCG_REFINEMENT_REFKIND_DEFAULT;
   }
 
   protected String defaultConcreteStateName()
@@ -144,16 +155,16 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     String ret = getManager().hasProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME) ?
           manager.getProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME) :
           defaultZStateName();
-    boolean refIo = getManager().hasProperty(PROP_VCG_REFINEMENT_IO) ?
-          manager.getBooleanProperty(PROP_VCG_REFINEMENT_IO) :
-          defaultRefiningIO();
-    RefKind refKind = getManager().hasProperty(PROP_VCG_REFINEMENT_KIND) ?
-          RefKind.valueOf(manager.getProperty(PROP_VCG_REFINEMENT_KIND)) :
+//    boolean refIo = getManager().hasProperty(PROP_VCG_REFINEMENT_IO) ?
+//          manager.getBooleanProperty(PROP_VCG_REFINEMENT_IO) :
+//          defaultRefiningIO();
+    ZRefKind refKind = getManager().hasProperty(PROP_VCG_REFINEMENT_KIND) ?
+          ZRefKind.valueOf(manager.getProperty(PROP_VCG_REFINEMENT_KIND)) :
           defaultRefinementKind();
     setConcreteStateName(concreteSt);
     setRetrieveName(ret);
-    setRefiningIO(refIo);
-    setRefKind(refKind);
+    //setRefiningIO(refIo);
+    setRefKindDefault(refKind);
   }
 
   @Override
@@ -162,8 +173,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     super.reset();
     setConcreteStateName(null);
     setRetrieveName(null);
-    setRefiningIO(defaultRefiningIO());
-    setRefKind(defaultRefinementKind());
+    //setRefiningIO(defaultRefiningIO());
+    setRefKindDefault(defaultRefinementKind());
   }
 
   @Override
@@ -174,8 +185,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
             String.valueOf(defaultConcreteStateName()));
     manager.setProperty(PROP_VCG_REFINEMENT_RETRIEVE_NAME,
             String.valueOf(defaultRetrieveName()));
-    manager.setProperty(PROP_VCG_REFINEMENT_IO,
-            String.valueOf(defaultRefiningIO()));
+//    manager.setProperty(PROP_VCG_REFINEMENT_IO,
+//            String.valueOf(defaultRefiningIO()));
     manager.setProperty(PROP_VCG_REFINEMENT_KIND,
             String.valueOf(defaultRefinementKind()));
   }
@@ -245,14 +256,16 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     }
   }
 
-  protected final void setRefiningIO(boolean v)
-  {
-    getRefVCCollector().setRefiningIO(v);
-  }
+  // TODO: add RIn, ROut, CIn, AIn, CFin, AFin from properties?
+  
+//  protected final void setRefiningIO(boolean v)
+//  {
+////    getRefVCCollector().setRefiningIO(v);
+//  }
 
-  protected final void setRefKind(RefKind v)
+  protected final void setRefKindDefault(ZRefKind v)
   {
-    getRefVCCollector().setRefKind(v);
+    getRefVCCollector().setRefKindDefault(v);
     
   }
 
@@ -278,8 +291,49 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   {
     super.afterGeneratingVCG(zSect, vcList);
 
-    // add necessary refinement VCs to vcList!
+    RefinementVCCollector rvcc = getRefVCCollector();
+    Map<ZName, Pair<Definition, AxPara>> defsOfInterest = rvcc.definitions_;
+    Map<ZName, ZName> opRefPairs = rvcc.opsToRefineNamePairs_;
 
-    
+    assert defsOfInterest != null && opRefPairs != null;
+
+    // if there are any refinement relationships
+    if (!opRefPairs.isEmpty())
+    {
+      // we ought to have found at least twice as many definitions of interest + AState + CState
+      assert ((opRefPairs.size() * 2) + 2 <= defsOfInterest.size());
+
+      ZName aState = rvcc.getStateSchema();
+      ZName cState = rvcc.getConcreteStateName();
+      ZName retr = rvcc.getRetrieveName();
+
+      // if we have any ref pair / def of interest information and not state/retrieve, raise an error
+      if (aState == null || cState == null || retr == null)
+      {
+        throw new VCCollectionException("Inconsistent Z refinement relationship definitions. The abstract state '"
+                + aState + "', the concrete state '" + cState + " and the retrieve schema '" + retr + "' must all be non-null "
+                + " in order to generate VCs for " + defsOfInterest.size() + " definitions of interest.");
+      }
+      // add the init / finalisation VCs
+      rvcc.calculateRefInitFinVCS(vcList, aState, cState, retr);
+
+      // for all opRef pairs, create extra VCs
+      for(Map.Entry<ZName, ZName> pair : opRefPairs.entrySet())
+      {
+        ZName absName = pair.getKey();
+        ZName conName = pair.getValue();
+        // we must habve come across definition of both AOp and COp
+        if (rvcc.containsRefPair(absName, conName))
+        {
+          rvcc.calculateRefVCS(vcList, absName, conName);
+        }
+        // otherwise VCG missed something during collection
+        else
+        {
+          throw new VCCollectionException("Could not find definition for Z refinement relationship between operations.\n\tAbstract..: '"
+                  + absName + "'\n\tConcrete..: '" + conName + "'");
+        }
+      }
+    }
   }
 }

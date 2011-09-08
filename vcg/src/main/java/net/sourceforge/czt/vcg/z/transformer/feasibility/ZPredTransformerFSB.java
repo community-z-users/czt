@@ -23,9 +23,13 @@ import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.vcg.z.transformer.ZPredTransformer;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.FalsePred;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -124,4 +128,68 @@ public class ZPredTransformerFSB extends ZPredTransformer
     assert result != null;
     return result;
   }
+
+  public Pred asPred(Expr schExpr)
+  {
+    return factory_.createExprPred(schExpr);
+  }
+
+  public Pred prePred(Expr schExpr)
+  {
+    return asPred(factory_.createPreExpr(schExpr));
+  }
+
+  public ZExprList createGenericParamsRefExprs(ZNameList genParams)
+  {
+    ZExprList result = factory_.createZExprList();
+    for(Name name : genParams)
+    {
+      result.add(factory_.createRefExpr(name));
+    }
+    assert result.size() == genParams.size();
+    return result;
+  }
+
+  public Expr createSchRef(ZName schName, ZNameList genParams)
+  {
+    return genParams != null &&
+           !genParams.isEmpty() ?
+             factory_.createRefExpr(schName,
+                createGenericParamsRefExprs(genParams), Boolean.FALSE) :
+             factory_.createRefExpr(schName);
+
+  }
+
+  public Expr createDashedSchRef(ZName schName, ZNameList genParams)
+  {
+    //ZStrokeList zsl = factory_.createZStrokeList(schName.getZStrokeList());
+    //zsl.add(factory_.createNextStroke());
+    //ZName dashedName = factory_.createZName(schName.getWord(), zsl);
+    return factory_.createDecorExpr(createSchRef(schName, genParams),
+            factory_.createNextStroke());
+  }
+
+  public Pred createStateInitialisationVC(Expr absStateDash, Expr absStInit)
+  {
+    // original: \exists AState' @ ASinit
+    // reduced : \forall CSInit @ \exists R' @ ASInit
+    return asPred(factory_.createExistsExpr(
+            factory_.createZSchText(
+              factory_.createZDeclList(
+                factory_.list(factory_.createInclDecl(absStateDash))),
+              truePred()),
+            absStInit));
+  }
+
+  public Pred createStateFinalisationVC(Expr absState, Expr absStFin)
+  {
+    // original: \exists AState @ ASFin
+    return asPred(factory_.createExistsExpr(
+            factory_.createZSchText(
+              factory_.createZDeclList(
+                factory_.list(factory_.createInclDecl(absState))),
+              truePred()),
+            absStFin));
+  }
+
 }

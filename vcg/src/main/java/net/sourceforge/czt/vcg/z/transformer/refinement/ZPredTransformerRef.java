@@ -20,8 +20,15 @@
 package net.sourceforge.czt.vcg.z.transformer.refinement;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.vcg.z.refinement.ZRefVCKind;
 import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZRefKind;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -41,4 +48,395 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
     super(factory, termV);
   }
 
+  public Pred createInitialisationVC(ZRefKind kind, Expr absStInit, Expr conStInit, Expr retrieveDash)
+  {
+    Pred result;
+    switch (kind)
+    {
+      case FORWARD:
+        // original: \forall CSInit @ \exists AState' | R' @ ASInit
+        // reduced : \forall CSInit @ \exists R' @ ASInit
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conStInit))),
+                  truePred()),
+                factory_.createExistsExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(retrieveDash))),
+                    truePred()),
+                  absStInit)));
+        // TODO: \forall CSInit @ \exists AInitIn @ RIn
+        break;
+      case BACKWARD:
+        // original: \forall CSInit | R' @ ASInit
+        // with sig: \forall CSInit; Retr~' @ ASInit 
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conStInit),
+                                  factory_.createInclDecl(retrieveDash))),
+                  truePred()),
+                absStInit));
+        // TODO: \forall CSInit | RIn @ AInitIn
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return result;
+  }
+
+  public Pred createInitialisationInputVC(ZRefKind kind, Expr absInitIn, Expr conInitIn, Expr retrieveIn)
+  {
+    Pred result;
+    switch (kind)
+    {
+      case FORWARD:
+        // original: \forall CInitIn @ \exists a? : AI @ AInitIn \land RIn
+        // reduces : \forall CInitIn @ \exists AInitIn @ RIn
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conInitIn))),
+                  truePred()),
+                factory_.createExistsExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absInitIn))),
+                    truePred()),
+                  retrieveIn)));
+        break;
+      case BACKWARD:
+        // original: \forall CInitIn; RIn @ AInitIn
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conInitIn),
+                                  factory_.createInclDecl(retrieveIn))),
+                  truePred()),
+                absInitIn));
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return result;
+  }
+
+    public Pred createFinalisationVC(ZRefKind kind, Expr absStFin, Expr conStFin, Expr retrieve)
+  {
+    Pred result;
+    switch (kind)
+    {
+      case FORWARD:
+        // \forall CFinState; R @ AFinState
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conStFin),
+                                  factory_.createInclDecl(retrieve))),
+                  truePred()),
+                absStFin));
+
+        // TODO: \forall ROut; CFinOut @ AFinOut
+        break;
+      case BACKWARD:
+        // original: \forall CFinState @ \exists A | R @ AFinState
+        // reduced : \forall CFinState @ \exists R @ AFinState
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conStFin))),
+                  truePred()),
+                factory_.createExistsExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(retrieve))),
+                    truePred()),
+                  absStFin)));
+        // TODO: \forall CFinOut @ \exists ROut @ AFinOut
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return result;
+  }
+
+
+  public Pred createFinalisationOutputVC(ZRefKind kind, Expr absFinOut, Expr conFinOut, Expr retrieveOut)
+  {
+    Pred result;
+    switch (kind)
+    {
+      case FORWARD:
+        // original: \forall ROut; CFinOut @ AFinOut
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conFinOut),
+                                  factory_.createInclDecl(retrieveOut))),
+                  truePred()),
+                absFinOut));
+        break;
+      case BACKWARD:
+        // original: \forall CFinOut @ \exists a! : AO @ ROut \land AFinOut
+        // reduced : \forall CFinOut @ \exists AFinOut @ ROut
+        result = asPred(factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(conFinOut))),
+                  truePred()),
+                factory_.createExistsExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absFinOut))),
+                    truePred()),
+                  retrieveOut)));
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return result;
+  }
+          
+
+  /**
+   * Creates the feasibility VC predicate for refinement. Various expressions involved
+   * include the user-defined OpSig schema. Obviously, if the user cheats, the VC is pointless.
+   * It's up to top-layers to enforce that such thing doesn't happen. For instance, the Z Eclipse
+   * VCG enforces that the OpSig declarations cannot change, hence rules out having after state
+   * in the precondition assumptions.
+   * 
+   * @param kind
+   * @param absOpSig
+   * @param absOp
+   * @param conOpSig
+   * @param conOp
+   * @param retrieve
+   * @param retrieveInputs
+   * @return
+   */
+  public Pred createFeasibilityVC(ZRefKind kind, Expr absOpSig, Expr absOp,
+          Expr conOpSig, Expr conOp, Expr retrieve, Expr retrieveInputs)
+  {
+    Pred result;
+    // notice that only the top-level Pred is an ExprPred. All else is a XXXExpr (e.g., AndExpr, ForallExpr, etc)
+    switch (kind)
+    {
+      case FORWARD:
+        if (retrieveInputs == null)
+          // original: \forall AState; CState | \pre AOp \land Retrieve @ \pre COp
+          // with sig: \forall AOpSig; COpSig; Retrieve | \pre~AOp @ \pre~COp
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(absOpSig),
+                                factory_.createInclDecl(conOpSig),
+                                factory_.createInclDecl(retrieve))),
+                //asPred(factory_.createAndExpr(factory_.createPreExpr(absOp), retrieve)),
+                prePred(absOp)),
+                factory_.createPreExpr(conOp)));
+        else
+          // TODO: should this be "AState" instead of AOpSig?
+          // with inputs original: \forall R; RIn | \pre AOp @ \pre COp
+          // with inputs with sig: \forall AOpSig; COpSig; RIn; Retrieve | \pre~AOp @ \pre~COp
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(absOpSig),
+                                factory_.createInclDecl(conOpSig),
+                                factory_.createInclDecl(retrieveInputs),
+                                factory_.createInclDecl(retrieve))),
+                prePred(factory_.createPreExpr(absOp))),
+                factory_.createPreExpr(conOp)));
+        break;
+      case BACKWARD:
+        if (retrieveInputs == null)
+          // original: \forall C | (\forall AState | Retrieve @ \pre AOp) @ \pre COp
+          // with sig: \forall COpSig | (\forall AOpSig | Retrieve @ \pre AOp) @ \pre COp
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(conOpSig))),
+                asPred(factory_.createForallExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absOpSig))),
+                    asPred(retrieve)),
+                  factory_.createPreExpr(absOp)))),
+              factory_.createPreExpr(conOp)));
+        else
+          // with inputs original: \forall C; c?:CI | (\forall A; a?: AI | R \land RIn @ \pre AOp) @ \pre COp
+          // with inputs with sig: \forall COpSig | (\forall AOpSig; RIn | R @ \pre AOp) @ \pre COp
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(conOpSig))),
+                asPred(factory_.createForallExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absOpSig),
+                                    factory_.createInclDecl(retrieveInputs))),
+                    asPred(retrieve)),
+                  factory_.createPreExpr(absOp)))),
+              factory_.createPreExpr(conOp)));
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return result;
+  }
+
+  /**
+   * The various expressions involved in the VC for refinement. Notice that inputs and outputs
+   * are handled at the signatures (e.g., we add COp to quantifiers).
+   *
+   * @param kind
+   * @param absState
+   * @param absStateDash
+   * @param conState
+   * @param absOp
+   * @param conOp
+   * @param retrieve
+   * @param retrieveDash
+   * @param retrieveInputs
+   * @param retrieveOutputs
+   * @return
+   */
+  public Pred createCorrectnessVC(ZRefKind kind, Expr absState, Expr absStateDash,
+            Expr absOp, Expr conState, Expr conOp, Expr retrieve, Expr retrieveDash,
+            Expr retrieveInputs, Expr retrieveOutputs)
+  {
+    Pred result;
+    switch (kind)
+    {
+      case FORWARD:
+        if (retrieveInputs == null && retrieveOutputs == null)
+          // original: (\forall A; C; C' | \pre AOp \land R \land COp @ (\exists A' | R' @ AOp))
+          // with sig: (\forall AState; COp; R | \pre AOp @ (\exists A' | R' @ AOp))
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(absState),
+                                factory_.createInclDecl(conOp),
+                                factory_.createInclDecl(retrieve))), // have it quantified to have outputs here
+                // AndPred chained to the left:  X and Y and Z  =  And(And(X,Y), Z)
+                //asPred(factory_.createAndExpr(factory_.createAndExpr(factory_.createPreExpr(absOp), retrieve), conOp))),
+                prePred(absOp)),
+              factory_.createExistsExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(absStateDash))),
+                  asPred(retrieveDash)),
+                absOp)));
+        else
+        {
+          assert retrieveInputs != null && retrieveOutputs != null;
+          // with io: (\forall AState; COp; R; RIn | \pre AOp @ (\exists AState'; ROut | R' @ AOp))
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(absState),
+                                factory_.createInclDecl(conOp), // have it quantified to have outputs here
+                                factory_.createInclDecl(retrieve),
+                                factory_.createInclDecl(retrieveInputs))), 
+                prePred(absOp)),
+              factory_.createExistsExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(absStateDash),
+                                  factory_.createInclDecl(retrieveOutputs))),
+                  asPred(retrieveDash)),
+                absOp)));
+        }
+        break;
+      case BACKWARD:
+        if (retrieveInputs == null && retrieveOutputs == null)
+          // original: \forall C | (\forall A | R @ \pre AOp) @ (\forall A'; C' | CO \lad R' @ (\exists A @ R \land AOp))
+          // with sig: \forall CState | (\forall AState | Retr @ \pre AOp) @ (\forall AState~'; COp | Retr~' @ (\exists AState | Retr @ AOp))
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(conState))),
+                asPred(factory_.createForallExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absState))),
+                    asPred(retrieve)),
+                  factory_.createPreExpr(absOp)))),
+              factory_.createForallExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(absStateDash),
+                                  factory_.createInclDecl(conOp))),
+                  asPred(retrieveDash)),
+                factory_.createExistsExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absState))),
+                  asPred(retrieve)),
+                absOp))));
+        else
+        {
+          assert retrieveInputs != null && retrieveOutputs != null;
+          // with io: (\forall C; c?: CI | (\forall A; a?: AI | R \land RIn @ \pre AOp) @ (\forall C'; c!: CO; A'; a!: AO | COp \land R' \land ROut @ (\exists A; a?: AI @ R \land RIn \land AOp)))
+          //        = C \land c? \in CI \land (\forall A; a?: AI | R \land RIn @ \pre AOp) \implies (\forall C'; c!: CO; A'; a!: AO | COp \land R' \land ROut @ (\exists A; a?: AI @ R \land RIn \land AOp)))
+          //        = C \land c? \in CI \land (\forall A; a?: AI | R \land RIn @ \pre AOp) \land C' \land c! \in CO \land A' \land a! \in AO \land COp \land R' \land ROut \implies (\exists A; a?: AI @ R \land RIn \land AOp)))
+          //        = (\forall COp; ROut; R' | (\forall A; RIn | R @ \pre AOp) @ (\exists A; a?: AI @ R \land RIn \land AOp))
+          //        = (\forall COp; ROut; R' | (\forall A; RIn | R @ \pre AOp) @ (\exists A; R; RIn @ AOp))
+
+          // with io: (\forall COp; ROut; R' | (\forall A; RIn | R @ \pre AOp) @ (\exists A; R; RIn @ AOp)) - see zrefinesEquivProof.tex in parser-zeves for equivalence proof
+          result = asPred(factory_.createForallExpr(
+              factory_.createZSchText(
+                factory_.createZDeclList(
+                  factory_.list(factory_.createInclDecl(conOp),
+                                factory_.createInclDecl(retrieveOutputs),
+                                factory_.createInclDecl(retrieveDash))),
+                asPred(factory_.createForallExpr(
+                  factory_.createZSchText(
+                    factory_.createZDeclList(
+                      factory_.list(factory_.createInclDecl(absState),
+                                    factory_.createInclDecl(retrieveInputs))),
+                    asPred(retrieve)),
+                  factory_.createPreExpr(absOp)))),
+              factory_.createExistsExpr(
+                factory_.createZSchText(
+                  factory_.createZDeclList(
+                    factory_.list(factory_.createInclDecl(absState),
+                                  factory_.createInclDecl(retrieveInputs))),
+                asPred(retrieve)),
+              absOp)));
+        }
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return result;
+  }
+
+  public ConjPara createExtraVCConjPara(ZNameList genParams, Pred pred, ZName conjName, LocAnn loc)
+  {
+    assert pred != null && conjName != null;
+    ConjPara result = factory_.createConjPara(genParams, pred);
+    result.setName(conjName);
+    if (loc != null)
+      result.getAnns().add(loc);
+    return result;
+  }
+
+  public ConjPara createExtraVCConjPara(ZRefKind kind, ZRefVCKind vck, ZNameList genParams,
+          Pred pred, ZName opName, LocAnn loc)
+  {
+    ZName conjName = createVCConjName(kind, vck, opName);
+    return createExtraVCConjPara(genParams, pred, conjName, loc);
+  }
+
+  public ZName createVCConjName(ZRefKind kind, ZRefVCKind vck, ZName name)
+  {
+    StringBuilder sb = new StringBuilder("t");
+    sb.append((kind.equals(ZRefKind.FORWARD) ? "FS" : "BS"));
+    sb.append(vck.toString());
+    sb.append(name.getWord());
+    return factory_.createZName(sb.toString());
+  }
 }

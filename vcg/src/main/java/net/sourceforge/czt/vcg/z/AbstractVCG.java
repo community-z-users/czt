@@ -817,11 +817,11 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   @Override
   public List<VC<R>> visitPara(Para term)
   {
+    List<VC<R>> result = factory_.list();
+    
     // checkSectionManager(sectName); - assume it will be in place
     assert isConfigured();
 
-    List<VC<R>> result = factory_.list();
-    
     // collect VCs for the given ZSect paragraph. any tables available can be used.
     // VCCollection exceptions are wrapped as CztError because of visiting protocol.
     // method vcsOf will throw then appropriately
@@ -1224,6 +1224,10 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
         if (para instanceof AxPara)
         {
           genFormals.addAll(((AxPara) para).getZNameList());
+        }
+        else if (para instanceof ConjPara)
+        {
+          genFormals.addAll(((ConjPara)para).getZNameList());
         }
         // create the VC as a conjecture for the VC ZSect
         ConjPara conjPara = createVCConjPara(genFormals, vcI);

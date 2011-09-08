@@ -17,14 +17,30 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.vcg.z.refinement;
+package net.sourceforge.czt.vcg.util;
+
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  *
  * @author Leo Freitas
- * @date Sep 2, 2011
+ * @date Sep 6, 2011
  */
-public enum RefKind {
-   FORWARD,
-   BACKWARD
+public class OutputBindings extends AbstractBindingFilter
+{
+  /**
+   *
+   * @param name
+   * @return
+   */
+  @Override
+  public boolean considerName(ZName name)
+  {
+    return name.getZStrokeList().contains(output_)
+           &&
+           (!name.getZStrokeList().contains(dash_)
+            &&
+            !name.getZStrokeList().contains(input_));
+  }
 }
+
