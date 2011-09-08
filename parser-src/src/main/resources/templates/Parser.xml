@@ -1123,7 +1123,7 @@ action code
       parserState_.addLocAnn(term, locInfo);
     }
 
-    private void addZStateRefInfo(Term term, Object ozsi, Name n)
+    private void addZStateRefInfo(Term term, Ann ozsi, Name n)
     {
        if (ozsi != null)
        {
@@ -2207,7 +2207,11 @@ terminal LocInfo
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
-        ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE, ZREFINES,
+
+        ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
+        ZCSTATE, ZCSTINIT, ZRETRIEVE, ZASTFIN, ZCSTFIN,
+        ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT, ZRETRIEVEIN,
+        ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
@@ -2374,8 +2378,8 @@ non terminal AxPara
     schema;
 
 //non terminal ZStateInfo
-non terminal Object
-    optZStRefInfo;  // either ZStateInfo or ZRefinesAnn
+non terminal Ann
+    optZStRefInfo;  // either ZStateAnn or ZRefinesAnn
 
 //non terminal ZRefines
 //    optZRefines;
@@ -3673,10 +3677,11 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        optZStRefInfo:ozsi
         SCH:sch
         <add:zeves>optDefAbility:ability</add:zeves>
-        name:n optNL schemaText:st END:end
+        name:n optNL
+        optZStRefInfo:ozsi optNL
+        schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, null, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
@@ -3684,10 +3689,12 @@ schema ::=
            addZStateRefInfo(RESULT, ozsi, n);
         :}
         |
-        optZStRefInfo:ozsi
         GENSCH:gensch
         <add:zeves>optDefAbility:ability</add:zeves>
-        name:n optNL formalParameters:fp schemaText:st END:end
+        name:n optNL 
+        formalParameters:fp
+        optZStRefInfo:ozsi optNL
+        schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, fp, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
@@ -3699,42 +3706,94 @@ schema ::=
 optZStRefInfo ::=
         ZSTATE
         {:
-           RESULT = ZStateInfo.STATE;
+           RESULT = factory_.createZStateAnn(ZStateInfo.STATE);
         :}
         |
         ZSTINIT
         {:
-           RESULT = ZStateInfo.INIT;
+           RESULT = factory_.createZStateAnn(ZStateInfo.STINIT);
+        :}
+        |
+        ZSTFIN
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.STFIN);
         :}
         |
         ZASTATE
         {:
-           RESULT = ZStateInfo.ASTATE;
+           RESULT = factory_.createZStateAnn(ZStateInfo.ASTATE);
         :}
         |
         ZASTINIT
         {:
-           RESULT = ZStateInfo.AINIT;
+           RESULT = factory_.createZStateAnn(ZStateInfo.ASTINIT);
         :}
         |
         ZCSTATE
         {:
-           RESULT = ZStateInfo.CSTATE;
+           RESULT = factory_.createZStateAnn(ZStateInfo.CSTATE);
         :}
         |
         ZCSTINIT
         {:
-           RESULT = ZStateInfo.CINIT;
+           RESULT = factory_.createZStateAnn(ZStateInfo.CSTINIT);
+        :}
+        |
+        ZASTFIN
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.ASTFIN);
+        :}
+        |
+        ZCSTFIN
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.CSTFIN);
         :}
         |
         ZRETRIEVE
         {:
-           RESULT = ZStateInfo.RETRIEVE;
+           RESULT = factory_.createZStateAnn(ZStateInfo.RETRIEVE);
         :}
         |
-        ZREFINES LBRACE name:abs RBRACE
+        ZRETRIEVEIN
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.RETRIEVEIN);
+        :}
+        |
+        ZRETRIEVEOUT
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.RETRIEVEOUT);
+        :}
+        |
+        ZAINITIN
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.AINITIN);
+        :}
+        |
+        ZAFINOUT
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.AFINOUT);
+        :}
+        |
+        ZCINITIN
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.CINITIN);
+        :}
+        |
+        ZCFINOUT
+        {:
+           RESULT = factory_.createZStateAnn(ZStateInfo.CFINOUT);
+        :}
+        |
+        ZFSREFINES name:abs
         {:
            RESULT = factory_.createZRefinesAnn(abs);
+           ((ZRefinesAnn)RESULT).setRefKind(ZRefKind.FORWARD);
+        :}
+        |
+        ZBSREFINES name:abs 
+        {:
+           RESULT = factory_.createZRefinesAnn(abs);
+           ((ZRefinesAnn)RESULT).setRefKind(ZRefKind.BACKWARD);
         :}
         |
         // empty

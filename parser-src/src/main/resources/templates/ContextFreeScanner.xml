@@ -34,6 +34,8 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.Source;
 
+import net.sourceforge.czt.z.util.ZString;
+
 <add:zeves>
 import net.sourceforge.czt.parser.zeves.Proofword;
 </add:zeves>
@@ -87,6 +89,8 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     this((Reader) in);
     reader_ = in;
   }
+
+  private boolean inSchemaBox_ = false;
 
   <add:zeves>
   /**
@@ -192,6 +196,53 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     if (begins_ == 0) {
       yybegin(YYINITIAL);
     }
+  }
+
+  // yytext() might contain {IGNORE}* tokens when starting with ZSTATE strings...?
+  // put the longer strings first to avoid catching the smaller ones too early (e.g., retrievein before retrieve)
+  private int retrieveZState(String yyt)
+  {
+    if (!inSchemaBox_)
+      throw new ScanException("Cannot define Z state or refinement relationships outside an SCHBOX" , getLocation());
+    //yyt = yyt.trim();
+    if (yyt.startsWith(ZString.ZSTATE))
+      return Sym.ZSTATE;
+    else if (yyt.startsWith(ZString.ZSTINIT))
+      return Sym.ZSTINIT;
+    else if (yyt.startsWith(ZString.ZSTFIN))
+      return Sym.ZSTFIN;
+    else if (yyt.startsWith(ZString.ZASTATE))
+      return Sym.ZASTATE;
+    else if (yyt.startsWith(ZString.ZCSTATE))
+      return Sym.ZCSTATE;
+    else if (yyt.startsWith(ZString.ZAINITIN))
+      return Sym.ZAINITIN;
+    else if (yyt.startsWith(ZString.ZAFINOUT))
+      return Sym.ZAFINOUT;
+    else if (yyt.startsWith(ZString.ZASTINIT))
+      return Sym.ZASTINIT;
+    else if (yyt.startsWith(ZString.ZCSTINIT))
+      return Sym.ZCSTINIT;
+    else if (yyt.startsWith(ZString.ZASTFIN))
+      return Sym.ZASTFIN;
+    else if (yyt.startsWith(ZString.ZCINITIN))
+      return Sym.ZCINITIN;
+    else if (yyt.startsWith(ZString.ZCFINOUT))
+      return Sym.ZCFINOUT;
+    else if (yyt.startsWith(ZString.ZCSTFIN))
+      return Sym.ZCSTFIN;
+    else if (yyt.startsWith(ZString.ZRETRIEVEIN))
+      return Sym.ZRETRIEVEIN;
+    else if (yyt.startsWith(ZString.ZRETRIEVEOUT))
+      return Sym.ZRETRIEVEOUT;
+    else if (yyt.startsWith(ZString.ZRETRIEVE))
+      return Sym.ZRETRIEVE;
+    else if (yyt.startsWith(ZString.ZFSREFINES))
+      return Sym.ZFSREFINES;
+    else if (yyt.startsWith(ZString.ZBSREFINES))
+      return Sym.ZBSREFINES;
+    else
+      throw new ScanException("Unknown ZState " + yyt, getLocation());
   }
 %}
    
@@ -432,8 +483,25 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
 //ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
 </add:zeves>
 
+//NL_SPACE = ({NL}|{SPACE})
+ZREFIO = //{NL_SPACE}*
+                     ("zretrievein" | "zretrieveout" |
+                      "zainitin" | "zafinout" | "zcinitin" |
+                      "zcfinout" )
+         //{NL_SPACE}+
+
+ZSTATE = //{NL_SPACE}*
+              ("zstate" | "zstinit" | "zstfin" |
+               "zastate" | "zcstate" |
+               "zastinit" | "zcstinit" | "zretrieve" |
+               "zastfin" | "zcstfin")
+          // {NL_SPACE}+
+
+ZREFINES = //{NL_SPACE}*
+            ("zfsrefines" | "zbsrefines")
+
+
 %state Z
-%state ZREF_STATE
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -441,22 +509,9 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
   {ZED}         {  beginZed(); return symbol(Sym.ZED); }
   {AX}          {  beginZed(); return symbol(Sym.AX); }
   {GENAX}       {  beginZed(); return symbol(Sym.GENAX); }
-  {SCH}         {  beginZed(); return symbol(Sym.SCH); }
-  {GENSCH}      {  beginZed(); return symbol(Sym.GENSCH); }
-
-  ({NL}|{SPACE})* "zstate" ({SPACE}|{NL})+     { return symbol(Sym.ZSTATE);   }
-  ({NL}|{SPACE})* "zstinit" ({SPACE}|{NL})+    { return symbol(Sym.ZSTINIT);  }
-  ({NL}|{SPACE})* "zastate" ({SPACE}|{NL})+    { return symbol(Sym.ZASTATE);   }
-  ({NL}|{SPACE})* "zastinit" ({SPACE}|{NL})+   { return symbol(Sym.ZASTINIT);  }
-  ({NL}|{SPACE})* "zcstate" ({SPACE}|{NL})+    { return symbol(Sym.ZCSTATE);   }
-  ({NL}|{SPACE})* "zcstinit" ({SPACE}|{NL})+   { return symbol(Sym.ZCSTINIT);  }
-  ({NL}|{SPACE})* "zretrieve" ({SPACE}|{NL})+  { return symbol(Sym.ZRETRIEVE); }
-  ({NL}|{SPACE})* "zrefines" / {LBRACE} {ALPHASTR} {RBRACE} { yybegin(ZREF_STATE); return symbol(Sym.ZREFINES); }
-
-
-//   ({NL}|{SPACE})* "zrefines" {LBRACE} / {ALPHASTR} {RBRACE} ({SPACE} | {NL})* { yybegin(ZREF_STATE); return symbol(Sym.ZREFINES); }
-
-  
+  {SCH}         {  beginZed(); inSchemaBox_ = true; return symbol(Sym.SCH); }
+  {GENSCH}      {  beginZed(); inSchemaBox_ = true; return symbol(Sym.GENSCH); }
+                
 &lt;YYINITIAL&gt; {
   <add:pattern>
   /* Z joker paragraph */
@@ -513,8 +568,17 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
                 { return symbol(Sym.WHERE); }
 </add:print>
   /* Boxes */
-  {END}         {  endZed(); return symbol(Sym.END); }
+  {END}         {  endZed(); inSchemaBox_ = false; return symbol(Sym.END); }
   {NL}          {  return symbol(Sym.NL); }
+
+  // IO must appear first to match zretrievein earlier (e.g., zretrieve in ZSTATE it smaller).
+  {ZREFIO}      { return symbol(retrieveZState(yytext())); }
+  {ZSTATE}      { return symbol(retrieveZState(yytext())); }
+  {ZREFINES} 
+                {
+                  return symbol(retrieveZState(yytext()));
+                }
+
 
   <add:zeves>
 //  {ZPROOFCOMMANDSEP}  { return symbol(Sym.ZPROOFCOMMANDSEP); }
@@ -660,26 +724,6 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
                    throw new ScanException(msg, getLocation());
                 }
   .             {
-                   String msg = "Unexpected character "+ yytext() + "(" +
-                     "\\u" + Integer.toString(yytext().charAt(0), 16) +
-                     ") inside para";
-                   throw new ScanException(msg, getLocation());
-                }
-}
-
-&lt;ZREF_STATE&gt; {
-  {LBRACE}      {  return symbol(Sym.LBRACE); }
-  {RBRACE}      {
-                   yybegin(YYINITIAL);
-                   return symbol(Sym.RBRACE);
-                }
-
-  {DECORWORD}   {
-                   Symbol sym = symbol(Sym.DECORWORD, new Decorword(yytext(), getLocation()));
-                   return sym;
-                }
-
-   .            {
                    String msg = "Unexpected character "+ yytext() + "(" +
                      "\\u" + Integer.toString(yytext().charAt(0), 16) +
                      ") inside para";

@@ -110,7 +110,7 @@ action code
 
   private String begin(String string, String extra)
   {
-    return "\\begin{" + string + "}" + extra ; //+ "\n";
+    return "\\begin{" + string + "}" + extra ; // + "\n";
   }
 
   <add:zeves>
@@ -439,8 +439,10 @@ parser code {:
   {
     try {
       // TODO: remove this ugly hack... :-(
-      // " zrefines{AOp} "
-      if (s.trim().startsWith(ZString.ZREFINES)) s = "\\" + s.trim() + "\n";
+      // " zfsrefines{AOp} " , " zbsrefines{AOp} "
+      //final String st = s.trim();
+      //if (st.startsWith(ZString.ZFSREFINES) || st.startsWith(ZString.ZBSREFINES))
+      //  s = "\\" + st + "\n";
       writer_.write(s);
     }
     catch(IOException e) {
@@ -583,7 +585,7 @@ parser code {:
   {
     report_error(message, info);
     done_parsing();
-    throw new UnsupportedOperationException("Parse error: " +
+    throw new PrintException("Parse error: " +
       String.valueOf(message) + " => " + (info instanceof Symbol ? symbolMap_.get(((Symbol)info).sym) : String.valueOf(info)));
   }
 
@@ -605,7 +607,10 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    SECTION, PARENTS, // used by the SectHeadScanner within ContextFreeScanner
                    WHERE, // the latex \where command
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
-                   ZSTATE, ZSTINIT, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT, ZRETRIEVE, ZREFINES,
+                   
+                   ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, ZCSTATE, ZCSTINIT,
+                   ZRETRIEVE, ZRETRIEVEIN, ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
+                   ZASTFIN, ZCSTFIN, ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT,
  <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
@@ -668,7 +673,7 @@ non terminal LatexCommand innerPara;
 non terminal LatexCommand token, tokenSeq, sectHeadSeq,
      <add:zeves>optDefAbility, optThmAbility, labelAbility,
                 thmUsage, optThmUsage,</add:zeves>
-                optZStInfo, //optNL,
+                zStInfo, optZStInfo, schGenerics, decorwordList,
                 paren, special, decorword;
 
    input ::= paragraphList
@@ -785,15 +790,19 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
              :}
              |
-             optZStInfo:zsti
              SCH
               <add:zeves>
                 optDefAbility:ability
               </add:zeves>
-             specialSeq decorword:w tokenSeq:s END
+             specialSeq decorword:w
+             optZStInfo:zsti
+             tokenSeq:s END
              {:
-                String result = zsti.getName();
-                result += begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                if (zsti != null) 
+                  result += "\n" + zsti.getName();
+                else
+                  result += "\n";
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -807,15 +816,21 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
                 parser.write(result);
              :}
              |
-             optZStInfo:zsti
              GENSCH
               <add:zeves>
                 optDefAbility:ability
               </add:zeves>
-             specialSeq decorword:w tokenSeq:s END
+             specialSeq decorword:w
+             schGenerics:gen
+             optZStInfo:zsti
+             tokenSeq:s END
              {:
-                String result = zsti.getName();
-                result += begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
+                if (gen == null)
+                  throw new PrintException("Generic parameters expected for schema " + w.getName());
+                else
+                  result += gen.getName() + "\n";
+                if (zsti != null) result += zsti.getName();
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
@@ -1042,66 +1057,141 @@ non terminal LatexCommand token, tokenSeq, sectHeadSeq,
  </add:zeves>
              ;
 
-optZStInfo ::=
-             ZSTATE //optNL
+
+decorwordList ::=
+              decorwordList:dwl decorword:comma decorword:s
+              {:
+                 if (comma == null || comma.getName().equals(","))
+                    throw new PrintException("Invalid separator in schema generic name list");
+                 RESULT = concate(dwl, concate(comma, s));
+              :}
+              |
+              decorword:s
+              {:
+                 RESULT = s;
+              :}
+              ;
+
+schGenerics  ::=
+             LSQUARE decorwordList:dwl RSQUARE
              {:
-                RESULT = resultFF("\n\\zstate\n", ZString.ZSTATE + ZString.NL);
-             :}
-             |
-             ZSTINIT //optNL
-             {:
-                RESULT = resultFF("\n\\zstinit\n", ZString.ZINIT + ZString.NL);
-             :}
-             |
-             ZASTATE //optNL
-             {:
-                RESULT = resultFF("\n\\zastate\n", ZString.ZASTATE + ZString.NL);
-             :}
-             |
-             ZASTINIT //optNL
-             {:
-                RESULT = resultFF("\n\\zastinit\n", ZString.ZAINIT + ZString.NL);
-             :}
-             |
-             ZCSTATE //optNL
-             {:
-                RESULT = resultFF("\n\\zcstate\n", ZString.ZCSTATE + ZString.NL);
-             :}
-             |
-             ZCSTINIT //optNL
-             {:
-                RESULT = resultFF("\n\\zcsinit\n", ZString.ZCINIT + ZString.NL);
-             :}
-             |
-             ZRETRIEVE //optNL
-             {:
-                RESULT = resultFF("\n\\zretrieve\n", ZString.ZRETRIEVE + ZString.NL);
-             :}
-             |
-             ZREFINES LBRACE decorword:s RBRACE // optNL
-             {:
-                String name = s.getName();
-                RESULT = resultFF("\n\\zrefines{" + name + "}\n",
-                  ZString.ZREFINES + ZString.LBRACE + name + ZString.RBRACE + ZString.NL);
-             :}
-             |
-             // empty
-             {:
-                RESULT = resultFF(" ", ZString.SPACE);
+               RESULT = concate(resultTT("[", ZString.LSQUARE),
+                          concate(dwl, resultTT("]", ZString.RSQUARE)));
              :}
              ;
 
-/*
-optNL ::=   NL
-            {:
-                RESULT = resultTT("\\\\\n", ZString.NL);
-            :}
-            |
-           // empty
-           {:
-              RESULT = resultFF(" ", ZString.SPACE);
-           :}
-           ;*/
+// Z state info always appear after a NL; or there will be a NL with no info
+optZStInfo   ::= NL zStInfo:zsi 
+             {:
+                RESULT = zsi;
+             :}
+             |
+             NL
+             {:
+                RESULT = null; //resultTT("\\\\\n", ZString.NL);
+             :}
+             ;
+
+zStInfo   ::=
+             ZSTATE
+             {:
+                RESULT = resultFT("\\zstate", ZString.ZSTATE);
+             :}
+             |
+             ZSTINIT 
+             {:
+                RESULT = resultFT("\\zstinit", ZString.ZSTINIT);
+             :}
+             |
+             ZASTATE 
+             {:
+                RESULT = resultFT("\\zastate", ZString.ZASTATE);
+             :}
+             |
+             ZASTINIT 
+             {:
+                RESULT = resultFT("\\zastinit", ZString.ZASTINIT);
+             :}
+             |
+             ZCSTATE 
+             {:
+                RESULT = resultFT("\\zcstate", ZString.ZCSTATE);
+             :}
+             |
+             ZCSTINIT 
+             {:
+                RESULT = resultFT("\\zcstinit", ZString.ZCSTINIT);
+             :}
+             |
+             ZASTFIN
+             {:
+                RESULT = resultFT("\\zastfin", ZString.ZASTFIN);
+             :}
+             |
+             ZCSTFIN
+             {:
+                RESULT = resultFT("\\zcstfin", ZString.ZCSTFIN);
+             :}
+             |
+             ZRETRIEVE 
+             {:
+                RESULT = resultFT("\\zretrieve", ZString.ZRETRIEVE);
+             :}
+             |
+             ZRETRIEVEIN 
+             {:
+                RESULT = resultFT("\\zretrievein", ZString.ZRETRIEVEIN);
+             :}
+             |
+             ZRETRIEVEOUT 
+             {:
+                RESULT = resultFT("\\zretrieveout", ZString.ZRETRIEVEOUT);
+             :}
+             |
+             ZAINITIN
+             {:
+                RESULT = resultFT("\\zainitin", ZString.ZAINITIN);
+             :}
+             |
+             ZAFINOUT
+             {:
+                RESULT = resultFT("\\zafinout", ZString.ZAFINOUT);
+             :}
+             |
+             ZCINITIN
+             {:
+                RESULT = resultFT("\\zcinitin", ZString.ZCINITIN);
+             :}
+             |
+             ZCFINOUT
+             {:
+                RESULT = resultFT("\\zcfinout", ZString.ZCFINOUT);
+             :}
+             |
+             ZFSREFINES decorword:s 
+             {:
+                String name = s.getName();
+                RESULT = resultFT("\\zfsrefines " + name,
+                  ZString.ZFSREFINES + ZString.SPACE + name);
+             :}
+             |
+             ZBSREFINES decorword:s  
+             {:
+                String name = s.getName();
+                RESULT = resultFT("\\zbsrefines " + name,
+                  ZString.ZBSREFINES + ZString.SPACE + name);
+             :}
+             //|
+             //NL
+             //{:
+             //   RESULT = resultTT("\\\\\n", ZString.NL);
+             //:}
+             //|
+             //// empty
+             //{:
+             //   RESULT = null;
+             //:}
+             ;
 
 <add:zeves>
  // ability as different tokens - this is necessary for Unicode differentiation
