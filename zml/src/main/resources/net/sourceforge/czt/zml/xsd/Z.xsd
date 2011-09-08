@@ -1162,7 +1162,14 @@ more detail.
   <xs:element name="ZRefinesAnn" type="Z:ZRefinesAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
-         Z Refinement annotation. It contains to names for the abstract and concrete names.
+         Z Refinement annotation. It contains to names for the abstract and concrete operation names to be refined.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZStateAnn" type="Z:ZStateAnn" substitutionGroup="Z:Ann">
+    <xs:annotation>
+      <xs:documentation>
+         Z state annotation. It contains information regarding the role a schema plays in refinement.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -2190,20 +2197,42 @@ more detail.
         <xs:sequence>
           <xs:element ref="Z:Name" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
+        <xs:attribute name="RefKind" type="Z:ZRefKind" use="optional" default="FORWARD"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ZRefKind">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FORWARD"/>
+      <xs:enumeration value="BACKWARD"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ZStateAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann">
+        <xs:attribute name="Info" type="Z:ZStateInfo" use="optional" default="NONE"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:simpleType name="ZStateInfo">
     <xs:restriction base="xs:string">
       <xs:enumeration value="NONE"/>
-      <xs:enumeration value="INIT"/>
       <xs:enumeration value="STATE"/>
+      <xs:enumeration value="STINIT"/>
+      <xs:enumeration value="STFIN"/>
       <xs:enumeration value="ASTATE"/>
+      <xs:enumeration value="ASTINIT"/>
+      <xs:enumeration value="ASTFIN"/>
       <xs:enumeration value="CSTATE"/>
-      <xs:enumeration value="AINIT"/>
-      <xs:enumeration value="CINIT"/>
+      <xs:enumeration value="CSTINIT"/>
+      <xs:enumeration value="CSTFIN"/>
       <xs:enumeration value="RETRIEVE"/>
+      <xs:enumeration value="AINITIN"/>       <!-- for IO refinement -->
+      <xs:enumeration value="CINITIN"/>
+      <xs:enumeration value="AFINOUT"/>
+      <xs:enumeration value="CFINOUT"/>
+      <xs:enumeration value="RETRIEVEIN"/>   
+      <xs:enumeration value="RETRIEVEOUT"/>
     </xs:restriction>
   </xs:simpleType>
-
 </xs:schema>
