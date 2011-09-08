@@ -1,0 +1,14 @@
+─ section genericSchemas parents zstate_toolkit └ 
+
+Warning about missing hard space. Good
+┌═ S [ X ] 
+zstate 
+a : ℙ X 
+b : X |
+ b ∈ a └ 
+
+┌═ Init [ X ] 
+S ′ |
+ a = { } └ 
+
+─ T [ Y ] == [ c : ℙ Y | ¬ c = { } ] └ 

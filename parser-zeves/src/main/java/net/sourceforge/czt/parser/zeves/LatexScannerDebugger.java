@@ -46,6 +46,7 @@ import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.print.zeves.Unicode2Latex;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -115,7 +116,7 @@ public class LatexScannerDebugger {
        scanner = new UnicodeScanner(source, sectInfo_.getProperties());
      else // assume LaTex
        scanner = new LatexScanner(source, sectInfo_, sectInfo_.getProperties());
-     DebugUtils.scan(scanner, Sym.class, writer);
+    DebugUtils.scan(scanner, Sym.class, writer);
   }
 
   private static Writer createWriter(Source source, Markup markup) throws UnsupportedEncodingException, FileNotFoundException
@@ -132,6 +133,8 @@ public class LatexScannerDebugger {
   {
     sectInfo.setProperty("czt.debug.ZmlScanner", "false");
     String sourceKeyName = SourceLocator.getSourceName(source.getName());
+    while (sourceKeyName.lastIndexOf(".") != -1)
+        sourceKeyName = sourceKeyName.substring(0, sourceKeyName.lastIndexOf("."));
     if (term != null)
     {
       System.out.println("\n=================================================================");
@@ -285,7 +288,7 @@ public class LatexScannerDebugger {
         //CztLogger.setConsoleHandler(CztLogger.getLogger(KeywordScanner.class), Level.ALL, Level.OFF, formatter);
         //CztLogger.setConsoleHandler(CztLogger.getLogger(ContextFreeScanner.class), Level.ALL, Level.OFF, formatter);
         //CztLogger.setConsoleHandler(CztLogger.getLogger(SmartScanner.class), Level.ALL, Level.ALL, formatter);
-        //CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
+        CztLogger.setConsoleHandler(CztLogger.getLogger(Unicode2Latex.class), Level.ALL, Level.ALL, formatter);
         CztLogger.setConsoleHandler(CztLogger.getLogger(Latex2Unicode.class), Level.ALL, Level.ALL, formatter);
         debugScanner(new OutputStreamWriter(System.out, "UTF-8"), source);
       }

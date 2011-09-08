@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.zeves;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Set;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.print.util.XmlString;
@@ -51,9 +52,10 @@ public class XmlPrinterCommand
       final Term term = manager.get(key);
       xmlWriter.write(term, writer);
       writer.close();
-      manager.put(new Key<XmlString>(name, XmlString.class),
-                  new XmlString(writer.toString(), "zeves"),
-                  term instanceof ZSect ? ParseUtils.calculateDependencies((ZSect)term, XmlString.class) : null);
+      final Key<XmlString> xmlKey = new Key<XmlString>(name, XmlString.class);
+      final XmlString xmlStr = new XmlString(writer.toString(), "zeves");
+      Set<Key<?>> ss = term instanceof ZSect ? ParseUtils.calculateDependencies((ZSect)term, XmlString.class) : null;
+      manager.put(xmlKey, xmlStr, ss);
       return true;
     }
     catch (IOException e) {
