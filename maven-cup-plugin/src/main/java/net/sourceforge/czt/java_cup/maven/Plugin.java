@@ -67,6 +67,11 @@ public class Plugin
   private boolean dumpTables;
   
   /**
+   * @parameter
+   */
+  private boolean compactRed;
+
+  /**
    * @parameter expression="${project}"
    * @required
    */
@@ -104,6 +109,7 @@ public class Plugin
           if (dumpGrammar) {args.add("-dump_grammar");}
           if (dumpStates) {args.add("-dump_states");}
           if (dumpTables) {args.add("-dump_tables");}
+          if (compactRed) {args.add("-compact_red");}
           args.addAll(Arrays.asList("-destdir", destdir,
                                    "-package", packageName,
                                    "-parser", className,
