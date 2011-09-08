@@ -832,15 +832,32 @@ abstract public class Checker<R>
 
   protected void checkZStateInfo(AxPara para)
   {
-    if (para.hasAnn(ZStateInfo.class))
+    if (para.hasAnn(ZStateAnn.class))
     {
-      Object[] params = null;
-      ZStateInfo zsi = para.getAnn(ZStateInfo.class);
-      Name name = zStateInfo_.get(zsi);
+      ZStateAnn zsi = para.getAnn(ZStateAnn.class);
+      ZStateInfo zsii = zsi.getInfo();
+      Name name = zStateInfo_.get(zsii);
+      // take into account the common names for state and init when doing refinement
+      if (name == null)
+      {
+        if (zsii.equals(ZStateInfo.ASTATE))
+          name = zStateInfo_.get(ZStateInfo.STATE);
+        else if (zsii.equals(ZStateInfo.STATE))
+          name = zStateInfo_.get(ZStateInfo.ASTATE);
+        else if (zsii.equals(ZStateInfo.ASTINIT))
+          name = zStateInfo_.get(ZStateInfo.STINIT);
+        else if (zsii.equals(ZStateInfo.STINIT))
+          name = zStateInfo_.get(ZStateInfo.ASTINIT);
+        else if (zsii.equals(ZStateInfo.ASTFIN))
+          name = zStateInfo_.get(ZStateInfo.STFIN);
+        else if (zsii.equals(ZStateInfo.STFIN))
+          name = zStateInfo_.get(ZStateInfo.ASTFIN);
+      }
+
       if (name == null && para.getBox().equals(Box.SchBox))
       {
         name = ZUtils.getSchemaName(para);
-        Name old = zStateInfo_.put(zsi, name);
+        Name old = zStateInfo_.put(zsi.getInfo(), name);
         assert old == null;
       }
       // bad format or missing name
@@ -849,12 +866,40 @@ abstract public class Checker<R>
         Name other = ZUtils.getAxParaSchOrAbbrName(para);
         if (!ZUtils.namesEqual(name, other))
         {
-          params = new Object[]
+          Object[] params = new Object[]
                   {
-                    para, zsi, name, ZUtils.getAxParaSchOrAbbrName(para)
+                    para, zsi, name, other
                   };
           error(para, ErrorMessage.ZSTATEINFO_INCONSISTENCY, params);
         }
+      }
+    }
+    else if (para.hasAnn(ZRefinesAnn.class))
+    {
+      ZRefinesAnn zra = para.getAnn(ZRefinesAnn.class);
+      Name abstractName = zra.getAbstractName();
+      Type2 absType = unwrapType(getType(abstractName));
+      if (!(absType instanceof PowerType &&
+          ((PowerType)absType).getType() instanceof SchemaType))
+      {
+        // this error might happen if the abstract name within \zrefines{AbsName}
+        // isn't declared within the specification where the concrete name appears
+        error(para, ErrorMessage.ZREFINES_UNKNOWN_ABSNAME, new Object[] { para, abstractName, absType} );
+      }
+
+      Name concreteName = zra.getConcreteName();
+      Name paraName = ZUtils.getAxParaSchOrAbbrName(para);
+      boolean namesEqual = ZUtils.namesEqual(paraName, concreteName);
+      // paraName and concreteName differ or if not for a SchBox
+      if (!namesEqual || !para.getBox().equals(Box.SchBox))
+      {
+        Object[] params = new Object[]
+                  {
+                    para, abstractName, concreteName, paraName
+                  };
+        // given the parser assigns the concrete name, this error can only
+        // happen if the ZRefinesAnn AST is created manually
+        error(para, ErrorMessage.ZREFINES_INCONSISTENCY, params);
       }
     }
   }

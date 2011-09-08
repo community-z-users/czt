@@ -1,16 +1,16 @@
 \begin{zsection}
-   \SECTION zstateref\_ZSTATEINFOINCONSISTENCY \parents zstate\_toolkit
+   \SECTION ZStateInfoInconsistency\_AxPara\_1 \parents zstate\_toolkit
 \end{zsection}
 
-\zstate
 \begin{schema}{S}
+\zstate\\
    x: \nat
 \where
    10 > x
 \end{schema}
 
-\zstate
 \begin{schema}{T}
+\zstate\\
    y: \nat
 \where
    y = 0
