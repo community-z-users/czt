@@ -1,0 +1,202 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}	 \SECTION zstateref\_ref \parents~zstateref
+\end{zsection}
+
+VC ZSection Created at Thu Sep 08 16:45:22 BST 2011.
+
+
+Added schema for feasibility VC signature of paragraph named AOp1Sig at unknown.
+\begin{schema}{AOp1Sig}
+i? : \nat \\
+ x : \power \nat 
+\where
+ AState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named AOp2Sig at unknown.
+\begin{schema}{AOp2Sig}
+x : \power \nat 
+\where
+ AState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named ASFinSig at unknown.
+\begin{schema}{ASFinSig}
+x : \power \nat 
+\where
+ ASFin
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named ASInitSig at unknown.
+\begin{schema}{ASInitSig}
+x' : \power \nat 
+\where
+ ASInit
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named AStateSig at unknown.
+\begin{schema}{AStateSig}
+x : \power \nat 
+\where
+ AState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named COp1Sig at unknown.
+\begin{schema}{COp1Sig}
+i? : \nat \\
+ y : \seq \nat 
+\where
+ CState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named COp2Sig at unknown.
+\begin{schema}{COp2Sig}
+y : \seq \nat 
+\where
+ CState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named CSFinSig at unknown.
+\begin{schema}{CSFinSig}
+y : \seq \nat 
+\where
+ CSFin
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named CSInitSig at unknown.
+\begin{schema}{CSInitSig}
+y' : \seq \nat 
+\where
+ CSInit
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named CStateSig at unknown.
+\begin{schema}{CStateSig}
+y : \seq \nat 
+\where
+ CState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named NothingAgainSig at unknown.
+\begin{schema}{NothingAgainSig}
+y : \seq \nat 
+\where
+ CState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named NothingSig at unknown.
+\begin{schema}{NothingSig}
+x : \power \nat 
+\where
+ AState
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RetrSig at unknown.
+\begin{schema}{RetrSig}
+x : \power \nat \\
+ y : \seq \nat 
+\where
+ Retr
+\end{schema}
+
+VC3 for line 6 column 1 start 81 length 90 in "zstateref"
+\begin{theorem}{AState\_ vc\_ ref}\vdash ? \exists AStateSig | true @ true
+\end{theorem}
+
+VC9 for line 27 column 1 start 329 length 94 in "zstateref"
+\begin{theorem}{CState\_ vc\_ ref}\vdash ? \exists CStateSig | true @ true
+\end{theorem}
+
+VC11 for line 34 column 1 start 425 length 91 in "zstateref"
+\begin{theorem}{CSInit\_ vc\_ ref}\vdash ? \exists CSInitSig | true @ true
+\end{theorem}
+
+VC13 for line 41 column 1 start 518 length 70 in "zstateref"
+\begin{theorem}{CSFin\_ vc\_ ref}\vdash ? \exists CSFinSig | true @ true
+\end{theorem}
+
+VC15 for line 48 column 1 start 590 length 90 in "zstateref"
+\begin{theorem}{Retr\_ vc\_ ref}\vdash ? \exists RetrSig | true @ true
+\end{theorem}
+
+VC17 for line 57 column 1 start 714 length 68 in "zstateref"
+\begin{theorem}{Nothing\_ vc\_ ref}\vdash ? \forall NothingSig | true @ \pre Nothing
+\end{theorem}
+
+VC19 for line 63 column 1 start 784 length 73 in "zstateref"
+\begin{theorem}{NothingAgain\_ vc\_ ref}\vdash ? \forall NothingAgainSig | true @ \pre NothingAgain
+\end{theorem}
+
+VC21 for line 69 column 1 start 859 length 94 in "zstateref"
+\begin{theorem}{AOp1\_ vc\_ ref}\vdash ? \forall AOp1Sig | true @ \pre AOp1
+\end{theorem}
+
+VC23 for line 76 column 1 start 955 length 125 in "zstateref"
+\begin{theorem}{COp1\_ vc\_ ref}\vdash ? \forall COp1Sig | true @ \pre COp1
+\end{theorem}
+
+VC25 for line 84 column 1 start 1082 length 84 in "zstateref"
+\begin{theorem}{AOp2\_ vc\_ ref}\vdash ? \forall AOp2Sig | true @ \pre AOp2
+\end{theorem}
+
+VC27 for line 91 column 1 start 1168 length 106 in "zstateref"
+\begin{theorem}{COp2\_ vc\_ ref}\vdash ? \forall COp2Sig | true @ \pre COp2
+\end{theorem}
+
+VC29 for line 6 column 1 start 81 length 90 in "zstateref"
+\begin{theorem}{tAStateInitialisation\_ vc\_ ref}\vdash ? \exists AState~' | true @ ASInit
+\end{theorem}
+
+VC30 for line 6 column 1 start 81 length 90 in "zstateref"
+\begin{theorem}{tAStateFinalisation\_ vc\_ ref}\vdash ? \exists AState | true @ ASFin
+\end{theorem}
+
+VC31 for line 27 column 1 start 329 length 94 in "zstateref"
+\begin{theorem}{tFSInitialisationCState\_ vc\_ ref}\vdash ? \forall CSInit | true @ \exists Retr~' | true @ ASInit
+\end{theorem}
+
+VC32 for line 41 column 1 start 518 length 70 in "zstateref"
+\begin{theorem}{tFSFinalisationCState\_ vc\_ ref}\vdash ? \forall CSFin ; Retr | true @ ASFin
+\end{theorem}
+
+VC33 for line 76 column 1 start 955 length 125 in "zstateref"
+\begin{theorem}{tFSApplicabilityCOp1\_ vc\_ ref}\vdash ? \forall AOp1Sig ; COp1Sig ; Retr | \pre AOp1 @ \pre COp1
+\end{theorem}
+
+VC34 for line 76 column 1 start 955 length 125 in "zstateref"
+\begin{theorem}{tFSCorrectnessCOp1\_ vc\_ ref}\vdash ? \forall AState ; COp1 ; Retr | \pre AOp1 @ \exists AState~' | Retr~' @ AOp1
+\end{theorem}
+
+VC35 for line 91 column 1 start 1168 length 106 in "zstateref"
+\begin{theorem}{tFSApplicabilityCOp2\_ vc\_ ref}\vdash ? \forall AOp2Sig ; COp2Sig ; Retr | \pre AOp2 @ \pre COp2
+\end{theorem}
+
+VC36 for line 91 column 1 start 1168 length 106 in "zstateref"
+\begin{theorem}{tFSCorrectnessCOp2\_ vc\_ ref}\vdash ? \forall AState ; COp2 ; Retr | \pre AOp2 @ \exists AState~' | Retr~' @ AOp2
+\end{theorem}
+
+
+
+ VC Z section "zstateref_ref" has $19$ interesting VCs (Total = 36; Simplified to $true$ = 17).
+
+
+
+%----------------------------------
+\end{document}

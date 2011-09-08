@@ -331,6 +331,7 @@ public class TypeCheckerTest
           // only look for errors, not warnings
           if (errorAnn.getErrorType().equals(ErrorType.ERROR))
           {
+            System.out.println("===============================ERROR:" + file_ + "=============================");
             fail("\nUnexpected type error" +
               "\n\tFile: " + file_ +
               "\n\tException: " + errorAnn.getErrorMessage().toString() +
@@ -432,6 +433,8 @@ public class TypeCheckerTest
         if (!foundCorrectError)
         {
           System.out.println("\tfound errors but while looking for " + exception_ + " error we found " + actual);
+          System.out.println("===============================MISSED ERROR:" + file_ + "=============================");
+
           incorrectError(actual);
         }
         else

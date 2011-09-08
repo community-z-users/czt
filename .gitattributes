@@ -939,6 +939,8 @@ typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -te
 typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/foo.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv_ref.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredGenOpTempName-UndeclaredIdentifier.error -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredNamesInTheoremAsWarnings.tex -text
@@ -950,6 +952,7 @@ typechecker-zeves/src/test/resources/tests/zeves/zevesopt.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zopt.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zstateref.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/zstateref_ref.tex -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/impl/AnnImpl.java -text
 typechecker/src/main/java/net/sourceforge/czt/typecheck/z/util/DependencyGraph.java -text
 typechecker/src/test/resources/net/sourceforge/czt/typecheck/tests/z/CharTuple.tex -text
