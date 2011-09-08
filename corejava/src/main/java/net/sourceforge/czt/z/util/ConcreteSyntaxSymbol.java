@@ -153,7 +153,8 @@ public enum ConcreteSyntaxSymbol
   RENAME_LIST("List of pairs of names"),
   STROKE_LIST("List of strokes"),
 
-  ZREFINES("Z refinment link");
+  ZREFINES("Z refinment link"),
+  ZSTATE("Z state information");
 
 
   private final String description_;

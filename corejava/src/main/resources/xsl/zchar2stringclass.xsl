@@ -74,15 +74,27 @@ public interface ZString
   String ARG = LL;
   String LISTARG = ",,";
 
-  String ZSTATE = "zstate";
-  String ZINIT = "zstinit";
-  String ZASTATE = "zastate";
-  String ZAINIT = "zastinit";
-  String ZCINIT = "zcstinit";
-  String ZCSTATE = "zcstate";
-  String ZRETRIEVE = "zretrieve";
-  String ZREFINES = "zrefines";
-  
+  String ZSTATE       = "zstate";
+  String ZSTINIT      = "zstinit";
+  String ZSTFIN       = "zstfin";
+  String ZASTATE      = "zastate";
+  String ZASTINIT     = "zastinit";
+  String ZASTFIN      = "zastfin";
+  String ZCSTATE      = "zcstate";
+  String ZCSTINIT     = "zcstinit";
+  String ZCSTFIN      = "zcstfin";
+  String ZRETRIEVE    = "zretrieve";
+
+  String ZAINITIN     = "zainitin";
+  String ZAFINOUT     = "zafinout";
+  String ZCINITIN     = "zcinitin";
+  String ZCFINOUT     = "zcfinout";
+  String ZRETRIEVEIN  = "zretrievein";
+  String ZRETRIEVEOUT = "zretrieveout";
+
+  String ZFSREFINES   = "zfsrefines";
+  String ZBSREFINES   = "zbsrefines";
+
   /**
    * The separator that is used when representing operators as strings
    * to separate names and arguments.

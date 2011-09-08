@@ -66,6 +66,8 @@ public class PrintVisitor
              ApplExprVisitor<String>,
              TupleExprVisitor<String>,
              ZExprListVisitor<String>,
+             ZRefinesAnnVisitor<String>,
+             ZStateAnnVisitor<String>,
              NameTypePairVisitor<String>
 {
   protected boolean printUnicode_;
@@ -141,6 +143,18 @@ public class PrintVisitor
   public String visitZNameList(ZNameList term)
   {
     return visitList(term, ",");
+  }
+
+  @Override
+  public String visitZRefinesAnn(ZRefinesAnn term)
+  {
+    return visit(term.getConcreteName()) + " refines " + visit(term.getAbstractName());
+  }
+
+  @Override
+  public String visitZStateAnn(ZStateAnn term)
+  {
+    return term.getInfo().toString();
   }
 
   @Override
