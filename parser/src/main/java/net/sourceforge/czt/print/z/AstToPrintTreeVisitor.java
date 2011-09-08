@@ -35,6 +35,7 @@ import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
@@ -333,48 +334,109 @@ public class AstToPrintTreeVisitor
     return pp;
   }
 
-  // Object: actually Token or Term
-  protected void preprocessTerm(Term term, List<Object> list)
+  /**
+   * Called for schema boxes right after the schema tagging. That is
+   * after "SCH NAME NL" or with generic parameters. That is just before
+   * the ZDeclList. This is where Z state and refinement information live.
+   * @param term
+   * @param list
+   */
+  protected void preprocessSchema(AxPara term, List<Object> list)
   {
-    if (term.hasAnn(ZStateInfo.class))
+    if (!term.getBox().equals(Box.SchBox))
+      throw new PrintException("preprocessing ability for SchBox AxPara only; " + term.getClass().getName());
+
+    // Object: actually Token or Term
+    if (term.hasAnn(ZStateAnn.class))
     {
-      ZStateInfo sti =term.getAnn(ZStateInfo.class);
+      ZStateAnn sti = term.getAnn(ZStateAnn.class);
       //if (!sti.equals(ZStateInfo.NONE))
       //  list.add(0, ZToken.NL);
-      switch (sti)
+      switch (sti.getInfo())
       {
-        case INIT:
-          list.add(0, ZToken.ZSTINIT);
-          break;
         case STATE:
-          list.add(0, ZToken.ZSTATE);
+          list.add(ZToken.ZSTATE);
           break;
-        case AINIT:
-          list.add(0, ZToken.ZASTINIT);
+        case STINIT:
+          list.add(ZToken.ZSTINIT);
+          break;
+        case STFIN:
+          list.add(ZToken.ZSTFIN);
+          break;
+        case ASTINIT:
+          list.add(ZToken.ZASTINIT);
           break;
         case ASTATE:
-          list.add(0, ZToken.ZASTATE);
+          list.add(ZToken.ZASTATE);
           break;
-        case CINIT:
-          list.add(0, ZToken.ZCSTINIT);
+        case ASTFIN:
+          list.add(ZToken.ZASTFIN);
+          break;
+        case CSTINIT:
+          list.add(ZToken.ZCSTINIT);
           break;
         case CSTATE:
-          list.add(0, ZToken.ZCSTINIT);
+          list.add(ZToken.ZCSTATE);
+          break;
+        case CSTFIN:
+          list.add(ZToken.ZCSTFIN);
           break;
         case RETRIEVE:
-          list.add(0, ZToken.ZRETRIEVE);
+          list.add(ZToken.ZRETRIEVE);
+          break;
+        case RETRIEVEIN:
+          list.add(ZToken.ZRETRIEVEIN);
+          break;
+        case RETRIEVEOUT:
+          list.add(ZToken.ZRETRIEVEOUT);
+          break;
+        case AINITIN:
+          list.add(ZToken.ZAINITIN);
+          break;
+        case AFINOUT:
+          list.add(ZToken.ZAFINOUT);
+          break;
+        case CINITIN:
+          list.add(ZToken.ZCINITIN);
+          break;
+        case CFINOUT:
+          list.add(ZToken.ZCFINOUT);
           break;
       }
-      //list.add(0, ZToken.NL);
+      // add a NL after then
+      list.add(ZToken.NL);
     }
     if (term.hasAnn(ZRefinesAnn.class))
     {
       ZRefinesAnn zr = term.getAnn(ZRefinesAnn.class);
-      list.add(0, ZToken.ZREFINES);
-      list.add(1, ZToken.LBRACE);
-      list.add(2, visit(zr.getAbstractName()));
-      list.add(3, ZToken.RBRACE);
+      switch (zr.getRefKind())
+      {
+        case FORWARD:
+          list.add(ZToken.ZFSREFINES);
+          break;
+        case BACKWARD:
+          list.add(ZToken.ZBSREFINES);
+          break;
+        default:
+          throw new AssertionError();
+      }
+      list.add(visit(zr.getAbstractName()));
+      list.add(ZToken.NL);
     }
+  }
+
+  /**
+   * Called right after the main Z token found. For instance, for Para, that is
+   * either ZED, SCH, or GENSCH. If it is a Pred, then this is the first (left-most)
+   * in a chain of reasoning, like in an "AndPred"
+   * @param term
+   * @param list
+   */
+  protected void preprocessTerm(Term term, List<Object> list)
+  {
+    //assert term instanceof AxPara || term instanceof Pred;
+    if (!(term instanceof AxPara) && !(term instanceof Pred))
+      throw new PrintException("preprocessing ability for AxPara and Pred only; " + term.getClass().getName());
   }
 
   @SuppressWarnings("unchecked")
@@ -499,6 +561,7 @@ public class AstToPrintTreeVisitor
       list.add(ZToken.RSQUARE);
     }
     list.add(ZToken.NL);
+    preprocessSchema(axPara, list);
     SchExpr schExpr = (SchExpr) cdecl.getExpr();
     ZSchText schText = schExpr.getZSchText();
     for (Iterator<Decl> iter = schText.getZDeclList().iterator();

@@ -24,7 +24,6 @@ import java.io.Writer;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
-import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -61,46 +60,6 @@ public class UnicodePrinter
     super(out, autoFlush);
   }
 
-  // TODO: Why Z printer prints NL for END? This leads to funny Unicode file-writing(!)
-//  @Override
-//  public void printToken(Token token)
-//  {
-//    if (ZToken.NL.equals(token)) {
-//      print("\n");
-//      return;
-//    }
-//
-//    if (ZToken.INDENT.equals(token)) {
-//      print(token.spelling());
-//      return;
-//    }
-//
-//    if (token.getSpelling() instanceof WhereWord ||
-//        ZToken.END.equals(token)) {
-//      print("\n");
-//    }
-//
-//    if (ZToken.NUMSTROKE.getName().equals(token.getName())) {
-//      print(ZString.SE + token.getSpelling() + ZString.NW);
-//    }
-//    else {
-//      print(token.spelling());
-//    }
-//
-//    if (! "TEXT".equals(token.getName()) &&
-//        ! ZToken.NL.equals(token)) {
-//      if (token.getSpelling() instanceof WhereWord) print("\n");
-//      print(ZString.SPACE);
-//    }
-//  }
-
-  // avoid printing spaces around zrefines{DECOWORD}
-  // 0 = zrefines
-  // 1 = {
-  // 2 = DECORWORD
-  // 3 = }
-  private int zRefinesState = -1;
-
   @Override
   public void printToken(Token token)
   {
@@ -124,25 +83,9 @@ public class UnicodePrinter
       else
       {
         print(token.spelling());
-        // flag not to add spaces
-        if (ZToken.ZREFINES.equals(token))
-        {
-          zRefinesState++;
-        }
-        else if (zRefinesState >= 0 && ZToken.RBRACE.equals(token))
-        {
-          if (zRefinesState != 3)
-            throw new PrintException("Invalid zrefines state " + zRefinesState + "; expected 3");
-          zRefinesState = -1;
-          //return;
-        }
       }
-      if (zRefinesState >= 0) zRefinesState++;
-      if (zRefinesState > 3)
-        throw new PrintException("Invalid zrefines state " + zRefinesState + "; expected <= 3");
 
-      if(!(zRefinesState >= 0) &&
-         !ZToken.TEXT.getName().equals(token.getName())
+      if(!ZToken.TEXT.getName().equals(token.getName())
              &&
           !ZToken.NL.equals(token))
       {
@@ -157,16 +100,4 @@ public class UnicodePrinter
   {
     return (token.getSpelling() instanceof WhereWord);
   }
-
-//  protected void printTokenSequence(TokenSequence tseq)
-//  {
-//    for (Object o : tseq.getSequence()) {
-//      if (o instanceof TokenSequence) {
-//        printTokenSequence((TokenSequence) o);
-//      }
-//      else {
-//        printToken((Token) o);
-//      }
-//    }
-//  }
 }

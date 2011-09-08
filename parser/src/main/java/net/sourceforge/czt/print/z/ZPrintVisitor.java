@@ -1158,11 +1158,13 @@ public class ZPrintVisitor
 
   public Object visitZRefinesAnn(ZRefinesAnn term)
   {
-    print(ZToken.ZREFINES);
-    print(ZToken.LBRACE);
-    visit(term.getAbstractName());
-    print(ZToken.RBRACE);
-    return null;
+    throw new PrintException("Unexpected term ZRefinesAnn");
+  }
+
+  public Object visitZStateAnn(ZStateAnn term)
+  {
+     throw new PrintException("Unexpected term ZStateAnn");
+
   }
 
   public Object visitUnparsedPara(UnparsedPara unparsedPara)

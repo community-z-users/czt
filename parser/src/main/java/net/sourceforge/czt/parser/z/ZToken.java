@@ -56,13 +56,28 @@ public enum ZToken
   INDENT(ZString.SPACE, null),
 
   ZSTATE(ZString.ZSTATE, NewlineCategory.NEITHER),
-  ZSTINIT(ZString.ZINIT, NewlineCategory.NEITHER),
+  ZSTINIT(ZString.ZSTINIT, NewlineCategory.NEITHER),
+  ZSTFIN(ZString.ZSTFIN, NewlineCategory.NEITHER),
+
   ZASTATE(ZString.ZASTATE, NewlineCategory.NEITHER),
-  ZASTINIT(ZString.ZAINIT, NewlineCategory.NEITHER),
+  ZASTINIT(ZString.ZASTINIT, NewlineCategory.NEITHER),
+  ZASTFIN(ZString.ZASTFIN, NewlineCategory.NEITHER),
+
   ZCSTATE(ZString.ZCSTATE, NewlineCategory.NEITHER),
-  ZCSTINIT(ZString.ZCINIT, NewlineCategory.NEITHER),
+  ZCSTINIT(ZString.ZCSTINIT, NewlineCategory.NEITHER),
+  ZCSTFIN(ZString.ZCSTFIN, NewlineCategory.NEITHER),
+
   ZRETRIEVE(ZString.ZRETRIEVE, NewlineCategory.NEITHER),
-  ZREFINES(ZString.ZREFINES, NewlineCategory.NEITHER);
+  ZRETRIEVEIN(ZString.ZRETRIEVEIN, NewlineCategory.NEITHER),
+  ZRETRIEVEOUT(ZString.ZRETRIEVEOUT, NewlineCategory.NEITHER),
+
+  ZAINITIN(ZString.ZAINITIN, NewlineCategory.NEITHER),
+  ZAFINOUT(ZString.ZAFINOUT, NewlineCategory.NEITHER),
+  ZCINITIN(ZString.ZCINITIN, NewlineCategory.NEITHER),
+  ZCFINOUT(ZString.ZCFINOUT, NewlineCategory.NEITHER),
+
+  ZFSREFINES(ZString.ZFSREFINES, NewlineCategory.NEITHER),
+  ZBSREFINES(ZString.ZBSREFINES, NewlineCategory.NEITHER);
 
   private String spelling_;
   private NewlineCategory newlineCategory_;
