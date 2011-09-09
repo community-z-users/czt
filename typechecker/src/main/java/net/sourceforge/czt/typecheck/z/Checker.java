@@ -2048,7 +2048,7 @@ abstract public class Checker<R>
       ZStrokeList sl = testName.getZStrokeList();
       sl.remove(sl.size() - 1);
       if (exprChecker().getType(testName) != null) {        
-        errorAnn.setInfo(ErrorAnn.getStringFromResourceBundle(ErrorMessage.SPACE_NEEDED.toString()));
+        errorAnn.setInfo(errorAnn.getStringFromResourceBundle(ErrorMessage.SPACE_NEEDED.toString()));
       }
     }
     return errorAnn;

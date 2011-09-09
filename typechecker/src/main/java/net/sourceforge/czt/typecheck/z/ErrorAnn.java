@@ -36,9 +36,9 @@ import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 public class ErrorAnn
   extends CztErrorImpl
 {
-  private static String RESOURCE_NAME =
+  private final static String RESOURCE_NAME =
     "net.sourceforge.czt.typecheck.z.TypeCheckResources";
-  private static ResourceBundle RESOURCE_BUNDLE =
+  private final static ResourceBundle RESOURCE_BUNDLE =
     ResourceBundle.getBundle(RESOURCE_NAME);
 
   /** The section in which this error occurred. */
@@ -75,6 +75,7 @@ public class ErrorAnn
     markup_ = markup;
   }
 
+  @Override
   protected String getResourceName()
   {
     return RESOURCE_NAME;
@@ -85,6 +86,7 @@ public class ErrorAnn
     return getMessageKey();
   }
 
+  @Override
   public int getLine()
   {
     if (locAnn_ != null && locAnn_.getLine() != null) {
@@ -93,6 +95,7 @@ public class ErrorAnn
     return -1;
   }
 
+  @Override
   public int getColumn()
   {
     if (locAnn_ != null && locAnn_.getCol() != null) {
@@ -101,6 +104,7 @@ public class ErrorAnn
     return -1;
   }
 
+  @Override
   public String getSource()
   {
     if (locAnn_ != null) {
@@ -114,6 +118,7 @@ public class ErrorAnn
     term_ = term;
   }
 
+  @Override
   public int getStart()
   {
     if (locAnn_ != null && locAnn_.getStart() != null) {
@@ -122,6 +127,7 @@ public class ErrorAnn
     return -1;
   }
 
+  @Override
   public int getLength()
   {
     if (locAnn_ != null && locAnn_.getLength() != null) {
@@ -145,6 +151,7 @@ public class ErrorAnn
     return markup_;
   }
 
+  @Override
   public String getMessage()
   {
     Object[] params = getMessageParams();
@@ -153,12 +160,12 @@ public class ErrorAnn
     for (int i = 0; i < params.length; i++) {
       formatted[i] = format(params[i], manager_, sectName_);
     }
-    String localised = RESOURCE_BUNDLE.getString(getMessageKey());
+    String localised = getStringFromResourceBundle(getMessageKey());
     MessageFormat form = new MessageFormat(localised);
     return form.format(formatted);
   }
   
-  public static String getStringFromResourceBundle(String key)
+  public String getStringFromResourceBundle(String key)
   {
     return RESOURCE_BUNDLE.getString(key);
   }
@@ -178,18 +185,17 @@ public class ErrorAnn
       final String source = locAnn_.getLoc();
       if (colNr == null)
       {
-        localised = RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());
+        localised = getStringFromResourceBundle(ErrorMessage.ERROR_FILE_LINE.toString());
         args = new String [] {source, lineNr };
       }
       else
       {
-        localised = RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE_COL.toString());
+        localised = getStringFromResourceBundle(ErrorMessage.ERROR_FILE_LINE_COL.toString());
         args = new String [] {source, lineNr, colNr };
       }
     }
     else {
-      localised =
-        RESOURCE_BUNDLE.getString(ErrorMessage.NO_LOCATION.toString());
+      localised = getStringFromResourceBundle(ErrorMessage.NO_LOCATION.toString());
       args = new String[] {};
     }
 
