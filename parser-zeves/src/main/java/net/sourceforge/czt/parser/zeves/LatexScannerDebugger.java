@@ -44,6 +44,7 @@ import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.print.zeves.Unicode2Latex;
@@ -132,6 +133,7 @@ public class LatexScannerDebugger {
   protected static void debugPrinter(Source source, SectionManager sectInfo, Term term) throws IOException, CommandException
   {
     sectInfo.setProperty("czt.debug.ZmlScanner", "false");
+    sectInfo.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, Integer.toString(2));
     String sourceKeyName = SourceLocator.getSourceName(source.getName());
     while (sourceKeyName.lastIndexOf(".") != -1)
         sourceKeyName = sourceKeyName.substring(0, sourceKeyName.lastIndexOf("."));
@@ -206,10 +208,10 @@ public class LatexScannerDebugger {
   }
 
 
-  protected static void debugParser(Source source, boolean print) throws CommandException, ParseException, IOException, UnmarshalException
+  protected static void debugParser(Source source, boolean print, Integer width) throws CommandException, ParseException, IOException, UnmarshalException
   {
       SectionManager sectInfo_ = new SectionManager("zeves");
-
+      sectInfo_.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, width.toString());
       File file = new File(source.getName());
       // for the case of .tex.zed8 remove all possible .s
       String sourceName = SourceLocator.getSourceName(file.getName());
@@ -265,9 +267,14 @@ public class LatexScannerDebugger {
         throw new IllegalArgumentException("No file name given");
 
       String fileName = args[0];
+
+      File f = new File(fileName);
+      if (!f.exists())
+        throw new IllegalArgumentException("File does not exist - " + fileName);
       boolean scan = args.length == 1;
       boolean parse = scan;
       boolean print = scan;
+      int width = 0;
       for(String arg : args)
       {
         if (arg.equals("-s"))
@@ -276,6 +283,8 @@ public class LatexScannerDebugger {
           parse = true;
         else if (arg.equals("-t"))
           print = true;
+        else if (arg.startsWith("-w"))
+          width = Integer.valueOf(arg.substring(2));
       }
 
       Source source = new FileSource(fileName); // args[0] = -in
@@ -296,7 +305,7 @@ public class LatexScannerDebugger {
       {
         //CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
         //CztLogger.setConsoleHandler(CztLogger.getLogger(net.sourceforge.czt.zeves.jaxb.AstToJaxb.class), Level.ALL, Level.ALL, formatter);
-        debugParser(source, print);
+        debugParser(source, print, width);
       }
     }
     catch (Exception e) {
