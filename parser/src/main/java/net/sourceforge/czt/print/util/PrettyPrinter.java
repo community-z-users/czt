@@ -35,8 +35,8 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class PrettyPrinter
 {
-  private int lineWidth_ = 80;
-  private int offset_ = 2;
+  private int lineWidth_ = PrintPropertiesKeys.PROP_TXT_WIDTH_DEFAULT;
+  private int offset_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
 
   public void setOffset(int offset)
   {
@@ -56,7 +56,7 @@ public class PrettyPrinter
 
   public int handleTokenSequence(TokenSequence tseq,
                                  int space,
-                                 int indent)
+                                 int indentAmount)
   {
     final List<Token> list = tseq.getSequence();
     int spaceLeft = space;
@@ -85,7 +85,7 @@ public class PrettyPrinter
             assert !nlAllowedOnPrevious || iter.hasPrevious();
             // add a newline just before current or after previous
             iter.add(ZToken.NL);
-            spaceLeft = indent(iter, indent);
+            spaceLeft = indent(iter, indentAmount);
             Token next = iter.next();
             assert next == current;
           }
@@ -95,11 +95,11 @@ public class PrettyPrinter
         }
       }
       if (current instanceof TokenSequence) {
-        spaceLeft = handleTokenSequence((TokenSequence) current, spaceLeft, indent+1);
+        spaceLeft = handleTokenSequence((TokenSequence) current, spaceLeft, indentAmount+1);
       }
       else {
         if (ZToken.NL.equals(current)) {
-          spaceLeft = indent(iter, indent);
+          spaceLeft = indent(iter, indentAmount);
         }
         else {
           spaceLeft -= length;
@@ -111,16 +111,16 @@ public class PrettyPrinter
     return spaceLeft;
   }
 
-  private int indent(ListIterator<Token> iter, int indent)
+  private int indent(ListIterator<Token> iter, int indentAmount)
   {
-    iter.add(new TokenImpl(ZToken.INDENT, indent(indent)));
-    return lineWidth_-2*indent;
+    iter.add(new TokenImpl(ZToken.INDENT, indent(indentAmount)));
+    return lineWidth_-2*indentAmount;
   }
 
-  private String indent(int indent)
+  private String indent(int indentAmount)
   {
     StringBuilder result = new StringBuilder();
-    for (int i = 0; i < indent; i++) {
+    for (int i = 0; i < indentAmount; i++) {
       result.append(ZString.SPACE);
     }
     return result.toString();
