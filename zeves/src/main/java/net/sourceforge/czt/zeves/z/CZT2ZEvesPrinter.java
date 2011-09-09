@@ -877,22 +877,86 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return s;
   }
 
+  // ZSchText for AxDef or SchBox should keep args
+  private boolean stackTopIsZSchText(Object t)
+  {
+    return (t instanceof ZSchText);
+  }
+
+  // OpNames within DefLHS in Horizontal AxPara
+  private boolean stackTopIsOperZName(Object t)
+  {
+    return ((t instanceof ZName) &&
+             ((ZName)t).getOperatorName() != null);
+  }
+
+  // ApplExpr with mixfix false should keep opnames
+  private boolean stackTopIsExplicitApplExpr(Object t)
+  {
+    return ((t instanceof ApplExpr) &&
+             !((ApplExpr)t).getMixfix().booleanValue());
+  }
+
+  // RefExpr with mixfix false that have operator names (e.g., explicitly given RefExpr as "(_op_)")
+  // they come from ApplExpr RefExpr with mixfix false or through ApplExpr parameters that might be
+  // RefExpr of mixfix false (\_R\_) \comp (\_S \_) say
+  private boolean stackTopIsNonMixfixRefExprOper(Object t)
+  {
+    boolean result =
+            ((t instanceof RefExpr) &&
+             !((RefExpr)t).getMixfix().booleanValue() &&
+             ((RefExpr)t).getZName().getOperatorName() != null);
+
+    if (result)
+    {
+      result = !stackTopIsRefExprOfApplExprWithExplicitGenActualsNotInfix(t);
+    }
+    return result;
+  }
+
+  // when calling ApplExpr->RefExpr that has explicit generic parameters,
+  // ZEves convention is  #[A](S), whereas CZT convention is (# _)[A](S).
+  //
+  // Now, trouble is for infix operators, the solution is different(!) Nightware...
+  // ZEves accepts (_ cup_)[X,Y](A,B). So need to get  special case when ApplExpr.getRightEpr instanceof TupleExpr?
+  private boolean stackTopIsRefExprOfApplExprWithExplicitGenActualsNotInfix(Object t)
+  {
+    boolean result = 
+            (fRelationalOpAppl.size() > 1) 
+            &&
+            ((t instanceof RefExpr) &&
+             !((RefExpr)t).getMixfix().booleanValue() &&
+             ((RefExpr)t).getExplicit().booleanValue() &&
+             ((RefExpr)t).getZName().getOperatorName() != null)
+             ;
+    if (result)
+    {
+      Object o = fRelationalOpAppl.elementAt(fRelationalOpAppl.size()-2);
+      result = stackTopIsExplicitApplExpr(o);
+      if (result)
+      {
+        result = !(((ApplExpr)o).getRightExpr() instanceof TupleExpr);
+      }
+    }
+    return result;
+  }
+
+  // explicit "override" case (e.g., ApplExpr that are not FcnOpAppl - "(_+_)(1,2)"
+  private boolean stackTopIsBooleanOverride(Object t)
+  {
+    return ((t instanceof Boolean) &&
+             ((Boolean)t).booleanValue());
+  }
 
   private boolean shouldKeepOpArgsInOpName()
   {
     assert !fRelationalOpAppl.isEmpty();
     Object t= fRelationalOpAppl.peek();
-    return (t instanceof ZSchText ||                     // ZSchText for AxDef or SchBox should keep args
-            ((t instanceof ZName) &&
-             ((ZName)t).getOperatorName() != null) ||    // OpNames within DefLHS in Horizontal AxPara
-            ((t instanceof ApplExpr) && 
-             !((ApplExpr)t).getMixfix().booleanValue()) ||  // ApplExpr with mixfix false should keep opnames
-             ((t instanceof RefExpr) &&
-             !((RefExpr)t).getMixfix().booleanValue() &&
-             ((RefExpr)t).getZName().getOperatorName() != null) || // RefExpr with mixfix false that have operator names (e.g., explicitly given RefExpr as "(_op_)"
-                                                                   // they come from ApplExpr RefExpr with mixfix false or through ApplExpr parameters that might be RefExpr of mixfix false (\_R\_) \comp (\_S \_) say
-            ((t instanceof Boolean) &&
-             ((Boolean)t).booleanValue())                // explicit "override" case (e.g., ApplExpr that are not FcnOpAppl - "(_+_)(1,2)"
+    return (stackTopIsZSchText(t) ||                     
+            stackTopIsOperZName(t) ||    
+            stackTopIsExplicitApplExpr(t) ||
+            stackTopIsNonMixfixRefExprOper(t) ||
+            stackTopIsBooleanOverride(t)                
            );
   }
 
@@ -912,14 +976,16 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // I used to use opname.iterator, for what now is getWords().
       Iterator<String> parts = Arrays.asList(opname.getWords()).iterator();//opname.iterator();
 
-//      int found = 0;
+      boolean keepArgsOverride = shouldKeepOpArgsInOpName();
+
+      // int found = 0;
       while (parts.hasNext())
       {
         String part = parts.next().toString();
         // ignore the arguments: we will know if it's a list arg from ApplExpr arity.
-        if (shouldKeepOpArgsInOpName() || !part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
+        if (keepArgsOverride || !part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
         {
-//          found++;
+          // found++;
           result += translateOperatorWord(part);
         }
       }
@@ -2510,7 +2576,16 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
       result += getName(term.getName());
       if (!genActuals.isEmpty())
-        result += ")" + genActuals;
+        // because of the postfix function case, say (f) (( _ &suptilde;)[X, Y]), we need to have (f) (&suptilde;[X, Y])
+        // that is, ZEves is happy with operators close to their generics, so long as they don't have VARARGS?
+      {
+        // for _ &xxx; _  have it as: (_ &xxx; _)[X]
+        if (result.split(ZString.ARG).length > 2)
+          result += ")" + genActuals;
+        // for &xxx; _  or _ &xxx; have it as: (&xxx;[X])
+        else
+          result += genActuals + ")";
+      }
     }
     assert result != null && !result.equals("");
     return result;
@@ -2805,8 +2880,20 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     // case 6.22
     else
     {
-      final String op = getApplExprPart(term);
-      result = format(APPL_EXPR_PATTERN, op, getExpr(term.getRightExpr()));
+      String op = getApplExprPart(term);
+      String rhs = getExpr(term.getRightExpr());
+      rhs = adjustIfOpWithinArgument(rhs);
+      // TODO: find better way for this HACK!?
+      // if this is a complex ApplExpr (e.g., has "_" or multiple appls, or hard spaces for other applexpr already)
+      if (op.indexOf(ZString.ARG) != -1 || op.indexOf(ZString.LPAREN) != -1 || op.indexOf("~") != -1 || op.indexOf(ZString.SPACE) != -1)
+        op = "(" + op + ")";
+      // if the RHS is a tupleExpr, there will be more than one parameter, need parenthesis;
+      if (term.getRightExpr() instanceof TupleExpr)// || rhs.indexOf(ZString.COMMA) != -1)
+        rhs = "(" + rhs + ")";
+      // if just a ZEves operator name (with or without generics) that is parenthesised, eg  (&xxxx;) or (&xxxx;[X,Y])
+      else if (rhs.startsWith("(&") && (rhs.endsWith(";)") || (rhs.endsWith("])") && rhs.indexOf(";[") != -1)))
+        rhs = rhs.substring(1, rhs.length()-1);
+      result = format(APPL_EXPR_PATTERN_2, op, rhs);
     }
     return result;
   }
@@ -3117,7 +3204,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   public String visitUseCommand(UseCommand term)
   {
     StringBuilder result = new StringBuilder("use ");
-    result.append(getExpr(term.getTheoremRef()));
+    
+    // don't use visitRefExpr here to avoid confusion of the name as an operator
+    // with explicit generics. Instead, visit each part of the name.
+    RefExpr useName = term.getTheoremRef();
+    result.append(getName(useName.getName()));
+    if (useName.getExprList() != null && !useName.getZExprList().isEmpty())
+      result.append(getGenActuals(useName.getZExprList()));
     if (term.getInstantiationList() != null)
     {
       fCurrInstKind.push(InstantiationKind.ThmReplacement);

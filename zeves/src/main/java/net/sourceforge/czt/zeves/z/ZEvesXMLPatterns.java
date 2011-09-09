@@ -300,6 +300,7 @@ public interface ZEvesXMLPatterns {
      *       Also addded parentheses to the function, because it may be a complex expression
      */
     public static final String APPL_EXPR_PATTERN = "({0}) ({1})";
+    public static final String APPL_EXPR_PATTERN_2 = "{0} {1}";
     
     /**
      * {0} expression       => getExpr(term.getLeftExpr());

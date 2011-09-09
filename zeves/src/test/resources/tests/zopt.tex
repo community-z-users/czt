@@ -11,10 +11,16 @@ Some weird uses of Z operators
 \end{axdef}
 
 \begin{theorem}{lZOpsinProof}
-   true
+   \forall f: \nat \fun \nat @ f\inv = f
 \end{theorem}
 
 \begin{zproof}[lZOpsinProof]
+  use finiteFunction[\nat, \nat][f := f (\_ \inv) [\nat, \nat]];
   prove by reduce;
-  use finiteFunction[Y, X][f := f (\_ \inv) [X, Y]];
 \end{zproof}
+
+Gives:
+***
+Cannot parse Z/Eves result:
+line 1 column 16: Syntax error at symbol LSQUARE
+***

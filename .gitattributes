@@ -1257,11 +1257,13 @@ zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesSchemaDef.java 
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesSynDef.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesTheorem.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/para/ZEvesUsage.java -text svneol=unset#text/plain
+zeves/src/main/resources/net/sourceforge/czt/zeves/zeves.properties -text
 zeves/src/test/java/net/sourceforge/czt/zeves/CZT2ZEvesPrintingTest.java -text
 zeves/src/test/resources/tests/bbook.tex -text
 zeves/src/test/resources/tests/bbook.zed8 -text
 zeves/src/test/resources/tests/bbook.zev -text
 zeves/src/test/resources/tests/dollarNamedThm.tex -text
+zeves/src/test/resources/tests/genActs.tex -text
 zeves/src/test/resources/tests/proofCmds.tex -text
 zeves/src/test/resources/tests/simple.tex -text
 zeves/src/test/resources/tests/simpleUnicode.zed8 -text

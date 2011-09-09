@@ -8,16 +8,19 @@ package net.sourceforge.czt.zeves;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.rmi.UnmarshalException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.ParseException;
@@ -39,7 +42,7 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
  * @author leo
  */
 public class CZT2ZEves {
-    
+
     public static final String DEFAULT_ADDRESS = "127.0.0.1";
     public static final String DEFAULT_PORT    = "6789";
     
@@ -48,21 +51,51 @@ public class CZT2ZEves {
     }
     
     public static void main(String[] args) throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException {
-        if (args.length > 1) {
-            if (args[0].equals("-print")) {
+        if (args.length >= 1) {
+            if (args.length > 1 && args[0].equals("-print")) {
                 List<String> result = runPrinter(args[1]);
                 System.out.println(result.size() + " Z/Eves command(s) created:\n");
                 for(String s : result) {
                     System.out.println(s);
                 }
             } else if (args[0].equals("-run")) {
-                String address = args[1];
-                String port = args[2];
-                runZEvesServer(address, port);
+                String address = null;
+                String server = null;
+                Integer port = null;
+                if (args.length > 1)
+                  server = args[1];
+                else
+                {
+                  Properties zevesp = new Properties();
+                  String path = System.getProperty("user.dir", ".");
+                  try
+                  {   
+                    String filename = path + "/zeves.properties";
+                    FileInputStream fis = new FileInputStream(new File(filename));
+                    zevesp.load(fis);
+                  } catch (IOException e)
+                  {        
+                    //URL url = CZT2ZEves.class.getResource("net/sourceforge/czt/zeves/zeves.properties");
+                    URL url = CZT2ZEves.class.getResource("./zeves.properties");
+                    if (url != null)
+                      zevesp.load(url.openStream());
+                    else
+                      throw e;
+                  }
+                  server = zevesp.getProperty("ZEVES_EXECUTABLE");
+                  address = zevesp.getProperty("ZEVES_ADDRESS", DEFAULT_ADDRESS);
+                  port = Integer.valueOf(zevesp.getProperty("ZEVES_PORT", DEFAULT_PORT));
+                }
+                if (args.length > 3)
+                  port = Integer.valueOf(args[3]);
+                if (args.length > 2)
+                  address = args[2];
+                assert server != null && address != null && port != null;
+                runZEves(server, address, port);
             } else
-                System.out.println("Usage: '-print filename.tex', or '-run addr port'");
+                System.out.println("Usage: '-print filename.tex', '-run' with properties file, or -run server addr port'");
         } else
-            System.out.println("Usage: '-print filename.tex', or '-run addr port'");
+            System.out.println("Usage: '-print filename.tex', '-run' with properties file, or '-run server addr port'");
     }
     
     public static List<String> runPrinter(String filename)
@@ -110,7 +143,24 @@ public class CZT2ZEves {
         return result;
     }
     
-    public static void runZEvesServer(String address, String port) throws IOException {
+    public static void runZEves(String server, String address, int port) throws IOException {
+        ZEvesServer zEvesServer = new ZEvesServer(server, port);
+        zEvesServer.start();
+
+
+        ZEvesApi api = new ZEvesApi(address, port);
+        boolean connected = api.tryConnecting(3);//3 retries
+
+        if (!connected)
+          zEvesServer.stop();
+        else
+        {
+
+        }
+
+        api.disconnect();
+        zEvesServer.stop();
+
         Socket zevesSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;

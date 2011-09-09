@@ -128,6 +128,38 @@ public class ZEvesApi {
 		close();
 	}
 
+  @SuppressWarnings("SleepWhileHoldingLock")
+  public boolean connectRetry(int retries) throws IOException {
+		assert retries > 0;
+		int tries = 0;
+		while (tries < retries) {
+			try {
+				connect();
+			} catch (ConnectException e) {
+
+				// cannot connect (socket not yet available), retry after 1 second
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {}
+
+				tries++;
+				continue;
+			}
+
+			// connected successfully
+			return true;
+		}
+
+		return false;
+	}
+
+  public boolean tryConnecting(int retries) throws IOException {
+    if (!isConnected()) {
+      return connectRetry(retries);
+    }
+    return true;
+  }
+
 	public void close() throws IOException {
 
 		if (zEvesIn != null) {
