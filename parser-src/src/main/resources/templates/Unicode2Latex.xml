@@ -39,6 +39,7 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.DefsWord;
 import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.session.*;
@@ -399,6 +400,7 @@ parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager();
   protected String sectionName_;
+  protected int tabSize_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
 
   /**
    * Used to scan the unicode provided within markup directives.
@@ -423,6 +425,16 @@ parser code {:
   {
     sectInfo_ = sectInfo;
     sectionName_ = sectionName;
+    if (sectInfo_ instanceof SectionManager)
+    {
+      try {
+        tabSize_ = ((SectionManager)sectInfo_).getIntegerProperty(PrintPropertiesKeys.PROP_TXT_TAB_SIZE);
+      }
+      catch (NumberFormatException e)
+      {
+        tabSize_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
+      }
+    }
   }
 
   public Writer getWriter()
@@ -438,11 +450,6 @@ parser code {:
   protected void write(String s)
   {
     try {
-      // TODO: remove this ugly hack... :-(
-      // " zfsrefines{AOp} " , " zbsrefines{AOp} "
-      //final String st = s.trim();
-      //if (st.startsWith(ZString.ZFSREFINES) || st.startsWith(ZString.ZBSREFINES))
-      //  s = "\\" + st + "\n";
       writer_.write(s);
     }
     catch(IOException e) {
@@ -662,19 +669,22 @@ terminal Decorword DECORWORD;
 
 /* Non terminals */
 non terminal              input, // narrWordList, // never used!
-                          paragraphList,
-                          specialSeq;
+                          paragraphList;
 // non terminal ZSect        sectionHeader;
 non terminal String       markup, para, zpara, zedPara, 
                 wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
 </add:oz>
-non terminal LatexCommand token, tokenSeq, sectHeadSeq,
+non terminal LatexCommand token, tokenSeq,
+                          specialSeq, sectHeadSeq,
      <add:zeves>optDefAbility, optThmAbility, labelAbility,
                 thmUsage, optThmUsage,</add:zeves>
                 zStInfo, optZStInfo, schGenerics, decorwordList,
-                paren, special, decorword;
+                paren, special, indent, decorword;
+
+// These are ordered from loosest first to tightest last.
+precedence nonassoc INDENT;
 
    input ::= paragraphList
              {: parser.getWriter().flush(); :}
@@ -1081,9 +1091,20 @@ schGenerics  ::=
              ;
 
 // Z state info always appear after a NL; or there will be a NL with no info
-optZStInfo   ::= NL zStInfo:zsi 
+optZStInfo   ::=
+             NL indent:id zStInfo:zsi
+             {:
+                RESULT = concate(id, zsi);
+             :}
+             |
+             NL zStInfo:zsi
              {:
                 RESULT = zsi;
+             :}
+             |
+             NL indent:id
+             {:
+                RESULT = id;
              :}
              |
              NL
@@ -1408,9 +1429,18 @@ zStInfo   ::=
              ;
 
   specialSeq ::=
-             specialSeq special
+             specialSeq:sq special:s
+             {:
+                if (sq != null)
+                  RESULT = concate(sq, s);
+                else
+                  RESULT = s;
+             :}
              |
              // empty
+             {:
+                RESULT = null;
+             :}
              ;
              
   special ::= NL
@@ -1418,14 +1448,24 @@ zStInfo   ::=
                 RESULT = resultTT("\\\\\n", ZString.NL);
              :}
              |
-             INDENT:indent
+             indent:i
              {:
-                int i = indent.length();
-                if (i > 9) i = 9;
-                String latex = indent + "\\t" + i;
-                RESULT = resultTT(latex, indent);
+                RESULT = i;
              :}
               ;
+
+  indent   ::= INDENT:indent
+             {:
+                // the amount of space given will generate various t1..n
+                int i = indent.length();
+                int ts = (i / parser.tabSize_);
+                int trail = (i % parser.tabSize_);
+                if (trail >= (parser.tabSize_ / 2)) ts++;
+                if (ts > 9) ts = 9;
+                String latex = indent + "\\t" + ts;
+                RESULT = resultTT(latex, indent);
+             :}
+             ;
 
 <add:oz>
   innerPara ::=
