@@ -226,7 +226,7 @@ public abstract class Checker<R>
       ZUtils.ZExprKind kind = ZUtils.whatKindOfZExpr((Expr)term);
       if (kind.equals(ZUtils.ZExprKind.MIXED) || kind.equals(ZUtils.ZExprKind.UNKNOWN))
       {
-        warningManager().warn(term, WarningMessage.UNDECIDABLE_SCHEMA_CALULUS_EXPR, getCurrentThmName(), term.getClass().getName());
+        warningManager().warn(term, WarningMessage.IGNORE_NAME_COMPLEX_SCHEMA_CALULUS_EXPR, getCurrentThmName(), term.getClass().getName());
       }
       result = kind.equals(ZUtils.ZExprKind.SCHEMA);
     }

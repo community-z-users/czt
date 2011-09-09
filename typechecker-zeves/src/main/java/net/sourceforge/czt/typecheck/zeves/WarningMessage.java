@@ -68,7 +68,7 @@ public enum WarningMessage {
     "A unknown term can only be found if some type rule is missing or an ill-formed term\n\t" +
     "is given to typecheck. This should never happen for parsed terms."), // or bug in TC(?!)
 
-  UNDECIDABLE_SCHEMA_CALULUS_EXPR("Undecidable schema calculus expression within conjecture" +
+  IGNORE_NAME_COMPLEX_SCHEMA_CALULUS_EXPR("Ignoring name of complex schema calculus expression within conjecture" +
     "\n\tTheorem...: {0}" +
     "\n\tTerm......: {1}"),
 

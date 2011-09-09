@@ -140,7 +140,7 @@ public class WarningManager
     errorAnn.setErrorType(ErrorType.WARNING);
     //errorAnn.setInfo(msg.name());
     warnErrors_.add(errorAnn);
-    warn(term, msg.toString(), params);
+    doWarn(errorAnn.toString());
   }
 
   public void warn(Term term, WarningMessage wm, Object... arguments)
