@@ -39,16 +39,19 @@ public interface PrintPropertiesKeys
   String PROP_PRINT_ZEVES = "print_z_eves";
 
   String PROP_PRINTING_STRUCTURED_GOAL =
-          "z_printer_structured_goal";
+          "print_structured_goal";
 
   /**
    * The number of columns after which the pretty printer should
    * break the line (that is, insert a newline).
    */
-  String PROP_TXT_WIDTH = "txt_width";
+  String PROP_TXT_WIDTH = "print_txt_width";
+
+  String PROP_TXT_TAB_SIZE = "print_tab_size";
 
   boolean PROP_PRINT_NAME_IDS_DEFAULT = false;
   boolean PROP_PRINT_ZEVES_DEFAULT    = false;
   int PROP_TXT_WIDTH_DEFAULT          = 80; // ?
+  int PROP_TXT_TAB_SIZE_DEFAULT       = 4;
   boolean PROP_PRINTING_STRUCTURED_GOAL_DEFAULT = true;
 }

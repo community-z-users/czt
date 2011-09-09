@@ -25,6 +25,7 @@ import java.util.ListIterator;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
+import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -62,27 +63,42 @@ public class PrettyPrinter
     int processed = 0;
     Token previous = null;
     for (ListIterator<Token> iter = list.listIterator(); iter.hasNext();) {
-      final Token o = iter.next();
-      final int length = getLength(o);
+      final Token current = iter.next();
+      final int length = getLength(current);
       if (previous != null) { // handle space
-        boolean nlAllowed = allowsNlAfter(previous) || allowsNlBefore(o);
+        boolean nlAllowedOnPrevious = allowsNlAfter(previous);
+        boolean nlAllowedOnCurrent  = allowsNlBefore(current);
+        boolean nlAllowed = nlAllowedOnPrevious || nlAllowedOnCurrent;
         if (nlAllowed && (spaceLeft < 0 ||
                           (spaceLeft < length && processed > 1))) {
-          iter.previous();
-          iter.add(ZToken.NL);
-          spaceLeft = indent(iter, indent);
-          Token next = iter.next();
-          assert next == o;
+          assert iter.hasPrevious();
+
+          // there is this one special case because THEOREM is not a proper environment
+          // and yet within Unicode2Latex it does not allow for NL/IDENT between them,
+          // although ZED allowed NL after it
+          boolean specialCase = previous.equals(ZToken.ZED) && current.equals(ZKeyword.THEOREM);
+          if (!specialCase)
+          {
+            iter.previous();
+
+            // allowedOnPrevious => hasPrevious again
+            assert !nlAllowedOnPrevious || iter.hasPrevious();
+            // add a newline just before current or after previous
+            iter.add(ZToken.NL);
+            spaceLeft = indent(iter, indent);
+            Token next = iter.next();
+            assert next == current;
+          }
         }
         else {
           spaceLeft -= 1;
         }
       }
-      if (o instanceof TokenSequence) {
-        spaceLeft = handleTokenSequence((TokenSequence) o, spaceLeft, indent+1);
+      if (current instanceof TokenSequence) {
+        spaceLeft = handleTokenSequence((TokenSequence) current, spaceLeft, indent+1);
       }
       else {
-        if (ZToken.NL.equals(o)) {
+        if (ZToken.NL.equals(current)) {
           spaceLeft = indent(iter, indent);
         }
         else {
@@ -90,7 +106,7 @@ public class PrettyPrinter
         }
       }
       processed += length;
-      previous = o;
+      previous = current;
     }
     return spaceLeft;
   }
