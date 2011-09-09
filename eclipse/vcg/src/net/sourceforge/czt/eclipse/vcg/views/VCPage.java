@@ -33,6 +33,7 @@ import net.sourceforge.czt.vcg.z.VCGUtils;
 import net.sourceforge.czt.vcg.z.dc.DomainCheckerVCG;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG;
+import net.sourceforge.czt.vcg.z.refinement.RefinementVCG;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
@@ -441,7 +442,7 @@ public class VCPage extends Page {
 //			sectInfo.setTracing(true);
 //			sectInfo.setTracingLevel(Level.ALL);
 			
-			FeasibilityVCG fsbVcg = new FeasibilityVCG();
+			FeasibilityVCG fsbVcg = new RefinementVCG();//new FeasibilityVCG();
 			fsbVcg.setSectionManager(sectInfo);
 			return fsbVcg;
 		}

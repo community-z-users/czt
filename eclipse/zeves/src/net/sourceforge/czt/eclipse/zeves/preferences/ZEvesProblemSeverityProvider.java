@@ -27,7 +27,7 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 				return null;
 			}
 			
-			if (WarningMessage.UNDECIDABLE_SCHEMA_CALULUS_EXPR.name().equals(messageKey)) {
+			if (WarningMessage.IGNORE_NAME_COMPLEX_SCHEMA_CALULUS_EXPR.name().equals(messageKey)) {
 				return getSeverityPref(SEVERITY_UNDECIDABLE_SCHEMA_CALCULUS);
 			}
 			
