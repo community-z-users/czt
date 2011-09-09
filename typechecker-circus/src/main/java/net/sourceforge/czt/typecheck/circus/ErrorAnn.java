@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
 
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 import net.sourceforge.czt.session.Markup;
@@ -46,10 +45,10 @@ public class ErrorAnn
   
   private List<ErrorAnn> callErrors_ = new ArrayList<ErrorAnn>();
   
-  private static String RESOURCE_NAME =
+  private final static String RESOURCE_NAME =
       "net.sourceforge.czt.typecheck.circus.TypeCheckResources";
   
-  private static ResourceBundle RESOURCE_BUNDLE =
+  private final static ResourceBundle RESOURCE_BUNDLE =
       ResourceBundle.getBundle(RESOURCE_NAME);
   
   public ErrorAnn(String errorMessage, Object [] params,
@@ -64,10 +63,12 @@ public class ErrorAnn
     super(errorMessage, params, sectInfo, sectName, locAnn, term, markup);
   }
   
+  @Override
   protected CarrierSet getCarrierSet() {
     return new CarrierSet(true);
   }
   
+  @Override
   protected void print(Term term,
       Writer writer,
       SectionManager sectInfo,
@@ -112,5 +113,17 @@ public class ErrorAnn
   protected void clearCallErrors()
   {
     callErrors_.clear();
-  }  
+  }
+
+  @Override
+  protected String getResourceName()
+  {
+    return RESOURCE_NAME;
+  }
+
+  @Override
+  public String getStringFromResourceBundle(String key)
+  {
+    return RESOURCE_BUNDLE.getString(key);
+  }
 }
