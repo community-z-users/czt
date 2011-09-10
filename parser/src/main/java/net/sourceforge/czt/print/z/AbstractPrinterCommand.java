@@ -70,6 +70,7 @@ public abstract class AbstractPrinterCommand extends AbstractCommand implements 
     TokenSequenceVisitor visitor = createTokenSequenceVisitor(printer, props);
     tree.accept(visitor);
     TokenSequence tseq = visitor.getResult();
+
     int textWidth = textWidth(props);
     if (textWidth > 0) {
       PrettyPrinter prettyPrinter = createPrettyPrinter(term, textWidth);

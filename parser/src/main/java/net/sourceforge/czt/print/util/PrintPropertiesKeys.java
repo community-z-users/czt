@@ -53,5 +53,5 @@ public interface PrintPropertiesKeys
   boolean PROP_PRINT_ZEVES_DEFAULT    = false;
   int PROP_TXT_WIDTH_DEFAULT          = 80; // ?
   int PROP_TXT_TAB_SIZE_DEFAULT       = 4;
-  boolean PROP_PRINTING_STRUCTURED_GOAL_DEFAULT = true;
+  boolean PROP_PRINTING_STRUCTURED_GOAL_DEFAULT = false;
 }
