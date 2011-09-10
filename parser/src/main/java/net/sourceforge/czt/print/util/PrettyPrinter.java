@@ -66,33 +66,7 @@ public class PrettyPrinter
       final Token current = iter.next();
       final int length = getLength(current);
       if (previous != null) { // handle space
-        boolean nlAllowedOnPrevious = allowsNlAfter(previous);
-        boolean nlAllowedOnCurrent  = allowsNlBefore(current);
-        boolean nlAllowed = nlAllowedOnPrevious || nlAllowedOnCurrent;
-        if (nlAllowed && (spaceLeft < 0 ||
-                          (spaceLeft < length && processed > 1))) {
-          assert iter.hasPrevious();
-
-          // there is this one special case because THEOREM is not a proper environment
-          // and yet within Unicode2Latex it does not allow for NL/IDENT between them,
-          // although ZED allowed NL after it
-          boolean specialCase = previous.equals(ZToken.ZED) && current.equals(ZKeyword.THEOREM);
-          if (!specialCase)
-          {
-            iter.previous();
-
-            // allowedOnPrevious => hasPrevious again
-            assert !nlAllowedOnPrevious || iter.hasPrevious();
-            // add a newline just before current or after previous
-            iter.add(ZToken.NL);
-            spaceLeft = indent(iter, indentAmount);
-            Token next = iter.next();
-            assert next == current;
-          }
-        }
-        else {
-          spaceLeft -= 1;
-        }
+        spaceLeft = handleSpaces(iter, previous, current, spaceLeft, length, processed, indentAmount);
       }
       if (current instanceof TokenSequence) {
         spaceLeft = handleTokenSequence((TokenSequence) current, spaceLeft, indentAmount+1);
@@ -107,6 +81,76 @@ public class PrettyPrinter
       }
       processed += length;
       previous = current;
+    }
+    return spaceLeft;
+  }
+
+  protected boolean isSpecialCase(Token previous, Token current)
+  {
+    if (current instanceof TokenSequence)
+    {
+      final TokenSequence seq = (TokenSequence) current;
+      final List<Token> list = seq.getSequence();
+      if (list.isEmpty()) return false;
+      return isSpecialCase(previous, list.get(0));
+    }
+    else if (previous instanceof TokenSequence)
+    {
+      final TokenSequence seq = (TokenSequence) previous;
+      final List<Token> list = seq.getSequence();
+      if (list.isEmpty()) return false;
+      return isSpecialCase(list.get(list.size()-1), current);
+    }
+    else
+    {
+      return isSpecialTokenCase(previous, current);
+    }
+  }
+
+  protected boolean isSpecialTokenCase(Token previous, Token current)
+  {
+    if (previous instanceof TokenSequence || current instanceof TokenSequence)
+      throw new PrintException("Cannot test special pretty printin case over token sequences");
+    // there is this one special case because THEOREM is not a proper environment
+    // and yet within Unicode2Latex it does not allow for NL/IDENT between them,
+    // although ZED allowed NL after it
+    //
+    // adding "specialSeq" at Unicode2Latex could work, but it's not quite extensible.
+    // (e.g., parser-zeves put something in between ZED and THEOREM, namely DISABLEDTHMTAG
+    // or EMPTY, which gets a conflict with the empty production of specialSeq!
+    return previous.equals(ZToken.ZED) && current.equals(ZKeyword.THEOREM)
+            ||
+           previous.getName().equals(ZToken.DECORWORD.getName()) && current.equals(ZToken.RSQUARE)
+            ||
+           previous.equals(ZToken.LSQUARE) && current.getName().equals(ZToken.DECORWORD.getName());
+  }
+
+  protected int handleSpaces(ListIterator<Token> iter, Token previous,
+          Token current, int spaceLeft, int length, int processed, int indentAmount)
+  {
+    assert previous != null && current != null;
+    boolean nlAllowedOnPrevious = allowsNlAfter(previous);
+    boolean nlAllowedOnCurrent  = allowsNlBefore(current);
+    boolean nlAllowed = nlAllowedOnPrevious || nlAllowedOnCurrent;
+    if (nlAllowed && (spaceLeft < 0 ||
+                      (spaceLeft < length && processed > 1))) {
+      assert iter.hasPrevious();
+
+      if (!isSpecialCase(previous, current))
+      {
+        iter.previous();
+
+        // allowedOnPrevious => hasPrevious again
+        assert !nlAllowedOnPrevious || iter.hasPrevious();
+        // add a newline just before current or after previous
+        iter.add(ZToken.NL);
+        spaceLeft = indent(iter, indentAmount);
+        Token next = iter.next();
+        assert next == current;
+      }
+    }
+    else {
+      spaceLeft -= 1;
     }
     return spaceLeft;
   }
