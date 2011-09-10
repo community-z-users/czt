@@ -679,7 +679,9 @@ non terminal LatexCommand innerPara;
 non terminal LatexCommand token, tokenSeq,
                           specialSeq, sectHeadSeq,
      <add:zeves>optDefAbility, optThmAbility, labelAbility,
-                thmUsage, optThmUsage,</add:zeves>
+                thmUsage, optThmUsage, proofTokenSeq,
+                proofToken, proofSpecial,
+     </add:zeves>
                 zStInfo, optZStInfo, schGenerics, decorwordList,
                 paren, special, indent, decorword;
 
@@ -928,10 +930,10 @@ precedence nonassoc INDENT;
 </add:circus>
 <add:zeves>
             |
-            ZPROOF decorword:w tokenSeq:s END
+            ZPROOF specialSeq:sq decorword:w proofTokenSeq:s END
             {:
                 String result = begin("zproof", "[" + w.getName() + "]");
-                if (s != null) { result += s.getName(); }
+                if (s != null) { result += "\n" + s.getName(); }
                 result += end("zproof");
                 parser.write(result);
             :}
@@ -1044,11 +1046,11 @@ precedence nonassoc INDENT;
              {: RESULT = resultTT("\\proviso", "\u25B8"); :}
 </add:zpatt>
 <add:zeves>
-             |
-             ZPROOFCOMMANDSEP
-             {:
-                RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
-             :}
+             //|
+             //ZPROOFCOMMANDSEP
+             //{:
+             //   RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
+             //:}
              |
              ZPROOFDOLLAR
              {:
@@ -1068,18 +1070,91 @@ precedence nonassoc INDENT;
              ;
 
 
+<add:zeves>
+proofTokenSeq ::= proofTokenSeq:w1 proofToken:w2
+             {: RESULT = concate(w1, w2); :}
+             |
+             proofTokenSeq:w1 proofSpecial:w2
+             {: RESULT = concate(w1, w2); :}
+             |
+             {: RESULT = null; :}
+             ;
+
+ proofToken ::= decorword:s
+             {: RESULT = s; :}
+             |
+             INSTROKE
+             {: RESULT = resultFF("?", ZString.INSTROKE); :}
+             |
+             OUTSTROKE
+             {: RESULT = resultFF("!", ZString.OUTSTROKE); :}
+             |
+             NEXTSTROKE
+             {: RESULT = resultFF("'", ZString.PRIME); :}
+             |
+             NUMSTROKE:i
+             {:
+                final String numString = i.getValue().toString();
+                String latex = "_" + numString;
+                String unicode = ZString.SE + numString + ZString.NW;
+                RESULT = resultFF(latex, unicode);
+             :}
+             |
+             NUMERAL:i
+             {:
+                final String numString = i.getValue().toString();
+                RESULT = resultFF(numString, numString);
+             :}
+             |
+             paren:s
+             {: RESULT = s; :}
+             |
+             ZPROOFCOMMANDSEP
+             {:
+                RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
+             :}
+             |
+             ZPROOFDOLLAR
+             {:
+                RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
+             :}
+             ;
+
+proofSpecial ::= NL
+             {:
+                // within a ZPROOF environment, don't add hard, but soft newlines
+                RESULT = resultTT("\n", ZString.NL);
+             :}
+             |
+             INDENT:indent
+             {:
+                RESULT = resultTT(indent, indent);
+             :}
+             ;
+ </add:zeves>
+
+
+
 decorwordList ::=
-              decorwordList:dwl decorword:comma decorword:s
+              decorwordList:dw1 special:dw2
               {:
-                 if (comma == null || comma.getName().equals(","))
-                    throw new PrintException("Invalid separator in schema generic name list");
-                 RESULT = concate(dwl, concate(comma, s));
+                RESULT = concate(dw1, dw2);
+              :}
+              |
+              decorwordList:dw decorword:s
+              {:
+                 RESULT = concate(dw, s);
               :}
               |
               decorword:s
               {:
                  RESULT = s;
               :}
+              //|
+              //special:s
+              //{:
+              //   RESULT = s;
+              //:}
               ;
 
 schGenerics  ::=
