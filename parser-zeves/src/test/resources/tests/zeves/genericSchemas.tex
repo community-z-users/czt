@@ -4,7 +4,7 @@
 \end{zsection}
 
 Warning about missing hard space if no new line added. Good
-\begin{schema}{S}[X]
+\begin{schema}{S}[X, Y]
    \zstate \\
    a: \power~X \\
    b: X
@@ -12,12 +12,12 @@ Warning about missing hard space if no new line added. Good
    b \in a
 \end{schema}
 
-\begin{schema}{Init}[X]
+\begin{schema}{Init}[X, Y]
    S~'
 \where
    a = \{\}
 \end{schema}
 
 \begin{zed}
-   T[Y] == [ c: \power~Y | \lnot c = \{\} ]
+   T[X, Y] == [ c: \power~Y | \lnot c = \{\} ]
 \end{zed}

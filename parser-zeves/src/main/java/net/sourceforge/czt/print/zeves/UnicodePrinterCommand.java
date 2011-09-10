@@ -50,4 +50,10 @@ public class UnicodePrinterCommand
   {
     return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
   }
+
+  @Override
+  protected net.sourceforge.czt.print.util.PrettyPrinter createPrettyPrinter()
+  {
+    return new PrettyPrinter();
+  }
 }

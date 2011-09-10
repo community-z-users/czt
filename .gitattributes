@@ -612,6 +612,7 @@ parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/AstToPrintTreeVisitor
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/LatexPrinterCommand.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/NewlineScanner.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/OldLatexPrinterCommand.java -text
+parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/PrettyPrinter.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/PrintUtils.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/TokenSequenceVisitor.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/UnicodePrinter.java -text

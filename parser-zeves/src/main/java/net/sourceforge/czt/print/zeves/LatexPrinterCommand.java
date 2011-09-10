@@ -85,4 +85,10 @@ public class LatexPrinterCommand
   {
     return Sym.TOKENSEQ;
   }
+
+  @Override
+  protected net.sourceforge.czt.print.util.PrettyPrinter createPrettyPrinter()
+  {
+    return new PrettyPrinter();
+  }
 }

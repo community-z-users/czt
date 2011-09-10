@@ -112,6 +112,15 @@ public enum ZEvesProofKeyword implements Token {
     NewlineCategory_ = NewlineCategory;
   }
 
+  public static ZEvesProofKeyword[] usageWordsOnly()
+  {
+    return new ZEvesProofKeyword[] {
+      ZEvesProofKeyword.THMRULE,
+      ZEvesProofKeyword.THMGRULE,
+      ZEvesProofKeyword.THMAXIOM
+    };
+  }
+  
   public static ZEvesProofKeyword[] headProofWordsOnly()
   {
 //    return new String[] {

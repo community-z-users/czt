@@ -1,4 +1,4 @@
-─ section zeveslabels parents standard_toolkit └
+─ section zeveslabelsU parents standard_toolkit └
 
 More than one labelled predicate per axiomatic box (!)
 ╷ foo : ℕ |
@@ -16,7 +16,3 @@ foo < 11 └
 x : ℕ └
 
 ─ [ GS ] └
-
-znote{Note within theorem}
-znote{Note within axdef}
-znote{Note within proof}

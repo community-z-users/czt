@@ -133,7 +133,7 @@ public class LatexScannerDebugger {
   protected static void debugPrinter(Source source, SectionManager sectInfo, Term term) throws IOException, CommandException
   {
     sectInfo.setProperty("czt.debug.ZmlScanner", "false");
-    sectInfo.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, Integer.toString(2));
+    //sectInfo.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, Integer.toString(2));
     String sourceKeyName = SourceLocator.getSourceName(source.getName());
     while (sourceKeyName.lastIndexOf(".") != -1)
         sourceKeyName = sourceKeyName.substring(0, sourceKeyName.lastIndexOf("."));

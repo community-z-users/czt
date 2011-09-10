@@ -31,8 +31,8 @@ import net.sourceforge.czt.parser.util.Token;
  */
 public enum ZEvesProofToken implements Token
 {
-  ZPROOF(ZEvesString.ZPROOF, NewlineCategory.AFTER),
-  ZPROOFSECTION(ZEvesString.ZPROOFSECTION, NewlineCategory.AFTER),
+  ZPROOF(ZEvesString.ZPROOF, NewlineCategory.NEITHER),
+  ZPROOFSECTION(ZEvesString.ZPROOFSECTION, NewlineCategory.NEITHER),
   ZPROOFDOLLAR(ZEvesString.ZPROOFDOLLAR, NewlineCategory.NEITHER),
   ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH),
 
