@@ -8,12 +8,14 @@ package net.sourceforge.czt.print.zeves;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
-import net.sourceforge.czt.parser.zeves.ZEvesSymMap;
-import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Pred;
 
 /**
  *
@@ -22,7 +24,6 @@ import net.sourceforge.czt.print.util.TokenSequence;
 public class PrettyPrinter 
         extends net.sourceforge.czt.print.util.PrettyPrinter
 {
-
   private boolean seenZProof_ = false;
   private static final List<? extends Token>
           ZEVES_HEAD_PROOF_WORDS = Arrays.asList(ZEvesProofKeyword.headProofWordsOnly());
@@ -30,22 +31,34 @@ public class PrettyPrinter
   private static final List<? extends Token>
           ZEVES_USAGE_WORDS = Arrays.asList(ZEvesProofKeyword.usageWordsOnly());
 
-  @Override
-  protected int handleSpaces(ListIterator<Token> iter, Token previous, Token current, int spaceLeft, int length, int processed, int indentAmount)
-  {
-    // if I haven't seen ZPROOF yet, check it
-//    if (!seenZProof_)
-//    {
-//      seenZProof_ = previous.equals(ZEvesProofToken.ZPROOF) ||
-//                     current.equals(ZEvesProofToken.ZPROOF);
-//    }
-//    // if I have seen it, then finish only when current is END
-//    else
-//    {
-//      seenZProof_ = !current.equals(ZToken.END);
-//    }
+  protected boolean formatProofGoal_;
 
-    return super.handleSpaces(iter, previous, current, spaceLeft, length, processed, indentAmount);
+  public PrettyPrinter(Term term, int initW)
+  {
+    this(term, initW, term instanceof Pred || term instanceof Expr);
+  }
+
+  public PrettyPrinter(Term term, int initW, boolean formatProofG)
+  {
+    super(term, initW);
+    formatProofGoal_ = formatProofG;
+  }
+
+  public void setFormatProofGoal(boolean v)
+  {
+    formatProofGoal_ = v;
+  }
+
+  public boolean isFormattingProofGoals()
+  {
+    return formatProofGoal_;
+  }
+
+  @Override
+  protected int handleSpaces(ListIterator<Token> iter, Token previous, 
+          Token current, int spaceLeft, int length, boolean startedProcessing, int indentAmount)
+  {
+    return super.handleSpaces(iter, previous, current, spaceLeft, length, startedProcessing, indentAmount);
   }
 
   @Override
@@ -87,30 +100,20 @@ public class PrettyPrinter
           // (seenZProof_ && isWithinZProofHeader(previous, current));
   }
 
-  protected boolean isWithinZProofHeader(Token previous, Token current)
+  @Override
+  protected boolean considerAddingNL(Token previous, Token current,
+          int spaceLeft, int length, boolean startedProcessing)
   {
-    assert seenZProof_;
-    if (current instanceof TokenSequence)
-    {
-      final TokenSequence seq = (TokenSequence) current;
-      final List<Token> list = seq.getSequence();
-      if (list.isEmpty()) return false;
-      return isWithinZProofHeader(previous, list.get(0));
-    }
-    else if (previous instanceof TokenSequence)
-    {
-      final TokenSequence seq = (TokenSequence) previous;
-      final List<Token> list = seq.getSequence();
-      if (list.isEmpty()) return false;
-      return isWithinZProofHeader(list.get(list.size()-1), current);
-    }
-    else
-    {
-      boolean result = previous.getName().equals(ZToken.DECORWORD.getName()) &&
-                       ZEVES_HEAD_PROOF_WORDS.contains(current);
-      seenZProof_ = !result;
-      return result;
-    }
+    return super.considerAddingNL(previous, current, spaceLeft, length, startedProcessing)
+            ||
+           (formatProofGoal_ &&
+           (previous.equals(ZKeyword.AND)
+           // ||
+           //current.equals(ZKeyword.AND)
+            ||
+           current.equals(ZKeyword.IMP)
+            ||
+           previous.equals(ZKeyword.IMP)))
+           ;
   }
-
 }

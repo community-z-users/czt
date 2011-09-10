@@ -87,8 +87,8 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected net.sourceforge.czt.print.util.PrettyPrinter createPrettyPrinter()
+  protected net.sourceforge.czt.print.util.PrettyPrinter createPrettyPrinter(Term term, int initWidth)
   {
-    return new PrettyPrinter();
+    return new PrettyPrinter(term, initWidth, printStructuredGoal_);
   }
 }

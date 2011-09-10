@@ -208,10 +208,13 @@ public class LatexScannerDebugger {
   }
 
 
-  protected static void debugParser(Source source, boolean print, Integer width) throws CommandException, ParseException, IOException, UnmarshalException
+  protected static void debugParser(Source source, boolean print,
+          Integer width, boolean formatGoal) throws CommandException, ParseException, IOException, UnmarshalException
   {
       SectionManager sectInfo_ = new SectionManager("zeves");
       sectInfo_.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, width.toString());
+      sectInfo_.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL,
+              String.valueOf(formatGoal));
       File file = new File(source.getName());
       // for the case of .tex.zed8 remove all possible .s
       String sourceName = SourceLocator.getSourceName(file.getName());
@@ -274,6 +277,7 @@ public class LatexScannerDebugger {
       boolean scan = args.length == 1;
       boolean parse = scan;
       boolean print = scan;
+      boolean formatG = false;
       int width = 0;
       for(String arg : args)
       {
@@ -285,6 +289,8 @@ public class LatexScannerDebugger {
           print = true;
         else if (arg.startsWith("-w"))
           width = Integer.valueOf(arg.substring(2));
+        else if (arg.equals("-f"))
+          formatG = true;
       }
 
       Source source = new FileSource(fileName); // args[0] = -in
@@ -305,7 +311,7 @@ public class LatexScannerDebugger {
       {
         //CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
         //CztLogger.setConsoleHandler(CztLogger.getLogger(net.sourceforge.czt.zeves.jaxb.AstToJaxb.class), Level.ALL, Level.ALL, formatter);
-        debugParser(source, print, width);
+        debugParser(source, print, width, formatG);
       }
     }
     catch (Exception e) {
