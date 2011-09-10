@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.util;
 
 import java.util.List;
 import java.util.ListIterator;
+import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
@@ -35,8 +36,15 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class PrettyPrinter
 {
+  private final Term term_;
   private int lineWidth_ = PrintPropertiesKeys.PROP_TXT_WIDTH_DEFAULT;
   private int offset_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
+
+  public PrettyPrinter(Term term, int initW)
+  {
+    term_ = term;
+    lineWidth_ = initW;
+  }
 
   public void setOffset(int offset)
   {
@@ -66,7 +74,7 @@ public class PrettyPrinter
       final Token current = iter.next();
       final int length = getLength(current);
       if (previous != null) { // handle space
-        spaceLeft = handleSpaces(iter, previous, current, spaceLeft, length, processed, indentAmount);
+        spaceLeft = handleSpaces(iter, previous, current, spaceLeft, length, processed > 1, indentAmount);
       }
       if (current instanceof TokenSequence) {
         spaceLeft = handleTokenSequence((TokenSequence) current, spaceLeft, indentAmount+1);
@@ -125,15 +133,22 @@ public class PrettyPrinter
            previous.equals(ZToken.LSQUARE) && current.getName().equals(ZToken.DECORWORD.getName());
   }
 
+  protected boolean considerAddingNL(Token previous, Token current,
+          int spaceLeft, int length, boolean startedProcessing)
+  {
+    return (spaceLeft < 0 ||
+           (spaceLeft < length && startedProcessing));
+  }
+
   protected int handleSpaces(ListIterator<Token> iter, Token previous,
-          Token current, int spaceLeft, int length, int processed, int indentAmount)
+          Token current, int spaceLeft, int length, boolean startedProcessing, int indentAmount)
   {
     assert previous != null && current != null;
     boolean nlAllowedOnPrevious = allowsNlAfter(previous);
     boolean nlAllowedOnCurrent  = allowsNlBefore(current);
     boolean nlAllowed = nlAllowedOnPrevious || nlAllowedOnCurrent;
-    if (nlAllowed && (spaceLeft < 0 ||
-                      (spaceLeft < length && processed > 1))) {
+    if (nlAllowed && considerAddingNL(previous, current,
+            spaceLeft, length, startedProcessing)) {
       assert iter.hasPrevious();
 
       if (!isSpecialCase(previous, current))
