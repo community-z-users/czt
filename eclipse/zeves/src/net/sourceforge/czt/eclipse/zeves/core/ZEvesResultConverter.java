@@ -99,6 +99,9 @@ public class ZEvesResultConverter {
 
 		sectMan.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, String.valueOf(textWidth));
 		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
+		
+		// just need this property set, but it isn't working :-(... see ZEves parser LatexScannerDebugger.java debugPrinter
+		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL, "true");
 
 		StringWriter out = new StringWriter();
 
