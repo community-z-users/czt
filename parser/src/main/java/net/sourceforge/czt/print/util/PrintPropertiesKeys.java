@@ -41,6 +41,9 @@ public interface PrintPropertiesKeys
   String PROP_PRINTING_STRUCTURED_GOAL =
           "print_structured_goal";
 
+  String PROP_PRINTING_ONTHEFLY_SECTION_NAME =
+          "print_unknown_section_name";
+
   /**
    * The number of columns after which the pretty printer should
    * break the line (that is, insert a newline).
@@ -54,4 +57,5 @@ public interface PrintPropertiesKeys
   int PROP_TXT_WIDTH_DEFAULT          = 80; // ?
   int PROP_TXT_TAB_SIZE_DEFAULT       = 4;
   boolean PROP_PRINTING_STRUCTURED_GOAL_DEFAULT = false;
+  String PROP_PRINTING_ONTHEFLY_SECTION_NAME_DEFAULT = null;
 }

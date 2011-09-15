@@ -33,17 +33,53 @@ import net.sourceforge.czt.session.SectionManager;
 public abstract class AbstractPrinterCommand extends AbstractCommand implements PrintPropertiesKeys
 {
 
+  protected Integer printTextWidth_ = null;
+  protected Boolean printStructuredGoal_ = null;
+
+  /**
+   * When printing a pred/expr/para on the fly sectionName from doCompute is null,
+   * yet we need to have a section name to print, usually something "on-the-fly".
+   * This is to use the optable and latex markup function of this given section.
+   */
+  protected String onTheFlySectName_ = null;
+
   @Override
   protected void processProperties(SectionManager manager)
   {
-    if (manager.hasProperty(PROP_PRINTING_STRUCTURED_GOAL))
-    {
-      printStructuredGoal_ = manager.getBooleanProperty(PROP_PRINTING_STRUCTURED_GOAL);
-    }
+    super.processProperties(manager);
+    printStructuredGoal_ = manager.hasProperty(PROP_PRINTING_STRUCTURED_GOAL) ?
+      manager.getBooleanProperty(PROP_PRINTING_STRUCTURED_GOAL) : null;
+    onTheFlySectName_ = manager.hasProperty(PROP_PRINTING_ONTHEFLY_SECTION_NAME) ?
+      manager.getProperty(PROP_PRINTING_ONTHEFLY_SECTION_NAME) : null;
+    printTextWidth_ = manager.hasProperty(PROP_TXT_WIDTH) ?
+      manager.getIntegerProperty(PROP_TXT_WIDTH) : null;
   }
 
-  protected boolean printStructuredGoal_ = PROP_PRINTING_STRUCTURED_GOAL_DEFAULT;
-
+  protected void processProperties(Properties props)
+  {
+    String prop = props.getProperty(PROP_PRINTING_STRUCTURED_GOAL);
+    // properties might not come from the section manager (e.g., when called directly rather than through a command?)
+    // give precedence to the properties set by the section manager properties, though
+    if (prop != null && printStructuredGoal_ == null)
+    {
+      printStructuredGoal_ = "true".equals(prop);
+    }
+    prop = props.getProperty(PROP_PRINTING_ONTHEFLY_SECTION_NAME);
+    if (prop != null && onTheFlySectName_ == null)
+    {
+      onTheFlySectName_ = prop;
+    }
+    prop = props.getProperty(PROP_TXT_WIDTH);
+    if (prop != null && printTextWidth_ == null)
+    {
+      try {
+        printTextWidth_ = Integer.valueOf(prop);
+      }
+      catch (NumberFormatException e) {
+        printTextWidth_ = null;
+      }
+    }
+  }
 
   /**
    * Creates a sequence of tokens for printing. It considers precedences by adding
@@ -63,6 +99,7 @@ public abstract class AbstractPrinterCommand extends AbstractCommand implements 
                                  String sectionName,
                                  Properties props)
   {
+    processProperties(props);
     Term tree = preprocess(term, sectInfo, sectionName);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
@@ -71,12 +108,33 @@ public abstract class AbstractPrinterCommand extends AbstractCommand implements 
     tree.accept(visitor);
     TokenSequence tseq = visitor.getResult();
 
-    int textWidth = textWidth(props);
-    if (textWidth > 0) {
-      PrettyPrinter prettyPrinter = createPrettyPrinter(term, textWidth);
+    if (printTextWidth_ != null && printTextWidth_ > 0) {
+      PrettyPrinter prettyPrinter = createPrettyPrinter(term, printTextWidth_);
       prettyPrinter.handleTokenSequence(tseq, 0);
     }
     return tseq;
+  }
+
+  /**
+   * Method to be called by the SectionManager Command: properties are the ones
+   * processed via the SectionManager. toUnicode is the top-level method, which
+   * might not be called as a SectionManager.Command. In this case, properties
+   * are processed locally. 
+   *
+   * @param printer
+   * @param term
+   * @param sectInfo
+   * @param sectionName
+   * @param props
+   * @return
+   */
+  protected TokenSequence doToUnicode(ZPrinter printer,
+                                 Term term,
+                                 SectionManager sectInfo,
+                                 String sectionName,
+                                 Properties props)
+  {
+    return null;
   }
 
   protected PrettyPrinter createPrettyPrinter(Term term, int textWidth)
@@ -87,17 +145,6 @@ public abstract class AbstractPrinterCommand extends AbstractCommand implements 
   protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
   {
     return new TokenSequenceVisitor(printer, props);
-  }
-
-  protected int textWidth(Properties props)
-  {
-    String value = props.getProperty(PROP_TXT_WIDTH);
-    try {
-      return Integer.valueOf(value);
-    }
-    catch (NumberFormatException e) {
-      return -1; //PrintPropertiesKeys.PROP_TXT_WIDTH_DEFAULT;
-    }
   }
 
   protected Term preprocess(Term term,

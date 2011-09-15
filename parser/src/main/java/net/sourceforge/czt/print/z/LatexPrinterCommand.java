@@ -54,7 +54,6 @@ public class LatexPrinterCommand
     throws CommandException
   {
     try {
-      getPropConfigFrom(manager);
       traceLog("LATEX-PRINT = " + name);
       final Writer writer = new StringWriter();
       final Key<Term> key = new Key<Term>(name, Term.class);
@@ -63,7 +62,7 @@ public class LatexPrinterCommand
         printLatex(term, writer, manager, name);
       else
         // in case of spec (e.g., multiple  or anonymous sections; or on-the-fly, don't give sectionName)
-        printLatex(term, writer, manager, null);
+        printLatex(term, writer, manager, onTheFlySectName_);
       writer.close();
       manager.put(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));

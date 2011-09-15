@@ -33,6 +33,8 @@ import net.sourceforge.czt.z.ast.ZSect;
 public abstract class AbstractLatexPrinterCommand
   extends AbstractPrinterCommand implements LatexPrinterPropertyKeys
 {
+  private boolean latexWrapping_ = PROP_LATEXPRINTER_WRAPPING_DEFAULT;
+
   protected Scanner prepare(ZmlScanner scanner, Term term)
   {
     Scanner result = scanner;
@@ -50,6 +52,15 @@ public abstract class AbstractLatexPrinterCommand
     return result;
   }
 
+  @Override
+  protected void processProperties(SectionManager manager)
+  {
+    super.processProperties(manager);
+    latexWrapping_ = (manager.hasProperty(PROP_LATEXPRINTER_WRAPPING) ?
+        manager.getBooleanProperty(PROP_LATEXPRINTER_WRAPPING) :
+        PROP_LATEXPRINTER_WRAPPING_DEFAULT);
+  }
+
   protected int getSymParaStart()
   {
     return Sym.PARA_START;
@@ -64,8 +75,6 @@ public abstract class AbstractLatexPrinterCommand
   {
     return Sym.TOKENSEQ;
   }
-
-  private boolean latexWrapping_ = PROP_LATEXPRINTER_WRAPPING_DEFAULT;
 
   // TODO: make it parameterised by extension?
   public final static String LATEX_PREAMBLE =
@@ -93,14 +102,6 @@ public abstract class AbstractLatexPrinterCommand
     {
       out.write(LATEX_POSTSCRIPT);
     }
-  }
-
-  protected void getPropConfigFrom(SectionManager sectInfo)
-  {
-    latexWrapping_ =
-      (sectInfo.hasProperty(PROP_LATEXPRINTER_WRAPPING) ?
-        sectInfo.getBooleanProperty(PROP_LATEXPRINTER_WRAPPING) :
-        PROP_LATEXPRINTER_WRAPPING_DEFAULT);
   }
 }
 

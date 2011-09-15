@@ -27,7 +27,11 @@ import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 
 public class UnicodePrinterCommand
   extends AbstractPrinterCommand
@@ -41,7 +45,11 @@ public class UnicodePrinterCommand
       final Writer writer = new StringWriter();
       final Key<Term> key = new Key<Term>(name, Term.class);
       final Term term = manager.get(key);
-      printUnicode(term, writer, manager, null);
+      if (term instanceof ZSect)
+        printUnicode(term, writer, manager, name);
+      else
+        // in case of spec (e.g., multiple  or anonymous sections; or on-the-fly, don't give sectionName)
+        printUnicode(term, writer, manager, onTheFlySectName_);
       writer.close();
       manager.put(new Key<UnicodeString>(name, UnicodeString.class),
                   new UnicodeString(writer.toString()));
