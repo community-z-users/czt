@@ -1664,14 +1664,9 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
   <add:zeves>
   {PROOFWORD}
         {
-          // proof words *must* be separated
-          //addSpace_ = true;
-          String proofWord = //addSpace();
-          //proofWord +=
-          yytext();
+          String proofWord = yytext();
+          // some proof words *must* be separated
           if (proofWord.equals("to") || proofWord.equals("expression") || proofWord.equals("predicate")) addSpace_ = true;
-
-          //String proofWord = yytext();
 
           // if caught by mistake outside a z proof environment (e.g., "by" or "prove" as var name?)
           // report the error and carry on to allow for better recovery later on, rather than hard crash
@@ -1680,7 +1675,7 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           {
             reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
           }
-          //System.out.println("SEE PROOF-WORD-IN-ZED-STATE = " + proofWord);
+          //System.out.println("SEE PROOF-WORD-IN-ZED-STATE = '" + proofWord + "'; inProofScript? = " + inProofScript_);
           return result(LatexSym.PROOFWORD, proofWord);
         }
   {USAGE}
@@ -1735,12 +1730,15 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           if (braceStack_.empty()) addSpace_ = true;
           return result(result);
         }
-        // do not chance it here to allow "\\$" in names. Keep it at parser
-  ({LETTER} | [0-9])*
+  ({LETTER} | [0-9] <add:zeves> | "\\$" </add:zeves>)*
         {
           // To aid low-level debugging: ({LETTER} | [0-9])*
           String result = addSpace();
           result += yytext();
+          <add:zeves>
+          // replaces \$ for $
+          result = result.replaceAll("\\\\\\$","\\$");
+          </add:zeves>
           //System.out.println("LEXING-DECORWORD AFTER FLAG (" + catchingThmName_ + ") = '" + result + "'");
           return result(result);
         }

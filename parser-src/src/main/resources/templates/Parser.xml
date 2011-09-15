@@ -79,6 +79,7 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.Factory;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.parser.zeves.ProofTable;
+import net.sourceforge.czt.parser.zeves.Proofword;
 </add:zeves>
 
 
@@ -213,6 +214,7 @@ action code
     }
 
 <add:zeves>
+    // bla\$domainCheck or bla\$declaration
     private ZName createSpecialThmName(Decorword dw1, /*LocInfo dollar,*/ Decorword dw2)
     {
       checkName(dw1);
@@ -223,6 +225,22 @@ action code
 
       // location is the start of dw1 and end dw2
       addLocAnn(result, getLocation(dw1.getLocation(), dw2.getLocation()));
+      return result;
+    }
+
+    // unamed\$n5\$domainCheck
+    private ZName createSpecialThmName(Decorword dw1, Decorword dw2, Decorword dw3)
+    {
+      checkName(dw1);
+      checkName(dw2);
+      checkName(dw3);
+      // dw1 might have strokes; dw2/3 must not have strokes.
+      ZName result = factory_.createZName(dw1.getWord() + ZEvesString.ZPROOFDOLLARCHAR + dw2.getWord() + ZEvesString.ZPROOFDOLLARCHAR + dw3.getWord(), dw1.getStrokes());
+      checkSpecialThmSuffix(dw2);
+      checkSpecialThmSuffix(dw3);
+
+      // location is the start of dw1 and end dw2
+      addLocAnn(result, getLocation(dw1.getLocation(), dw3.getLocation()));
       return result;
     }
 
@@ -237,10 +255,31 @@ action code
     }
 
     // some very peculiar circunstances (e.g., name capture; mistaken names from thm appl) might appear like "x$"
-    private ZName createSpecialName(Decorword dw)
+    //private ZName createSpecialName(Decorword dw)
+    //{
+    //  checkName(dw);
+    //  ZName result = factory_.createZName(dw.getWord() + ZEvesString.ZPROOFDOLLARCHAR, dw.getStrokes());
+    //  addLocAnn(result, dw.getLocation());
+    //  return result;
+    //}
+
+    // x$' for x' renamed due to capture
+    // second decorword MUST be DOLLAR STROKE
+    private ZName createSpecialName(Decorword dw)//, Decorword pw)
     {
       checkName(dw);
-      ZName result = factory_.createZName(dw.getWord() + ZEvesString.ZPROOFDOLLARCHAR, dw.getStrokes());
+      //checkName(pw);
+      if ((!dw.getWord().endsWith(ZEvesString.ZPROOFDOLLARCHAR))
+          //||
+          //(pw == null || !(pw instanceof Proofword) || !pw.getStrokes().isEmpty())
+          )
+      {
+        parser.report_error(ZEvesParseMessage.MSG_INVALID_SPECIAL_THM_SUFFIX,
+            new Object[] { dw.toString() //+ String.valueOf(pw)
+                         }, dw.getLocation());
+      }
+      ZName result = factory_.createZName(dw.getWord() + ZEvesString.TO,//pw.getWord(),
+        dw.getStrokes());
       addLocAnn(result, dw.getLocation());
       return result;
     }
@@ -2217,7 +2256,7 @@ terminal LocInfo
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, ZPROOFDOLLAR, THMREPLACEMENT,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, THMREPLACEMENT,
         LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
         THMRULE, THMGRULE, THMFRULE, THMAXIOM, 
         
@@ -2325,12 +2364,12 @@ terminal Decorword
         CHANNELNAME, FIELDNAME, CHANNELERROR,
 </add:circus>
 <add:zeves>
-        THMNAME,
+        THMNAME, 
 </add:zeves>
         DECORWORD, DECLWORD;
 
 <add:zeves>
-terminal ProofWord
+terminal Proofword
         PROOFWORD;
 
 terminal LocInfo
@@ -2445,6 +2484,7 @@ non terminal DeclList
 non terminal VarDecl
     varDecl;
 non terminal ConstDecl
+    <add:zeves>bindDecl,</add:zeves>
     constDecl;
 non terminal Decl
     basicDeclaration,
@@ -2489,6 +2529,9 @@ non terminal Expr
 
 non terminal ZDeclList
     constDeclList,
+    <add:zeves>
+    bindDeclList,
+    </add:zeves>
     optConstDeclList;
 
 non terminal ZExprList
@@ -4254,21 +4297,6 @@ instOrRepl ::=
         //:}
         ;
 
-// these names appear in very specific cases, like renaming during capture, say.
-/* just usa "name ::=" or "declName ::="
-specialName ::=
-        DECORWORD:dw ZPROOFDOLLAR:d
-        {:
-          RESULT = createSpecialName(dw);
-        :}
-        |
-        DECORWORD:dw
-        {:
-          RESULT = createZName(dw);
-        :}
-        ;
-*/
-
 simplificationCommand ::=
         PROVE:cmd BY innerSimplCmd:isc
         {:
@@ -4531,11 +4559,11 @@ proofSep ::=
 
 
 applyThmName ::=
-        THMNAME:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
-        {:
-           RESULT = createSpecialThmName(dw1, dw2);
-        :}
-        |
+        //THMNAME:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
+        //{:
+        //   RESULT = createSpecialThmName(dw1, dw2);
+        //:}
+        //|
         THMNAME:dw
         {:
            RESULT = createZName(dw);
@@ -4543,11 +4571,11 @@ applyThmName ::=
         ;
 
 invokeName ::=
-        DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
-        {:
-           RESULT = createSpecialThmName(dw1, dw2);
-        :}
-        |
+        //DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
+        //{:
+        //   RESULT = createSpecialThmName(dw1, dw2);
+        //:}
+        //|
         DECORWORD:dw
         {:
            RESULT = createZName(dw);
@@ -4568,16 +4596,23 @@ thmName ::=
         // word ("print declaration X"), hence doesn't gets
         // tokenised as DECORWORD(!)
         // ex. f\$declaration, S\$declaration
-        DECORWORD:dw1 ZPROOFDOLLAR:d DECLARATION:dcl
-        {:
-           RESULT = createSpecialThmName(dw1, new Decorword(ZEvesString.DECLARATION, dcl));
-        :}
-        |
-        DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
-        {:
-           RESULT = createSpecialThmName(dw1, dw2);
-        :}
-        |
+        //DECORWORD:dw1 ZPROOFDOLLAR:d DECLARATION:dcl
+        //{:
+        //   RESULT = createSpecialThmName(dw1, new Decorword(ZEvesString.DECLARATION, dcl));
+        //:}
+        //|
+        //// NAME$domainCheck
+        //DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
+        //{:
+        //   RESULT = createSpecialThmName(dw1, dw2);
+        //:}
+        //|
+        //// unammed$ni$domainCheck
+        //DECORWORD:dw1 ZPROOFDOLLAR DECORWORD:dw2 ZPROOFDOLLAR DECORWORD:dw3
+        //{:
+        //   RESULT = createSpecialThmName(dw1, dw2, dw3);
+        //:}
+        //|
         DECORWORD:dw
         {:
            RESULT = createZName(dw);
@@ -7313,11 +7348,23 @@ name ::=
 </add:oz>
 <add:zeves>
         |
-        DECORWORD:dw ZPROOFDOLLAR:d
+        DECORWORD:dw TO
         {:
-          RESULT = createSpecialName(dw);
+           RESULT = createSpecialName(dw);
+           //System.out.println("name ::= " + RESULT);
         :}
-        </add:zeves>
+        //|
+        //// for cases like x$ and x$'  (e.g., renamed captured names)
+        //DECORWORD:dw ZPROOFDOLLAR:d
+        //{:
+        //  RESULT = createSpecialName(dw);
+        //:}
+        //|
+        //DECORWORD:dw ZPROOFDOLLARSTROKE:d
+        //{:
+        //  RESULT = createSpecialName(dw, d);
+        //:}
+</add:zeves>
         ;
 
 declWordList ::=
@@ -7511,6 +7558,14 @@ refName ::=
            //   ZEvesParseMessage.MSG_WARNING_OPNAME_IN_REFNAME.getMessage(), RESULT, loc));
            //</add:zeves>
         :}
+        <add:zeves>
+        |
+        DECORWORD:dw TO:t
+        {:
+           RESULT = createSpecialName(dw);
+           //System.out.println("refName ::= " + RESULT);
+        :}
+        </add:zeves>
         ;
 
 opName ::=
@@ -8275,6 +8330,14 @@ inner_term ::=
            addLocAnn(RESULT, getLocation(lbind, rbind));
         :}
         |
+<add:zeves>
+        LBIND:lbind bindDeclList:bdl RBIND:rbind
+        {:
+           RESULT = factory_.createBindExpr(bdl);
+           addLocAnn(RESULT, getLocation(lbind, rbind));
+        :}
+        |
+</add:zeves>
         /* empty schema construction */
         LSQUARE:lsq RSQUARE:rsq
         {:
@@ -8585,6 +8648,28 @@ constDeclList ::=
         constDecl:cd
         {: RESULT = factory_.createZDeclList(factory_.list(cd)); :}
         ;
+
+<add:zeves>
+bindDeclList ::=
+        bindDeclList:bdl COMMA bindDecl:bd
+        {:
+           bdl.getDecl().add(bd);
+           RESULT = bdl;
+        :}
+        |
+        bindDecl:bd
+        {: RESULT = factory_.createZDeclList(factory_.list(bd)); :}
+        ;
+
+bindDecl ::=
+        declName:dn COLON:c expression:e
+        {:
+           RESULT = factory_.createConstDecl(dn, e);
+           addLocAnn(RESULT, getLocation(cleft, cright, dn, e));
+        :}
+        ;
+
+</add:zeves>
 
 letDefinitionList ::=
         letDefinitionList:ldl SEMICOLON letDefinition:ld

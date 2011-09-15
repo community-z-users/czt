@@ -216,8 +216,9 @@ action code
       }
     }
     StringBuffer latex = new StringBuffer();
-    boolean addLeftSpace = false;
-    boolean addRightSpace = false;
+    boolean addLSpace = false;
+    boolean addRSpace = false;
+    <add:zeves>boolean foundDollarChar = false;</add:zeves>
     ZChar[] zchars = ZChar.toZChars(word);
     int charcount = 0;
     for (int i = 0; i &lt; zchars.length; i++) {
@@ -246,8 +247,18 @@ action code
             latex.append(command.getName());
           }
         }
-        addRightSpace = command.addRightSpace();
+        addRSpace = command.addRightSpace();
       }
+      <add:zeves>
+      else if (net.sourceforge.czt.zeves.util.ZEvesChar.isZProofDollar(zchar))
+      {
+        latex.append("\\");
+        latex.append(zchar.toString().trim());
+        foundDollarChar = true;
+        // TODO: why does this add a space after the dollar sometimes?
+        //       it occurs mainly during testing. Running directly doesn't...
+      }
+      </add:zeves>
       else if (zchar.isAsciiChar()) { // ASCII?
         latex.append(zchar.toString());
       }
@@ -265,7 +276,10 @@ action code
       }
       charcount = charcount + zchar.charCount();
     }
-    return createLatexCommand(latex.toString(), word, addLeftSpace, addRightSpace);
+    String latexStr = latex.toString();
+    //System.out.println("uniwordToLatex(" + word + ") = " + latexStr + " instead of " + latexStr.replaceAll(" ", "") <add:zeves>+ " foundDollar? = " + foundDollarChar</add:zeves>);
+    //<add:zeves>if (foundDollarChar) latexStr = latexStr.replaceAll(" ", ""); </add:zeves>
+    return createLatexCommand(latexStr, word, addLSpace, addRSpace);
   }
 
   // Whilst concate(w1, w2), spaces at edges are considered. For the cases
@@ -637,7 +651,8 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
 </add:circus>
 <add:zeves>
                    // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, ZPROOFDOLLAR, THMREPLACEMENT,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, //ZPROOFDOLLAR,
+        THMREPLACEMENT,
         LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
         PROOFWORD, THMNAME, THMRULE, THMGRULE, THMFRULE, THMAXIOM,
 
@@ -1051,11 +1066,17 @@ precedence nonassoc INDENT;
              //{:
              //   RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
              //:}
-             |
-             ZPROOFDOLLAR
-             {:
-                RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
-             :}
+             //|
+             //ZPROOFDOLLAR
+             //{:
+             //   RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
+             //:}
+             //|
+             //// only accept prime for now. See if others are needed as we process more examples
+             //ZPROOFDOLLARSTROKE:s
+             //{:
+             //   RESULT = resultFF("\\$" + s.getName().substring(1), ZEvesString.ZPROOFDOLLAR + s.getName().substring(1));
+             //:}
              |
              thmUsage:t
              {:
@@ -1113,11 +1134,11 @@ proofTokenSeq ::= proofTokenSeq:w1 proofToken:w2
              {:
                 RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
              :}
-             |
-             ZPROOFDOLLAR
-             {:
-                RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
-             :}
+             //|
+             //ZPROOFDOLLAR
+             //{:
+             //   RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
+             //:}
              ;
 
 proofSpecial ::= NL

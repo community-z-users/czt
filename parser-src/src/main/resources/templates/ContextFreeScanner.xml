@@ -450,7 +450,7 @@ WORD =   {WORDPART}+
        | {SYMBOL}+ {WORDPART}*
        | {PUNCT}+ ("\u003D" /* equals sign */)?
 WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
-ALPHASTR = ({LETTER} | {DIGIT})*
+ALPHASTR = ({LETTER} | {DIGIT} <add:zeves> | {ZPROOFDOLLAR} </add:zeves>)*
 NUMERAL = {DIGIT}+
 STROKE = {STROKECHAR} | {SE} {DIGIT} {NW}
 ZED = {ZEDCHAR}
@@ -588,11 +588,10 @@ ZREFINES = //{NL_SPACE}*
                   // for global apply "apply NAME", this gets reset at the next proof command
                   seenApply_ = proofWord.equals("apply");
                   proofWord = cleanProofWord(proofWord);
+                  //System.out.println("PROOFWORD = " + proofWord);
                   return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
                 }
 
-//  {PROOFIGNORE}+ {THMNAME} {PROOFIGNORE}+ / " to "
- // ({DECORWORD} {NL}*) / "to"
   {DECORWORD} / "to"
                 {
                   // if we've seen apply, and have a name (decorword) followed by "to", then we
@@ -611,20 +610,21 @@ ZREFINES = //{NL_SPACE}*
                   //}
                   //assert sym != null;
                   //System.out.println("DECORWORD middle = " + yytext());
+
                   Symbol symb = symbol(seenApply_ ? Sym.THMNAME : Sym.DECORWORD,
                     new Decorword(yytext(), getLocation()));
-                  //System.out.println("OUCH0 = " + yytext() + "; seen apply? = " + seenApply_);
+
+                  //System.out.println("DECORWORD / TO = '" + yytext() + "'; seen apply? = " + seenApply_);
                   return symb;
 
                 }
 
   ({PROOFWORDMIXED} {NL}*) / " "
- //  {PROOFWORDMIXED} / " "
                 { 
                   String proofWord = yytext();
                   proofWord = cleanProofWord(proofWord);
-                  //System.out.println("OUCH1    = " + proofWord + "; seen apply? = " + seenApply_);
                   if (proofWord.equals("expression") || proofWord.equals("predicate")) seenApply_ = false;
+                  //System.out.println("PROOFWORDMIXED NL* = " + proofWord + "; seen apply? = " + seenApply_);
                   return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
                 }
 
@@ -700,7 +700,8 @@ ZREFINES = //{NL_SPACE}*
 
   <add:zeves>
   // for 'special' thm names like domainCheck etc
-  {ZPROOFDOLLAR} { return symbol(Sym.ZPROOFDOLLAR); }
+  //{ZPROOFDOLLAR} { return symbol(Sym.ZPROOFDOLLAR); }
+  //{ZPROOFDOLLARSTROKE} { return symbol(Sym.ZPROOFDOLLARSTROKE, new Decorword(yytext(), getLocation())); }
   {DISABLEDTHMTAG}   { return symbol(Sym.DISABLEDTHMTAG); }
   {DISABLEDDEFTAG}   { return symbol(Sym.DISABLEDDEFTAG); }
   </add:zeves>
