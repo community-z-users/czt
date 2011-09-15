@@ -644,6 +644,7 @@ parser-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofGoal.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofGoal.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/proofGoalPP.tex -text
+parser-zeves/src/test/resources/tests/zeves/proofGoalPP.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/refRulesEquiv.tex -text
 parser-zeves/src/test/resources/tests/zeves/refRulesEquiv.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/refRulesEquiv.zml -text
