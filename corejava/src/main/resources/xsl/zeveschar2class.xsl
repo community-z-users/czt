@@ -29,6 +29,7 @@
 package net.sourceforge.czt.zeves.util;
 
 import net.sourceforge.czt.zpatt.util.*;
+import net.sourceforge.czt.z.util.*;
 
 /**
  * An interface for commonly used Z Eves proofs characters.
@@ -40,6 +41,13 @@ public class ZEvesChar extends ZPattChar
   public ZEvesChar(char[] chars)
   {
     super(chars);
+  }
+
+  public static boolean isZProofDollar(ZChar zchar)
+  {
+    return zchar.equals(ZEvesChar.ZPROOFDOLLARCHAR) ||
+           (zchar.codePoint() == ZEvesChar.ZPROOFDOLLARCHAR.codePoint() &amp;&amp;
+            zchar.charCount() == ZEvesChar.ZPROOFDOLLARCHAR.charCount());
   }
 
 </xsl:text>
