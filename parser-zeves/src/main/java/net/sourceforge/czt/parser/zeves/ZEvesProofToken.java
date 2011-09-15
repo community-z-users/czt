@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.zeves;
 
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
