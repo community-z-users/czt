@@ -47,8 +47,10 @@ public class ZEvesIf {
 	}
 	
 	// wrap into an empty schema to convert predicate to expression
+	// note the necessary space before predicate, otherwise parsing fails in some cases
+	// e.g. LSQUARE + VL + NOT + rest of var pred.. + RSQUARE
 	private String predToExpr(String pred) {
-		return ZString.LSQUARE + ZString.VL + pred + ZString.RSQUARE;
+		return ZString.LSQUARE + ZString.VL + ZString.SPACE + pred + ZString.RSQUARE;
 	}
 
 }
