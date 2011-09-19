@@ -149,3 +149,16 @@ Cannot parse Z/Eves result:
 line 1 column 5: Syntax error at symbol RSQUARE
 ***
 
+Missing parenthesis around the second argument of a nested ApplExpr
+\begin{theorem}{catSize}
+\forall  s, t: \seq~\nat @ (s \cat  t) (\# s) = 0
+\end{theorem}
+was ((s) &frown; (t)) (#) (s)  =  0
+is  ((s) &frown; (t)) ((#) (s))  =  0
+
+Missing parenthesis around the second argument of a reference expr of an ApplExpr
+\begin{theorem}{domTail}
+\forall  s: \seq~\nat @ \dom~(tail~s) = \emptyset
+\end{theorem}
+was (<word style="roman"/>dom<word/>) tail s  =  &empty;
+is  (<word style="roman"/>dom<word/>) (tail s)  =  &empty;

@@ -2888,7 +2888,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       if (op.indexOf(ZString.ARG) != -1 || op.indexOf(ZString.LPAREN) != -1 || op.indexOf("~") != -1 || op.indexOf(ZString.SPACE) != -1)
         op = "(" + op + ")";
       // if the RHS is a tupleExpr, there will be more than one parameter, need parenthesis;
-      if (term.getRightExpr() instanceof TupleExpr)// || rhs.indexOf(ZString.COMMA) != -1)
+      // or if the LHS is a nested appl expr
+      // or if the RHS is a (implicitly nested) appl expr
+      if (term.getRightExpr() instanceof TupleExpr || 
+          ZUtils.isNestedApplExpr(term) ||
+          term.getRightExpr() instanceof ApplExpr)// || rhs.indexOf(ZString.COMMA) != -1)
         rhs = "(" + rhs + ")";
       // if just a ZEves operator name (with or without generics) that is parenthesised, eg  (&xxxx;) or (&xxxx;[X,Y])
       else if (rhs.startsWith("(&") && (rhs.endsWith(";)") || (rhs.endsWith("])") && rhs.indexOf(";[") != -1)))
