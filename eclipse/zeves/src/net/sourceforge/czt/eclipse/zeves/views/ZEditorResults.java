@@ -445,7 +445,7 @@ public class ZEditorResults {
 			if (cause == null) {
 				cause = e;
 			}
-			ZEvesPlugin.getDefault().log(cause);
+			ZEvesPlugin.getDefault().log("Cannot parse Z/Eves result: " + cause.getMessage().trim(), cause);
 			return withWarning("Cannot parse Z/Eves result: " + cause.getMessage(), str);
 		}
 	}
