@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
+
 /**
  * <!ELEMENT op (name, (%form;)+, type?)>
  * 
@@ -67,7 +69,7 @@ public class ZEvesOp
   public String toString()
   {
 
-    String opName = String.valueOf(getName());
+    String opName = fixOpName(String.valueOf(getName()));
 
     List<?> form = getForm();
     if (form.size() < 1) {
@@ -91,6 +93,27 @@ public class ZEvesOp
     }
 
     return "_" + opName + "_";
+  }
+  
+  private String fixOpName(String name) {
+    
+    String minus = "-";
+    if (name.contains(minus)) {
+      // Z/Eves for both unary negation and binary minus returns the same character
+      // so check and use an appropriate one
+      if (type == OpType.PREOP) {
+        // unary negation
+        return name.replace(minus, ZString.NEG);
+      }
+      
+      if (type == OpType.INOP) {
+        // binary minus
+        return name.replace(minus, ZString.MINUS);
+      }
+    }
+    
+    // nothing to fix
+    return name;
   }
 
 }

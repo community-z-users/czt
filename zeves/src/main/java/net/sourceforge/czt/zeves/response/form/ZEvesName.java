@@ -1,6 +1,8 @@
 
 package net.sourceforge.czt.zeves.response.form;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,6 +23,12 @@ import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 public class ZEvesName
 {
 
+  /**
+   * A list of prefix functions, which are specified here because Z/Eves does not report PREFUN class 
+   */
+  private static final List<String> PREFUNS = Collections.unmodifiableList(Arrays.asList(
+      "#"));
+  
   /**
    * <!ATTLIST name scope (local | global) #IMPLIED>
    * 
@@ -123,10 +131,15 @@ public class ZEvesName
   public String getIdent()
   {
 
-    // Z/Eves outputs a simple ' instead of Prime, and it is not separated as a decorator,
-    // so instead just check and replace
-    if (ident != null && ident.endsWith("'")) {
-      ident = ident.substring(0, ident.length() - 1) + ZString.PRIME;
+    if (ident != null) {
+      if (ident.endsWith("'")) {
+        // Z/Eves outputs a simple ' instead of Prime, and it is not separated as a decorator,
+        // so instead just check and replace
+        ident = ident.substring(0, ident.length() - 1) + ZString.PRIME;
+      } else if (ident.equals("\\")) {
+        // Z/Eves outputs a simple backslash instead of setminus, so check and replace
+        ident = ZString.SETMINUS;
+      }
     }
 
     return ident;
@@ -141,8 +154,24 @@ public class ZEvesName
       return getIdent();
     }
     
+    // for genactuals, there are several cases, where Z/Eves uses them
+    // differently than CZT, so we need to take into account the operators with genacts
+    String genIdent;
+    if (PREFUNS.contains(ident) || cclass == NameClass.PREREL) {
+      // add varargs to the end
+      genIdent = "(" + ident + ZString.ARG_TOK + ")";
+    } else if (cclass == NameClass.POSTFUN) {
+      // add varargs to the front
+      genIdent = "(" + ZString.ARG_TOK + ident + ")";
+    } else if (cclass == NameClass.INFUN || cclass == NameClass.INREL) {
+      // add varargs to both sides
+      genIdent = "(" + ZString.ARG_TOK + ident + ZString.ARG_TOK + ")";
+    } else {
+      // unsupported yet - just use ident
+      genIdent = ident;
+    }
     
-    return getIdent() + getGenActInfo(genActuals.getItems());
+    return genIdent + genActs;
   }
 
   public static String getGenActInfo(List<?> genActuals)
