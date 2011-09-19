@@ -466,6 +466,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       {
         case ERROR:
           errorCount++;
+          print = true;
           break;
         case WARNING:
           switch (warningOutput)
