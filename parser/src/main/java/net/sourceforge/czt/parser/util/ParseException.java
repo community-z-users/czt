@@ -34,20 +34,25 @@ public class ParseException
   extends CommandException
   implements CztErrorList
 {
-  private List<CztError> errorList_;
+  private final List<CztError> errorList_;
 
+  public ParseException()
+  {
+    errorList_ = new ArrayList<CztError>();
+  }
   /**
    * Constructs a new parse exception with the specified error list.
    * @param errorList
    */
   public ParseException(List<CztError> errorList)
   {
-    errorList_ = errorList;
+    this();
+    errorList_.addAll(errorList);
   }
 
   public ParseException(CztError error)
   {
-    errorList_ = new ArrayList<CztError>();
+    this();
     errorList_.add(error);
   }
 
