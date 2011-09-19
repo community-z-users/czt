@@ -635,6 +635,8 @@ parser-zeves/src/test/resources/tests/zeves/bar.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zev -text
+parser-zeves/src/test/resources/tests/zeves/bindExpr.tex -text
+parser-zeves/src/test/resources/tests/zeves/bindExpr.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 parser-zeves/src/test/resources/tests/zeves/dollarNamedThm.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/foo.tex -text

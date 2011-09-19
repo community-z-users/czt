@@ -1,0 +1,21 @@
+\begin{zsection}
+ \SECTION bindExpr \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+    x: \nat \\
+    y: \nat \fun \nat
+\end{schema}
+
+\begin{schema}{T}
+   a: S \\
+   b: \nat \fun S
+\end{schema}
+
+\begin{theorem}{grule thmS}
+    S \in \power \lblot x: \num; y: \power(\num \cross \num) \rblot
+\end{theorem}
+
+\begin{theorem}{grule thmT}
+    T \in \power \lblot a: \lblot x: \num; y: \power(\num \cross \num) \rblot; b: \power(\num \cross \lblot x: \num; y: \power(\num \cross \num) \rblot) \rblot
+\end{theorem}

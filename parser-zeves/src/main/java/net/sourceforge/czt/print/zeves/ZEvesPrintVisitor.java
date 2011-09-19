@@ -1,3 +1,4 @@
+
 /*
 Copyright (C) 2004, 2005, 2006 Petra Malik, Leo Freitas
 This file is part of the czt project.
@@ -19,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.print.zeves;
 
 import java.util.Properties;
+import java.util.Stack;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZKeyword;
@@ -27,13 +29,18 @@ import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.ParenAnn;
 import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.WarningManager;
+import net.sourceforge.czt.z.visitor.BindExprVisitor;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
 import net.sourceforge.czt.z.visitor.RenameExprVisitor;
 import net.sourceforge.czt.zeves.ast.ApplyCommand;
 import net.sourceforge.czt.zeves.ast.CaseAnalysisCommand;
@@ -64,12 +71,16 @@ import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
  */
 public class ZEvesPrintVisitor
         extends net.sourceforge.czt.print.z.ZPrintVisitor
-        implements ZEvesVisitor<Object>, RenameExprVisitor<Object>
+        implements ZEvesVisitor<Object>, RenameExprVisitor<Object>, 
+                   BindExprVisitor<Object>, ConstDeclVisitor<Object>
 {
 
   private final WarningManager warningManager_;
-
+  private final Stack<Boolean> withinZEvesBindExpr_;
+  private ZName currentProofScript_ = null;
   private boolean withinWithCmdNameList_ = false;
+
+  private final Stack<InstantiationKind> currInstKind_;
 
   /**
    * Creates a new Object-Z print visitor.
@@ -82,12 +93,25 @@ public class ZEvesPrintVisitor
   {
     super(printer);
     warningManager_ = wm;
+    withinZEvesBindExpr_ = new Stack<Boolean>();
+    currInstKind_ = new Stack<InstantiationKind>();
   }
 
   public ZEvesPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm)
   {
     super(printer, properties);
     warningManager_ = wm;
+    withinZEvesBindExpr_ = new Stack<Boolean>();
+    currInstKind_ = new Stack<InstantiationKind>();
+  }
+
+  private void checkStack(InstantiationKind expected)
+  {
+    if (currInstKind_.isEmpty())
+      throw new PrintException("Inconsistent instantiation kind stack at " + currentProofScript_);
+    InstantiationKind found = currInstKind_.pop();
+    if (found != expected || !found.equals(expected))
+      throw new PrintException("Inconsistent instantiation kind stack at " + currentProofScript_ + ". Expected " + expected + ", but found " + found);
   }
 
   @Override
@@ -101,12 +125,38 @@ public class ZEvesPrintVisitor
       printTermList(renameExpr.getZRenameList());
     else
     {
-      currInstKind_ = InstantiationKind.ThmReplacement;
+      currInstKind_.push(InstantiationKind.ThmReplacement);
       printTermList(ZEvesUtils.getInstantiationListFromExpr(renameExpr));
-      currInstKind_ = null;
+      checkStack(InstantiationKind.ThmReplacement);
     }
     print(ZToken.RSQUARE);
     if (braces) print(ZToken.RPAREN);
+    return null;
+  }
+
+  @Override
+  public Object visitBindExpr(BindExpr bindExpr)
+  {
+    final boolean braces = bindExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(ZToken.LPAREN);
+    print(ZToken.LBIND);
+    withinZEvesBindExpr_.push(true);
+    // ZEves BindExpr are separated by semicolons, not commas
+    printTermList(((ZDeclList) bindExpr.getDeclList()).getDecl(), ZKeyword.SEMICOLON);
+    withinZEvesBindExpr_.pop();
+    print(ZToken.RBIND);
+    if (braces) print(ZToken.RPAREN);
+    return null;
+  }
+
+  @Override
+  public Object visitConstDecl(ConstDecl constDecl)
+  {
+    ref_ = false;
+    visit(constDecl.getName());
+    // or should this be == or \defs?
+    print(!withinZEvesBindExpr_.isEmpty() ? ZKeyword.COLON : ZKeyword.DEFEQUAL);
+    visit(constDecl.getExpr());
     return null;
   }
 
@@ -158,10 +208,12 @@ public class ZEvesPrintVisitor
   public Object visitProofScript(ProofScript term)
   {
     print(ZEvesProofToken.ZPROOF);
+    currentProofScript_ = term.getZName();
     visit(term.getName());
     printTermList(term.getProofCommandList(), ZEvesProofToken.ZPROOFCOMMANDSEP);
     if (!term.getProofCommandList().isEmpty())
       print(ZEvesProofToken.ZPROOFCOMMANDSEP);
+    currentProofScript_ = null;
     print(ZToken.END);
     return null;
   }
@@ -210,8 +262,6 @@ public class ZEvesPrintVisitor
     return null;
   }
 
-  private InstantiationKind currInstKind_ = null;
-
   @Override
   public Object visitUseCommand(UseCommand term)
   {
@@ -219,14 +269,14 @@ public class ZEvesPrintVisitor
     visit(term.getTheoremRef());
     if (term.getInstantiationList() != null)
     {
-      currInstKind_ = InstantiationKind.ThmReplacement;
+      currInstKind_.push(InstantiationKind.ThmReplacement);
       if (!term.getInstantiationList().isEmpty())
       {
         print(ZToken.LSQUARE);
         printTermList(term.getInstantiationList()); // use default COMMA separator
         print(ZToken.RSQUARE);
       }
-      currInstKind_ = null;
+      checkStack(InstantiationKind.ThmReplacement);
     }
     return null;
   }
@@ -248,7 +298,7 @@ public class ZEvesPrintVisitor
     if(term.getExpr() != null)
     {
       if (term.getPred() != null)
-        throw new PrintException("with expression command cannot have pred");
+        throw new PrintException("with expression command cannot have pred for proof " + currentProofScript_);
       print(ZEvesProofKeyword.EXPRESSION);
       print(ZToken.LPAREN);
       visit(term.getExpr());
@@ -257,7 +307,7 @@ public class ZEvesPrintVisitor
     else if (term.getPred() != null)
     {
       if (term.getExpr() != null)
-        throw new PrintException("with predicate command cannot have expr");
+        throw new PrintException("with predicate command cannot have expr for proof " + currentProofScript_);
       print(ZEvesProofKeyword.PREDICATE);
       print(ZToken.LPAREN);
       visit(term.getPred());
@@ -268,7 +318,7 @@ public class ZEvesPrintVisitor
       if (!(term.getExpr() == null && term.getPred() == null
              && term.getNameList() instanceof ZNameList
              && !term.getZNameList().isEmpty()))
-        throw new PrintException("with enabled/disabled command cannot have expr or pred and name list must not be empty");
+        throw new PrintException("with enabled/disabled command cannot have expr or pred and name list must not be empty for proof " + currentProofScript_);
       print(term.getEnabled() ? ZEvesProofKeyword.ENABLED : ZEvesProofKeyword.DISABLED);
       print(ZToken.LPAREN);
       withinWithCmdNameList_ = true;
@@ -278,11 +328,11 @@ public class ZEvesPrintVisitor
     }
     else
     {
-      throw new PrintException("Unknown WithCommand: neither expression, predicate, enabled or disabled.");
+      throw new PrintException("Unknown WithCommand: neither expression, predicate, enabled or disabled for proof " + currentProofScript_);
     }
     if(term.getProofCommand() == null)
     {
-      throw new PrintException("with command must have an inner command");
+      throw new PrintException("with command must have an inner command for proof " + currentProofScript_);
     }
     visit(term.getProofCommand());
     return null;
@@ -293,12 +343,12 @@ public class ZEvesPrintVisitor
   {
     if (!(term.getProofCommand() == null
            && term.getNameList() == null || term.getNameList() instanceof ZNameList))
-      throw new PrintException("subst command not must have a subcmd and a Z namelist");
+      throw new PrintException("subst command not must have a subcmd and a Z namelist for proof " + currentProofScript_);
     switch (term.getKind())
     {
       case Invoke:
         if (term.getExpr() != null)
-          throw new PrintException("invoke command cannot have an expression");
+          throw new PrintException("invoke command cannot have an expression for proof " + currentProofScript_);
 
         print(ZEvesProofKeyword.INVOKE);
         if (term.getPred() != null)
@@ -309,13 +359,13 @@ public class ZEvesPrintVisitor
         else if (term.getNameList() != null)
         {
           if (term.getZNameList().size() != 1)
-            throw new PrintException("invoke cmd only on a single name");
+            throw new PrintException("invoke cmd only on a single name for proof " + currentProofScript_);
           visit(term.getZNameList().get(0));
         }
         break;
       case Equality:
         if (term.getPred() != null)
-          throw new PrintException("equality substitute command cannot have a predicate");
+          throw new PrintException("equality substitute command cannot have a predicate for proof " + currentProofScript_);
         print(ZEvesProofKeyword.EQUALITY);
         print(ZEvesProofKeyword.SUBSTITUTE);
         if (term.getExpr() != null)
@@ -346,9 +396,9 @@ public class ZEvesPrintVisitor
             print(ZEvesProofKeyword.REDUCE);
             break;
           case Trivial:
-            throw new PrintException("INVALID(trivial reduce)");
+            throw new PrintException("INVALID(trivial reduce)  for proof " + currentProofScript_);
           default:
-            throw new PrintException();
+            throw new PrintException(" for proof " + currentProofScript_);
         }
         break;
       case Rewrite:
@@ -367,7 +417,7 @@ public class ZEvesPrintVisitor
             print(ZEvesProofKeyword.REWRITE);
             break;
           default:
-            throw new PrintException();
+            throw new PrintException(" for proof " + currentProofScript_);
         }
         break;
       case Simplify:
@@ -377,17 +427,17 @@ public class ZEvesPrintVisitor
             print(ZEvesProofKeyword.SIMPLIFY);
             break;
           case Prove:
-            throw new PrintException("INVALID(prove by simplify)");
+            throw new PrintException("INVALID(prove by simplify) for proof " + currentProofScript_);
           case Trivial:
             print(ZEvesProofKeyword.TRIVIAL);
             print(ZEvesProofKeyword.SIMPLIFY);
             break;
           default:
-            throw new PrintException();
+            throw new PrintException(" for proof " + currentProofScript_);
         }
         break;
       default:
-        throw new PrintException();
+        throw new PrintException(" for proof " + currentProofScript_);
     }
     return null;
   }
@@ -406,11 +456,11 @@ public class ZEvesPrintVisitor
       case Split:
         print(ZEvesProofKeyword.SPLIT);
         if (term.getPred() == null)
-          throw new PrintException("Invalid split - null predicate");
+          throw new PrintException("Invalid split - null predicate for proof " + currentProofScript_);
         visit(term.getPred());
         break;
       default:
-        throw new PrintException();
+        throw new PrintException(" for proof " + currentProofScript_);
     }
     return null;
   }
@@ -425,11 +475,11 @@ public class ZEvesPrintVisitor
     else
     {
       if (!(term.getInstantiationList() != null && !term.getInstantiationList().isEmpty()))
-        throw new PrintException("quantifiers instantiation list cannot be empty");
+        throw new PrintException("quantifiers instantiation list cannot be empty for proof " + currentProofScript_);
       print(ZEvesProofKeyword.INSTANTIATE);
-      currInstKind_ = InstantiationKind.Quantifier;
+      currInstKind_.push(InstantiationKind.Quantifier);
       printTermList(term.getInstantiationList());
-      currInstKind_ = null;
+      checkStack(InstantiationKind.Quantifier);      
     }
     return null;
   }
@@ -441,13 +491,13 @@ public class ZEvesPrintVisitor
            && term.getNameList() != null
            && term.getNameList() instanceof ZNameList
            && term.getZNameList().size() == 1))
-      throw new PrintException("apply command cannot have subcommand and must have a singleton Z namelist");
+      throw new PrintException("apply command cannot have subcommand and must have a singleton Z namelist for proof " + currentProofScript_);
     print(ZEvesProofKeyword.APPLY);
     visit(term.getZNameList().get(0));
     if (term.getPred() != null)
     {
       if (term.getExpr() != null)
-        throw new PrintException("apply to predicate cannot have an expression");
+        throw new PrintException("apply to predicate cannot have an expression for proof " + currentProofScript_);
       print(ZEvesProofKeyword.TO);
       print(ZEvesProofKeyword.PREDICATE);
       visit(term.getPred());
@@ -455,7 +505,7 @@ public class ZEvesPrintVisitor
     else if (term.getExpr() != null)
     {
       if (term.getPred() != null)
-        throw new PrintException("apply to expression cannot have an predicate");
+        throw new PrintException("apply to expression cannot have an predicate for proof " + currentProofScript_);
       print(ZEvesProofKeyword.TO);
       print(ZEvesProofKeyword.EXPRESSION);
       visit(term.getExpr());
@@ -466,10 +516,10 @@ public class ZEvesPrintVisitor
   @Override
   public String visitInstantiation(Instantiation term)
   {
-    if (!term.getKind().equals(currInstKind_))
-      throw new PrintException("inconsistent instantiation kind. found " + term.getKind() + "; expected " + currInstKind_);
+    if (currInstKind_.isEmpty() || !term.getKind().equals(currInstKind_.peek()))
+      throw new PrintException("inconsistent instantiation kind. found " + term.getKind() + "; expected " + currInstKind_.peek() + " for proof " + currentProofScript_);
     visit(term.getName());
-    print(currInstKind_ == InstantiationKind.Quantifier ? ZKeyword.DEFEQUAL : ZEvesProofKeyword.THMREPLACEMENT);
+    print(currInstKind_.peek().equals(InstantiationKind.Quantifier) ? ZKeyword.DEFEQUAL : ZEvesProofKeyword.THMREPLACEMENT);
     visit(term.getExpr());
     return null;
   }
