@@ -28,7 +28,8 @@ public class ZEvesName
    */
   public enum NameScope {
     @XmlEnumValue("local")
-    LOCAL, @XmlEnumValue("global")
+    LOCAL, 
+    @XmlEnumValue("global")
     GLOBAL
   }
 
@@ -41,10 +42,14 @@ public class ZEvesName
    */
   public enum NameStyle {
     @XmlEnumValue("roman")
-    ROMAN, @XmlEnumValue("underlined")
-    UNDERLINED, @XmlEnumValue("italic")
-    ITALIC, @XmlEnumValue("bold")
-    BOLD, @XmlEnumValue("sans")
+    ROMAN, 
+    @XmlEnumValue("underlined")
+    UNDERLINED, 
+    @XmlEnumValue("italic")
+    ITALIC, 
+    @XmlEnumValue("bold")
+    BOLD, 
+    @XmlEnumValue("sans")
     SANS
   }
 
@@ -57,15 +62,24 @@ public class ZEvesName
    */
   public enum NameClass {
     @XmlEnumValue("infun")
-    INFUN, @XmlEnumValue("ingen")
-    INGEN, @XmlEnumValue("inrel")
-    INREL, @XmlEnumValue("pregen")
-    PREGEN, @XmlEnumValue("prerel")
-    PREREL, @XmlEnumValue("postfun")
-    POSTFUN, @XmlEnumValue("word")
-    WORD, @XmlEnumValue("opname")
-    OPNAME, @XmlEnumValue("relimg")
-    RELIMG, @XmlEnumValue("other")
+    INFUN, 
+    @XmlEnumValue("ingen")
+    INGEN,
+    @XmlEnumValue("inrel")
+    INREL,
+    @XmlEnumValue("pregen")
+    PREGEN,
+    @XmlEnumValue("prerel")
+    PREREL,
+    @XmlEnumValue("postfun")
+    POSTFUN,
+    @XmlEnumValue("word")
+    WORD,
+    @XmlEnumValue("opname")
+    OPNAME,
+    @XmlEnumValue("relimg")
+    RELIMG,
+    @XmlEnumValue("other")
     OTHER
   }
 
@@ -121,6 +135,13 @@ public class ZEvesName
   @Override
   public String toString()
   {
+    String genActs = getGenActInfo(genActuals.getItems());
+    String ident = getIdent();
+    if (genActs.isEmpty()) {
+      return getIdent();
+    }
+    
+    
     return getIdent() + getGenActInfo(genActuals.getItems());
   }
 
