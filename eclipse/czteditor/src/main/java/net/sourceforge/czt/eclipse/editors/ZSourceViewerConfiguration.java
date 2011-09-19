@@ -28,6 +28,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.ITextViewerExtension2;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.reconciler.IReconciler;
@@ -51,7 +53,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
 
   private CZTTextTools fCZTTextTools;
 
-  private ITextEditor fTextEditor;
+  private ZEditor fTextEditor;
 
   private IColorManager fColorManager;
 
@@ -84,7 +86,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    * @param partitioning the document partitioning for this configuration, or <code>null</code> for the default partitioning
    */
   public ZSourceViewerConfiguration(IColorManager colorManager,
-      IPreferenceStore preferenceStore, ITextEditor editor, String partitioning)
+      IPreferenceStore preferenceStore, ZEditor editor, String partitioning)
   {
     super(preferenceStore);
     fColorManager = colorManager;
@@ -325,21 +327,16 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
 
   /*
    * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant(org.eclipse.jface.text.source.ISourceViewer)
-   *//*
-   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer)
-   {
-   System.out.println("ZSourceViewerConfiguration.getContentAssistant starts");
-   ContentAssistant assistant = new ContentAssistant();
-   assistant.setContentAssistProcessor(new ZCompletionProcessor(),
-   IDocument.DEFAULT_CONTENT_TYPE);
-   assistant.enableAutoActivation(true);
-   assistant.setAutoActivationDelay(500);
-   assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
-   System.out
-   .println("ZSourceViewerConfiguration.getContentAssistant finishes");
-   return assistant;
-   }
    */
+  public IContentAssistant getContentAssistant(ISourceViewer sourceViewer)
+  {
+    ContentAssistant assistant = new ContentAssistant();
+    assistant.setContentAssistProcessor(new ZCompletionProcessor(fTextEditor), IDocument.DEFAULT_CONTENT_TYPE);
+    assistant.enableAutoActivation(true);
+    assistant.setInformationControlCreator(getInformationControlCreator(sourceViewer));
+    return assistant;
+  }
+
   /**
    * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(ISourceViewer)
    */
@@ -373,14 +370,6 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   protected ITextEditor getEditor()
   {
     return fTextEditor;
-  }
-
-  /**
-   * Sets the fEditor in which the configured viewer(s) will reside.
-   */
-  protected void setEditor(ITextEditor editor)
-  {
-    fTextEditor = editor;
   }
 
   public String getSourceFileType()

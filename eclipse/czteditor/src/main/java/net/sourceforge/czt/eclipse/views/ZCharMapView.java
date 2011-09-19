@@ -6,18 +6,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.editors.IDialectChangedListener;
+import net.sourceforge.czt.eclipse.editors.ZChar;
+import net.sourceforge.czt.eclipse.editors.ZCharTable;
+import net.sourceforge.czt.eclipse.editors.ZDialectSupport;
+import net.sourceforge.czt.eclipse.editors.ZDialectSupport.ZDialect;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.session.Markup;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -74,71 +75,17 @@ public class ZCharMapView extends ViewPart
   
   private static final String EDITOR_FONT = ZEditorConstants.FONT_UNICODE;
   
-  enum DialectTable {
-    Z("z", "Z", "lib/ZTable.xml", 'Z'), 
-    OBJECT_Z("oz", "Object Z", "lib/ObjectZTable.xml", 'O'), 
-    CIRCUS("circus", "Circus", "lib/CircusTable.xml", 'C'), 
-    ZEVES("zeves", "Z/Eves", "lib/ZEvesTable.xml", 'E');
-    
-    private final String dialect;
-    private final String label;
-    private final IPath path;
-    private final char mnemonic;
-    
-    private DialectTable(String dialect, String label, String path, char mnemonic) {
-      this.dialect = dialect;
-      this.label = label;
-      this.path = new Path(path);
-      this.mnemonic = mnemonic;
-    }
-
-    public String getDialect()
-    {
-      return dialect;
-    }
-
-    public String getLabel()
-    {
-      return label;
-    }
-
-    public IPath getPath()
-    {
-      return path;
-    }
-    
-    public char getMnemonic()
-    {
-      return mnemonic;
-    }
-
-    public static DialectTable find(String dialect) {
-      for (DialectTable table : DialectTable.values()) {
-        if (table.getDialect().equals(dialect)) {
-          return table;
-        }
-      }
-      
-      // use Z by default
-      return Z;
-    }
-  }
-  
-  private final Map<DialectTable, ZCharTable> dialectTables = new LinkedHashMap<DialectTable, ZCharTable>();
-  
   private TableViewer viewer;
   private Font editorFont;
   private StyledToolTipSupport toolTipSupport;
   
   private SelectZCharTableAction selectAction;
+  
+  private IDialectChangedListener dialectListener;
 
   public ZCharMapView()
   {
     super();
-    
-    for (DialectTable tableId : DialectTable.values()) {
-      dialectTables.put(tableId, new ZCharTable(tableId.getPath()));
-    }
   }
 
   private Font getEditorFont()
@@ -164,31 +111,34 @@ public class ZCharMapView extends ViewPart
     IToolBarManager tbm= getViewSite().getActionBars().getToolBarManager();
     configureToolBar(tbm);
     
-    getPrefs().addPropertyChangeListener(new IPropertyChangeListener() {
-
-        @Override
-        public void propertyChange(PropertyChangeEvent event)
+    ZDialectSupport.INSTANCE.addDialectChangedListener(dialectListener = 
+        new IDialectChangedListener()
         {
-          String key = event.getProperty();
-          if (key.equals(PreferenceConstants.PROP_DIALECT)) {
-            String value = String.valueOf(event.getNewValue());
-            selectDialectTable(value);
+
+          @Override
+          public void dialectChanged(String newDialect)
+          {
+            selectDialectTable(newDialect);
           }
-        }
-      });
+        });
+    
     
     // select current dialect table
-    String dialect = getPrefs().getString(PreferenceConstants.PROP_DIALECT);
-    selectDialectTable(dialect);
+    selectTable(ZDialectSupport.INSTANCE.getCurrentDialectTableId());
   }
 
-  private IPreferenceStore getPrefs()
+  @Override
+  public void dispose()
   {
-    return CZTPlugin.getDefault().getPreferenceStore();
+    if (dialectListener != null) {
+      ZDialectSupport.INSTANCE.removeDialectChangedListener(dialectListener);
+      dialectListener = null;
+    }
+    super.dispose();
   }
-  
+
   private void createActions() {
-    this.selectAction = new SelectZCharTableAction(this, dialectTables.keySet());
+    this.selectAction = new SelectZCharTableAction(this, ZDialectSupport.INSTANCE.getTableIds());
   }
   
   protected void configureToolBar(IToolBarManager mgr)
@@ -203,16 +153,16 @@ public class ZCharMapView extends ViewPart
   
   private void selectDialectTable(String dialect)
   {
-    selectTable(DialectTable.find(dialect));
+    selectTable(ZDialect.find(dialect));
   }
   
-  void selectTable(DialectTable table) {
+  void selectTable(ZDialect table) {
     if (table == null) {
-      table = DialectTable.Z;
+      table = ZDialect.Z;
     }
     
     selectAction.setCurrentTable(table);
-    viewer.setInput(dialectTables.get(table));
+    viewer.setInput(ZDialectSupport.INSTANCE.getCharacterTable(table));
     
     setContentDescription(table.getLabel() + " character table");
   }
@@ -281,7 +231,7 @@ public class ZCharMapView extends ViewPart
     
     // get the longest column count of all tables
     int maxColumnCount = 0;
-    for (ZCharTable charTable : dialectTables.values()) {
+    for (ZCharTable charTable : ZDialectSupport.INSTANCE.getCharacterTables()) {
       maxColumnCount = max(maxColumnCount, charTable.getColumnCount());
     }
 

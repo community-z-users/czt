@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.views;
+package net.sourceforge.czt.eclipse.editors;
 
 import java.util.ArrayList;
 import java.util.List;

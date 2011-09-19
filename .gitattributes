@@ -151,8 +151,10 @@ eclipse/czteditor/lib/ZTable.xsd -text
 eclipse/czteditor/schema/problemSeverityProviders.exsd -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/CZTCompositeReconcilingStrategy.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/CompositeReconcilingStrategy.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/IDialectChangedListener.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/IZReconcilingListener.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/ZAnnotationReconcilingStrategy.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/ZDialectSupport.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/ZSpecDecorationSupport.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/actions/CZTActionConstants.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/actions/ConversionAction.java -text

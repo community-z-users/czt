@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import net.sourceforge.czt.eclipse.CZTPluginImages;
-import net.sourceforge.czt.eclipse.views.ZCharMapView.DialectTable;
+import net.sourceforge.czt.eclipse.editors.ZDialectSupport.ZDialect;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
@@ -30,12 +30,12 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
   
   private final ZCharMapView charView;
 
-  private final List<DialectTable> charTables = new ArrayList<DialectTable>();
+  private final List<ZDialect> charTables = new ArrayList<ZDialect>();
 
   private IContributionManager mgr;
   private Menu fMenu;
 
-  public SelectZCharTableAction(ZCharMapView charView, Collection<DialectTable> charTables)
+  public SelectZCharTableAction(ZCharMapView charView, Collection<ZDialect> charTables)
   {
     this.charView = charView;
     this.charTables.addAll(charTables);
@@ -85,7 +85,7 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
     }
 
     fMenu = new Menu(parent);
-    for (DialectTable table : charTables) {
+    for (ZDialect table : charTables) {
       ActionContributionItem item = new ActionContributionItem(new DialectTableAction(table));
       item.fill(fMenu, -1);
     }
@@ -101,7 +101,7 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
     return null;
   }
 
-  public void setCurrentTable(DialectTable table) {
+  public void setCurrentTable(ZDialect table) {
     setText(table.getLabel());
     if (mgr != null) {
       mgr.update(true);
@@ -112,22 +112,41 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
     this.mgr = mgr;
   }
 
-  private static String getActionText(DialectTable table) {
+  private static String getActionText(ZDialect table) {
     String text = table.getLabel();
-    int mnemonicIndex = text.indexOf(table.getMnemonic());
-    if (mnemonicIndex >= 0) {
-      text = (new StringBuilder(text)).insert(mnemonicIndex, "&").toString();
+    Character mnemonic = getMnemonic(table);
+    if (mnemonic != null) {
+      int mnemonicIndex = text.indexOf(mnemonic);
+      if (mnemonicIndex >= 0) {
+        text = (new StringBuilder(text)).insert(mnemonicIndex, "&").toString();
+      }
     }
     
     return text;
   }
   
+  private static Character getMnemonic(ZDialect table)
+  {
+    switch (table) {
+      case Z :
+        return 'Z';
+      case OBJECT_Z :
+        return 'O';
+      case CIRCUS :
+        return 'C';
+      case ZEVES :
+        return 'E';
+    }
+
+    return null;
+  }
+  
   private class DialectTableAction extends Action
   {
 
-    private final DialectTable table;
+    private final ZDialect table;
 
-    public DialectTableAction(DialectTable table)
+    public DialectTableAction(ZDialect table)
     {
       setText(getActionText(table));
       this.table = table;

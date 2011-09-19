@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.views;
+package net.sourceforge.czt.eclipse.editors;
 
 import java.io.InputStream;
 import java.util.List;
