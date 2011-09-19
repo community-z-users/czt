@@ -67,9 +67,7 @@ public class <class/>
       throw e;
     }
     catch (ScanException e) {
-      List&lt;CztError&gt; errorList = new ArrayList&lt;CztError&gt;();
-      errorList.add(e);
-      throw new ParseException(errorList);
+      throw new ParseException(e);
     }
     catch (Exception e) {
       throw new RuntimeException("This should never happen", e);

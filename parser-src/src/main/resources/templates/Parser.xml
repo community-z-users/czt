@@ -1100,6 +1100,15 @@ action code
           CztLogger.getLogger(<class/>.class).warning(message);
         }
       }
+
+<add:zeves>
+      if (sectName.equals("zeves_toolkit"))
+      {
+        // adds applies$to definitions to top of sections Z para list
+        parserState_.updateZSectWithAddedPara(sect);
+      }
+</add:zeves>
+
       // Retrieves the markup directives through the markup function
       // from the section manager. The markup function calculates the
       // LaTeX markup directives within a section. When no directives
@@ -1109,7 +1118,6 @@ action code
         final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
         ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
       }
-
 <add:circus>
       // Add implicit process paragraphs to the ZSect term.
       ZUtils.assertZParaList(sect.getParaList()).addAll(parserState_.getImplicitlyDeclProcPara());
@@ -1937,8 +1945,13 @@ parser code
 
     protected boolean hasErrors()
     {
-      //return error_;
-      return !errorList_.isEmpty();
+      for(CztError e : errorList_)
+      {
+        if (e.getErrorType() == ErrorType.ERROR)
+          return true;
+
+      }
+      return false;
     }
 
     protected void raiseErrors() throws ParseException
@@ -8651,7 +8664,7 @@ constDeclList ::=
 
 <add:zeves>
 bindDeclList ::=
-        bindDeclList:bdl COMMA bindDecl:bd
+        bindDeclList:bdl SEMICOLON bindDecl:bd
         {:
            bdl.getDecl().add(bd);
            RESULT = bdl;
@@ -8662,8 +8675,20 @@ bindDeclList ::=
         ;
 
 bindDecl ::=
-        declName:dn COLON:c expression:e
+        // because of COLON, this will be a DECLWORD
+        DECLWORD:dn COLON:c expression:e
         {:
+           ZName zn = createZName(dn);
+           RESULT = factory_.createConstDecl(zn, e);
+           addLocAnn(RESULT, getLocation(cleft, cright, zn, e));
+        :}
+        |
+        // this is an odd one: an operator name as part of the schema declarations...?
+        opName:on COLON:c expression:e
+        {:
+           final LocInfo loc = getLocation(onleft, onright);
+           ZName dn = strListToZName(on, loc);
+           dn.getAnns().add(factory_.createParenAnn()); //add?
            RESULT = factory_.createConstDecl(dn, e);
            addLocAnn(RESULT, getLocation(cleft, cright, dn, e));
         :}

@@ -1671,7 +1671,9 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           // if caught by mistake outside a z proof environment (e.g., "by" or "prove" as var name?)
           // report the error and carry on to allow for better recovery later on, rather than hard crash
           // with throw new ScanException. TODO: which is better?
-          if (!inProofScript_)
+
+          // added a comparison for "to" for the *very* specific "applies$to" operator :-(
+          if (!inProofScript_ &amp;&amp; proofWord.compareToIgnoreCase("to") != 0)
           {
             reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
           }

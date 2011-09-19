@@ -215,6 +215,12 @@ public class <class/>
             ! sectName_.equals("zeves_prelude")) {
           addMarkupFunction("zeves_prelude");
         }
+
+        // extra elements for zeves_toolkit implicitly added
+        if (sectName_.equals("zeves_toolkit"))
+        {
+          addZEvesImplicitMarkupDirectives();
+        }
 </add:zeves>
         if (parents_ != null) {
           String[] parents = parents_.split(",");
@@ -461,6 +467,23 @@ public class <class/>
                        args,
                        location);
   }
+
+  <add:zeves>
+  private void addZEvesImplicitMarkupDirectives()
+  {
+    // adds manually applies$to directive as Zinword applies\$to applies$to
+    //  Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
+    //  directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
+    //                                                token.getLocation().getLine(),
+    //                                                null));
+    //  try {
+    //    markupFunction_.add(directive);
+    //  }
+    //  catch (MarkupException e) {
+    //    reportError(e);
+    //  }
+  }
+  </add:zeves>
 
   public interface LatexLexer
     extends Lexer
