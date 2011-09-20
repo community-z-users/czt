@@ -726,32 +726,11 @@ PROOFWORDMIXED   = "expression" | "predicate" | "to"
 
 PROOFWORDPART    = {PROOFWORDHEAD} | {PROOFWORDFOLLOWS} | {PROOFWORDMIXED}
 
-//PROOFWORDBEGIN   = {PROOFWORDHEAD} ({IGNORE}+ {PROOFWORDPART})*
-//PROOFWORDMIDDLE  = ("to" {IGNORE}+ {PROOFWORDMIXED}) //| {PROOFWORDMIXED}
-
-//PROOFWORD        = {PROOFWORDBEGIN} | {PROOFWORDMIDDLE}
-
 PROOFWORD = {PROOFWORDPART} {IGNORE}* // maybe followed by ; directly as in "reduce;"
-
-//PROOFCMDBEGIN   = "check" | "declare" | "help" | "parent" | "print" | "quit" |
-//                  "read" | "reset" | "retry" | "theorems" | "undo" |
-//                  "zsection" | "ztags"
-
-//PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "proof" |
-//                  "script" | "status" | "summary" | "syntax" | "to" | "through"
-
-//PROOFCMDPART    = {PROOFCMDBEGIN} | {PROOFCMDMIDDLE}
-//PROOFCOMMAND    = {PROOFCMDBEGIN}  ({IGNORE}+ {PROOFCMDPART})*
 
 ABILITY = "enabled" | "disabled"
 USAGE   = "axiom" | "frule" | "grule" | "rule"
 
-ZEVES_OP_FCNP = [1-6]
-//ZEVES_OP_FCN  = "infun" | "postfun"
-ZEVES_OP_FCNN = "infun" {ZEVES_OP_FCNP} | "postfun"
-ZEVES_OP_GEN  = "ingen" | "pregen"
-ZEVES_OP_REL  = "inrel" | "prerel"
-ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
 </add:zeves>
 
 %state ZED
@@ -770,7 +749,6 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
 <add:zeves>
 %state ZNOTE_STATE
 %state ZLABEL_STATE
-%state ZEVES_OPT_STATE
 </add:zeves>
 
 %%
@@ -1662,6 +1640,14 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           return result(result);
         }
   <add:zeves>
+  "applies\\$to"
+        {
+          String result = yytext();
+          addSpace_ = true;
+          result = result.replaceAll("\\\\\\$","\\$");
+          return result(result);
+        }
+
   {PROOFWORD}
         {
           String proofWord = yytext();
@@ -1856,166 +1842,6 @@ ZEVES_OP_CLS  = {ZEVES_OP_FCNN} | {ZEVES_OP_GEN} | {ZEVES_OP_REL}
           return result(result);
         }
 }
-
-&lt;ZEVES_OPT_STATE&gt; {
-   {ZEVES_OP_FCNN}
-      {
-        final String syndef = yytext();
-        if (synDefOpName_ == null)
-        {
-          reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_UMATCHED_SYNDEFOPNAME, syndef, syndef);
-        }
-
-        // pass  infun/prefun/postfun as \\function template to Unicode stream
-        System.out.println("ZEVES_OP_FCNN = '" + syndef + "'");
-
-        String result = toUnicode("\\function", true);
-        boolean hasPrec = syndef.startsWith("infun");
-        if (hasPrec)
-        {
-          result += ZString.SPACE;
-          // makes 1-6 = 10-60 for compatibility with Z Std mathematical toolkit opt binding powers
-          result += yycharat(yylength()-1) + "0";
-          //result += ZString.SPACE;
-          result += toUnicode("\\leftassoc", true);
-        }
-        else
-        {
-          assert syndef.equals("postfun");
-        }
-
-        System.out.println("ZEVES_OP_FCNN result = '" + result + "'" + "; synDefOpName = " + synDefOpName_);
-
-        return result(result);
-      }
-   {ZEVES_OP_GEN}
-      {
-        final String syndef = yytext();
-        if (synDefOpName_ == null)
-        {
-          reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_UMATCHED_SYNDEFOPNAME, syndef, syndef);
-        }
-        System.out.println("ZEVES_OP_GEN = '" + syndef + "'");
-
-        // pass  ingen/pregen as \\generic template to Unicode stream
-        String result = toUnicode("\\generic", true);
-
-        if (syndef.startsWith("ingen"))
-        {
-          result += "100";
-          result += toUnicode("\\leftassoc", true);
-        }
-        else
-        {
-          assert syndef.equals("pregen");
-        }
-
-        System.out.println("ZEVES_OP_GEN result = '" + result + "'" + "; synDefOpName = " + synDefOpName_);
-
-        return result(result);
-      }
-   {ZEVES_OP_REL}
-      {
-        final String syndef = yytext();
-        if (synDefOpName_ == null)
-        {
-          reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_UMATCHED_SYNDEFOPNAME, syndef, syndef);
-        }
-        System.out.println("ZEVES_OP_REL = '" + syndef + "'");
-
-        // pass  infun/prefun/postfun as \\function template to Unicode stream
-        String result = toUnicode("\\relation", true);
-
-        if (syndef.startsWith("inrel"))
-        {
-          result += "100";
-          result += toUnicode("\\leftassoc", true);
-        }
-        else
-        {
-          assert syndef.equals("prerel");
-        }
-
-        System.out.println("ZEVES_OP_REL result = '" + result + "'" + "; synDefOpName = " + synDefOpName_);
-
-        return result(result);
-      }
-   {ZEVES_OP_FCNP}
-      {
-        String result = String.valueOf(Integer.valueOf(yytext()) * 10);
-        System.out.println("ZEVES_OP_FCNP = '" + result + "'");
-        return result(result);
-      }
-   "}{"
-      {
-        boolean okay = !braceStack_.empty();
-        BraceType brace = null;
-        if (okay)
-        {
-          brace = (BraceType) braceStack_.pop();
-          okay = brace.equals(BraceType.SYNDEF);
-        }
-        if (!okay) {
-          final ErrorType errorType = ErrorType.ERROR;
-          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
-        }
-        else
-        {
-          braceStack_.push(BraceType.SYNDEF);
-        }
-        return result(ZString.SPACE);
-      }
-   "}"
-      {
-        boolean okay = !braceStack_.empty();
-        BraceType brace = null;
-        if (okay)
-        {
-          brace = (BraceType) braceStack_.pop();
-          okay = brace.equals(BraceType.SYNDEF);
-        }
-        if (!okay) {
-          final ErrorType errorType = ErrorType.ERROR;
-          reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
-        }
-        yybegin(YYINITIAL);
-        synDefOpName_ = null;
-        return result(ZString.END);
-      }
-
-  // string or word...
-  {COMMAND}
-        {
-          String result = addSpace();
-          boolean spaces = braceStack_.empty();
-          String zstring = toUnicode(yytext(), spaces);
-          if (zstring != null) {
-            result += zstring;
-          }
-          else {
-            reportUnknownLatexCommand(yytext());
-            if (spaces) result += ZString.SPACE;
-            result += yytext().substring(1);
-            if (spaces) result += ZString.SPACE;
-          }
-          synDefOpName_ = result(result);
-          return result(ZString.SPACE);
-        }
-  ({LETTER} | [0-9])*
-        {
-          // To aid low-level debugging: ({LETTER} | [0-9])*
-          String result = addSpace();
-          result += yytext();
-
-          synDefOpName_ = result(result);
-          return result(ZString.SPACE);
-        }
-  .
-        {
-          yybegin(ERROR);
-        }
-}
-
 </add:zeves>
 
 <add:oz>

@@ -219,7 +219,7 @@ public class <class/>
         // extra elements for zeves_toolkit implicitly added
         if (sectName_.equals("zeves_toolkit"))
         {
-          addZEvesImplicitMarkupDirectives();
+          addZEvesImplicitMarkupDirectives(token);
         }
 </add:zeves>
         if (parents_ != null) {
@@ -469,19 +469,19 @@ public class <class/>
   }
 
   <add:zeves>
-  private void addZEvesImplicitMarkupDirectives()
+  private void addZEvesImplicitMarkupDirectives(LocToken token)
   {
     // adds manually applies$to directive as Zinword applies\$to applies$to
-    //  Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
-    //  directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
-    //                                                token.getLocation().getLine(),
-    //                                                null));
-    //  try {
-    //    markupFunction_.add(directive);
-    //  }
-    //  catch (MarkupException e) {
-    //    reportError(e);
-    //  }
+    Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
+    directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
+                                                  token.getLocation().getLine(),
+                                                  null));
+    try {
+      markupFunction_.add(directive);
+    }
+    catch (MarkupException e) {
+      reportError(e);
+    }
   }
   </add:zeves>
 

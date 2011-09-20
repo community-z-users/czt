@@ -265,24 +265,24 @@ action code
 
     // x$' for x' renamed due to capture
     // second decorword MUST be DOLLAR STROKE
-    private ZName createSpecialName(Decorword dw)//, Decorword pw)
-    {
-      checkName(dw);
-      //checkName(pw);
-      if ((!dw.getWord().endsWith(ZEvesString.ZPROOFDOLLARCHAR))
-          //||
-          //(pw == null || !(pw instanceof Proofword) || !pw.getStrokes().isEmpty())
-          )
-      {
-        parser.report_error(ZEvesParseMessage.MSG_INVALID_SPECIAL_THM_SUFFIX,
-            new Object[] { dw.toString() //+ String.valueOf(pw)
-                         }, dw.getLocation());
-      }
-      ZName result = factory_.createZName(dw.getWord() + ZEvesString.TO,//pw.getWord(),
-        dw.getStrokes());
-      addLocAnn(result, dw.getLocation());
-      return result;
-    }
+    //private ZName createSpecialName(Decorword dw)//, Decorword pw)
+    //{
+    //  checkName(dw);
+    //  //checkName(pw);
+    //  if ((!dw.getWord().endsWith(ZEvesString.ZPROOFDOLLARCHAR))
+    //      //||
+    //      //(pw == null || !(pw instanceof Proofword) || !pw.getStrokes().isEmpty())
+    //      )
+    //  {
+    //    parser.report_error(ZEvesParseMessage.MSG_INVALID_SPECIAL_THM_SUFFIX,
+    //        new Object[] { dw.toString() //+ String.valueOf(pw)
+    //                     }, dw.getLocation());
+    //  }
+    //  ZName result = factory_.createZName(dw.getWord() + ZEvesString.TO,//pw.getWord(),
+    //    dw.getStrokes());
+    //  addLocAnn(result, dw.getLocation());
+    //  return result;
+    //}
 
     private void addZNote(Term term, ZEvesNote znote)
     {
@@ -7360,12 +7360,12 @@ name ::=
         :}
 </add:oz>
 <add:zeves>
-        |
-        DECORWORD:dw TO
-        {:
-           RESULT = createSpecialName(dw);
-           //System.out.println("name ::= " + RESULT);
-        :}
+        //|
+        //DECORWORD:dw TO
+        //{:
+        //   RESULT = createSpecialName(dw);
+        //   //System.out.println("name ::= " + RESULT);
+        //:}
         //|
         //// for cases like x$ and x$'  (e.g., renamed captured names)
         //DECORWORD:dw ZPROOFDOLLAR:d
@@ -7571,14 +7571,14 @@ refName ::=
            //   ZEvesParseMessage.MSG_WARNING_OPNAME_IN_REFNAME.getMessage(), RESULT, loc));
            //</add:zeves>
         :}
-        <add:zeves>
-        |
-        DECORWORD:dw TO:t
-        {:
-           RESULT = createSpecialName(dw);
-           //System.out.println("refName ::= " + RESULT);
-        :}
-        </add:zeves>
+        //<add:zeves>
+        //|
+        //DECORWORD:dw TO:t
+        //{:
+        //   RESULT = createSpecialName(dw);
+        //   //System.out.println("refName ::= " + RESULT);
+        //:}
+        //</add:zeves>
         ;
 
 opName ::=
