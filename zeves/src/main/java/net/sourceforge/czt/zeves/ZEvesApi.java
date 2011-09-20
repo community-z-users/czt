@@ -201,6 +201,7 @@ public class ZEvesApi {
 
 		synchronized (writeLock) {
 			zEvesOut.println(cmd);
+			zEvesOut.flush();
 		}
 
 		try {
@@ -253,6 +254,10 @@ public class ZEvesApi {
 		String resultStr = processCommand(command);
 
 		debug("Received result: " + resultStr);
+		
+		if (resultStr.isEmpty()) {
+			throw new ZEvesException("Empty result returned from Z/Eves.");
+		}
 
 		Object result;
 		try {
