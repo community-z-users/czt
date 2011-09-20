@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves.response.form;
 
 import java.util.ArrayList;
@@ -6,6 +7,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 
 /**
@@ -14,14 +16,18 @@ import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
  * @author Andrius Velykis
  */
 @XmlRootElement(name = "schematype")
-public class ZEvesSchemaType {
+public class ZEvesSchemaType
+{
 
-	@XmlElement(name = "decl")
-	private List<ZEvesDecl> decls = new ArrayList<ZEvesDecl>();
+  @XmlElement(name = "decl")
+  private List<ZEvesDecl> decls = new ArrayList<ZEvesDecl>();
 
-	@Override
-	public String toString() {
-		return "SchemaType[" + ZEvesResponseUtil.concat(decls, "; ") + "]";
-	}
-	
+  @Override
+  public String toString()
+  {
+    return ZString.LBIND + ZString.SPACE 
+        + ZEvesResponseUtil.concat(decls, "; ") 
+        + ZString.SPACE + ZString.RBIND;
+  }
+
 }
