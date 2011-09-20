@@ -294,10 +294,12 @@ public class ZEvesApi
           msg = cause.getMessage();
         }
       }
-      throw new ZEvesException("Problems parsing Z/Eves response XML: " + msg, e);
+      throw new ZEvesException("Problems parsing Z/Eves response XML: " + msg, e,
+          "Z/Eves XML response: " + resultStr + "\n\n" +
+          "Command sent to Z/Eves: " + command);
     }
 
-    ZEvesOutput output = checkError(result);
+    ZEvesOutput output = checkError(result, command);
     return output;
   }
 
@@ -324,10 +326,10 @@ public class ZEvesApi
     return reader;
   }
 
-  private ZEvesOutput checkError(Object result) throws ZEvesException
+  private ZEvesOutput checkError(Object result, String commandSent) throws ZEvesException
   {
     if (result instanceof ZEvesError) {
-      throw new ZEvesException((ZEvesError) result);
+      throw new ZEvesException((ZEvesError) result, "Command sent to Z/Eves: " + commandSent);
     }
 
     return (ZEvesOutput) result;

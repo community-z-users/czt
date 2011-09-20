@@ -428,16 +428,17 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 //			tryFlush();
 		}
 		
-		if (!addedMarkers) {
+		if (!addedMarkers || logDebug(e)) {
 			// mark into log
 			ZEvesPlugin.getDefault().log(e);
 		}
-		
-		Throwable cause = e.getCause();
-		if (cause != null) {
-			// log the cause
-			ZEvesPlugin.getDefault().log(cause);
-		}
+    }
+    
+    private boolean logDebug(ZEvesException e) {
+    	// if there was an underlying cause, log it.
+		return e.getCause() != null
+				// log Z/Eves parser errors at the moment - look for a special string in errors
+				|| (e.getDebugInfo() != null && e.getMessage().contains("[Parser"));
     }
     
     private void handleResult(Position pos, Object result) {

@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.zeves;
 
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorEditTracker;
+import net.sourceforge.czt.zeves.ZEvesException;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -85,9 +86,20 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 		getLog().log(status);
 	}
 	
+	public void log(ZEvesException ex) {
+
+		String msg = ex.getMessage();
+		
+		String debugInfo = ex.getDebugInfo();
+		if (debugInfo != null) {
+			msg = msg + "\n\n" + debugInfo;
+		}
+		
+		log(msg, ex);
+	}
+	
 	public void log(Throwable exception) {
-		IStatus status = newErrorStatus(exception.getMessage(), exception);
-		getLog().log(status);
+		log(exception.getMessage(), exception);
 	}
 	
 	/**

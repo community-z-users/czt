@@ -2,33 +2,59 @@ package net.sourceforge.czt.zeves;
 
 import net.sourceforge.czt.zeves.response.ZEvesError;
 
-public class ZEvesException extends Exception {
+public class ZEvesException extends Exception
+{
 
-	private ZEvesError zEvesErr;
-	
-	public ZEvesException() {
-	}
+  private ZEvesError zEvesErr;
+  
+  private String debugInfo;
 
-	public ZEvesException(String message) {
-		super(message);
-	}
+  public ZEvesException()
+  {
+  }
 
-	public ZEvesException(Throwable cause) {
-		super(cause);
-	}
+  public ZEvesException(String message)
+  {
+    super(message);
+  }
 
-	public ZEvesException(String message, Throwable cause) {
-		super(message, cause);
-	}
-	
-	public ZEvesException(ZEvesError error) {
-		super(error.toString());
-		
-		this.zEvesErr = error;
-	}
-	
-	public ZEvesError getZEvesError() {
-		return zEvesErr;
-	}
-	
+  public ZEvesException(Throwable cause)
+  {
+    super(cause);
+  }
+
+  public ZEvesException(String message, Throwable cause)
+  {
+    super(message, cause);
+  }
+  
+  public ZEvesException(String message, Throwable cause, String debugInfo)
+  {
+    this(message, cause);
+    this.debugInfo = debugInfo;
+  }
+
+  public ZEvesException(ZEvesError error)
+  {
+    this(error, null);
+  }
+  
+  public ZEvesException(ZEvesError error, String debugInfo)
+  {
+    super(error.toString());
+
+    this.zEvesErr = error;
+    this.debugInfo = debugInfo;
+  }
+
+  public ZEvesError getZEvesError()
+  {
+    return zEvesErr;
+  }
+
+  public String getDebugInfo()
+  {
+    return debugInfo;
+  }
+
 }
