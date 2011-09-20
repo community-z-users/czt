@@ -58,6 +58,8 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.EXTRACT, "uharl"));
         header.append(getEntityDef(ZString.LANGLE, "lang"));
         header.append(getEntityDef(ZString.RANGLE, "rang"));
+        header.append(getEntityDef(ZString.LBIND, "lvang"));
+        header.append(getEntityDef(ZString.RBIND, "rvang"));
         // Bags
 //        header.append(getEntityDef(ZString.???, "sharp"));//Bag count
 //        header.append(getEntityDef(ZString.???, "otimes"));//Bag scaling
