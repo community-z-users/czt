@@ -28,11 +28,13 @@ import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerExpr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
@@ -42,6 +44,7 @@ import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -185,7 +188,8 @@ public abstract class Checker<R>
     return term.getAnn(ProofCommandInfo.class);
   }
 
-  protected static class IngnoreUndeclNameAnn {} //extends AnnImpl {}
+  protected static class IgnoreUndeclNameAnn {} //extends AnnImpl {}
+  protected static class IgnoreBindExprAnn {}
 
   protected boolean ignoreUndeclaredNames()
   {
@@ -242,12 +246,12 @@ public abstract class Checker<R>
 
   protected boolean shouldIgnoreUndeclaredNamesIn(Term term)
   {
-    return (term instanceof RefExpr ||
+    return ((term instanceof RefExpr ||
             term instanceof ThetaExpr ||
             term instanceof SetExpr ||
             term instanceof ExprPred || 
             isSchemaCalculusExpr(term)) &&
-            withinConjParaPredScope();
+            withinConjParaPredScope());
   }
 
   @Override
@@ -268,44 +272,85 @@ public abstract class Checker<R>
     // and the tagging flag is on
     if (ignoreUndeclaredNames() && shouldIgnoreUndeclaredNamesIn(term))
     {
-      term.getAnns().add(new IngnoreUndeclNameAnn());
+      term.getAnns().add(new Checker.IgnoreUndeclNameAnn());
     }
   }
 
-  @Override
-  protected void addTermForPostChecking(Term term)
+  protected void checkIfNeedBindTag(Term term)
   {
-    checkIfNeedIgnoreUndeclNameTag(term);
-    super.addTermForPostChecking(term);
+    // POWER BINDEXPR
+    if (term instanceof PowerExpr && ((PowerExpr) term).getExpr() instanceof BindExpr)
+    {
+      term.getAnns().add(new Checker.IgnoreBindExprAnn());
+    }
+    // BindExpr \pinj TYPE (e.g., RefExpr with
+    else if (term instanceof RefExpr)
+    {
+      ZExprList zel = ((RefExpr)term).getZExprList();
+      for (Expr e : zel.getExpr())
+      {
+        if (e instanceof BindExpr || (e instanceof PowerExpr && ((PowerExpr) e).getExpr() instanceof BindExpr))
+        {
+          term.getAnns().add(new Checker.IgnoreBindExprAnn());
+          break;
+        }
+      }
+    }
+    //if (term.hasAnn(Checker.IgnoreBindExprAnn.class))
+    //  System.out.println("checkIfNeedBindTag(" + term.getClass().getName() + ") = " + term.toString());
   }
 
-  protected void removeIgnoreUndeclNameAnn(Term term)
+//  @Override
+//  protected void addTermForPostChecking(Term term)
+//  {
+//    checkIfNeedIgnoreUndeclNameTag(term);
+//    checkIfNeedBindTag(term);
+//    super.addTermForPostChecking(term);
+//  }
+
+  protected void removeIgnoreAnn(Term term)
   {
-    Checker.IngnoreUndeclNameAnn iuna = term.getAnn(Checker.IngnoreUndeclNameAnn.class);
+    Checker.IgnoreUndeclNameAnn iuna = term.getAnn(Checker.IgnoreUndeclNameAnn.class);
     if (iuna!= null)
       term.getAnns().remove(iuna);
+    if (term.hasAnn(Checker.IgnoreBindExprAnn.class))
+      term.getAnns().remove(term.getAnn(Checker.IgnoreBindExprAnn.class));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "unchecked"})
   protected <T extends net.sourceforge.czt.typecheck.z.ErrorAnn> T updateErrorAnn(T error, Term term)
   {
-    // clear up the ann tag, if any
-    Checker.IngnoreUndeclNameAnn iuna = term.getAnn(Checker.IngnoreUndeclNameAnn.class);
-    boolean hasIgnoreNameAnn = iuna != null;
-    
+    T result = error;
     // if there is a result that is about undeclared identifiers, and the term given
     // was tagged as one to ignore undeclared names with, then mark it as a warning.
-    if (error != null && hasIgnoreNameAnn &&
+    if (error != null)
+    {
+//      System.out.print("updateErrorAnn(" + error.getErrorMessage() + ", " + term.toString() + ") = ");
+      // clear up the ann tag, if any
+      if (term.hasAnn(Checker.IgnoreUndeclNameAnn.class) &&
             (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER.name()) ||
              error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR.name())))
-    {
+      {
+
 //      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, term.getClass().getName() + " = " + result.toString());
 //      result = null;//result.setErrorType(ErrorType.WARNING);
-      error = (T)errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), error.toString() });
-      error.setErrorType(ErrorType.WARNING);
+        final String errStr = error.toString();
+        result = (T)errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr });
+        result.setErrorType(ErrorType.WARNING);
+      }
+      else if (term.hasAnn(Checker.IgnoreBindExprAnn.class) &&
+                (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_POWEREXPR.name()) ||
+                 error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_INSTANTIATION.name())))
+      {
+        //System.out.println("updateErrorAnn(" + error.getErrorMessage() + ", " + term.toString() + ") = ");
+        final String errStr = error.toString();
+        result = (T)errorAnn(term, ErrorMessage.BINDEXPR_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr } );
+        result.setErrorType(ErrorType.WARNING);
+      }
+//      System.out.println(result.getErrorMessage());// + ": " + error.toString());
     }
 
-    return error;
+    return result;
   }
 
   protected void error(Term term, ErrorMessage errorMsg, Object... params)
@@ -448,19 +493,19 @@ public abstract class Checker<R>
     if (found instanceof UnknownType) // or check to be !ProofType
     {
       //error(term, msg, getCurrentProofName(), part, found);
-      warningManager().warn(term, msg, getCurrentProofName(), part, found);
+      //warningManager().warn(term, msg, getCurrentProofName(), part, found);
     }
   }
 
   protected Type typeCheckExpr(Term term, Expr expr, WarningMessage msg)
   {
     // IGNORE EXPR IN PROOFS FOR NOW!!!
-    warningManager().warn(term, WarningMessage.IGNORE_PROOF_EXPR, getCurrentProofName(), expr);
+    //warningManager().warn(term, WarningMessage.IGNORE_PROOF_EXPR, getCurrentProofName(), expr);
     //Type found = expr.accept(exprChecker());
     Type found = factory().createUnknownType();
     if (msg != null) // && some form of type unification here?
     {
-      warningManager().warn(term, msg, getCurrentProofName(), expr, found);
+      //warningManager().warn(term, msg, getCurrentProofName(), expr, found);
     }
     return found;
   }

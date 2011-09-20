@@ -46,7 +46,7 @@ public class PostChecker
     // post check
     net.sourceforge.czt.typecheck.z.ErrorAnn result = term.accept(zPostChecker_);
     result = updateErrorAnn(result, term);
-    removeIgnoreUndeclNameAnn(term);
+    removeIgnoreAnn(term);
     return result;
   }
 }
