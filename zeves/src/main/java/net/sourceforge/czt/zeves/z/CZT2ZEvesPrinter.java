@@ -2769,7 +2769,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       result.append(": ");
       result.append(getExpr(cd.getExpr()));
       delim = "; ";
-      result.append(delim);
     }
     return format(BIND_EXPR_PATTERN, result.toString());
   }
