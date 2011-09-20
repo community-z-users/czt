@@ -31,7 +31,18 @@ public class ZEvesApplication
       throw new IllegalStateException("Invalid ZEvesApplication items: " + form);
     }
 
-    return String.valueOf(form.get(0)) + " " + String.valueOf(form.get(1));
+    return withParentheses(form.get(0)) + " " + withParentheses(form.get(1));
+  }
+  
+  private String withParentheses(Object elem) {
+    String val = String.valueOf(elem);
+    
+    if (!(elem instanceof ZEvesName) && !(elem instanceof ZEvesParenForm)) {
+      // a complex element - add parentheses
+      return "( " + val + " )";
+    }
+    
+    return val;
   }
 
 }
