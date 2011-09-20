@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves;
 
 import java.io.IOException;
@@ -9,73 +10,83 @@ import java.io.IOException;
  * 
  * @author Andrius Velykis
  */
-public class ZEvesServer {
+public class ZEvesServer
+{
 
-	private final String zEvesExecCommand;
-	private final int port;
+  private final String zEvesExecCommand;
 
-	private Process process;
+  private final int port;
 
-	public ZEvesServer(String zEvesExecCommand, int port) {
-		super();
-		this.zEvesExecCommand = zEvesExecCommand;
-		this.port = port;
-	}
+  private Process process;
 
-	public void start() throws IOException {
+  public ZEvesServer(String zEvesExecCommand, int port)
+  {
+    super();
+    this.zEvesExecCommand = zEvesExecCommand;
+    this.port = port;
+  }
 
-		assert process == null;
+  public void start() throws IOException
+  {
 
-		String fullZEvesCommand = zEvesExecCommand + " -- -api -port " + String.valueOf(port);
+    assert process == null;
 
-		System.out.println("Starting Z/Eves server with command: " + fullZEvesCommand);
+    String fullZEvesCommand = zEvesExecCommand + " -- -api -port " + String.valueOf(port);
 
-		process = Runtime.getRuntime().exec(fullZEvesCommand);
+    System.out.println("Starting Z/Eves server with command: " + fullZEvesCommand);
 
-		// wait for the process to die in another thread
-		Thread exitWaiter = new Thread(new ProcessExitWaiter());
-		exitWaiter.start();
-	}
+    process = Runtime.getRuntime().exec(fullZEvesCommand);
 
-	public void stop() {
+    // wait for the process to die in another thread
+    Thread exitWaiter = new Thread(new ProcessExitWaiter());
+    exitWaiter.start();
+  }
 
-		if (process == null) {
-			return;
-		}
+  public void stop()
+  {
 
-		process.destroy();
-	}
+    if (process == null) {
+      return;
+    }
 
-	public boolean isRunning() {
-		return process != null;
-	}
+    process.destroy();
+  }
 
-	/**
-	 * Waits for the Z/Eves server process to terminate.
-	 * 
-	 * TODO Extended to notify users or restart the server.
-	 * 
-	 * @author Andrius Velykis
-	 */
-	private class ProcessExitWaiter implements Runnable {
-		public void run() {
+  public boolean isRunning()
+  {
+    return process != null;
+  }
 
-			while (!Thread.interrupted()) {
-				try {
 
-					process.waitFor();
-					process = null;
+  /**
+   * Waits for the Z/Eves server process to terminate.
+   * 
+   * TODO Extended to notify users or restart the server.
+   * 
+   * @author Andrius Velykis
+   */
+  private class ProcessExitWaiter implements Runnable
+  {
+    public void run()
+    {
 
-					System.out.println("Z/Eves server process has terminated.");
+      while (!Thread.interrupted()) {
+        try {
 
-					Thread.currentThread().interrupt();
-					return;
+          process.waitFor();
+          process = null;
 
-				} catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
-	}
-	
+          System.out.println("Z/Eves server process has terminated.");
+
+          Thread.currentThread().interrupt();
+          return;
+
+        }
+        catch (InterruptedException ex) {
+          ex.printStackTrace();
+        }
+      }
+    }
+  }
+
 }
