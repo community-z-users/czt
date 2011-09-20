@@ -1,3 +1,18 @@
 \begin{zsection}
-  \SECTION zeves\_toolkit \parents standard\_toolkit, zeves\_prelude, bag\_toolkit\_zeves
+  \SECTION zeves\_toolkit \parents~ zeves\_prelude, standard\_toolkit %, bag\_toolkit\_zeves
 \end{zsection}
+
+These are added implicitly because of the use of applies$to as a decl name and as an operators and Latex markup command.
+Only by having zeves_toolkit as a parent is this added.
+%
+Zinword applies\$to applies$to
+\begin{zed}
+   \relation (\_ ~applies\$to~ \_)
+\end{zed}
+
+% Don't use \rel to avoid dependency on set_toolkit.tex
+\begin{gendef}[X, Y]
+   \_ ~applies\$to~ \_ : \power~(\power~(X \cross Y) \cross X)
+\where
+   \forall R: \power(X \cross Y); x: X @ R ~applies\$to~ x \iff (\exists_1 y: Y @ (x, y) \in R)
+\end{gendef}

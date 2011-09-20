@@ -28,13 +28,8 @@ import net.sourceforge.czt.base.visitor.VisitorUtils;
 
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.AxPara;
-import net.sourceforge.czt.z.ast.Box;
-import net.sourceforge.czt.z.ast.Cat;
-import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.Factory;
 
@@ -48,8 +43,8 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
   private List<Pair<Pred, ZEvesLabel>> labelledPreds_;
   private int freshAxiomNo_ = 1;
   //private final LabelCleaningVisitor labelCleaningVisitor_ ;
-  private final AxPara appliesToDef_;
-  private final OptempPara appliesToOpt_;
+  //private final AxPara appliesToDef_;
+  //private final OptempPara appliesToOpt_;
 
   private final Factory factory_ = new Factory();
 
@@ -59,6 +54,9 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
   {
     super(loc);
     labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>();
+
+//  NOTE: added LatexMarkupDirective manually, and the other via zeves_toolkit as Tex source.
+//
 //    labelCleaningVisitor_ = new LabelCleaningVisitor();
 //    %%Zinword applies\$to applies$to
 //    Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
@@ -74,46 +72,46 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 //    \begin{zed}
 //       \relation (\_ \appliesTo \_)
 //    \end{zed}
-    appliesToOpt_ = factory_.createOptempPara();
-    appliesToOpt_.setCat(Cat.Relation);
-    appliesToOpt_.getOper().add(factory_.createOperand(Boolean.FALSE));
-    appliesToOpt_.getOper().add(factory_.createOperator("applies$to"));
-    appliesToOpt_.getOper().add(factory_.createOperand(Boolean.FALSE));
+//    appliesToOpt_ = factory_.createOptempPara();
+//    appliesToOpt_.setCat(Cat.Relation);
+//    appliesToOpt_.getOper().add(factory_.createOperand(Boolean.FALSE));
+//    appliesToOpt_.getOper().add(factory_.createOperator("applies$to"));
+//    appliesToOpt_.getOper().add(factory_.createOperand(Boolean.FALSE));
 //     Don't use \rel to avoid dependency on set_toolkit.tex
 //    \begin{gendef}[X, Y]
 //       \_ ~applies\$to~ \_ : \power(\power~(X \cross Y) \cross X)
 //    \where
 //       \forall R: \power(X \cross Y); x: X @ R ~applies\$to~ x \iff (\exists_1 y: Y @ (x, y) \in R)
 //    \end{gendef}
-    appliesToDef_ = factory_.createAxPara(
-            // [X, Y]
-            factory_.createZNameList(factory_.list(factory_.createZName("X"), factory_.createZName("Y"))),
-            factory_.createZSchText(
-              // \_ ~applies$to~ \_ : \power(\power(X \cross Y) \cross X)
-              factory_.createZDeclList(factory_.list(factory_.createVarDecl(
-                  factory_.createZNameList(factory_.list(factory_.createZName(ZString.ARG_TOK + "applies$to" + ZString.ARG_TOK))),
-                  factory_.createPowerExpr(factory_.createProdExpr(factory_.createPowerExpr(factory_.createProdExpr(
-                    factory_.createRefExpr(factory_.createZName("X")), factory_.createRefExpr(factory_.createZName("Y")))),
-                    factory_.createRefExpr(factory_.createZName("X"))))))),
-              // \forall R: \power~(X \cross Y); x : X @ ....
-              factory_.createForallPred(factory_.createZSchText(factory_.createZDeclList(factory_.list(
-                factory_.createVarDecl(factory_.createZNameList(factory_.list(factory_.createZName("R"))),
-                  factory_.createPowerExpr(factory_.createProdExpr(
-                    factory_.createRefExpr(factory_.createZName("X")), factory_.createRefExpr(factory_.createZName("Y"))))),
-                factory_.createVarDecl(factory_.createZNameList(factory_.list(factory_.createZName("x"))), factory_.createRefExpr(factory_.createZName("X"))))),
-                null),
-              factory_.createIffPred(
-                // (R, x) in _applies$to   =>  (R ~applies$to~ x)
-                factory_.createRelOpAppl(
-                  factory_.createTupleExpr(factory_.createRefExpr(factory_.createZName("R")), factory_.createRefExpr(factory_.createZName("x"))),
-                  factory_.createZName(ZString.ARG_TOK + "applies$to" + ZString.ARG_TOK)),
-                // (\exists_1 y: Y | null @ (x,y) \in R)
-                factory_.createExists1Pred(factory_.createZSchText(factory_.createZDeclList(factory_.list(
-                  factory_.createVarDecl(factory_.createZNameList(factory_.list(factory_.createZName("y"))), factory_.createRefExpr(factory_.createZName("Y"))))), null),
-                factory_.createSetMembership(
-                  factory_.createTupleExpr(factory_.createRefExpr(factory_.createZName("x")), factory_.createRefExpr(factory_.createZName("y"))),
-                  factory_.createRefExpr(factory_.createZName("R"))))))),
-            Box.AxBox);
+//    appliesToDef_ = factory_.createAxPara(
+//            // [X, Y]
+//            factory_.createZNameList(factory_.list(factory_.createZName("X"), factory_.createZName("Y"))),
+//            factory_.createZSchText(
+//              // \_ ~applies$to~ \_ : \power(\power(X \cross Y) \cross X)
+//              factory_.createZDeclList(factory_.list(factory_.createVarDecl(
+//                  factory_.createZNameList(factory_.list(factory_.createZName(ZString.ARG_TOK + "applies$to" + ZString.ARG_TOK))),
+//                  factory_.createPowerExpr(factory_.createProdExpr(factory_.createPowerExpr(factory_.createProdExpr(
+//                    factory_.createRefExpr(factory_.createZName("X")), factory_.createRefExpr(factory_.createZName("Y")))),
+//                    factory_.createRefExpr(factory_.createZName("X"))))))),
+//              // \forall R: \power~(X \cross Y); x : X @ ....
+//              factory_.createForallPred(factory_.createZSchText(factory_.createZDeclList(factory_.list(
+//                factory_.createVarDecl(factory_.createZNameList(factory_.list(factory_.createZName("R"))),
+//                  factory_.createPowerExpr(factory_.createProdExpr(
+//                    factory_.createRefExpr(factory_.createZName("X")), factory_.createRefExpr(factory_.createZName("Y"))))),
+//                factory_.createVarDecl(factory_.createZNameList(factory_.list(factory_.createZName("x"))), factory_.createRefExpr(factory_.createZName("X"))))),
+//                null),
+//              factory_.createIffPred(
+//                // (R, x) in _applies$to   =>  (R ~applies$to~ x)
+//                factory_.createRelOpAppl(
+//                  factory_.createTupleExpr(factory_.createRefExpr(factory_.createZName("R")), factory_.createRefExpr(factory_.createZName("x"))),
+//                  factory_.createZName(ZString.ARG_TOK + "applies$to" + ZString.ARG_TOK)),
+//                // (\exists_1 y: Y | null @ (x,y) \in R)
+//                factory_.createExists1Pred(factory_.createZSchText(factory_.createZDeclList(factory_.list(
+//                  factory_.createVarDecl(factory_.createZNameList(factory_.list(factory_.createZName("y"))), factory_.createRefExpr(factory_.createZName("Y"))))), null),
+//                factory_.createSetMembership(
+//                  factory_.createTupleExpr(factory_.createRefExpr(factory_.createZName("x")), factory_.createRefExpr(factory_.createZName("y"))),
+//                  factory_.createRefExpr(factory_.createZName("R"))))))),
+//            Box.AxBox);
   }
 
   protected void updateZSectWithAddedPara(ZSect sect)

@@ -632,6 +632,7 @@ parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/OnTheFlyParsingTest.
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ProofScriptParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/print/zeves/ZmlPrintTest.java -text
+parser-zeves/src/test/resources/tests/zeves/TID-proofs.tex -text
 parser-zeves/src/test/resources/tests/zeves/appTo.tex -text
 parser-zeves/src/test/resources/tests/zeves/bar.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.tex -text
