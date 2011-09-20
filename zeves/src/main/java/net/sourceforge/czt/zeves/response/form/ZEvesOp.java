@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.zeves.response.form.ZEvesName.NameClass;
 
 /**
  * <!ELEMENT op (name, (%form;)+, type?)>
@@ -87,8 +88,15 @@ public class ZEvesOp
         if (form.size() != 2) {
           throw new IllegalStateException("Invalid ZEves Op items: " + form);
         }
+        
+        /*
+         * A special case for relational image - the LIMG is defined as part of opName,
+         * however RIMG is not - need to specify it additionally based on opName class
+         */
+        String opSuffix = getName().getNameClass() == NameClass.RELIMG ? 
+            ZString.SPACE + ZString.RIMG : "";
 
-        return first + " " + opName + " " + String.valueOf(form.get(1));
+        return first + " " + opName + " " + String.valueOf(form.get(1)) + opSuffix;
       }
     }
 

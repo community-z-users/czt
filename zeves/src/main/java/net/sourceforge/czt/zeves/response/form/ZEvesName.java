@@ -182,5 +182,9 @@ public class ZEvesName
 
     return "[" + ZEvesResponseUtil.concat(genActuals, ", ") + "]";
   }
+  
+  public NameClass getNameClass() {
+    return cclass;
+  }
 
 }
