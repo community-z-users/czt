@@ -34,9 +34,18 @@ prove by reduce;
 \end{schema}
 
 \begin[disabled]{zed}
-   [GS]
+   [GS, Audit]
 \end{zed}
 
-znote{Note within theorem}
-znote{Note within axdef}
-znote{Note within proof}
+Problem: \IF entry \in log \THEN the predicate within gets a label (!)
+\begin{axdef}
+  sizeElement0: Audit \fun  \nat \\
+  sizeLog0: \finset  Audit \fun  \nat
+\where
+    \Label{disabled rule dSizeLogEmpty0} sizeLog0~ \emptyset = 0
+    \\
+  \Label{disabled rule dSizeLog0}
+    \forall log: \finset Audit; entry: Audit @ sizeLog0~log =
+        \IF entry \in log \THEN sizeLog0~ (log \setminus \{entry\}) + sizeElement0~ entry
+        \ELSE sizeLog0~log
+\end{axdef}

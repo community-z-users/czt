@@ -669,8 +669,6 @@ parser-zeves/src/test/resources/tests/zeves/zevesrenaming.tex -text
 parser-zeves/src/test/resources/tests/zeves/zopt.tex -text
 parser-zeves/src/test/resources/tests/zeves/zstateref.tex -text
 parser-zeves/src/test/resources/tests/zeves/zstateref.zed8 -text
-parser-zeves/src/test/resources/tests/zeves/zstateref.zed8.tex -text
-parser-zeves/src/test/resources/tests/zeves/zstateref.zed8.zml -text
 parser-zeves/src/test/resources/tests/zeves/zstateref.zml -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/doc/parser.eps -text

@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.visitor.VisitorUtils;
 
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.Pair;
+import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
@@ -142,11 +143,40 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
     labelledPreds_.clear();
   }
 
-  public void associateLabelsToPreds()
+  protected List<? extends Pred> getTopLevelPred(Pred axParaPred)
   {
+    List<Pred> result = factory_.list();
+    if (axParaPred instanceof AndPred)
+    {
+      AndPred ap = (AndPred)axParaPred;
+      for(Pred p : ap.getPred())
+      {
+        result.addAll(getTopLevelPred(p));
+      }
+    }
+    else
+    {
+      result.add(axParaPred);
+    }
+    return result;
+  }
+
+  /**
+   * The list of labelled preds might include more labels than needed because of
+   * inner predicates like in (\IF Pred \THEN X \ELSE Y) (e.g., one label for the
+   * whole if, and one for the Pred within its test.
+   * This happens because we cannot have separate predicate parsing trees. we filter
+   * those ineffective labels here.
+   * @param axParaPred
+   */
+  public void associateLabelsToPreds(Pred axParaPred)
+  {
+    List<? extends Pred> topLevelPred = getTopLevelPred(axParaPred);
     for(Pair<Pred, ZEvesLabel> pair : labelledPreds_)
     {
-      pair.getFirst().getAnns().add(pair.getSecond());
+      Pred p = pair.getFirst();
+      if (topLevelPred.contains(p))
+        p.getAnns().add(pair.getSecond());
     }
     clearLabelPredList();
   }
