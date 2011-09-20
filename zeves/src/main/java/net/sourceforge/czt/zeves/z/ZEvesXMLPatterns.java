@@ -68,7 +68,7 @@ public interface ZEvesXMLPatterns {
      * {0} = var-name   => getVarName(term.getZName());
      * {1} = expr       => getExpr(term.getExpr());
      */
-    public static final String BRANCH_PATTERN = "{0} &lchev {1} &rchev";
+    public static final String BRANCH_PATTERN = "{0} &lchev; {1} &rchev;";
     
     /* z-paragraph XML pattern strings */
     
@@ -212,7 +212,7 @@ public interface ZEvesXMLPatterns {
      * {0} expression       => getExpr(term.getExpr());
      */
     public static final String NEG_EXPR_PATTERN = "&neg; ({0})";
-    public static final String LAMBDA_EXPR_PATTERN = QNT_PRED_PATTERN;
+    public static final String LAMBDA_EXPR_PATTERN = "(" + QNT_PRED_PATTERN + ")";
     
     public static final String QNT_EXPR_PATTERN = QNT_PRED_PATTERN;
     

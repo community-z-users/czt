@@ -85,7 +85,8 @@ rearrange;
 prenex;
 rewrite;
 instantiate y1 == m, y2 == x;
-apply inPower to predicate f \in  \power  (\{1\} \cross  M);
+%apply inPower to predicate f \in  \power  (\{1\} \cross  M);
+apply inPower ;
 instantiate e == (1, m);
 instantiate e == (1, x);
 rearrange;
@@ -316,11 +317,11 @@ prove;
 %rewrite;
 \end{zproof}
 
-\begin{theorem}{rule lOptionalSubtying}[X]
+\begin{theorem}{rule lOptionalSubtyping}[X]
 \forall  A: \power  X @ \forall  x: \Optional A @ x \in  \Optional X
 \end{theorem}
 
-\begin{zproof}[lOptionalSubtying]
+\begin{zproof}[lOptionalSubtyping]
 invoke (\Optional \_);
 rewrite;
 use lNonMaximalCard[X][S := x];
@@ -504,11 +505,11 @@ invoke Token;
 prove by rewrite;
 apply lInTheDomain to predicate authCert \in \dom \The;
 rewrite;
-use lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-        \lblot issuer: USER \rblot;clearance: \lblot class:
-         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-         \num \rblot][A := AuthCert, x := authCert];
+%use lOptionalSubtyping[(\lblot baseCertId: (\lblot issuer: USER \rblot);cid:
+%        (\lblot issuer: USER \rblot);clearance: (\lblot class:
+%         CLASS \rblot);isValidatedBy: \power~KEYPART;role:
+%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power~\num \rblot)][A := AuthCert, x := authCert];
+use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert];
 prove by rewrite;
 %rewrite;
 %rewrite;
@@ -630,7 +631,7 @@ DISPLAYMESSAGE ::= blank | welcome | insertFinger | openDoor | wait | removeToke
 \end{zed}
 
 \begin{zed}
-FINGERPRINTTRY ::= noFP | badFP | goodFP\ldata FINGERPRINT\rdata
+FINGERPRINTTRY ::= noFP | badFP | goodFP \ldata FINGERPRINT \rdata
 \end{zed}
 
 \begin{zed}
@@ -719,7 +720,8 @@ find an $entry \in log$, which might take unbounded amounts of time).
   sizeElement0: Audit \fun  \nat \\
   sizeLog0: \finset  Audit \fun  \nat
 \where
-  \Label{disabled rule dSizeLogEmpty0} sizeLog0~ \emptyset = 0\\
+    \Label{disabled rule dSizeLogEmpty0} sizeLog0~ \emptyset = 0
+    \\
   \Label{disabled rule dSizeLog0}
     \forall log: \finset Audit; entry: Audit @ sizeLog0~log =
         \IF entry \in log \THEN sizeLog0~ (log \setminus \{entry\}) + sizeElement0~ entry
@@ -728,7 +730,7 @@ find an $entry \in log$, which might take unbounded amounts of time).
 %       entry \in  log \implies  sizeLog~ log = sizeLog~ (log \setminus  \{entry\}) + sizeElement~ entry
 \end{axdef}
 
-\begin{zproof}[unnamedn3\$domainCheck]
+\begin{zproof}[unnamed\$n3\$domainCheck]
 prove;
 \end{zproof}
 
@@ -746,7 +748,7 @@ prove;
            sizeLog~(log \setminus \{entry\} )
 \end{axdef}
 
-\begin{zproof}[unnamedn4\$domainCheck]
+\begin{zproof}[unnamed\$n4\$domainCheck]
 prove;
 \end{zproof}
 
@@ -766,7 +768,7 @@ prove;
   \forall C, D: \finset Audit @ oldestLogTime~ (C \cup  D) \leq  oldestLogTime~ C
 \end{axdef}
 
-\begin{zproof}[unnamedn5\$domainCheck]
+\begin{zproof}[unnamed\$n5\$domainCheck]
 prove by reduce;
 \end{zproof}
 
@@ -818,7 +820,7 @@ prove by reduce;
 
 This an other proofs (commented above) are much simpler thanks to
 the enabled rewrite rules in backward chaining:lInTheDomain,
-lOptionalSubtying; and in forward chaining :lOptionalFinWeakening.
+lOptionalSubtyping; and in forward chaining :lOptionalFinWeakening.
 %
 \begin{zproof}[Admin\$domainCheck]
 rewrite;
@@ -973,7 +975,7 @@ because it avoids expanding their underlying free (enumerated) types
   latchTimeout: TIME\\
   alarmTimeout: TIME
 \where
-  \IF  doorAlarm = alarming \THEN
+   \IF  doorAlarm = alarming \THEN
   	([ | currentDoor = open \land  currentLatch = locked \land  currentTime \geq  alarmTimeout \land  currentTime \geq  latchTimeout])
   \ELSE
   	([ | doorAlarm = silent \land  (\IF  (currentLatch = locked) \THEN
@@ -1647,8 +1649,17 @@ Missing DCC: $authCert' \neq nil$ and that $currentUserToken' \in \ran gootT$.
   userTokenPresence = present\\
   currentUserToken \in  \ran  goodT\\
   currentUserToken' \in \ran goodT \\
-  \exists  ValidToken; ValidToken~' @ \theta  ValidToken = (goodT \inv)~currentUserToken \land  \theta  ValidToken~' = (goodT \inv)~currentUserToken' \land
-  			(\exists  newAuthCert: AuthCert @ (authCert' \neq Nil \land \The authCert' = newAuthCert \land  NewAuthCert)) \land  tokenID' = tokenID \land  idCert' = idCert \land  privCert' = privCert \land  iandACert' = iandACert\\
+  (\exists  ValidToken; ValidToken~' @ \\
+  	\t1 \theta  ValidToken   = (goodT \inv)~currentUserToken \land \\
+  	\t1 \theta  ValidToken~' = (goodT \inv)~currentUserToken' \land \\
+  	\t1 (\exists  newAuthCert: AuthCert @ \\
+  		\t2 (authCert' \neq Nil \land \\
+  		\t2  \The authCert' = newAuthCert \land \\
+  		\t2  NewAuthCert)) \land \\
+  	\t1 tokenID' = tokenID \land \\
+  	\t1 idCert' = idCert \land \\
+  	\t1 privCert' = privCert \land \\
+  	\t1 iandACert' = iandACert)\\
   userTokenPresence' = userTokenPresence
 \end{schema}
 
@@ -1671,9 +1682,6 @@ apply lInTheDomain;
 invoke \Delta KeyStore;
 invoke KeyStore;
 rewrite;
-cases;
-next;
-next;
 \end{zproof}
 
 \begin{theorem}{grule gEnrolementFilePInjType}
@@ -1729,11 +1737,12 @@ apply lInTheDomain;
 invoke \Delta Admin;
 invoke Admin;
 rewrite;
-use lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-        \lblot issuer: USER \rblot;clearance: \lblot class:
-         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-         \num \rblot][A := AuthCert, x := authCert];
+%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+%        \lblot issuer: USER \rblot;clearance: \lblot class:
+%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+%         \num \rblot][A := AuthCert, x := authCert];
+use lOptionalSubtyping[AuthCert][A:= AuthCert, x := authCert];
 rearrange;
 rewrite;
 \end{zproof}
@@ -1861,11 +1870,12 @@ TISReadUserToken \defs ReadUserToken
 \begin{zproof}[UserTokenWithOKAuthCert\$domainCheck]
 rewrite;
 apply lInTheDomain to predicate authCert \in  \dom  \The;
-use lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-        \lblot issuer: USER \rblot;clearance: \lblot class:
-         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-         \num \rblot][A := AuthCert, x := authCert];
+%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+%        \lblot issuer: USER \rblot;clearance: \lblot class:
+%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+%         \num \rblot][A := AuthCert, x := authCert];
+use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert];
 invoke TokenWithValidAuth;
 prove;
 \end{zproof}
@@ -1912,7 +1922,7 @@ rewrite;
 \end{schema}
 
 \begin{zed}
-ValidateUserTokenOK \defs BioCheckRequired \lor  BioCheckNotRequired
+ValidateUserTokenOK \defs BioCheckNotRequired \lor  BioCheckRequired
 \end{zed}
 
 \begin{schema}{ValidateUserTokenFail}
@@ -1930,7 +1940,9 @@ ValidateUserTokenOK \defs BioCheckRequired \lor  BioCheckNotRequired
 \end{schema}
 
 \begin{zed}
-TISValidateUserToken \defs ValidateUserTokenOK \lor  ValidateUserTokenFail \lor  [UserTokenTorn | tkstatus = gotUserToken]
+TISValidateUserToken \defs ValidateUserTokenOK \lor
+						   ValidateUserTokenFail \lor
+						  [UserTokenTorn | tkstatus = gotUserToken]
 \end{zed}
 
 \begin{schema}{ReadFingerOK}
@@ -1970,6 +1982,7 @@ TISValidateUserToken \defs ValidateUserTokenOK \lor  ValidateUserTokenFail \lor 
   userTokenPresence = present
 \end{schema}
 
+So on the fly here wasn't a problem.
 \begin{zed}
 TISReadFinger \defs ReadFingerOK \lor  FingerTimeout \lor  NoFinger \lor  [UserTokenTorn | tkstatus = waitingFinger]
 \end{zed}
@@ -2086,25 +2099,29 @@ next;
 invoke TokenWithValidAuth;
 cases;
 apply lInTheDomain to predicate authCert\_\_0 \in  \dom  \The;
-use lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-        \lblot issuer: USER \rblot;clearance: \lblot class:
-         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-         \num \rblot][A := AuthCert, x := authCert\_\_0];
+%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+%        \lblot issuer: USER \rblot;clearance: \lblot class:
+%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+%         \num \rblot][A := AuthCert, x := authCert\_\_0];
+use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert\_\_0];
 prove;
 next;
-use lInTheDomain[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][x := authCert\_\_0];
-use lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-        \lblot issuer: USER \rblot;clearance: \lblot class:
-         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-         \num \rblot][A := AuthCert, x := authCert\_\_0];
+%use lInTheDomain[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][x := authCert\_\_0];
+%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+%        \lblot issuer: USER \rblot;clearance: \lblot class:
+%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+%         \num \rblot][A := AuthCert, x := authCert\_\_0];
+use lInTheDomain[AuthCert][x := authCert\_\_0];
+use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert\_\_0];
 apply inDom to predicate authCert\_\_0 \in  \dom  \The;
 prenex;
 rearrange;
 rewrite;
 rearrange;
-use pairInFunction[\power  \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot , \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][f := \The[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ], x := authCert\_\_0, y := y];
+%use pairInFunction[\power  \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot , \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][f := \The[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ], x := authCert\_\_0, y := y];
+use pairInFunction[\power AuthCert, AuthCert][f := \The[AuthCert], x := authCert\_\_0, y := y];
 rearrange;
 rewrite;
 equality substitute \The authCert\_\_0;
@@ -2134,7 +2151,7 @@ invoke TokenWithValidAuth;
 cases;
 apply lInTheDomain to predicate authCert\_\_0 \in \dom \The;
 use
-  lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;
+  lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;
                            cid: \lblot issuer: USER \rblot;
                            clearance: \lblot class: CLASS \rblot;
                            isValidatedBy: \power KEYPART; role: PRIVILEGE;
@@ -2151,7 +2168,7 @@ use
                       tokenID: TOKENID;
                       validityPeriod: \power \num \rblot][x := authCert\_\_0];
 use
-  lOptionalSubtying[\lblot baseCertId: \lblot issuer: USER \rblot;
+  lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;
                            cid: \lblot issuer: USER \rblot;
                            clearance: \lblot class: CLASS \rblot;
                            isValidatedBy: \power KEYPART; role: PRIVILEGE;
@@ -3130,7 +3147,7 @@ prove by rewrite;
                         keyedDataPresence:=keyedDataPresence', latch:=latch',
                         latchTimeout:=latchTimeout',
                         latchUnlockDuration:=latchUnlockDuration',
-                        minPreservedLogSize:=minPreservedLogSize', now:=now',
+                        minPreservedLogSize:=minPreservedLogSize', %duplicate: now:=now',
                         ownName:=ownName', rolePresent:=rolePresent',
                         screen:=screen', tkstatus:=tkstatus', successBio:=successBio',
                         successEntry:=successEntry',
@@ -3916,7 +3933,8 @@ with enabled (dSizeLogBase) prove;
 \end{theorem}
 
 \begin{zproof}[lElemUnionDiffAbsorption]
-apply extensionality to predicate \{x\} (\_ \cup \_)[X] (S (\_ \setminus \_)[X] \{x\}) = S;
+%apply extensionality to predicate \{x\} (\_ \cup \_)[X] (S (\_ \setminus \_)[X] \{x\}) = S;
+apply extensionality to predicate (\_ \cup \_)[X] (\{x\}, ((\_ \setminus \_)[X] (S, \{x\}))) = S;
 prenex;
 with normalization rewrite;
 \end{zproof}
@@ -3927,8 +3945,8 @@ with normalization rewrite;
 
 \begin{zproof}[lCupDisThroughDiff]
 %apply extensionality to predicate S \cup [X] (R \setminus [X] \{x\}) = S \cup [X] R \setminus [X] \{x\};
-%apply extensionality to predicate (\_ \cup \_ )[X] (S, ((\_ \setminus \_)[X] (R, \{x\}))) = (\_ \setminus \_)[X]( (\_ \cup \_)[X] (S, R) , \{x\});
-apply extensionality to predicate S (\_ \cup \_)[X] (R (\_ \setminus \_)[X] \{x\}) = (S (\_ \cup \_)[X] R) (\_ \setminus \_)[X] \{x\};
+apply extensionality to predicate (\_ \cup \_ )[X] (S, ((\_ \setminus \_)[X] (R, \{x\}))) = (\_ \setminus \_)[X]( (\_ \cup \_)[X] (S, R) , \{x\});
+%apply extensionality to predicate S (\_ \cup \_)[X] (R (\_ \setminus \_)[X] \{x\}) = (S (\_ \cup \_)[X] R) (\_ \setminus \_)[X] \{x\};
 prove;
 \end{zproof}
 
@@ -4324,8 +4342,8 @@ cases;
 rearrange;
 split auditLog' = auditLog \cup  newElements \land  (sizeLog~ auditLog' < alarmThresholdSize \land  auditAlarm' = auditAlarm \lor  sizeLog~ auditLog' \geq  alarmThresholdSize \land  auditAlarm' = alarming);
 simplify;
-cases;
-simplify;
+%cases;
+%simplify;
 rewrite;
 \end{zproof}
 

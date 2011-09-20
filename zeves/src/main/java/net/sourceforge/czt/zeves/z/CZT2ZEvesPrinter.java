@@ -1704,7 +1704,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       throw new IllegalArgumentException("Free type declarations must have at least one branch.");
     }
     StringBuilder result = new StringBuilder(getIdent(term.getZName()));
-    result.append("::=");
+    result.append(" ::= ");
     Iterator<Branch> it = ZUtils.assertZBranchList(term.getBranchList()).iterator();
     Branch b = it.next();
     result.append(getBranch(b));
@@ -2602,7 +2602,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitNegExpr(NegExpr term)
   {
-    return format(NEG_EXPR_PATTERN, getExpr(term.getExpr()));
+    //return format(NEG_EXPR_PATTERN, getExpr(term.getExpr()));
+    return format(NEG_PRED_PATTERN, getExpr(term.getExpr()));
   }
 
   @Override
@@ -2614,7 +2615,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       expr = " &bullet; " + getExpr(term.getExpr());
     }
-    return "&mu; " + schText + expr;
+    return "(&mu; " + schText + expr + ")";
   }
 
   @Override
@@ -2691,8 +2692,49 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitCondExpr(CondExpr term)
   {
-    return format(COND_EXPR_PATTERN, getPred(term.getPred()),
-            getExpr(term.getLeftExpr()), getExpr(term.getRightExpr()));
+    final String condPart = getPred(term.getPred());
+    final String thenPart;
+    final String elsePart;
+    Expr thenE = term.getLeftExpr();
+    Expr elseE = term.getRightExpr();
+    if (thenE instanceof SchExpr || elseE instanceof SchExpr)
+    {
+      if (thenE instanceof SchExpr && elseE instanceof SchExpr)
+      {
+        // in the case of \IF Pred \THEN S \ELSE T, if S/T have empty bindings, this
+        // is for ZEves \IF Pred \THEN Pred1 \ELSE Pred2!
+        ZSchText thenST = ((SchExpr)thenE).getZSchText();
+        ZSchText elseST = ((SchExpr)elseE).getZSchText();
+
+        // for \IF Pred \THEN Pred1 \ELSE Pred2, we use the pattern of empty binding SchExpr
+        if (thenST.getZDeclList().isEmpty() && elseST.getZDeclList().isEmpty())
+        {
+          Pred thenP = thenST.getPred();
+          Pred elseP = elseST.getPred();
+          assert thenP != null && elseP != null;
+          // both THEN/ELSE parts are mandatory
+          thenPart = getPred(thenP);
+          elsePart = getPred(elseP);
+        }
+        // otherwise, just as an expression itslef
+        else
+        {
+          thenPart = getExpr(thenE);
+          elsePart = getExpr(elseE);
+        }
+      }
+      else
+      {
+        throw new ZEvesIncompatibleASTException("Inconsistent IF-THEN-ELSE term. Both sides must be either Pred or SchExpr, but not mixed: THEN="
+                + thenE.getClass().getSimpleName() + " ELSE=" + elseE.getClass().getSimpleName());
+      }
+    }
+    else
+    {
+      thenPart = getExpr(thenE);
+      elsePart = getExpr(elseE);
+    }
+    return format(COND_EXPR_PATTERN, condPart, thenPart, elsePart);
   }
 
   @Override
