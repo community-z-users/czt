@@ -1,0 +1,48 @@
+\begin{zsection}
+   \SECTION ifthenElse \parents standard\_toolkit
+\end{zsection}
+
+In ZEves we can have \IF Pred \THEN Pred \ELSE Pred, whereas the ZStd only allows for
+\IF Pred \THEN Expr \ELSE Expr. We take the convention that \IF Pred \THEN [ | Pred ] \ELSE [| Pred]
+(E.g., no extra bindings on Expr) is the ZEves' version and translate accordingly. As-is the 
+schema below gets translated as
+%
+\begin{schema}{S}
+   x: \nat \\
+   y: \nat
+\where
+   \IF  x > 10 \THEN
+  	([ | y < x ])
+  \ELSE
+  	([ | y > x])
+\end{schema}
+
+
+
+
+............
+............
+............
+
+
+<schema-box location="L9;C0;S398;E522;G124;R./ifthenElse.tex">
+S
+<decl-part/>
+  x: &Nopf; ;
+  y: &Nopf;
+<ax-part/>
+  <word style="bold"/>if<word/>
+    x &gt; 10
+  <word style="bold"/>then<word/>
+    [y &lt; x]
+  <word style="bold"/>else<word/>
+    [y &gt; x]
+</schema-box>
+
+which ZEves rejects, as it does not understand what's between
+[ y &lt; x ] [ y &gt; x ]. We adjust it to be the right format
+without the square brackets.
+
+............
+............
+............

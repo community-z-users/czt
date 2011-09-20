@@ -1,0 +1,30 @@
+\begin{zsection}
+   \SECTION schemaCalculus \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   x: \nat
+\where
+   x > 10
+\end{schema}
+
+\begin{schema}{T}
+   y: \nat
+\where
+   y > 100
+\end{schema}
+
+\begin{schema}{Op}
+   \Delta S \\
+   \Delta T
+\where
+   (\lnot S \land T) \lor (\lnot T \land S)
+\end{schema}
+
+\begin{schema}{Op2}
+   \Xi S \\
+\where
+   \exists \Delta T @ \lnot T \land \lnot S[y'/x]
+\end{schema}
+
+bla bla bla

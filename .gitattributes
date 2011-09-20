@@ -952,9 +952,11 @@ typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.tex -tex
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/foo.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/ifthenElse.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv_ref.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/schemaCalculus.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredGenOpTempName-UndeclaredIdentifier.error -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredNamesInTheoremAsWarnings.tex -text
