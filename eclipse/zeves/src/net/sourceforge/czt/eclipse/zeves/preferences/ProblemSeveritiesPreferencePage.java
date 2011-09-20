@@ -85,6 +85,9 @@ public class ProblemSeveritiesPreferencePage extends PreferencePage implements
 	    createOption(sectionGroup, "Undeclared name in conjecture:", 
 	    		ZEvesPreferenceConstants.SEVERITY_UNDECLARED_NAME_ERROR);
 	    
+	    createOption(sectionGroup, "Unchecked binding expressions:", 
+                ZEvesPreferenceConstants.SEVERITY_UNCHECKED_BIND_EXPR);
+	    
 	    createOption(sectionGroup, "Problems in section parent:", 
 	    		ZEvesPreferenceConstants.SEVERITY_PARENT_PROBLEMS);
 
