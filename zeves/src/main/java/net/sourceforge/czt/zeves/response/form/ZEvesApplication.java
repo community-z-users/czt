@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves.response.form;
 
 import java.util.ArrayList;
@@ -13,22 +14,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Andrius Velykis
  */
 @XmlRootElement(name = "application")
-public class ZEvesApplication {
+public class ZEvesApplication
+{
 
-	@XmlAnyElement(lax = true)
-	private List<?> form = new ArrayList<Object>();
+  @XmlAnyElement(lax = true)
+  private List<?> form = new ArrayList<Object>();
 
-	@XmlElement
-	private ZEvesType type;
+  @XmlElement
+  private ZEvesType type;
 
-	@Override
-	public String toString() {
+  @Override
+  public String toString()
+  {
 
-		if (form.size() != 2) {
-			throw new IllegalStateException("Invalid ZEvesApplication items: " + form);
-		}
+    if (form.size() != 2) {
+      throw new IllegalStateException("Invalid ZEvesApplication items: " + form);
+    }
 
-		return String.valueOf(form.get(0)) + " " + String.valueOf(form.get(1));
-	}
+    return String.valueOf(form.get(0)) + " " + String.valueOf(form.get(1));
+  }
 
 }
