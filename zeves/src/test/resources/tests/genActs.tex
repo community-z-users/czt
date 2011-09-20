@@ -79,7 +79,7 @@ line 1 column 70: Syntax error at symbol RSQUARE
 \begin{zproof}[postfixGen]
 use functionFinite[X, Y][A:=X, B:=Y];
 use invDef[Y,X][R := f];
-with enabled (invDef) invoke;
+with enabled (sizeDef) prove;
 \end{zproof}
 %
 %Result must not have parentheses between "functionFinite" and genactuals and should be something like

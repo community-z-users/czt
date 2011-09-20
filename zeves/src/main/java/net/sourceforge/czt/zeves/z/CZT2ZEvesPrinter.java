@@ -1152,7 +1152,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     StringBuilder result = new StringBuilder("");
     ZName name = ZUtils.assertZName(it.next());
+    if (asOperators)
+    {
+      fRelationalOpAppl.push(name);
+    }
     result.append(getName(name));
+    if (asOperators)
+    {
+      checkStack(name);
+    }
     while (it.hasNext())
     {
       result.append(", ");
@@ -2727,18 +2735,28 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitBindSelExpr(BindSelExpr term)
   {
-    if (!(term.getExpr() instanceof RefExpr))
+    Expr bse = term.getExpr();
+    // okay cases:
+    //   RefExpr    = v.x     , wheve v: S
+    //   ApplExpr   = f(x).x  , where f: X -> S
+    //   BinSelExpr = (v.x).y
+    //   ThetaExpr  = (\theta S).x
+    if (bse instanceof RefExpr || bse instanceof ApplExpr || bse instanceof BindSelExpr || bse instanceof ThetaExpr)
     {
-      throw new ZEvesIncompatibleASTException("Z/Eves only allows bind selection for schema references, "
-                                              + "rather than schema expressions. See throwable cause for details.",
-              new IllegalArgumentException("Invalid schema expression binding selection for Z/Eves XML translation. CZT and"
-                                           + "the Z Standard allow bind selection upon schema expressions, such as (S \\land T).x or (\\theta S).x."
-                                           + "On the other hand, Z/Eves only accepts bind selection upon schema-ref, which must be a reference name to a "
-                                           + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
-                                           + "do not appear. TODO: In a later version, we plan to automatically include such declarations implicitly, while "
-                                           + "translating the binding selection itself. Check whether a new version with such feature is available."));
+      return format(BINDSEL_EXPR_PATTERN, getExpr(bse), getVarName(term.getZName()));
     }
-    return format(BINDSEL_EXPR_PATTERN, getExpr((RefExpr) term.getExpr()), getVarName(term.getZName()));
+    else
+    {
+      throw new ZEvesIncompatibleASTException("Found " + bse.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
+//      throw new ZEvesIncompatibleASTException("Z/Eves only allows bind selection for schema references, "
+//                                        + "rather than schema expressions, or application expressions returning a schema type. See throwable cause for details.",
+//        new IllegalArgumentException("Invalid schema expression binding selection for Z/Eves XML translation. CZT and"
+//                                     + "the Z Standard allow bind selection upon schema expressions, such as (S \\land T).x or (\\theta S).x."
+//                                     + "On the other hand, Z/Eves only accepts bind selection upon schema-ref, which must be a reference name to a "
+//                                     + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
+//                                     + "do not appear. TODO: In a later version, we plan to automatically include such declarations implicitly, while "
+//                                     + "translating the binding selection itself. Check whether a new version with such feature is available."));
+    }
   }
 
   @Override
@@ -2747,16 +2765,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     Expr e = term.getExpr();
     if (!(e instanceof RefExpr || e instanceof DecorExpr || e instanceof RenameExpr))
     {
-      throw new ZEvesIncompatibleASTException("Z/Eves only allows theta expressions to schema references, "
-                                              + "rather than schema expressions. See throwable cause for details.",
-              new IllegalArgumentException("Invalid theta expression for Z/Eves XML translation. CZT and"
-                                           + "the Z Standard allow theta expressions of schema expressions, such as \\theta(S \\land T)."
-                                           + "On the other hand, Z/Eves only accepts theta expressions of schema-ref, which must be a reference name to a "
-                                           + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
-                                           + "do not appear. Some examples where there dependencies on the values (e.g. Circcus Operational Semantics) this is "
-                                           + "not possible to naively translate and need to be rewritten, tough. TODO: In a later version, we plan to automatically "
-                                           + "include such declarations implicitly whenever possible, while translating the binding selection itself. "
-                                           + "Check whether a new version with such feature is available."));
+      throw new ZEvesIncompatibleASTException("Found " + e.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
+//      throw new ZEvesIncompatibleASTException("Z/Eves only allows theta expressions to schema references, "
+//                                              + "rather than schema expressions. See throwable cause for details.",
+//              new IllegalArgumentException("Invalid theta expression for Z/Eves XML translation. CZT and"
+//                                           + "the Z Standard allow theta expressions of schema expressions, such as \\theta(S \\land T)."
+//                                           + "On the other hand, Z/Eves only accepts theta expressions of schema-ref, which must be a reference name to a "
+//                                           + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
+//                                           + "do not appear. Some examples where there dependencies on the values (e.g. Circcus Operational Semantics) this is "
+//                                           + "not possible to naively translate and need to be rewritten, tough. TODO: In a later version, we plan to automatically "
+//                                           + "include such declarations implicitly whenever possible, while translating the binding selection itself. "
+//                                           + "Check whether a new version with such feature is available."));
     }
     return format(THETA_EXPR_PATTERN, getExpr(term.getExpr()), getStrokes(term.getZStrokeList()));
   }
@@ -3430,7 +3449,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       setSectionName(term.getName());
       for (Para p : term.getZParaList())
       {
-        result.add(p.accept(CZT2ZEvesPrinter.this));
+        final String pStr = p.accept(CZT2ZEvesPrinter.this);
+        result.add(pStr);
       }
       result.add(ZSECTION_END_PATTERN);
       return result;

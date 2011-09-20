@@ -16,8 +16,9 @@ birthday : NAME ⇸ DATE
 ∀ BirthdayBook ⦁ known = dom birthday
 └
 
-├ BirthdayBookPredicate simplify;
+├ BirthdayBookPredicate prove by reduce;
 └
+
 
 ┌ InitBirthdayBook
 BirthdayBook ′
@@ -146,7 +147,6 @@ cases;
 next;
 next;
 next;
-simplify;
 conjunctive;
 simplify;
 disjunctive;
@@ -154,10 +154,8 @@ simplify;
 cases;
 apply domInPower to predicate dom  (birthday ∪  {(name?, date?)}) ∈  ℙ NAME;
 rewrite;
-simplify;
-simplify;
-rewrite;
-prove by reduce;
+next;
+prove;
 equality substitute dom birthday;
 └
 
