@@ -51,7 +51,8 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 					WarningMessage.APPLY_CMD_EXPR.name(),
 					WarningMessage.IGNORE_PROOF_EXPR.name(),
 					WarningMessage.IGNORE_PROOF_PRED.name(),
-					WarningMessage.IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK.name())) {
+					WarningMessage.IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK.name(),
+					ErrorMessage.BINDEXPR_ERROR_AS_WARNING.name())) {
 				return getSeverityPref(SEVERITY_PROOF_COMMAND_UNCHECKED_EXPR);
 			}
 			
