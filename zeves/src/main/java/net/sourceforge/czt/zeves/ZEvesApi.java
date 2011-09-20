@@ -278,7 +278,7 @@ public class ZEvesApi
     debug("Received result: " + resultStr);
 
     if (resultStr.isEmpty()) {
-      throw new ZEvesException("Empty result returned from Z/Eves.");
+      throw new ZEvesException("No response received from Z/Eves.");
     }
 
     Object result;
