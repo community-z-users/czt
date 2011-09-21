@@ -34,7 +34,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 		}
 		
 		ZEves prover = ZEvesPlugin.getZEves();
-		if (prover.isRunning()) {
+		if (prover.isLaunched()) {
         	// we only allow one prover instance
         	abort("Only a single Z/Eves prover can be running at any time - stop the running prover before launching a new one");
         	return;
