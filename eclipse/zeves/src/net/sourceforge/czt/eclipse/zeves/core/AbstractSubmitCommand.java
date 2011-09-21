@@ -174,7 +174,9 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 			public void run() {
 				if (monitor.isCanceled()) {
 					// send abort
-					zEvesApi.sendAbort();
+					// Z/Eves abort crashes the prover if executed on proof tasks at the moment
+					// TODO investigate and reinstate Z/Eves abort
+//					zEvesApi.sendAbort();
 					timer.cancel();
 				}
 			}
