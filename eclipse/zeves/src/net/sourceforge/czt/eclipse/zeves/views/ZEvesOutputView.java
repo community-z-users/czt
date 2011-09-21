@@ -9,13 +9,18 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.views.ZInfoView;
+import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.actions.SendProofCommand;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEditorObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofResultInfo;
 import net.sourceforge.czt.session.CommandException;
@@ -28,6 +33,9 @@ import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -38,7 +46,9 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -61,10 +71,14 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 
 	private static final String VIEW_ID = ZEvesPlugin.PLUGIN_ID + ".view.Output";
 	private static final String PROP_SHOW_INFO = VIEW_ID + ".showProofInfo";
+	private static final String PROP_SHOW_OUTPUT_SELECTION = VIEW_ID + ".showOutputSelection";
+	
+	private IMarker editorMarker = null;
 	
 	static {
 		IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
 		preferenceStore.setDefault(PROP_SHOW_INFO, false);
+		preferenceStore.setDefault(PROP_SHOW_OUTPUT_SELECTION, true);
 	}
 
 	private static final String SELECTION_CMDS_ID = "selectionCmds";
@@ -78,7 +92,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	private Label cmdField;
 	private Label infoField;
 	
-    private boolean showProofInfo;
+    private boolean showOutputSelection;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -302,6 +316,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	protected void fillToolBar(IToolBarManager tbm) {
     	super.fillToolBar(tbm);
     	tbm.appendToGroup(TOOLBAR_GROUP_INFO_VIEW, new ShowProofInfoAction());
+    	tbm.add(new ShowOutputSelectionAction());
     }
 	
     @Override
@@ -317,6 +332,8 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     @Override
 	protected void doSetInput(IZInfoObject element, String input, String description) {
 		super.doSetInput(element, input, description);
+		
+		updateEditorMarker(element);
 		
 		IProofResultInfo proofInfo = null;
 		if (element instanceof IAdaptable) {
@@ -340,6 +357,45 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     	
     	main.layout(true);
 	}
+
+	private void updateEditorMarker(IZInfoObject element) {
+		
+		if (editorMarker != null) {
+			// delete previous marker
+			try {
+				editorMarker.delete();
+			} catch (CoreException e) {
+				ZEvesPlugin.getDefault().log(e);
+			}
+			editorMarker = null;
+		}
+		
+		if (!showOutputSelection) {
+			return;
+		}
+		
+		if (element instanceof ZEditorObject<?>) {
+			ZEditorObject<?> editorObj = (ZEditorObject<?>) element;
+			ZEditor editor = editorObj.getEditor();
+			
+			IResource resource = ZEditorUtil.getEditorResource(editor);
+			if (resource != null) {
+				
+				IDocument document = ZEditorUtil.getDocument(editor);
+				Position pos = editorObj.getPosition();
+				
+				ZEvesMarkers markers = new ZEvesMarkers(resource, document);
+				try {
+					MarkerInfo markerInfo = markers.createMarker(
+							ZEvesMarkers.MARKER_OUTPUT_SELECTION, 0, pos, null, false);
+					editorMarker = resource.createMarker(markerInfo.getType());
+					editorMarker.setAttributes(markerInfo.getAttributes());
+				} catch (CoreException e) {
+					ZEvesPlugin.getDefault().log(e);
+				}
+			}
+		}
+	}
     
     @Override
 	protected boolean isSelectionInteresting(IWorkbenchPart part, ISelection selection) {
@@ -362,8 +418,8 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     	}
     	
     	boolean showing = !infoControlData.exclude;
-    	if (showProofInfo != showing) {
-    		infoControlData.exclude = !showProofInfo;
+    	if (showOutputSelection != showing) {
+    		infoControlData.exclude = !showOutputSelection;
     		main.layout(true);
     	}
     }
@@ -388,17 +444,50 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		 */
 		@Override
 		public void run() {
-			setShowProofInfo(!showProofInfo);
+			setShowProofInfo(!showOutputSelection);
 		}
 
 		private void setShowProofInfo(boolean show) {
-			showProofInfo = show;
+			showOutputSelection = show;
 			setChecked(show);
 			
 			updateProofInfoPane();
 
 			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
 			preferenceStore.setValue(PROP_SHOW_INFO, show);
+		}
+	}
+	
+	private class ShowOutputSelectionAction extends Action {
+
+		public ShowOutputSelectionAction() {
+			super("Highlight Position", SWT.TOGGLE);
+			setToolTipText("Highlight Position in Editor");
+
+			// setDescription("?");
+			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_OUTPUT_SELECTION));
+
+			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			boolean showOutputSelection = preferenceStore.getBoolean(PROP_SHOW_OUTPUT_SELECTION);
+			setShowOutputSelection(showOutputSelection);
+		}
+
+		/*
+		 * @see org.eclipse.jface.action.Action#run()
+		 */
+		@Override
+		public void run() {
+			setShowOutputSelection(!showOutputSelection);
+		}
+
+		private void setShowOutputSelection(boolean show) {
+			showOutputSelection = show;
+			setChecked(show);
+			
+			updateEditorMarker(getCurrentInput());
+
+			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			preferenceStore.setValue(PROP_SHOW_OUTPUT_SELECTION, show);
 		}
 	}
 	

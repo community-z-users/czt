@@ -33,6 +33,7 @@ public class ZEvesMarkers {
 	public static final int STATUS_FAILED = IMarker.SEVERITY_ERROR;
 	
 	public static final String MARKER_PROCESS = ZEvesPlugin.PLUGIN_ID + ".processMarker";
+	public static final String MARKER_OUTPUT_SELECTION = ZEvesPlugin.PLUGIN_ID + ".outputSelectionMarker";
 	
 	private final IResource markerResource;
 	private final IDocument document;
@@ -74,12 +75,12 @@ public class ZEvesMarkers {
 		return createMarker(MARKER_PROCESS, 0, pos, null, false);
 	}
 	
-	private MarkerInfo createMarker(String type, int severity, Position pos, String message)
+	public MarkerInfo createMarker(String type, int severity, Position pos, String message)
 			throws CoreException {
 		return createMarker(type, severity, pos, message, true);
 	}
 	
-	private MarkerInfo createMarker(String type, int severity, Position pos, String message,
+	public MarkerInfo createMarker(String type, int severity, Position pos, String message,
 			boolean lineMarker) throws CoreException {
 		
 		Map<String, Object> markerAttrs = new HashMap<String, Object>();
