@@ -59,6 +59,9 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		
 		prover.setServer(server);
 		
+		// init launch in the process support
+		ZEvesPlugin.getZEvesProcessSupport().initLaunch(configuration);
+		
 		System.out.println("Done launching");
 	}
 

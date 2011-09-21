@@ -343,6 +343,7 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTab.jav
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesAppLaunchTabGroup.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesLaunchConstants.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesMainLaunchTab.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesProcessSupport.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/launch/ZEvesRemoteLaunch.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ProblemSeveritiesPreferencePage.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/preferences/ZEvesPreferenceConstants.java -text svneol=unset#text/plain

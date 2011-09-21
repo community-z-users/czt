@@ -263,8 +263,8 @@ public class ZEvesStateView extends ViewPart {
 	private void initToolBar() {
 		IActionBars bars = getViewSite().getActionBars();
 		IToolBarManager tm = bars.getToolBarManager();
-		tm.add(new AbortAction());
 		tm.add(new ResetAction());
+		tm.add(new StopProverAction());
 		tm.add(new Separator());
 		tm.add(new RefreshAction());
 	}
@@ -330,7 +330,7 @@ public class ZEvesStateView extends ViewPart {
 
 		paragraphCountField.setText("");
 		
-		if (api == null) {
+		if (api == null || !api.isConnected()) {
 			return;
 		}
 		
@@ -403,11 +403,11 @@ public class ZEvesStateView extends ViewPart {
 		}
 	}
 	
-	private class AbortAction extends Action {
+	private class StopProverAction extends Action {
 
-		public AbortAction() {
-			super("Abort");
-			setToolTipText("Abort Executing Command");
+		public StopProverAction() {
+			super("Stop");
+			setToolTipText("Stop Prover");
 
 			// setDescription("?");
 			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
@@ -419,13 +419,8 @@ public class ZEvesStateView extends ViewPart {
 		 */
 		@Override
 		public void run() {
-			
-			ZEves zeves = ZEvesPlugin.getZEves();
-			if (!zeves.isRunning()) {
-				return;
-			}
-			
-			zeves.getApi().sendAbort();
+			ZEvesPlugin.getZEvesProcessSupport().stop();
+			fireUpdateState();
 		}
 	}
 	

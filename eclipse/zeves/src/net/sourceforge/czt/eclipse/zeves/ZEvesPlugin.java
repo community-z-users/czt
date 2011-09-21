@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.zeves;
 
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.editor.ZEditorEditTracker;
+import net.sourceforge.czt.eclipse.zeves.launch.ZEvesProcessSupport;
 import net.sourceforge.czt.zeves.ZEvesException;
 
 import org.eclipse.core.runtime.IStatus;
@@ -23,6 +24,7 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 	
 	private ZEves prover;
 	private ZEditorEditTracker editTracker;
+	private ZEvesProcessSupport proverProcessSupport;
 	
 	/**
 	 * The constructor
@@ -39,6 +41,7 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 		plugin = this;
 		
 		prover = new ZEves();
+		proverProcessSupport = new ZEvesProcessSupport();
 		editTracker = new ZEditorEditTracker();
 		editTracker.init();
 	}
@@ -52,6 +55,11 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 		if (editTracker != null) {
 			editTracker.dispose();
 			editTracker = null;
+		}
+		
+		if (proverProcessSupport != null) {
+			proverProcessSupport.dispose();
+			proverProcessSupport = null;
 		}
 		
 		if (prover != null) {
@@ -74,6 +82,10 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 	
 	public static ZEves getZEves() {
 		return getDefault().prover;
+	}
+	
+	public static ZEvesProcessSupport getZEvesProcessSupport() {
+		return getDefault().proverProcessSupport;
 	}
 	
 	/**
