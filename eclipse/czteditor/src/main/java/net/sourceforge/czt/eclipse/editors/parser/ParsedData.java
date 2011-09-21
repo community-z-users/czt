@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.editors.parser;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class ParsedData
 {
   private Object source_;
   
-  private List<CztError> fErrorList = new ArrayList<CztError>();
+  private final List<CztError> fErrorList = new ArrayList<CztError>();
 
   private final SectionManager manager_;
 
@@ -53,14 +54,15 @@ public class ParsedData
     fNameInfoMap = NameInfoResolver.resolve(spec, manager_);
   }
   
-  public void setErrors(List<CztError> errors)
+  public void setErrors(List<? extends CztError> errors)
   {
-    fErrorList = errors;
+    fErrorList.clear();
+    fErrorList.addAll(errors);
   }
   
   public List<CztError> getErrors()
   {
-    return fErrorList;
+    return Collections.unmodifiableList(fErrorList);
   }
   
 //  /**

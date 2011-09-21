@@ -1,6 +1,7 @@
 package net.sourceforge.czt.eclipse.editors.zeditor;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -8,6 +9,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompiler;
+import net.sourceforge.czt.parser.util.CztErrorImpl;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
 
 /**
  * This class encapsulates functionality directly related to storing and synchronizing
@@ -154,7 +157,11 @@ public class ZEditorModel
       CZTPlugin.log("Error in CZT during reconcile: " + e.getMessage(), e);
       
       // still return an empty parsed data with correct version
-      return emptyData(version);
+      ParsedData parsedData = emptyData(version);
+      // set the caught error to the parsed data - it should be displayed to the user then
+      parsedData.setErrors(Arrays.asList(
+          new ZCompilerError("Error in Z compiler: " + e.getMessage())));
+      return parsedData;
     }
   }
   
@@ -183,6 +190,33 @@ public class ZEditorModel
       this.documentVersion = this.documentVersion.add(BigInteger.ONE);
     } finally {
       writeLock().unlock();
+    }
+  }
+  
+  /**
+   * A CZT error to store unexpected compiler errors. For that reason,
+   * its location is 0,0.
+   * 
+   * @author Andrius Velykis
+   */
+  private static class ZCompilerError extends CztErrorImpl
+  {
+    
+    public ZCompilerError(String message)
+    {
+      super(message, new Object[0], new LocInfoImpl(null, 0, 0));
+    }
+
+    @Override
+    public String getMessage()
+    {
+      return getMessageKey();
+    }
+
+    @Override
+    protected String getResourceName()
+    {
+      throw new UnsupportedOperationException();
     }
   }
   
