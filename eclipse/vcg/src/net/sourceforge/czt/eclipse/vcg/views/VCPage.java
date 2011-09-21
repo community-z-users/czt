@@ -1,13 +1,11 @@
 package net.sourceforge.czt.eclipse.vcg.views;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
@@ -16,17 +14,8 @@ import net.sourceforge.czt.eclipse.vcg.VcgImages;
 import net.sourceforge.czt.eclipse.vcg.VcgPlugin;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
-import net.sourceforge.czt.print.util.CztPrintString;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGUtils;
@@ -294,37 +283,8 @@ public class VCPage extends Page {
 	
 	public String printVC(VCEntry vcEntry) throws CommandException {
 		
-		SectionManager sectMan = vcEntry.getSectionManager().clone();
-
-		// TODO externalise preferences?
-		sectMan.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, String.valueOf(80));
-		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
-
-		/*
-		 * FIXME fix the section-based printing. Currently the problem is that
-		 * there is no way of passing in a section name for a term, therefore
-		 * operators fail.
-		 */
-//		String keyId = "vc-print";
-//		sectMan.put(new Key<Term>(keyId, Term.class), vcEntry.getVCPara());
-//		CztPrintString out = sectMan.get(getPrintKey(keyId, vcEntry.getEditor().getMarkup()));
-		
-		StringWriter out = new StringWriter();
-
-		PrintUtils.print(vcEntry.getVCPara(), out, sectMan, 
-				vcEntry.getSectionName(), vcEntry.getEditor().getMarkup());
-		
-		return out.toString();
-	}
-	
-	private Key<? extends CztPrintString> getPrintKey(String keyId, Markup markup) {
-		switch (markup) {
-		case UNICODE: return new Key<UnicodeString>(keyId, UnicodeString.class);
-		case ZML: return new Key<XmlString>(keyId, XmlString.class);
-		// use LaTeX by default
-		case LATEX: 
-		default: return new Key<LatexString>(keyId, LatexString.class);
-		}
+		return ZEditorUtil.print(vcEntry.getVCPara(), vcEntry.getSectionManager(),
+				vcEntry.getSectionName(), vcEntry.getEditor().getMarkup(), 80, false);
 	}
 
 	private void updateVCList(boolean user) {
@@ -333,7 +293,13 @@ public class VCPage extends Page {
 		if (parsedData == null || parsedData.getSpec() == null
 				|| parsedData.getSectionManager() == null) {
 			// do not launch the job if nothing is available
-			filteredTree.setInput(Collections.<VCEntry>emptyList());
+			// set input in UI thread (this may be called from another thread)
+			main.getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					filteredTree.setInput(Collections.<VCEntry>emptyList());
+				}
+			});
 			return;
 		}
 		
@@ -385,7 +351,7 @@ public class VCPage extends Page {
 				}
 			});
 			
-			getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			main.getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
 					view.setViewMessage(VCPage.this, viewMsg);

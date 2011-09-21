@@ -2,13 +2,23 @@ package net.sourceforge.czt.eclipse.editors.zeditor;
 
 import java.math.BigInteger;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
+import net.sourceforge.czt.eclipse.editors.ZDialectSupport;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.print.util.CztPrintString;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
@@ -99,6 +109,66 @@ public class ZEditorUtil {
     }
     
     return null;
+  }
+  
+  public static String print(Term term, SectionManager sectInfo, String sectName, Markup markup,
+      int textWidth, boolean display) throws CommandException
+  {
+
+    SectionManager sectMan = sectInfo.clone();
+
+    // TODO externalise preferences?
+    sectMan.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, String.valueOf(textWidth));
+    sectMan.setProperty(PrintPropertiesKeys.PROP_PRINTING_ONTHEFLY_SECTION_NAME, sectName);
+
+    if ("zeves".equals(ZDialectSupport.INSTANCE.getCurrentDialect())) {
+      sectMan.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, String.valueOf(true));
+    }
+    
+    // set pretty-printing for structured goals
+    sectMan.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL, String.valueOf(true));
+    
+    String keyId = "zeditor-utils-print";
+    sectMan.put(new Key<Term>(keyId, Term.class), term);
+    CztPrintString out = sectMan.get(getPrintKey(keyId, markup));
+
+    return tidyPrinted(out.toString(), markup, display);
+  }
+  
+  private static Key<? extends CztPrintString> getPrintKey(String keyId, Markup markup)
+  {
+    switch (markup) {
+      case UNICODE :
+        return new Key<UnicodeString>(keyId, UnicodeString.class);
+      case ZML :
+        return new Key<XmlString>(keyId, XmlString.class);
+        // use LaTeX by default
+      case LATEX :
+      default :
+        return new Key<LatexString>(keyId, LatexString.class);
+    }
+  }
+  
+  public static String tidyPrinted(String result, Markup markup, boolean display)
+  {
+    result = result.replace("[ ", "[").replace(" ]", "]")//.replace(" [", "[")
+                   .replace(" ,", ",").replace(" ;", ";")
+                   .replace("( ", "(").replace(" )", ")")
+                   .replace("{ ", "{").replace(" }", "}")
+                   .replace(" : ", ": ");
+
+    if (markup == Markup.LATEX) {
+      result = result.replace("\\_ \\_ ", "\\_\\_");
+
+      if (display) {
+        // clear \t0 .. \t9 symbols
+        for (int index = 0; index <= 9; index++) {
+          result = result.replace("\\t" + index, "");
+        }
+      }
+    }
+
+    return result;
   }
 
   public static void runOnReconcile(final ZEditor editor, final ReconcileRunnable callback)

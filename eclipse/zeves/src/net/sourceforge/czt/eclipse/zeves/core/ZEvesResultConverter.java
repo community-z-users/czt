@@ -1,15 +1,14 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -94,41 +93,14 @@ public class ZEvesResultConverter {
 	
 	public static String printResult(SectionManager sectInfo, String sectName, Term term, 
 			Markup markup, int textWidth, boolean display) {
-
-		SectionManager sectMan = sectInfo.clone();
-
-		sectMan.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, String.valueOf(textWidth));
-		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
 		
-		// set pretty-printing for structured goals
-		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL, "true");
-
-		StringWriter out = new StringWriter();
-
-		PrintUtils.print(term, out, sectMan, sectName, markup);
-
-		return postprocessOutput(out.toString(), markup, display);
-	}
-	
-	private static String postprocessOutput(String result, Markup markup, boolean display) {
-		result = result.replace("[ ", "[").replace(" ]", "]")//.replace(" [", "[")
-				       .replace(" ,", ",").replace(" ;", ";")
-				       .replace("( ", "(").replace(" )", ")")
-				       .replace("{ ", "{").replace(" }", "}")
-				       .replace(" : ", ": ");
-				       
-		if (markup == Markup.LATEX) {
-			result = result.replace("\\_ \\_ ", "\\_\\_");
-			
-			if (display) {
-				// clear \t0 .. \t9 symbols
-				for (int index = 0; index <= 9; index++) {
-					result = result.replace("\\t" + index, "");
-				}
-			}
+		try {
+			return ZEditorUtil.print(term, sectInfo, sectName, markup, textWidth, display);
+		} catch (CommandException e) {
+			// problems printing
+			ZEvesPlugin.getDefault().log(e);
+			return null;
 		}
-		
-		return result;
 	}
 	
 	public static String convertPred(SectionManager sectInfo, String sectName, String zEvesPredStr,

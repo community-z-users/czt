@@ -1,16 +1,15 @@
 package net.sourceforge.czt.eclipse.vcg.views;
 
-import java.io.StringWriter;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.PlatformObject;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.outline.TermLabelVisitorFactory;
+import net.sourceforge.czt.eclipse.vcg.VcgPlugin;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.zeves.PrintUtils;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
@@ -104,17 +103,13 @@ public class VCEntry extends PlatformObject {
 			if (contents != null) {
 				return contents;
 			}
-			
-			SectionManager sectMan = sectInfo.clone();
 
-			sectMan.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, String.valueOf(80));
-			sectMan.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
-
-			StringWriter out = new StringWriter();
-
-			PrintUtils.print(vcPara, out, sectMan, getSectionName(), markup);
-
-			return out.toString();
+			try {
+				contents = ZEditorUtil.print(vcPara, sectInfo, getSectionName(), markup, 80, true);
+			} catch (CommandException e) {
+				throw new CoreException(VcgPlugin.newErrorStatus(e.getMessage(), e));
+			}
+			return contents;
 		}
 
 		@Override
@@ -123,4 +118,5 @@ public class VCEntry extends PlatformObject {
 		}
 		
 	}
+	
 }
