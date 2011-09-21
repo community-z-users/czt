@@ -3,6 +3,8 @@ package net.sourceforge.czt.eclipse.zeves.core;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -33,6 +35,11 @@ public class ZEvesLinearExecutor {
 			if (command == null) {
 				// nothing to execute
 				return Status.OK_STATUS;
+			}
+			
+			if (ZEvesPlugin.getDefault() == null) {
+				// shutting down - do not execute any more
+				return Status.CANCEL_STATUS;
 			}
 			
 			return command.execute(monitor);
@@ -82,6 +89,14 @@ public class ZEvesLinearExecutor {
 		}
 		
 		return first;
+	}
+	
+	public void clear() {
+		// clear the commands
+		commands.clear();
+		
+		// cancel executing job
+		execJob.cancel();
 	}
 	
 }
