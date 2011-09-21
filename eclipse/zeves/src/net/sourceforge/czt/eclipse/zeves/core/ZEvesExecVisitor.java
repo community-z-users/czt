@@ -437,8 +437,10 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     private boolean logDebug(ZEvesException e) {
     	// if there was an underlying cause, log it.
 		return e.getCause() != null
-				// log Z/Eves parser errors at the moment - look for a special string in errors
-				|| (e.getDebugInfo() != null && e.getMessage().contains("[Parser"));
+				// log Z/Eves parser, scanner errors at the moment - look for a special string in errors
+				|| (e.getDebugInfo() != null 
+					&& (e.getMessage().contains("[Parser") 
+							|| e.getMessage().contains("[Scanner]")));
     }
     
     private void handleResult(Position pos, Object result) {
