@@ -59,7 +59,7 @@ public class ZEvesAxDef {
 	public String toString() {
 		
 		String formalsStr = !formals.isEmpty() ? 
-				"[" + ZEvesResponseUtil.concat(formals, ", ") + "]" : "";
+				"[" + ZEvesResponseUtil.concat(formals, ", ") + "]\n" : "";
 		String axStr = !axPart.getItems().isEmpty() ? 
 				ZEvesResponseUtil.concat(axPart.getItems(), "\n") : "";
 
