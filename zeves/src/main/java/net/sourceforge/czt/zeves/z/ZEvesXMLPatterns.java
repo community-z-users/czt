@@ -299,8 +299,8 @@ public interface ZEvesXMLPatterns {
      * NOTE: Added parentheses on the argument, because it may bind stronger than the expression.
      *       Also addded parentheses to the function, because it may be a complex expression
      */
-    public static final String APPL_EXPR_PATTERN = "({0}) ({1})";
-    public static final String APPL_EXPR_PATTERN_2 = "{0} {1}";
+    public static final String APPL_EXPR_PATTERN = "{0} {1}";
+    public static final String APPL_EXPR_PATTERN_EXPLICIT = "{0} {1}";
     
     /**
      * {0} expression       => getExpr(term.getLeftExpr());
@@ -320,18 +320,18 @@ public interface ZEvesXMLPatterns {
      * {2} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
      *
      */
-    public static final String MIXFIX_APPL_EXPR_PATTERN = "({1}) {0} ({2})";
+    public static final String INFIX_APPL_EXPR_PATTERN = "({1}) {0} ({2})";
 
     /**
      * {0} comma sep list of expressions from getExpr(ZUtils.getApplExprArguments(term).get(n));
      */
-    public static final String APPL_EXPR_SEQ_PATTERN = "&lang; {0} &rang;";
+    public static final String APPL_EXPR_SEQ_PATTERN = "(&lang; {0} &rang;)";
 
     /**
      * {0} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
      * {1} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
      */
-    public static final String MIXFIX_APPL_EXPR_RELIMAGE_PATTERN = "({0}) &lvparen; {1} &rvparen;";
+    public static final String MIXFIX_APPL_EXPR_RELIMAGE_PATTERN = "({0} &lvparen; {1} &rvparen;)";
 
 
     /**
@@ -340,13 +340,13 @@ public interface ZEvesXMLPatterns {
      * {2} expression   => getExpr(term.getZExprList().get(1));
      *
      */
-    public static final String MIXFIX_REF_EXPR_PATTERN = "{0} {1} {2}";
+    public static final String INFIX_REF_EXPR_PATTERN = "({0}) {1} ({2})";
     
     /**
      * {0} rel          => getName(term.getZName()); 
      * {1} expression   => getExpr(term.getZExprList().get(0));
      */
-    public static final String PREFIX_REF_EXPR_PATTERN = "{0} {1}";
+    public static final String REF_EXPR_PATTERN = "{0} {1}";
 
 
     /**

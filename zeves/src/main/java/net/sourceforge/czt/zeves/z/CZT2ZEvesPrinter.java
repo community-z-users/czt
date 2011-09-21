@@ -28,7 +28,6 @@ import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
 import net.sourceforge.czt.z.visitor.ZExprListVisitor;
-import net.sourceforge.czt.z.visitor.ZNameListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zeves.ZEvesIncompatibleASTException;
 import java.util.Iterator;
@@ -143,9 +142,7 @@ import net.sourceforge.czt.z.visitor.NewOldPairVisitor;
 import net.sourceforge.czt.z.visitor.QntExprVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
-import net.sourceforge.czt.z.visitor.DeclVisitor;
 import net.sourceforge.czt.z.visitor.ExprPredVisitor;
-import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.FalsePredVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
@@ -163,13 +160,10 @@ import net.sourceforge.czt.z.visitor.OutStrokeVisitor;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.PowerExprVisitor;
 import net.sourceforge.czt.z.visitor.Pred2Visitor;
-import net.sourceforge.czt.z.visitor.PredVisitor;
 import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
 import net.sourceforge.czt.z.visitor.SchExpr2Visitor;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
-import net.sourceforge.czt.z.visitor.SchTextVisitor;
-import net.sourceforge.czt.z.visitor.StrokeVisitor;
 import net.sourceforge.czt.z.visitor.ThetaExprVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
@@ -201,6 +195,7 @@ import net.sourceforge.czt.z.visitor.RenameExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
+import net.sourceforge.czt.z.visitor.ZSchTextVisitor;
 import net.sourceforge.czt.zeves.ast.LabelAbility;
 import net.sourceforge.czt.zeves.ast.LabelUsage;
 import net.sourceforge.czt.zeves.ast.ProofScript;
@@ -252,29 +247,28 @@ import net.sourceforge.czt.zeves.visitor.WithCommandVisitor;
  */
 public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         /* Special visitors */
-        TermVisitor<String>, FreetypeVisitor<String>, SchTextVisitor<String>,
-        ZNameVisitor<String>,
+        TermVisitor<String>, FreetypeVisitor<String>, ZSchTextVisitor<String>, ZNameVisitor<String>,
         /* Z List visitors */
-        ZDeclListVisitor<String>, ZExprListVisitor<String>, ZNameListVisitor<String>,
+        ZDeclListVisitor<String>, ZExprListVisitor<String>,
         /* Stroke visitors */
-        StrokeVisitor<String>, NumStrokeVisitor<String>, NextStrokeVisitor<String>,
+        NumStrokeVisitor<String>, NextStrokeVisitor<String>,
         InStrokeVisitor<String>, OutStrokeVisitor<String>,
         /* Paragraphs visitors */
         GivenParaVisitor<String>, AxParaVisitor<String>, FreeParaVisitor<String>,
-        ConjParaVisitor<String>, ParaVisitor<String>, NarrParaVisitor<String>,
+        ConjParaVisitor<String>,  NarrParaVisitor<String>,
         LatexMarkupParaVisitor<String>, UnparsedParaVisitor<String>,
         /* Declaration visitors */
-        VarDeclVisitor<String>, /*ConstDeclVisitor<String>,*/
-        InclDeclVisitor<String>, DeclVisitor<String>,
+        VarDeclVisitor<String>, 
+        InclDeclVisitor<String>, 
         /* Predicate visitors */
         TruePredVisitor<String>, FalsePredVisitor<String>, NegPredVisitor<String>,
-        QntPredVisitor<String>, Pred2Visitor<String>, /*AndPredVisitor<String>,*/
-        MemPredVisitor<String>, ExprPredVisitor<String>, PredVisitor<String>,
+        QntPredVisitor<String>, Pred2Visitor<String>, 
+        MemPredVisitor<String>, ExprPredVisitor<String>,
         /* Expression visitors */
-        ExprVisitor<String>, RefExprVisitor<String>, PowerExprVisitor<String>,
+        RefExprVisitor<String>, PowerExprVisitor<String>,
         ProdExprVisitor<String>, SetExprVisitor<String>, SetCompExprVisitor<String>,
         NumExprVisitor<String>, TupleExprVisitor<String>,
-        TupleSelExprVisitor<String>, QntExprVisitor<String>, /*Qnt1ExprVisitor<String>, */ LambdaExprVisitor<String>,
+        TupleSelExprVisitor<String>, QntExprVisitor<String>, LambdaExprVisitor<String>,
         MuExprVisitor<String>, LetExprVisitor<String>, NegExprVisitor<String>, CondExprVisitor<String>,
         PreExprVisitor<String>, ThetaExprVisitor<String>, BindSelExprVisitor<String>,
         BindExprVisitor<String>, SchExprVisitor<String>, SchExpr2Visitor<String>,
@@ -341,7 +335,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   /**
    * Separation string for expressions in a ZExprList (used during visitZExprList)
    */
-  private String fZExprListSep = null;
+  private final Stack<String> fZExprListSep;
+
+  private final Stack<Boolean> fKeepOpArgs;
+
 
   /**
    * Current instantiation kind (used during visitQuantifiersCommand and visitUseCommand).
@@ -360,18 +357,24 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    * It is a printer as a list of strings, instead of a single string.
    */
   private final SpecPrinter fSpecPrinter;
+
+  private boolean printingNarrPara_;
+
+  //private OpTable opTable_;
   
   /* Constructors */
   /** Creates a new instance of ZPrinter
    * @param si
+   * @param printNarAsComments
    */
   public CZT2ZEvesPrinter(SectionInfo si)
   {
     super();
     fSectionName = null;
     fSectionInfo = null;
-    fZExprListSep = null;
-    //fKeepOpArgs = false;
+    printingNarrPara_ = true;
+    fZExprListSep = new Stack<String>();
+    fKeepOpArgs = new Stack<Boolean>();
     fCurrInstKind = new Stack<InstantiationKind>();
     fRelationalOpAppl = new Stack<Object>();
     fCheckForLabelAnnotations = false;
@@ -441,73 +444,392 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return format(COMMENT_PATTERN, headline, text);
   }
 
-  /**
-   * Retrieves the location string attribute present as a term annotation.
-   */
-  private String getLocation(Term term)
-  {
-    /* NOTE:
-     *
-     * Mark Saaltink said: "Locations are used in the GUI to record the origin of a paragraph (either from a file or from the GUI itself).
-     * This is used so that if you re-import a LaTeX file after revising it, the appropriate paragraphs are updated. Just ignore it."
-     */
-    LocAnn loc = term.getAnn(LocAnn.class);
-    return loc == null ? "" : format(LOCATION_PATTERN, loc.getLine(), loc.getCol(), loc.getStart(), loc.getEnd(), loc.getLength(), loc.getLoc());
-  }
 
-  /**
-   * Returns the string valued result for the current status of the ability flag
-   * present as a term annotation.
-   */
-  private String getAbility(Term term)
+  protected Type2 getType(String sectionName, ZName name)
   {
-    return getAbility(ZEvesUtils.getLabel(term));
-  }
-
-  /**
-   * Returns the string valued result for the current status of the ability flag
-   * present as a term annotation.
-   */
-  private String getAbility(ZEvesLabel label)
-  {
-    if (label == null || label.getAbility() == LabelAbility.none)
-    {
-      return "";
+    if (sectionName == null) {
+      throw new IllegalArgumentException("No section name indicated for type information");
     }
 
-    return format(ABILITY_PATTERN, label.getAbility().name());
+    try
+    {
+      SectTypeEnvAnn sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnvAnn>(sectionName, SectTypeEnvAnn.class));
+      Type2 result = null;
+      for(NameSectTypeTriple nst : sectTypeEnv.getNameSectTypeTriple())
+      {
+        if (ZUtils.namesEqual(name, nst.getZName()))
+        {
+          Type type = nst.getType();
+          result = GlobalDefs.unwrapType(type);
+          break;
+        }
+      }
+      return result;
+    }
+    catch (CommandException e)
+    {
+      throw new ZEvesIncompatibleASTException("Could not retrieve type information of section " + sectionName + " for " + name, e);
+    }
+  }
+
+  protected boolean isSchemaTyped(String sectionName, ZName name)
+  {
+    Type2 type = getType(sectionName, name);
+    return (type instanceof PowerType && ((PowerType)type).getType() instanceof SchemaType);
+  }
+
+  private <T> void checkStack(Stack<T> s, T o)
+  {
+    assert !s.isEmpty();
+    T e = s.pop();
+    assert e == o || (e instanceof Boolean && e.equals(o));
+  }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.13 Proof commands
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  @Override
+  public String visitProofScript(ProofScript term)
+  {
+    final String thmName = getIdent(term.getZName());
+
+    // list of proof commands useful for interactive send/receive as <cmd="proof-command"> command </cmd>
+    List<String> pScript = proofScripts_.get(thmName);
+    if (pScript != null)
+    {
+      CztLogger.getLogger(getClass()).info("Updating proof script for " + thmName);
+      pScript.clear();
+    }
+    else
+    {
+      pScript = new ArrayList<String>(term.getProofCommandList().size());
+      proofScripts_.put(thmName, pScript);
+    }
+
+    // list of proof commands separated by semi-colon for "<proof-part/>" inlined proof commands
+    StringBuilder proofCommands = new StringBuilder();
+    String delim = "";
+    for (ProofCommand pc : term.getProofCommandList())
+    {
+      final String pcStr = pc.accept(this);
+      proofCommands.append(delim).append(pcStr);
+      delim = "; \n";
+      pScript.add(wrapProofCommand(pcStr));
+    }
+
+    // returns inlined-proofs as <proof-part/>
+    return format(ZEVES_PROOF_PART_PATTERN, proofCommands.toString());
   }
 
   /**
-   * Retrieves the usage string attribute present as a term annotation.
-   * Usage is only allowed for ConjPara and Pred, where IllegalArgumentException is
-   * thrown for other terms.
+   * For every zproof available, return corresponding proof scripts
+   * @param thmName
+   * @return
    */
-  private String getUsage(ZEvesLabel label)
+  public List<String> getProofScripts(String thmName)
   {
-    if (label == null || label.getUsage() == LabelUsage.none)
-    {
-      return "";
-    }
-
-    return format(USAGE_PATTERN, label.getUsage().name());
-  }
-
-  private String getLabel(Term term)
-  {
-    ZEvesLabel l = ZEvesUtils.getLabel(term);
-    String result = "";
-    if (l != null)
-    {
-      result = format(LABEL_PATTERN,
-              l.getAbility().equals(LabelAbility.none) ? "" : l.getAbility().name(),
-              l.getUsage().equals(LabelUsage.none) ? "" : l.getUsage().name(),
-              getName(l.getName()));
-    }
+    List<String> result = proofScripts_.get(thmName);
+    if (result != null)
+      result = Collections.unmodifiableList(result);
     return result;
   }
 
-  /* Special Z/Eves API Productions */
+  public Set<String> getThmNamesWithProofScripts()
+  {
+    return Collections.unmodifiableSet(proofScripts_.keySet());
+  }
+
+  private String getEventNameList(ZNameList term)
+  {
+    return getDeclNameList(term);
+  }
+
+  @Override
+  public String visitProofCommand(ProofCommand term)
+  {
+    throw new ZEvesIncompatibleASTException("ProofCommand", term);
+  }
+
+  @Override
+  public String visitCaseAnalysisCommand(CaseAnalysisCommand term)
+  {
+    switch (term.getKind())
+    {
+      case Cases:
+        return "cases";
+      case Next:
+        return "next";
+      case Split:
+        return "split " + getPred(term.getPred());
+      default:
+        throw new ZEvesIncompatibleASTException(
+                "Unsupported case analysis kind: " + term.getKind());
+    }
+  }
+
+  @Override
+  public String visitNormalizationCommand(NormalizationCommand term)
+  {
+    switch (term.getKind())
+    {
+      case Conjunctive:
+        return "conjunctive";
+      case Disjunctive:
+        return "disjunctive";
+      case Rearrange:
+        return "rearrange";
+      case Command:
+        return "with normalization " + term.getProofCommand().accept(this);
+      default:
+        throw new ZEvesIncompatibleASTException(
+                "Unsupported normalization command kind: " + term.getKind());
+    }
+  }
+
+  @Override
+  public String visitQuantifiersCommand(QuantifiersCommand term)
+  {
+    StringBuilder result = new StringBuilder();
+    if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty())
+    {
+      result.append("prenex");
+    }
+    else
+    {
+      assert term.getInstantiationList() != null && !term.getInstantiationList().isEmpty() : "quantifiers instantiation list cannot be empty";
+      result.append("instantiate ");
+      fCurrInstKind.push(InstantiationKind.Quantifier);
+      result.append(term.getInstantiationList().accept(this));
+      assert !fCurrInstKind.isEmpty();
+      InstantiationKind k = fCurrInstKind.pop();
+      assert k.equals(InstantiationKind.Quantifier);
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visitInstantiation(Instantiation term)
+  {
+    assert !fCurrInstKind.isEmpty();
+    InstantiationKind k = fCurrInstKind.peek();
+    assert k.equals(term.getKind()) : "inconsistent instantiation kind. found "
+                                             + term.getKind() + "; expected " + k;
+    StringBuilder result = new StringBuilder();
+    result.append(getVarName(term.getZName()));
+    result.append(k.equals(InstantiationKind.Quantifier) ? " == " : " := ");
+    // instantiations *must* also allow for opArgs because of potential need of
+    // explicit generics. Z/Eves accepts "\#[X]~A", whereas CZT insists on "(\#~\_)[X]~A"
+    // so we almost always need to add the full (no-fix) version of op-temp names in inst.
+    fRelationalOpAppl.push(Boolean.TRUE);
+    result.append(getExpr(term.getExpr()));
+    checkStack(fRelationalOpAppl, Boolean.TRUE);
+    return result.toString();
+  }
+
+  @Override
+  public String visitInstantiationList(InstantiationList term)
+  {
+    StringBuilder result = new StringBuilder();
+    Iterator<Instantiation> it = term.iterator();
+    assert !fCurrInstKind.isEmpty() : "visiting instantiation list outside any instantiation context";
+    assert it.hasNext() : "empty instantiations are not allowed for instantiation kind "
+                          + fCurrInstKind.peek();
+    while (it.hasNext())
+    {
+      result.append(it.next().accept(this));
+      if (it.hasNext())
+      {
+        result.append(",");
+      }
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visitSimplificationCommand(SimplificationCommand term)
+  {
+    switch (term.getKind())
+    {
+      case Reduce:
+        switch (term.getPower())
+        {
+          case None:
+            return "reduce";
+          case Prove:
+            return "prove by reduce";
+          case Trivial:
+            throw new ZEvesIncompatibleASTException(
+                    "Trivial reduce is not supported by Z/Eves");
+          default:
+            throw new ZEvesIncompatibleASTException(
+                    "Unsupported simplification command power: " + term.getPower());
+        }
+      case Rewrite:
+        switch (term.getPower())
+        {
+          case None:
+            return "rewrite";
+          case Prove:
+            return "prove by rewrite";
+          case Trivial:
+            return "trivial rewrite";
+          default:
+            throw new ZEvesIncompatibleASTException(
+                    "Unsupported simplification command power: " + term.getPower());
+        }
+
+      case Simplify:
+        switch (term.getPower())
+        {
+          case None:
+            return "simplify";
+          case Prove:
+            throw new ZEvesIncompatibleASTException(
+                    "Prove by simplify is not supported by Z/Eves");
+          case Trivial:
+            return "trivial simplify";
+          default:
+            throw new ZEvesIncompatibleASTException(
+                    "Unsupported simplification command power: " + term.getPower());
+        }
+
+      default:
+        throw new ZEvesIncompatibleASTException(
+                "Unsupported simplification command kind: " + term.getKind());
+    }
+  }
+
+  @Override
+  public String visitUseCommand(UseCommand term)
+  {
+    StringBuilder result = new StringBuilder("use ");
+
+    // don't use ref expr visit here to avoid confusion of the name as an operator
+    // with explicit generics. Instead, visit each part of the name.
+    RefExpr useName = term.getTheoremRef();
+    result.append(getIdent(useName.getZName()));
+    if (useName.getExprList() != null && !useName.getZExprList().isEmpty())
+      result.append(getGenActuals(useName.getZExprList()));
+    if (term.getInstantiationList() != null)
+    {
+      fCurrInstKind.push(InstantiationKind.ThmReplacement);
+      if (!term.getInstantiationList().isEmpty())
+      {
+        result.append("[");
+        result.append(term.getInstantiationList().accept(this));
+        result.append("]");
+      }
+
+      assert !fCurrInstKind.isEmpty();
+      InstantiationKind k = fCurrInstKind.pop();
+      assert k.equals(InstantiationKind.ThmReplacement);
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visitWithCommand(WithCommand term)
+  {
+    assert term.getProofCommand() != null : "with command must have an inner command";
+    StringBuilder result = new StringBuilder("with ");
+    if (term.getExpr() != null)
+    {
+      assert term.getPred() == null : "with expression command cannot have pred"; // && term.getZNameList().isEmpty();
+      result.append("expression (");
+      result.append(getExpr(term.getExpr()));
+      result.append(") ");
+    }
+    else if (term.getPred() != null)
+    {
+      assert term.getExpr() == null : "with predicate command cannot have expr";
+      result.append("predicate (");
+      result.append(getPred(term.getPred()));
+      result.append(") ");
+    }
+    else if (term.getEnabled() != null)
+    {
+      assert term.getExpr() == null && term.getPred() == null
+             && term.getNameList() instanceof ZNameList && !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
+      result.append(term.getEnabled() ? "enabled " : "disabled ");
+      result.append("(");
+      result.append(getEventNameList(term.getZNameList()));
+      result.append(") ");
+    }
+    else
+    {
+      throw new ZEvesIncompatibleASTException(
+              "Unsupported with command: " + term);
+    }
+    result.append(term.getProofCommand().accept(this));
+    return result.toString();
+  }
+
+  @Override
+  public String visitSubstitutionCommand(SubstitutionCommand term)
+  {
+    assert term.getProofCommand() == null && term.getNameList() == null
+           || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
+    switch (term.getKind())
+    {
+      case Invoke:
+        assert term.getExpr() == null : "invoke command cannot have an expression";
+        if (term.getPred() != null)
+        {
+          return "invoke predicate " + getPred(term.getPred());
+        }
+        else if (term.getNameList() == null || term.getZNameList().isEmpty())
+        {
+          return "invoke";
+        }
+        else
+        {
+          assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
+          return "invoke " + getVarName(ZUtils.assertZName(term.getZNameList().get(0)));
+        }
+      case Equality:
+        assert term.getPred() == null : "equality substitute command cannot have a predicate";
+        if (term.getExpr() != null)
+        {
+          return "equality substitute " + getExpr(term.getExpr());
+        }
+        else
+        {
+          return "equality substitute";
+        }
+      default:
+        throw new ZEvesIncompatibleASTException(
+                "Unsupported substition command kind: " + term.getKind());
+    }
+  }
+
+  @Override
+  public String visitApplyCommand(ApplyCommand term)
+  {
+    assert term.getProofCommand() == null && term.getNameList() != null
+           && term.getNameList() instanceof ZNameList && term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
+    StringBuilder result = new StringBuilder("apply ");
+    result.append(getIdent(ZUtils.assertZName(term.getZNameList().get(0))));
+    if (term.getPred() != null)
+    {
+      assert term.getExpr() == null : "apply to predicate cannot have an expression";
+      result.append(" to predicate ");
+      result.append(getPred(term.getPred()));
+    }
+    else if (term.getExpr() != null)
+    {
+      assert term.getPred() == null : "apply to expression cannot have an predicate";
+      result.append(" to expression "); // )");
+      result.append(getExpr(term.getExpr()));
+      // result.append(")");
+    }
+    return result.toString();
+  }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.12 Names
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   /**
    * Methods which implements Section 7 Entities, of the Z/Eves Core API
    */
@@ -535,7 +857,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     else if (word.equals(ZString.ARITHMOS))
     {
-      word = "&Aopf;";
+      // ZEves doesn't use ARITHMOS (E.g., not defined in its mathematical toolkit)
+      // if it appear from CZT, just use NUM instead.
+      word = "&Zopf;";
+      //word = "&Aopf;";
     }
     else if (word.equals(ZString.FINSET))
     {
@@ -611,28 +936,6 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     else
     {
       throw new ZEvesIncompatibleASTException("binary schema expression term", term);
-    }
-    return result;
-  }
-
-  private String getFixity(OperatorName.Fixity fixity)
-  {
-    String result;
-    if (fixity == OperatorName.Fixity.PREFIX)
-    {
-      result = "pre-rel";
-    }
-    else if (fixity == OperatorName.Fixity.POSTFIX)
-    {
-      result = "post-fun";
-    }
-    else if (fixity == OperatorName.Fixity.INFIX)
-    {
-      result = "in-rel";
-    }
-    else // if (fixity == OperatorName.Fixity.NOFIX) or everything else.
-    {
-      result = "";
     }
     return result;
   }
@@ -868,152 +1171,21 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result;
   }
 
-  private String adjustIfOpWithinArgument(String s)
+  /**
+   * Returns a list of strokes simply concatenated as it appears.
+   */
+  private String getStrokes(StrokeList strokes)
   {
-    if (s.startsWith(ZString.ARG_TOK) && s.endsWith(ZString.ARG_TOK))
+    ZStrokeList zstrokes = ZUtils.assertZStrokeList(strokes);
+
+    StringBuilder result = new StringBuilder("");
+    for (Stroke stk : zstrokes)
     {
-      s = "(" + s + ")";
+      result.append(stk.accept(this));
     }
-    return s;
+    return result.toString();
   }
 
-  // ZSchText for AxDef or SchBox should keep args
-  private boolean stackTopIsZSchText(Object t)
-  {
-    return (t instanceof ZSchText);
-  }
-
-  // OpNames within DefLHS in Horizontal AxPara
-  private boolean stackTopIsOperZName(Object t)
-  {
-    return ((t instanceof ZName) &&
-             ((ZName)t).getOperatorName() != null);
-  }
-
-  // ApplExpr with mixfix false should keep opnames
-  private boolean stackTopIsExplicitApplExpr(Object t)
-  {
-    return ((t instanceof ApplExpr) &&
-             !((ApplExpr)t).getMixfix().booleanValue());
-  }
-
-  // RefExpr with mixfix false that have operator names (e.g., explicitly given RefExpr as "(_op_)")
-  // they come from ApplExpr RefExpr with mixfix false or through ApplExpr parameters that might be
-  // RefExpr of mixfix false (\_R\_) \comp (\_S \_) say
-  private boolean stackTopIsNonMixfixRefExprOper(Object t)
-  {
-    boolean result =
-            ((t instanceof RefExpr) &&
-             !((RefExpr)t).getMixfix().booleanValue() &&
-             ((RefExpr)t).getZName().getOperatorName() != null);
-
-    if (result)
-    {
-      result = !stackTopIsRefExprOfApplExprWithExplicitGenActualsNotInfix(t);
-    }
-    return result;
-  }
-
-  // when calling ApplExpr->RefExpr that has explicit generic parameters,
-  // ZEves convention is  #[A](S), whereas CZT convention is (# _)[A](S).
-  //
-  // Now, trouble is for infix operators, the solution is different(!) Nightware...
-  // ZEves accepts (_ cup_)[X,Y](A,B). So need to get  special case when ApplExpr.getRightEpr instanceof TupleExpr?
-  private boolean stackTopIsRefExprOfApplExprWithExplicitGenActualsNotInfix(Object t)
-  {
-    boolean result = 
-            (fRelationalOpAppl.size() > 1) 
-            &&
-            ((t instanceof RefExpr) &&
-             !((RefExpr)t).getMixfix().booleanValue() &&
-             ((RefExpr)t).getExplicit().booleanValue() &&
-             ((RefExpr)t).getZName().getOperatorName() != null)
-             ;
-    if (result)
-    {
-      Object o = fRelationalOpAppl.elementAt(fRelationalOpAppl.size()-2);
-      result = stackTopIsExplicitApplExpr(o);
-      if (result)
-      {
-        result = !(((ApplExpr)o).getRightExpr() instanceof TupleExpr);
-      }
-    }
-    return result;
-  }
-
-  // explicit "override" case (e.g., ApplExpr that are not FcnOpAppl - "(_+_)(1,2)"
-  private boolean stackTopIsBooleanOverride(Object t)
-  {
-    return ((t instanceof Boolean) &&
-             ((Boolean)t).booleanValue());
-  }
-
-  private boolean shouldKeepOpArgsInOpName()
-  {
-    assert !fRelationalOpAppl.isEmpty();
-    Object t= fRelationalOpAppl.peek();
-    return (stackTopIsZSchText(t) ||                     
-            stackTopIsOperZName(t) ||    
-            stackTopIsExplicitApplExpr(t) ||
-            stackTopIsNonMixfixRefExprOper(t) ||
-            stackTopIsBooleanOverride(t)                
-           );
-  }
-
-  private String getOperator(OperatorName opname)
-  {
-    // We are concatenating the result. In almost all cases, one gets "THE" operator involved
-    // since we are ignoring ARGs. On ocassional special cases (e.g., LANGLE, LIMG, LBLOT, user defined
-    // \\listarg op temp), we need to treat it specially, hence we send the whole load of symbols involved.
-    //
-    // PS: Z/Eves does not accept \\listarg definition by the user.
-    String result = "";
-
-    // If the name is tagged for operator consideration
-    if (!fRelationalOpAppl.isEmpty())
-    {
-      // See revision 3986 in the repository if this fails.
-      // I used to use opname.iterator, for what now is getWords().
-      Iterator<String> parts = Arrays.asList(opname.getWords()).iterator();//opname.iterator();
-
-      boolean keepArgsOverride = shouldKeepOpArgsInOpName();
-
-      // int found = 0;
-      while (parts.hasNext())
-      {
-        String part = parts.next().toString();
-        // ignore the arguments: we will know if it's a list arg from ApplExpr arity.
-        if (keepArgsOverride || !part.equals(ZString.ARG) && !part.equals(ZString.LISTARG))
-        {
-          // found++;
-          result += translateOperatorWord(part);
-        }
-      }
-      //if (found != 1)
-      //{
-      //  throw new ZEvesIncompatibleASTException("Translation of complext operator templates is not yet supported. See throwable cause for details.",
-      //          new IllegalArgumentException("We only implement translation of unary or binary operator templates with one \"word\" name only. "
-      //                                       + "That is, we support mostly all toolkit operators, such as \"_ < _\", but not more complex templates with more tha one \"word\", "
-      //                                       + "such as \"_ || _ @ _ \". Check the newest version readme.txt for compatibility details."));
-      //}
-    }
-    // otherwise, this is an operator appearing in a place where it shouldn't
-    else
-    {
-      throw new ZEvesIncompatibleASTException("Incompatible Std Z operator template for Z/Eves: " + opname);
-      //throw new ZEvesIncompatibleASTException("Case yet to be handled: getOperator with " + opname + " that is not a relational op appl");
-      //getFixity(opname.getFixity());
-    }
-    assert !result.isEmpty();
-    
-    String strokes = getStrokes(opname.getStrokes());
-    return result + strokes;
-  }
-
-  private String getOperator(Term name)
-  {
-    return getOperator(ZUtils.assertZName(name).getOperatorName());
-  }
 
   /**
    * Retrieves the Schema name from a DeclName: it is just the getWord()
@@ -1027,19 +1199,41 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return getWord(schName);
   }
 
-  /**
-   * Returns a list of strokes simply concatenated as it appears.
-   */
-  private String getStrokes(StrokeList strokes)
+  private boolean shouldKeepOpArgsInOpName()
   {
-    ZStrokeList zstrokes = ZUtils.assertZStrokeList(strokes);
-    
-    StringBuilder result = new StringBuilder("");
-    for (Stroke stk : zstrokes)
+    return !fKeepOpArgs.isEmpty() && fKeepOpArgs.peek().booleanValue();
+  }
+
+  private String getOperator(OperatorName opname)
+  {
+    // We are concatenating the result. In almost all cases, one gets "THE" operator involved
+    // since we are ignoring ARGs. On ocassional special cases (e.g., LANGLE, LIMG, LBLOT, user defined
+    // \\listarg op temp), we need to treat it specially, hence we send the whole load of symbols involved.
+    //
+    // Z/Eves does not accept \\listarg definition by the user.
+    String result = "";
+
+
+    // See revision 3986 in the repository if this fails.
+    // I used to use opname.iterator, for what now is getWords().
+    Iterator<String> parts = Arrays.asList(opname.getWords()).iterator();//opname.iterator();
+
+    boolean keepOpArgs = shouldKeepOpArgsInOpName();
+
+    while (parts.hasNext())
     {
-      result.append(stk.accept(this));
+      String part = parts.next().toString();
+      if (keepOpArgs || (!part.equals(ZString.ARG) && !part.equals(ZString.LISTARG)))
+      {
+        result += translateOperatorWord(part);
+      }
     }
-    return result.toString();
+
+    // get strokes
+    assert !result.isEmpty();
+    String strokes = getStrokes(opname.getStrokes());
+    result += strokes;
+    return result;
   }
 
   /**
@@ -1048,171 +1242,73 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String getIdent(ZName name)
   {
+    if (name.getOperatorName() != null)
+      throw new ZEvesIncompatibleASTException("CZT operator template is not a ZEves identifier " + name.toString());
     StringBuilder result = new StringBuilder(getWord(name));
-    // AV: retrieving ZStrokeList from the name, because ZName can never be
-    // cast into ZStrokeList and therefore throws exception
-    //
-    // Leo: yep
     result.append(getStrokes(name.getZStrokeList()));
     return result.toString();
   }
 
   /**
-   * Represents the decl-name production. It does not yet implement operator templates
-   * and just recognises Z/Eves identifiers (e.g. work with decoration).
+   * Converts a CZT ZName into a ZEves name. If isIdentOnly is true and ZName
+   * is an operator (getOperatorName() != null), an exception is raised.
+   * @param name
+   * @param isDeclName add surround parenthesis to ZName that are operators or not
+   * @param isIdentOnly consider opName or not from ZNAme.
+   * @return
    */
-  private String getName(Name name)
+  private String getZEvesName(ZName name, boolean isDeclName, boolean isIdentOnly)
   {
-
-    ZName zname = ZUtils.assertZName(name);
-
-    if (zname.getOperatorName() != null)
+    String result;
+    OperatorName on = name.getOperatorName();
+    if (on != null && !isIdentOnly)
     {
-      return getOperator(zname);
+      result = getOperator(on);
+      // if not a declname that is an operator, e.g., \_ \myop \_ not within AxDef declpart say
+      // add parenthesis around it to become (\_ \myop \_) , eg., (\_\R\_) \comp (\_ \S \_)
+      if (!isDeclName && result.indexOf(ZString.ARG) != -1)
+        result = "(" + result + ")";
     }
     else
     {
-      return getIdent(zname);
+      result = getIdent(name);
     }
-  }
-
-  private String extractSeqElem(Expr e)
-  {
-    assert e instanceof TupleExpr;
-    TupleExpr te = (TupleExpr)e;
-    assert te.getZExprList().size() == 2;
-    Expr seqElem = te.getZExprList().get(1);
-    return getExpr(seqElem);
-  }
-
-  private void checkStack(Object o)
-  {
-    assert !fRelationalOpAppl.isEmpty();
-    Object e = fRelationalOpAppl.pop();
-    assert e == o || (e instanceof Boolean && e.equals(o));
-  }
-
-  private String getRefName(RefExpr term)
-  {
-    fRelationalOpAppl.push(term);
-    final String result = getName(term.getZName());
-    checkStack(term);
     return result;
   }
 
-  private String getApplExprPart(ApplExpr term)
+  private String getVarName(ZName name)
   {
-    fRelationalOpAppl.push(term);
-    // if ApplExpr with mixfix true (e.g., not explicit:  (x+y), get the "_+_" without params)
-    // otherwise with mixifix false (e.g., explicit: (_+_)(x,y), get the "_+_" with params)
-
-    // mixfix: left expr is the operator, right expr is a tuple with args
-    Expr opExpr = ZUtils.isFcnOpApplExpr(term) ?
-      ZUtils.getApplExprRef(term) : term.getLeftExpr();
-    final String result = getExpr(opExpr);
-    checkStack(term);
-    return result;
+    return getZEvesName(name, false, false);
   }
 
-  /**
-   * Returns a comma-separated list of identifiers.
-   * It represents ident-list, or event-name-list.
-   */
-  private String getIdentList(ZNameList term)
+  private String getDeclName(ZName name)
+  {
+    return getZEvesName(name, true, false);
+  }
+
+  private String getZEvesNameList(ZNameList term, boolean isDeclName, boolean isIdentOnly)
   {
     assert term != null;
     if (term.isEmpty())
     {
-      throw new IllegalArgumentException("Identifier lists must have at least one declaring name");
+      throw new ZEvesIncompatibleASTException("Identifier lists must have at least one declaring name", term);
     }
-    StringBuilder result = new StringBuilder("");
+    StringBuilder result = new StringBuilder();
     Iterator<Name> it = term.iterator();
     ZName name = ZUtils.assertZName(it.next());
-    result.append(getIdent(name));
+    result.append(getZEvesName(name, isDeclName, isIdentOnly));
     while (it.hasNext())
     {
-      result.append(", ");
+      result.append(",");
       name = ZUtils.assertZName(it.next());
-      result.append(getIdent(name));
+      result.append(getZEvesName(name, isDeclName, isIdentOnly));
     }
     return result.toString();
   }
-
-  private String getNameList(Iterator<Name> it)
+  
+  private String getIdentList(ZNameList term)
   {
-    return getNameList(it, false);
-  }
-
-  /**
-   * Returns a comma-separated list of decl-name or ref-name (but not mixed).
-   * It assumes the list is neither null nor empty. It is used to represent
-   * various productions related to names with operators.
-   */
-  private String getNameList(Iterator<Name> it, boolean asOperators)
-  {
-    StringBuilder result = new StringBuilder("");
-    ZName name = ZUtils.assertZName(it.next());
-    if (asOperators)
-    {
-      fRelationalOpAppl.push(name);
-    }
-    result.append(getName(name));
-    if (asOperators)
-    {
-      checkStack(name);
-    }
-    while (it.hasNext())
-    {
-      result.append(", ");
-      name = ZUtils.assertZName(it.next());
-
-      if (asOperators)
-      {
-        fRelationalOpAppl.push(name);
-      }
-
-      result.append(getName(name));
-
-      if (asOperators)
-      {
-        checkStack(name);
-      }
-    }
-    return result.toString();
-  }
-
-  /**
-   * Represents a simplified version of production def-lhs.
-   * It just take into account our simplified version of var-name production.
-   */
-  private String getDefLHS(ZName dname)
-  {
-    // TODO: Include other forms of def-lhs production.
-
-    OperatorName on = dname.getOperatorName();
-    final String result;
-    if (on != null)
-    {
-      fRelationalOpAppl.push(dname);
-      // Horizontal op defs need to be parenthesised 
-      result = "(" + getOperator(on) + ")";
-      
-      checkStack(dname);
-    }
-    else
-      result = getVarName(dname);
-    return result;
-  }
-
-  /**
-   * Represents a simplified version of production var-name as just ident.
-   * It does not take into account operator names for now, but just
-   * decorations.
-   */
-  private String getVarName(ZName dname)
-  {
-    // TODO: Include other forms of var-name production.
-    return getIdent(dname);
+    return getZEvesNameList(term, false, true);
   }
 
   /**
@@ -1235,22 +1331,745 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result.toString();
   }
 
+  /* NOTE:
+   *
+   * Z/Eves strokes are just plain text. They do not have the special
+   * Z Standard symbols such as ZString.SE + ZString.NW.
+   *
+   */
+  @Override
+  public String visitNumStroke(NumStroke term)
+  {
+    Integer i = term.getDigit().getValue();
+    if (i < 0 || i > 9)
+    {
+      throw new ZEvesIncompatibleASTException("Z/Eves only accepts number strokes from 0 up to 9 (inclusive)");
+    }
+    return format(NUM_STROKE_PATTERN, i.toString());
+  }
+
+  @Override
+  public String visitInStroke(InStroke term)
+  {
+    return "?";
+  }
+
+  @Override
+  public String visitOutStroke(OutStroke term)
+  {
+    return "!";
+  }
+
+  @Override
+  public String visitNextStroke(NextStroke term)
+  {
+    return "&apos;";
+  }
+
+  @Override
+  public String visitZName(ZName term)
+  {
+    return getVarName(term);
+  }
+  
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.11 Expressions; 1.9 Schema Expressions
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  /**
+   * Retrieve the Z/Eves XML for the given non-null expression, something
+   * the calling method must ensure, otherwise a NullPointerException (or
+   * indeed an AssertionError) is thrown . Therefore, it always return some non-empty string.
+   *
+   * Push the expr for the various cases where RefExpr with mixfix false might appear as an operator
+   * The only special case then, is if the RefExpr is within an ApplExpr.Mixfix(true) case
+   */
+  private String getExpr(Expr expr)
+  {
+    final String result = expr.accept(this);
+    return result;
+  }
+
+  private Fixity getFixity(Expr opTerm) {
+	  if (opTerm instanceof RefExpr) {
+		  RefExpr opRef = (RefExpr) opTerm;
+		  OperatorName opName = opRef.getZName().getOperatorName();
+		  if (opName != null) {
+			  return opName.getFixity();
+		  }
+	  }
+	  return null;
+  }
+
+  private String extractSeqElem(Expr e)
+  {
+    assert e instanceof TupleExpr;
+    TupleExpr te = (TupleExpr)e;
+    assert te.getZExprList().size() == 2;
+    Expr seqElem = te.getZExprList().get(1);
+    return getExpr(seqElem);
+  }
+
+  private String getZExprList(ZExprList term, String sep, String before, String after, boolean acceptEmpty)
+  {
+    if (!acceptEmpty && term.isEmpty())
+    {
+      throw new ZEvesIncompatibleASTException("Empty expression list", term);
+    }
+    StringBuilder result = new StringBuilder();
+    result.append(before);
+    fZExprListSep.push(sep);
+    if (!term.isEmpty())
+    {
+      result.append(term.accept(this));
+    }
+    checkStack(fZExprListSep, sep);
+    result.append(after);
+    return result.toString();
+  }
+
   /**
    * Represents the gen-actuals Z/Eves XML production. It calls ExprList visitor and
    * puts its result within square brackets.
    */
   private String getGenActuals(ZExprList term)
   {
-    if (term.isEmpty())
+    return getZExprList(term, ",", "[", "]", false);
+  }
+
+    /**
+   * Represents the expression-list production. It ensures first that the list
+   * is not empty, and then traverse it by building up a comma-separated list
+   * of expressions.
+   */
+  @Override
+  public String visitZExprList(ZExprList term)
+  {
+    assert !term.isEmpty() && fZExprListSep != null
+           && !fZExprListSep.empty() : "Expression list can be neither null nor empty.";
+    StringBuilder result = new StringBuilder();
+    final String delim = fZExprListSep.peek();
+    Iterator<Expr> it = term.iterator();
+    Expr e = it.next();
+    // for when ZExprList contains RefExpr that are operators ans hace mixfix false
+    // e.g.,  (\_R\_, \_S\_) \in (\_ \subseqeq \_) (!)
+    String resp = getExpr(e);
+    result.append(resp);
+    while (it.hasNext())
     {
-      throw new IllegalArgumentException("Invalid expression list for generic actuals");
+      result.append(delim);
+      e = it.next();
+      resp = getExpr(e);
+      result.append(resp);
     }
-    StringBuilder result = new StringBuilder("[");
-    fZExprListSep = ", ";
-    result.append(term.accept(this));
-    result.append("]");
     return result.toString();
   }
+
+  @Override
+  public String visitExprPred(ExprPred term)
+  {
+    /* NOTE: This case covers schema-ref, refexpr, schema precondition, conditional, and let.
+     */
+    return getExpr(term.getExpr());
+  }
+
+  /* NOTE: Dealt with directly through visitPred2. The case with NL is not
+   *       allowed here. It can only appear for axiom-part instead, and is
+   *       dealt with by getAxiomPart directly. The need for this is due to
+   *       our design decision to include labelled-predicate whilst translating.
+   *
+  @Override public String visitAndPred(AndPred term) {
+  }
+   */
+
+  @Override
+  public String visitPowerExpr(PowerExpr term)
+  {
+    return format(POWER_EXPR_PATTERN, getExpr(term.getExpr()));
+  }
+
+  private RefExprKind getRefExprKind(RefExpr term)
+  {
+    Boolean mixfix = term.getMixfix();
+    Boolean explicit = term.getExplicit();
+    assert mixfix  != null && explicit != null;
+    boolean hasGenerics = !term.getZExprList().isEmpty();
+    RefExprKind result;
+    if (mixfix.booleanValue())
+    {
+      if (hasGenerics || explicit.booleanValue())
+        result = RefExprKind.GEN_OP_APPL;
+      else
+        result = RefExprKind.OP_APPL;
+    }
+    else
+    {
+      if (hasGenerics || explicit.booleanValue())
+        result = RefExprKind.GEN_REF;
+      else
+        result = RefExprKind.REF;
+    }
+    return result;
+  }
+
+   /* NOTE (from Z.xsd):
+     *
+     * A reference expression (C.6.21, C.6.28, C.6.29).
+     *
+     * C.6.21 (Generic Operator Application).  For example: S \rel T.
+     *       In this case, mixfix is always true and the list of
+     *       type expressions is non-empty (it contains [S,T]).
+     *
+     *  (IN THIS CASE, IT COMES FROM ExprPred!)
+     *
+     * C.6.28 (Reference).  For example: \emptyset.
+     *       In this case, mixfix is always false and the list of
+     *       type expressions is empty.</li>
+     * C.6.29 (Generic Instantiation).  For example: \emptyset[T].
+     *       In this case, mixfix is always false and the list of
+     *       type expressions is non-empty (it contains [T]).
+     */
+    /* NOTE:
+     *
+     * This case is very, very tricky. Its precision will come with
+     * time and testing. I am not sure about the way CZT and Z/Eves
+     * generic actuals are allowed around.
+     * Anyway, this seldom happens in most of Z/Eves proofs and
+     * definitions one usually needs to deal with as proofs with
+     * generic actuals around is bloody hard to do.
+     * Another important point is about Generic (inferred) instantiations,
+     * where the type [T] is inferred somewhere. I am assuming that,
+     * if we omit then (because they were not present in the first place),
+     * then Z/Eves will sort itself out, as in \\emptyset. Ok let's go!
+     */
+  @Override
+  public String visitRefExpr(RefExpr term)
+  {
+    final String result;
+    String genActuals = "";
+    ZExprList genAEL = term.getZExprList();
+    boolean hasArguments = genAEL != null && !genAEL.isEmpty();
+    boolean explicitGenAct = term.getExplicit() != null && term.getExplicit().booleanValue();
+    OperatorName on = term.getZName().getOperatorName();
+
+    RefExprKind rek = getRefExprKind(term);
+    Boolean keepArgs = null;
+    switch (rek)
+    {
+      // for generic operator application, e.g. X \fun Y, never keep args, even if within a nested ApplExpr
+      case GEN_OP_APPL:
+      case OP_APPL:
+        keepArgs = false;
+        fKeepOpArgs.push(keepArgs);
+
+        if (on == null)
+          throw new ZEvesIncompatibleASTException("CZT RefExpr (generic) operator application is not an operator name", term);
+        if (!hasArguments || genAEL.size() > 2)
+          throw new ZEvesIncompatibleASTException("CZT RefExpr (generic) operator application failed. ZEves only accepts [1..2] arguments", term);
+ 
+        break;
+      // for reference expression, e.g., \emptyset or \emptyset[X] or (\#~\_)[X],
+      // keep the argument depending on the calling context.
+      case GEN_REF:
+      case REF:
+        genActuals = hasArguments && explicitGenAct ? getGenActuals(genAEL) : "";
+
+        // might have arguments or not; might be an operator or not
+        break;
+      default:
+        throw new ZEvesIncompatibleASTException("Unknown ref expr kind");
+    }
+    // get the RefName
+    String refName = getVarName(term.getZName());
+    assert refName != null && !refName.isEmpty();
+    if (keepArgs != null)
+      checkStack(fKeepOpArgs, keepArgs);
+
+    switch (rek)
+    {
+      // for generic operator application, e.g. X \fun Y, never keep args, even if within a nested ApplExpr
+      case GEN_OP_APPL:
+      case OP_APPL:
+        assert hasArguments && on != null;
+        int genAELSize = genAEL.size();
+        assert genAELSize > 0 && genAELSize <= 2;
+        Expr left = genAEL.get(0);
+        String lhs = getExpr(left);
+
+        if (on.isInfix())
+        {
+          if (genAELSize <= 1)
+            throw new ZEvesIncompatibleASTException("CZT RefExpr infix (generic) operator application must have more than one parameter.", term);
+          Expr right = genAEL.get(1);
+          refName = format(INFIX_REF_EXPR_PATTERN, lhs, refName, getExpr(right));
+        }
+        else
+        {
+          refName = on.isPostfix() ? format(REF_EXPR_PATTERN, lhs, refName) : format(REF_EXPR_PATTERN, refName, lhs);
+        }
+        break;
+      // for reference expression, e.g., \emptyset or \emptyset[X] or (\#~\_)[X],
+      // keep the argument depending on the calling context.
+      case GEN_REF:
+      case REF:
+        // if this is an operator, and should keep op ARGS (e.g., set by calling context)
+        if (on != null && shouldKeepOpArgsInOpName())
+        {
+          // if this is an operator, and a reference, then it *must* have ARG and (...)
+          if (!(refName.indexOf(ZString.ARG) != -1 &&
+                refName.startsWith("(") &&
+                refName.endsWith(")")))
+            throw new ZEvesIncompatibleASTException("CZT RefExpr is an operator generic instantiation / reference wrongly formatted.", term);
+        }
+        break;
+      default:
+        throw new ZEvesIncompatibleASTException("Unknown ref expr kind");
+    }
+
+    result = refName + genActuals;
+    return result;
+  }
+
+  @Override
+  public String visitNegExpr(NegExpr term)
+  {
+    return format(NEG_PRED_PATTERN, getExpr(term.getExpr()));
+  }
+
+  @Override
+  public String visitMuExpr(MuExpr term)
+  {
+    String schText = term.getSchText().accept(this);
+    String expr = "";
+    if (term.getExpr() != null)
+    {
+      expr = " &bullet; " + getExpr(term.getExpr());
+    }
+    return "(&mu; " + schText + expr + ")";
+  }
+
+  @Override
+  public String visitSetCompExpr(SetCompExpr term)
+  {
+    // TODO review corner cases like \{ T \} and \{ T | true \} when T == [ ... | ... ] schema
+    String schText = term.getSchText().accept(this);
+    String expr = "";
+    if (term.getExpr() != null)
+    {
+      expr = " &bullet; " + getExpr(term.getExpr());
+    }
+    return "{ " + schText + expr + " }";
+  }
+
+  @Override
+  public String visitLambdaExpr(LambdaExpr term)
+  {
+    return format(LAMBDA_EXPR_PATTERN, "&lambda;",
+            term.getSchText().accept(this), getExpr(term.getExpr()));
+  }
+
+  @Override
+  public String visitQntExpr(QntExpr term)
+  {
+    /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
+     */
+
+    // Differently from QntPred, we *cannot* have operator templates in qnt schema expressions! Schemas are not part of operators.
+    return format(QNT_EXPR_PATTERN, getQntName(term), term.getSchText().accept(this), getExpr(term.getExpr()));
+  }
+
+  @Override
+  public String visitLetExpr(LetExpr term)
+  {
+    StringBuilder result = new StringBuilder("<word style=\"bold\"/>let<word/>");
+    String delim = "";
+    for (Decl d : term.getZSchText().getZDeclList())
+    {
+      assert d instanceof ConstDecl;
+      ConstDecl cd = (ConstDecl)d;
+      result.append(delim);
+      result.append(getVarName(cd.getZName()));
+      result.append(" == ");
+      result.append(getExpr(cd.getExpr()));
+      delim = "; ";
+    }
+    result.append(" &bullet; ");
+    result.append(getExpr(term.getExpr()));
+    return result.toString();
+  }
+
+  @Override
+  public String visitTupleSelExpr(TupleSelExpr term)
+  {
+    return format(TUPLESEL_EXPR_PATTERN, getExpr(term.getExpr()), term.getNumeral().toString());
+  }
+
+  @Override
+  public String visitPreExpr(PreExpr term)
+  {
+    return format(PRE_EXPR_PATTERN, getExpr(term.getExpr()));
+  }
+
+  @Override
+  public String visitSetExpr(SetExpr term)
+  {
+    return getZExprList(term.getZExprList(), ",", "{ ", " }", true);
+  }
+
+  @Override
+  public String visitNumExpr(NumExpr term)
+  {
+    return term.getValue().toString();
+  }
+
+  @Override
+  public String visitCondExpr(CondExpr term)
+  {
+    final String condPart = getPred(term.getPred());
+    final String thenPart;
+    final String elsePart;
+    Expr thenE = term.getLeftExpr();
+    Expr elseE = term.getRightExpr();
+    if (thenE instanceof SchExpr || elseE instanceof SchExpr)
+    {
+      if (thenE instanceof SchExpr && elseE instanceof SchExpr)
+      {
+        // in the case of \IF Pred \THEN S \ELSE T, if S/T have empty bindings, this
+        // is for ZEves \IF Pred \THEN Pred1 \ELSE Pred2!
+        ZSchText thenST = ((SchExpr)thenE).getZSchText();
+        ZSchText elseST = ((SchExpr)elseE).getZSchText();
+
+        // for \IF Pred \THEN Pred1 \ELSE Pred2, we use the pattern of empty binding SchExpr
+        if (thenST.getZDeclList().isEmpty() && elseST.getZDeclList().isEmpty())
+        {
+          Pred thenP = thenST.getPred();
+          Pred elseP = elseST.getPred();
+          assert thenP != null && elseP != null;
+          // both THEN/ELSE parts are mandatory
+          thenPart = getPred(thenP);
+          elsePart = getPred(elseP);
+        }
+        // otherwise, just as an expression itslef
+        else
+        {
+          thenPart = getExpr(thenE);
+          elsePart = getExpr(elseE);
+        }
+      }
+      else
+      {
+        throw new ZEvesIncompatibleASTException("Inconsistent IF-THEN-ELSE term. Both sides must be either Pred or SchExpr, but not mixed: THEN="
+                + thenE.getClass().getSimpleName() + " ELSE=" + elseE.getClass().getSimpleName());
+      }
+    }
+    else
+    {
+      thenPart = getExpr(thenE);
+      elsePart = getExpr(elseE);
+    }
+    return format(COND_EXPR_PATTERN, condPart, thenPart, elsePart);
+  }
+
+  @Override
+  public String visitProdExpr(ProdExpr term)
+  {
+    return getZExprList(term.getZExprList(), "&cross; ", "(", ")", false);
+  }
+
+  @Override
+  public String visitTupleExpr(TupleExpr term)
+  {
+    return getZExprList(term.getZExprList(), ",", "(", ")", false);
+  }
+
+  @Override
+  public String visitBindExpr(BindExpr term)
+  {
+    if (term.getZDeclList().isEmpty())
+    {
+      emptyDeclPartException();
+    }
+    StringBuilder result = new StringBuilder();
+    String delim = "";
+    for (Decl d : term.getZDeclList())
+    {
+      assert d instanceof ConstDecl;
+      ConstDecl cd = (ConstDecl)d;
+      result.append(delim);
+      result.append(getDeclName(cd.getZName()));
+      result.append(": ");
+      result.append(getExpr(cd.getExpr()));
+      delim = ";";
+    }
+    return format(BIND_EXPR_PATTERN, result.toString());
+  }
+
+  @Override
+  public String visitBindSelExpr(BindSelExpr term)
+  {
+    Expr bse = term.getExpr();
+    // okay cases:
+    //   RefExpr    = v.x     , wheve v: S
+    //   ApplExpr   = f(x).x  , where f: X -> S
+    //   BinSelExpr = (v.x).y
+    //   ThetaExpr  = (\theta S).x
+    if (bse instanceof RefExpr || bse instanceof ApplExpr || bse instanceof BindSelExpr || bse instanceof ThetaExpr)
+    {
+      return format(BINDSEL_EXPR_PATTERN, getExpr(bse), getVarName(term.getZName()));
+    }
+    else
+    {
+      throw new ZEvesIncompatibleASTException("Found " + bse.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
+//      throw new ZEvesIncompatibleASTException("Z/Eves only allows bind selection for schema references, "
+//                                        + "rather than schema expressions, or application expressions returning a schema type. See throwable cause for details.",
+//        new IllegalArgumentException("Invalid schema expression binding selection for Z/Eves XML translation. CZT and"
+//                                     + "the Z Standard allow bind selection upon schema expressions, such as (S \\land T).x or (\\theta S).x."
+//                                     + "On the other hand, Z/Eves only accepts bind selection upon schema-ref, which must be a reference name to a "
+//                                     + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
+//                                     + "do not appear. TODO: In a later version, we plan to automatically include such declarations implicitly, while "
+//                                     + "translating the binding selection itself. Check whether a new version with such feature is available."));
+    }
+  }
+
+  @Override
+  public String visitThetaExpr(ThetaExpr term)
+  {
+    Expr e = term.getExpr();
+    if (!(e instanceof RefExpr || e instanceof DecorExpr || e instanceof RenameExpr))
+    {
+      throw new ZEvesIncompatibleASTException("Found " + e.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
+//      throw new ZEvesIncompatibleASTException("Z/Eves only allows theta expressions to schema references, "
+//                                              + "rather than schema expressions. See throwable cause for details.",
+//              new IllegalArgumentException("Invalid theta expression for Z/Eves XML translation. CZT and"
+//                                           + "the Z Standard allow theta expressions of schema expressions, such as \\theta(S \\land T)."
+//                                           + "On the other hand, Z/Eves only accepts theta expressions of schema-ref, which must be a reference name to a "
+//                                           + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
+//                                           + "do not appear. Some examples where there dependencies on the values (e.g. Circcus Operational Semantics) this is "
+//                                           + "not possible to naively translate and need to be rewritten, tough. TODO: In a later version, we plan to automatically "
+//                                           + "include such declarations implicitly whenever possible, while translating the binding selection itself. "
+//                                           + "Check whether a new version with such feature is available."));
+    }
+    return format(THETA_EXPR_PATTERN, getExpr(term.getExpr()), getStrokes(term.getZStrokeList()));
+  }
+
+  @Override
+  public String visitSchExpr2(SchExpr2 term)
+  {
+    /* NOTE:
+     * This production covers: CompExpr, PipeExpr, ProjExpr, AndExpr,
+     * OrExpr, ImpliesExpr, and IffExpr.
+     */
+    return format(BIN_SCHEXPR_PATTERN, getExpr(term.getLeftExpr()), getSchExprOpName(term), getExpr(term.getRightExpr()));
+  }
+
+  @Override
+  public String visitSchExpr(SchExpr term)
+  {
+    return "[" + term.getSchText().accept(this) + "]";
+  }
+
+  @Override
+  public String visitHideExpr(HideExpr term)
+  {
+    return format(HIDE_EXPR_PATTERN, getExpr(term.getExpr()), getDeclNameList(term.getZNameList()));
+  }
+
+
+    /**
+     * A function application (C.6.21, C.6.22).
+     *   <ul>
+     *   <li>C.6.21 (Function Operator Application).  For example: S + T.
+     *           In this case, Mixfix=true, the first (left) expression is the
+     *           name, (" _ + _ "), (that is, a RefExpr with Mixfix=false!)
+     *           and the second (right) expression is (S,T).</li>
+     *   <li>C.6.22 (Application).  For example: (_ + _)(S, T).
+     *           In this case, Mixfix=false, and the rest is the same as above
+     *           (the first expression is the RefExpr with Mixfix=false and
+     *           name (" _ + _ "), and the second expression is (S,T)).
+     *           Another example: dom R.
+     *           In this case, Mixfix=false, the first (left) expression is the
+     *           function, dom, (again, a RefExpr with Mixfix=false)
+     *           and the second (right) expression is the argument R.</li>
+     */
+  @Override
+  public String visitApplExpr(ApplExpr term)
+  {
+    final String result;
+    // All valid ApplExpr have the RefExpr as getLeftExpr(), which might be a nested ApplExpr itself
+    boolean isNested  = ZUtils.isNestedApplExpr(term);
+    Expr opExpr = ZUtils.getApplExprRef(term);
+
+    // 6.21 doesn't keep args; 6.22 does.
+    boolean keepOpArg = !ZUtils.isFcnOpApplExpr(term);
+    fKeepOpArgs.push(keepOpArg);
+    String op = getExpr(opExpr);
+    checkStack(fKeepOpArgs, keepOpArg);
+    Fixity applFixity = getFixity(opExpr);
+
+    if (isNested)
+      op = "(" + op + ")";
+
+    // case 6.21
+    if (ZUtils.isFcnOpApplExpr(term))
+    {
+      assert term.getMixfix() != null && term.getMixfix();
+
+      int arity = ZUtils.applExprArity(term);
+      ZExprList args = ZUtils.getApplExprArguments(term);
+
+      // Handling special cases known to Z/Eves
+
+      // LANGLE / RANGLE
+      if (op.startsWith("&lang;&rang;"))
+      {
+        assert args.size() == 1 &&
+               args.get(0) instanceof SetExpr; // SetExpr with all the elements enumerated... < a, b > =  (<,,>)({(1,a), (2,b)})
+        SetExpr elems = (SetExpr)args.get(0);
+        StringBuilder seqElems = new StringBuilder();
+        String delim = "";
+        for (Expr e : elems.getZExprList())
+        {
+          seqElems.append(delim).append(extractSeqElem(e));
+          delim = ",";
+        }
+        result = format(APPL_EXPR_SEQ_PATTERN, seqElems);
+      }
+      // LIMG / RIMG
+      else if (op.startsWith("&lvparen;&rvparen;"))
+      {
+        assert args.size() == 2;
+        result = format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, getExpr(args.get(0)), getExpr(args.get(1)));
+      }
+      // all other cases
+      else
+      {
+        // ex:  (\_ r \_) \comp (\_ s \_)  : ApplExpr(\comp, (r, s)) but as operators with \_!
+        List<String> params = new ArrayList<String>(args.size());
+        params.add(op);
+        for (Expr e : args)
+        {
+          // push the expr. If it is a refExpr, check whether the mixfix is false, and if so, get ARG_TOK
+          final String pe = getExpr(e);
+          params.add(pe);
+        }
+        assert params.size() == args.size() + 1;
+        switch (arity)
+        {
+          case 1:
+            assert params.size() == 2; // op + arg (e.g., _\inv)
+            if (applFixity == Fixity.POSTFIX)
+            {
+            	result = format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
+            }
+            else if (applFixity == Fixity.PREFIX || applFixity == Fixity.NOFIX)
+            {
+            	// sometimes this happens (e.g. in #A), use the same as default ApplExpr
+            	result = format(APPL_EXPR_PATTERN, params.toArray());
+            }
+            else
+              throw new ZEvesIncompatibleASTException("Invalid fixity for application expression " + opExpr + " fixity = " + applFixity, term);
+            break;
+          case 2:
+            assert params.size() == 3; // arg + op + arg (e.g., _ + _)
+            assert applFixity == Fixity.INFIX : "wrong fixity = " + applFixity + " " + term;
+            result = format(INFIX_APPL_EXPR_PATTERN, params.toArray());
+            break;
+          default:
+            throw new ZEvesIncompatibleASTException("Unsupported operator template application expression " + arity + " params as " + params, term);
+        }
+      }
+    }
+    // case 6.22
+    else
+    {
+      Expr rhsE = term.getRightExpr();
+
+      String params = getExpr(rhsE);
+
+      if (isNested || rhsE instanceof ApplExpr)
+        params = "(" + params + ")";
+
+      result = format(APPL_EXPR_PATTERN_EXPLICIT, op, params);
+    }
+    return result;
+  }
+
+  @Override
+  public String visitDecorExpr(DecorExpr term)
+  {
+    return getExpr(term.getExpr()) + term.getStroke().accept(this);
+  }
+
+  @Override
+  public String visitRenameExpr(RenameExpr term)
+  {
+    final String renamings;
+    if (term.getRenameList() instanceof ZRenameList)
+      renamings = term.getZRenameList().accept(this);
+    else if (term.getRenameList() instanceof InstantiationList)
+    {
+      InstantiationList il = ZEvesUtils.getInstantiationListFromExpr(term);
+      if (il != null)
+      {
+        fCurrInstKind.push(InstantiationKind.ThmReplacement);
+        renamings = il.accept(this);
+
+        assert !fCurrInstKind.isEmpty();
+        InstantiationKind k = fCurrInstKind.pop();
+        assert k.equals(InstantiationKind.ThmReplacement);
+      }
+      else
+        throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
+    }
+    else
+      throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
+    return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr()), renamings);
+  }
+
+  @Override
+  public String visitZSchText(ZSchText term)
+  {
+    StringBuilder result = new StringBuilder("");
+    boolean needBar = false;
+    if (!term.getZDeclList().isEmpty())
+    {
+      result.append(term.getZDeclList().accept(this));
+      needBar = true;
+    }
+    if (term.getPred() != null)
+    {
+      if (needBar)
+      {
+        result.append(" | ");
+      }
+      result.append(getPred(term.getPred()));
+    }
+    return result.toString();
+  }
+
+  @Override
+  public String visitNewOldPair(NewOldPair term) {
+    // new / old
+    return getDeclName(term.getZDeclName()) + "/" + getDeclName(term.getZRefName());
+  }
+
+  @Override
+  public String visitZRenameList(ZRenameList term)
+  {
+		StringBuilder sb = new StringBuilder();
+
+    String delim = "";
+    for (NewOldPair pair : term) {
+      sb.append(delim).append(pair.accept(this));
+      delim = ",";
+    }
+
+    return sb.toString();
+  }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.10 Predicates
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   /**
    * Retrieve the Z/Eves XML for the given non-null predicate, something the calling
@@ -1306,126 +2125,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result.append(getLabel(pred));
     }
-    String p = pred.accept(this).toString();
+    String p = pred.accept(this);
     result.append(p);
     return result.toString();
   }
 
-  // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
-  //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
-  private boolean isWihtinFcnOpApplExpr(Expr expr)
-  {
-    return (((expr instanceof RefExpr) &&
-            !((RefExpr)expr).getMixfix().booleanValue()) &&
-            !fRelationalOpAppl.isEmpty() &&
-            (fRelationalOpAppl.peek() instanceof ApplExpr) &&
-            ZUtils.isFcnOpApplExpr((ApplExpr)fRelationalOpAppl.peek())
-            );
-  }
-
-  private boolean isWithinMemPredRefExpr(Expr expr)
-  {
-    return (((expr instanceof RefExpr) &&
-            !((RefExpr)expr).getMixfix().booleanValue()) &&
-            !fRelationalOpAppl.isEmpty() &&
-            (fRelationalOpAppl.peek() instanceof Boolean) &&
-            !((Boolean)fRelationalOpAppl.peek()).booleanValue()
-            );
-  }
-
-
-//  private boolean isWithinApplExprRefExpr()
-//  {
-//    return !fRelationalOpAppl.isEmpty() &&
-//            fRelationalOpAppl.peek() instanceof ApplExpr &&
-//            ZUtils.isFcnOpApplExpr((ApplExpr)fRelationalOpAppl.peek());
-//  }
-
-  /**
-   * Retrieve the Z/Eves XML for the given non-null expression, something
-   * the calling method must ensure, otherwise a NullPointerException (or
-   * indeed an AssertionError) is thrown . Therefore, it always return some non-empty string.
-   *
-   * Push the expr for the various cases where RefExpr with mixfix false might appear as an operator
-   * The only special case then, is if the RefExpr is within an ApplExpr.Mixfix(true) case
-   */
-  private String getExpr(Expr expr)
-  {
-    assert expr != null;
-    boolean pushExpr = ! (isWihtinFcnOpApplExpr(expr) || isWithinMemPredRefExpr(expr));
-    if (pushExpr) fRelationalOpAppl.push(expr);
-    final String result = expr.accept(this);
-    if (pushExpr) checkStack(expr);
-    return result;
-  }
-
-  /**
-   * Represents the branch production used in free-type.
-   * It retrieves the var-name and expression for each branch of a free-type.
-   */
-  private String getBranch(Branch b)
-  {
-    String result;
-    if (b.getExpr() == null)
-    {
-      result = getIdent(b.getZName());
-    }
-    else
-    {
-      result = format(BRANCH_PATTERN, getVarName(b.getZName()), getExpr(b.getExpr()));
-    }
-    return result;
-  }
-
-  /**
-   * Represents the decl-part production. It prefixes the result of visiting the DeclList
-   * with the additional XML tag needed by Z/Eves.
-   */
-  private String getDeclPart(ZDeclList decls)
-  {
-    StringBuilder result = new StringBuilder("<decl-part/>");
-    result.append(decls.accept(this));
-    return result.toString();
-  }
-
-  /**
-   * Retrives the axiomatic part of schemas, axiomatic and generic boxes.
-   * If the predicate is null, it simply returns the empty string.
-   * Otherwise, appropriate Z/Eves XML tags are added.
-   */
-  private String getAxiomPart(Pred pred)
-  {
-    StringBuilder result = new StringBuilder("");
-    if (pred != null)
-    {
-      result.append("<ax-part/>");
-      result.append(getPred(pred));
-    }
-    return result.toString();
-  }
-
-  /**
-   * Proof part of a theorem-def production. It extracts proof commands from a
-   * Proof annotation within ConjPara.
-   *
-   */
-  private String getProofPart(ConjPara term)
-  {
-	  // We do not support inline proof commands at the moment, so proof script
-	  // is a separate AST element and is sent to Z/Eves separately
-//    StringBuilder result = new StringBuilder("");
-//    //ProofScript ps = ProofUtils.getProofScriptAnn(term);
-//    String ps = "";
-//    if (ps != null)
-//    {
-//      result.append("<proof-part/>");
-//      result.append(ps);
-//    }
-//    return result.toString();
-	  return "";
-  }
-
-  /**
+    /**
    * Returns the internal Z/Eves quantifier name according to the corresponding CZT QntPred subclass.
    */
   private String getQntName(QntPred term)
@@ -1571,15 +2276,34 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       Expr right = term.getRightExpr();
       if (right instanceof RefExpr)
       {        // case 2.1
+        RefExpr r = (RefExpr)right;
         Expr left = term.getLeftExpr();
-        if (left instanceof TupleExpr) // case 2.1.1
-        {
-          result = MemPredKind.NARY_RELOP_APPLICATION;
-        }
-        else // case 2.1.2
-        {
+
+        OperatorName on = r.getZName().getOperatorName();
+        // if there is an op and is unary, it's unary
+        if (on != null && on.isUnary())
           result = MemPredKind.UNARY_RELOP_APPLICATION;
-        }
+        // otherwise if it isn't an op and is a TupleExpr, then might still be a unary, but I cannot know, so have it as nary
+        else if (left instanceof TupleExpr)
+          result = MemPredKind.NARY_RELOP_APPLICATION;
+        // catch all...
+        else
+          result = MemPredKind.UNARY_RELOP_APPLICATION;
+        //if (opTable_ != null)
+        //{
+        //  // might be a unary relation still, even if LHS is a TupleExpr: ex. myUnRel~(x, y)!
+        //  OperatorTokenType ott = opTable_.getTokenType(r.getZName().getWord());
+        //  if (ott != null && ott.equals(OperatorTokenType.PREP))
+        //    result = MemPredKind.UNARY_RELOP_APPLICATION;
+        //}
+//        if (left instanceof TupleExpr) // case 2.1.1
+//        {
+//          result = MemPredKind.NARY_RELOP_APPLICATION;
+//        }
+//        else // case 2.1.2
+//        {
+//          result = MemPredKind.UNARY_RELOP_APPLICATION;
+//        }
       }
       else if (right instanceof SetExpr)
       { // case 2.2
@@ -1602,159 +2326,164 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result;
   }
 
-  /**
-   * Returns the relational operator name for the given RefExpr, which is part of a MemPred term.
-   */
-  private String getMemPredRelOpName(RefExpr refExpr)
+  @Override
+  public String visitTruePred(TruePred term)
   {
-    // for MemPred, we need to treat the RefExpr differently: don't push it because it is always mixfix=false
-    //fRelationalOpAppl.push(refExpr);
-    fRelationalOpAppl.push(refExpr.getMixfix());
-    String result = getExpr(refExpr);
+    return "true";
+  }
 
-    checkStack(refExpr.getMixfix());
+  @Override
+  public String visitFalsePred(FalsePred term)
+  {
+    return "false";
+  }
 
-    if (result == null || result.equals(""))
+  @Override
+  public String visitNegPred(NegPred term)
+  {
+    return format(NEG_PRED_PATTERN, getPred(term.getPred()));
+  }
+
+  @Override
+  public String visitQntPred(QntPred term)
+  {
+    /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
+     */
+    // we could have operator templates within these schText classes.
+    ZSchText schText = term.getZSchText();
+    final String schTextPart = schText.accept(this);
+    return format(QNT_PRED_PATTERN, getQntName(term), schTextPart, getPred(term.getPred()));
+  }
+
+  @Override
+  public String visitPred2(Pred2 term)
+  {
+    /* NOTE: This case covers predicates iff, implies, and, or.
+     */
+    return format(BIN_PRED_PATTERN, getPred(term.getLeftPred()), getBinPredName(term), getPred(term.getRightPred()));
+  }
+
+  /*
+   * A relation operator application (C.5.12).
+   *   <ul>
+   *   <li>Membership predicate.
+   *       In this case, Mixfix=false, the first (left) expression is the
+   *       element, and the second (right) expression is the set.
+   *       For example, "n \in S" has left="n" and right="S".</li>
+   *   <li>Equality.
+   *       In this case, Mixfix=true, the first (left) expression is the
+   *       left-hand side of the equality, and the second (right)
+   *       expression is a singleton set containing the right-hand side
+   *       of the equality.
+   *       For example: "n = m" has left="n" and right="{m}".</li>
+   *   <li>Other operator application.
+   *       In this case, Mixfix=true, the first (left) expression is
+   *       usually a tuple containing the corresponding number of arguments,
+   *       and the second (right) expression is the operator name.
+   *       However, for a unary operator, the left expression does not have
+   *       to be a tuple.
+   *       For example, "n &lt; m" has left="(n,m)" and right=" _ &lt; _ ",
+   *       "disjoint s" has left="s" and right="disjoint _ ", and
+   *       if foo was declared as a unary postfix operator,
+   *       then "(2,3) foo" would have left= "(2,3)" and right=" _ foo".
+   *       </li>
+   */
+  @Override
+  public String visitMemPred(MemPred term)
+  {
+    MemPredKind kind = getMemPredKind(term);
+    String rel, left, right;
+    Expr lhs, rhs;
+    // for the various cases, push boolean to the fKeepOpArgs stack. If not empty and top=true, it will keep, otherwise (empty or top=false) it won't.
+    switch (kind)
     {
-      throw new ZEvesIncompatibleASTException("Relational operator could not be translated. See throwable cause for details.",
-              new IllegalArgumentException("It wasn't possible to properly translate relational operator "
-                                           + refExpr.getZName().toString() + " into Z/Eves format."));
+      // x \in y: e.g., (\_ \in \_)[x,y] is not allowed! So don't interfere with ARG
+      case SET_MEMBERSHIP:
+        lhs = term.getLeftExpr();
+        rhs = term.getRightExpr();
+        left = getExpr(lhs);
+        rel = " &isin; ";
+        right = getExpr(rhs);
+        break;
+      // NARY/UNARY_RELOP_APPLICATION: x < y or disjoint x. In both cases we cannot have (_ < _) (x,y). So remove the ARG(S)
+      case NARY_RELOP_APPLICATION:
+        ZExprList params = ((TupleExpr) term.getLeftExpr()).getZExprList();
+        assert !params.isEmpty();
+        if (params.size() != 2)
+        {
+          throw new ZEvesIncompatibleASTException("Current version only supports translation of binary relational operators.");
+        }
+        lhs = params.get(0);
+        rhs = params.get(1);
+        left = getExpr(lhs);
+        // don't keep op-args on rel op
+        fKeepOpArgs.push(false);
+        rel = getExpr(term.getRightExpr());
+        checkStack(fKeepOpArgs, false);
+        right = getExpr(rhs);
+        break;
+      case UNARY_RELOP_APPLICATION:
+        RefExpr refexpr = (RefExpr) term.getRightExpr();
+        OperatorName on = refexpr.getZName().getOperatorName();
+        assert on != null;
+        OperatorName.Fixity fixity = on.getFixity();
+
+        // don't keep op-args on rel op
+        fKeepOpArgs.push(false);
+        rel = getExpr(refexpr);
+        checkStack(fKeepOpArgs, false);
+
+        /* NOTE:
+         * The actual unary parameter comes from the left expression and is placed according to the fixture.
+         */
+        lhs = term.getLeftExpr();
+        if (fixity == OperatorName.Fixity.PREFIX)
+        {
+          // Prefix: left+rel+right = ""+rel+right
+          left = "";
+          right = getExpr(lhs);
+        }
+        else if (fixity == OperatorName.Fixity.POSTFIX)
+        {
+          // Postfix: left+rel+right = left+rel+""
+          left = getExpr(lhs);
+          right = "";
+        }
+        else
+        {
+          throw new ZEvesIncompatibleASTException("Unsupported fixture for relational operator (" + fixity.toString() + ").");
+        }
+        break;
+      // equality don't care about ARG
+      case EQUALITY:
+        /* NOTE:
+         *
+         * For equality, the left expression is a Expr, whereas the
+         * right expression must be a SetExpr containing only one element
+         */
+        lhs = term.getLeftExpr();
+        rhs = ((SetExpr) term.getRightExpr()).getZExprList().get(0);
+        left = getExpr(lhs);
+        rel = " = ";
+        right = getExpr(rhs);
+        break;
+      default:
+        throw new AssertionError("Invalid MemPredKind " + kind);
     }
+    String result = format(MEMPRED_PATTERN, left, rel, right);
+    assert result != null && !result.equals("");
     return result;
   }
 
-  /* Top-level operations */
-  public String print(Term term, SectionInfo si)
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.8 Declarations
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  private String getDeclNameList(ZNameList term)
   {
-    setSectionInfo(si);
-    return print(term);
+    return getZEvesNameList(term, true, false);
   }
 
-  /**
-   * Top-level method which translates the given CZT term to a corresponding Z/Eves
-   * server XML API. It only accepts Para, Pred, or Expr because Z/Eves adds sections
-   * via a set of commands rather than a simple command.
-   * @param term
-   * @return
-   */
-  public String print(Term term)
-  {
-    if (term == null)
-    {
-      throw new NullPointerException("Cannot convert a null term to Z/Eves XML");
-    }
-    if (!(term instanceof Para || term instanceof Pred || term instanceof Expr
-          || term instanceof ZName))
-    {
-      throw new ZEvesIncompatibleASTException("This class can only print Names, Para, Pred, and Expr terms. For other "
-                                              + "terms such as Spec and ZSection, one should use the ZEvesEvaluator class, as it allows appropriate "
-                                              + "handling of Z sections through special commands needed by the Z/Eves server.");
-    }
-    return term.accept(this);
-  }
-
-  public List<String> printSpec(Spec term, SectionInfo si)
-  {
-    setSectionInfo(si);
-    return printSpec(term);
-  }
-
-  public List<String> printSpec(Spec term)
-  {
-    return term.accept(fSpecPrinter);
-  }
-
-  public List<String> printZSect(ZSect term, SectionInfo si)
-  {
-    setSectionInfo(si);
-    return printZSect(term);
-  }
-
-  public List<String> printZSect(ZSect term)
-  {
-    return term.accept(fSpecPrinter);
-  }
-
-  public final void setSectionInfo(SectionInfo si)
-  {
-    fSectionInfo = si;
-  }
-
-  public SectionInfo getSectionInfo()
-  {
-    return fSectionInfo;
-  }
-  
-  public final void setSectionName(String sectionName) {
-    this.fSectionName = sectionName;
-  }
-
-  /* Special Terms */
-  @Override
-  public String visitTerm(Term term)
-  {
-    throw new ZEvesIncompatibleASTException("Term", term);
-  }
-
-  @Override
-  public String visitFreetype(Freetype term)
-  {
-    if (ZUtils.assertZBranchList(term.getBranchList()).isEmpty())
-    {
-      throw new IllegalArgumentException("Free type declarations must have at least one branch.");
-    }
-    StringBuilder result = new StringBuilder(getIdent(term.getZName()));
-    result.append(" ::= ");
-    Iterator<Branch> it = ZUtils.assertZBranchList(term.getBranchList()).iterator();
-    Branch b = it.next();
-    result.append(getBranch(b));
-    while (it.hasNext())
-    {
-      result.append(" | ");
-      b = it.next();
-      result.append(getBranch(b));
-    }
-
-    // AV: Freetype is not a paragraph, and will get an exception in Location and Ability, therefore ignore them.
-    //return format(ZED_BOX_FREETYPE_PATTERN, "", "", result.toString());
-
-    // Leo: new parser considers this and each free type is assumed to have the ability of the top-most \begin{zed} enclosing it.
-    return format(ZED_BOX_FREETYPE_PATTERN, getLocation(term), getAbility(term), result.toString());
-
-    // Leo: FreePara needs to handle Loc/Ability, but in Z/Eves the ability is placed on the
-    //      the top of a Z-box (e.g., \begin[disabled]{zed}, and not at the individual boxed para).
-    // TODO: think about a solution to this for later.
-  }
-
-  @Override
-  public String visitSchText(SchText termx)
-  {
-    ZSchText term = ZUtils.assertZSchText(termx);
-    StringBuilder result = new StringBuilder("");
-    boolean needBar = false;
-    if (!term.getZDeclList().isEmpty())
-    {
-      result.append(term.getZDeclList().accept(this));
-      needBar = true;
-    }
-    if (term.getPred() != null)
-    {
-      if (needBar)
-      {
-        result.append(" | ");
-      }
-      result.append(getPred(term.getPred()));
-    }
-    return result.toString();
-  }
-
-  @Override
-  public String visitZName(ZName term)
-  {
-    return getName(term);
-  }
-
-  /* Special Z Lists */
   /**
    * Represents the declaration production. Firstly, it checks for empty
    * declaration incompatibility. Next, it iterates through all elements from the
@@ -1789,111 +2518,77 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result.toString();
   }
 
-  /**
-   * Represents the expression-list production. It ensures first that the list
-   * is not empty, and then traverse it by building up a comma-separated list
-   * of expressions.
+  @Override
+  public String visitInclDecl(InclDecl term)
+  {
+    /* NOTE:
+     *
+     * Z/Eves only allows inclusion of schema-ref, rather than the general
+     * schema-expr allowed by the Z Standard (and CZT).
+     * Therefore, we can only accept here RefExpr, which represent schema
+     * references, including Delta and Xi schemas. We must also accept
+     * DecorExpr, as Z/Eves considers this to be schema-ref as well.
+     *
+     * A tricky issue is that Z/Eves allows schema replacements or CZT
+     * RenameExpr as an additional kind of schema-ref. This case must also
+     * be dealt with here. Furthermore, Z/Eves also allows nonstandard
+     * schema updates with a kind of assignment operation. This needs to
+     * be taken into account, perhaps separetely as term annotations.
+     *
+     * In summary, we MUST ONLY treat the following expression types from
+     * inclusion declarations:
+     *
+     * 1) DecorExpr     => for decoration such as S' or S_0
+     * 2) RenameExpr    => for replacements such as S[x/y] or special kind S[x := y] with annotation.
+     * 3) RefExpr       => for a RefName or to any of the two above.
+     *
+     * Every other case MUST throw an incompatibility exception.
+     */
+    Throwable cause = isValidZEvesInclDecl(term.getExpr());
+    if (cause != null)
+    {
+      throw new ZEvesIncompatibleASTException("Z/Eves restricts the kinds of expressions that can be used "
+                                              + "in inclusion declarations. The expression present on the current inclusion could not be "
+                                              + "translated. Please look at the throwable cause for further details.", cause);
+    }
+
+    return getExpr(term.getExpr());
+  }
+
+  /* NOTE:
+   *
+   * CZT ConstDecl cannot appear for Z/Eves.
+   * In CZT It only appears during definition of paragraphs, which are
+   * treated specially and separetely without visiting ConstDecl.
+   * Therefore, we leave it to be caught by the generic Decl as an error.
+   *
+  @Override public String visitConstDecl(ConstDecl term) {
+  return term;
+  }
    */
   @Override
-  public String visitZExprList(ZExprList term)
+  public String visitVarDecl(VarDecl term)
   {
-    assert !term.isEmpty() && fZExprListSep != null
-           && !fZExprListSep.equals("") : "Expression list can be neither null nor empty.";
-    StringBuilder result = new StringBuilder("");
-    Iterator<Expr> it = term.iterator();
-    Expr e = it.next();
-    // for when ZExprList contains RefExpr that are operators ans hace mixfix false
-    // e.g.,  (\_R\_, \_S\_) \in (\_ \subseqeq \_) (!)
-    fRelationalOpAppl.push(e);
-    String resp = getExpr(e);
-    resp = adjustIfOpWithinArgument(resp);
-    result.append(resp);
-    checkStack(e);
-    while (it.hasNext())
+    if (term.getZNameList().isEmpty())
     {
-      result.append(fZExprListSep);
-      e = it.next();
-      fRelationalOpAppl.push(e);
-      resp = getExpr(e);
-      resp = adjustIfOpWithinArgument(resp);
-      result.append(resp);
-      checkStack(e);
+      throw new IllegalArgumentException("Empty basic declaration list (at CZT VarDecl) is not allowed.");
     }
+    if (term.getExpr() == null)
+    {
+      throw new IllegalArgumentException("Empty basic declaration expression (at CZT VarDecl) is not allowed.");
+    }
+    // keep opName ARG within VarDecl
+    fKeepOpArgs.push(true);
+    StringBuilder result = new StringBuilder(getDeclNameList(term.getZNameList()));
+    checkStack(fKeepOpArgs, true);
+    result.append(": ");
+    result.append(getExpr(term.getExpr()));
     return result.toString();
   }
 
-  @Override
-  public String visitZNameList(ZNameList term)
-  {
-    return getNameList(term.iterator());
-  }
-
-  /* Z Strokes */
-  /* NOTE:
-   *
-   * Z/Eves strokes are just plain text. They do not have the special
-   * Z Standard symbols such as ZString.SE + ZString.NW.
-   *
-   */
-  @Override
-  public String visitStroke(Stroke term)
-  {
-    throw new ZEvesIncompatibleASTException("Stroke", term);
-  }
-
-  @Override
-  public String visitNumStroke(NumStroke term)
-  {
-    Integer i = term.getDigit().getValue();
-    if (i < 0 || i > 9)
-    {
-      throw new ZEvesIncompatibleASTException("Z/Eves only accepts number strokes from 0 up to 9 (inclusive)");
-    }
-    return format(NUM_STROKE_PATTERN, i.toString());
-  }
-
-  @Override
-  public String visitInStroke(InStroke term)
-  {
-    return "?";
-  }
-
-  @Override
-  public String visitOutStroke(OutStroke term)
-  {
-    return "!";
-  }
-
-  @Override
-  public String visitNextStroke(NextStroke term)
-  {
-    return "&apos;";
-  }
-
-  /* Z Paragraphs */
-  @Override
-  public String visitPara(Para term)
-  {
-    throw new ZEvesIncompatibleASTException("Paragraph", term);
-  }
-
-  @Override
-  public String visitNarrPara(NarrPara term)
-  {
-    return comment("Narrative Paragraph", term.getContent().toString());
-  }
-
-  @Override
-  public String visitLatexMarkupPara(LatexMarkupPara term)
-  {
-    return comment("LaTeX Markup Directives Paragraph", term.getDirective().toString());
-  }
-
-  @Override
-  public String visitUnparsedPara(UnparsedPara term)
-  {
-    return comment("Unparsed Paragraph", term.getContent().toString());
-  }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.7 Syntax declarations
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   @Override
   public String visitOptempPara(OptempPara term)
@@ -1992,50 +2687,157 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return comment + result;
   }
 
-  @Override
-  public String visitConjPara(ConjPara term)
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// ZEves API - 1.6 Paragraphs
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    /**
+   * Retrieves the location string attribute present as a term annotation.
+   */
+  private String getLocation(Term term)
   {
-    String axiomPart = getAxiomPart(term.getPred());
-    if (axiomPart.equals(""))
-    {
-      throw new ZEvesIncompatibleASTException("Z/Eves conjectures must not have an empty predicate part.");
-    }
-
-    ZEvesLabel l = ZEvesUtils.getLabel(term);
-    if (l == null)
-    {
-      l = ZEvesUtils.addDefaultZEvesLabelTo(term);
-    }
-    
-    final String lName = getName(l.getName());
-
-    if (term.getName() == null)
-    {
-      term.getAnns().add(ZEvesUtils.FACTORY.createZName(l.getZName()));
-    }
-    else if (!lName.equals(term.getName()))
-    {
-      // trust the label more than the "anns" name?
-      CztLogger.getLogger(getClass()).warning("Theorem name mismatch: name " + term.getName() + " given, yet label/proof-script name " + lName + " was found. Using the latter.");
-      for(Object o : term.getAnns())
-      {
-        // update the zname for the label name
-        if (o instanceof ZName)
-        {
-          ZName zn = (ZName)o;
-          zn.setWord(lName);
-          break;
-        }
-      }
-    }
-    // use label name for proof and theorem definition
-    String result = format(THEOREM_DEF_PATTERN, getLocation(term), getAbility(l), getUsage(l),
-            lName, NL_SEP + getGenFormals(term.getZNameList(), true),
-            axiomPart, getProofPart(term));
-    return wrapPara(result);
+    /* NOTE:
+     *
+     * Mark Saaltink said: "Locations are used in the GUI to record the origin of a paragraph (either from a file or from the GUI itself).
+     * This is used so that if you re-import a LaTeX file after revising it, the appropriate paragraphs are updated. Just ignore it."
+     */
+    LocAnn loc = term.getAnn(LocAnn.class);
+    return loc == null ? "" : format(LOCATION_PATTERN, loc.getLine(), loc.getCol(), loc.getStart(), loc.getEnd(), loc.getLength(), loc.getLoc());
   }
 
-  @Override
+  /**
+   * Returns the string valued result for the current status of the ability flag
+   * present as a term annotation.
+   */
+  private String getAbility(Term term)
+  {
+    return getAbility(ZEvesUtils.getLabel(term));
+  }
+
+  /**
+   * Returns the string valued result for the current status of the ability flag
+   * present as a term annotation.
+   */
+  private String getAbility(ZEvesLabel label)
+  {
+    if (label == null || label.getAbility() == LabelAbility.none)
+    {
+      return "";
+    }
+
+    return format(ABILITY_PATTERN, label.getAbility().name());
+  }
+
+  /**
+   * Retrieves the usage string attribute present as a term annotation.
+   * Usage is only allowed for ConjPara and Pred, where IllegalArgumentException is
+   * thrown for other terms.
+   */
+  private String getUsage(ZEvesLabel label)
+  {
+    if (label == null || label.getUsage() == LabelUsage.none)
+    {
+      return "";
+    }
+
+    return format(USAGE_PATTERN, label.getUsage().name());
+  }
+
+  private String getLabel(Term term)
+  {
+    ZEvesLabel l = ZEvesUtils.getLabel(term);
+    String result = "";
+    if (l != null)
+    {
+      assert l.getZName().getZStrokeList().isEmpty();
+      result = format(LABEL_PATTERN,
+              l.getAbility().equals(LabelAbility.none) ? "" : l.getAbility().name(),
+              l.getUsage().equals(LabelUsage.none) ? "" : l.getUsage().name(),
+              getIdent(l.getZName()));
+    }
+    return result;
+  }
+
+  /**
+   * Represents the branch production used in free-type.
+   * It retrieves the var-name and expression for each branch of a free-type.
+   */
+  private String getBranch(Branch b)
+  {
+    String result;
+    if (b.getExpr() == null)
+    {
+      result = getIdent(b.getZName());
+    }
+    else
+    {
+      result = format(BRANCH_PATTERN, getVarName(b.getZName()), getExpr(b.getExpr()));
+    }
+    return result;
+  }
+
+  /**
+   * Represents the decl-part production. It prefixes the result of visiting the DeclList
+   * with the additional XML tag needed by Z/Eves.
+   */
+  private String getDeclPart(ZDeclList decls)
+  {
+    StringBuilder result = new StringBuilder("<decl-part/>");
+    result.append(decls.accept(this));
+    return result.toString();
+  }
+
+  /**
+   * Retrives the axiomatic part of schemas, axiomatic and generic boxes.
+   * If the predicate is null, it simply returns the empty string.
+   * Otherwise, appropriate Z/Eves XML tags are added.
+   */
+  private String getAxiomPart(Pred pred)
+  {
+    StringBuilder result = new StringBuilder("");
+    if (pred != null)
+    {
+      result.append("<ax-part/>");
+      result.append(getPred(pred));
+    }
+    return result.toString();
+  }
+
+  /**
+   * Proof part of a theorem-def production. It extracts proof commands from a
+   * Proof annotation within ConjPara.
+   *
+   */
+  private String getProofPart(ConjPara term)
+  {
+	  // We do not support inline proof commands at the moment, so proof script
+	  // is a separate AST element and is sent to Z/Eves separately
+	  return "";
+  }
+
+    @Override
+  public String visitFreetype(Freetype term)
+  {
+    if (ZUtils.assertZBranchList(term.getBranchList()).isEmpty())
+    {
+      throw new IllegalArgumentException("Free type declarations must have at least one branch.");
+    }
+    StringBuilder result = new StringBuilder(getIdent(term.getZName()));
+    result.append(" ::= ");
+    Iterator<Branch> it = ZUtils.assertZBranchList(term.getBranchList()).iterator();
+    Branch b = it.next();
+    result.append(getBranch(b));
+    while (it.hasNext())
+    {
+      result.append(" | ");
+      b = it.next();
+      result.append(getBranch(b));
+    }
+
+    return format(ZED_BOX_FREETYPE_PATTERN, getLocation(term), getAbility(term), result.toString());
+  }
+
+      @Override
   public String visitGivenPara(GivenPara term)
   {
     String result = format(ZED_BOX_GIVENSET_PATTERN,
@@ -2112,7 +2914,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         //fKeepOpArgs = true; Just check for schText on the stack
         decls = getDeclPart(schText.getZDeclList());
         //fKeepOpArgs = false;
-        checkStack(schText);
+        checkStack(fRelationalOpAppl, schText);
         result = format(SCHEMA_BOX_PATTERN, getLocation(term),
                 getAbility(term), getSchName(schName), NL_SEP + genFormals, decls, preds);
       }
@@ -2146,8 +2948,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         //fKeepOpArgs = true;
         decls = getDeclPart(schText.getZDeclList());
         //fKeepOpArgs = false;
-        checkStack(schText);
-        
+        checkStack(fRelationalOpAppl, schText);
+
         if (genFormals.equals(""))
         {
           result = format(AXIOMATIC_BOX_PATTERN,
@@ -2177,7 +2979,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // First we check whether RHS is schema expression, otherwise ask for type information
       boolean isSchExpr = expr instanceof SchExpr || expr instanceof SchExpr2
           || isSchemaTyped(fSectionName, hdefName);
-      String zboxItemName = isSchExpr ? getSchName(hdefName) : getDefLHS(hdefName);
+      String zboxItemName = isSchExpr ? getSchName(hdefName) : getVarName(hdefName);
       String zboxItemSymbol = isSchExpr ? "&eqhat;" : "==";
       String zboxItemExpr = getExpr(expr);
       result = format(ZED_BOX_HORIZONTAL_PATTERN, getLocation(term), getAbility(term), zboxItemName,
@@ -2217,1177 +3019,169 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return result.toString();
   }
 
-  /* Declarations */
   @Override
-  public String visitDecl(Decl term)
+  public String visitConjPara(ConjPara term)
   {
-    throw new ZEvesIncompatibleASTException("Declaration", term);
-  }
-
-  @Override
-  public String visitInclDecl(InclDecl term)
-  {
-    /* NOTE:
-     *
-     * Z/Eves only allows inclusion of schema-ref, rather than the general
-     * schema-expr allowed by the Z Standard (and CZT).
-     * Therefore, we can only accept here RefExpr, which represent schema
-     * references, including Delta and Xi schemas. We must also accept
-     * DecorExpr, as Z/Eves considers this to be schema-ref as well.
-     *
-     * A tricky issue is that Z/Eves allows schema replacements or CZT
-     * RenameExpr as an additional kind of schema-ref. This case must also
-     * be dealt with here. Furthermore, Z/Eves also allows nonstandard
-     * schema updates with a kind of assignment operation. This needs to
-     * be taken into account, perhaps separetely as term annotations.
-     *
-     * In summary, we MUST ONLY treat the following expression types from
-     * inclusion declarations:
-     *
-     * 1) DecorExpr     => for decoration such as S' or S_0
-     * 2) RenameExpr    => for replacements such as S[x/y] or special kind S[x := y] with annotation.
-     * 3) RefExpr       => for a RefName or to any of the two above.
-     *
-     * Every other case MUST throw an incompatibility exception.
-     */
-    Throwable cause = isValidZEvesInclDecl(term.getExpr());
-    if (cause != null)
+    String axiomPart = getAxiomPart(term.getPred());
+    if (axiomPart.equals(""))
     {
-      throw new ZEvesIncompatibleASTException("Z/Eves restricts the kinds of expressions that can be used "
-                                              + "in inclusion declarations. The expression present on the current inclusion could not be "
-                                              + "translated. Please look at the throwable cause for further details.", cause);
+      throw new ZEvesIncompatibleASTException("Z/Eves conjectures must not have an empty predicate part.");
     }
 
-    return getExpr(term.getExpr());
-    //return "";
-  }
-
-  /* NOTE:
-   *
-   * CZT ConstDecl cannot appear for Z/Eves.
-   * In CZT It only appears during definition of paragraphs, which are
-   * treated specially and separetely without visiting ConstDecl.
-   * Therefore, we leave it to be caught by the generic Decl as an error.
-   *
-  @Override public String visitConstDecl(ConstDecl term) {
-  return term;
-  }
-   */
-  @Override
-  public String visitVarDecl(VarDecl term)
-  {
-    if (term.getZNameList().isEmpty())
+    ZEvesLabel l = ZEvesUtils.getLabel(term);
+    if (l == null)
     {
-      throw new IllegalArgumentException("Empty basic declaration list (at CZT VarDecl) is not allowed.");
+      l = ZEvesUtils.addDefaultZEvesLabelTo(term);
     }
-    if (term.getExpr() == null)
+    assert l.getZName().getZStrokeList().isEmpty();
+    final String lName = getIdent(l.getZName());
+
+    if (term.getName() == null)
     {
-      throw new IllegalArgumentException("Empty basic declaration expression (at CZT VarDecl) is not allowed.");
+      term.getAnns().add(ZEvesUtils.FACTORY.createZName(l.getZName()));
     }
-    /* NOTE:
-     *
-     * This visitor represent parts of basic-decl, precisely,
-     * decl-name-list : expr
-     */
-    StringBuilder result = new StringBuilder(getNameList(term.getZNameList().iterator()));
-    result.append(": ");
-    result.append(getExpr(term.getExpr()));
-    return result.toString();
-  }
-
-  /* Z Predicates */
-  @Override
-  public String visitPred(Pred term)
-  {
-    throw new ZEvesIncompatibleASTException("Predicate", term);
-  }
-
-  @Override
-  public String visitTruePred(TruePred term)
-  {
-    return "true";
-  }
-
-  @Override
-  public String visitFalsePred(FalsePred term)
-  {
-    return "false";
-  }
-
-  @Override
-  public String visitNegPred(NegPred term)
-  {
-    return format(NEG_PRED_PATTERN, getPred(term.getPred()));
-  }
-
-  @Override
-  public String visitQntPred(QntPred term)
-  {
-    /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
-     */
-
-
-    // we could have operator templates within these schText classes.
-    ZSchText schText = term.getZSchText();
-    fRelationalOpAppl.push(schText);
-    final String schTextPart = schText.accept(this);
-    checkStack(schText);
-    
-    return format(QNT_PRED_PATTERN, getQntName(term), schTextPart, getPred(term.getPred()));
-  }
-
-  @Override
-  public String visitPred2(Pred2 term)
-  {
-    /* NOTE: This case covers predicates iff, implies, and, or.
-     */
-    return format(BIN_PRED_PATTERN, getPred(term.getLeftPred()), getBinPredName(term), getPred(term.getRightPred()));
-  }
-
-  @Override
-  public String visitMemPred(MemPred term)
-  {
-    /* NOTE: This case covers isin, and relational operators (n-ary, unary, and =).
-     */
-    /*
-     * A relation operator application (C.5.12).
-     *   <ul>
-     *   <li>Membership predicate.
-     *       In this case, Mixfix=false, the first (left) expression is the
-     *       element, and the second (right) expression is the set.
-     *       For example, "n \in S" has left="n" and right="S".</li>
-     *   <li>Equality.
-     *       In this case, Mixfix=true, the first (left) expression is the
-     *       left-hand side of the equality, and the second (right)
-     *       expression is a singleton set containing the right-hand side
-     *       of the equality.
-     *       For example: "n = m" has left="n" and right="{m}".</li>
-     *   <li>Other operator application.
-     *       In this case, Mixfix=true, the first (left) expression is
-     *       usually a tuple containing the corresponding number of arguments,
-     *       and the second (right) expression is the operator name.
-     *       However, for a unary operator, the left expression does not have
-     *       to be a tuple.
-     *       For example, "n &lt; m" has left="(n,m)" and right=" _ &lt; _ ",
-     *       "disjoint s" has left="s" and right="disjoint _ ", and
-     *       if foo was declared as a unary postfix operator,
-     *       then "(2,3) foo" would have left= "(2,3)" and right=" _ foo".
-     *       </li>
-     */
-    MemPredKind kind = getMemPredKind(term);
-    String rel, left, right;
-    Expr lhs, rhs;
-    switch (kind)
+    else if (!lName.equals(term.getName()))
     {
-      // for the various cases, push expressions to the op-treatment stack. If it's a refExpr with mixfix false, it will get op ARG_TOK
-      case SET_MEMBERSHIP:
-        lhs = term.getLeftExpr();
-        rhs = term.getRightExpr();
-        fRelationalOpAppl.push(lhs);
-        left = getExpr(lhs);
-        checkStack(lhs);
-        rel = "&isin;";
-        fRelationalOpAppl.push(rhs);
-        right = getExpr(rhs);
-        checkStack(rhs);
-        break;
-      case NARY_RELOP_APPLICATION:
-        ZExprList params = ((TupleExpr) term.getLeftExpr()).getZExprList();
-        assert !params.isEmpty();
-        if (params.size() != 2)
+      // trust the label more than the "anns" name?
+      CztLogger.getLogger(getClass()).warning("Theorem name mismatch: name " + term.getName() + " given, yet label/proof-script name " + lName + " was found. Using the latter.");
+      for(Object o : term.getAnns())
+      {
+        // update the zname for the label name
+        if (o instanceof ZName)
         {
-          throw new ZEvesIncompatibleASTException("Current version only supports translation of binary relational operators.");
-        }
-        lhs = params.get(0);
-        rhs = params.get(1);
-        fRelationalOpAppl.push(lhs);
-        left = getExpr(lhs);
-        checkStack(lhs);
-        rel = getMemPredRelOpName((RefExpr) term.getRightExpr());
-        fRelationalOpAppl.push(rhs);
-        right = getExpr(rhs);
-        checkStack(rhs);
-        break;
-      case UNARY_RELOP_APPLICATION:
-        RefExpr refexpr = (RefExpr) term.getRightExpr();
-        OperatorName.Fixity fixity = refexpr.getZName().getOperatorName().getFixity();
-        rel = getMemPredRelOpName(refexpr);
-        /* NOTE:
-         * The actual unary parameter comes from the left expression and is placed according to the fixture.
-         */
-        lhs = term.getLeftExpr();
-        fRelationalOpAppl.push(lhs);
-        if (fixity == OperatorName.Fixity.PREFIX)
-        {
-          // Prefix: left+rel+right = ""+rel+right
-          left = "";
-          right = getExpr(lhs);
-        }
-        else if (fixity == OperatorName.Fixity.POSTFIX)
-        {
-          // Postfix: left+rel+right = left+rel+""
-          left = getExpr(lhs);
-          right = "";
-        }
-        else
-        {
-          throw new ZEvesIncompatibleASTException("Unsupported fixture for relational operator (" + fixity.toString() + ").");
-        }
-        checkStack(lhs);
-        break;
-      case EQUALITY:
-        /* NOTE:
-         *
-         * For equality, the left expression is a Expr, whereas the
-         * right expression must be a SetExpr containing only one element
-         */
-        lhs = term.getLeftExpr();
-        rhs = ((SetExpr) term.getRightExpr()).getZExprList().get(0);
-        fRelationalOpAppl.push(lhs);
-        left = getExpr(lhs);
-        checkStack(lhs);
-        rel = " = ";
-        fRelationalOpAppl.push(rhs);
-        right = getExpr(rhs);
-        checkStack(rhs);
-        break;
-      default:
-        throw new AssertionError("Invalid MemPredKind " + kind);
-    }
-    left = adjustIfOpWithinArgument(left);
-    right = adjustIfOpWithinArgument(right);
-    String result = format(MEMPRED_PATTERN, left, rel, right);
-    assert result != null && !result.equals("");
-    return result;
-  }
-
-  @Override
-  public String visitExprPred(ExprPred term)
-  {
-    /* NOTE: This case covers schema-ref, refexpr, schema precondition, conditional, and let.
-     */
-    return getExpr(term.getExpr());
-  }
-
-  /* NOTE: Dealt with directly through visitPred2. The case with NL is not
-   *       allowed here. It can only appear for axiom-part instead, and is
-   *       dealt with by getAxiomPart directly. The need for this is due to
-   *       our design decision to include labelled-predicate whilst translating.
-   *
-  @Override public String visitAndPred(AndPred term) {
-  }
-   */
-  /* Z Expressions */
-  @Override
-  public String visitExpr(Expr term)
-  {
-    throw new ZEvesIncompatibleASTException("Expression", term);
-  }
-
-  @Override
-  public String visitPowerExpr(PowerExpr term)
-  {
-    return format(POWER_EXPR_PATTERN, getExpr(term.getExpr()));
-  }
-
-  @Override
-  public String visitRefExpr(RefExpr term)
-  {
-    /* NOTE (from Z.xsd):
-     *
-     * A reference expression (C.6.21, C.6.28, C.6.29).
-     *
-     * C.6.21 (Generic Operator Application).  For example: S \rel T.
-     *       In this case, mixfix is always true and the list of
-     *       type expressions is non-empty (it contains [S,T]).
-     *
-     *  (IN THIS CASE, IT COMES FROM ExprPred!)
-     *
-     * C.6.28 (Reference).  For example: \emptyset.
-     *       In this case, mixfix is always false and the list of
-     *       type expressions is empty.</li>
-     * C.6.29 (Generic Instantiation).  For example: \emptyset[T].
-     *       In this case, mixfix is always false and the list of
-     *       type expressions is non-empty (it contains [T]).
-     */
-    /* NOTE:
-     *
-     * This case is very, very tricky. Its precision will come with
-     * time and testing. I am not sure about the way CZT and Z/Eves
-     * generic actuals are allowed around.
-     * Anyway, this seldom happens in most of Z/Eves proofs and
-     * definitions one usually needs to deal with as proofs with
-     * generic actuals around is bloody hard to do.
-     * Another important point is about Generic (inferred) instantiations,
-     * where the type [T] is inferred somewhere. I am assuming that,
-     * if we omit then (because they were not present in the first place),
-     * then Z/Eves will sort itself out, as in \\emptyset. Ok let's go!
-     */
-    String result;
-    // case 6.21
-    if (term.getMixfix())
-    {
-
-      // FIXME: (Leo): go through the RefExpr production properly here
-      //			The solution below is best effort and incomplete
-      ZExprList exprList = term.getZExprList();
-      if (exprList.size() < 1 || exprList.size() > 2)
-      {
-        // AV: Can it be more/less than 2 here? Leo: No.
-        throw new ZEvesIncompatibleASTException("CZT RefExpr generic operator application translation to Z/Eves is not yet implemented "
-                                                + "(for \"" + term.getZName().toString() + "\").");
-      }
-
-      // pushes a RefExpr to the stack, yet with Mixfix True, then no need for ARG_TOK
-      String opName = getRefName(term);
-      if (opName == null || opName.equals(""))
-      {
-        throw new ZEvesIncompatibleASTException("Relational operator could not be translated. See throwable cause for details.",
-                new IllegalArgumentException("It wasn't possible to properly translate relational operator "
-                                             + term.getZName().toString() + " into Z/Eves format."));
-      }
-
-      // AV: Ignore generics here? Leo: yes, as you cannot give it explicitly in this case?
-
-      Expr left = exprList.get(0);
-
-      // Leo: This is not treating possibly tricky (e.g., \\listarg) \\relation or \\generic operator templates?
-      //      I think Z/Eves doesn't have them anyway. Should be fine in general.
-      if (exprList.size() > 1)
-      {
-        Expr right = exprList.get(1);
-        result = format(MIXFIX_REF_EXPR_PATTERN, getExpr(left), opName, getExpr(right));
-      }
-      else
-      {
-        // only left available - prefix
-        // TODO why is Prefix here for Mixfix (term.getMixfix() == true)?
-        result = format(PREFIX_REF_EXPR_PATTERN, opName, getExpr(left));
-      }
-
-//            throw new ZEvesIncompatibleASTException("CZT RefExpr generic operator application translation to Z/Eves is not yet implemented " +
-//                    "(for \"" + term.getZName().toString() + "\").");
-      // others are more straightforward.
-    }
-    // case 6.28, 6.29
-    else
-    {
-      String genActuals = "";
-      result = "";
-      if (!term.getZExprList().isEmpty() && term.getExplicit() != null && term.getExplicit())
-      {
-        genActuals = getGenActuals(term.getZExprList());
-        result += "(";
-      }
-      // Don't call getRefName here, but name directly (e.g., name not to be treated as a possible operator).
-      // e.g., for ApplExpr with mixfix true RefExpr has mixfix false, but shouldn't get operators              (x + y) or (\_R\_) \comp (\_ S\_)
-      //       whereas for ApplExpr with mixfix false RefExpr also has mixfix false, but *must* get operators!  (_+_)(x,y) (\_\comp\_)((\_R\_), (\_S\_))
-      result += getName(term.getName());
-      if (!genActuals.isEmpty())
-        // because of the postfix function case, say (f) (( _ &suptilde;)[X, Y]), we need to have (f) (&suptilde;[X, Y])
-        // that is, ZEves is happy with operators close to their generics, so long as they don't have VARARGS?
-      {
-        // for _ &xxx; _  have it as: (_ &xxx; _)[X]
-        if (result.split(ZString.ARG).length > 2)
-          result += ")" + genActuals;
-        // for &xxx; _  or _ &xxx; have it as: (&xxx;[X])
-        else
-          result += genActuals + ")";
-      }
-    }
-    assert result != null && !result.equals("");
-    return result;
-  }
-
-  @Override
-  public String visitNegExpr(NegExpr term)
-  {
-    //return format(NEG_EXPR_PATTERN, getExpr(term.getExpr()));
-    return format(NEG_PRED_PATTERN, getExpr(term.getExpr()));
-  }
-
-  @Override
-  public String visitMuExpr(MuExpr term)
-  {
-    String schText = term.getSchText().accept(this).toString();
-    String expr = "";
-    if (term.getExpr() != null)
-    {
-      expr = " &bullet; " + getExpr(term.getExpr());
-    }
-    return "(&mu; " + schText + expr + ")";
-  }
-
-  @Override
-  public String visitSetCompExpr(SetCompExpr term)
-  {
-    // TODO review corner cases like \{ T \} and \{ T | true \} when T == [ ... | ... ] schema
-    String schText = term.getSchText().accept(this).toString();
-    String expr = "";
-    if (term.getExpr() != null)
-    {
-      expr = " &bullet; " + getExpr(term.getExpr());
-    }
-    return "{ " + schText + expr + " }";
-  }
-
-  @Override
-  public String visitLambdaExpr(LambdaExpr term)
-  {
-    return format(LAMBDA_EXPR_PATTERN, "&lambda;",
-            term.getSchText().accept(this).toString(), getExpr(term.getExpr()));
-  }
-
-  @Override
-  public String visitQntExpr(QntExpr term)
-  {
-    /* NOTE: This case covers quatifiers Exists, Exists1, and Forall.
-     */
-
-    // Differently from QntPred, we *cannot* have operator templates in qnt schema expressions! Schemas are not part of operators.
-    return format(QNT_EXPR_PATTERN, getQntName(term), term.getSchText().accept(this), getExpr(term.getExpr()));
-  }
-
-  @Override
-  public String visitLetExpr(LetExpr term)
-  {
-    throw new ZEvesIncompatibleASTException("CZT Let expression/predicate term "
-                                            + "contains a SchText where Z/Eves expects a led-def production. "
-                                            + "This translation is complex and requires effort not yet implemented "
-                                            + "in this version, sorry.");
-    //return format(LET_EXPR_PATTERN, getLetDef(term.getSchText()), getExpr(term.getExpr()));
-  }
-
-  @Override
-  public String visitTupleSelExpr(TupleSelExpr term)
-  {
-    return format(TUPLESEL_EXPR_PATTERN, getExpr(term.getExpr()), term.getNumeral().toString());
-  }
-
-  @Override
-  public String visitPreExpr(PreExpr term)
-  {
-    return format(PRE_EXPR_PATTERN, getExpr(term.getExpr()));
-  }
-
-  @Override
-  public String visitSetExpr(SetExpr term)
-  {
-    StringBuilder sb = new StringBuilder("{ ");
-    if (!term.getZExprList().isEmpty())
-    {
-      fZExprListSep = ", ";
-      sb.append(term.getZExprList().accept(this));
-    }
-    sb.append(" }");
-    return sb.toString();
-  }
-
-  @Override
-  public String visitNumExpr(NumExpr term)
-  {
-    return term.getValue().toString();
-  }
-
-  @Override
-  public String visitCondExpr(CondExpr term)
-  {
-    final String condPart = getPred(term.getPred());
-    final String thenPart;
-    final String elsePart;
-    Expr thenE = term.getLeftExpr();
-    Expr elseE = term.getRightExpr();
-    if (thenE instanceof SchExpr || elseE instanceof SchExpr)
-    {
-      if (thenE instanceof SchExpr && elseE instanceof SchExpr)
-      {
-        // in the case of \IF Pred \THEN S \ELSE T, if S/T have empty bindings, this
-        // is for ZEves \IF Pred \THEN Pred1 \ELSE Pred2!
-        ZSchText thenST = ((SchExpr)thenE).getZSchText();
-        ZSchText elseST = ((SchExpr)elseE).getZSchText();
-
-        // for \IF Pred \THEN Pred1 \ELSE Pred2, we use the pattern of empty binding SchExpr
-        if (thenST.getZDeclList().isEmpty() && elseST.getZDeclList().isEmpty())
-        {
-          Pred thenP = thenST.getPred();
-          Pred elseP = elseST.getPred();
-          assert thenP != null && elseP != null;
-          // both THEN/ELSE parts are mandatory
-          thenPart = getPred(thenP);
-          elsePart = getPred(elseP);
-        }
-        // otherwise, just as an expression itslef
-        else
-        {
-          thenPart = getExpr(thenE);
-          elsePart = getExpr(elseE);
-        }
-      }
-      else
-      {
-        throw new ZEvesIncompatibleASTException("Inconsistent IF-THEN-ELSE term. Both sides must be either Pred or SchExpr, but not mixed: THEN="
-                + thenE.getClass().getSimpleName() + " ELSE=" + elseE.getClass().getSimpleName());
-      }
-    }
-    else
-    {
-      thenPart = getExpr(thenE);
-      elsePart = getExpr(elseE);
-    }
-    return format(COND_EXPR_PATTERN, condPart, thenPart, elsePart);
-  }
-
-  @Override
-  public String visitProdExpr(ProdExpr term)
-  {
-    fZExprListSep = "&cross; ";
-    return "(" + term.getZExprList().accept(this) + ")";
-  }
-
-  @Override
-  public String visitTupleExpr(TupleExpr term)
-  {
-    fZExprListSep = ", ";
-    return "(" + term.getZExprList().accept(this) + ")";
-  }
-
-  @Override
-  public String visitBindExpr(BindExpr term)
-  {
-    if (term.getZDeclList().isEmpty())
-    {
-      emptyDeclPartException();
-    }
-    StringBuilder result = new StringBuilder();
-    String delim = "";
-    for (Decl d : term.getZDeclList())
-    {
-      assert d instanceof ConstDecl;
-      ConstDecl cd = (ConstDecl)d;
-      result.append(delim);
-      result.append(getName(cd.getName()));
-      result.append(": ");
-      result.append(getExpr(cd.getExpr()));
-      delim = "; ";
-    }
-    return format(BIND_EXPR_PATTERN, result.toString());
-  }
-
-  @Override
-  public String visitBindSelExpr(BindSelExpr term)
-  {
-    Expr bse = term.getExpr();
-    // okay cases:
-    //   RefExpr    = v.x     , wheve v: S
-    //   ApplExpr   = f(x).x  , where f: X -> S
-    //   BinSelExpr = (v.x).y
-    //   ThetaExpr  = (\theta S).x
-    if (bse instanceof RefExpr || bse instanceof ApplExpr || bse instanceof BindSelExpr || bse instanceof ThetaExpr)
-    {
-      return format(BINDSEL_EXPR_PATTERN, getExpr(bse), getVarName(term.getZName()));
-    }
-    else
-    {
-      throw new ZEvesIncompatibleASTException("Found " + bse.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
-//      throw new ZEvesIncompatibleASTException("Z/Eves only allows bind selection for schema references, "
-//                                        + "rather than schema expressions, or application expressions returning a schema type. See throwable cause for details.",
-//        new IllegalArgumentException("Invalid schema expression binding selection for Z/Eves XML translation. CZT and"
-//                                     + "the Z Standard allow bind selection upon schema expressions, such as (S \\land T).x or (\\theta S).x."
-//                                     + "On the other hand, Z/Eves only accepts bind selection upon schema-ref, which must be a reference name to a "
-//                                     + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
-//                                     + "do not appear. TODO: In a later version, we plan to automatically include such declarations implicitly, while "
-//                                     + "translating the binding selection itself. Check whether a new version with such feature is available."));
-    }
-  }
-
-  @Override
-  public String visitThetaExpr(ThetaExpr term)
-  {
-    Expr e = term.getExpr();
-    if (!(e instanceof RefExpr || e instanceof DecorExpr || e instanceof RenameExpr))
-    {
-      throw new ZEvesIncompatibleASTException("Found " + e.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
-//      throw new ZEvesIncompatibleASTException("Z/Eves only allows theta expressions to schema references, "
-//                                              + "rather than schema expressions. See throwable cause for details.",
-//              new IllegalArgumentException("Invalid theta expression for Z/Eves XML translation. CZT and"
-//                                           + "the Z Standard allow theta expressions of schema expressions, such as \\theta(S \\land T)."
-//                                           + "On the other hand, Z/Eves only accepts theta expressions of schema-ref, which must be a reference name to a "
-//                                           + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
-//                                           + "do not appear. Some examples where there dependencies on the values (e.g. Circcus Operational Semantics) this is "
-//                                           + "not possible to naively translate and need to be rewritten, tough. TODO: In a later version, we plan to automatically "
-//                                           + "include such declarations implicitly whenever possible, while translating the binding selection itself. "
-//                                           + "Check whether a new version with such feature is available."));
-    }
-    return format(THETA_EXPR_PATTERN, getExpr(term.getExpr()), getStrokes(term.getZStrokeList()));
-  }
-
-  @Override
-  public String visitSchExpr2(SchExpr2 term)
-  {
-    /* NOTE:
-     * This production covers: CompExpr, PipeExpr, ProjExpr, AndExpr,
-     * OrExpr, ImpliesExpr, and IffExpr.
-     */
-    return format(BIN_SCHEXPR_PATTERN, getExpr(term.getLeftExpr()), getSchExprOpName(term), getExpr(term.getRightExpr()));
-  }
-
-  @Override
-  public String visitSchExpr(SchExpr term)
-  {
-    return "[" + term.getSchText().accept(this).toString() + "]";
-  }
-
-  @Override
-  public String visitHideExpr(HideExpr term)
-  {
-    return format(HIDE_EXPR_PATTERN, getExpr(term.getExpr()), term.getZNameList().accept(this));
-  }
-
-  @Override
-  public String visitApplExpr(ApplExpr term)
-  {
-    final String result;
-    /**
-     * A function application (C.6.21, C.6.22).
-     *   <ul>
-     *   <li>C.6.21 (Function Operator Application).  For example: S + T.
-     *           In this case, Mixfix=true, the first (left) expression is the
-     *           name, (" _ + _ "), (that is, a RefExpr with Mixfix=false!)
-     *           and the second (right) expression is (S,T).</li>
-     *   <li>C.6.22 (Application).  For example: (_ + _)(S, T).
-     *           In this case, Mixfix=false, and the rest is the same as above
-     *           (the first expression is the RefExpr with Mixfix=false and
-     *           name (" _ + _ "), and the second expression is (S,T)).
-     *           Another example: dom R.
-     *           In this case, Mixfix=false, the first (left) expression is the
-     *           function, dom, (again, a RefExpr with Mixfix=false)
-     *           and the second (right) expression is the argument R.</li>
-     */
-    // case 6.21
-    if (ZUtils.isFcnOpApplExpr(term))
-    {
-      assert term.getMixfix() != null && term.getMixfix();
-
-      Expr opExpr = ZUtils.getApplExprRef(term);
-      String op = getApplExprPart(term);
-
-      int arity = ZUtils.applExprArity(term);
-      ZExprList args = ZUtils.getApplExprArguments(term);
-        
-      // Handling special cases known to Z/Eves
-
-      // LANGLE / RANGLE
-      if (op.equals("&lang;&rang;"))
-      {
-        assert args.size() == 1 &&
-               args.get(0) instanceof SetExpr; // SetExpr with all the elements enumerated... < a, b > =  (<,,>)({(1,a), (2,b)})
-        SetExpr elems = (SetExpr)args.get(0);
-        StringBuilder seqElems = new StringBuilder();
-        String delim = "";
-        for (Expr e : elems.getZExprList())
-        {
-          seqElems.append(delim).append(extractSeqElem(e));
-          delim = ", ";
-        }
-        result = format(APPL_EXPR_SEQ_PATTERN, seqElems);
-      }
-      // LIMG / RIMG
-      else if (op.equals("&lvparen;&rvparen;"))
-      {
-        assert args.size() == 2;
-        result = format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, getExpr(args.get(0)), getExpr(args.get(1)));
-      }
-      // all other cases
-      else
-      {
-        // ex:  (\_ r \_) \comp (\_ s \_)  : ApplExpr(\comp, (r, s)) but as operators with \_!
-        List<String> params = new ArrayList<String>(args.size());
-        params.add(op);
-        // tell potential RefExpr as operators (e.g., mixfix false) about a ApplExpr
-        //fRelationalOpAppl.push(term);
-        for (Expr e : args)
-        {
-          // push the expr. If it is a refExpr, check whether the mixfix is false, and if so, get ARG_TOK
-          fRelationalOpAppl.push(e);
-          params.add(getExpr(e));
-          checkStack(e);
-        }
-        assert params.size() == args.size() + 1;
-        //checkStack(term);
-        switch (arity)
-        {
-          case 1:
-            assert params.size() == 2; // op + arg (e.g., _\inv)
-            if (getFixity(opExpr) == Fixity.POSTFIX)
-            {
-            	result = format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
-            } 
-            else
-            {
-            	// sometimes this happens (e.g. in #A), use the same as default ApplExpr
-            	result = format(APPL_EXPR_PATTERN, params.toArray());
-            }
-            break;
-          case 2:
-            assert params.size() == 3; // arg + op + arg (e.g., _ + _)
-            result = format(MIXFIX_APPL_EXPR_PATTERN, params.toArray());
-            break;
-          default:
-            throw new ZEvesIncompatibleASTException("Unsupported operator template application expression " + arity + " params as " + params, term);
-        }
-      }
-    }
-    // case 6.22
-    else
-    {
-      String op = getApplExprPart(term);
-      String rhs = getExpr(term.getRightExpr());
-      rhs = adjustIfOpWithinArgument(rhs);
-      // TODO: find better way for this HACK!?
-      // if this is a complex ApplExpr (e.g., has "_" or multiple appls, or hard spaces for other applexpr already)
-      if (op.indexOf(ZString.ARG) != -1 || op.indexOf(ZString.LPAREN) != -1 || op.indexOf("~") != -1 || op.indexOf(ZString.SPACE) != -1)
-        op = "(" + op + ")";
-      // if the RHS is a tupleExpr, there will be more than one parameter, need parenthesis;
-      // or if the LHS is a nested appl expr
-      // or if the RHS is a (implicitly nested) appl expr
-      if (term.getRightExpr() instanceof TupleExpr || 
-          ZUtils.isNestedApplExpr(term) ||
-          term.getRightExpr() instanceof ApplExpr)// || rhs.indexOf(ZString.COMMA) != -1)
-        rhs = "(" + rhs + ")";
-      // if just a ZEves operator name (with or without generics) that is parenthesised, eg  (&xxxx;) or (&xxxx;[X,Y])
-      else if (rhs.startsWith("(&") && (rhs.endsWith(";)") || (rhs.endsWith("])") && rhs.indexOf(";[") != -1)))
-        rhs = rhs.substring(1, rhs.length()-1);
-      result = format(APPL_EXPR_PATTERN_2, op, rhs);
-    }
-    return result;
-  }
-  
-  private Fixity getFixity(Expr opTerm) {
-	  if (opTerm instanceof RefExpr) {
-		  RefExpr opRef = (RefExpr) opTerm;
-		  OperatorName opName = opRef.getZName().getOperatorName();
-		  if (opName != null) {
-			  return opName.getFixity();
-		  }
-	  }
-	  
-	  return null;
-  }
-
-  @Override
-  public String visitDecorExpr(DecorExpr term)
-  {
-    return getExpr(term.getExpr()) + term.getStroke().accept(this);
-  }
-
-  protected Type2 getType(String sectionName, ZName name)
-  {
-    if (sectionName == null) {
-      throw new IllegalArgumentException("No section name indicated for type information");
-    }
-    
-    try
-    {
-      SectTypeEnvAnn sectTypeEnv = getSectionInfo().get(new Key<SectTypeEnvAnn>(sectionName, SectTypeEnvAnn.class));
-      Type2 result = null;
-      for(NameSectTypeTriple nst : sectTypeEnv.getNameSectTypeTriple())
-      {
-        if (ZUtils.namesEqual(name, nst.getZName()))
-        {
-          Type type = nst.getType();
-          result = GlobalDefs.unwrapType(type);
+          ZName zn = (ZName)o;
+          zn.setWord(lName);
           break;
         }
       }
-      return result;
     }
-    catch (CommandException e)
-    {
-      throw new ZEvesIncompatibleASTException("Could not retrieve type information of section " + sectionName + " for " + name, e);
-    }
-  }
-
-  protected boolean isSchemaTyped(String sectionName, ZName name)
-  {
-    Type2 type = getType(sectionName, name);
-    return (type instanceof PowerType && ((PowerType)type).getType() instanceof SchemaType);
+    // use label name for proof and theorem definition
+    String result = format(THEOREM_DEF_PATTERN, getLocation(term), getAbility(l), getUsage(l),
+            lName, NL_SEP + getGenFormals(term.getZNameList(), true),
+            axiomPart, getProofPart(term));
+    return wrapPara(result);
   }
 
   @Override
-  public String visitRenameExpr(RenameExpr term)
+  public String visitNarrPara(NarrPara term)
   {
-    final String renamings;
-    if (term.getRenameList() instanceof ZRenameList)
-      renamings = term.getZRenameList().accept(this);
-    else if (term.getRenameList() instanceof InstantiationList)
-    {
-      InstantiationList il = ZEvesUtils.getInstantiationListFromExpr(term);
-      if (il != null)
-      {
-        fCurrInstKind.push(InstantiationKind.ThmReplacement);
-        renamings = il.accept(this);
-
-        assert !fCurrInstKind.isEmpty();
-        InstantiationKind k = fCurrInstKind.pop();
-        assert k.equals(InstantiationKind.ThmReplacement);
-      }
-      else
-        throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
-    }
-    else
-      throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
-    return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr()), renamings);
-  }
-  
-  @Override
-  public String visitZRenameList(ZRenameList term)
-  {
-		StringBuilder sb = new StringBuilder();
-
-    String delim = "";
-    for (NewOldPair pair : term) {
-      sb.append(delim).append(pair.accept(this));
-      delim = ",";
-    }
-
-    return sb.toString();
+    return printingNarrPara_ ? comment("Narrative Paragraph", term.getContent().toString()) : "";
   }
 
   @Override
-  public String visitNewOldPair(NewOldPair term) {
-    return getName(term.getNewName()) + "/" + getName(term.getOldName());
+  public String visitLatexMarkupPara(LatexMarkupPara term)
+  {
+    return comment("LaTeX Markup Directives Paragraph", term.getDirective().toString());
   }
 
   @Override
-  public String visitProofScript(ProofScript term)
+  public String visitUnparsedPara(UnparsedPara term)
   {
-    final String thmName = getName(term.getName());
+    return comment("Unparsed Paragraph", term.getContent().toString());
+  }
 
-    // list of proof commands useful for interactive send/receive as <cmd="proof-command"> command </cmd>
-    List<String> pScript = proofScripts_.get(thmName);
-    if (pScript != null)
-    {
-      CztLogger.getLogger(getClass()).info("Updating proof script for " + thmName);
-      pScript.clear();
-    }
-    else
-    {
-      pScript = new ArrayList<String>(term.getProofCommandList().size());
-      proofScripts_.put(thmName, pScript);
-    }
 
-    // list of proof commands separated by semi-colon for "<proof-part/>" inlined proof commands
-    StringBuilder proofCommands = new StringBuilder();
-    String delim = "";
-    for (ProofCommand pc : term.getProofCommandList())
-    {
-      final String pcStr = pc.accept(this);
-      proofCommands.append(delim).append(pcStr);
-      delim = "; \n";
-      pScript.add(wrapProofCommand(pcStr));
-    }
-
-    // returns inlined-proofs as <proof-part/>
-    return format(ZEVES_PROOF_PART_PATTERN, proofCommands.toString());
+  /* Top-level operations */
+  public String print(Term term, SectionInfo si, boolean printNarParaAsComment)
+  {
+    setSectionInfo(si);
+    printingNarrPara_ = printNarParaAsComment;
+    return print(term);
   }
 
   /**
-   * For every zproof available, return corresponding proof scripts
-   * @param thmName
+   * Top-level method which translates the given CZT term to a corresponding Z/Eves
+   * server XML API. It only accepts Para, Pred, or Expr because Z/Eves adds sections
+   * via a set of commands rather than a simple command.
+   * @param term
    * @return
    */
-  public List<String> getProofScripts(String thmName)
+  public String print(Term term)
   {
-    List<String> result = proofScripts_.get(thmName);
-    if (result != null)
-      result = Collections.unmodifiableList(result);
-    return result;
+    if (term == null)
+    {
+      throw new NullPointerException("Cannot convert a null term to Z/Eves XML");
+    }
+    if (!(term instanceof Para || term instanceof Pred || term instanceof Expr
+          || term instanceof ZName))
+    {
+      throw new ZEvesIncompatibleASTException("This class can only print Names, Para, Pred, and Expr terms. For other "
+                                              + "terms such as Spec and ZSection, one should use the ZEvesEvaluator class, as it allows appropriate "
+                                              + "handling of Z sections through special commands needed by the Z/Eves server.");
+    }
+    return term.accept(this);
   }
 
-  public Set<String> getThmNamesWithProofScripts()
+  public List<String> printSpec(Spec term, SectionInfo si, boolean printNarParaAsComment)
   {
-    return Collections.unmodifiableSet(proofScripts_.keySet());
+    setSectionInfo(si);
+    printingNarrPara_ = printNarParaAsComment;
+    return printSpec(term);
   }
 
+  public List<String> printSpec(Spec term)
+  {
+    return term.accept(fSpecPrinter);
+  }
+
+  public List<String> printZSect(ZSect term, SectionInfo si)
+  {
+    setSectionInfo(si);
+    return printZSect(term);
+  }
+
+  public List<String> printZSect(ZSect term)
+  {
+    return term.accept(fSpecPrinter);
+  }
+
+  public final void setSectionInfo(SectionInfo si)
+  {
+    fSectionInfo = si;
+  }
+
+  public SectionInfo getSectionInfo()
+  {
+    return fSectionInfo;
+  }
+
+  public void setPrintNarrParaAsComment(boolean v)
+  {
+    printingNarrPara_ = v;
+  }
+  
+  public final void setSectionName(String sectionName) {
+    fSectionName = sectionName;
+//    try
+//    {
+//      opTable_ = fSectionInfo.get(new Key<OpTable>(sectionName, OpTable.class));
+//    }
+//    catch (CommandException ex)
+//    {
+//      opTable_ = null;
+//      // ex:
+//      //      %%Zpreword \isDisj isDisj
+//      //      \begin{zed}
+//      //        \relation ( isDisj \varg )
+//      //      \end{zed}
+//      //
+//      //      \begin{gendef}[X]
+//      //        \isDisj\_: \power  (\power  X \cross  \power  X)
+//      //      \where
+//      //        \Label{disabled rule dIsDisj}  \forall  s1, s2: \power  X @ (\isDisj~ (s1, s2)) \iff  s1 \cap  s2 = \{\}
+//      //      \end{gendef}
+//      //
+//      // in \isDisj~(si, s2) the translator doesn't know if isDisj is a prefix op or not
+//      //
+//      CztLogger.getLogger(getClass()).warning("Could not retrieve OpTable for ZSect " + sectionName + ". This might compromise the translation if the section contains relational operators.");
+//    }
+  }
+
+  /* Special Terms */
   @Override
-  public String visitProofCommand(ProofCommand term)
+  public String visitTerm(Term term)
   {
-    throw new ZEvesIncompatibleASTException("ProofCommand", term);
-  }
-
-  @Override
-  public String visitCaseAnalysisCommand(CaseAnalysisCommand term)
-  {
-    switch (term.getKind())
-    {
-      case Cases:
-        return "cases";
-      case Next:
-        return "next";
-      case Split:
-        return "split " + getPred(term.getPred());
-      default:
-        throw new ZEvesIncompatibleASTException(
-                "Unsupported case analysis kind: " + term.getKind());
-    }
-  }
-
-  @Override
-  public String visitNormalizationCommand(NormalizationCommand term)
-  {
-    switch (term.getKind())
-    {
-      case Conjunctive:
-        return "conjunctive";
-      case Disjunctive:
-        return "disjunctive";
-      case Rearrange:
-        return "rearrange";
-      case Command:
-        return "with normalization " + term.getProofCommand().accept(this);
-      default:
-        throw new ZEvesIncompatibleASTException(
-                "Unsupported normalization command kind: " + term.getKind());
-    }
-  }
-
-  @Override
-  public String visitQuantifiersCommand(QuantifiersCommand term)
-  {
-    StringBuilder result = new StringBuilder();
-    if (term.getInstantiationList() == null || term.getInstantiationList().isEmpty())
-    {
-      result.append("prenex");
-    }
-    else
-    {
-      assert term.getInstantiationList() != null && !term.getInstantiationList().isEmpty() : "quantifiers instantiation list cannot be empty";
-      result.append("instantiate ");
-      fCurrInstKind.push(InstantiationKind.Quantifier);
-      result.append(term.getInstantiationList().accept(this));
-      assert !fCurrInstKind.isEmpty();
-      InstantiationKind k = fCurrInstKind.pop();
-      assert k.equals(InstantiationKind.Quantifier);
-    }
-    return result.toString();
-  }
-
-  @Override
-  public String visitInstantiation(Instantiation term)
-  {
-    assert !fCurrInstKind.isEmpty();
-    InstantiationKind k = fCurrInstKind.peek();
-    assert k.equals(term.getKind()) : "inconsistent instantiation kind. found "
-                                             + term.getKind() + "; expected " + k;
-    StringBuilder result = new StringBuilder();
-    result.append(getName(term.getZName()));
-    result.append(k.equals(InstantiationKind.Quantifier) ? " == " : " := ");
-    // instantiations *must* also allow for opArgs because of potential need of
-    // explicit generics. Z/Eves accepts "\#[X]~A", whereas CZT insists on "(\#~\_)[X]~A"
-    // so we almost always need to add the full (no-fix) version of op-temp names in inst.
-    fRelationalOpAppl.push(Boolean.TRUE);
-    result.append(getExpr(term.getExpr()));
-    checkStack(Boolean.TRUE);
-    return result.toString();
-  }
-
-  @Override
-  public String visitInstantiationList(InstantiationList term)
-  {
-    StringBuilder result = new StringBuilder();
-    Iterator<Instantiation> it = term.iterator();
-    assert !fCurrInstKind.isEmpty() : "visiting instantiation list outside any instantiation context";
-    assert it.hasNext() : "empty instantiations are not allowed for instantiation kind "
-                          + fCurrInstKind.peek();
-    while (it.hasNext())
-    {
-      result.append(it.next().accept(this));
-      if (it.hasNext())
-      {
-        result.append(",");
-      }
-    }
-    return result.toString();
-  }
-
-  @Override
-  public String visitSimplificationCommand(SimplificationCommand term)
-  {
-    switch (term.getKind())
-    {
-      case Reduce:
-        switch (term.getPower())
-        {
-          case None:
-            return "reduce";
-          case Prove:
-            return "prove by reduce";
-          case Trivial:
-            throw new ZEvesIncompatibleASTException(
-                    "Trivial reduce is not supported by Z/Eves");
-          default:
-            throw new ZEvesIncompatibleASTException(
-                    "Unsupported simplification command power: " + term.getPower());
-        }
-      case Rewrite:
-        switch (term.getPower())
-        {
-          case None:
-            return "rewrite";
-          case Prove:
-            return "prove by rewrite";
-          case Trivial:
-            return "trivial rewrite";
-          default:
-            throw new ZEvesIncompatibleASTException(
-                    "Unsupported simplification command power: " + term.getPower());
-        }
-
-      case Simplify:
-        switch (term.getPower())
-        {
-          case None:
-            return "simplify";
-          case Prove:
-            throw new ZEvesIncompatibleASTException(
-                    "Prove by simplify is not supported by Z/Eves");
-          case Trivial:
-            return "trivial simplify";
-          default:
-            throw new ZEvesIncompatibleASTException(
-                    "Unsupported simplification command power: " + term.getPower());
-        }
-
-      default:
-        throw new ZEvesIncompatibleASTException(
-                "Unsupported simplification command kind: " + term.getKind());
-    }
-  }
-
-  @Override
-  public String visitUseCommand(UseCommand term)
-  {
-    StringBuilder result = new StringBuilder("use ");
-    
-    // don't use visitRefExpr here to avoid confusion of the name as an operator
-    // with explicit generics. Instead, visit each part of the name.
-    RefExpr useName = term.getTheoremRef();
-    result.append(getName(useName.getName()));
-    if (useName.getExprList() != null && !useName.getZExprList().isEmpty())
-      result.append(getGenActuals(useName.getZExprList()));
-    if (term.getInstantiationList() != null)
-    {
-      fCurrInstKind.push(InstantiationKind.ThmReplacement);
-      if (!term.getInstantiationList().isEmpty())
-      {
-        result.append("[");
-        result.append(term.getInstantiationList().accept(this));
-        result.append("]");
-      }
-
-      assert !fCurrInstKind.isEmpty();
-      InstantiationKind k = fCurrInstKind.pop();
-      assert k.equals(InstantiationKind.ThmReplacement);
-    }
-    return result.toString();
-  }
-
-  @Override
-  public String visitWithCommand(WithCommand term)
-  {
-    assert term.getProofCommand() != null : "with command must have an inner command";
-    StringBuilder result = new StringBuilder("with ");
-    if (term.getExpr() != null)
-    {
-      assert term.getPred() == null : "with expression command cannot have pred"; // && term.getZNameList().isEmpty();
-      result.append("expression (");
-      result.append(getExpr(term.getExpr()));
-      result.append(") ");
-    }
-    else if (term.getPred() != null)
-    {
-      assert term.getExpr() == null : "with predicate command cannot have expr";
-      result.append("predicate (");
-      result.append(getPred(term.getPred()));
-      result.append(") ");
-    }
-    else if (term.getEnabled() != null)
-    {
-      assert term.getExpr() == null && term.getPred() == null
-             && term.getNameList() instanceof ZNameList && !term.getZNameList().isEmpty() : "with enabled/disabled command cannot have expr or pred and name list must not be empty";
-      result.append(term.getEnabled() ? "enabled " : "disabled ");
-      result.append("(");
-      result.append(getNameList(term.getZNameList().iterator(), true));
-      result.append(") ");
-    }
-    else
-    {
-      throw new ZEvesIncompatibleASTException(
-              "Unsupported with command: " + term);
-    }
-    result.append(term.getProofCommand().accept(this));
-    return result.toString();
-  }
-
-  @Override
-  public String visitSubstitutionCommand(SubstitutionCommand term)
-  {
-    assert term.getProofCommand() == null && term.getNameList() == null
-           || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
-    switch (term.getKind())
-    {
-      case Invoke:
-        assert term.getExpr() == null : "invoke command cannot have an expression";
-        if (term.getPred() != null)
-        {
-          return "invoke predicate " + getPred(term.getPred());
-        }
-        else if (term.getNameList() == null || term.getZNameList().isEmpty())
-        {
-          return "invoke";
-        }
-        else
-        {
-          assert term.getNameList() != null && term.getZNameList().size() == 1 : "invoke cmd only on a single name";
-          return "invoke " + getDefLHS(ZUtils.assertZName(term.getZNameList().get(0)));
-        }
-      case Equality:
-        assert term.getPred() == null : "equality substitute command cannot have a predicate";
-        if (term.getExpr() != null)
-        {
-          return "equality substitute " + getExpr(term.getExpr());
-        }
-        else
-        {
-          return "equality substitute";
-        }
-      default:
-        throw new ZEvesIncompatibleASTException(
-                "Unsupported substition command kind: " + term.getKind());
-    }
-  }
-
-  @Override
-  public String visitApplyCommand(ApplyCommand term)
-  {
-    assert term.getProofCommand() == null && term.getNameList() != null
-           && term.getNameList() instanceof ZNameList && term.getZNameList().size() == 1 : "apply command cannot have subcommand and must have a singleton Z namelist";
-    StringBuilder result = new StringBuilder("apply ");
-    result.append(getName(term.getZNameList().get(0)));
-    if (term.getPred() != null)
-    {
-      assert term.getExpr() == null : "apply to predicate cannot have an expression";
-      result.append(" to predicate ");
-      result.append(getPred(term.getPred()));
-    }
-    else if (term.getExpr() != null)
-    {
-      assert term.getPred() == null : "apply to expression cannot have an predicate";
-      result.append(" to expression "); // )");
-      result.append(getExpr(term.getExpr()));
-      // result.append(")");
-    }
-    return result.toString();
+    throw new ZEvesIncompatibleASTException(term.getClass().getName(), term);
   }
 
   /**

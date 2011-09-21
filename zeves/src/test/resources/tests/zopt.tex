@@ -15,7 +15,7 @@ Some weird uses of Z operators
 \end{theorem}
 
 \begin{zproof}[lZOpsinProof]
-  use finiteFunction[\nat, \nat][f := f (\_ \inv) [\nat, \nat]];
+  use finiteFunction[\nat, \nat][f := (\_ \inv) [\nat, \nat] f];
   prove by reduce;
 \end{zproof}
 

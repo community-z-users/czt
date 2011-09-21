@@ -51,7 +51,7 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   {
     String fileName = resource.getPath(); //getFile() returns the protocol as well
     List<String> result = new ArrayList<String>();
-    result = CZT2ZEves.runPrinter(fileName);
+    result = CZT2ZEves.runPrinter(fileName, true);
     System.out.println(result.size() + " Z/Eves command(s) created:\n");
     if (!result.isEmpty() && result.get(0).equals("ERRORS"))
     {

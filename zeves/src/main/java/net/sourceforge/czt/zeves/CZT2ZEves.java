@@ -52,8 +52,8 @@ public class CZT2ZEves {
     
     public static void main(String[] args) throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException {
         if (args.length >= 1) {
-            if (args.length > 1 && args[0].equals("-print")) {
-                List<String> result = runPrinter(args[1]);
+            if (args.length > 1 && args[0].startsWith("-print")) {
+                List<String> result = runPrinter(args[1], args[0].equals("-printAll"));
                 System.out.println(result.size() + " Z/Eves command(s) created:\n");
                 for(String s : result) {
                     System.out.println(s);
@@ -98,7 +98,7 @@ public class CZT2ZEves {
             System.out.println("Usage: '-print filename.tex', '-run' with properties file, or '-run server addr port'");
     }
     
-    public static List<String> runPrinter(String filename)
+    public static List<String> runPrinter(String filename, boolean printNarrParaAsComment)
     throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException
     {
         SectionManager manager = new SectionManager("zeves");
@@ -128,7 +128,7 @@ public class CZT2ZEves {
         }
         if (errors.isEmpty())
         {
-            result = specToZEvesXML(term, manager);            
+            result = specToZEvesXML(term, manager, printNarrParaAsComment);
         } else {
             result = new ArrayList<String>();
             result.add("ERRORS");
@@ -203,8 +203,8 @@ public class CZT2ZEves {
      * Although typeannotations are not needed for translation, we assume the given terms are well-typed.
      * This assumption can be weakened provided one implements a Z/Eves XML output to CZT AST parser.
      */
-    public static String termToZEvesXML(Term term, SectionInfo si) {
-        return sZEvesPrinter.print(term, si);
+    public static String termToZEvesXML(Term term, SectionInfo si, boolean printNarrParaAsComment) {
+        return sZEvesPrinter.print(term, si, printNarrParaAsComment);
     }
     
     /**
@@ -213,7 +213,7 @@ public class CZT2ZEves {
      * Although typeannotations are not needed for translation, we assume the given terms are well-typed.
      * This assumption can be weakened provided one implements a Z/Eves XML output to CZT AST parser.
      */
-    public static List<String> specToZEvesXML(Spec term, SectionInfo si) {
-        return sZEvesPrinter.printSpec(term, si);
+    public static List<String> specToZEvesXML(Spec term, SectionInfo si, boolean printNarrParaAsComment) {
+        return sZEvesPrinter.printSpec(term, si, printNarrParaAsComment);
     }
 }
