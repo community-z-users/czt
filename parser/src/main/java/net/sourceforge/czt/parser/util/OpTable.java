@@ -168,7 +168,12 @@ public class OpTable extends InfoTable
 
   public OperatorTokenType getTokenType(Decorword decorword)
   {
-    return opTokens_.get(decorword.getWord());
+    return getTokenType(decorword.getWord());
+  }
+
+  public OperatorTokenType getTokenType(String opNameNoArgs)
+  {
+    return opTokens_.get(opNameNoArgs);
   }
 
   public BigInteger getPrec(String opWord)
