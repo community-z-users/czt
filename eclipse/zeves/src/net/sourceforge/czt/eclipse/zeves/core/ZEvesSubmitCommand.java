@@ -41,10 +41,10 @@ public class ZEvesSubmitCommand extends AbstractSubmitCommand {
 	@Override
 	protected IStatus submitSpec(IProgressMonitor monitor, ZEvesApi zEvesApi, String filePath,
 			ZEvesSnapshot snapshot, int start, int end, IPositionProvider<Term> posProvider,
-			ZEvesMarkers markers, SectionManager sectInfo, Spec specification) {
+			ZEvesMarkers markers, IDocument document, SectionManager sectInfo, Spec specification) {
 
 		ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
-				zEvesApi, snapshot, markers, filePath, posProvider, sectInfo, 
+				zEvesApi, snapshot, markers, document, filePath, posProvider, sectInfo, 
 				start, end, monitor);
 
 		// wrap into try-finally, because OperationCanceledExpression

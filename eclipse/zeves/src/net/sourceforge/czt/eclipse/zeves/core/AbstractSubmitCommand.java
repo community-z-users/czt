@@ -146,7 +146,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 		try {
 			
 			return submitSpec(monitor, zEvesApi, filePath, snapshot, start, end, 
-					posProvider, markers, sectInfo, specification);
+					posProvider, markers, document, sectInfo, specification);
 			
 		} finally {
 			cancelMonitor.cancel();
@@ -159,8 +159,8 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	
 	protected abstract IStatus submitSpec(IProgressMonitor monitor, ZEvesApi zEvesApi,
 			String filePath, ZEvesSnapshot snapshot, int start, int end,
-			IPositionProvider<Term> posProvider, ZEvesMarkers markers, SectionManager sectInfo,
-			Spec specification);
+			IPositionProvider<Term> posProvider, ZEvesMarkers markers, IDocument document,
+			SectionManager sectInfo, Spec specification);
 
 	private Timer initCancelMonitor(final ZEvesApi zEvesApi, final IProgressMonitor monitor) {
 		

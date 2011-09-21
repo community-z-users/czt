@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
@@ -53,6 +54,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	private final ZEvesApi api;
 	private final ZEvesSnapshot snapshot;
 	private final ZEvesMarkers markers;
+	private final IDocument document;
 	
 	private final String filePath;
 	private final SectionManager sectInfo;
@@ -64,7 +66,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	private static final long FLUSH_INTERVAL = 500;
 	private long lastFlush = 0;
 	
-	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesMarkers markers,
+	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesMarkers markers, IDocument document,
 			String filePath, IPositionProvider<? super Term> posProvider, SectionManager sectInfo, 
 			int startOffset, int endOffset, IProgressMonitor progressMonitor) {
     	
@@ -72,6 +74,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		this.api = api;
 		this.snapshot = snapshot;
 		this.markers = markers;
+		this.document = document;
 		
 		this.filePath = filePath;
 		this.sectInfo = sectInfo;
@@ -177,19 +180,29 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    	
 	    	// TODO resolve parent loops somehow?
 	    	
-	    	IResource resource = null;
+	    	IFile parentResource = null;
 	    	List<IFile> files = ResourceUtil.findFile(parentFilePath);
 	    	if (files.size() > 0) {
 	    		// take the first one found
 	    		// TODO support multiple resources (e.g. the same file is several times in the workspace)?
-	    		resource = files.get(0);
+	    		parentResource = files.get(0);
 	    	}
 	    	
-	    	// TODO resolve document somehow?
-	    	IDocument document = null;
+	    	IDocument parentDocument = null;
+	    	if (parentResource != null) {
+	    		TextFileDocumentProvider documentProvider = new TextFileDocumentProvider();
+	    		try {
+					documentProvider.connect(parentResource);
+					parentDocument = documentProvider.getDocument(parentResource);
+				} catch (CoreException e) {
+					// ignore?
+					ZEvesPlugin.getDefault().log(e);
+				}
+	    	}
 	    	
-	    	ZEvesMarkers parentAnns = resource != null ? new ZEvesMarkers(resource, document) : null;
-	    	IPositionProvider<Term> parentPosProvider = new TermPositionProvider(document);
+	    	ZEvesMarkers parentAnns = parentResource != null ? 
+	    			new ZEvesMarkers(parentResource, parentDocument) : null;
+	    	IPositionProvider<Term> parentPosProvider = new TermPositionProvider(parentDocument);
 	    	
 	    	Position parentSectPos = parentPosProvider.getPosition(parentSect);
 
@@ -209,8 +222,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    	int endOffset = getEnd(parentSectPos) + 1;
 	    	
 	    	ZEvesExecVisitor parentExec = new ZEvesExecVisitor(
-	    			api, snapshot, parentAnns, parentFilePath, 
-	    			parentPosProvider, sectInfo, 
+	    			api, snapshot, parentAnns, parentDocument, 
+	    			parentFilePath, parentPosProvider, sectInfo, 
 	    			startOffset, endOffset, progressMonitor);
 	    	
 	    	try {
@@ -309,6 +322,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	@Override
 	protected void visitProofScriptEnd(ProofScript term, Position pos) {
 		
+		pos = adaptFullLine(pos);
 		MarkerInfo unfinishedMarker = markUnfinished(pos);
 		
 		try {
@@ -317,7 +331,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		
 			try {
 				boolean goalProved = api.getGoalProvedState(theoremName);
-				handleResult(pos, "Proved: " + goalProved);
+				if (!goalProved) {
+					// do not display that goal is proved, instead just show an error otherwise,
+					// i.e. if proof script end reached without having proved the goal
+					handleZEvesException(pos, term, 
+							new ZEvesException("Goal " + theoremName + " not proved"), true);
+				}
 				checkCancelled();
 			} catch (ZEvesException e) {
 				handleZEvesException(pos, term, e, false);
@@ -326,6 +345,38 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		} finally {
 			markFinished(unfinishedMarker);
 		}
+	}
+	
+	private Position adaptFullLine(Position pos) {
+
+		if (document == null) {
+			return pos;
+		}
+		
+		try {
+			int line = document.getLineOfOffset(pos.getOffset());
+			int lineStart = document.getLineOffset(line);
+			if (lineStart >= pos.getOffset()) {
+				// already full line
+				return pos;
+			}
+			
+			// starting in the middle of the line - get the next line
+			if (line < document.getNumberOfLines() - 1) {
+				int nextLine = line + 1;
+				int nextLineStart = document.getLineOffset(nextLine);
+				int posEnd = getEnd(pos);
+				if (nextLineStart <= posEnd) {
+					return new Position(nextLineStart, posEnd - nextLineStart);
+				}
+			}
+			
+		} catch (BadLocationException e) {
+			// ignore
+		}
+		
+		// invalid - return previous
+		return pos;
 	}
     
     @Override
