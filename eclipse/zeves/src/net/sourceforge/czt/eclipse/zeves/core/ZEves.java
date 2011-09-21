@@ -1,6 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
+
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesServer;
@@ -17,6 +18,8 @@ public class ZEves {
 	
 	public void stop() {
 		
+		getExecutor().clear();
+		
 		if (api != null) {
 			try {
 				api.disconnect();
@@ -29,12 +32,19 @@ public class ZEves {
 		if (server != null) {
 			server.stop();
 		}
+		
+		// finally, execute the reset command
+		getExecutor().addCommand(new ZEvesResetCommand());
+	}
+	
+	public boolean isLaunched() {
+		return starting || isRunning();
 	}
 
 	public boolean isRunning() {
 		
 		// TODO check server state?
-		return starting || (api != null && api.isConnected());// && server != null && server.isRunning());
+		return api != null && api.isConnected();// && server != null && server.isRunning());
 	}
 	
 	public void setApi(ZEvesApi api) {
