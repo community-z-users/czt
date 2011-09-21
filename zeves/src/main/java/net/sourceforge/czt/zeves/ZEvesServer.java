@@ -2,6 +2,7 @@
 package net.sourceforge.czt.zeves;
 
 import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * The class for Z/Eves server process management. It launches the given Z/Eves
@@ -18,6 +19,11 @@ public class ZEvesServer
   private final int port;
 
   private Process process;
+  
+  private CopyOnWriteArraySet<ZEvesServerListener> listeners = 
+      new CopyOnWriteArraySet<ZEvesServerListener>();
+  
+  private boolean userStop = false;
 
   public ZEvesServer(String zEvesExecCommand, int port)
   {
@@ -35,8 +41,11 @@ public class ZEvesServer
 
     System.out.println("Starting Z/Eves server with command: " + fullZEvesCommand);
 
+    userStop = false;
     process = Runtime.getRuntime().exec(fullZEvesCommand);
 
+    fireServerStarted();
+    
     // wait for the process to die in another thread
     Thread exitWaiter = new Thread(new ProcessExitWaiter());
     exitWaiter.start();
@@ -49,19 +58,45 @@ public class ZEvesServer
       return;
     }
 
+    userStop = true;
     process.destroy();
+    
+    fireServerStopped(true);
   }
 
   public boolean isRunning()
   {
     return process != null;
   }
+  
+  public void addServerListener(ZEvesServerListener listener)
+  {
+    this.listeners.add(listener);
+  }
+  
+  public void removeServerListener(ZEvesServerListener listener)
+  {
+    this.listeners.remove(listener);
+  }
+  
+  private void fireServerStarted()
+  {
+    ZEvesServerEvent event = new ZEvesServerEvent(this, true);
+    for (ZEvesServerListener listener : listeners) {
+      listener.serverStarted(event);
+    }
+  }
 
+  private void fireServerStopped(boolean user)
+  {
+    ZEvesServerEvent event = new ZEvesServerEvent(this, user);
+    for (ZEvesServerListener listener : listeners) {
+      listener.serverStopped(event);
+    }
+  }
 
   /**
    * Waits for the Z/Eves server process to terminate.
-   * 
-   * TODO Extended to notify users or restart the server.
    * 
    * @author Andrius Velykis
    */
@@ -77,6 +112,11 @@ public class ZEvesServer
           process = null;
 
           System.out.println("Z/Eves server process has terminated.");
+          
+          if (!userStop) {
+            // server died - not stopped by the user, thus report
+            fireServerStopped(false);
+          }
 
           Thread.currentThread().interrupt();
           return;
