@@ -47,7 +47,7 @@ public class SendSelectionProofCommand extends SendProofCommand {
 		}
 		
 		String param = ZEvesResultConverter.printResult(sectInfo, sectName, selTerm,
-				editor.getMarkup(), -1);
+				editor.getMarkup(), -1, false);
 		
 		return String.format(proofCommand, param.trim());
 	}

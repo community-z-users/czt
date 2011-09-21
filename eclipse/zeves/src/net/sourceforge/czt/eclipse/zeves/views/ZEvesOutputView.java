@@ -441,7 +441,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			String sectName = proofResult.getSectionName();
 			
 			String param = ZEvesResultConverter.printResult(sectInfo, sectName, term,
-					editor.getMarkup(), -1);
+					editor.getMarkup(), -1, false);
 			
 			String proofCommand = getProofCmd(param.trim());
 			try {

@@ -528,7 +528,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		String resultZEves = firstResult.toString();
 		
 		try {
-			return ZEvesResultConverter.convertPred(sectInfo, sectName, resultZEves, Markup.UNICODE, 80);
+			return ZEvesResultConverter.convertPred(sectInfo, sectName, resultZEves, Markup.UNICODE, 80, true);
 		} catch (IOException e) {
 			ZEvesPlugin.getDefault().log(e);
 			throw handleParseException("I/O problems parsing Z/Eves result: " + e.getMessage(), e, resultZEves);

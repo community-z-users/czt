@@ -93,42 +93,63 @@ public class ZEvesResultConverter {
 	}
 	
 	public static String printResult(SectionManager sectInfo, String sectName, Term term, 
-			Markup markup, int textWidth) {
+			Markup markup, int textWidth, boolean display) {
 
 		SectionManager sectMan = sectInfo.clone();
 
 		sectMan.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, String.valueOf(textWidth));
 		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
 		
-		// just need this property set, but it isn't working :-(... see ZEves parser LatexScannerDebugger.java debugPrinter
+		// set pretty-printing for structured goals
 		sectMan.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL, "true");
 
 		StringWriter out = new StringWriter();
 
 		PrintUtils.print(term, out, sectMan, sectName, markup);
 
-		return out.toString();
+		return postprocessOutput(out.toString(), markup, display);
+	}
+	
+	private static String postprocessOutput(String result, Markup markup, boolean display) {
+		result = result.replace("[ ", "[").replace(" ]", "]")//.replace(" [", "[")
+				       .replace(" ,", ",").replace(" ;", ";")
+				       .replace("( ", "(").replace(" )", ")")
+				       .replace("{ ", "{").replace(" }", "}")
+				       .replace(" : ", ": ");
+				       
+		if (markup == Markup.LATEX) {
+			result = result.replace("\\_ \\_ ", "\\_\\_");
+			
+			if (display) {
+				// clear \t0 .. \t9 symbols
+				for (int index = 0; index <= 9; index++) {
+					result = result.replace("\\t" + index, "");
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	public static String convertPred(SectionManager sectInfo, String sectName, String zEvesPredStr,
-			Markup markup, int textWidth) throws IOException, CommandException {
+			Markup markup, int textWidth, boolean display) throws IOException, CommandException {
 		
 		Pred pred = parseZEvesPred(sectInfo, sectName, zEvesPredStr);
-		return printResult(sectInfo, sectName, pred, markup, textWidth);
+		return printResult(sectInfo, sectName, pred, markup, textWidth, display);
 	}
 	
 	public static String convertExpr(SectionManager sectInfo, String sectName, String zEvesExprStr,
-			Markup markup, int textWidth) throws IOException, CommandException {
+			Markup markup, int textWidth, boolean display) throws IOException, CommandException {
 		
 		Expr expr = parseZEvesExpr(sectInfo, sectName, zEvesExprStr);
-		return printResult(sectInfo, sectName, expr, markup, textWidth);
+		return printResult(sectInfo, sectName, expr, markup, textWidth, display);
 	}
 	
 	public static String convert(SectionManager sectInfo, String sectName, String zEvesStr,
-			Markup markup, int textWidth) throws IOException, CommandException {
+			Markup markup, int textWidth, boolean display) throws IOException, CommandException {
 		
 		Term term = parseZEvesResult(sectInfo, sectName, zEvesStr);
-		return printResult(sectInfo, sectName, term, markup, textWidth);
+		return printResult(sectInfo, sectName, term, markup, textWidth, display);
 	}
 	
 }

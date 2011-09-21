@@ -407,7 +407,7 @@ public class ZEditorResults {
 			String str = elem.toString();
 			
 			try {
-				return ZEvesResultConverter.convert(sectInfo, sectName, str, markup, textWidth);
+				return ZEvesResultConverter.convert(sectInfo, sectName, str, markup, textWidth, true);
 			} catch (IOException e) {
 				// ignore here?
 			} catch (CommandException e) {
@@ -436,7 +436,7 @@ public class ZEditorResults {
 		String str = result.toString();
 		
 		try {
-			return ZEvesResultConverter.convertPred(sectInfo, sectName, str, markup, textWidth);
+			return ZEvesResultConverter.convertPred(sectInfo, sectName, str, markup, textWidth, true);
 		} catch (IOException e) {
 			ZEvesPlugin.getDefault().log(e);
 			return withWarning("I/O problems parsing Z/Eves result: " + e.getMessage(), str);
