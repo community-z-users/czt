@@ -92,6 +92,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	private Label cmdField;
 	private Label infoField;
 	
+	private boolean showProofInfo;
     private boolean showOutputSelection;
 
 	@Override
@@ -418,8 +419,8 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     	}
     	
     	boolean showing = !infoControlData.exclude;
-    	if (showOutputSelection != showing) {
-    		infoControlData.exclude = !showOutputSelection;
+    	if (showProofInfo != showing) {
+    		infoControlData.exclude = !showProofInfo;
     		main.layout(true);
     	}
     }
@@ -444,11 +445,11 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		 */
 		@Override
 		public void run() {
-			setShowProofInfo(!showOutputSelection);
+			setShowProofInfo(!showProofInfo);
 		}
 
 		private void setShowProofInfo(boolean show) {
-			showOutputSelection = show;
+			showProofInfo = show;
 			setChecked(show);
 			
 			updateProofInfoPane();
