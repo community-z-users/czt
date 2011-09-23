@@ -40,6 +40,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Fixity;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
@@ -289,6 +290,7 @@ public class AstToPrintTreeVisitor
    * expression with Mixfix set to <code>false</code>) into an
    * Application.
    */
+  @Override
   public Term visitApplExpr(ApplExpr applExpr)
   {
     final boolean isFunctionApplication =
@@ -586,6 +588,7 @@ public class AstToPrintTreeVisitor
     return ! axPara.getName().isEmpty();
   }
 
+  @Override
   public Term visitMemPred(MemPred memPred)
   {
     final Precedence precedence = getPrec(memPred);
@@ -640,6 +643,7 @@ public class AstToPrintTreeVisitor
    * reference expression with Mixfix set to <code>true</code> into an
    * OperatorApplication.
    */
+  @Override
   public Term visitRefExpr(RefExpr refExpr)
   {
     final boolean isGenericOperatorApplication =
@@ -659,6 +663,7 @@ public class AstToPrintTreeVisitor
   /**
    * Sets up the operator table for this Z section.
    */
+  @Override
   public Term visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
@@ -693,7 +698,7 @@ public class AstToPrintTreeVisitor
   protected boolean isInfix(OperatorName opName)
   {
     if (opName == null) return false;
-    return OperatorName.Fixity.INFIX.equals(opName.getFixity());
+    return Fixity.INFIX.equals(opName.getFixity());
   }
 
   /**
@@ -702,7 +707,7 @@ public class AstToPrintTreeVisitor
   private OpTable getOpTable(String name)
   {
     try {
-      return (OpTable) sectInfo_.get(new Key(name, OpTable.class));
+      return sectInfo_.get(new Key<OpTable>(name, OpTable.class));
     }
     catch (CommandException exception) {      
       warningManager_.warn("Cannot get operator table for {0}; try to print anyway ... ", name);      

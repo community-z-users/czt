@@ -29,6 +29,7 @@ import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.Fixity;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -71,18 +72,21 @@ public class PrecedenceParenAnnVisitor
    * and adds ParenAnn to terms where this is
    * needed to enforce the given precedence and
    * associativity.</p>
+   * @param term
    */
   public void run(Term term)
   {
     term.accept(this);
   }
 
+  @Override
   public Object visitTerm(Term term)
   {
     VisitorUtils.visitTerm(this, term);
     return null;
   }
 
+  @Override
   public Object visitPred(Pred term)
   {
     VisitorUtils.visitTerm(this, term);
@@ -90,6 +94,7 @@ public class PrecedenceParenAnnVisitor
     return null;
   }
 
+  @Override
   public Object visitExpr(Expr term)
   {
     VisitorUtils.visitTerm(this, term);
@@ -118,6 +123,7 @@ public class PrecedenceParenAnnVisitor
     }
   }
 
+  @Override
   public Object visitApplication(Application appl)
   {
     VisitorUtils.visitTerm(this, appl);
@@ -132,9 +138,10 @@ public class PrecedenceParenAnnVisitor
   protected boolean isInfix(OperatorName opName)
   {
     if (opName == null) return false;
-    return OperatorName.Fixity.INFIX.equals(opName.getFixity());
+    return Fixity.INFIX.equals(opName.getFixity());
   }
 
+  @Override
   public Object visitOperatorApplication(OperatorApplication appl)
   {
     VisitorUtils.visitTerm(this, appl);
@@ -170,6 +177,7 @@ public class PrecedenceParenAnnVisitor
     return null;
   }
 
+  @Override
   public Object visitProdExpr(ProdExpr prodExpr)
   {
     VisitorUtils.visitTerm(this, prodExpr);
