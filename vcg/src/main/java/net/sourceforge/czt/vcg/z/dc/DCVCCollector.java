@@ -20,7 +20,6 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
@@ -47,7 +46,6 @@ import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.NegPred;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.OrPred;
 import net.sourceforge.czt.z.ast.Qnt1Expr;
 import net.sourceforge.czt.z.ast.QntPred;
@@ -62,7 +60,6 @@ import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
-import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.TermTransformer;
@@ -94,7 +91,6 @@ import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.MuExprVisitor;
 import net.sourceforge.czt.z.visitor.NegPredVisitor;
 import net.sourceforge.czt.z.visitor.NumExprVisitor;
-import net.sourceforge.czt.z.visitor.OptempParaVisitor;
 import net.sourceforge.czt.z.visitor.OrPredVisitor;
 import net.sourceforge.czt.z.visitor.Qnt1ExprVisitor;
 import net.sourceforge.czt.z.visitor.QntPredVisitor;
@@ -112,6 +108,7 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.util.Fixity;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 
@@ -323,9 +320,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
           if (opName != null)
           {
             String opNameWord;
-            OperatorName.Fixity fixity = opName.getFixity();
+            Fixity fixity = opName.getFixity();
             // if it has fixture, check weather to get first, last or middle argument
-            if (!fixity.equals(OperatorName.Fixity.NOFIX))
+            if (!fixity.equals(Fixity.NOFIX))
             {
               String [] names = opName.getWords();
               // if infix / prefix, get the name
