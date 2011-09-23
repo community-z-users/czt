@@ -10,7 +10,7 @@
    * if this name is an operator name, <code>null</code> otherwise.
    */
   net.sourceforge.czt.z.util.OperatorName getOperatorName(
-    net.sourceforge.czt.z.util.OperatorName.Fixity fixity);
+    net.sourceforge.czt.z.util.Fixity fixity);
   
   /**
    * This is a convenience method.

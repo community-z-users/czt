@@ -10,7 +10,7 @@
   }
   
   public net.sourceforge.czt.z.util.OperatorName getOperatorName(
-    net.sourceforge.czt.z.util.OperatorName.Fixity fixity)
+    net.sourceforge.czt.z.util.Fixity fixity)
   {
     try {
       return new net.sourceforge.czt.z.util.OperatorName(this.getWord(), this.getStrokeList(), fixity);
