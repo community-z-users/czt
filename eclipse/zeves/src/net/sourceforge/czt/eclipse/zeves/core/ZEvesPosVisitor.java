@@ -69,6 +69,11 @@ public class ZEvesPosVisitor implements
     	
     	return pos.overlapsWith(rangeOffset, rangeLength);
     }
+    
+    protected void processLatexMarkupPara(LatexMarkupPara p, Position sectPos)
+    {
+    	// do nothing
+    }
 
 	/**
      * Throws an exception for unexpected items.
@@ -116,6 +121,7 @@ public class ZEvesPosVisitor implements
         	
 			Position pPos = getPosition(p);
 			if (pPos == null) {
+				if (p instanceof LatexMarkupPara) processLatexMarkupPara((LatexMarkupPara)p, pos);
 				continue;
 			}
 			

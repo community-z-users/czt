@@ -25,6 +25,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -240,6 +241,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	
 		return null;
 	}
+    
+    @Override
+    protected void processLatexMarkupPara(LatexMarkupPara p, Position sectPos)
+    {
+    	//visitPara(p, sectPos);
+    }
+
 
 	@Override
 	protected void visitPara(Para term, Position pos) {
