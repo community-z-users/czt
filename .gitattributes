@@ -5,6 +5,7 @@ attic/domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
 attic/domainchecker/src/test/resources/tests/z/basicsm.tex -text
 attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusLaw.java -text
+corejava/src/main/java/net/sourceforge/czt/z/util/Fixity.java -text
 corejava/src/main/java/net/sourceforge/czt/z/util/WarningManager.java -text
 corejava/src/main/java/net/sourceforge/czt/zeves/jaxb/JaxbContext.java -text
 corejava/src/main/java/net/sourceforge/czt/zeves/jaxb/JaxbXmlReader.java -text

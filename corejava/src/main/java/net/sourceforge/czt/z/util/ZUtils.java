@@ -716,6 +716,11 @@ public final class ZUtils
     return term instanceof TupleExpr;
   }
 
+  public static boolean isBindSelExpr(Term term)
+  {
+    return term instanceof BindSelExpr;
+  }
+
   public static boolean isMemPred(Term term)
   {
     return term instanceof MemPred;
@@ -866,10 +871,15 @@ public final class ZUtils
     boolean result = isApplExpr(term);
     if (result) {
       ApplExpr appl = (ApplExpr) term;
+      Expr lhs = appl.getLeftExpr();
       result = (!appl.getMixfix() &&
                 // explicit ApplExpr
-                ((isRefExpr(appl.getLeftExpr()) &&
-                  !((RefExpr) appl.getLeftExpr()).getMixfix())
+                ((isRefExpr(lhs) &&
+                  !((RefExpr) lhs).getMixfix())
+                    ||
+                 (isBindSelExpr(lhs))
+                    ||
+                 (isTupleExpr(lhs))
                 //  ||
                 // nested application expression
                 //  (isApplicationExprValid(appl))
@@ -924,8 +934,8 @@ public final class ZUtils
       ApplExpr appl = (ApplExpr)term;
       result = appl.getLeftExpr();
       // either it's is a RefExpr or a nested ApplExpr. If neither, then error!
-      // ! (!isRefExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
-      if (!(isRefExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
+      // ! (!isRefExpr(result) && !isBindSelExpr(result) && !isTupleSelExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
+      if (!(isRefExpr(result) || isBindSelExpr(result) || isTupleExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
         throw new UnsupportedAstClassException("Invalid ApplExpr " + term);
     }
     return result;

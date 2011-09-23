@@ -90,6 +90,7 @@ public class OperatorName
    * @param strokes the strokes of this operator name
    *                (can be <code>null</code>).
    * @param fixity must be INFIX, PREFIX, or POSTFIX.
+   * @throws net.sourceforge.czt.z.util.OperatorName.OperatorNameException
    */
   public OperatorName(String name, StrokeList strokes, Fixity fixity)
     throws OperatorNameException
@@ -234,6 +235,7 @@ public class OperatorName
     return list_.toArray(new String[0]);
   }
 
+  @Override
   public String toString()
   {
     return getWord();
@@ -260,48 +262,6 @@ public class OperatorName
     public OperatorNameException(Throwable cause)
     {
       super(cause);
-    }
-  }
-
-  /**
-   * A typesafe enumeration of fixity.
-   */
-  public static final class Fixity
-  {
-    public static final Fixity PREFIX = new Fixity("PREFIX");
-    public static final Fixity POSTFIX = new Fixity("POSTFIX");
-    public static final Fixity INFIX = new Fixity("INFIX");
-    public static final Fixity NOFIX = new Fixity("NOFIX");
-    private final String name_;
-
-    /**
-   * Only this class can construct instances.
-   */
-    private Fixity(String name)
-    {
-      name_ = name;
-    }
-
-    public String toString()
-    {
-      return name_;
-    }
-
-    public static Fixity fromString(java.lang.String value)
-    {
-      if (value.equals("PREFIX")) {
-        return PREFIX;
-      }
-      if (value.equals("POSTFIX")) {
-        return POSTFIX;
-      }
-      if (value.equals("INFIX")) {
-        return INFIX;
-      }
-      if (value.equals("NOFIX")) {
-        return NOFIX;
-      }
-      throw new IllegalArgumentException();
     }
   }
 }
