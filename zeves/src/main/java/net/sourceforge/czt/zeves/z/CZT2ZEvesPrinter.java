@@ -2722,13 +2722,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         Operator opt = (Operator)op;
         opName = opt.getWord();
         opExtra = opName;
-        if (latexMarkupDirectives_.containsKey(opName))
-        {
-          opDirective = latexMarkupDirectives_.get(opName);
-          // get the Latex command name instead of unicode
-          opName = opDirective.getFirst();
-          // opExtra already contains the previous Unicode opName
-        }
+//        if (latexMarkupDirectives_.containsKey(opName))
+//        {
+//          opDirective = latexMarkupDirectives_.get(opName);
+//          // get the Latex command name instead of unicode
+//          opExtra = opDirective.getFirst();
+//          // opExtra already contains the previous Unicode opName
+//        }
         opsComment.append(opName);
       }
       else if (op instanceof Operand)
@@ -2820,6 +2820,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           break;
       }
     }
+    assert opName != null && opClass != null && opExtra != null;
     opsComment.append(" ");
     opsComment.append(opExtra);
     final String cmt = comment("Original operator template",
@@ -3301,12 +3302,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       assert old == null;
 
       boolean addOpTemp = d.getType().equals(DirectiveType.NONE);
-      final String comment = comment("Original LaTeX markup directive " + (addOpTemp ? " added as operator template" : " to be used by OpTempPara"),
+      final String comment = comment("Original LaTeX markup directive ", // + (addOpTemp ? " added as operator template" : " to be used by OpTempPara"),
               format(LATEX_MARKUP_DIRECTIVE_COMMENT, getDirectiveType(d.getType(), d.getUnicode().startsWith("U+")), d.getCommand(), d.getUnicode()));
       result.append(comment);
-      if (addOpTemp)
+      if (addOpTemp && false)// never for now.
       {
-        // add it as word syndef
+        // add it as word syndef as word
         final String opTemp = wrapPara(format(OEPRATOR_TEMPLATE_PATTERN, d.getCommand(), "word", d.getUnicode()));
         result.append(opTemp);
         result.append(NL_SEP);
@@ -3396,9 +3397,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     printingNarrPara_ = v;
   }
   
-  public final void setSectionName(String sectionName) {
-    fSectionName = sectionName;
-    reset();
+  public final void setSectionName(String sectionName)
+  {
+    if (fSectionName == null || sectionName == null || !sectionName.equals(fSectionName))
+    {
+      fSectionName = sectionName;
+      reset();
+    }
   }
 
   /* Special Terms */
