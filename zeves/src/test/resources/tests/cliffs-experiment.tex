@@ -3,10 +3,10 @@
    \SECTION cliffs\_experiment \parents~zeves\_toolkit
 \end{zsection}
 
-\syndef{isDisj}{prerel}{isDisj}
+syndef{\isDisj}{prerel}{isDisj}
 %%Zpreword \isDisj isDisj
 \begin{zed}
-  \relation ( isDisj \varg )
+  \relation ( \isDisj \varg )
 \end{zed}
 
 \begin{gendef}[X]
@@ -15,10 +15,10 @@
   \Label{disabled rule dIsDisj}  \forall  s1, s2: \power  X @ (\isDisj~ (s1, s2)) \iff  s1 \cap  s2 = \{\}
 \end{gendef}
 
-\syndef{isPrDisj}{prerel}{isPrDisj}
+syndef{\isPrDisj}{prerel}{isPrDisj}
 %%Zpreword \isPrDisj isPrDisj
 \begin{zed}
-  \relation ( isPrDisj \varg )
+  \relation ( \isPrDisj \varg )
 \end{zed}
 
 \begin{gendef}[X]
@@ -27,7 +27,7 @@
   \Label{disabled rule dIsPart}  \forall  ss: \power~  (\power~  X) @ (\isPrDisj~ ss) \iff  (\forall  p1, p2: ss @ p1 = p2 \lor  (\isDisj~ (p1, p2)))
 \end{gendef}
 
-\syndef{PartNo}{pregen}{PartNo}
+\syndef{\PartNo}{pregen}{PartNo}
 %%Zpreword \PartNo PartNo
 \begin{zed}
   \generic ( \PartNo \varg )
@@ -60,10 +60,10 @@ prove;
 next;
 \end{zproof}
 
-\syndef{t}{prerel}{t}
+\syndef{\t}{prerel}{t}
 %%Zpreword \t t
 \begin{zed}
-   \relation (t \varg)
+   \relation (\t \varg)
 \end{zed}
 
 \syndef{\Test}{pregen}{Test}

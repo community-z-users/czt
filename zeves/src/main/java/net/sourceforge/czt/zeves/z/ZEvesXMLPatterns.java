@@ -36,7 +36,8 @@ public interface ZEvesXMLPatterns {
 
     /* Operator templates */
     public static final String OPERATOR_TEMPLATE_COMMENT = "{0} {1} {2} ({3})";
-    public static final String OEPRATOR_TEMPLATE_PATTERN = "<syntax-def>{0} {1} {0}</syntax-def>";
+    public static final String OEPRATOR_TEMPLATE_PATTERN = "<syntax-def>{0} {1} {2}</syntax-def>";
+    public static final String LATEX_MARKUP_DIRECTIVE_COMMENT = "{0} {1} {2}";
 
     public static final String ZEVES_PROOF_PART_PATTERN = "<proof-part/> {0}";
 
@@ -80,8 +81,11 @@ public interface ZEvesXMLPatterns {
      * {3} = gen-formals     => getGenFormals(term.getZName());
      * {4} = zboxItemSymbol  => "&eqhat;" | "=="
      * {5} = zboxItemExpr    => getExpr(((ConstDecl)term.getZSchText().getZDeclList()).getExpr());
+     *
+     * For postix, genformals appear early. For prefix, we have a different production with an extra parameter
      */
     public static final String ZED_BOX_HORIZONTAL_PATTERN = "<zed-box {0} {1}>{2} {3} {4} {5}</zed-box>";
+    public static final String ZED_BOX_INFIXGENOP_HORIZONTAL_PATTERN = "<zed-box {0} {1}>{2} {3} {4} {5} {6}</zed-box>";
     
     /**
      * {0} = location        => getLocation(term);

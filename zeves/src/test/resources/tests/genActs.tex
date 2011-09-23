@@ -3,6 +3,11 @@
   \SECTION genActs \parents standard\_toolkit
 \end{zsection}
 
+Unfortunately, it's not possible (???) to have mixfix ApplExpr with explicit generic
+\begin{theorem}{catGen}[X]
+ (\_ \cat \_)[X] (s,t) = s
+\end{theorem}
+
 \begin{theorem}{prefixGen}[X]
      \forall A: \power~X @ \forall S: \finset~A @ \#~S = (\# \_)[A]~S
 \end{theorem}
@@ -29,7 +34,6 @@ $
 
 which CZT fails to parser because of the explicit generics in the wrong place :-(
 \begin{zproof}[prefixGen]
-   invoke (\#~\_);
    use sizeDef[X];
 \end{zproof}
 
@@ -39,10 +43,13 @@ line 1 column 27: Syntax error in variable declaration at token RSQUARE; an expr
 line 1 column 70: Syntax error at symbol RSQUARE
 ***
 
-
 \begin{theorem}{postfixGen}[X,Y]
    \forall f: X \pfun Y @ q = f\inv
 \end{theorem}
+
+\begin{zproof}[postfixGen]
+   invoke (\_ \pfun \_);
+\end{zproof}
 
 \begin{theorem}{postfixGen2}[X,Y]
     q = (\_~\inv)[X,Y] f

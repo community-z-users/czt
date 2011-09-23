@@ -1,0 +1,16 @@
+\begin{zsection}
+ \SECTION bindSel \parents zeves\_toolkit, set\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+ x : \nat \fun \nat
+\end{schema}
+
+\begin{theorem}{bindSel1}
+\forall a : \nat; s : S @ s.x~a > 0
+\end{theorem}
+
+
+\begin{theorem}{bindSel2}
+  \forall a : \nat; S @ \theta S.x~a > 0
+\end{theorem}
