@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves.response.para;
 
 import java.util.ArrayList;
@@ -20,63 +21,67 @@ import net.sourceforge.czt.zeves.response.form.ZEvesName;
  * @author Andrius Velykis
  */
 @XmlRootElement(name = "abbrevdef")
-public class ZEvesAbbrevDef {
+public class ZEvesAbbrevDef
+{
 
-	/**
-	 * <!ATTLIST abbrevdef type (var | pregen | ingen) "var">
-	 * 
-	 * @author Andrius Velykis
-	 */
-	public enum AbbrevType {
-		@XmlEnumValue("var")
-		VAR,
-		@XmlEnumValue("pregen")
-		PREGEN,
-		@XmlEnumValue("ingen")
-		INGEN;
-		
-		public static String getInfo(AbbrevType type) {
-			if (type == null) {
-				return "";
-			}
-			
-			return "[" + type.toString().toLowerCase() + "] ";
-		}
-	}
-	
-	/**
-	 * <!ATTLIST abbrevdef %ability;>
-	 */
-	@XmlAttribute
-	private ZEvesAbility ability;
-	
-	/**
-	 * <!ATTLIST abbrevdef type (var | pregen | ingen) "var">
-	 */
-	@XmlAttribute
-	private AbbrevType type = AbbrevType.VAR;
-	
-	@XmlElement(required = true)
-	private ZEvesName name;
-	
-	/**
-	 * <!ELEMENT formals (name+)>
-	 */
-	@XmlElementWrapper(name = "formals")
-	@XmlElement(name = "name")
-	private List<ZEvesName> formals = new ArrayList<ZEvesName>();
-	
-	@XmlAnyElement(lax = true)
-	private Object form;
-	
-	@Override
-	public String toString() {
-		
-		String formalsStr = !formals.isEmpty() ? 
-				"[" + ZEvesResponseUtil.concat(formals, ", ") + "]" : "";
+  /**
+   * <!ATTLIST abbrevdef type (var | pregen | ingen) "var">
+   * 
+   * @author Andrius Velykis
+   */
+  public enum AbbrevType {
+    @XmlEnumValue("var")
+    VAR, 
+    @XmlEnumValue("pregen")
+    PREGEN, 
+    @XmlEnumValue("ingen")
+    INGEN;
 
-		return ZEvesAbility.getInfo(ability) + "abbreviation " + AbbrevType.getInfo(type)
-				+ String.valueOf(name) + formalsStr + "\n" + String.valueOf(form) + "\n";
-	}
-	
+    public static String getInfo(AbbrevType type)
+    {
+      if (type == null) {
+        return "";
+      }
+
+      return "[" + type.toString().toLowerCase() + "] ";
+    }
+  }
+
+  /**
+   * <!ATTLIST abbrevdef %ability;>
+   */
+  @XmlAttribute
+  private ZEvesAbility ability;
+
+  /**
+   * <!ATTLIST abbrevdef type (var | pregen | ingen) "var">
+   */
+  @XmlAttribute
+  private AbbrevType type = AbbrevType.VAR;
+
+  @XmlElement(required = true)
+  private ZEvesName name;
+
+  /**
+   * <!ELEMENT formals (name+)>
+   */
+  @XmlElementWrapper(name = "formals")
+  @XmlElement(name = "name")
+  private List<ZEvesName> formals = new ArrayList<ZEvesName>();
+
+  @XmlAnyElement(lax = true)
+  private Object form;
+
+  @Override
+  public String toString()
+  {
+
+    String formalsStr = !formals.isEmpty()
+        ? "[" + ZEvesResponseUtil.concat(formals, ", ") + "]"
+        : "";
+
+    return ZEvesAbility.getInfo(ability) + "abbreviation " + AbbrevType.getInfo(type)
+        + String.valueOf(name) + formalsStr + "\n" + String.valueOf(form) + "\n";
+  }
+
 }
