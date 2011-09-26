@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 
@@ -59,8 +60,9 @@ public class ZEvesAbbrevDef
   @XmlAttribute
   private AbbrevType type = AbbrevType.VAR;
 
-  @XmlElement(required = true)
-  private ZEvesName name;
+//  // name interferes with form here, use #getName()
+//  @XmlElement(required = true)
+//  private ZEvesName name;
 
   /**
    * <!ELEMENT formals (name+)>
@@ -70,18 +72,39 @@ public class ZEvesAbbrevDef
   private List<ZEvesName> formals = new ArrayList<ZEvesName>();
 
   @XmlAnyElement(lax = true)
-  private Object form;
+  private List<?> form = new ArrayList<Object>();
+
+  // note that differently from DTD, sometimes the name can be 
+  // a ZEvesParenForm (e.g. for operator defs)
+  public Object getName()
+  {
+    // always take the first in form
+    return (Object) form.get(0);
+  }
+
+  public Object getForm()
+  {
+    // since form interferes with name, it gets caught into the first
+    // element here
+    return form.get(1);
+  }
 
   @Override
   public String toString()
   {
+    String infoStr = ZEvesAbility.getInfo(ability) + AbbrevType.getInfo(type);
+    if (!infoStr.isEmpty()) {
+      infoStr = infoStr + ZString.NL;
+    }
 
     String formalsStr = !formals.isEmpty()
-        ? "[" + ZEvesResponseUtil.concat(formals, ", ") + "]"
+        ? ZString.LSQUARE + ZEvesResponseUtil.concat(formals, ZString.COMMA + ZString.SPACE) + ZString.RSQUARE
         : "";
 
-    return ZEvesAbility.getInfo(ability) + "abbreviation " + AbbrevType.getInfo(type)
-        + String.valueOf(name) + formalsStr + "\n" + String.valueOf(form) + "\n";
+    return infoStr
+        + ZString.ZED + ZString.NL 
+        + String.valueOf(getName()) + formalsStr + " == " + String.valueOf(getForm()) 
+        + ZString.NL + ZString.END;
   }
 
 }
