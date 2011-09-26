@@ -94,9 +94,11 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
   @Override
   public Pred visitTerm(Term term)
   {
-    final String msg = "VCG-NOVISITOR-ERROR(@trivial) = " +term.getClass().getSimpleName();
+    final String msg = "VCG-NOVISITOR-ERROR(@trivial) = " +term.getClass().getSimpleName() + "; creating true VC";
     getLogger().warning(msg);
-    return factory_.createFalsePred();
+    return factory_.createTruePred();
+    // don't raise exception to allow for completion of VCGing
+    //throw new CztException(new VCGException(msg));
   }
 
   @Override
