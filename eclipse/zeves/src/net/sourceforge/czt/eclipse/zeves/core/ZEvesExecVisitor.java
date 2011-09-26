@@ -331,6 +331,16 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	@Override
 	protected void visitProofScriptEnd(ProofScript term, Position pos) {
 		
+		if (term.getProofCommandList().isEmpty()) {
+			/*
+			 * No proof commands - do not check goal state for empty proof
+			 * script. This is also to accommodate lack of proper calculation of
+			 * proof script head/end for empty script, which would throw an
+			 * error otherwise.
+			 */
+			return;
+		}
+		
 		pos = adaptFullLine(pos);
 		MarkerInfo unfinishedMarker = markUnfinished(pos);
 		
