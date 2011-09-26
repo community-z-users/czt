@@ -69,11 +69,6 @@ public class ZEvesPosVisitor implements
     	
     	return pos.overlapsWith(rangeOffset, rangeLength);
     }
-    
-    protected void processLatexMarkupPara(LatexMarkupPara p, Position sectPos)
-    {
-    	// do nothing
-    }
 
 	/**
      * Throws an exception for unexpected items.
@@ -118,10 +113,19 @@ public class ZEvesPosVisitor implements
     	boolean includedPara = false;
     	
 		for (Para p : paraList) {
+			
+			if (p instanceof LatexMarkupPara) {
+				// a special case - Latex Markup Paragraph is always
+				// at the start of the section and does not have a position.
+				// It still should be visited if needed
+				p.accept(this);
+				
+				// do not do anything else
+				continue;
+			}
         	
 			Position pPos = getPosition(p);
 			if (pPos == null) {
-				if (p instanceof LatexMarkupPara) processLatexMarkupPara((LatexMarkupPara)p, pos);
 				continue;
 			}
 			

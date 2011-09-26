@@ -241,13 +241,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	
 		return null;
 	}
-    
-    @Override
-    protected void processLatexMarkupPara(LatexMarkupPara p, Position sectPos)
-    {
-    	//visitPara(p, sectPos);
-    }
 
+	@Override
+	public Object visitLatexMarkupPara(LatexMarkupPara term) {
+		// always visit Latex Markup paragraph to setup optemplate printing
+		// TODO review whether to send the results
+		term.accept(getZEvesXmlPrinter());
+		return super.visitLatexMarkupPara(term);
+	}
 
 	@Override
 	protected void visitPara(Para term, Position pos) {
