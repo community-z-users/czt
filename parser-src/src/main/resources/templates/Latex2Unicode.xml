@@ -716,8 +716,8 @@ Z-LaTeX lexemes).
 */
 
 PROOFWORDHEAD    = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
-                   "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
-                   "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
+                   "instantiate" | "invoke" | "next" | "prenex" | "prove" | "oops" | "rearrange" |
+                   "reduce" | "rewrite" | "simplify" | "sorry" | "split" | "trivial" | "try" | "use" | "with"
 
 PROOFWORDFOLLOWS = "by" | "enabled" | "disabled" | "lemma" |
                    "normalization" | "substitute"

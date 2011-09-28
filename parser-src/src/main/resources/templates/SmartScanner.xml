@@ -214,7 +214,10 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   /**
    * Tests whether we are within a Z proof environment or not.
    */
-  private boolean inZProof = false;
+  private boolean inZProof_ = false;
+
+  private boolean seenLet_ = false;
+  private boolean seenInstantiate_ = false;
   </add:zeves>
 
   <class/>(net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
@@ -317,19 +320,60 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     {
         inBoxName = true;
         <add:zeves>
-        inZProof = result.sym == Sym.ZPROOF;
+        inZProof_ = result.sym == Sym.ZPROOF;
+        seenLet_ = false;
+        seenInstantiate_ = false;
         </add:zeves>
     }
 <add:zeves>
     else if (result.sym == Sym.END)
     {
-      inZProof = false;
+      inZProof_ = false;
+      seenLet_ = false;
+      seenInstantiate_ = false;
     }
-    else if (result.sym == Sym.SEMICOLON &amp;&amp; inZProof)
+    else if (inZProof_)
     {
-      if (isProofCmdSep())
+      // change SEMICOLON to ZPROOFCOMMANDSEP in zproof environments
+      if (result.sym == Sym.SEMICOLON)
       {
-        result.sym = Sym.ZPROOFCOMMANDSEP;
+        if (isProofCmdSep())
+        {
+          result.sym = Sym.ZPROOFCOMMANDSEP;
+          // if reached ";" then couldn't have seen instantiate command
+          seenLet_ = false;
+          seenInstantiate_ = false;
+        }
+      }
+      // if seen instantiate command tag it
+      else if (result.sym == Sym.INSTANTIATE)
+      {
+        seenInstantiate_ = true;
+      }
+      // if seen instantiate (E.g., within ZPROOF instantiate or ";" instantiate)
+      // then the first DEFEQUAL is definitely the QNTINSTANTIATION, although future
+      // == might be from (unlikely) LET-EXPRESSIONs: "instantiate x == \LET v == y @ v+1
+      //
+      // instantiate x == y captures "==" as DEFEQUAL; needs to be QNTINST
+      // to avoid reduce conflicts on refName from invoke and instantiate?
+      else if (seenInstantiate_)
+      {
+        if (result.sym == Sym.LET)
+        {
+          // instantiate x == \LET v == d @ d+1, y == z;
+          seenLet_ = true;
+        }
+        else if (!seenLet_ &amp;&amp; result.sym == Sym.DEFEQUAL)
+        {
+          result.sym = Sym.QNTINSTANTIATION;
+          // only change the seenInst/Let flags after ";", otherwise we would
+          // mistakenly miss second "==" of "instantiate x == y, z == y";
+        }
+        else if (seenLet_ &amp;&amp; result.sym == Sym.SPOT)
+        {
+          // after @ in LET, DEFEQUAL is part of instantiate
+          seenLet_ = false;
+        }
       }
     }
 </add:zeves>
@@ -458,7 +502,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   private boolean isProofCmdSep() throws Exception
   {
     // look ahead on the right place only, please
-    assert inZProof  : "invalid point to lookahead for proof cmd sep - not in a zproof environment";
+    assert inZProof_  : "invalid point to lookahead for proof cmd sep - not in a zproof environment";
 
     // assume it is not proof cmd se
     boolean result = false;

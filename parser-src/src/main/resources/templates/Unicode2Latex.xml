@@ -651,15 +651,15 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
 </add:circus>
 <add:zeves>
                    // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, //ZPROOFDOLLAR,
-        THMREPLACEMENT,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, 
+        THMREPLACEMENT, QNTINSTANTIATION,
         LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
         PROOFWORD, THMNAME, THMRULE, THMGRULE, THMFRULE, THMAXIOM,
 
         APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
         INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
         SPLIT, USE, WITH, BY, ENABLED, EXPRESSION, DISABLED, LEMMA,
-        NORMALIZATION, PREDICATE, SUBSTITUTE, TO,
+        NORMALIZATION, PREDICATE, SUBSTITUTE, TO, SORRY, OOPS,
 
         CHECK, DECLARE, HELP, PARENT, PRINT, QUIT, READ, RESET, RETRY,
         SYNTAX, THEOREMS, UNDO, ZSECTION, ZTAGS,
@@ -1134,11 +1134,6 @@ proofTokenSeq ::= proofTokenSeq:w1 proofToken:w2
              {:
                 RESULT = resultFT(";\n", ZEvesString.ZPROOFCOMMANDSEP);
              :}
-             //|
-             //ZPROOFDOLLAR
-             //{:
-             //   RESULT = resultFF("\\$", ZEvesString.ZPROOFDOLLAR);
-             //:}
              ;
 
 proofSpecial ::= NL
@@ -1557,10 +1552,10 @@ zStInfo   ::=
                 int ts = (i / parser.tabSize_);
                 int trail = (i % parser.tabSize_);
                 if (trail >= (parser.tabSize_ / 2)) ts++;
-                if (ts > 9) ts = 9;
-                String latex = indent + "\\t" + ts;
+                if (ts > 9) ts = 9; else if (ts &lt; 1) ts = 1;
+                String latex = indent + "\\t" + ts + "\t";
                 RESULT = resultTT(latex, indent);
-             :}
+             :} 
              ;
 
 <add:oz>

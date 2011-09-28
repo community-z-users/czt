@@ -2269,14 +2269,14 @@ terminal LocInfo
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, THMREPLACEMENT,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, THMREPLACEMENT, QNTINSTANTIATION,
         LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
         THMRULE, THMGRULE, THMFRULE, THMAXIOM, 
         
         APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
         INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
         SPLIT, USE, WITH, BY, ENABLED, EXPRESSION, DISABLED, LEMMA,
-        NORMALIZATION, PREDICATE, SUBSTITUTE, TO,
+        NORMALIZATION, PREDICATE, SUBSTITUTE, TO, SORRY, OOPS,
 
         CHECK, DECLARE, HELP, PARENT, PRINT, QUIT, READ, RESET, RETRY,
         SYNTAX, THEOREMS, UNDO, ZSECTION, ZTAGS,
@@ -2659,8 +2659,8 @@ non terminal InstantiationList
     //optReplacements,
     instantiationList;
 
-non terminal Expr
-    zevesRenaming;
+//non terminal Expr
+//    zevesRenaming;
 
 non terminal ZExprList
     //optGenActuals,
@@ -2671,7 +2671,7 @@ non terminal Object[]
 
 // can include ZPROOFDOLLAR sign in these names
 non terminal Name 
-      applyThmName, thmName, invokeName;
+      applyThmName, thmName;
 
 non terminal ZNameList
       thmNameList;
@@ -2679,8 +2679,8 @@ non terminal ZNameList
 non terminal LocInfo
     proofSep;
 
-non terminal Boolean
-    instOrRepl;
+//non terminal Boolean
+//    instOrRepl;
 
 non terminal LabelAbility
     optLabelAbility,
@@ -3043,9 +3043,6 @@ precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
 </add:circus>
 <add:zeves>
-// TODO: not sure about these...
-//precedence nonassoc     ZPROOFCOMMANDSEP; //ZEVESINST, ZEVESREPL,
-//precedence nonassoc EQUALITY, SUBSTITUTE;
 precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
 </add:zeves>
 precedence left         DECORWORD
@@ -3995,6 +3992,18 @@ undoingCommands ::=
         TRY predicate:p
         {:
         :}
+        |
+        SORRY:s
+        {:
+          RESULT = factory_.getZEvesFactory().createSorryCommand(false);
+          addLocAnn(RESULT, getLocation(sleft, sright));
+        :}
+        |
+        OOPS:s
+        {:
+          RESULT = factory_.getZEvesFactory().createSorryCommand(true);
+          addLocAnn(RESULT, getLocation(sleft, sright));
+        :}
         ;
 
 interfaceCommands ::=
@@ -4265,22 +4274,27 @@ instantiationList ::=
         ;
 
 instantiation ::=
-        name:n instOrRepl:isQtn zevesRenaming:e
+        // use invoke name because we could have instantiation of operator names
+        // as quantified names.
+        refName:n THMREPLACEMENT expression:e // instOrRepl:isQtn zevesRenaming:e
         {:
-           RESULT = factory_.createInstantiation(n, e,
-              isQtn ? InstantiationKind.Quantifier :
-                      InstantiationKind.ThmReplacement);
+           RESULT = factory_.createInstantiation(n, e, InstantiationKind.ThmReplacement);
            addLocAnn(RESULT, getLocation(n, e));
         :} // DIDN'T SOLVE CONFLICT BELOW FOR zevesRenaming production.
            // %prec _RENAME
+        |
+        refName:n QNTINSTANTIATION expression:e
+        {:
+           RESULT = factory_.createInstantiation(n, e, InstantiationKind.Quantifier);
+           addLocAnn(RESULT, getLocation(n, e));
+        :}
         ;
 
-
-zevesRenaming ::=
-        expression:e
-        {:
-          RESULT = e;
-        :}
+//zevesRenaming ::=
+       // expression:e
+        //{:
+        //  RESULT = e;
+        //:}
         // CONFLICTS!  TODO: won't accepted mixed renamings for now.. (e.g., THETA S[x := 10, a/y]; use THETA S[x:= 10, y := a]).
         //|
         //DECORWORD:n
@@ -4290,25 +4304,25 @@ zevesRenaming ::=
         //{:
         //  RESULT = createRefExpr(n);
         //:}
-        ;
+        //;
 
-instOrRepl ::=
-        DEFEQUAL
-        {:
-          RESULT = true;
-        :}
-        |
-        THMREPLACEMENT
-        {:
-          RESULT = false;
-        :}
+//instOrRepl ::=
+        //DEFEQUAL
+        //{:
+        //  RESULT = true;
+        //:}
+        //|
+        //THMREPLACEMENT
+        //{:
+        //  RESULT = false;
+        //:}
         //|
         // for when we have mixed renaming like: THETA S[x := 10, a/y] (both are THMREPLACEMENT kind)
         //SLASH
         //{:
         //  RESULT = false;
         //:}
-        ;
+        //;
 
 simplificationCommand ::=
         PROVE:cmd BY innerSimplCmd:isc
@@ -4427,7 +4441,8 @@ substitutionCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.MEDIUM, ProofScope.LOCAL);
         :}
         |
-        INVOKE:st invokeName:n // Invoke does have a user-level name (e.g., no DOLLARS)!
+        // includes both names and opNames parenthesised 
+        INVOKE:st refName:n
         {:
           RESULT = factory_.getZEvesFactory().createInvokeCommand(n);
           addLocAnn(RESULT, getLocation(st, n));
@@ -4580,26 +4595,6 @@ applyThmName ::=
         THMNAME:dw
         {:
            RESULT = createZName(dw);
-        :}
-        ;
-
-invokeName ::=
-        //DECORWORD:dw1 ZPROOFDOLLAR:d DECORWORD:dw2
-        //{:
-        //   RESULT = createSpecialThmName(dw1, dw2);
-        //:}
-        //|
-        DECORWORD:dw
-        {:
-           RESULT = createZName(dw);
-        :}
-        |
-        // in cases like  "invoke (\_ \seq \_);
-        LPAREN:lparen opName:on RPAREN:rparen
-        {:
-           final LocInfo loc = getLocation(lparen, rparen);
-           RESULT = strListToZName(on, loc);
-           RESULT.getAnns().add(factory_.createParenAnn());
         :}
         ;
 
@@ -7565,20 +7560,7 @@ refName ::=
            final LocInfo loc = getLocation(lparen, rparen);
            RESULT = strListToZName(on, loc);
            RESULT.getAnns().add(factory_.createParenAnn());
-           //<add:zeves>
-           // TODO: when using refName within instantiation :-( this shouldn't be allowed; or rather where specialName used to appear for DECORWORD ZEVESDOLLAR above .
-           //CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-           //   ZEvesParseMessage.MSG_WARNING_OPNAME_IN_REFNAME.getMessage(), RESULT, loc));
-           //</add:zeves>
         :}
-        //<add:zeves>
-        //|
-        //DECORWORD:dw TO:t
-        //{:
-        //   RESULT = createSpecialName(dw);
-        //   //System.out.println("refName ::= " + RESULT);
-        //:}
-        //</add:zeves>
         ;
 
 opName ::=
