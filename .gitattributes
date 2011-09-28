@@ -1291,6 +1291,7 @@ zeves/src/test/resources/tests/cliffs-experiment.tex -text
 zeves/src/test/resources/tests/dollarNamedThm.tex -text
 zeves/src/test/resources/tests/genActs.tex -text
 zeves/src/test/resources/tests/ifthenElse.tex -text
+zeves/src/test/resources/tests/instantiateTest.tex -text
 zeves/src/test/resources/tests/proofCmds.tex -text
 zeves/src/test/resources/tests/schemaCalculus.tex -text
 zeves/src/test/resources/tests/simple.tex -text

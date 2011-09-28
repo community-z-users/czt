@@ -235,8 +235,8 @@ prove;
 use functionFinite[X, Y];
 use finiteFunction[X, Y];
 use functionFinite[X, Y][A := X, B := Y];
-use finiteFunction[Y, X][f := f (\_ \inv) [X, Y]];
-use functionFinite[Y, X][A := B, B := A, f := f (\_ \inv) [X, Y]];
+use finiteFunction[Y, X][f := (\_ \inv) [X, Y] f];
+use functionFinite[Y, X][A := B, B := A, f := (\_ \inv) [X, Y] f];
 prove;
 \end{zproof}
 
@@ -505,11 +505,10 @@ invoke Token;
 prove by rewrite;
 apply lInTheDomain to predicate authCert \in \dom \The;
 rewrite;
-%use lOptionalSubtyping[(\lblot baseCertId: (\lblot issuer: USER \rblot);cid:
-%        (\lblot issuer: USER \rblot);clearance: (\lblot class:
-%         CLASS \rblot);isValidatedBy: \power~KEYPART;role:
-%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power~\num \rblot)][A := AuthCert, x := authCert];
-use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert];
+use lOptionalSubtyping[(\lblot baseCertId: (\lblot issuer: USER \rblot);cid:
+        (\lblot issuer: USER \rblot);clearance: (\lblot class:
+         CLASS \rblot);isValidatedBy: \power~KEYPART;role:
+         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power~\num \rblot)][A := AuthCert, x := authCert];
 prove by rewrite;
 %rewrite;
 %rewrite;
@@ -1737,12 +1736,11 @@ apply lInTheDomain;
 invoke \Delta Admin;
 invoke Admin;
 rewrite;
-%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-%        \lblot issuer: USER \rblot;clearance: \lblot class:
-%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-%         \num \rblot][A := AuthCert, x := authCert];
-use lOptionalSubtyping[AuthCert][A:= AuthCert, x := authCert];
+use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+       \lblot issuer: USER \rblot;clearance: \lblot class:
+         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+         \num \rblot][A := AuthCert, x := authCert];
 rearrange;
 rewrite;
 \end{zproof}
@@ -1870,12 +1868,12 @@ TISReadUserToken \defs ReadUserToken
 \begin{zproof}[UserTokenWithOKAuthCert\$domainCheck]
 rewrite;
 apply lInTheDomain to predicate authCert \in  \dom  \The;
-%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-%        \lblot issuer: USER \rblot;clearance: \lblot class:
-%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-%         \num \rblot][A := AuthCert, x := authCert];
-use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert];
+use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+        \lblot issuer: USER \rblot;clearance: \lblot class:
+         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+         \num \rblot][A := AuthCert, x := authCert];
+%use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert];
 invoke TokenWithValidAuth;
 prove;
 \end{zproof}
@@ -2099,29 +2097,25 @@ next;
 invoke TokenWithValidAuth;
 cases;
 apply lInTheDomain to predicate authCert\_\_0 \in  \dom  \The;
-%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-%        \lblot issuer: USER \rblot;clearance: \lblot class:
-%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-%         \num \rblot][A := AuthCert, x := authCert\_\_0];
-use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert\_\_0];
+use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+        \lblot issuer: USER \rblot;clearance: \lblot class:
+         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+         \num \rblot][A := AuthCert, x := authCert\_\_0];
 prove;
 next;
-%use lInTheDomain[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][x := authCert\_\_0];
-%use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
-%        \lblot issuer: USER \rblot;clearance: \lblot class:
-%         CLASS \rblot;isValidatedBy: \power KEYPART;role:
-%         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
-%         \num \rblot][A := AuthCert, x := authCert\_\_0];
-use lInTheDomain[AuthCert][x := authCert\_\_0];
-use lOptionalSubtyping[AuthCert][A := AuthCert, x := authCert\_\_0];
+use lInTheDomain[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][x := authCert\_\_0];
+use lOptionalSubtyping[\lblot baseCertId: \lblot issuer: USER \rblot;cid:
+        \lblot issuer: USER \rblot;clearance: \lblot class:
+         CLASS \rblot;isValidatedBy: \power KEYPART;role:
+         PRIVILEGE;tokenID: TOKENID;validityPeriod: \power
+         \num \rblot][A := AuthCert, x := authCert\_\_0];
 apply inDom to predicate authCert\_\_0 \in  \dom  \The;
 prenex;
 rearrange;
 rewrite;
 rearrange;
-%use pairInFunction[\power  \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot , \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][f := \The[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ], x := authCert\_\_0, y := y];
-use pairInFunction[\power AuthCert, AuthCert][f := \The[AuthCert], x := authCert\_\_0, y := y];
+use pairInFunction[\power  \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot , \lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ][f := \The[\lblot baseCertId: \lblot issuer: USER\rblot ; cid: \lblot issuer: USER\rblot ; clearance: \lblot class: CLASS\rblot ; isValidatedBy: \power  KEYPART; role: PRIVILEGE; tokenID: TOKENID; validityPeriod: \power  \num \rblot ], x := authCert\_\_0, y := y];
 rearrange;
 rewrite;
 equality substitute \The authCert\_\_0;

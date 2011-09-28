@@ -202,6 +202,7 @@ import net.sourceforge.czt.z.visitor.ZSchTextVisitor;
 import net.sourceforge.czt.zeves.ast.LabelAbility;
 import net.sourceforge.czt.zeves.ast.LabelUsage;
 import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.ast.SorryCommand;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
@@ -214,6 +215,7 @@ import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 import net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SimplificationCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.SorryCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SubstitutionCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.UseCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.WithCommandVisitor;
@@ -283,7 +285,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         InstantiationVisitor<String>, InstantiationListVisitor<String>,
         SimplificationCommandVisitor<String>, UseCommandVisitor<String>,
         WithCommandVisitor<String>, SubstitutionCommandVisitor<String>,
-        ApplyCommandVisitor<String>, ProofScriptVisitor<String>, OptempParaVisitor<String>
+        ApplyCommandVisitor<String>, SorryCommandVisitor<String>,
+        ProofScriptVisitor<String>, OptempParaVisitor<String>
 {
 
   /**
@@ -808,6 +811,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     result.append(term.getProofCommand ().accept(this));
     return result.toString();
+  }
+
+  @Override
+  public String visitSorryCommand(SorryCommand term)
+  {
+    return comment("Special (meta-)command", term.getKeepGoal() ? "oops" : "sorry");
   }
 
   @Override
