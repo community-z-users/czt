@@ -36,6 +36,7 @@ import net.sourceforge.czt.zeves.ast.ProofStepKind;
 import net.sourceforge.czt.zeves.ast.ProofStepScope;
 import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
 import net.sourceforge.czt.zeves.ast.SimplificationCommand;
+import net.sourceforge.czt.zeves.ast.SorryCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
@@ -44,6 +45,7 @@ import net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SimplificationCommandVisitor;
+import net.sourceforge.czt.zeves.visitor.SorryCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.SubstitutionCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.UseCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.WithCommandVisitor;
@@ -62,6 +64,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
         SimplificationCommandVisitor<ProofCommandInfo>,
         CaseAnalysisCommandVisitor<ProofCommandInfo>,
         QuantifiersCommandVisitor<ProofCommandInfo>,
+        SorryCommandVisitor<ProofCommandInfo>,
         ApplyCommandVisitor<ProofCommandInfo>//,
 //    InstantiationVisitor<ProofCommandInfo>,
 //    InstantiationListVisitor<ProofCommandInfo>
@@ -378,4 +381,12 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
 //    result.setProofStepScope(ProofStepScope.Global);
 //    return result;
 //  }
+
+  @Override
+  public ProofCommandInfo visitSorryCommand(SorryCommand term)
+  {
+    ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
+    // do something about undoing effects ?
+    return result;
+  }
 }

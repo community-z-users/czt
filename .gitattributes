@@ -961,6 +961,7 @@ typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv_ref.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/schemaCalculus.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/smalltest.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/sorryTest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredGenOpTempName-UndeclaredIdentifier.error -text
 typechecker-zeves/src/test/resources/tests/zeves/undeclaredNamesInTheoremAsWarnings.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/zevesability.tex -text
