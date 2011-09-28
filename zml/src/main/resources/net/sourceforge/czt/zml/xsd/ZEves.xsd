@@ -243,6 +243,15 @@
   </xs:annotation>
   </xs:element>
 
+  <xs:element name="SorryCommand" type="ZEVES:SorryCommand" substitutionGroup="ZEVES:ProofCommand">
+  <xs:annotation>
+    <xs:documentation>
+      Sorry and Oops - virtual - commands; inspired by Isabelle's meanings: sorry is give up on proving,
+      yet keep the theorem; oops, gives up on proving, but don't keep the theorem albeit leave the goal.
+    </xs:documentation>
+  </xs:annotation>
+  </xs:element>
+
   <xs:element name="ZEvesLabel" type="ZEVES:ZEvesLabel">
   <xs:annotation>
     <xs:documentation>
@@ -570,6 +579,18 @@
             </xs:annotation>
           </xs:element>
         </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="SorryCommand">
+    <xs:complexContent>
+      <!--
+           sorry;  false
+           oops;   true
+        -->
+      <xs:extension base="ZEVES:ProofCommand">
+        <xs:attribute name="KeepGoal" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
