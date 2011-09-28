@@ -649,6 +649,7 @@ parser-zeves/src/test/resources/tests/zeves/foo.tex -text
 parser-zeves/src/test/resources/tests/zeves/genericSchemas.tex -text
 parser-zeves/src/test/resources/tests/zeves/genericSchemas.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/genericSchemas.zml -text
+parser-zeves/src/test/resources/tests/zeves/instantiateTest.tex -text
 parser-zeves/src/test/resources/tests/zeves/missingHardSpace.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofGoal.tex -text
@@ -661,6 +662,7 @@ parser-zeves/src/test/resources/tests/zeves/refRulesEquiv.zml -text
 parser-zeves/src/test/resources/tests/zeves/simple.tex -text
 parser-zeves/src/test/resources/tests/zeves/simple.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/smalltest.tex -text
+parser-zeves/src/test/resources/tests/zeves/sorryTest.tex -text
 parser-zeves/src/test/resources/tests/zeves/toolkitThms.tex -text
 parser-zeves/src/test/resources/tests/zeves/underscoreNamedThm.tex -text
 parser-zeves/src/test/resources/tests/zeves/variedAndPredInSchemaAndAxDef.tex -text

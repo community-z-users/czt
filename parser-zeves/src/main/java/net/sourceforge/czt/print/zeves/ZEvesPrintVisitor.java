@@ -56,6 +56,7 @@ import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.ast.ProofType;
 import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
 import net.sourceforge.czt.zeves.ast.SimplificationCommand;
+import net.sourceforge.czt.zeves.ast.SorryCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
@@ -521,6 +522,16 @@ public class ZEvesPrintVisitor
     visit(term.getName());
     print(currInstKind_.peek().equals(InstantiationKind.Quantifier) ? ZKeyword.DEFEQUAL : ZEvesProofKeyword.THMREPLACEMENT);
     visit(term.getExpr());
+    return null;
+  }
+
+  @Override
+  public Object visitSorryCommand(SorryCommand term)
+  {
+    if (term.getKeepGoal())
+      print(ZEvesProofKeyword.OOPS);
+    else
+      print(ZEvesProofKeyword.SORRY);
     return null;
   }
 

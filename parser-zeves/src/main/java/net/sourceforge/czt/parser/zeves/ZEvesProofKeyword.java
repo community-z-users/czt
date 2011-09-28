@@ -52,6 +52,9 @@ public enum ZEvesProofKeyword implements Token {
   USE(ZEvesString.USE , NewlineCategory.BOTH),
   WITH(ZEvesString.WITH , NewlineCategory.BOTH),
 
+  SORRY(ZEvesString.SORRY, NewlineCategory.BOTH),
+  OOPS(ZEvesString.OOPS, NewlineCategory.BOTH),
+
   BY(ZEvesString.BY, NewlineCategory.BOTH),
   ENABLED(ZEvesString.ENABLED, NewlineCategory.BOTH),
   EXPRESSION(ZEvesString.EXPRESSION, NewlineCategory.BOTH),
@@ -165,7 +168,9 @@ public enum ZEvesProofKeyword implements Token {
        TRY,
        SPLIT,
        USE,
-       WITH 
+       WITH,
+       SORRY,
+       OOPS
     };
   }
 

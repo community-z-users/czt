@@ -34,6 +34,8 @@ public enum ZEvesProofToken implements Token
   ZPROOFSECTION(ZEvesString.ZPROOFSECTION, NewlineCategory.NEITHER),
   ZPROOFDOLLAR(ZEvesString.ZPROOFDOLLAR, NewlineCategory.NEITHER),
   ZPROOFCOMMANDSEP(ZEvesString.ZPROOFCOMMANDSEP, NewlineCategory.BOTH),
+  // token because of DEFEQUAL (as ==) already being a keyword?
+  QNTINSTANTIATION(ZEvesString.QNTINSTANTIATION, NewlineCategory.BOTH),
 
   LLABEL(ZEvesString.LLABEL, NewlineCategory.NEITHER),
   RLABEL(ZEvesString.RLABEL, NewlineCategory.AFTER),

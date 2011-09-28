@@ -72,7 +72,7 @@ public class ProofTable  extends InfoTable
    // throws ProofTableException
   {
     if (proofTable_.get(name) != null) {
-      String message = "Proof '{0}' defined more than once";
+      String message = "Proof {0} defined more than once";
       wm_.warn(message, name);
 //      throw new ProofTableException(message);
     }

@@ -1,0 +1,35 @@
+\begin{zsection}
+   \SECTION instantiateTest \parents standard\_toolkit
+\end{zsection}
+
+\begin{zproof}[prf1]
+   instantiate x == y;
+   prove;
+\end{zproof}
+
+\begin{zproof}[prf2]
+   prove;
+   instantiate x == y;
+   prove;
+\end{zproof}
+
+\begin{zproof}[prf3]
+   prove;
+   instantiate x == \LET v == d @ v+1, y == 20;
+   prove;
+\end{zproof}
+
+\begin{zed}
+   \generic (Test \varg)
+\end{zed}
+
+\begin{zed}
+   Test~XX == \power~  (\power~  XX)
+\end{zed}
+
+\begin{zproof}[prf4]
+   prove;
+   instantiate (Test~\_) == \{\};
+   prove;
+\end{zproof}
+
