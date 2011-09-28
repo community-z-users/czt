@@ -41,3 +41,5 @@ QuantifiersCommand createInstantiateCommand(InstantiationList inst);
 UseCommand createUseCommand(RefExpr thmRef);
 UseCommand createUseCommand(RefExpr thmRef, InstantiationList inst);
 
+SorryCommand createSorryCommand(boolean keepGoal);
+

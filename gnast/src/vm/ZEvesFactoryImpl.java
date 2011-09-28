@@ -211,3 +211,9 @@ public UseCommand createUseCommand(RefExpr thmRef, InstantiationList inst)
 	countStep();
 	return createUseCommand(proofStep_, inst, thmRef);
 }
+
+public SorryCommand createSorryCommand(boolean keepGoal)
+{
+	countStep();
+	return createSorryCommand(proofStep_, keepGoal);
+}
