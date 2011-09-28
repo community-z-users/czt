@@ -79,6 +79,7 @@ import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.ast.ProofType;
 import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
 import net.sourceforge.czt.zeves.ast.SimplificationCommand;
+import net.sourceforge.czt.zeves.ast.SorryCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
@@ -823,6 +824,15 @@ public class PrintVisitor
     result.append(term.getNote());
     result.append("}\n");
     return result.toString();
+  }
+
+  @Override
+  public String visitSorryCommand(SorryCommand term)
+  {
+    if (term.getKeepGoal())
+      return "oops";
+    else
+      return "sorry";
   }
 
 }

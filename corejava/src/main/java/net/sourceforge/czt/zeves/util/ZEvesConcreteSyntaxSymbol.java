@@ -66,6 +66,9 @@ public enum ZEvesConcreteSyntaxSymbol
   WITH_ENABLED_CMD("Tactical application to goal with selected terms to enable"),
   WITH_DISABLED_CMD("Tactical application to goal with selected terms to disable"),
 
+  SORRY_COMMAND("Remove unfinished proof from context"),
+  OOPS_COMMAND("Keep unfinished proof within context"),
+
   THMREPLACEMENT("Variable replacement in theorem usage"),
   INSTANTIATION("Quantified variable instantiation"),
   INSTANTIATION_LIST("List of instantiations or thm replacements"),

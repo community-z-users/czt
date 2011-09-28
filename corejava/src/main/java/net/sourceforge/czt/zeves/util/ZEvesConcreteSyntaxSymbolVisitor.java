@@ -34,6 +34,7 @@ import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.ast.ProofType;
 import net.sourceforge.czt.zeves.ast.QuantifiersCommand;
 import net.sourceforge.czt.zeves.ast.SimplificationCommand;
+import net.sourceforge.czt.zeves.ast.SorryCommand;
 import net.sourceforge.czt.zeves.ast.SubstitutionCommand;
 import net.sourceforge.czt.zeves.ast.UseCommand;
 import net.sourceforge.czt.zeves.ast.WithCommand;
@@ -166,6 +167,15 @@ public class ZEvesConcreteSyntaxSymbolVisitor
           return ZEvesConcreteSyntaxSymbol.EQUALITY_GLOBAL_CMD;
       default: return null;
     }
+  }
+
+  @Override
+  public ZEvesConcreteSyntaxSymbol visitSorryCommand(SorryCommand term)
+  {
+    if (term.getKeepGoal())
+      return ZEvesConcreteSyntaxSymbol.SORRY_COMMAND;
+    else
+      return ZEvesConcreteSyntaxSymbol.OOPS_COMMAND;
   }
 
   @Override

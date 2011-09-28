@@ -46,8 +46,8 @@ public interface ZEvesString extends ZPattString
   
 /*
 PROOFWORDBEGIN  = "apply" | "back" | "cases" | "conjunctive" | "disjunctive" | "equality" |
-                  "instantiate" | "invoke" | "next" | "prenex" | "prove" | "rearrange" |
-                  "reduce" | "rewrite" | "simplify" | "split" | "trivial" | "try" | "use" | "with"
+                  "instantiate" | "invoke" | "next" | "prenex" | "prove" | "oops" | "rearrange" |
+                  "reduce" | "rewrite" | "simplify" | "sorry" | "split" | "trivial" | "try" | "use" | "with"
 
 PROOFWORDMIDDLE = "by" | "enabled" | "expression" | "disabled" | "lemma" |
                   "normalization" | "predicate" | "substitute" | "to"
@@ -80,6 +80,8 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   String SPLIT       = "split";
   String USE         = "use";
   String WITH        = "with";
+  String SORRY       = "sorry";
+  String OOPS        = "oops";
   
   String BY          = "by";
   String ENABLED     = "enabled";
@@ -121,6 +123,7 @@ PROOFCMDMIDDLE  = "about" | "back" | "declaration" | "formula" | "history" | "pr
   String ZPROOFCOMMANDSEP = "; "; // semicolon followed by space
   
   String THMREPLACEMENT = ":=";
+  String QNTINSTANTIATION = "==";
   String THMRULE = "rule";
   String THMGRULE = "grule";
   String THMFRULE = "frule";
