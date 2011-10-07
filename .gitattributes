@@ -951,6 +951,7 @@ typechecker-zeves/src/test/resources/tests/zeves/appTo.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bar.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
+typechecker-zeves/src/test/resources/tests/zeves/chain.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
