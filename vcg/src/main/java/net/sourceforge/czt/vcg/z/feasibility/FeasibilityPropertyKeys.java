@@ -59,7 +59,7 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   boolean PROP_VCG_FEASIBILITY_PROCESS_PARENTS_DEFAULT         = false;
   boolean PROP_VCG_FEASIBILITY_ADD_TRIVIAL_VC_DEFAULT          = false;
   boolean PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT      = true;
-  boolean PROP_VCG_FEASIBILITY_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
+  boolean PROP_VCG_FEASIBILITY_RAISE_TYPE_WARNINGS_DEFAULT     = false;
   Markup  PROP_VCG_FEASIBILITY_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;
   String  PROP_VCG_FEASIBILITY_PARENTS_TO_IGNORE_DEFAULT       = "";
   String  PROP_VCG_FEASIBILITY_ZSTATE_NAME_DEFAULT             = "";
@@ -76,5 +76,5 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   String VCG_FEASIBILITY_SOURCENAME_SUFFIX = "_fsb";  // avoid _ on ThmNames. Not handled properly ? Scanned differently now :-(
   String VCG_FEASIBILITY_VCNAME_SUFFIX     = "_vc_fsb";
 
-  String VCG_FEASIBILITY_SIGSCHEMA_SUFFIX  = "Sig";
+  String VCG_FEASIBILITY_SIGSCHEMA_SUFFIX  = "FSBSig";
 }

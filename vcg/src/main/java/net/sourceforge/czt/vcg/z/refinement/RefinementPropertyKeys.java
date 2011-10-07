@@ -63,7 +63,7 @@ public interface RefinementPropertyKeys extends VCGPropertyKeys
   boolean PROP_VCG_REFINEMENT_PROCESS_PARENTS_DEFAULT         = false;
   boolean PROP_VCG_REFINEMENT_ADD_TRIVIAL_VC_DEFAULT          = false;
   boolean PROP_VCG_REFINEMENT_APPLY_TRANSFORMERS_DEFAULT      = true;
-  boolean PROP_VCG_REFINEMENT_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
+  boolean PROP_VCG_REFINEMENT_RAISE_TYPE_WARNINGS_DEFAULT     = false; 
   boolean PROP_VCG_REFINEMENT_IO_DEFAULT                      = false;
   Markup  PROP_VCG_REFINEMENT_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;
   ZRefKind PROP_VCG_REFINEMENT_REFKIND_DEFAULT                = ZRefKind.FORWARD;

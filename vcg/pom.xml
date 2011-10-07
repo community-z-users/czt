@@ -27,9 +27,14 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+    <!-- Although there is no ZEves link within the Z VCG,
+     we want to allow one to use it as an extension to
+     the section manager, hence we add its dependency
+     so that appropriate command classes can be found. -->
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-zeves</artifactId>
+      <version>1.6-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>

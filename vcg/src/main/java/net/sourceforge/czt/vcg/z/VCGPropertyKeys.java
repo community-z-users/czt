@@ -99,7 +99,7 @@ public interface VCGPropertyKeys {
   boolean PROP_VCG_PROCESS_PARENTS_DEFAULT         = true;
   boolean PROP_VCG_APPLY_TRANSFORMERS_DEFAULT      = false;
   boolean PROP_VCG_ADD_TRIVIAL_VC_DEFAULT          = true;
-  boolean PROP_VCG_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
+  boolean PROP_VCG_RAISE_TYPE_WARNINGS_DEFAULT     = false; 
   boolean PROP_VCG_CHECK_DEFTBL_CONSISTENCY_DEFAULT= true;
   String  PROP_VCG_PARENTS_TO_IGNORE_DEFAULT       = null;
 

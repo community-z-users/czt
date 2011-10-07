@@ -42,6 +42,7 @@ import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.KnownExtensions;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -67,11 +68,13 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
   private VCG<R> vcg_;
   private boolean debug_;
+  private String extension_;
 
   protected VCGUtils()
   {
     vcg_ = null;
     debug_ = false;
+    extension_ = SectionManager.DEFAULT_EXTENSION;
   }
 
   protected abstract VCG<R> createVCG();
@@ -181,6 +184,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
               + (getVCG().getVCCollector().getTransformer().isApplyingTransformer() ? "-r " : "")
               + (getVCG().isRaisingTypeWarnings() ? "-w " : "")
               + (getVCG().isCheckingDefTblConsistency() ? "-y " : "")
+              + ("-e" + cztExtensionDefault().toString())
               + ("-m" + preferedMarkupDefault()).trim());
   }
 
@@ -198,6 +202,8 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     System.err.println("       -y     check def table consistency.");
     System.err.println("       -mX    prefered markup to print results");
     System.err.println("              where X=LATEX, UNICODE, XML");
+    System.err.println("       -eX    prefered czt extension to use");
+    System.err.println("              where X=Z, OZ, CIRCUS, ZEVES, etc.");
     System.err.println("       -i <l> list of parents to ignore.");
     System.err.println("              a path-separated list of section names");
     System.err.println("              (e.g., -cp ./tests" + File.pathSeparator + "/user/myfiles).");
@@ -223,6 +229,11 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return null;
   }
 
+  protected KnownExtensions cztExtensionDefault()
+  {
+    return KnownExtensions.Z;
+  }
+
   protected Markup preferedMarkupDefault()
   {
     return PROP_VCGU_PREFERRED_MARKUP_DEFAULT;
@@ -235,7 +246,12 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
   public String getExtension()
   {
-    return SectionManager.DEFAULT_EXTENSION;
+    return extension_;
+  }
+
+  public void setExtension(KnownExtensions ext)
+  {
+    extension_ = ext.toString();
   }
 
   protected boolean isKnownArg(String arg)
@@ -604,33 +620,18 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       System.exit(0);
     }
 
-    // retrieve section manager and update its CZT properties.
-    SectionManager manager = null;
-    try
-    {
-      manager = createSectionManager(getExtension());
-    }
-    catch (VCGException e)
-    {
-      commandException("VCGU-SM-CREATE", e, getExtension(), debug_);
-      System.exit(-1);
-    }
-    assert manager != null && isConfigured();
-   
-    // collect default.
-    VCG<?> vcg = getVCG();
-
     List<String> files = new java.util.ArrayList<String>();
     boolean printBenchmark = printBenchmarkDefault();
-    boolean raiseWarnings = vcg.isRaisingTypeWarnings();
-    boolean processParents = vcg.isProcessingParents();
-    boolean addTrivialDC = vcg.isAddingTrivialVC();
-    boolean checkDefTblConsistency = vcg.isCheckingDefTblConsistency();
-    boolean applyPredTransf = vcg.getVCCollector().getTransformer().isApplyingTransformer();
     String cztpath = cztPathDefault();
+    setExtension(cztExtensionDefault());
     Markup preferedMarkup = preferedMarkupDefault();
-    SortedSet<String> parentsToIgnore = vcg.getParentsToIgnore();
-    //boolean useInfixAppliesTo = useInfixAppliesToDefault();
+
+    Boolean raiseWarnings = null;
+    Boolean processParents = null;
+    Boolean addTrivialVC = null;
+    Boolean checkDefTblConsistency = null;
+    Boolean applyPredTransf = null;
+    SortedSet<String> parentsToIgnore = null;
 
     for (int i = 0; i < args.length; i++)
     {
@@ -650,6 +651,10 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       else if ("-p".equals(args[i]))
       {
         processParents = true;
+      }
+      else if ("-t".equals(args[i]))
+      {
+        addTrivialVC = true;
       }
       else if ("-y".equals(args[i]))
       {
@@ -675,6 +680,20 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
           printUsage();
           System.err.println("Unknown prefered markup " + pm);
           System.exit(-2);
+        }
+      }
+      else if (args[i].startsWith("-e"))
+      {
+        final String ext = args[i].substring(2).toUpperCase();
+        try
+        {
+          setExtension(KnownExtensions.valueOf(ext));
+        }
+        catch (IllegalArgumentException e)
+        {
+          printUsage();
+          System.err.println("Unknown CZT extension " + ext);
+          System.exit(-3);
         }
       }
       else if ("--debug".equals(args[i]))
@@ -706,6 +725,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
         i++;
         cztpath = args[i].trim();
       }
+      // -i not yet implemented!
       else if (args[i].startsWith("-"))
       {
         printUsage();
@@ -717,8 +737,32 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       }
     }
 
+        // retrieve section manager and update its CZT properties.
+    SectionManager manager = null;
+    try
+    {
+      manager = createSectionManager(getExtension());
+    }
+    catch (VCGException e)
+    {
+      commandException("VCGU-SM-CREATE", e, getExtension(), debug_);
+      System.exit(-1);
+    }
+    assert manager != null && isConfigured();
+
+    // collect default.
+    VCG<?> vcg = getVCG();
+
+
+    raiseWarnings = raiseWarnings == null ? vcg.isRaisingTypeWarnings() : raiseWarnings;
+    processParents = processParents == null ? vcg.isProcessingParents() : processParents;
+    addTrivialVC = addTrivialVC == null ? vcg.isAddingTrivialVC() : addTrivialVC;
+    checkDefTblConsistency = checkDefTblConsistency == null ? vcg.isCheckingDefTblConsistency() : checkDefTblConsistency;
+    applyPredTransf = applyPredTransf == null ? vcg.getVCCollector().getTransformer().isApplyingTransformer() : applyPredTransf;
+    parentsToIgnore = parentsToIgnore == null ? vcg.getParentsToIgnore() : parentsToIgnore;
+
     manager.setProperty(PROP_VCG_PROCESS_PARENTS, String.valueOf(processParents));
-    manager.setProperty(PROP_VCG_ADD_TRIVIAL_VC, String.valueOf(addTrivialDC));
+    manager.setProperty(PROP_VCG_ADD_TRIVIAL_VC, String.valueOf(addTrivialVC));
     manager.setProperty(PROP_VCG_APPLY_TRANSFORMERS, String.valueOf(applyPredTransf));
     manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(raiseWarnings));
     manager.setProperty(PROP_VCGU_PREFERRED_OUTPUT_MARKUP, preferedMarkup.toString());

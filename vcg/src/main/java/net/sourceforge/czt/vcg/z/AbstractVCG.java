@@ -43,6 +43,7 @@ import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTableService;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -1149,7 +1150,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   {
     StringBuilder result = new StringBuilder();
     result.append("\n\n VC Z section \"");
-    result.append(sectName);
+    result.append(DefaultVCNameFactory.cleanPossibleNameParameters(sectName));
     result.append("\" has $");
     result.append(vcCount);
     result.append("$");
@@ -1198,7 +1199,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       Name n = ZUtils.getSchemaName(p);
       final String name;
       if (n != null)
-        name = ZUtils.toStringZName(ZUtils.assertZName(n));
+        // take underscores into account
+        name = DefaultVCNameFactory.createZNameAsString(ZUtils.assertZName(n));
       else
         name = "unknown";
       narrPara = factory_.createNarrPara(factory_.list(

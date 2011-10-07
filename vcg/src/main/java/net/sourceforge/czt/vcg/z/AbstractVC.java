@@ -148,6 +148,6 @@ public abstract class AbstractVC<R> implements VC<R>
       narrText.append(getVCPara().toString());
     }
     narrText.append("\n");
-    return narrText.toString();
+    return DefaultVCNameFactory.cleanPossibleNameParameters(narrText.toString());
   }
 }

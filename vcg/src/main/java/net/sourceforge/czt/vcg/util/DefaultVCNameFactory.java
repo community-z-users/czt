@@ -24,6 +24,8 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -37,21 +39,40 @@ public class DefaultVCNameFactory implements VCNameFactory
   private static long axiomCnt_ = 0;
   public static final VCNameFactory DEFAULT_VCNAME_FACTORY = new DefaultVCNameFactory();
 
+  // for Operator names, we need something else for the underscores
+  public static String createZNameAsString(ZName zname)
+  {
+    String result = ZUtils.toStringZName(zname);
+    //OperatorName on = zname.getOperatorName();
+    //if (on != null)
+    //{
+      result = cleanPossibleNameParameters(result);
+    //}
+    return result;
+  }
+
+  public static String cleanPossibleNameParameters(String zname)
+  {
+    String result = zname.replaceAll(ZString.LISTARG, "LARG");
+    result = result.replaceAll(ZString.ARG, "ARG");
+    return result;
+  }
+
   protected String createAbbreviationName(AxPara para, String name, String type)
   {
     assert ZUtils.isAbbreviation(para);
-    return ZUtils.toStringZName(ZUtils.assertZName(ZUtils.getAbbreviationName(para)));
+    return createZNameAsString(ZUtils.assertZName(ZUtils.getAbbreviationName(para)));
   }
 
   protected String createSchemaName(AxPara para, String name, String type)
   {
     assert ZUtils.isSimpleSchema(para);
-    return ZUtils.toStringZName(ZUtils.assertZName(ZUtils.getSchemaName(para)));
+    return createZNameAsString(ZUtils.assertZName(ZUtils.getSchemaName(para)));
   }
 
   protected String createFreeParaName(FreePara para, String name, String type)
   {
-    return ZUtils.toStringZName(ZUtils.assertZFreetypeList(para.getFreetypeList()).get(0).getZName());
+    return createZNameAsString(ZUtils.assertZFreetypeList(para.getFreetypeList()).get(0).getZName());
   }
 
   protected String createConjParaName(ConjPara para, String name, String type)

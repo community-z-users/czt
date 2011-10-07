@@ -45,7 +45,7 @@ public interface DomainCheckPropertyKeys extends VCGPropertyKeys {
   boolean PROP_VCG_DOMAINCHECK_PROCESS_PARENTS_DEFAULT         = false;
   boolean PROP_VCG_DOMAINCHECK_ADD_TRIVIAL_VC_DEFAULT          = false;
   boolean PROP_VCG_DOMAINCHECK_APPLY_TRANSFORMERS_DEFAULT      = true;
-  boolean PROP_VCG_DOMAINCHECK_RAISE_TYPE_WARNINGS_DEFAULT     = true; /* by default raise warnings as errors */
+  boolean PROP_VCG_DOMAINCHECK_RAISE_TYPE_WARNINGS_DEFAULT     = false; 
   Markup  PROP_VCG_DOMAINCHECK_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;
   String  PROP_VCG_DOMAINCHECK_PARENTS_TO_IGNORE_DEFAULT       = null;
 
