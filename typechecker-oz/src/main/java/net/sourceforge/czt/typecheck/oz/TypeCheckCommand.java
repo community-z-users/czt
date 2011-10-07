@@ -33,13 +33,21 @@ public class TypeCheckCommand
   extends net.sourceforge.czt.typecheck.z.TypeCheckCommand
   implements TypecheckPropertiesKeys
 {
+
+  protected Boolean strongTyping_ = null;
+
+  @Override
+  protected void processProperties(SectionManager manager)
+  {
+    super.processProperties(manager);
+    strongTyping_ = manager.hasProperty(PROP_TYPECHECK_USE_STRONG_TYPING) ?
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_STRONG_TYPING) : PROP_TYPECHECK_USE_STRONG_TYPING_DEFAULT;
+  }
+
+  @Override
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
-    boolean recursiveTypes =
-      manager.getBooleanProperty(PROP_TYPECHECK_RECURSIVE_TYPES);
-    boolean strong =
-      manager.getBooleanProperty(PROP_TYPECHECK_USE_STRONG_TYPING);
-    return TypeCheckUtils.typecheck(term, manager, recursiveTypes, strong);
+    return TypeCheckUtils.typecheck(term, manager, recursiveTypes_, strongTyping_);
   }
 }
