@@ -1290,6 +1290,7 @@ zeves/src/test/resources/tests/bbook.tex -text
 zeves/src/test/resources/tests/bbook.zed8 -text
 zeves/src/test/resources/tests/bbook.zev -text
 zeves/src/test/resources/tests/bindSel.tex -text
+zeves/src/test/resources/tests/chain.tex -text
 zeves/src/test/resources/tests/cliffs-experiment.tex -text
 zeves/src/test/resources/tests/dollarNamedThm.tex -text
 zeves/src/test/resources/tests/genActs.tex -text
