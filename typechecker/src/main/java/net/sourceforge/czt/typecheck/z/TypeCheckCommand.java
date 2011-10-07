@@ -20,14 +20,16 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.Iterator;
 import java.util.List;
-
 import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.z.util.*;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.WarningManager;
 
@@ -37,27 +39,53 @@ import net.sourceforge.czt.z.util.WarningManager;
 public class TypeCheckCommand extends AbstractCommand
           implements TypecheckPropertiesKeys
 {
+
+  protected Boolean useBeforeDecl_ = null;
+  protected Boolean recursiveTypes_ = null;
+  protected Boolean useNameIds_ = null;
+  protected Boolean sortDeclNames_ = null;
+  protected WarningManager.WarningOutput warningOutput_ = null;
+  
+  @Override
+  protected void processProperties(SectionManager manager)
+  {
+    useBeforeDecl_ = manager.hasProperty(PROP_TYPECHECK_USE_BEFORE_DECL) ?
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL) : PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT;
+    recursiveTypes_ = manager.hasProperty(PROP_TYPECHECK_RECURSIVE_TYPES) ?
+      manager.getBooleanProperty(PROP_TYPECHECK_RECURSIVE_TYPES) : PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT;
+    useNameIds_ = manager.hasProperty(PROP_TYPECHECK_USE_NAMEIDS) ?
+      manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS) : PROP_TYPECHECK_USE_NAMEIDS_DEFAULT;
+    sortDeclNames_ = manager.hasProperty(PROP_TYPECHECK_SORT_DECL_NAMES) ?
+      manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES) : PROP_TYPECHECK_SORT_DECL_NAMES_DEFAULT;
+    // will throw exception if set to something funny at section manager :-(? Catch here? Or what? TODO
+    warningOutput_ = manager.hasProperty(PROP_TYPECHECK_WARNINGS_OUTPUT) ?
+      WarningManager.WarningOutput.valueOf(manager.getProperty(PROP_TYPECHECK_WARNINGS_OUTPUT)) :
+      PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT;
+  }
+
+  protected void processWarnings(List<? extends ErrorAnn> errors)
+  {
+    // if not raising warnings, remove it from the computed result.
+    // since this is a SectManager TypeCheck call, then SHOW/HIDE
+    // are not quite available? TODO
+    if (!warningOutput_.equals(WarningManager.WarningOutput.RAISE))
+    {
+      Iterator<? extends ErrorAnn> it = errors.iterator();
+      while (it.hasNext())
+      {
+        net.sourceforge.czt.typecheck.z.ErrorAnn error = it.next();
+        if (error.getErrorType().equals(ErrorType.WARNING))
+          it.remove();
+      }
+    }
+  }
+
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
-    boolean useBeforeDecl =
-      manager.getBooleanProperty(PROP_TYPECHECK_USE_BEFORE_DECL);
-    boolean recursiveTypes =
-      manager.getBooleanProperty(PROP_TYPECHECK_RECURSIVE_TYPES);
-    boolean useNameIds =
-      manager.getBooleanProperty(PROP_TYPECHECK_USE_NAMEIDS);
-    boolean sortDeclNames =
-      manager.getBooleanProperty(PROP_TYPECHECK_SORT_DECL_NAMES);
-    String warningOutput = manager.getProperty(PROP_TYPECHECK_WARNINGS_OUTPUT);
-    if (warningOutput == null || warningOutput.isEmpty())
-    {
-      warningOutput = PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT.toString();
-    }
-    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl,
-				    recursiveTypes, useNameIds,
-        WarningManager.WarningOutput.valueOf(warningOutput), null);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_,
+				    recursiveTypes_, useNameIds_, warningOutput_, null);
   }
-
 
   /**
    * This command type checks the given ZSection name, providing no parsing
@@ -86,7 +114,9 @@ public class TypeCheckCommand extends AbstractCommand
       //Typechecks the given section. This will include the SectTypeEnv we
       //are looking for into the manager.
       List<? extends ErrorAnn> errors = typecheck(zs, manager);
-      if (! errors.isEmpty()) {
+      processWarnings(errors);
+      if (!errors.isEmpty())
+      {
         int count = errors.size();
         final String message = "Section " + name + " contains " + count +
           (count == 1 ? " error." : " errors.");

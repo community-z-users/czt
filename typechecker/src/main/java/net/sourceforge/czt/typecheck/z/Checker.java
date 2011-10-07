@@ -510,6 +510,7 @@ abstract public class Checker<R>
   /**
    * Return the result result of the typechecking process -- FALSE if
    * there are any error messages, TRUE otherwise.
+   * @return
    */
   protected Boolean getResult()
   {
