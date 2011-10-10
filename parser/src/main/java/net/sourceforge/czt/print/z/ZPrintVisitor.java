@@ -1317,6 +1317,24 @@ public class ZPrintVisitor
     }
   }
 
+  protected void printTermList(List<? extends Term> list, List<? extends Token> separators)
+  {
+    if (separators == null || separators.isEmpty()) throw new NullPointerException();
+    for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
+      Term term = (Term) iter.next();
+      visit(term);
+      if (iter.hasNext())
+      {
+        Iterator<? extends Token> sepit = separators.iterator();
+        while (sepit.hasNext())
+        {
+          Token separator = sepit.next();
+          print(separator);
+        }
+      }
+    }
+  }
+
   /**
    * @throws NullPointerException if separator is <code>null</code>.
    */
