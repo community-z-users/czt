@@ -203,10 +203,20 @@ action code
       Object o = latexCommands.get(word);
       if (o instanceof MarkupDirective) {
         MarkupDirective directive = (MarkupDirective) o;
+        <add:zeves>
+        // although applies$to is an infix operator, because
+        // "to" is a reserved word, and "$" not part an usual
+        // name, we must insist on hard spaces around it.
+        // that is, for applies$to in Unicode we *MUST* have ~applies\$to~ in LaTeX
+        //
+        // there is only one other place in the ZEves mathematical toolkit this happens, "the$integer"
+        //
+        boolean requiresHardSpace = word.equals("applies$to") || word.equals("the$integer");
+        </add:zeves>
         command = new LatexCommand(directive.getCommand(),
                                    directive.getUnicode(),
-                                   directive.addLeftSpace(),
-                                   directive.addRightSpace());
+                                   directive.addLeftSpace() <add:zeves>&amp;&amp; !requiresHardSpace</add:zeves>,
+                                   directive.addRightSpace()<add:zeves>&amp;&amp; !requiresHardSpace</add:zeves>);
       }
       else {
         command = (LatexCommand) o;
