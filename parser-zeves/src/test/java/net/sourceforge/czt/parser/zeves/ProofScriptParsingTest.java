@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.zeves;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,8 +57,6 @@ public class ProofScriptParsingTest
   
   private PrintVisitor printer_ = null;
 
-  private JaxbXmlWriter writer_ = new JaxbXmlWriter();
-  
   @Override
   protected void setUp() throws Exception
   {
@@ -82,12 +79,18 @@ public class ProofScriptParsingTest
   {
     if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
     String fileName = resource.getPath();
-    System.out.println("Parsing successful, start printing of " + resource);
+    if (isDebugging())
+    {
+      System.out.println("Parsing successful, start printing of " + resource);
+    }
     fStage_ = 1;
 
-    LatexScannerDebugger.debugPrinter(new FileSource(fileName), getManager(), term);
-    
-    System.out.println("\nPrinting successful, start re-parsing of derived files");
+    LatexScannerDebugger.debugPrinter(new FileSource(fileName), getManager(), term, isDebugging());
+
+    if (isDebugging())
+    {
+      System.out.println("\nPrinting successful, start re-parsing of derived files");
+    }
     List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
 
     fStage_ = 2;
@@ -95,7 +98,10 @@ public class ProofScriptParsingTest
     for(Markup m : markups)
     {
       final String refile = fileName + Markup.getDefaultFileExtention(m);
-      System.out.println("  reparsting " + refile);
+      if (isDebugging())
+      {
+        System.out.println("  reparsting " + refile);
+      }
       parse(refile);
     }
   }

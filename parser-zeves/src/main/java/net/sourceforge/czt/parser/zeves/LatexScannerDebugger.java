@@ -120,17 +120,17 @@ public class LatexScannerDebugger {
     DebugUtils.scan(scanner, Sym.class, writer);
   }
 
-  private static Writer createWriter(Source source, Markup markup) throws UnsupportedEncodingException, FileNotFoundException
+  private static Writer createWriter(Source source, Markup markup, boolean isDebugging) throws UnsupportedEncodingException, FileNotFoundException
   {
     final String fileName = source.getName() + Markup.getDefaultFileExtention(markup);
     File file = new File(fileName);
     if (file.exists()) file.delete();
     BufferedWriter result = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
-    System.out.println("  created file " + fileName);
+    if (isDebugging) System.out.println("  created file " + fileName);
     return result;
   }
 
-  protected static void debugPrinter(Source source, SectionManager sectInfo, Term term) throws IOException, CommandException
+  protected static void debugPrinter(Source source, SectionManager sectInfo, Term term, boolean isDebugging) throws IOException, CommandException
   {
     sectInfo.setProperty("czt.debug.ZmlScanner", "false");
     //sectInfo.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, Integer.toString(2));
@@ -139,37 +139,26 @@ public class LatexScannerDebugger {
         sourceKeyName = sourceKeyName.substring(0, sourceKeyName.lastIndexOf("."));
     if (term != null)
     {
-      System.out.println("\n=================================================================");
-      System.out.println("Direct " + source.getMarkup() + " printing of " + source.getName());
+      if (isDebugging)
+      {
+        System.out.println("\n=================================================================");
+        System.out.println("Direct " + source.getMarkup() + " printing of " + source.getName());
+      }
       PrintVisitor printer = new PrintVisitor(false);
       printer.setPrintIds(false);
       printer.setOffset(1, 1);
 
-      System.out.println("\n============================ TOSTRING ============================");
+      if (isDebugging)
+      {
+        System.out.println("\n============================ TOSTRING ============================");
+      }
       ZUtils.setToStringVisitor(term, printer);
       final String s = term.toString();
-      System.out.println("  toString successful for " + sourceKeyName);
 
-//      System.out.println("\n============================ PRTUTILS-LATEX ============================");
-//      StringWriter sw = new StringWriter();
-//      PrintUtils.print(term, sw, sectInfo, sourceKeyName, Markup.LATEX);
-//      sw.flush();
-//      System.out.println(sw.toString());
-//      System.out.println();
-//
-//      System.out.println("\n============================ PRTUTILS-UNICODE ============================");
-//      File file = new File(source.getName() + "PTRUTLS.zed8");
-//      if (file.exists())
-//        file.delete();
-//      //ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//      BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
-//      PrintUtils.print(term, fw, sectInfo, sourceKeyName, Markup.UNICODE);
-//      fw.close();
-//      System.out.println("Created file " + source.getName() + "PTRUTLS.zed8");
-//      //System.out.println(baos.toString("UTF-8"));
-    
-      System.out.println("\n==================================================================");
-      System.out.println("SM " + source.getMarkup() + " printing of " + source.getName());
+      if (isDebugging)
+      {
+        System.out.println("SM " + source.getMarkup() + " printing of " + source.getName());
+      }
 
       List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
       markups.remove(Markup.getMarkup(source.getName()));
@@ -180,26 +169,26 @@ public class LatexScannerDebugger {
         switch (m)
         {
           case LATEX:
-            System.out.println("\n============================ LATEX    ============================");
+            if (isDebugging) System.out.println("\n============================ LATEX    ============================");
             ps = sectInfo.get(new Key<LatexString>(sourceKeyName, LatexString.class));
             break;
           case UNICODE:
-            System.out.println("\n============================ UNICODE  ============================");
+            if (isDebugging) System.out.println("\n============================ UNICODE  ============================");
             ps = sectInfo.get(new Key<UnicodeString>(sourceKeyName, UnicodeString.class));
             break;
           case  ZML:
-            System.out.println("\n============================ XML      ============================");
+            if (isDebugging) System.out.println("\n============================ XML      ============================");
             ps = sectInfo.get(new Key<XmlString>(sourceKeyName, XmlString.class));
             break;
           default:
             throw new Error();
         }
         assert ps != null;
-        Writer w = createWriter(source, m);
+        Writer w = createWriter(source, m, isDebugging);
         w.write(ps.toString());
         w.close();
       }
-      System.out.println("==================================================================");
+      if (isDebugging) System.out.println("==================================================================");
     }
     else
     {
@@ -209,7 +198,7 @@ public class LatexScannerDebugger {
 
 
   protected static void debugParser(Source source, boolean print,
-          Integer width, boolean formatGoal) throws CommandException, ParseException, IOException, UnmarshalException
+          Integer width, boolean formatGoal, boolean isDebugging) throws CommandException, ParseException, IOException, UnmarshalException
   {
       SectionManager sectInfo_ = new SectionManager("zeves");
       sectInfo_.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, width.toString());
@@ -247,7 +236,7 @@ public class LatexScannerDebugger {
       }
 
       if (print)
-        debugPrinter(source, sectInfo_, term);
+        debugPrinter(source, sectInfo_, term, isDebugging);
   }
 
   @SuppressWarnings("CallToThreadDumpStack")
@@ -311,7 +300,7 @@ public class LatexScannerDebugger {
       {
         //CztLogger.setConsoleHandler(CztLogger.getLogger(Parser.class), Level.ALL, Level.OFF, formatter);
         //CztLogger.setConsoleHandler(CztLogger.getLogger(net.sourceforge.czt.zeves.jaxb.AstToJaxb.class), Level.ALL, Level.ALL, formatter);
-        debugParser(source, print, width, formatG);
+        debugParser(source, print, width, formatG, false);
       }
     }
     catch (Exception e) {

@@ -19,6 +19,7 @@ public class ScanningTest
         extends TestCase
 {
 
+  protected final static boolean DEBUG = false;
   protected final static String TEST_DIR =
                                 "/tests/zeves/";
 
@@ -87,7 +88,7 @@ public class ScanningTest
     StringWriter sw = new StringWriter();
     LatexScannerDebugger.debugScanner(sw, source);
     sw.close();
-    System.out.println("  scanning successful");
+    if (DEBUG) System.out.println("\t\t scanning OKAY");
   }
 
   class TestNormal
@@ -105,7 +106,7 @@ public class ScanningTest
     {
       try
       {
-        System.out.println("Scanning test for " + name_);
+        if (DEBUG) System.out.print("Scanning test for " + name_);
         scan(name_);
       }
       catch (RuntimeException e)
