@@ -716,6 +716,7 @@ rules/src/test/resources/rewrite/NestedSameName.tex -text
 rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/src/main/java/net/sourceforge/czt/session/AbstractCommand.java -text
+session/src/main/java/net/sourceforge/czt/session/KnownExtensions.java -text
 session/src/main/java/net/sourceforge/czt/session/SpecSource.java -text
 session/src/main/java/net/sourceforge/czt/session/UnknownCommandException.java -text
 session/src/main/resources/circus.commands -text

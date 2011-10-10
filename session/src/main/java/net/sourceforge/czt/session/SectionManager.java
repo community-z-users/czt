@@ -420,6 +420,14 @@ public class SectionManager
           commandClassName + "; given class is not a command";
         logger.warning(message);
       }
+      else
+      {
+        final String message = "Cannot instantiate command " +
+           (typeClass == null ? " with null type Class for " + type : "") +
+           (commandClass == null ? " with null command Class for " + commandClassName : "") +
+           ". That means some dependencies could not be found.";
+        logger.fine(message);
+      }
     }
     catch (ExceptionInInitializerError e) {
       final String message = "Cannot instantiate command " + commandClassName +
