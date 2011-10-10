@@ -175,10 +175,10 @@ public abstract class CztManagedTest extends TestCase
   {
     final String sourceData = fileName;
     final String sourceName = SourceLocator.getSourceName(sourceData);
-    //if (isDebugging())
-    //{
+    if (isDebugging())
+    {
       System.out.println("createSource = " + sourceName + ", " + sourceData);
-    //}
+    }
     Source source = new FileSource(sourceData);
     source.setMarkup(Markup.getMarkup(sourceData)); // extract the right markup
     getManager().put(new Key<Source>(sourceName, Source.class), source);
@@ -240,7 +240,7 @@ public abstract class CztManagedTest extends TestCase
       localcztpath += File.pathSeparator + testsPath_;
     }
     manager_.setProperty("czt.path", localcztpath);
-    if (debug_)
+    if (isDebugging())
     {
       System.out.println("test.path= " + testsPath_);
       System.out.println("czt.path = " + localcztpath);
@@ -282,7 +282,7 @@ public abstract class CztManagedTest extends TestCase
       throw new IllegalArgumentException("Unsupported Protocol");
     }
     final File dir = new File(url.getFile());
-    if (debug_)
+    if (isDebugging())
     {
       manager_.getLogger().info("Looking for test files under " + dir);
     }
@@ -482,7 +482,7 @@ public abstract class CztManagedTest extends TestCase
     {
       if (e instanceof ParseException)
       {
-        if (debug_)
+        if (CztManagedTest.this.isDebugging())
         {
           printStackTraceWithCauses(e);
         }
