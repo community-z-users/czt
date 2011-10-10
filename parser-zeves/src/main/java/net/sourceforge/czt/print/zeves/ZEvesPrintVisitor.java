@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.print.zeves;
 
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.Stack;
 import net.sourceforge.czt.parser.util.Decorword;
@@ -199,8 +200,10 @@ public class ZEvesPrintVisitor
     }
     print(ZToken.DECORWORD, new Decorword(name));
     printGenericFormals(conjPara.getNameList());
+    print(ZToken.NL);
     //no need for print(ZKeyword.CONJECTURE);
     visit(conjPara.getPred());
+    print(ZToken.NL);
     print(ZToken.END);
     return null;
   }
@@ -211,9 +214,13 @@ public class ZEvesPrintVisitor
     print(ZEvesProofToken.ZPROOF);
     currentProofScript_ = term.getZName();
     visit(term.getName());
-    printTermList(term.getProofCommandList(), ZEvesProofToken.ZPROOFCOMMANDSEP);
+    print(ZToken.NL);
+    printTermList(term.getProofCommandList(), Arrays.<Token>asList(ZEvesProofToken.ZPROOFCOMMANDSEP, ZToken.NL));
     if (!term.getProofCommandList().isEmpty())
+    {
       print(ZEvesProofToken.ZPROOFCOMMANDSEP);
+      print(ZToken.NL);
+    }
     currentProofScript_ = null;
     print(ZToken.END);
     return null;
