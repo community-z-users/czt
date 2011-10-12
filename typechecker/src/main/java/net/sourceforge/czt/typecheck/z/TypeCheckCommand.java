@@ -30,6 +30,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.WarningManager;
 
@@ -113,6 +114,11 @@ public class TypeCheckCommand extends AbstractCommand
     if (zs != null) {
       //Typechecks the given section. This will include the SectTypeEnv we
       //are looking for into the manager.
+      SectTypeEnvAnn env = zs.getAnn(SectTypeEnvAnn.class);
+      if (env != null) {
+        manager.put(new Key(name, SectTypeEnvAnn.class), env);
+        return false;
+      }
       List<? extends ErrorAnn> errors = typecheck(zs, manager);
       processWarnings(errors);
       if (!errors.isEmpty())
