@@ -53,6 +53,12 @@ public class PowerTypeImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getType() };
+    return erg;
+  }
+
   public PowerTypeImpl create(Object [] args)
   {
     PowerType powerType = (PowerType) term_.create(args);

@@ -55,6 +55,12 @@ public class SignatureAnnImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getSignature() };
+    return erg;
+  }
+
   public SignatureAnnImpl create(Object [] args)
   {
     SignatureAnn signatureAnn = (SignatureAnn) term_.create(args);

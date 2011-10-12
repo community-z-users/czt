@@ -53,6 +53,12 @@ public class TypeAnnImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getType() };
+    return erg;
+  }
+
   public TypeAnnImpl create(Object [] args)
   {
     TypeAnn typeAnn = (TypeAnn) term_.create(args);

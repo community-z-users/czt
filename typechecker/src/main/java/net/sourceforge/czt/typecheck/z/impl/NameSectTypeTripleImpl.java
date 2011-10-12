@@ -83,6 +83,12 @@ public class NameSectTypeTripleImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getName(), getSect(), getType() };
+    return erg;
+  }
+
   public NameSectTypeTripleImpl create(Object [] args)
   {
     NameSectTypeTriple triple = (NameSectTypeTriple) term_.create(args);

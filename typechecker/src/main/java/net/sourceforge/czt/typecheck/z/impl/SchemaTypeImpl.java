@@ -53,6 +53,12 @@ public class SchemaTypeImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getSignature() };
+    return erg;
+  }
+
   public SchemaTypeImpl create(Object [] args)
   {
     SchemaType schemaType = (SchemaType) term_.create(args);

@@ -51,6 +51,12 @@ public class ProdTypeImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getType() };
+    return erg;
+  }
+
   public ProdTypeImpl create(Object [] args)
   {
     ProdType prodType = (ProdType) term_.create(args);

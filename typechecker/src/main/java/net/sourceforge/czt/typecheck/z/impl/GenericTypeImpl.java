@@ -65,6 +65,12 @@ public class GenericTypeImpl
     return genericType.toString();
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getNameList(), getType() };
+    return erg;
+  }
+
   public GenericTypeImpl create(Object [] args)
   {
     GenericType genericType = (GenericType) term_.create(args);

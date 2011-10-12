@@ -71,6 +71,12 @@ public class NameTypePairImpl
     return result;
   }
 
+  public Object[] getChildren()
+  {
+    Object[] erg = { getName(), getType() };
+    return erg;
+  }
+
   public NameTypePairImpl create(Object [] args)
   {
     NameTypePair pair = (NameTypePair) term_.create(args);
