@@ -85,7 +85,7 @@ public class ZEvesOp
       case POSTOP :
         return first + " " + opName;
       case INOP : {
-        if (form.size() != 2) {
+        if (form.size() < 2) {
           throw new IllegalStateException("Invalid ZEves Op items: " + form);
         }
         
@@ -95,8 +95,25 @@ public class ZEvesOp
          */
         String opSuffix = getName().getNameClass() == NameClass.RELIMG ? 
             ZString.SPACE + ZString.RIMG : "";
+        
+        /*
+         * For some operations, e.g. cross-product, there can be more than
+         * 2 arguments, which would represent a, e.g. Y x Z x N cross product.
+         * 
+         * To be generic, just loop until the end of form field.
+         */
 
-        return first + " " + opName + " " + String.valueOf(form.get(1)) + opSuffix;
+        StringBuilder result = new StringBuilder(first);
+        for (int index = 1; index < form.size(); index++) {
+          result.append(ZString.SPACE);
+          result.append(opName);
+          result.append(ZString.SPACE);
+          result.append(String.valueOf(form.get(index)));
+          result.append(opSuffix);
+        }
+        
+        return result.toString();
+//        return first + " " + opName + " " + String.valueOf(form.get(1)) + opSuffix;
       }
     }
 
