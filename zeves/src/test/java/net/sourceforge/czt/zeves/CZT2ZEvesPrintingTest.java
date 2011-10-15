@@ -51,8 +51,8 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   {
     String fileName = resource.getPath(); //getFile() returns the protocol as well
     List<String> result = new ArrayList<String>();
-    result = CZT2ZEves.runPrinter(fileName, true);
-    System.out.println(result.size() + " Z/Eves command(s) created:\n");
+    result = CZT2ZEves.runPrinter(fileName, true, DEBUG_TESTING);
+    if (DEBUG_TESTING) { System.out.println(result.size() + " Z/Eves command(s) created:\n"); }
     if (!result.isEmpty() && result.get(0).equals("ERRORS"))
     {
       for(String s : result)
@@ -87,8 +87,11 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   {
     CZT2ZEvesPrintingTest test = new CZT2ZEvesPrintingTest(DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
-    System.out.println("Number of tests for Z/Eves XML protocol printing: " + result.countTestCases());
-    System.out.println();
+    if (DEBUG_TESTING)
+    {
+      System.out.println("Number of tests for Z/Eves XML protocol printing: " + result.countTestCases());
+      System.out.println();
+    }
     return result;
   }
 

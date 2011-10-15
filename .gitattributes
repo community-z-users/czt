@@ -1307,6 +1307,7 @@ zeves/src/test/resources/tests/bindSel.tex -text
 zeves/src/test/resources/tests/chain.tex -text
 zeves/src/test/resources/tests/cliffs-experiment.tex -text
 zeves/src/test/resources/tests/dollarNamedThm.tex -text
+zeves/src/test/resources/tests/forest.tex -text
 zeves/src/test/resources/tests/genActs.tex -text
 zeves/src/test/resources/tests/ifthenElse.tex -text
 zeves/src/test/resources/tests/instantiateTest.tex -text

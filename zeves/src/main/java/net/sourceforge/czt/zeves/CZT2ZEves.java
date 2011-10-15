@@ -45,7 +45,8 @@ public class CZT2ZEves {
 
     public static final String DEFAULT_ADDRESS = "127.0.0.1";
     public static final String DEFAULT_PORT    = "6789";
-    
+    private static final boolean DEBUG = false;
+
     /** Creates a new instance of CZT2ZEves */
     public CZT2ZEves() {
     }
@@ -53,8 +54,8 @@ public class CZT2ZEves {
     public static void main(String[] args) throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException {
         if (args.length >= 1) {
             if (args.length > 1 && args[0].startsWith("-print")) {
-                List<String> result = runPrinter(args[1], args[0].equals("-printAll"));
-                System.out.println(result.size() + " Z/Eves command(s) created:\n");
+                List<String> result = runPrinter(args[1], args[0].equals("-printAll"), DEBUG);
+                if (DEBUG) { System.out.println(result.size() + " Z/Eves command(s) created:\n"); }
                 for(String s : result) {
                     System.out.println(s);
                 }
@@ -98,7 +99,7 @@ public class CZT2ZEves {
             System.out.println("Usage: '-print filename.tex', '-run' with properties file, or '-run server addr port'");
     }
     
-    public static List<String> runPrinter(String filename, boolean printNarrParaAsComment)
+    public static List<String> runPrinter(String filename, boolean printNarrParaAsComment, boolean debug)
     throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException
     {
         SectionManager manager = new SectionManager("zeves");
@@ -122,7 +123,7 @@ public class CZT2ZEves {
             it.remove();
           }
         }
-        if (foundWarnings != 0)
+        if (debug && foundWarnings != 0)
         {
           System.out.println("Found " + foundWarnings + " warnings. They are being ignored.");
         }
