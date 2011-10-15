@@ -971,6 +971,7 @@ typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.tex -tex
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.zed8 -text
 typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/foo.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/forest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/ifthenElse.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv.tex -text
