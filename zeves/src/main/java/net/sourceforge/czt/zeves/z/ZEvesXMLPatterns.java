@@ -224,7 +224,7 @@ public interface ZEvesXMLPatterns {
      * {0} let-def          => getLetDef(term.getSchText());
      * {1} expression       => getExpr(term.getExpr());
      */
-    public static final String LET_EXPR_PATTERN = "<word style=\"bold\"/>let<word/>{0} &bullet; {1}";
+    public static final String LET_EXPR_PATTERN = "(<word style=\"bold\"/>let<word/>{0} &bullet; {1})";
     
     /**
      * {0} expression       => getExpr(term.getExpr());
