@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.zeves.response.form.ZEvesName.NameClass;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 
 /**
  * <!ELEMENT op (name, (%form;)+, type?)>
@@ -76,7 +78,19 @@ public class ZEvesOp
     if (form.size() < 1) {
       throw new IllegalStateException("No ZEves Op items: " + form);
     }
+    
+    if (type != null && getName().getGenActuals().isEmpty()) {
+      
+      // print as mixfix only if there are no generic actuals
+      // otherwise CZT cannot parse it
+      return getMixFixOp(opName, form);
+    }
+    
+    return getNoFixOp(opName, form);
+  }
 
+  private String getMixFixOp(String opName, List<?> form)
+  {
     String first = String.valueOf(form.get(0));
 
     switch (type) {
@@ -115,9 +129,32 @@ public class ZEvesOp
         return result.toString();
 //        return first + " " + opName + " " + String.valueOf(form.get(1)) + opSuffix;
       }
+      
+      default : {
+        throw new UnsupportedOperationException("Unsupported operation type: " + type);
+      }
     }
-
-    return "_" + opName + "_";
+  }
+  
+  private String getNoFixOp(String opName, List<?> form)
+  {
+    
+    List<String> args = new ArrayList<String>(form.size());
+    for (Object elem : form) {
+      args.add(ZEvesResponseUtil.withParentheses(elem));
+    }
+    
+    if (args.size() == 0) {
+      return opName;
+    }
+    
+    if (args.size() == 1) {
+      return opName + ZString.SPACE + args.get(0);
+    }
+    
+    return opName + ZString.SPACE + ZEvesString.LPAREN + 
+        ZEvesResponseUtil.concat(args, ZString.COMMA + ZString.SPACE) + ZString.RPAREN;
+    
   }
   
   private String fixOpName(String name) {

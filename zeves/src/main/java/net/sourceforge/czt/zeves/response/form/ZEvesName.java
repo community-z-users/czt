@@ -144,28 +144,43 @@ public class ZEvesName
 
     return ident;
   }
+  
+  public List<?> getGenActuals() {
+    return Collections.unmodifiableList(genActuals.getItems());
+  }
 
   @Override
   public String toString()
   {
-    String genActs = getGenActInfo(genActuals.getItems());
-    String ident = getIdent();
-    if (genActs.isEmpty()) {
+
+    if (getGenActuals().isEmpty()) {
       return getIdent();
     }
     
+    String ident = getIdent();
+    String genActs = getGenActInfo(getGenActuals());
+    
     // for genactuals, there are several cases, where Z/Eves uses them
     // differently than CZT, so we need to take into account the operators with genacts
+    
+    String open = ZString.LPAREN;
+    String close = ZString.RPAREN;
+    
     String genIdent;
     if (PREFUNS.contains(ident) || cclass == NameClass.PREREL) {
       // add varargs to the end
-      genIdent = "(" + ident + ZString.ARG_TOK + ")";
+      genIdent = open + ident + ZString.ARG_TOK + close;
     } else if (cclass == NameClass.POSTFUN) {
       // add varargs to the front
-      genIdent = "(" + ZString.ARG_TOK + ident + ")";
+      genIdent = open + ZString.ARG_TOK + ident + close;
     } else if (cclass == NameClass.INFUN || cclass == NameClass.INREL) {
       // add varargs to both sides
-      genIdent = "(" + ZString.ARG_TOK + ident + ZString.ARG_TOK + ")";
+      genIdent = open + ZString.ARG_TOK + ident + ZString.ARG_TOK + close;
+    } else if (cclass == NameClass.RELIMG) {
+      // add varargs to both sides and close the relimg
+      // relational image is a special case - we need to close the operation explicitly
+      genIdent = open + ZString.ARG_TOK + ident + ZString.ARG_TOK + 
+          ZString.RIMG + ZString.OP_SEPARATOR + close;
     } else {
       // unsupported yet - just use ident
       genIdent = ident;
@@ -180,7 +195,7 @@ public class ZEvesName
       return "";
     }
 
-    return "[" + ZEvesResponseUtil.concat(genActuals, ", ") + "]";
+    return ZString.LSQUARE + ZEvesResponseUtil.concat(genActuals, ", ") + ZString.RSQUARE;
   }
   
   public NameClass getNameClass() {

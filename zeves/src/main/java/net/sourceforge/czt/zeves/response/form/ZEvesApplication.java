@@ -8,6 +8,10 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import net.sourceforge.czt.z.util.ZString;
+
+import static net.sourceforge.czt.zeves.response.ZEvesResponseUtil.withParentheses;
+
 /**
  * <!ELEMENT application (%form;, %form;, type?)>
  * 
@@ -31,18 +35,24 @@ public class ZEvesApplication
       throw new IllegalStateException("Invalid ZEvesApplication items: " + form);
     }
 
-    return withParentheses(form.get(0)) + " " + withParentheses(form.get(1));
+    return withParentheses(form.get(0)) + " " + fixArgument(form.get(1));
   }
   
-  private String withParentheses(Object elem) {
-    String val = String.valueOf(elem);
+  private String fixArgument(Object element) {
     
-    if (!(elem instanceof ZEvesName) && !(elem instanceof ZEvesParenForm)) {
-      // a complex element - add parentheses
-      return "( " + val + " )";
+    String val = withParentheses(element);
+    
+    if ("#".equals(val)) {
+      /*
+       * Need to handle a special case of "#" operator.
+       * 
+       * It is not considered as such by Z/Eves, so when it appears in argument 
+       * of function application, we need to add arguments to the name.
+       */
+      return ZString.LPAREN + val + ZString.ARG_TOK + ZString.RPAREN;
     }
     
     return val;
   }
-
+  
 }
