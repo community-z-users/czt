@@ -67,7 +67,7 @@ public class TypeCheckerTest
   protected static boolean DEBUG_TESTING = false; // true;
   // true => executes the printing tests, which will reparse and print files.
   protected static boolean TESTING_PRINTING = false;
-  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.WARNING;
+  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : TESTING_PRINTING ? Level.WARNING : Level.SEVERE;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
 
   static
@@ -75,7 +75,12 @@ public class TypeCheckerTest
     File shouldDebug = new File("src/test/resources/tests/zeves/debug-please");
     try
     {
-      System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() + "\n abs path = " + shouldDebug.getAbsolutePath() + "\n can path = " + shouldDebug.getCanonicalPath() + " \n exists? = " + shouldDebug.exists());
+      if (TESTING_PRINTING) {
+          System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() +
+                  "\n abs path = " + shouldDebug.getAbsolutePath() +
+                  "\n can path = " + shouldDebug.getCanonicalPath() +
+                  " \n exists? = " + shouldDebug.exists());
+      }
     }
     catch (java.io.IOException e)
     {
@@ -87,9 +92,9 @@ public class TypeCheckerTest
       TESTS_SOURCEDIR.add("tests/zeves/debug");
       DEBUG_LEVEL = Level.FINEST;
     }
-    else
+    else 
     {
-      System.out.println("Debug mode is off");
+      if (TESTING_PRINTING) { System.out.println("Debug mode is off"); }
       TESTS_SOURCEDIR.add("tests/zeves");
       DEBUG_LEVEL = Level.WARNING;
     }
@@ -140,14 +145,14 @@ public class TypeCheckerTest
     for(String path : paths)
     {
       String fullDirectoryName = path.trim() + (!path.isEmpty() ? "\\" : "") + directoryName;
-      System.out.println("Full directory name = " + fullDirectoryName);
+      if (TESTING_PRINTING) System.out.println("Full directory name = " + fullDirectoryName);
       File directory = new File(fullDirectoryName);      
       if (!directory.isDirectory())
       {
         URL url = getClass().getResource("/");
         if (url != null)
         {
-          System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+          if (TESTING_PRINTING) System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
           directory = new File(url.getFile() + fullDirectoryName);
           if (!directory.isDirectory())
           {
@@ -196,7 +201,7 @@ public class TypeCheckerTest
         fail(fileName + " does not specify an exception name");
       }      
       String exception = fileName.substring(dashIndex+1, dotIndex);
-      System.out.println("Adding error test for " + exception);
+      if (TESTING_PRINTING) { System.out.println("Adding error test for " + exception); }
       suite.addTest(createErrorTest(fullPath, exception));
     }
     //if the file name does not end with error, then we have a
@@ -223,7 +228,7 @@ public class TypeCheckerTest
     Markup markup = Markup.getMarkup(fileName);
     source.setMarkup(Markup.getMarkup(fileName));
     SourceLocator.addCZTPathFor(file, manager);
-    System.out.println("\tabout to parse as " + markup + " file " + fileName);
+    if (TESTING_PRINTING) { System.out.println("\tabout to parse as " + markup + " file " + fileName); }
     manager.put(new Key<Source>(fileName, Source.class), source);
     Term term = manager.get(new Key<Spec>(fileName, Spec.class));
     if (/*DEBUG_TESTING &&*/ DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
@@ -289,7 +294,7 @@ public class TypeCheckerTest
       Term term = null;
       try
       {
-        System.out.println("Test normal: " + file_);
+        if (TESTING_PRINTING) { System.out.println("Test normal: " + file_); }
         term = parse(file_, manager);
         if (term == null)
         {
@@ -340,12 +345,13 @@ public class TypeCheckerTest
           }
           else
           {
-            System.out.println("\t found and ignored warning : " + errorAnn.toString());
+            if (TESTING_PRINTING) { System.out.println("\t found and ignored warning : " + errorAnn.toString()); }
           }
         }
       }
-      else
-        System.out.println("\tsuccessfully typechecked " + file_);
+      else {
+        if (TESTING_PRINTING) { System.out.println("\tsuccessfully typechecked " + file_); }
+      }
     }
   }
   
@@ -376,7 +382,7 @@ public class TypeCheckerTest
       List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
       try
       {
-        System.out.println("Test error: " + file_);
+        if (TESTING_PRINTING) { System.out.println("Test error: " + file_); }
         Term term = parse(file_, manager);
         if (term == null)
         {
@@ -438,7 +444,7 @@ public class TypeCheckerTest
           incorrectError(actual);
         }
         else
-          System.out.println("\tsuccessfully found error " + exception_ + " in " + file_);
+          if (TESTING_PRINTING) { System.out.println("\tsuccessfully found error " + exception_ + " in " + file_); }
       }
     }
 

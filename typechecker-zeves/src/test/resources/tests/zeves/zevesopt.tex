@@ -101,3 +101,14 @@ Add a case where an error is not raise and there are undeclared names
 \begin[disabled]{theorem}{rule lRanElemType}[X, Y]
  \forall  A: \power~X; B: \power~Y @ \forall  R: A \rel  B | (x, y) \in  R @ y \in  B
 \end{theorem}
+
+
+\begin{theorem}{test}[A, B]
+    \forall R: A \rel B; S: \power~A @ (\_ \limg \_ \rimg)[A,B]~(R, S) = \{~ p : R | p.1 \in S @ p.2 ~\}
+\end{theorem}
+
+\begin{zproof}[test]
+	apply imageDef;
+	prove;
+	apply extensionality;
+\end{zproof}
