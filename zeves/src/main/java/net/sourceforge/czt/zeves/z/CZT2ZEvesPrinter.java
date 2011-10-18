@@ -1784,21 +1784,19 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitLetExpr(LetExpr term)
   {
-    StringBuilder result = new StringBuilder("<word style=\"bold\"/>let<word/>");
+    StringBuilder decls = new StringBuilder();
     String delim = "";
     for (Decl d : term.getZSchText().getZDeclList())
     {
       assert d instanceof ConstDecl;
       ConstDecl cd = (ConstDecl)d;
-      result.append(delim);
-      result.append(getVarName(cd.getZName(), true));
-      result.append(" == ");
-      result.append(getExpr(cd.getExpr(), true));
+      decls.append(delim);
+      decls.append(getVarName(cd.getZName(), true));
+      decls.append(" == ");
+      decls.append(getExpr(cd.getExpr(), true));
       delim = "; ";
     }
-    result.append(" &bullet; ");
-    result.append(getExpr(term.getExpr(), true));
-    return result.toString();
+    return format(LET_EXPR_PATTERN, decls.toString(), getExpr(term.getExpr(), true));
   }
 
   @Override
@@ -2063,6 +2061,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         {
           // push the expr. If it is a refExpr, check whether the mixfix is false, and if so, get ARG_TOK
           final String pe = getExpr(e, true);
+
+          // if any parameters are appl themselves, surround by parenthesis.
+          // ex. "#~(f~x)", otherwise, we would get "# f x"!
+          // note this is not quite a nested appl (or should it be?) because
+          // it is an operator. Is Nested for operator functions (e.g., ZUtils is just for
+          // explicit functions not operators) so any ApplExpr that has an ApplExpr
+          // parameter needs extra parenthesis.
+          isNested = isNested || (e instanceof ApplExpr);
           params.add(pe);
         }
         assert params.size() == args.size() + 1;
@@ -2072,12 +2078,16 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             assert params.size() == 2; // op + arg (e.g., _\inv)
             if (applFixity == Fixity.POSTFIX)
             {
-            	result = format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
+              // posfix is already restricted - from CZT(?)
+            	//result = format(isNested ? POSTFIX_APPL_EXPR_NESTED_PATTERN : POSTFIX_APPL_EXPR_PATTERN, params.toArray());
+              result = format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
             }
             else if (applFixity == Fixity.PREFIX || applFixity == Fixity.NOFIX)
             {
-            	// sometimes this happens (e.g. in #A), use the same as default ApplExpr
-            	result = format(APPL_EXPR_PATTERN, params.toArray());
+            	// sometimes this (what?) happens (e.g. in #A), use the same as default ApplExpr
+
+              // when inner parameters or the operator is a nested expression, add the parenthesis to desambiguate (e.g., #(f~x) from # f x).
+            	result = format(isNested ? NESTED_APPL_EXPR_PATTERN : APPL_EXPR_PATTERN, params.toArray());
             }
             else
               throw new ZEvesIncompatibleASTException("Invalid fixity for application expression " + opExpr + " fixity = " + applFixity, term);
