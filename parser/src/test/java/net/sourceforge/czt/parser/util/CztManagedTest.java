@@ -59,7 +59,7 @@ public abstract class CztManagedTest extends TestCase
    */
   private Markup markup_;
 
-  private boolean debug_;
+  private final boolean debug_;
 
   private String testsPath_;
 
