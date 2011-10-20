@@ -29,6 +29,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -52,8 +53,8 @@ public class TypeCheckerTest
   // false=> looks into tests/circus/*.tex
   protected static boolean DEBUG_TESTING = false; // true;
   // true => executes the printing tests, which will reparse and print files.
-  protected static boolean TESTING_PRINTING = false;
-  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.WARNING;
+  protected final static boolean VERBOSE = false;
+  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : VERBOSE ? Level.WARNING : Level.SEVERE;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
 
   static
@@ -61,7 +62,12 @@ public class TypeCheckerTest
     File shouldDebug = new File("src/test/resources/tests/circus/debug-please");
     try
     {
-      System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() + "\n abs path = " + shouldDebug.getAbsolutePath() + "\n can path = " + shouldDebug.getCanonicalPath() + " \n exists? = " + shouldDebug.exists());
+      if (VERBOSE) {
+        System.out.println("shouldDebug? \n path = " + shouldDebug.getPath() +
+                  "\n abs path = " + shouldDebug.getAbsolutePath() +
+                  "\n can path = " + shouldDebug.getCanonicalPath() +
+                  " \n exists? = " + shouldDebug.exists());
+      }
     }
     catch (java.io.IOException e)
     {
@@ -75,7 +81,7 @@ public class TypeCheckerTest
     }
     else
     {
-      System.out.println("Debug mode is off");
+      if (VERBOSE) { System.out.println("Debug mode is off"); }
       TESTS_SOURCEDIR.add("tests/circus");
       DEBUG_LEVEL = Level.WARNING;
     }
@@ -127,18 +133,18 @@ public class TypeCheckerTest
     for(String path : paths)
     {
       String fullDirectoryName = path.trim() + (!path.isEmpty() ? "\\" : "") + directoryName;
-      System.out.println("Full directory name = " + fullDirectoryName);
+      if (VERBOSE) { System.out.println("Full directory name = " + fullDirectoryName); }
       File directory = new File(fullDirectoryName);      
       if (!directory.isDirectory())
       {
         URL url = getClass().getResource("/");
         if (url != null)
         {
-          System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+          if (VERBOSE) { System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName); }
           directory = new File(url.getFile() + fullDirectoryName);
           if (!directory.isDirectory())
           {
-            System.out.println("No tests to perform on " + directory.getAbsolutePath());
+            if (VERBOSE) { System.out.println("No tests to perform on " + directory.getAbsolutePath()); }
           }
           else
           {
@@ -183,7 +189,7 @@ public class TypeCheckerTest
         fail(fileName + " does not specify an exception name");
       }      
       String exception = fileName.substring(dashIndex+1, dotIndex);
-      System.out.println("Adding error test for " + exception);
+      if (VERBOSE) { System.out.println("Adding error test for " + exception); }
       suite.addTest(createErrorTest(fullPath, exception));
     }
     //if the file name does not end with error, then we have a
@@ -203,6 +209,7 @@ public class TypeCheckerTest
     throws Exception
   {
     Term term = super.parse(new File(file).toURL(), manager);
+    if (VERBOSE) { System.out.println("\tabout to parse as " + Markup.getMarkup(file) + " file " + file); }
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
         PrintVisitor pv = new PrintVisitor();
@@ -251,10 +258,10 @@ public class TypeCheckerTest
       Term term = null;
       try
       {
-        System.out.println("Test normal: " + file_);
+        if (VERBOSE) { System.out.println("Test normal: " + file_);}
         term = parse(file_, manager);
         errors = typecheck(term, manager);
-        System.out.println("\t test finished for " + file_);
+        if (VERBOSE) { System.out.println("\t test finished for " + file_);}
       }
       catch (RuntimeException e)
       {
@@ -307,7 +314,7 @@ public class TypeCheckerTest
       List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
       try
       {
-        System.out.println("Test error: " + file_);
+        if (VERBOSE) { System.out.println("Test error: " + file_);}
         Term term = parse(file_, manager);
         if (term == null)
         {
@@ -317,7 +324,7 @@ public class TypeCheckerTest
         {
           errors = typecheck(term, manager);
         }
-        System.out.println("\t test finished for " + file_);
+        if (VERBOSE) { System.out.println("\t test finished for " + file_);}
       }
       catch (RuntimeException e)
       {

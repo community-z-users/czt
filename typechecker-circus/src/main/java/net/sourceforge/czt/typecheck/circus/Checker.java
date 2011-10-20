@@ -2088,12 +2088,14 @@ public abstract class Checker<R>
     return getCircusTypeChecker().pendingCallErrors_;
   }
   
+  @Override
   protected void postCheck()
   {
     super.postCheck();
     pendingCallErrors().clear();
   }
   
+  @Override
   protected void clearErrors()
   {
     super.clearErrors();
@@ -2118,7 +2120,7 @@ public abstract class Checker<R>
       if (errors == null)
       {
         errors = factory().list(callErrors);
-        pendingCallErrors().add(new Pair<Name, List<ErrorAnn>>(call, errors));
+        pendingCallErrors().add(Pair.getPair(call, errors));
       }
       else 
       {
