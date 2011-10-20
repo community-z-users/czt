@@ -46,7 +46,7 @@ public class DefinitionTableTest extends VCGTest
             FeasibilityUtils.getFeasibilityUtils().getExtension());
     VCGTest test = new DefinitionTableTest(manager, DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
-    System.out.println("Number of tests: " + result.countTestCases());
+    if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }
 

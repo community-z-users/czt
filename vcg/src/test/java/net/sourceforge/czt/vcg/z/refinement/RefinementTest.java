@@ -47,7 +47,7 @@ public class RefinementTest extends VCGTest implements RefinementPropertyKeys
             RefinementUtils.getRefinementUtils().getExtension());
     RefinementTest test = new RefinementTest(manager, DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
-    System.out.println("Number of tests: " + result.countTestCases());
+    if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }
 

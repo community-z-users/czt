@@ -133,7 +133,10 @@ public abstract class VCGTest extends CztManagedTest
           vcEnvCnt++;
         }
       }
-      System.out.println("Created " + vcEnvCnt + " VCEnvAnn for " + getTestsPath() + "/" + getSourceName());
+      if (isDebugging())
+      {
+        System.out.println("Created " + vcEnvCnt + " VCEnvAnn for " + getTestsPath() + "/" + getSourceName());
+      }
     }
 
     /**
@@ -152,7 +155,7 @@ public abstract class VCGTest extends CztManagedTest
         {
           failureMsg.append("DefinitionException = \n");
           failureMsg.append(((DefinitionException)e).getMessage(true));
-          failureMsg.append("\n DC-TEST-DEF-TBL-EXCEPTION-IGNORE " + url_);
+          failureMsg.append("\n DC-TEST-DEF-TBL-EXCEPTION-IGNORE ").append(url_);
           result = true;//don't fail, but print out --- TODO: change to false when more examples are handled.
         }
         else if (e instanceof TypeErrorException)

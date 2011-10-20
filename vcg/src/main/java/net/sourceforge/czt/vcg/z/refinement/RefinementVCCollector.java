@@ -548,7 +548,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     //     ||
     //    opsToRefineNamePairs_.containsValue(defName))
     {
-      Pair<Definition, AxPara> old = definitions_.put(defName, new Pair<Definition, AxPara>(schDef, term));
+      Pair<Definition, AxPara> old = definitions_.put(defName, Pair.getPair(schDef, term));
       if (old != null)
       {
         throw new CztException(createVCCollectionException("Duplicated definitions are not allowed: " + defName));
