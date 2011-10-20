@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A pair of objects.
  *
@@ -31,28 +34,54 @@ public class Pair<T1, T2>
   private final T1 first_;
   private final T2 second_;
 
-  /** Creates a new instance of NodePair. */
-  public Pair(T1 e1, T2 e2)
+  /** Creates a new instance of NodePair. Use the static factory for construction. Use this constructor for extension.
+   * @param e1
+   * @param e2
+   */
+  protected Pair(T1 e1, T2 e2)
   {
     if (e1 == null || e2 == null) throw new NullPointerException();
     first_ = e1;
     second_ = e2;
   }
 
+  /**
+   *
+   * @param <A>
+   * @param <B>
+   * @param first
+   * @param second
+   * @return
+   */
+  public static <A, B> Pair<A, B> getPair(A first, B second)
+  {
+    return new Pair<A, B>(first, second);
+  }
+
+  public static <A, B> List<Pair<A, B>> getPairList(A first, B second)
+  {
+    List<Pair<A, B>> result = new ArrayList<Pair<A, B>>();
+    result.add(getPair(first, second));
+    return result;
+  }
+
+  @Override
   public String toString()
   {
     return "( " + first_ + ", " + second_ + " )";
   }
 
+  @Override
   public int hashCode()
   {
     return first_.hashCode() + second_.hashCode();
   }
 
+  @Override
   public boolean equals(Object o)
   {
     if (o == null) return false;
-    else if (o instanceof Pair) {
+    else if (o instanceof Pair<?, ?>) {
       Pair<?, ?> p = (Pair<?, ?>) o;
       return (first_.equals(p.first_) && second_.equals(p.second_));
     }
