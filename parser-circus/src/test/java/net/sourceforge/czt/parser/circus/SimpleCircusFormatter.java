@@ -48,7 +48,14 @@ public class SimpleCircusFormatter extends Formatter {
 
     //~--- constructors -------------------------------------------------------
 
-    /** Creates a new instance of SimpleCircusFormatter */
+    /**
+     * Creates a new instance of SimpleCircusFormatter
+     * @param showTimeStamp
+     * @param showRecordedMessage
+     * @param showSourceMethod
+     * @param showDirectory
+     * @param showStackTrace
+     */
     public SimpleCircusFormatter(boolean showTimeStamp,
                                  boolean showRecordedMessage,
                                  boolean showSourceMethod,
@@ -68,8 +75,9 @@ public class SimpleCircusFormatter extends Formatter {
      * @param record the log record to be formatted.
      * @return a formatted log record
      */
+  @Override
     public synchronized String format(LogRecord record) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         if (fShowTimeStamp) {
 
@@ -129,6 +137,3 @@ public class SimpleCircusFormatter extends Formatter {
         return sb.toString();
     }
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

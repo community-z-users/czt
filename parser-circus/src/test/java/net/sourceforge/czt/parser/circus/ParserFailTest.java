@@ -57,8 +57,10 @@ public class ParserFailTest extends AbstractParserTest {
         ParserFailTest parserTests = new ParserFailTest();
 
         parserTests.collectTests(suite, TESTS_SOURCEDIR);
-        System.out.println("Number of (hoppefully) erroneous tests to run: "
+        if (VERBOSE) {
+          System.out.println("Number of (hoppefully) erroneous tests to run: "
                            + suite.countTestCases());
+        }
 
         return suite;
     }
@@ -82,7 +84,7 @@ public class ParserFailTest extends AbstractParserTest {
             try {
                 Term term = parse(new FileSource(file_));
             } catch (net.sourceforge.czt.parser.util.ParseException f) {
-                if (f.getErrorList().size() == 0) {
+                if (f.getErrorList().isEmpty()) {
                     f.printStackTrace();
                     fail(lineSeparator_
                          + "No parsing error found, despite syntactic problems"
@@ -90,12 +92,14 @@ public class ParserFailTest extends AbstractParserTest {
                          + lineSeparator_ + "tErrors: " + f.getMessage()
                          + lineSeparator_);
                 } else {
-                    System.out.print(lineSeparator_
+                    if (VERBOSE)
+                    {
+                      System.out.print(lineSeparator_
                                      + "Expected errors found for"
                                      + lineSeparator_ + "\tFile: " + file_
                                      + lineSeparator_ + "\tErrors: "
                                      + f.getMessage() + lineSeparator_);
-
+                    }
                     return;
                 }
             } catch (RuntimeException e) {
@@ -116,6 +120,3 @@ public class ParserFailTest extends AbstractParserTest {
         }
     }
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

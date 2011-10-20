@@ -23,7 +23,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Filter;
 import java.util.logging.Formatter;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -55,8 +54,11 @@ public class ParseErrorLogging {
         this(Parser.class, Level.ALL);
     }
 
-    /** Creates a new instance of ParseErrorLogging */
-    public ParseErrorLogging(Class parserCls, Level logLevel) {
+    /** Creates a new instance of ParseErrorLogging
+     * @param parserCls
+     * @param logLevel
+     */
+    public ParseErrorLogging(Class<?> parserCls, Level logLevel) {
         sfc_ = new SimpleFormatterForCircus(SHOW_TIMESTAMP,
                 SHOW_RECORDED_MESSAGE, SHOW_SOURCE_METHOD, SHOW_DIRECTORY,
                 SHOW_STACK_TRACE);
@@ -108,12 +110,12 @@ public class ParseErrorLogging {
 
     //~--- set methods --------------------------------------------------------
 
-    public void setLogLevel(Level logLevel) {
+    public final void setLogLevel(Level logLevel) {
         assert logLevel != null;
         logLevel_ = logLevel;
     }
 
-    public void setLogger(Class parserCls) {
+    public final void setLogger(Class<?> parserCls) {
         assert parserCls != null;
         logger_ = CztLogger.getLogger(parserCls);
         logger_.setLevel(logLevel_);
@@ -132,6 +134,7 @@ public class ParseErrorLogging {
     //~--- inner classes ------------------------------------------------------
 
     public class NameFilter implements Filter {
+        @Override
         public boolean isLoggable(LogRecord record) {
             String message = record.getMessage();
 
@@ -166,6 +169,3 @@ public class ParseErrorLogging {
         }
     }
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

@@ -11,9 +11,6 @@ package net.sourceforge.czt.parser.circus;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.SectionManager;
 
 //~--- classes ----------------------------------------------------------------
 

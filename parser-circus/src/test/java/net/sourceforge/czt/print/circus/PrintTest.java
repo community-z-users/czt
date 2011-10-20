@@ -13,13 +13,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.logging.Level;
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.circus.ParserTest;
-import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
 /**
@@ -34,13 +31,18 @@ public class PrintTest  extends ParserTest
     TestSuite suite = new TestSuite();
     PrintTest printTests = new PrintTest();
     printTests.collectTests(suite, TESTS_SOURCEDIR);        
-    System.out.println("Number of (hoppefully) successful tests to run: " + suite.countTestCases());
+    if (VERBOSE) { System.out.println("Number of successful tests to run: " + suite.countTestCases()); }
+    //if (VERBOSE) {
+    System.out.println("\t\tCircus printing testing skipped - AST2PrintTree not yet complete");
+            //}
     return suite;
   }
   
+  @Override
   protected void collectTest(TestSuite suite, File file)
   {       
-     if (TESTING_PRINTING) { super.collectTest(suite, file);}
+     
+    //super.collectTest(suite, file);
   }
   
   protected FileWriter print(Term term, String file) throws Exception
@@ -57,6 +59,7 @@ public class PrintTest  extends ParserTest
     return writer;
   }
   
+  @Override
   protected TestNormal createTestCase(String name) {
       return new TestNormal(name);
   }
@@ -70,20 +73,22 @@ public class PrintTest  extends ParserTest
       super(file);
     }
   
+    @Override
     protected String getFile() {
         return super.getFile() + PRINT_LATEX_EXT;
     }
     
+    @Override
     public void runTest()
     { 
       // parse the file
-      System.out.println("PARSING FOR PRINTING");
+      if (VERBOSE) { System.out.println("PARSING FOR PRINTING"); }
       innerTest();
       assertTrue("Could not parse file " + super.getFile() + " for printing", getTerm() != null);
       
       try
       {
-        System.out.println("PREPARING FOR PRINTING");
+        if (VERBOSE) { System.out.println("PREPARING FOR PRINTING"); }
         FileWriter writer = print(getTerm(), getFile());
         if (writer == null)
         {

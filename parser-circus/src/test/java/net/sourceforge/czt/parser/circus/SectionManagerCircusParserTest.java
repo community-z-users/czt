@@ -8,19 +8,15 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import junit.framework.*;
 import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.z.ast.ZSect;
 
 /**
  *
@@ -34,9 +30,8 @@ public class SectionManagerCircusParserTest extends TestCase
   protected static boolean DEBUG_TESTING = true;
   
   // true => executes the printing tests, which will reparse and print files.
-  protected static boolean TESTING_PRINTING = false;
-  
-  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.OFF;
+  protected final static boolean VERBOSE = false;
+  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : VERBOSE ? Level.WARNING : Level.SEVERE;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
   protected static ParseErrorLogging pel_;
   protected static ParseErrorLogging pelsm_;
@@ -81,7 +76,7 @@ public class SectionManagerCircusParserTest extends TestCase
       { cztHome = ""; }
     }
     String fullDirectoryName = cztHome + directoryName;
-    System.out.println("Full directory name = " + fullDirectoryName);
+    if (VERBOSE) { System.out.println("Full directory name = " + fullDirectoryName); }
     File directory = new File(fullDirectoryName);
     File[] files = null;
     if (! directory.isDirectory())
@@ -89,7 +84,7 @@ public class SectionManagerCircusParserTest extends TestCase
       URL url = getClass().getResource("/");
       if (url != null)
       {
-        System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+        if (VERBOSE) { System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName); }
         directory = new File(url.getFile() + fullDirectoryName);
         if (! directory.isDirectory())
         {
@@ -118,6 +113,7 @@ public class SectionManagerCircusParserTest extends TestCase
     }
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     files_ = new ArrayList<File>();
@@ -134,16 +130,16 @@ public class SectionManagerCircusParserTest extends TestCase
     {
       for(File file : files_)
       {
-        System.out.println("Results for "+file.getAbsolutePath());
+        if (VERBOSE) { System.out.println("Results for "+file.getAbsolutePath()); }
         Key<LatexString> k = new Key<LatexString>(file.getAbsolutePath(), LatexString.class);
         //Key<UnicodeString> k2 = new Key<UnicodeString>(file.getAbsolutePath(), UnicodeString.class);
-        System.out.println("HERE:================================================================");
+        if (VERBOSE) { System.out.println("HERE:================================================================"); }
         try
         {
           LatexString ls = manager_.get(k);
           //UnicodeString ls = manager_.get(k2);
-          System.out.println(ls.toString());
-          System.out.println("HERE:================================================================");
+          if (VERBOSE) { System.out.println(ls.toString());
+           System.out.println("HERE:================================================================"); }
           // For now do it only once.
           return ;
         }

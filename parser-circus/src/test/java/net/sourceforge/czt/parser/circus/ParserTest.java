@@ -45,10 +45,11 @@ public class ParserTest extends AbstractParserTest
     TestSuite suite = new TestSuite();
     ParserTest parserTests = new ParserTest();
     parserTests.collectTests(suite, TESTS_SOURCEDIR);        
-    System.out.println("Number of (hoppefully) successful tests to run: " + suite.countTestCases());
+    if (VERBOSE) { System.out.println("Number of successful tests to run: " + suite.countTestCases()); }
     return suite;
   }
   
+  @Override
   protected void collectTest(TestSuite suite, File file)
   {    
     String fileName = file.getName();
@@ -93,7 +94,7 @@ public class ParserTest extends AbstractParserTest
         }
         else
         { 
-          System.out.println("Parsing successful, start XML printing...");
+          if (VERBOSE) { System.out.println("Parsing successful, start XML printing..."); }
           String xmlFile;
           if (file_.lastIndexOf(".") != -1)
             xmlFile = file_.substring(0, file_.lastIndexOf(".")) + ".xml";
@@ -130,6 +131,7 @@ public class ParserTest extends AbstractParserTest
       }
     }
     
+    @Override
     public void runTest()
     {      
       innerTest();
