@@ -1648,6 +1648,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     final String result;
     String genActuals = "";
+    // get information about the ref expr
     ZExprList genAEL = term.getZExprList();
     boolean hasArguments = genAEL != null && !genAEL.isEmpty();
     boolean explicitGenAct = term.getExplicit() != null && term.getExplicit().booleanValue();
@@ -1655,6 +1656,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
     RefExprKind rek = getRefExprKind(term);
     Boolean keepArgs = null;
+
+    // prepare the argument / op-varg stack depending on op kind
     switch (rek)
     {
       // for generic operator application, e.g. X \fun Y, never keep args, even if within a nested ApplExpr
@@ -1681,9 +1684,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       default:
         throw new ZEvesIncompatibleASTException("Unknown ref expr kind");
     }
+
     // get the RefName without influencing the ARG outcome
     String refName = getVarName(term.getZName());
     assert refName != null && !refName.isEmpty();
+
+
+    // restore the argument / op-varg stack + get the appropriate pattern depending on kind of RefExpr
     switch (rek)
     {
       // for generic operator application, e.g. X \fun Y, never keep args, even if within a nested ApplExpr
@@ -1704,6 +1711,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           if (genAELSize <= 1)
             throw new ZEvesIncompatibleASTException("CZT RefExpr infix (generic) operator application must have more than one parameter.", term);
           Expr right = genAEL.get(1);
+
+          // to avoid precedence problems, always suround infix operators with parenthesis?
           refName = format(INFIX_REF_EXPR_PATTERN, lhs, refName, getExpr(right, true));
         }
         else
@@ -2016,9 +2025,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
     // ApplExpr always has getLeftExpr() as the function, and this is usually is RefExprr
     // In case we have nesting to the left (e.g.,  (f~x)~y instead of f~x~y = f(x(y))) add parenthesis on op
-    boolean isNested  = ZUtils.isNestedApplExpr(term);
-    if (isNested)
+    boolean needsGuardingParen  = ZUtils.isNestedApplExpr(term);
+    if (needsGuardingParen)
+    {
       op = "(" + op + ")";
+      //System.out.println("NESTED = " + term);
+    }
 
     // case 6.21
     if (ZUtils.isFcnOpApplExpr(term))
@@ -2055,7 +2067,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       else
       {
         // ex:  (\_ r \_) \comp (\_ s \_)  : ApplExpr(\comp, (r, s)) but as operators with \_!
-        List<String> params = new ArrayList<String>(args.size());
+        List<String> params = new ArrayList<String>(args.size()+1);
         params.add(op);
         for (Expr e : args)
         {
@@ -2068,33 +2080,46 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           // it is an operator. Is Nested for operator functions (e.g., ZUtils is just for
           // explicit functions not operators) so any ApplExpr that has an ApplExpr
           // parameter needs extra parenthesis.
-          isNested = isNested || (e instanceof ApplExpr);
+          // needsGuardingParen = needsGuardingParen || (e instanceof ApplExpr);
           params.add(pe);
         }
-        assert params.size() == args.size() + 1;
+        assert params.size() == args.size() + 1; // op + arg (e.g., _\inv)
         switch (arity)
         {
           case 1:
-            assert params.size() == 2; // op + arg (e.g., _\inv)
+            // when inner parameters or the operator is a nested expression, add the parenthesis to desambiguate (e.g., #(f~x) from # f x).
+            if (args.get(0) instanceof ApplExpr)
+            {
+              params.set(1, "(" + params.get(1) + ")");
+            }
+
             if (applFixity == Fixity.POSTFIX)
             {
-              // posfix is already restricted - from CZT(?)
-            	//result = format(isNested ? POSTFIX_APPL_EXPR_NESTED_PATTERN : POSTFIX_APPL_EXPR_PATTERN, params.toArray());
               result = format(POSTFIX_APPL_EXPR_PATTERN, params.toArray());
             }
             else if (applFixity == Fixity.PREFIX || applFixity == Fixity.NOFIX)
             {
             	// sometimes this (what?) happens (e.g. in #A), use the same as default ApplExpr
-
-              // when inner parameters or the operator is a nested expression, add the parenthesis to desambiguate (e.g., #(f~x) from # f x).
-            	result = format(isNested ? NESTED_APPL_EXPR_PATTERN : APPL_EXPR_PATTERN, params.toArray());
+            	result = format(APPL_EXPR_PATTERN, params.toArray());
             }
             else
               throw new ZEvesIncompatibleASTException("Invalid fixity for application expression " + opExpr + " fixity = " + applFixity, term);
             break;
           case 2:
-            assert params.size() == 3; // arg + op + arg (e.g., _ + _)
+            //assert params.size() == 3 && args.size() == 2; // arg + op + arg (e.g., _ + _)
             assert applFixity == Fixity.INFIX : "wrong fixity = " + applFixity + " " + term;
+
+            // parenthesise depending on what kind of param this is: operators need paren explicit applexpr don't
+            // ex: ((a \cup b) \cup c) x (f~x \cup c)  [if it was ((f~x) \cup c) ZEves doesn't like it]
+            //
+            // it seems this only occurs for infix operators. In the case of prefix operators or normal appl it is okay
+            if (/*args.get(0) instanceof ApplExpr &&*/ ZUtils.isFcnOpApplExpr(args.get(0))) // left nested?
+            {
+              params.set(1, "(" + params.get(1) + ")");
+            }
+            if (/*args.get(1) instanceof ApplExpr &&*/ ZUtils.isFcnOpApplExpr(args.get(1))) // right nested?
+              params.set(2, "(" + params.get(2) + ")");
+
             result = format(INFIX_APPL_EXPR_PATTERN, params.toArray());
             break;
           default:
@@ -2109,10 +2134,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
       String params = getExpr(rhsE, true);
 
-      if (isNested || rhsE instanceof ApplExpr)
+      if (needsGuardingParen || rhsE instanceof ApplExpr /*&& ZUtils.isFcnOpApplExpr(rhsE))*/)
+      {
         params = "(" + params + ")";
+        //System.out.println("NESTED PARAM = " + rhsE);
+      }
 
-      result = format(APPL_EXPR_PATTERN_EXPLICIT, op, params);
+      result = format(APPL_EXPR_PATTERN, op, params);
     }
     return result;
   }
@@ -3317,7 +3345,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     result.append(comment("LaTeX Markup Directives Paragraph", term.getDirective().toString()));
     for(Directive d : term.getDirective())
     {
-      Pair<String, DirectiveType> old = latexMarkupDirectives_.put(d.getUnicode(), new Pair<String, DirectiveType>(d.getCommand(), d.getType()));
+      Pair<String, DirectiveType> old = latexMarkupDirectives_.put(d.getUnicode(), Pair.getPair(d.getCommand(), d.getType()));
       assert old == null;
 
       boolean addOpTemp = d.getType().equals(DirectiveType.NONE);

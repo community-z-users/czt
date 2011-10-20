@@ -304,8 +304,6 @@ public interface ZEvesXMLPatterns {
      *       Also addded parentheses to the function, because it may be a complex expression
      */
     public static final String APPL_EXPR_PATTERN = "{0} {1}";
-    public static final String NESTED_APPL_EXPR_PATTERN = "{0} ({1})"; // ex: #(f~x)
-    public static final String APPL_EXPR_PATTERN_EXPLICIT = "{0} {1}";
     
     /**
      * {0} expression       => getExpr(term.getLeftExpr());
@@ -314,7 +312,7 @@ public interface ZEvesXMLPatterns {
      * NOTE: No parenthesis for the postfix operator. For example, tilde symbol (inverse) 
      * needs to be without parentheses, otherwise Z/Eves throws an error.
      */
-    public static final String POSTFIX_APPL_EXPR_PATTERN = "({1}) {0}";
+    public static final String POSTFIX_APPL_EXPR_PATTERN = "{1} {0}";
     
     // PS: the way operator templates are handled can be slightly different
     //     because of special cases like LANGLE, LIMG, etc. So, the pattern
@@ -325,7 +323,7 @@ public interface ZEvesXMLPatterns {
      * {2} expression   => getExpr(ZUtils.getApplExprArguments(term).get(1));
      *
      */
-    public static final String INFIX_APPL_EXPR_PATTERN = "({1}) {0} ({2})";
+    public static final String INFIX_APPL_EXPR_PATTERN = "{1} {0} {2}";
 
     /**
      * {0} comma sep list of expressions from getExpr(ZUtils.getApplExprArguments(term).get(n));
@@ -345,7 +343,7 @@ public interface ZEvesXMLPatterns {
      * {2} expression   => getExpr(term.getZExprList().get(1));
      *
      */
-    public static final String INFIX_REF_EXPR_PATTERN = "({0}) {1} ({2})";
+    public static final String INFIX_REF_EXPR_PATTERN = "(({0}) {1} ({2}))";
     
     /**
      * {0} rel          => getName(term.getZName()); 
