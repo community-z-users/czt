@@ -83,7 +83,7 @@ public class PredChecker
     {
       // add a type id to this label name
       factory().addNameID(label.getName());
-      labelledPreds_.add(new Pair<Pred, ZEvesLabel>(term, label));
+      labelledPreds_.add(Pair.getPair(term, label));
     }
   }
 
