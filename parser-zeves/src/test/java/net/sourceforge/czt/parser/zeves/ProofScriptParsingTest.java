@@ -32,7 +32,6 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.zeves.util.PrintVisitor;
 
 /**
@@ -132,8 +131,11 @@ public class ProofScriptParsingTest
     //s.replaceAll("", "").trim();
     ProofScriptParsingTest test = new ProofScriptParsingTest(DEBUG_TESTING);
     Test result = test.suite(TEST_DIR, null);
-    System.out.println("Number of tests for Z/Eves proofs parsing: " + result.countTestCases());
-    System.out.println();
+    if (DEBUG_TESTING)
+    {
+      System.out.println("Number of tests for Z/Eves proofs parsing: " + result.countTestCases());
+      System.out.println();
+    }
     return result;
   }
 

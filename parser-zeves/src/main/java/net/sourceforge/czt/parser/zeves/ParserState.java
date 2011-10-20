@@ -123,7 +123,7 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 
   public void storeZEvesLabelFor(Pred p, ZEvesLabel l)
   {
-    labelledPreds_.add(new Pair<Pred, ZEvesLabel>(p, l));
+    labelledPreds_.add(Pair.getPair(p, l));
   }
 
   /**
