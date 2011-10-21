@@ -24,6 +24,7 @@ import net.sourceforge.czt.z.ast.Operator;
 import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.OrExpr;
 import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
@@ -62,7 +63,9 @@ import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.visitor.ZNameListVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
 import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
 /**
@@ -99,8 +102,8 @@ public class NodeNameVisitor
       ZFreetypeListVisitor<String>,
       FreetypeVisitor<String>,
       ClassParaVisitor<String>,  // For Object-Z
-      ProofScriptVisitor<String> // For Z-Eves
-//      ProofCommandVisitor<String> // For Z-Eves
+      ProofScriptVisitor<String>, // For Z-Eves
+      ProofCommandVisitor<String> // For Z-Eves
 {
   
   /**
@@ -117,6 +120,31 @@ public class NodeNameVisitor
       return null;
     }
   };
+  
+  /**
+   * An extension of Z/Eves PrintVisitor, which supports proof commands. For unsupported
+   * terms in the proof commands, uses "&lt;..&gt;" to avoid complex expressions.
+   * @author Andrius Velykis
+   */
+  private static class ProofCommandPrintVisitor extends net.sourceforge.czt.zeves.util.PrintVisitor {
+    
+    public ProofCommandPrintVisitor()
+    {
+      super(true);
+    }
+
+    @Override
+    public String visitTerm(Term term)
+    {
+      return "<..>";
+    }
+
+    @Override
+    public String visitPred(Pred term)
+    {
+      return "<..>";
+    }
+  }
   
   /**
    * @see net.sourceforge.czt.z.visitor.TermVisitor#visitTerm(net.sourceforge.czt.z.ast.Term)
@@ -396,9 +424,13 @@ public class NodeNameVisitor
     return term.getName().accept(new PrintVisitor());
   }
 
-//  @Override
-//  public String visitProofCommand(ProofCommand term)
-//  {
-//    return term.getClass().getSimpleName();
-//  }
+  @Override
+  public String visitProofCommand(ProofCommand term)
+  {
+    return term.accept(new ProofCommandPrintVisitor())
+    // make it all in one line and remove tabs
+    .replace("\n", " ").replace("\t", " ")
+    // also compact all spaces into 1-space
+    .replaceAll(" +", " ").trim();
+  }
 }
