@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.XmlAnyElementList;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 
@@ -19,43 +20,44 @@ import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
  * @author Andrius Velykis
  * 
  */
-public class ZEvesTheoremRef {
+public class ZEvesTheoremRef
+{
 
-	/**
-	 * <!ATTLIST theoremref ident CDATA #REQUIRED>
-	 */
-	@XmlAttribute(required = true)
-	private String ident;
-	
-	/**
-	 * <!ATTLIST theoremref decoration CDATA #IMPLIED>
-	 */
-	@XmlAttribute
-	private String decoration;
-	
-	/**
-	 * <!ELEMENT genactuals (%form;)+>
-	 */
-	@XmlElement(name = "genactuals")
-	private XmlAnyElementList genActuals = new XmlAnyElementList();
-	
-	/**
-	 * <!ELEMENT renaming (rename | replace)+>
-	 */
-	@XmlElementWrapper
-	@XmlElements({ @XmlElement(name = "rename", type = ZEvesRename.class),
-				   @XmlElement(name = "replace", type = ZEvesReplace.class) })
-	private List<?> renaming = new ArrayList<Object>();
-	
-	
-	@Override
-	public String toString() {
-		
-		String decStr = decoration != null ? decoration : "";
-		String renamingStr = !renaming.isEmpty() ? 
-				"[" + ZEvesResponseUtil.concat(renaming, ", ") + "]" : "";
+  /**
+   * <!ATTLIST theoremref ident CDATA #REQUIRED>
+   */
+  @XmlAttribute(required = true)
+  private String ident;
 
-		return ident + decStr + renamingStr + ZEvesName.getGenActInfo(genActuals.getItems());
-	}
-	
+  /**
+   * <!ATTLIST theoremref decoration CDATA #IMPLIED>
+   */
+  @XmlAttribute
+  private String decoration;
+
+  /**
+   * <!ELEMENT genactuals (%form;)+>
+   */
+  @XmlElement(name = "genactuals")
+  private XmlAnyElementList genActuals = new XmlAnyElementList();
+
+  /**
+   * <!ELEMENT renaming (rename | replace)+>
+   */
+  @XmlElementWrapper
+  @XmlElements({ @XmlElement(name = "rename", type = ZEvesRename.class),
+                 @XmlElement(name = "replace", type = ZEvesReplace.class)})
+  private List<?> renaming = new ArrayList<Object>();
+
+  @Override
+  public String toString()
+  {
+    String decStr = decoration != null ? decoration : "";
+    String renamingStr = !renaming.isEmpty() ? ZString.LSQUARE
+        + ZEvesResponseUtil.concat(renaming, ZString.COMMA + ZString.SPACE) 
+        + ZString.RSQUARE : "";
+
+    return ident + decStr + ZEvesName.getGenActInfo(genActuals.getItems()) + renamingStr;
+  }
+
 }
