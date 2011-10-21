@@ -1259,6 +1259,7 @@ zeves/src/main/java/net/sourceforge/czt/zeves/response/XmlAnyElementItem.java -t
 zeves/src/main/java/net/sourceforge/czt/zeves/response/XmlAnyElementList.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/ZEvesError.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/ZEvesProverCmd.java -text svneol=unset#text/plain
+zeves/src/main/java/net/sourceforge/czt/zeves/response/ZEvesResponsePrinter.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/ZEvesResponseReader.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/ZEvesResponseUtil.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/response/ZEvesXmlEntities.java -text svneol=unset#text/plain
