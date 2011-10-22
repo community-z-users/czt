@@ -567,7 +567,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener {
     	setTitleToolTip(descText);
     }
     
-    private Markup getElementMarkup(IZInfoObject element) {
+    protected Markup getElementMarkup(IZInfoObject element) {
     	return forceUnicode ? Markup.UNICODE : element.getMarkup();
     }
     
@@ -590,6 +590,12 @@ public class ZInfoView extends ViewPart implements ISelectionListener {
     
     public IZInfoObject getCurrentInput() {
     	return currentViewInput;
+    }
+    
+    protected void reload() {
+        if (currentViewInput != null) {
+            setInput(currentViewInput);
+        }
     }
     
     /**
@@ -639,9 +645,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener {
 		public void run() {
 			setForceUnicode(!forceUnicode);
 
-			if (currentViewInput != null) {
-				setInput(currentViewInput);
-			}
+			reload();
 		}
 
 		private void setForceUnicode(boolean force) {
