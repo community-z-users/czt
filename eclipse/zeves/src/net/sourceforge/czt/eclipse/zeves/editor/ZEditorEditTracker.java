@@ -79,7 +79,7 @@ public class ZEditorEditTracker {
 	}
 	
 	private void removeListener(ITextEditor editor) {
-		IDocumentListener listener = getListener(editor, true);
+		IDocumentListener listener = getListener(editor, false);
 		if (listener != null) {
 			IDocument document = ZEditorUtil.getDocument(editor);
 			if (document != null) {
