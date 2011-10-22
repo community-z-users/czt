@@ -1,16 +1,19 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.views.ZInfoView;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
@@ -20,10 +23,12 @@ import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofTrace;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEditorObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofResultInfo;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Expr;
@@ -42,21 +47,22 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.rules.FastPartitioner;
+import org.eclipse.jface.text.rules.IPartitionTokenScanner;
+import org.eclipse.jface.text.rules.IToken;
+import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -70,14 +76,14 @@ import org.eclipse.ui.contexts.IContextService;
 public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 
 	private static final String VIEW_ID = ZEvesPlugin.PLUGIN_ID + ".view.Output";
-	private static final String PROP_SHOW_INFO = VIEW_ID + ".showProofInfo";
+	private static final String PROP_SHOW_TRACE = VIEW_ID + ".showProofInfo";
 	private static final String PROP_SHOW_OUTPUT_SELECTION = VIEW_ID + ".showOutputSelection";
 	
 	private IMarker editorMarker = null;
 	
 	static {
 		IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
-		preferenceStore.setDefault(PROP_SHOW_INFO, false);
+		preferenceStore.setDefault(PROP_SHOW_TRACE, false);
 		preferenceStore.setDefault(PROP_SHOW_OUTPUT_SELECTION, true);
 	}
 
@@ -88,22 +94,13 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	private static final String CONTEXT_PRED = ZEvesPlugin.PLUGIN_ID + ".proof.pred";
 	private final Map<String, IContextActivation> contextActivations = new HashMap<String, IContextActivation>();
 	
-	private GridData infoControlData;
-	private Label cmdField;
-	private Label infoField;
-	
-	private boolean showProofInfo;
+	private boolean showProofTrace;
     private boolean showOutputSelection;
 
 	@Override
 	public void createPartControl(Composite parent) {
 		
 		super.createPartControl(parent);
-		
-		Control infoControl = createInfoPane(main);
-		infoControlData = GridDataFactory.fillDefaults().grab(true, false).create();
-		infoControl.setLayoutData(infoControlData);
-		updateProofInfoPane();
 		
 		zViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			
@@ -112,30 +109,6 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 				updateSelectionContext();
 			}
 		});
-	}
-	
-	private Control createInfoPane(Composite parent) {
-		
-		Composite infoPane = new Composite(parent, SWT.NONE);
-		infoPane.setLayout(GridLayoutFactory.swtDefaults().numColumns(2).create());
-		
-		Label cmdLabel = new Label(infoPane, SWT.NONE);
-		cmdLabel.setText("Command sent:");
-		cmdLabel.setLayoutData(GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).create());
-		
-		cmdField = new Label(infoPane, SWT.WRAP);
-		cmdField.setText("");
-		cmdField.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-		
-		Label infoLabel = new Label(infoPane, SWT.NONE);
-		infoLabel.setText("Proof info:");
-		infoLabel.setLayoutData(GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).create());
-		
-		infoField = new Label(infoPane, SWT.WRAP);
-		infoField.setText("");
-		infoField.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
-		
-		return infoPane;
 	}
 	
 	private void updateSelectionContext() {
@@ -297,12 +270,17 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		}
 	}
 	
-	private void setText(String text) {
+	private void setText(String text, PredefinedTokenScanner scanner) {
 		
 	    Document document = new Document(text);
 	    
-		CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-				document, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
+//		CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
+//				document, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
+	    
+	    String[] contentTypes = scanner.getContentTypes().toArray(new String[0]);
+	    IDocumentPartitioner partitioner = new FastPartitioner(scanner, contentTypes);
+	    document.setDocumentPartitioner(IZPartitions.Z_PARTITIONING, partitioner);
+	    partitioner.connect(document);
 	    
 	    zViewer.setDocument(document);
 	}
@@ -316,7 +294,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     @Override
 	protected void fillToolBar(IToolBarManager tbm) {
     	super.fillToolBar(tbm);
-    	tbm.appendToGroup(TOOLBAR_GROUP_INFO_VIEW, new ShowProofInfoAction());
+    	tbm.appendToGroup(TOOLBAR_GROUP_INFO_VIEW, new ShowProofTraceAction());
     	tbm.add(new ShowOutputSelectionAction());
     }
 	
@@ -335,28 +313,87 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		super.doSetInput(element, input, description);
 		
 		updateEditorMarker(element);
-		
-		IProofResultInfo proofInfo = null;
+
+		List<IProofResultInfo> proofInfos = new ArrayList<IProofResultInfo>();
 		if (element instanceof IAdaptable) {
-			proofInfo = (IProofResultInfo) ((IAdaptable) element).getAdapter(IProofResultInfo.class);
+			
+			IAdaptable elementAdapt = (IAdaptable) element;
+			
+			if (showProofTrace) {
+				IProofTrace proofTrace = (IProofTrace) elementAdapt.getAdapter(IProofTrace.class);
+				if (proofTrace != null) {
+					proofInfos.addAll(proofTrace.getTrace());
+				}
+			} else {
+				IProofResultInfo proofInfo = (IProofResultInfo) elementAdapt.getAdapter(IProofResultInfo.class);
+				if (proofInfo != null) {
+					proofInfos.add(proofInfo);
+				}
+			}
 		}
 		
-    	String cmdText;
-    	String infoText;
-    	if (proofInfo != null) {
-    		setText(proofInfo.getResult());
-    		cmdText = proofInfo.getCommand();
-    		infoText = proofInfo.getInfo();
+		if (!proofInfos.isEmpty()) {
+    		
+    		PredefinedTokenScanner scanner = new PredefinedTokenScanner();
+    		String text = printResult(proofInfos, scanner, getElementMarkup(element), showProofTrace);
+    		setText(text, scanner);
+    		
     	} else {
     		super.doSetInput(element, input, description);
-    		cmdText = null;
-    		infoText = null;
     	}
-    	
-    	cmdField.setText(cmdText != null ? cmdText : "");
-    	infoField.setText(infoText != null ? infoText : "");
-    	
-    	main.layout(true);
+	}
+
+	private String printResult(List<IProofResultInfo> proofInfos, PredefinedTokenScanner scanner,
+			Markup markup, boolean printTrace) {
+		
+		StringBuilder out = new StringBuilder();
+		
+		String delim = "";
+		for (IProofResultInfo info : proofInfos) {
+			
+			out.append(delim);
+			
+			if (printTrace) {
+				String commandStr = info.getCommand();
+				if (commandStr != null && !commandStr.isEmpty()) {
+					out.append("Proof command: " + commandStr + "\n\n");
+				}
+				
+				String infoStr = info.getInfo();
+				if (infoStr != null && !infoStr.isEmpty()) {
+					out.append(infoStr + "\n\n");
+				}
+				
+			}
+			
+			String resultStr = info.getResult();
+			
+			Position resultPos = new Position(out.length(), resultStr.length());
+			out.append(resultStr);
+			
+			String zPartition = markup == Markup.UNICODE ? 
+					IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION : 
+						IZPartitions.Z_PARAGRAPH_LATEX_ZED;
+			scanner.addTokenPosition(resultPos, zPartition);
+			
+			if (delim.isEmpty()) {
+				delim = createProofResultDelimiter(markup == Markup.UNICODE ? 50 : 80);
+			}
+		}
+		
+		return out.toString();
+	}
+	
+	private String createProofResultDelimiter(int textWidth) {
+		StringBuilder delim = new StringBuilder("\n\n");
+		
+		for (int index = 0; index < textWidth; index++) {
+			delim.append("\u2500");
+		}
+		
+		delim.append("\n\n");
+		
+		return delim.toString();
 	}
 
 	private void updateEditorMarker(IZInfoObject element) {
@@ -412,31 +449,18 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		return false;
 	}
     
-    private void updateProofInfoPane() {
-    	
-    	if (infoControlData == null) {
-    		return;
-    	}
-    	
-    	boolean showing = !infoControlData.exclude;
-    	if (showProofInfo != showing) {
-    		infoControlData.exclude = !showProofInfo;
-    		main.layout(true);
-    	}
-    }
-    
-	private class ShowProofInfoAction extends Action {
+	private class ShowProofTraceAction extends Action {
 
-		public ShowProofInfoAction() {
-			super("Show Info", SWT.TOGGLE);
-			setToolTipText("Show Proof Info");
+		public ShowProofTraceAction() {
+			super("Show Trace", SWT.TOGGLE);
+			setToolTipText("Show Proof Trace");
 
 			// setDescription("?");
 			ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
 			setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
 			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
-			boolean showProofInfo = preferenceStore.getBoolean(PROP_SHOW_INFO);
+			boolean showProofInfo = preferenceStore.getBoolean(PROP_SHOW_TRACE);
 			setShowProofInfo(showProofInfo);
 		}
 
@@ -445,17 +469,17 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		 */
 		@Override
 		public void run() {
-			setShowProofInfo(!showProofInfo);
+			setShowProofInfo(!showProofTrace);
 		}
 
 		private void setShowProofInfo(boolean show) {
-			showProofInfo = show;
+			showProofTrace = show;
 			setChecked(show);
 			
-			updateProofInfoPane();
+			reload();
 
 			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
-			preferenceStore.setValue(PROP_SHOW_INFO, show);
+			preferenceStore.setValue(PROP_SHOW_TRACE, show);
 		}
 	}
 	
@@ -539,6 +563,79 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			} catch (ExecutionException e) {
 				ZEvesPlugin.getDefault().log(e);
 			}
+		}
+		
+	}
+	
+	/**
+	 * A custom token scanner for the output view - it allows to pre-set partitions
+	 * based on information displayed in the output. This is necessary, for example, to
+	 * print predicates that are not wrapped in any Z paragraph, or to distinguish
+	 * the inline comments, etc. 
+	 * 
+	 * @author Andrius Velykis
+	 */
+	private static class PredefinedTokenScanner extends RuleBasedScanner implements IPartitionTokenScanner {
+		
+		private final Map<Position, String> tokenPositions = new LinkedHashMap<Position, String>();
+		
+		public void addTokenPosition(Position pos, String contentType) {
+			tokenPositions.put(pos, contentType);
+		}
+		
+		public Set<String> getContentTypes() {
+			return new HashSet<String>(tokenPositions.values());
+		}
+		
+		/*
+		 * @see ITokenScanner#nextToken()
+		 */
+		@Override
+		public IToken nextToken() {
+
+			fTokenOffset= fOffset;
+			fColumn= UNDEFINED;
+
+			if (read() == EOF) {
+				return Token.EOF;
+			}
+			
+			unread();
+			
+			for (Entry<Position, String> tokenPos : tokenPositions.entrySet()) {
+				
+				Position pos = tokenPos.getKey();
+				
+				if (pos.overlapsWith(fTokenOffset, fRangeEnd - fTokenOffset)) {
+					
+					if (fTokenOffset < pos.getOffset()) {
+						// the position does not start yet - read up to its start
+						read(fTokenOffset, pos.getOffset());
+						return Token.UNDEFINED;
+					}
+					
+					int posEnd = pos.getOffset() + pos.getLength();
+					
+					read(fTokenOffset, posEnd);
+					return new Token(tokenPos.getValue());
+				}
+			}
+			
+			// nothing found - read to the end
+			read(fTokenOffset, fRangeEnd);
+			return Token.UNDEFINED;
+		}
+		
+		private void read(int start, int end) {
+			for (int i = start; i < end; i++) {
+				read();
+			}
+		}
+
+		@Override
+		public void setPartialRange(IDocument document, int offset, int length, String contentType,
+				int partitionOffset) {
+			// ignore for now?
 		}
 		
 	}

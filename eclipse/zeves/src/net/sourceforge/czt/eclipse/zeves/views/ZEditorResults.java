@@ -1,8 +1,12 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
@@ -23,9 +27,12 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
+import net.sourceforge.czt.zeves.response.ZEvesProofTrace;
 import net.sourceforge.czt.zeves.response.ZEvesProverCmd;
-import net.sourceforge.czt.zeves.response.form.ZEvesBlurb;
+import net.sourceforge.czt.zeves.response.ZEvesResponsePrinter;
+import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
+import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -88,7 +95,7 @@ public class ZEditorResults {
 				resultInfo = new ZEvesProofObject(
 						editor, sectionName, pos, 
 						proofEntry.getGoalName(), proofEntry.getStepIndex(), 
-						proofEntry.getSource(), proofEntry.getResult());
+						proofEntry.getSource(), proofEntry.getResult(), proofEntry.getTrace());
 			} else {
 				
 				Object result = entry.getResult();
@@ -302,16 +309,20 @@ public class ZEditorResults {
 		private final String goalName;
 		private final Integer zEvesStepIndex;
 		private final ZEvesOutput result;
+		private final List<ZEvesOutput> trace;
 		
 		private IProofResultInfo loadedResult;
+		private List<IProofResultInfo> loadedTrace = new ArrayList<IProofResultInfo>();
 		
-		public ZEvesProofObject(ZEditor editor, String sectionName, Position position, String goalName,
-				Integer zEvesStepIndex, ProofCommand source, ZEvesOutput result) {
+		public ZEvesProofObject(ZEditor editor, String sectionName, Position position, 
+				String goalName, Integer zEvesStepIndex, ProofCommand source, 
+				ZEvesOutput result, List<ZEvesOutput> trace) {
 			
 			super(editor, sectionName, position, source);
 			this.goalName = goalName;
 			this.zEvesStepIndex = zEvesStepIndex;
 			this.result = result;
+			this.trace = new ArrayList<ZEvesOutput>(trace);
 		}
 
 		public boolean isGoal() {
@@ -335,42 +346,71 @@ public class ZEditorResults {
 			
 			ProofCommand command = (ProofCommand) getSource();
 			
-			String desc = "Proof results";
-			if (command != null) {
-				String commandStr = command.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
-				return desc + " for: " + commandStr;
-			}
+			String caseId = getCaseId();
+			String desc = caseId.isEmpty() ? "Proof results for: " : caseId + ", results for: ";
 			
-			return desc;
+			String commandStr = command != null ? 
+					command.accept(TermLabelVisitorFactory.getTermLabelVisitor(true)) : 
+					"unknown";
+					
+			return desc + commandStr;
 		}
 		
 		@Override
 		public String loadContents(Markup markup, IProgressMonitor monitor) throws CoreException {
 
-			ZEvesProverCmd sentCommand = result.getCommand();
-			ZEvesBlurb info = result.getInfo();
-			List<?> results = result.getResults();
+			this.loadedResult = convertResult(markup, result);
 			
-			String sentCmdStr = sentCommand != null ? sentCommand.toString() : null;
-			
-			String sectName = getSectionName();
-			SectionManager sectInfo = getEditor().getParsedData().getSectionManager().clone();
-			
-			String infoStr = null;
-			if (info != null) {
+			this.loadedTrace.clear();
+			for (ZEvesOutput traceOutput : trace) {
 				
-				StringBuilder infoOut = new StringBuilder();
-				
-				List<?> infoContent = info.getContent();
-				String delim = "";
-				for (Object i : infoContent) {
-					// no text width - everything in single line for now
-					infoOut.append(delim).append(
-							convertBlurbElement(sectInfo, sectName, markup, -1, i));
-					delim = " ";
+				IProofResultInfo loaded;
+				if (traceOutput == result) {
+					// already loaded - the result
+					loaded = loadedResult;
+				} else {
+					loaded = convertResult(markup, traceOutput);
 				}
 				
-				infoStr = infoOut.toString();
+				loadedTrace.add(loaded);
+			}
+			
+			return loadedResult.toString();
+		}
+		
+		private String getCaseId() {
+			List<Integer> caseInfo = result.getProofCase();
+			if (caseInfo.isEmpty()) {
+				return "";
+			}
+			
+			return "Proof case #" + ZEvesResponseUtil.concat(caseInfo, ".");
+		}
+
+		private IProofResultInfo convertResult(final Markup markup, ZEvesOutput result) {
+			ZEvesProverCmd sentCommand = result.getCommand();
+			List<?> results = result.getResults();
+			
+			ZEvesProofTrace trace = result.getProofTrace();
+			
+			final String sectName = getSectionName();
+			final SectionManager sectInfo = getEditor().getParsedData().getSectionManager().clone();
+			final int textWidth = 80;
+			
+			String sentCmdStr = null;
+			if (sentCommand != null) {
+				sentCmdStr = sentCommand.print(new ZEvesResponsePrinter() {
+					@Override
+					public String print(Object zEvesElem) {
+						return convertBlurbElement(sectInfo, sectName, markup, textWidth, zEvesElem);
+					}
+				});
+			}
+			
+			String infoStr = convertTrace(sectInfo, sectName, markup, textWidth, trace);
+			String caseId = getCaseId();
+			if (!caseId.isEmpty()) {
+				infoStr = infoStr + "\n" + caseId;
 			}
 			
 			StringBuilder out = new StringBuilder();
@@ -379,17 +419,62 @@ public class ZEditorResults {
 				
 				if (first) {
 					first = false;
-					out.append(convertResult(sectInfo, sectName, markup, 80, res));
+					out.append(convertResultPred(sectInfo, sectName, markup, textWidth, res));
+				} else if (res instanceof ZEvesNumber) {
+					// case number - ignore, as it is printed in other ways
+					continue;
 				} else {
 					// just output others in newlines
+					out.append("\n");
 					out.append(res);
 				}
 				
-				out.append("\n");
 			}
 			
-			this.loadedResult = new ProofResultInfo(sentCmdStr, infoStr, out.toString());
-			return this.loadedResult.toString();
+			return new ProofResultInfo(sentCmdStr, infoStr, out.toString());
+		}
+
+		private String convertTrace(SectionManager sectInfo, String sectName,
+				Markup markup, int textWidth, ZEvesProofTrace trace) {
+			
+			List<String> textElems = new ArrayList<String>();
+			for (Entry<String, List<Object>> traceContent : trace.getTraceContents().entrySet()) {
+				textElems.add(traceContent.getKey());
+				
+				for (Iterator<?> it = traceContent.getValue().iterator(); it.hasNext(); ) {
+					Object i = it.next();
+					// add commas for non-last elements per trace type
+					String comma = it.hasNext() ? "," : "";
+					textElems.add(convertBlurbElement(sectInfo, sectName, markup, -1, i).trim() + comma);
+				}
+			}
+			
+			StringBuilder infoOut = new StringBuilder();
+			
+			String delim = "";
+			for (String str : textElems) {
+				
+				int lastLineStart = infoOut.lastIndexOf("\n");
+				if (lastLineStart < 0) {
+					lastLineStart = 0;
+				}
+				
+				String sep = delim;
+				if (textWidth > 0 && 
+						infoOut.length() + str.length() + 1 - lastLineStart > textWidth) {
+					// the text will go outside of the line
+					// so move it to new line (if not the first string added)
+					if (infoOut.length() > 0) {
+						sep = "\n";
+					}
+				}
+				
+				infoOut.append(sep).append(str);
+				
+				delim = " ";
+			}
+			
+			return infoOut.toString();
 		}
 		
 		private String convertBlurbElement(SectionManager sectInfo, String sectName,
@@ -426,11 +511,15 @@ public class ZEditorResults {
 				return loadedResult;
 			}
 			
+			if (adapter == IProofTrace.class) {
+				return new ProofTrace(loadedTrace);
+			}
+			
 			return super.getAdapter(adapter);
 		}
 	}
 	
-	private static String convertResult(SectionManager sectInfo, String sectName,
+	private static String convertResultPred(SectionManager sectInfo, String sectName,
 			Markup markup, int textWidth, Object result) {
 
 		String str = result.toString();
@@ -492,16 +581,35 @@ public class ZEditorResults {
 			
 			StringBuilder out = new StringBuilder();
 			if (command != null) {
-				out.append("Command sent: " + command + "\n");
+				out.append("Command sent: " + command + "\n\n");
 			}
 			
 			if (info != null) {
-				out.append(info + "\n");
+				out.append(info + "\n\n");
 			}
 			
 			out.append(result);
 			return out.toString();
 		}
+	}
+	
+	public interface IProofTrace {
+		public List<IProofResultInfo> getTrace();
+	}
+	
+	private static class ProofTrace implements IProofTrace {
+		
+		private List<IProofResultInfo> trace;
+
+		public ProofTrace(List<IProofResultInfo> trace) {
+			this.trace = new ArrayList<IProofResultInfo>(trace);
+		}
+
+		@Override
+		public List<IProofResultInfo> getTrace() {
+			return Collections.unmodifiableList(trace);
+		}
+		
 	}
 	
 }

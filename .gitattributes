@@ -335,8 +335,10 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/actions/SubmitToPointCommand
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractSubmitCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/AbstractUndoCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ISnapshotChangedListener.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/IZEvesExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ResourceUtil.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/SnapshotChangedEvent.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEves.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesBackCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesExecVisitor.java -text svneol=unset#text/plain
@@ -348,6 +350,7 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesResultConverter.ja
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesSnapshot.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesSubmitCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesSubmitNextCommand.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesTactics.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesUndoCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesUndoSectionCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/editor/ZEditorEditListener.java -text svneol=unset#text/plain

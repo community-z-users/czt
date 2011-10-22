@@ -1,10 +1,13 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -19,6 +22,8 @@ import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
 import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers.MarkerInfo;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesTactics.CommandSequence;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesTactics.IgnorableCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -35,7 +40,9 @@ import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.response.ZEvesError;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
+import net.sourceforge.czt.zeves.response.ZEvesError.ZEvesErrorType;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
@@ -100,7 +107,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 				checkCancelled();
 			}
 			
-			snapshot.updatingSection(position, filePath, getCurrentSectionName());
+			snapshot.updatingSection(position, filePath, getCurrentSectionName(), sectInfo);
 			handleResult(position, null);
 			checkCancelled();
 			
@@ -122,7 +129,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		// mark the section as updating in the snapshot
 		// no need to pass in the position here - it should have been passed
 		// during section head visit
-		snapshot.updatingSection(null, filePath, getCurrentSectionName());
+		snapshot.updatingSection(null, filePath, getCurrentSectionName(), sectInfo);
 	}
 
 	@Override
@@ -407,38 +414,116 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	try {
 
     		String theoremName = getProofScriptName(script);
-    		String commandContents = command.accept(getZEvesXmlPrinter());
     		
-	    	try {
-				ZEvesOutput output = api.sendProofCommand(commandContents);
-				handleResult(pos, output);
-				checkCancelled();
-			} catch (ZEvesException e) {
-				handleZEvesException(pos, command, e);
-				return;
-			}
-	    	
-	    	try {
-	    		int stepIndex = api.getGoalProofLength(theoremName);
-//	    		state.addPara(term, stepIndex);
+    		/*
+    		 * The command may be a tactic, represented by a command sequence,
+    		 * thus resolve the command into a command sequence
+    		 */
+    		CommandSequence commandSeq = ZEvesTactics.getTacticCommands(command, getZEvesXmlPrinter());
+    		Assert.isTrue(!commandSeq.getCommands().isEmpty());
+    		
+    		// command sequence may loop - it should be repeated until fixed point
+    		// or until stopped by ineffective command
+    		boolean loop = commandSeq.isLoopCommands();
+
+    		// capture the trace and last exception/step index
+    		// we only need the last exception/step index for the snapshot
+    		ZEvesException lastException = null;
+    		int lastStepIndex = -1;
+    		
+    		// count submissions to backtrack correctly upon failure 
+    		int submittedCount = 0;
+    		List<ZEvesOutput> results = new ArrayList<ZEvesOutput>();
+    		
+    		do {
+    			
+    			boolean affected = false;
+    			
+	    		for (IgnorableCommand cmd : commandSeq.getCommands()) {
+	    			
+	    			String commandContents = cmd.getCommand();
+	    			
+	        		try {
+	        			api.sendProofCommand(commandContents);
+	        			submittedCount++;
+	        			
+	        			affected = true;
+	        			
+	        			int stepIndex = api.getGoalProofLength(theoremName);
+	        			lastStepIndex = stepIndex;
+				
+	        			ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
+	        			results.add(proofResult);
+	        			
+					} catch (ZEvesException e) {
+						lastException = e;
+
+						if (!isNoEffectError(e)) {
+							// unknown error - stop
+							loop = false;
+							break;
+						}
+						
+						// no effect from the command here
+						if (cmd.isStopOnNoEffect()) {
+							loop = false;
+							break;
+						}
+					}
+	    		}
 	    		
-	    		ZEvesOutput proofResult = api.getGoalProofStep(theoremName, stepIndex);
-	    		// add result first, because that will be displayed in hover
-	    		snapshot.addProofResult(pos, script, stepIndex, command, proofResult);
-	    		handleResult(pos, proofResult, isResultTrue(proofResult));
-	    		checkCancelled();
+	    		if (!affected) {
+	    			// the whole command list went without any effect,
+	    			// thus a fixed point has been reached
+	    			// break the loop
+	    			// (this is in case none of the commands are "stop on no effect")
+	    			break;
+	    		}
 	    		
-//	    		handleResult(pos, "Step index: " + stepIndex);
-	    		
-	    	} catch (ZEvesException e) {
-	    		handleZEvesException(pos, command, e);
-	    		return;
-	    	}
+    		} while (loop);
+    		
+    		if (lastException != null && !isNoEffectError(lastException)) {
+    			
+    			// a serious error - handle the exception
+    			handleZEvesException(pos, command, lastException);
+    			
+    			if (submittedCount > 0) {
+    				// something was submitted before the error, undo these steps
+    				try {
+						api.back(submittedCount);
+					} catch (ZEvesException e) {
+						// just log - we cannot handle half-state now..
+						ZEvesPlugin.getDefault().log(e);
+					}
+    			}
+    			
+    			return;
+    		}
+    		
+    		if (results.isEmpty()) {
+    			// no results - report last exception (should be No change error)
+    			handleZEvesException(pos, command, lastException);
+    			return;
+    		}
+    		
+    		Assert.isTrue(results.size() == submittedCount);
+    		
+			snapshot.addProofResult(pos, script, lastStepIndex, command, results);
+			
+			ZEvesOutput lastResult = results.get(results.size() - 1);
+			handleResult(pos, lastResult, isResultTrue(lastResult));
+			checkCancelled();
+    		
     	
     	} finally {
         	markFinished(unfinishedMarker);
     	}
     	
+    }
+
+    private boolean isNoEffectError(ZEvesException e) {
+		return e.getZEvesError() != null
+				&& e.getZEvesError().getType().contains(ZEvesErrorType.NO_EFFECT);
     }
     
     private String getProofScriptName(ProofScript script) {
@@ -507,10 +592,17 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     private boolean logDebug(ZEvesException e) {
     	// if there was an underlying cause, log it.
 		return e.getCause() != null
-				// log Z/Eves parser, scanner errors at the moment - look for a special string in errors
-				|| (e.getDebugInfo() != null 
-					&& (e.getMessage().contains("[Parser") 
-							|| e.getMessage().contains("[Scanner]")));
+				// log Z/Eves parser, scanner errors at the moment
+				|| (e.getDebugInfo() != null && logZEvesError(e.getZEvesError()));
+    }
+    
+    private boolean logZEvesError(ZEvesError error) {
+    	if (error == null) {
+    		return false;
+    	}
+    	
+    	EnumSet<ZEvesErrorType> type = error.getType();
+		return type.contains(ZEvesErrorType.PARSE_ERR) || type.contains(ZEvesErrorType.SCAN_ERR);
     }
     
     private void handleResult(Position pos, Object result) {
@@ -675,5 +767,5 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		
 		return zEvesXmlPrinter;
 	}
-    
+	
 }

@@ -1,6 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,9 +12,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.text.Position;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.zeves.core.SnapshotChangedEvent.SnapshotChangeType;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
@@ -67,6 +73,8 @@ public class ZEvesSnapshot {
 	
 	public static final int GOAL_STEP_INDEX = 1;
 	
+	private final ListenerList snapshotChangedListeners = new ListenerList();
+	
 	/**
 	 * Sequential list of unique sections that have result entries within the snapshot
 	 */
@@ -97,6 +105,11 @@ public class ZEvesSnapshot {
 	 * Currently active (updating) section
 	 */
 	private FileSection updatingSection = null;
+	
+	/**
+	 * The section manager used to create AST for current updates
+	 */
+	private SectionManager sectMan = null;
 
 	/**
 	 * Mark the given section (filePath + sectionName) to be updating. This
@@ -109,8 +122,11 @@ public class ZEvesSnapshot {
 	 *            Path of the file containing the section
 	 * @param sectionName
 	 *            Name of section
+	 * @param sectMan
+	 *            Section manager for the updates
 	 */
-	public void updatingSection(Position pos, String filePath, String sectionName) {
+	public void updatingSection(Position pos, String filePath, String sectionName, 
+			SectionManager sectMan) {
 		
 		FileSection section = new FileSection(filePath, sectionName);
 		int sectionIndex = sections.indexOf(section);
@@ -121,6 +137,7 @@ public class ZEvesSnapshot {
 				"Cannot update a completed section: undo first");
 		
 		this.updatingSection = section;
+		this.sectMan = sectMan;
 		
 		if (sectionIndex < 0) {
 			// new section
@@ -130,7 +147,7 @@ public class ZEvesSnapshot {
 			
 			// also add an entry for the section to signal its start
 			// note that this also ensures that sections will always have at least one entry
-			addResult(new SnapshotEntry(updatingSection, pos, ResultType.SECTION, null, null));
+			addResult(new SnapshotEntry(updatingSection, pos, ResultType.SECTION, sectMan, null, null));
 		}
 	}
 	
@@ -156,7 +173,7 @@ public class ZEvesSnapshot {
 		markSectionCompleted(section, true);
 		
 		// also add an entry for the section end
-		addResult(new SnapshotEntry(section, pos, ResultType.SECTION, null, null));
+		addResult(new SnapshotEntry(section, pos, ResultType.SECTION, sectMan, null, null));
 	}
 
 	/**
@@ -191,7 +208,7 @@ public class ZEvesSnapshot {
 							+ "], new: [" + historyIndex + "]");
 		}
 		
-		addResult(new ParaSnapshotEntry(updatingSection, pos, historyIndex, source, result));
+		addResult(new ParaSnapshotEntry(updatingSection, pos, historyIndex, sectMan, source, result));
 	}
 	
 	private void assertPositionLegal(Position pos) {
@@ -237,6 +254,9 @@ public class ZEvesSnapshot {
 		
 		// mark the last entry index for the section
 		lastEntryIndices.put(entry.getSection(), positionResults.size() - 1);
+		
+		// notify listeners
+		fireSnapshotChanged(SnapshotChangeType.ADD, Arrays.asList(entry));
 	}
 
 	/**
@@ -254,7 +274,7 @@ public class ZEvesSnapshot {
 	 */
 	public void addError(Position pos, Term source, ZEvesException ex) {
 		assertPositionLegal(pos);
-		addResult(new SnapshotEntry(updatingSection, pos, ResultType.ERROR, source, ex));
+		addResult(new SnapshotEntry(updatingSection, pos, ResultType.ERROR, sectMan, source, ex));
 	}
 	
 	/**
@@ -276,7 +296,7 @@ public class ZEvesSnapshot {
 		
 		String goalName = script.getZName().getWord();
 		addResult(new ProofSnapshotEntry(updatingSection, pos, ResultType.GOAL, 
-				goalName, GOAL_STEP_INDEX, null, result));
+				goalName, GOAL_STEP_INDEX, sectMan, null, Collections.singletonList(result)));
 	}
 	
 	/**
@@ -296,16 +316,17 @@ public class ZEvesSnapshot {
 	 * @param source
 	 *            Source proof command that generated the result
 	 * @param result
-	 *            Z/Eves goal for this proof step
+	 *            Trace of Z/Eves goals for this proof step, with the last one
+	 *            representing goal after executing the command.
 	 */
 	public void addProofResult(Position pos, ProofScript script, int zEvesStepIndex,
-			ProofCommand source, ZEvesOutput result) {
+			ProofCommand source, List<ZEvesOutput> result) {
 		
 		assertPositionLegal(pos);
 		
 		String goalName = script.getZName().getWord();
 		addResult(new ProofSnapshotEntry(updatingSection, pos, ResultType.PROOF, 
-				goalName, zEvesStepIndex, source, result));
+				goalName, zEvesStepIndex, sectMan, source, result));
 	}
 	
 	
@@ -362,19 +383,15 @@ public class ZEvesSnapshot {
 	}
 	
 	/**
-	 * Retrieves a result in the snapshot for the given section and position in
-	 * its specification file. A result that has a position overlapping the
-	 * given position is returned. Note that the behavior is undetermined if
-	 * there are multiple results overlapping the given position, but it is
-	 * guaranteed that one of the results is returned.
+	 * Retrieves snapshot results for the given specification file and position
+	 * in it. All results that have their positions overlapping the given
+	 * position are returned.
 	 * 
 	 * @param filePath
 	 *            Path of file containing the section
-	 * @param sectionName
-	 *            Name of section
 	 * @param pos
 	 *            Position in the specification file
-	 * @return The result with a position that overlaps given position. Can be
+	 * @return All results with positions that overlap given position. Can be
 	 *         any of the submitted results (e.g. error, paragraph result or
 	 *         proof result)
 	 */
@@ -425,6 +442,17 @@ public class ZEvesSnapshot {
 		return overlapEntries;
 	}
 	
+	/**
+	 * Retrieves all results currently stored in the snapshot, for all submitted
+	 * sections.
+	 * 
+	 * @return All results in the snapshot, can be any of the submitted results
+	 *         (e.g. error, paragraph result or proof result)
+	 */
+	public List<? extends ISnapshotEntry> getEntries() {
+		return Collections.unmodifiableList(positionResults);
+	}
+	
 	private static boolean overlaps(Position p1, Position p2) {
 		return p1.overlapsWith(p2.getOffset(), p2.getLength());
 	}
@@ -441,6 +469,8 @@ public class ZEvesSnapshot {
 	 *         markers, etc.
 	 */
 	public Set<String> clear() {
+		// copy before clearing to use in notification
+		List<ISnapshotEntry> resultsCopy = new ArrayList<ISnapshotEntry>(positionResults);
 		positionResults.clear();
 		
 		Set<String> clearedPaths = new LinkedHashSet<String>();
@@ -452,6 +482,9 @@ public class ZEvesSnapshot {
 		lastEntryIndices.clear();
 		completedSections.clear();
 		updatingSection = null;
+		
+		// notify listeners
+		fireSnapshotChanged(SnapshotChangeType.CLEAR, resultsCopy);
 		
 		return clearedPaths;
 	}
@@ -608,7 +641,8 @@ public class ZEvesSnapshot {
 				
 				// increment undo count
 				Integer undoCount = proofUndoCounts.get(goalName);
-				proofUndoCounts.put(goalName, (undoCount != null ? undoCount.intValue() : 0) + 1);
+				int backSteps = proofPos.getTrace().size();
+				proofUndoCounts.put(goalName, (undoCount != null ? undoCount.intValue() : 0) + backSteps);
 				break;
 			}
 			default: {
@@ -640,6 +674,7 @@ public class ZEvesSnapshot {
 		}
 		
 		// remove contents from the list
+		List<ISnapshotEntry> removedEntries = new ArrayList<ISnapshotEntry>(removeSubList);
 		removeSubList.clear();
 		
 		// undo proofs
@@ -658,6 +693,9 @@ public class ZEvesSnapshot {
 		
 		// reset updating section - it needs to be specified again after undo
 		updatingSection = null;
+		
+		fireSnapshotChanged(SnapshotChangeType.REMOVE, removedEntries);
+		
 		return fileUndoOffsets;
 	}
 	
@@ -703,7 +741,7 @@ public class ZEvesSnapshot {
 	 * @return List of sections
 	 */
 	public List<FileSection> getSections() {
-		return new ArrayList<FileSection>(sections);
+		return Collections.unmodifiableList(sections);
 	}
 	
 	private void markSectionCompleted(FileSection section, boolean complete) {
@@ -730,6 +768,31 @@ public class ZEvesSnapshot {
 	
 	private boolean isSectionCompleted(FileSection section) {
 		return completedSections.contains(section);
+	}
+
+	public void addSnapshotChangedListener(ISnapshotChangedListener listener) {
+		snapshotChangedListeners.add(listener);
+	}
+
+	public void removeSnapshotChangedListener(ISnapshotChangedListener listener) {
+		snapshotChangedListeners.remove(listener);
+	}
+
+	private void fireSnapshotChanged(SnapshotChangeType type, List<? extends ISnapshotEntry> entries) {
+		final SnapshotChangedEvent event = new SnapshotChangedEvent(this, type, entries);
+		for (final Object listener : snapshotChangedListeners.getListeners()) {
+			
+			// safely notify
+			SafeRunner.run(new ISafeRunnable() {
+				public void handleException(Throwable e) {
+					// exception logged in SafeRunner#run
+				}
+
+				public void run() throws Exception {
+					((ISnapshotChangedListener) listener).snapshotChanged(event);
+				}
+			});
+		}
 	}
 	
 	/**
@@ -797,6 +860,8 @@ public class ZEvesSnapshot {
 		
 		public String getSectionName();
 		
+		public SectionManager getSectionManager();
+		
 		public Term getSource();
 		
 		public Object getResult();
@@ -806,6 +871,8 @@ public class ZEvesSnapshot {
 		
 		@Override
 		public ZEvesOutput getResult();
+		
+		public List<ZEvesOutput> getTrace();
 		
 		@Override
 		public ProofCommand getSource();
@@ -822,12 +889,15 @@ public class ZEvesSnapshot {
 		private final Position pos;
 		private final ResultType type;
 		
+		private final SectionManager sectMan;
 		private final Term source;
 		private final Object result;
 		
-		public SnapshotEntry(FileSection section, Position pos, ResultType type, Term source, Object result) {
+		public SnapshotEntry(FileSection section, Position pos, ResultType type, 
+				SectionManager sectMan, Term source, Object result) {
 			Assert.isNotNull(section, "File section must be indicated before update");
 			this.section = section;
+			this.sectMan = sectMan;
 			this.pos = pos;
 			this.type = type;
 			this.source = source;
@@ -858,6 +928,11 @@ public class ZEvesSnapshot {
 		}
 
 		@Override
+		public SectionManager getSectionManager() {
+			return sectMan;
+		}
+
+		@Override
 		public Term getSource() {
 			return source;
 		}
@@ -873,8 +948,8 @@ public class ZEvesSnapshot {
 		private final int historyIndex;
 
 		public ParaSnapshotEntry(FileSection section, Position pos, int historyIndex, 
-				Para source, Object result) {
-			super(section, pos, ResultType.PARA, source, result);
+				SectionManager sectMan, Para source, Object result) {
+			super(section, pos, ResultType.PARA, sectMan, source, result);
 			this.historyIndex = historyIndex;
 		}
 
@@ -887,12 +962,17 @@ public class ZEvesSnapshot {
 		
 		private final String goalName;
 		private final int zEvesStepIndex;
+		private final List<ZEvesOutput> trace;
 		
 		public ProofSnapshotEntry(FileSection section, Position pos, ResultType type,
-				String goalName, int zEvesStepIndex, ProofCommand source, ZEvesOutput result) {
-			super(section, pos, type, source, result);
+				String goalName, int zEvesStepIndex, 
+				SectionManager sectMan, ProofCommand source, List<ZEvesOutput> result) {
+			super(section, pos, type, sectMan, source, 
+					// use the last result as entry result, keep everything else as the trace
+					!result.isEmpty() ? result.get(result.size() - 1) : null);
 			this.goalName = goalName;
 			this.zEvesStepIndex = zEvesStepIndex;
+			this.trace = new ArrayList<ZEvesOutput>(result);
 		}
 
 		@Override
@@ -903,6 +983,11 @@ public class ZEvesSnapshot {
 		@Override
 		public int getStepIndex() {
 			return zEvesStepIndex;
+		}
+		
+		@Override
+		public List<ZEvesOutput> getTrace() {
+			return Collections.unmodifiableList(trace);
 		}
 		
 		@Override
