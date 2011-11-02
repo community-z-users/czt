@@ -504,7 +504,17 @@ public class ZEvesApi
     ZEvesOutput output = sendCommand("get-theorem", theoremName);
     return (ZEvesTheorem) output.getFirstResult();
   }
-
+  
+  public int getNameSource(String name) throws ZEvesException
+  {
+    return sendCommand("get-name-source", Integer.class, name);
+  }
+  
+  public int getTheoremOrigin(String theoremName) throws ZEvesException
+  {
+    return sendCommand("get-theorem-origin", Integer.class, theoremName);
+  }
+  
   public List<String> getRulesMatchingPredicate(String goalName, int stepNumber, String predicate)
       throws ZEvesException
   {
