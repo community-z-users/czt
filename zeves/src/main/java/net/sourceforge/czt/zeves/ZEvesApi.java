@@ -507,7 +507,13 @@ public class ZEvesApi
   
   public int getNameSource(String name) throws ZEvesException
   {
-    return sendCommand("get-name-source", Integer.class, name);
+    ZEvesOutput output = sendCommand("get-name-source", name);
+
+    if (output != null && output.isEmpty()) {
+      return -1;
+    }
+    
+    return getInteger(output, output.getFirstResult());
   }
   
   public int getTheoremOrigin(String theoremName) throws ZEvesException
