@@ -304,6 +304,8 @@ public interface ZEvesXMLPatterns {
      *       Also addded parentheses to the function, because it may be a complex expression
      */
     public static final String APPL_EXPR_PATTERN = "{0} {1}";
+    public static final String EQ_SUBST_APPL_EXPR_PATTERN = "{0}{1}";
+    public static final String UNARY_MINUS_EXPR_PATTERN = "{0}{1}";
     
     /**
      * {0} expression       => getExpr(term.getLeftExpr());
@@ -324,6 +326,7 @@ public interface ZEvesXMLPatterns {
      *
      */
     public static final String INFIX_APPL_EXPR_PATTERN = "{1} {0} {2}";
+    public static final String UNARY_MINUS_PLUS_INFIX_APPL_EXPR_PATTERN = "({1} {0} {2})";
 
     /**
      * {0} comma sep list of expressions from getExpr(ZUtils.getApplExprArguments(term).get(n));
