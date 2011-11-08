@@ -2345,6 +2345,14 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       ((IZReconcilingListener) listener).reconciled(parsedData, forced, progressMonitor);
     }
     
+    IDocumentProvider documentProvider = getDocumentProvider();
+    IEditorInput input = getEditorInput();
+    if (input != null && documentProvider != null) {
+      // this may happen if reconciling has been launched and the editor closed
+      // TODO cancel reconcile as well?
+      return;
+    }
+    
     // report errors and update outline in the end
     if (fReportProblemsWhileEditing || !this.isDirty()) {
       createMarkers(model.getParsedData().getErrors(),
