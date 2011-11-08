@@ -2099,8 +2099,13 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             }
             else if (applFixity == Fixity.PREFIX || applFixity == Fixity.NOFIX)
             {
-            	// sometimes this (what?) happens (e.g. in #A), use the same as default ApplExpr
-            	result = format(APPL_EXPR_PATTERN, params.toArray());
+            	if (params.get(0).startsWith(ZString.NEG))
+              {
+                // to tackle unary minus, there must not be any space between the "-" and the parameter (e.g., "-x" instead of "- x")
+                result = format(UNARY_MINUS_EXPR_PATTERN, params.toArray());
+              }
+              else
+                result = format(APPL_EXPR_PATTERN, params.toArray());
             }
             else
               throw new ZEvesIncompatibleASTException("Invalid fixity for application expression " + opExpr + " fixity = " + applFixity, term);
@@ -2109,18 +2114,34 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             //assert params.size() == 3 && args.size() == 2; // arg + op + arg (e.g., _ + _)
             assert applFixity == Fixity.INFIX : "wrong fixity = " + applFixity + " " + term;
 
+            final Expr exprLHS = args.get(0);
+            final Expr exprRHS = args.get(1);
+            final String argLHS = params.get(1);
+            final String argRHS = params.get(2);
+            
+            // CZT/ZEves special case: unary minus in ZEves is just "-1" rather than the CZT \negate 1
+            // yet ZEves always rewrite i-1 to -1 + i, which in ZEves is not (-1)+i, unfortunately. So,
+            // for this case don't add the parenthesis.
+            boolean lhsIsUnaryMinus = argLHS.startsWith(ZString.NEG);
+            boolean rhsIsUnaryMinus = argRHS.startsWith(ZString.NEG);
+            // (-1 + i) for i - 1; (-1 * x + i) for (i - x); (-1 * f(x) + i) for (i - f(x))
+            boolean unaryMinusRewritePattern = (op.startsWith(ZString.PLUS) || op.startsWith(ZString.MULT)) && lhsIsUnaryMinus;
+
             // parenthesise depending on what kind of param this is: operators need paren explicit applexpr don't
             // ex: ((a \cup b) \cup c) x (f~x \cup c)  [if it was ((f~x) \cup c) ZEves doesn't like it]
             //
             // it seems this only occurs for infix operators. In the case of prefix operators or normal appl it is okay
-            if (/*args.get(0) instanceof ApplExpr &&*/ ZUtils.isFcnOpApplExpr(args.get(0))) // left nested?
+            if (/*args.get(0) instanceof ApplExpr &&*/ ZUtils.isFcnOpApplExpr(exprLHS)) // left nested?
             {
-              params.set(1, "(" + params.get(1) + ")");
+              if (!lhsIsUnaryMinus)
+                params.set(1, "(" + argLHS + ")");
             }
-            if (/*args.get(1) instanceof ApplExpr &&*/ ZUtils.isFcnOpApplExpr(args.get(1))) // right nested?
-              params.set(2, "(" + params.get(2) + ")");
-
-            result = format(INFIX_APPL_EXPR_PATTERN, params.toArray());
+            if (/*args.get(1) instanceof ApplExpr &&*/ ZUtils.isFcnOpApplExpr(exprRHS)) // right nested?
+            {
+              if (!rhsIsUnaryMinus)
+                params.set(2, "(" + argRHS + ")");
+            }
+            result = format(/*unaryMinusRewritePattern ? UNARY_MINUS_PLUS_INFIX_APPL_EXPR_PATTERN :*/ INFIX_APPL_EXPR_PATTERN, params.toArray());
             break;
           default:
             throw new ZEvesIncompatibleASTException("Unsupported operator template application expression " + arity + " params as " + params, term);
@@ -2139,8 +2160,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         params = "(" + params + ")";
         //System.out.println("NESTED PARAM = " + rhsE);
       }
-
-      result = format(APPL_EXPR_PATTERN, op, params);
+      result = format(/*withinEqualitySubstitute_ ? EQ_SUBST_APPL_EXPR_PATTERN : */ APPL_EXPR_PATTERN, op, params);
     }
     return result;
   }
@@ -2360,7 +2380,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       else
       {
         throw new ZEvesIncompatibleASTException("Chain and Semi AndPred appearing in the predicate tree visiting has not yet been implemented."
-                                                + "Chain AndPred appears with predicates such as \"x = y = z\", which can be easily avoided.");
+                                                + "Chain AndPred appears with predicates such as \"x = y = z\", which can be easily avoided."
+                                                + "In the middle of a proof it could be because of a mispelled keyword after 'split p; case;', for instance.");
       }
     }
     else
