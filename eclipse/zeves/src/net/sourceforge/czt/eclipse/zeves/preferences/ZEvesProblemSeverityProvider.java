@@ -37,6 +37,10 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 				return getSeverityPref(SEVERITY_UNDECLARED_NAME_ERROR);
 			}
 			
+			if (ErrorMessage.PRED_ERROR_AS_WARNING.name().equals(messageKey)) {
+				return getSeverityPref(SEVERITY_PRED_TYPE_MISMATCH);
+			}
+			
 			if (oneOf(messageKey, 
 					WarningMessage.SUBST_CMD_INVALID_EQS.name(), 
 					WarningMessage.SUBST_CMD_INVALID_INVOKE.name(),
