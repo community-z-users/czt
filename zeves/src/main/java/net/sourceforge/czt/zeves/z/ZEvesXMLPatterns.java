@@ -217,8 +217,7 @@ public interface ZEvesXMLPatterns {
      */
     public static final String NEG_EXPR_PATTERN = "&neg; ({0})";
     public static final String LAMBDA_EXPR_PATTERN = "(" + QNT_PRED_PATTERN + ")";
-    
-    public static final String QNT_EXPR_PATTERN = QNT_PRED_PATTERN;
+    public static final String QNT_EXPR_PATTERN = "(" + QNT_PRED_PATTERN + ")";
     
     /**
      * {0} let-def          => getLetDef(term.getSchText());

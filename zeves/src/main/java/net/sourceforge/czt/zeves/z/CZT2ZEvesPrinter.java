@@ -1971,7 +1971,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
      * This production covers: CompExpr, PipeExpr, ProjExpr, AndExpr,
      * OrExpr, ImpliesExpr, and IffExpr.
      */
-    return format(BIN_SCHEXPR_PATTERN, getExpr(term.getLeftExpr(), true), getSchExprOpName(term), getExpr(term.getRightExpr(), true));
+    String lhs = getExpr(term.getLeftExpr(), true);
+    String rhs = getExpr(term.getRightExpr(), true);
+    return format(BIN_SCHEXPR_PATTERN, lhs, getSchExprOpName(term), rhs);
   }
 
   @Override

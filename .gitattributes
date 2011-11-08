@@ -1319,6 +1319,7 @@ zeves/src/test/resources/tests/genActs.tex -text
 zeves/src/test/resources/tests/ifthenElse.tex -text
 zeves/src/test/resources/tests/instantiateTest.tex -text
 zeves/src/test/resources/tests/markedforesttoy.tex -text
+zeves/src/test/resources/tests/mondex.tex -text
 zeves/src/test/resources/tests/negate.tex -text
 zeves/src/test/resources/tests/proofCmds.tex -text
 zeves/src/test/resources/tests/schemaCalculus.tex -text
