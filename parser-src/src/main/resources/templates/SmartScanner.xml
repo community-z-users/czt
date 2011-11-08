@@ -22,24 +22,33 @@
 
 package <package/>;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.parser.util.*;
-
-<add:zeves>
-import net.sourceforge.czt.util.CztException;
-</add:zeves>
+import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.LocString;
+import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.parser.util.TokenStack;
 
 <add:circus>
-import net.sourceforge.czt.util.CztException;
+import java.util.ListIterator;
+import java.util.Set;
+
 import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.NumStroke;
 import net.sourceforge.czt.z.ast.OutStroke;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.ZStrokeList;
+
+import net.sourceforge.czt.parser.util.Pair;
+import net.sourceforge.czt.parser.util.Decorword;
 </add:circus>
 
 /**
@@ -219,10 +228,45 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   private boolean seenLet_ = false;
   private boolean seenInstantiate_ = false;
   </add:zeves>
+  private final String sourceName_;
 
-  <class/>(net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
+  <class/>(String sourceName, net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
   {
+    sourceName_ = sourceName == null ? "unknownSource" : sourceName;
     dumb_ = new TokenStack(dumbscanner);
+  }
+
+  protected LocInfo getLocation(Symbol symbol)
+  {
+    if (symbol.value instanceof LocInfo) {
+      return (LocInfo) symbol.value;
+    }
+    if (symbol.value instanceof LocString) {
+      LocString s = (LocString) symbol.value;
+      return s.getLocation();
+    }
+    if (symbol.value instanceof LocInt) {
+      LocInt i = (LocInt) symbol.value;
+      return i.getLocation();
+    }
+    return new LocInfoImpl(sourceName_, symbol.left, symbol.right);
+  }
+
+  protected boolean checkEOF(Symbol currsym, LinkedList&lt;Symbol&gt; tokens) throws ScanException
+  {
+    boolean result = true;
+    if (currsym.sym == Sym.EOF)
+    {
+      result = false;
+      final int tks = tokens.size();
+      final Symbol last = tokens.get(tks &gt; 1 ? tks-2 : tks-1);
+      final Symbol first = tokens.getFirst();
+      final String message = "Hit EOF whilst trying to find end of a proof command during smart scanning. Lookahead size = " + tks
+              + "; stack token before EOF = " + get_sym_info(last) + "; lookahead starting token = " + get_sym_info(first);
+      System.err.println(message);
+      throw new ScanException(message, get_sym_info(first), getLocation(first));
+    }
+    return result;
   }
 
   public Symbol next_token()
@@ -517,13 +561,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     while (currsym.sym == Sym.NL);
 
     // in case of an early EOF hit
-    if (currsym.sym == Sym.EOF)
-    {
-      result = false;
-      final String message = "Hit EOF at whilst trying to find end of a proof command during smart scanning";
-      System.err.println(message);
-      throw new CztException(message);
-    }
+    result = checkEOF(currsym, tokens);
 
     // this is a proof cmd sep if the next symbol is either END or a head proof word
     result =
@@ -653,7 +691,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
    * Create symbol out of the given stroke. Accept NextStroke and NumStroke
    * for simplicity - the parser will raise the problem later.
    */
-  private Symbol toToken(Stroke stroke, int left, int right)
+  private Symbol toToken(Stroke stroke, int left, int right) throws ScanException
   {
     if (stroke instanceof InStroke) {      
       return new Symbol(Sym.CHANNELIN, left, right);
@@ -669,7 +707,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
       return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getDigit().getValue());
     }
     else {
-      throw new CztException("Unexpected stroke ");
+      throw new ScanException("Unexpected stroke ", new LocInfoImpl(sourceName_, left, right));
     }
   }
   
@@ -898,11 +936,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
     
     if (currsym.sym == Sym.EOF)
     {
-      result = false;
-      String symbolInfo = get_sym_info(symbol);
-      System.err.println("Hit EOF at " + symbolInfo);
-      throw new CztException("Found EOF while smart scanning symbol " + symbolInfo);
-      //ScanException("Found EOF while smart scanning symbol " + symbolInfo, symbolInfo, );
+      checkEOF(currsym, tokens);
     }
     else
     {

@@ -61,7 +61,7 @@ public class UnicodeScanner
     super(properties);
     contextFreeScanner_ = new ContextFreeScanner(source);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
-    smartScanner_ = new SmartScanner(keywordScanner_);
+    smartScanner_ = new SmartScanner(source.toString(), keywordScanner_);
   }
 
   public <class/>(CztReader in, Properties properties)
@@ -69,7 +69,7 @@ public class UnicodeScanner
     super(properties);
     contextFreeScanner_ = new ContextFreeScanner(in);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
-    smartScanner_ = new SmartScanner(keywordScanner_);
+    smartScanner_ = new SmartScanner("CztReader" + in.hashCode(), keywordScanner_);
   }
 
   /**
