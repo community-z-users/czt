@@ -31,6 +31,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
+import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
@@ -246,12 +247,13 @@ public abstract class Checker<R>
 
   protected boolean shouldIgnoreUndeclaredNamesIn(Term term)
   {
-    return ((term instanceof RefExpr ||
-            term instanceof ThetaExpr ||
+    return ((term instanceof RefExpr ||   // exprs: reference names, theta, sets;
+            term instanceof ThetaExpr ||  // pred : schema calculus, MemPred
             term instanceof SetExpr ||
+            term instanceof MemPred ||
             term instanceof ExprPred || 
-            isSchemaCalculusExpr(term)) &&
-            withinConjParaPredScope());
+            isSchemaCalculusExpr(term)) &&  // terms to consider
+            withinConjParaPredScope());     // only those terms within ConjPara
   }
 
   @Override
@@ -317,7 +319,7 @@ public abstract class Checker<R>
       term.getAnns().remove(term.getAnn(Checker.IgnoreBindExprAnn.class));
   }
 
-  @SuppressWarnings({"unchecked", "unchecked"})
+  @SuppressWarnings("unchecked")
   protected <T extends net.sourceforge.czt.typecheck.z.ErrorAnn> T updateErrorAnn(T error, Term term)
   {
     T result = error;
@@ -327,20 +329,28 @@ public abstract class Checker<R>
     {
 //      System.out.print("updateErrorAnn(" + error.getErrorMessage() + ", " + term.toString() + ") = ");
       // clear up the ann tag, if any
-      if (term.hasAnn(Checker.IgnoreUndeclNameAnn.class) &&
-            (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER.name()) ||
-             error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR.name())))
+      if (term.hasAnn(Checker.IgnoreUndeclNameAnn.class))
       {
+        if (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER.name()) ||
+            error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR.name()))
+        {
 
-//      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, term.getClass().getName() + " = " + result.toString());
-//      result = null;//result.setErrorType(ErrorType.WARNING);
-        final String errStr = error.toString();
-        result = (T)errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr });
-        result.setErrorType(ErrorType.WARNING);
+  //      warningManager().warn(term, WarningMessage.UNDECLARED_NAME_ERROR_AS_WARNING, term.getClass().getName() + " = " + result.toString());
+  //      result = null;//result.setErrorType(ErrorType.WARNING);
+          final String errStr = error.toString();
+          result = (T)errorAnn(term, ErrorMessage.UNDECLARED_NAME_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr });
+          result.setErrorType(ErrorType.WARNING);
+        }
+        else if (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED.name()))
+        {
+          final String errStr = error.toString();
+          result = (T)errorAnn(term, ErrorMessage.PRED_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr });
+          result.setErrorType(ErrorType.WARNING);          
+        }
       }
-      else if (term.hasAnn(Checker.IgnoreBindExprAnn.class) &&
-                (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_POWEREXPR.name()) ||
-                 error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_INSTANTIATION.name())))
+      if (term.hasAnn(Checker.IgnoreBindExprAnn.class) &&
+          (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_POWEREXPR.name()) ||
+           error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_INSTANTIATION.name())))
       {
         //System.out.println("updateErrorAnn(" + error.getErrorMessage() + ", " + term.toString() + ") = ");
         final String errStr = error.toString();

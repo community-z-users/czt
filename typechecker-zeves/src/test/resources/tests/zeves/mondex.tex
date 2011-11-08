@@ -1,0 +1,22 @@
+\begin{zsection}
+   \SECTION mondex \parents standard\_toolkit
+\end{zsection}
+
+From mondex
+\begin{zed}[NAME]\end{zed}
+\begin{schema}{TransferDetails}
+   from, toN: NAME\\
+   value: \nat
+\end{schema}~\end{LSDef}
+
+\begin{LFRT}[$TransferDetails$ binding maximal type]
+\begin{theorem}{frule fTransferDetailsMemberMaxType}
+    x \in  TransferDetails \implies  x \in  (\lblot from: NAME; toN: NAME; value: \num \rblot)
+\end{theorem}~\end{LFRT}
+
+\begin{zed}
+   FT ::= Leaf | Cons \ldata TransferDetails \rdata
+\end{zed}
+\begin{theorem}{grule gConsMaxInjType}
+    Cons \in (\lblot from: NAME; toN: NAME; value: \num \rblot) \pinj FT
+\end{theorem}

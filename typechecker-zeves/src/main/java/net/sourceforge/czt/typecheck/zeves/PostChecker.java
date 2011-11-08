@@ -46,6 +46,7 @@ public class PostChecker
     // post check
     net.sourceforge.czt.typecheck.z.ErrorAnn result = term.accept(zPostChecker_);
     result = updateErrorAnn(result, term);
+    //if (result != null) { System.out.println(result.getErrorType() + " = " + result.getErrorMessage()); }
     removeIgnoreAnn(term);
     return result;
   }
