@@ -190,7 +190,7 @@ public abstract class Checker<R>
   }
 
   protected static class IgnoreUndeclNameAnn {} //extends AnnImpl {}
-  protected static class IgnoreBindExprAnn {}
+  //protected static class IgnoreBindExprAnn {}
 
   protected boolean ignoreUndeclaredNames()
   {
@@ -278,29 +278,30 @@ public abstract class Checker<R>
     }
   }
 
-  protected void checkIfNeedBindTag(Term term)
-  {
-    // POWER BINDEXPR
-    if (term instanceof PowerExpr && ((PowerExpr) term).getExpr() instanceof BindExpr)
-    {
-      term.getAnns().add(new Checker.IgnoreBindExprAnn());
-    }
-    // BindExpr \pinj TYPE (e.g., RefExpr with
-    else if (term instanceof RefExpr)
-    {
-      ZExprList zel = ((RefExpr)term).getZExprList();
-      for (Expr e : zel.getExpr())
-      {
-        if (e instanceof BindExpr || (e instanceof PowerExpr && ((PowerExpr) e).getExpr() instanceof BindExpr))
-        {
-          term.getAnns().add(new Checker.IgnoreBindExprAnn());
-          break;
-        }
-      }
-    }
-    //if (term.hasAnn(Checker.IgnoreBindExprAnn.class))
-    //  System.out.println("checkIfNeedBindTag(" + term.getClass().getName() + ") = " + term.toString());
-  }
+  // CHANGED UNIFICATION ALGO INSTEAD
+//  protected void checkIfNeedBindTag(Term term)
+//  {
+//    // POWER BINDEXPR
+//    if (term instanceof PowerExpr && ((PowerExpr) term).getExpr() instanceof BindExpr)
+//    {
+//      term.getAnns().add(new Checker.IgnoreBindExprAnn());
+//    }
+//    // BindExpr \pinj TYPE (e.g., RefExpr with
+//    else if (term instanceof RefExpr)
+//    {
+//      ZExprList zel = ((RefExpr)term).getZExprList();
+//      for (Expr e : zel.getExpr())
+//      {
+//        if (e instanceof BindExpr || (e instanceof PowerExpr && ((PowerExpr) e).getExpr() instanceof BindExpr))
+//        {
+//          term.getAnns().add(new Checker.IgnoreBindExprAnn());
+//          break;
+//        }
+//      }
+//    }
+//    //if (term.hasAnn(Checker.IgnoreBindExprAnn.class))
+//    //  System.out.println("checkIfNeedBindTag(" + term.getClass().getName() + ") = " + term.toString());
+//  }
 
 //  @Override
 //  protected void addTermForPostChecking(Term term)
@@ -315,8 +316,8 @@ public abstract class Checker<R>
     Checker.IgnoreUndeclNameAnn iuna = term.getAnn(Checker.IgnoreUndeclNameAnn.class);
     if (iuna!= null)
       term.getAnns().remove(iuna);
-    if (term.hasAnn(Checker.IgnoreBindExprAnn.class))
-      term.getAnns().remove(term.getAnn(Checker.IgnoreBindExprAnn.class));
+//    if (term.hasAnn(Checker.IgnoreBindExprAnn.class))
+//      term.getAnns().remove(term.getAnn(Checker.IgnoreBindExprAnn.class));
   }
 
   @SuppressWarnings("unchecked")
@@ -348,15 +349,15 @@ public abstract class Checker<R>
           result.setErrorType(ErrorType.WARNING);          
         }
       }
-      if (term.hasAnn(Checker.IgnoreBindExprAnn.class) &&
-          (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_POWEREXPR.name()) ||
-           error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_INSTANTIATION.name())))
-      {
-        //System.out.println("updateErrorAnn(" + error.getErrorMessage() + ", " + term.toString() + ") = ");
-        final String errStr = error.toString();
-        result = (T)errorAnn(term, ErrorMessage.BINDEXPR_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr } );
-        result.setErrorType(ErrorType.WARNING);
-      }
+//      if (term.hasAnn(Checker.IgnoreBindExprAnn.class) &&
+//          (error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_POWEREXPR.name()) ||
+//           error.getErrorMessage().equals(net.sourceforge.czt.typecheck.z.ErrorMessage.NON_SET_IN_INSTANTIATION.name())))
+//      {
+//        //System.out.println("updateErrorAnn(" + error.getErrorMessage() + ", " + term.toString() + ") = ");
+//        final String errStr = error.toString();
+//        result = (T)errorAnn(term, ErrorMessage.BINDEXPR_ERROR_AS_WARNING, new Object[] { term.getClass().getName(), errStr } );
+//        result.setErrorType(ErrorType.WARNING);
+//      }
 //      System.out.println(result.getErrorMessage());// + ": " + error.toString());
     }
 

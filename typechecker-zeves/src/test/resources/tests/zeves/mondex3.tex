@@ -1,0 +1,37 @@
+\begin{zed}[NAME]\end{zed}
+
+\begin{zed}
+   AbPurse ~~\defs~~ [~ balance, lost: \nat ~]
+\end{zed}~\end{LSDef}
+
+\begin{schema}{AbWorld}
+  abAuthPurse: NAME \pfun  AbPurse
+\where
+  abAuthPurse \in  NAME \ffun  AbPurse
+\end{schema}~\end{LSDef}
+
+\begin{schema}{TransferDetails}
+   from, toN: NAME\\
+   value: \nat
+\end{schema}~\end{LSDef}
+
+\begin{theorem}{rule lAbTransferOkayPREAuthPurseUpdateMaxType}
+\forall  AbWorld; TransferDetails~? | \\
+    \t1 \lnot  from? = toN? @ \\
+        \t2 (\{(from?, \theta  AbPurse[balance := \negate~1 * value? + (abAuthPurse~from?).balance, \\
+            \t3 lost := (abAuthPurse~from?).lost])\} \\
+        \t2 \cup \{(toN?, \theta  AbPurse[balance := value? + (abAuthPurse~toN?).balance, \\
+            \t3 lost := (abAuthPurse~toN?).lost])\}) \in  \\
+        \t2 \power  (NAME \cross  \lblot balance: \num ; lost: \num \rblot)
+\end{theorem}
+
+\begin{theorem}{rule lAbTransferOkayPREAuthPurseMaxType}
+\forall  AbWorld; TransferDetails~? | \\
+    \t1 \lnot  from? = toN? @ \\
+    \t1 abAuthPurse \oplus \\
+        \t2 (\{(from?, \theta  AbPurse[balance := \negate~1 * value? + (abAuthPurse~from?).balance, \\
+            \t3 lost := (abAuthPurse~from?).lost])\} \\
+        \t2 \cup \{(toN?, \theta  AbPurse[balance := value? + (abAuthPurse~toN?).balance, \\
+            \t3 lost := (abAuthPurse~toN?).lost])\}) \in  \\
+        \t2 \power  (NAME \cross  \lblot balance: \num ; lost: \num \rblot)
+\end{theorem}

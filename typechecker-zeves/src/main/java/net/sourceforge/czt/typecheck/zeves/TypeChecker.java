@@ -22,6 +22,7 @@ import java.util.Stack;
 import net.sourceforge.czt.parser.util.ThmTable;
 import net.sourceforge.czt.parser.zeves.ProofTable;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.zeves.util.UnificationEnv;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.zeves.ast.ProofCommandInfo;
@@ -90,6 +91,7 @@ public class TypeChecker
     predChecker_ = new PredChecker(this);
     postChecker_ = new PostChecker(this);
     schTextChecker_ = new SchTextChecker(this);
+    unificationEnv_ = new UnificationEnv(factory);
 
     proofCommandChecker_ = new ProofCommandChecker(this);
     

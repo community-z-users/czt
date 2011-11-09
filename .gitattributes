@@ -961,6 +961,7 @@ typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/WarningManag
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/WarningMessage.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/impl/Factory.java -text
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/util/CarrierSet.java -text
+typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/util/UnificationEnv.java -text
 typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/ErrorMessage_en.properties -text
 typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/WarningMessage_en.properties -text
 typechecker-zeves/src/test/java/net/sourceforge/czt/typecheck/zeves/TypeCheckerTest.java -text
@@ -977,6 +978,8 @@ typechecker-zeves/src/test/resources/tests/zeves/foo.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/forest.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/ifthenElse.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/mondex.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/mondex2.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/mondex3.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/refRulesEquiv_ref.tex -text

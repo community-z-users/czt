@@ -49,7 +49,7 @@ public class ExprChecker
   public Type2 visitTerm(Term term)
   {
     checkIfNeedIgnoreUndeclNameTag(term);
-    checkIfNeedBindTag(term);
+    //checkIfNeedBindTag(term);
     return term.accept(zExprChecker_);
   }
 
