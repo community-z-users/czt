@@ -54,6 +54,7 @@ public class PrintVisitor
              ProdTypeVisitor<String>,
              SchemaTypeVisitor<String>,
              SectTypeEnvAnnVisitor<String>,
+             //SectWarningEnvAnnVisitor<String>,
              SignatureVisitor<String>,
              TypeAnnVisitor<String>,
              ZNameVisitor<String>,
@@ -330,6 +331,14 @@ public class PrintVisitor
       "]";
   }
   
+//  @Override
+//  public String visitSectWarningEnvAnn(SectWarningEnvAnn sectWarningEnvAnn)
+//  {
+//    return "SectWarningEnv [" +
+//      visitList(sectWarningEnvAnn.getElements(), "\n") +
+//      "]";
+//  }
+
   @Override
   public String visitNameTypePair(NameTypePair pair)
   {

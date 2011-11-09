@@ -3,16 +3,16 @@
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
+  it under the terms of the GNU General @Override public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
 
   The czt project is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+  GNU General @Override public License for more details.
 
-  You should have received a copy of the GNU General Public License
+  You should have received a copy of the GNU General @Override public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
@@ -36,506 +36,511 @@ public class SyntaxSymbolVisitor
   implements ZVisitor<ConcreteSyntaxSymbol>,
              ListTermVisitor<ConcreteSyntaxSymbol>
 {
+  @Override
   public ConcreteSyntaxSymbol visitListTerm(ListTerm term)
   {
     return ConcreteSyntaxSymbol.LIST;
   }
 
-  public ConcreteSyntaxSymbol visitAndExpr(AndExpr term)
+  @Override public ConcreteSyntaxSymbol visitAndExpr(AndExpr term)
   {
     return ConcreteSyntaxSymbol.AND_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitAndPred(AndPred andPred)
+  @Override public ConcreteSyntaxSymbol visitAndPred(AndPred andPred)
   {
     return ConcreteSyntaxSymbol.AND_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitApplExpr(ApplExpr applExpr)
+  @Override public ConcreteSyntaxSymbol visitApplExpr(ApplExpr applExpr)
   {
     return ConcreteSyntaxSymbol.APPL_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitAxPara(AxPara axPara)
+  @Override public ConcreteSyntaxSymbol visitAxPara(AxPara axPara)
   {
     return ConcreteSyntaxSymbol.AX_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitBindExpr(BindExpr term)
+  @Override public ConcreteSyntaxSymbol visitBindExpr(BindExpr term)
   {
     return ConcreteSyntaxSymbol.BIND_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitBindSelExpr(BindSelExpr term)
+  @Override public ConcreteSyntaxSymbol visitBindSelExpr(BindSelExpr term)
   {
     return ConcreteSyntaxSymbol.BIND_SEL_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitBranch(Branch term)
+  @Override public ConcreteSyntaxSymbol visitBranch(Branch term)
   {
     return ConcreteSyntaxSymbol.BRANCH;
   }
 
-  public ConcreteSyntaxSymbol visitZBranchList(ZBranchList zBranchList)
+  @Override public ConcreteSyntaxSymbol visitZBranchList(ZBranchList zBranchList)
   {
     return ConcreteSyntaxSymbol.BRANCH_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitCompExpr(CompExpr term)
+  @Override public ConcreteSyntaxSymbol visitCompExpr(CompExpr term)
   {
     return ConcreteSyntaxSymbol.COMP_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitCondExpr(CondExpr term)
+  @Override public ConcreteSyntaxSymbol visitCondExpr(CondExpr term)
   {
     return ConcreteSyntaxSymbol.COND_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitConjPara(ConjPara conjPara)
+  @Override public ConcreteSyntaxSymbol visitConjPara(ConjPara conjPara)
   {
     return ConcreteSyntaxSymbol.CONJ_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitConstDecl(ConstDecl term)
+  @Override public ConcreteSyntaxSymbol visitConstDecl(ConstDecl term)
   {
     return ConcreteSyntaxSymbol.CONST_DECL;
   }
 
-  public ConcreteSyntaxSymbol visitDecorExpr(DecorExpr term)
+  @Override public ConcreteSyntaxSymbol visitDecorExpr(DecorExpr term)
   {
     return ConcreteSyntaxSymbol.DECOR_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitDirective(Directive term)
+  @Override public ConcreteSyntaxSymbol visitDirective(Directive term)
   {
     return ConcreteSyntaxSymbol.DIRECTIVE;
   }
 
-  public ConcreteSyntaxSymbol visitExists1Expr(Exists1Expr term)
+  @Override public ConcreteSyntaxSymbol visitExists1Expr(Exists1Expr term)
   {
     return ConcreteSyntaxSymbol.EXIONE_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitExists1Pred(Exists1Pred term)
+  @Override public ConcreteSyntaxSymbol visitExists1Pred(Exists1Pred term)
   {
     return ConcreteSyntaxSymbol.EXIONE_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitExistsExpr(ExistsExpr term)
+  @Override public ConcreteSyntaxSymbol visitExistsExpr(ExistsExpr term)
   {
     return ConcreteSyntaxSymbol.EXI_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitExistsPred(ExistsPred term)
+  @Override public ConcreteSyntaxSymbol visitExistsPred(ExistsPred term)
   {
     return ConcreteSyntaxSymbol.EXI_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitExprPred(ExprPred term)
+  @Override public ConcreteSyntaxSymbol visitExprPred(ExprPred term)
   {
     return ConcreteSyntaxSymbol.EXPR_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitFalsePred(FalsePred term)
+  @Override public ConcreteSyntaxSymbol visitFalsePred(FalsePred term)
   {
     return ConcreteSyntaxSymbol.FALSE_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitForallExpr(ForallExpr term)
+  @Override public ConcreteSyntaxSymbol visitForallExpr(ForallExpr term)
   {
     return ConcreteSyntaxSymbol.ALL_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitForallPred(ForallPred term)
+  @Override public ConcreteSyntaxSymbol visitForallPred(ForallPred term)
   {
     return ConcreteSyntaxSymbol.ALL_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitFreePara(FreePara term)
+  @Override public ConcreteSyntaxSymbol visitFreePara(FreePara term)
   {
     return ConcreteSyntaxSymbol.FREE_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitFreetype(Freetype term)
+  @Override public ConcreteSyntaxSymbol visitFreetype(Freetype term)
   {
     return ConcreteSyntaxSymbol.FREETYPE;
   }
 
-  public ConcreteSyntaxSymbol visitGenericType(GenericType term)
+  @Override public ConcreteSyntaxSymbol visitGenericType(GenericType term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitGenParamType(GenParamType term)
+  @Override public ConcreteSyntaxSymbol visitGenParamType(GenParamType term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitGivenPara(GivenPara term)
+  @Override public ConcreteSyntaxSymbol visitGivenPara(GivenPara term)
   {
     return ConcreteSyntaxSymbol.GIVEN_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitGivenType(GivenType term)
+  @Override public ConcreteSyntaxSymbol visitGivenType(GivenType term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitHideExpr(HideExpr term)
+  @Override public ConcreteSyntaxSymbol visitHideExpr(HideExpr term)
   {
     return ConcreteSyntaxSymbol.HIDE_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitIffExpr(IffExpr term)
+  @Override public ConcreteSyntaxSymbol visitIffExpr(IffExpr term)
   {
     return ConcreteSyntaxSymbol.IFF_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitIffPred(IffPred term)
+  @Override public ConcreteSyntaxSymbol visitIffPred(IffPred term)
   {
     return ConcreteSyntaxSymbol.IFF_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitImpliesExpr(ImpliesExpr term)
+  @Override public ConcreteSyntaxSymbol visitImpliesExpr(ImpliesExpr term)
   {
     return ConcreteSyntaxSymbol.IMPL_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitImpliesPred(ImpliesPred term)
+  @Override public ConcreteSyntaxSymbol visitImpliesPred(ImpliesPred term)
   {
     return ConcreteSyntaxSymbol.IMPL_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitInclDecl(InclDecl term)
+  @Override public ConcreteSyntaxSymbol visitInclDecl(InclDecl term)
   {
     return ConcreteSyntaxSymbol.INCL_DECL;
   }
 
-  public ConcreteSyntaxSymbol visitInStroke(InStroke term)
+  @Override public ConcreteSyntaxSymbol visitInStroke(InStroke term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitLambdaExpr(LambdaExpr term)
+  @Override public ConcreteSyntaxSymbol visitLambdaExpr(LambdaExpr term)
   {
     return ConcreteSyntaxSymbol.LAMBDA_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitLatexMarkupPara(LatexMarkupPara term)
+  @Override public ConcreteSyntaxSymbol visitLatexMarkupPara(LatexMarkupPara term)
   {
     return ConcreteSyntaxSymbol.LATEX_MARKUP_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitLetExpr(LetExpr term)
+  @Override public ConcreteSyntaxSymbol visitLetExpr(LetExpr term)
   {
     return ConcreteSyntaxSymbol.LET_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitLocAnn(LocAnn term)
+  @Override public ConcreteSyntaxSymbol visitLocAnn(LocAnn term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitMemPred(MemPred term)
+  @Override public ConcreteSyntaxSymbol visitMemPred(MemPred term)
   {
     return ConcreteSyntaxSymbol.REL_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitMuExpr(MuExpr term)
+  @Override public ConcreteSyntaxSymbol visitMuExpr(MuExpr term)
   {
     return ConcreteSyntaxSymbol.MU_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitNameSectTypeTriple(NameSectTypeTriple term)
+  @Override public ConcreteSyntaxSymbol visitNameSectTypeTriple(NameSectTypeTriple term)
   {
     return ConcreteSyntaxSymbol.NAME_SECT_TYPE_TRIPLE;
   }
 
-  public ConcreteSyntaxSymbol visitNameTypePair(NameTypePair term)
+  @Override public ConcreteSyntaxSymbol visitNameTypePair(NameTypePair term)
   {
     return ConcreteSyntaxSymbol.NAME_TYPE_PAIR;
   }
 
-  public ConcreteSyntaxSymbol visitNarrPara(NarrPara term)
+  @Override public ConcreteSyntaxSymbol visitNarrPara(NarrPara term)
   {
     return ConcreteSyntaxSymbol.NARR_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitNarrSect(NarrSect term)
+  @Override public ConcreteSyntaxSymbol visitNarrSect(NarrSect term)
   {
     return ConcreteSyntaxSymbol.NARR_SECT;
   }
 
-  public ConcreteSyntaxSymbol visitNegExpr(NegExpr term)
+  @Override public ConcreteSyntaxSymbol visitNegExpr(NegExpr term)
   {
     return ConcreteSyntaxSymbol.NEG_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitNegPred(NegPred term)
+
+  @Override public ConcreteSyntaxSymbol visitNegPred(NegPred term)
   {
     return ConcreteSyntaxSymbol.NEG_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitNewOldPair(NewOldPair term)
+  @Override public ConcreteSyntaxSymbol visitNewOldPair(NewOldPair term)
   {
     return ConcreteSyntaxSymbol.NAME_NAME_PAIR;
   }
 
-  public ConcreteSyntaxSymbol visitNextStroke(NextStroke term)
+  @Override public ConcreteSyntaxSymbol visitNextStroke(NextStroke term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitNumExpr(NumExpr term)
+  @Override public ConcreteSyntaxSymbol visitNumExpr(NumExpr term)
   {
     return ConcreteSyntaxSymbol.NUM_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitNumStroke(NumStroke term)
+  @Override public ConcreteSyntaxSymbol visitNumStroke(NumStroke term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitOperand(Operand term)
+  @Override public ConcreteSyntaxSymbol visitOperand(Operand term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitOperator(Operator term)
+  @Override public ConcreteSyntaxSymbol visitOperator(Operator term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitOptempPara(OptempPara term)
+  @Override public ConcreteSyntaxSymbol visitOptempPara(OptempPara term)
   {
     return ConcreteSyntaxSymbol.OPTEMP_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitOrExpr(OrExpr term)
+  @Override public ConcreteSyntaxSymbol visitOrExpr(OrExpr term)
   {
     return ConcreteSyntaxSymbol.OR_EXPR;
   }
 
 
-  public ConcreteSyntaxSymbol visitOrPred(OrPred term)
+  @Override public ConcreteSyntaxSymbol visitOrPred(OrPred term)
   {
     return ConcreteSyntaxSymbol.OR_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitOutStroke(OutStroke term)
+  @Override public ConcreteSyntaxSymbol visitOutStroke(OutStroke term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitParenAnn(ParenAnn term)
+  @Override public ConcreteSyntaxSymbol visitParenAnn(ParenAnn term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitParent(Parent term)
+  @Override public ConcreteSyntaxSymbol visitParent(Parent term)
   {
     return ConcreteSyntaxSymbol.PARENT;
   }
 
-  public ConcreteSyntaxSymbol visitPipeExpr(PipeExpr term)
+  @Override public ConcreteSyntaxSymbol visitPipeExpr(PipeExpr term)
   {
     return ConcreteSyntaxSymbol.PIPE_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitPowerExpr(PowerExpr term)
+  @Override public ConcreteSyntaxSymbol visitPowerExpr(PowerExpr term)
   {
     return ConcreteSyntaxSymbol.POWER_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitPowerType(PowerType term)
+  @Override public ConcreteSyntaxSymbol visitPowerType(PowerType term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitPreExpr(PreExpr term)
+  @Override public ConcreteSyntaxSymbol visitPreExpr(PreExpr term)
   {
     return ConcreteSyntaxSymbol.PRE_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitProdExpr(ProdExpr term)
+  @Override public ConcreteSyntaxSymbol visitProdExpr(ProdExpr term)
   {
     return ConcreteSyntaxSymbol.PROD_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitProdType(ProdType term)
+  @Override public ConcreteSyntaxSymbol visitProdType(ProdType term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitProjExpr(ProjExpr term)
+  @Override public ConcreteSyntaxSymbol visitProjExpr(ProjExpr term)
   {
     return ConcreteSyntaxSymbol.PROJ_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitRefExpr(RefExpr refExpr)
+  @Override public ConcreteSyntaxSymbol visitRefExpr(RefExpr refExpr)
   {
     return ConcreteSyntaxSymbol.REF_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitRenameExpr(RenameExpr term)
+  @Override public ConcreteSyntaxSymbol visitRenameExpr(RenameExpr term)
   {
     return ConcreteSyntaxSymbol.RENAME_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitSchemaType(SchemaType term)
+  @Override public ConcreteSyntaxSymbol visitSchemaType(SchemaType term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitSchExpr(SchExpr term)
+  @Override public ConcreteSyntaxSymbol visitSchExpr(SchExpr term)
   {
     return ConcreteSyntaxSymbol.SCH_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitSectTypeEnvAnn(SectTypeEnvAnn term)
+  @Override public ConcreteSyntaxSymbol visitSectTypeEnvAnn(SectTypeEnvAnn term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitSetCompExpr(SetCompExpr term)
+  //@Override public ConcreteSyntaxSymbol visitSectWarningEnvAnn(SectWarningEnvAnn term)
+  //{
+  //  return null;
+  //}
+
+  @Override public ConcreteSyntaxSymbol visitSetCompExpr(SetCompExpr term)
   {
     return ConcreteSyntaxSymbol.SET_COMP_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitSetExpr(SetExpr term)
+  @Override public ConcreteSyntaxSymbol visitSetExpr(SetExpr term)
   {
     return ConcreteSyntaxSymbol.SET_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitSignatureAnn(SignatureAnn term)
+  @Override public ConcreteSyntaxSymbol visitSignatureAnn(SignatureAnn term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitSignature(Signature term)
+  @Override public ConcreteSyntaxSymbol visitSignature(Signature term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitSpec(Spec term)
+  @Override public ConcreteSyntaxSymbol visitSpec(Spec term)
   {
     return ConcreteSyntaxSymbol.SPEC;
   }
 
-  public ConcreteSyntaxSymbol visitThetaExpr(ThetaExpr term)
+  @Override public ConcreteSyntaxSymbol visitThetaExpr(ThetaExpr term)
   {
     return ConcreteSyntaxSymbol.THETA_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitTruePred(TruePred term)
+  @Override public ConcreteSyntaxSymbol visitTruePred(TruePred term)
   {
     return ConcreteSyntaxSymbol.TRUE_PRED;
   }
 
-  public ConcreteSyntaxSymbol visitTupleExpr(TupleExpr term)
+  @Override public ConcreteSyntaxSymbol visitTupleExpr(TupleExpr term)
   {
     return ConcreteSyntaxSymbol.TUPLE_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitTupleSelExpr(TupleSelExpr term)
+  @Override public ConcreteSyntaxSymbol visitTupleSelExpr(TupleSelExpr term)
   {
     return ConcreteSyntaxSymbol.TUPLE_SEL_EXPR;
   }
 
-  public ConcreteSyntaxSymbol visitTypeAnn(TypeAnn term)
+  @Override public ConcreteSyntaxSymbol visitTypeAnn(TypeAnn term)
   {
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitUnparsedPara(UnparsedPara term)
+  @Override public ConcreteSyntaxSymbol visitUnparsedPara(UnparsedPara term)
   {
     return ConcreteSyntaxSymbol.UNPARSED_PARA;
   }
 
-  public ConcreteSyntaxSymbol visitUnparsedZSect(UnparsedZSect term)
+  @Override public ConcreteSyntaxSymbol visitUnparsedZSect(UnparsedZSect term)
   {
     return ConcreteSyntaxSymbol.UNPARSED_Z_SECT;
   }
 
-  public ConcreteSyntaxSymbol visitVarDecl(VarDecl term)
+  @Override public ConcreteSyntaxSymbol visitVarDecl(VarDecl term)
   {
     return ConcreteSyntaxSymbol.VAR_DECL;
   }
 
-  public ConcreteSyntaxSymbol visitZDeclList(ZDeclList term)
+  @Override public ConcreteSyntaxSymbol visitZDeclList(ZDeclList term)
   {
     return ConcreteSyntaxSymbol.DECL_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZExprList(ZExprList term)
+  @Override public ConcreteSyntaxSymbol visitZExprList(ZExprList term)
   {
     return ConcreteSyntaxSymbol.EXPR_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZFreetypeList(ZFreetypeList term)
+  @Override public ConcreteSyntaxSymbol visitZFreetypeList(ZFreetypeList term)
   {
     return ConcreteSyntaxSymbol.FREETYPE_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZNumeral(ZNumeral term)
+  @Override public ConcreteSyntaxSymbol visitZNumeral(ZNumeral term)
   {
     return ConcreteSyntaxSymbol.NUMERAL;
   }
 
-  public ConcreteSyntaxSymbol visitZName(ZName term)
+  @Override public ConcreteSyntaxSymbol visitZName(ZName term)
   {
     return ConcreteSyntaxSymbol.NAME;
   }
 
-  public ConcreteSyntaxSymbol visitZNameList(ZNameList term)
+  @Override public ConcreteSyntaxSymbol visitZNameList(ZNameList term)
   {
     return ConcreteSyntaxSymbol.NAME_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZParaList(ZParaList term)
+  @Override public ConcreteSyntaxSymbol visitZParaList(ZParaList term)
   {
     return ConcreteSyntaxSymbol.PARA_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZRenameList(ZRenameList term)
+  @Override public ConcreteSyntaxSymbol visitZRenameList(ZRenameList term)
   {
     return ConcreteSyntaxSymbol.RENAME_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZSchText(ZSchText term)
+  @Override public ConcreteSyntaxSymbol visitZSchText(ZSchText term)
   {
     return ConcreteSyntaxSymbol.SCH_TEXT;
   }
 
-  public ConcreteSyntaxSymbol visitZStrokeList(ZStrokeList term)
+  @Override public ConcreteSyntaxSymbol visitZStrokeList(ZStrokeList term)
   {
     return ConcreteSyntaxSymbol.STROKE_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZSect(ZSect term)
+  @Override public ConcreteSyntaxSymbol visitZSect(ZSect term)
   {
     return ConcreteSyntaxSymbol.SECT;
   }
 
-  @Override
-  public ConcreteSyntaxSymbol visitZRefinesAnn(ZRefinesAnn term)
+  @Override public ConcreteSyntaxSymbol visitZRefinesAnn(ZRefinesAnn term)
   {
     return ConcreteSyntaxSymbol.ZREFINES;
   }
 
-  @Override
-  public ConcreteSyntaxSymbol visitZStateAnn(ZStateAnn term)
+  @Override public ConcreteSyntaxSymbol visitZStateAnn(ZStateAnn term)
   {
     return ConcreteSyntaxSymbol.ZSTATE;
   }
 
 
-  public interface Utils
+   public interface Utils
     extends IsEmptyNameList
   {
   }
 
-  public static class UtilsImpl
+   public static class UtilsImpl
     extends StandardZ
     implements Utils
   {
