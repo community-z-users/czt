@@ -64,8 +64,16 @@ public class TypeCheckCommand extends AbstractCommand
       PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT;
   }
 
-  protected void processWarnings(List<? extends ErrorAnn> errors)
+  protected SectWarningsAnn processWarnings(ZSect zs, List<? extends ErrorAnn> errors)
   {
+    SectWarningsAnn result;
+    if (zs.hasAnn(SectWarningsAnn.class))
+      result = zs.getAnn(SectWarningsAnn.class);
+    else
+    {
+      result = SectWarningsAnn.create();
+      zs.getAnns().add(result);
+    }
     // if not raising warnings, remove it from the computed result.
     // since this is a SectManager TypeCheck call, then SHOW/HIDE
     // are not quite available? TODO
@@ -76,9 +84,13 @@ public class TypeCheckCommand extends AbstractCommand
       {
         net.sourceforge.czt.typecheck.z.ErrorAnn error = it.next();
         if (error.getErrorType().equals(ErrorType.WARNING))
+        {
+          result.addWarning(error);
           it.remove();
+        }
       }
     }
+    return result;
   }
 
   protected List<? extends ErrorAnn> typecheck(Term term,
@@ -116,11 +128,19 @@ public class TypeCheckCommand extends AbstractCommand
       //are looking for into the manager.
       SectTypeEnvAnn env = zs.getAnn(SectTypeEnvAnn.class);
       if (env != null) {
-        manager.put(new Key(name, SectTypeEnvAnn.class), env);
+        manager.put(new Key<SectTypeEnvAnn>(name, SectTypeEnvAnn.class), env);
         return false;
       }
       List<? extends ErrorAnn> errors = typecheck(zs, manager);
-      processWarnings(errors);
+
+      // if there are warnings within the errors, add then
+      SectWarningsAnn warnings = processWarnings(zs, errors);
+      if (!warnings.isEmpty())
+      {
+        manager.put(new Key<SectWarningsAnn>(name, SectWarningsAnn.class), warnings);
+      }
+
+      // if there are remaining errors from filtered warnings raise exception
       if (!errors.isEmpty())
       {
         int count = errors.size();
