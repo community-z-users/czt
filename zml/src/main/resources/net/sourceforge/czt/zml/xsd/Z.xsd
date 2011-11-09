@@ -1143,6 +1143,19 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <!--
+  <xs:element name="SectWarningEnvAnn" type="Z:SectWarningEnvAnn"
+    substitutionGroup="Z:Ann">
+    <xs:annotation>
+      <xs:documentation>
+        Table of warnings per section. That is errors tagged as warnings
+        or warnings directly. Ideally there should only be errors, but
+        that will require ErrorAnn from the typechecker to be part of
+        core java as well. Eventually we will get there.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  -->
   <xs:element name="SignatureAnn" type="Z:SignatureAnn"
     substitutionGroup="Z:Ann">
     <xs:annotation>
@@ -2011,6 +2024,24 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <!-- Cannot put ErrorAnn (in TypeChecker) or CztError (in Parser) or Term (in Util)! Use Ann instead? Creates other problems at JaxB. Leave out for now.
+  <xs:complexType name="SectWarningEnvAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann">
+        <xs:sequence>
+          <xs:element ref="Z:Ann"
+            minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Elements" generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  -->
   <xs:complexType name="SignatureAnn">
     <xs:complexContent>
       <xs:extension base="Z:Ann">
