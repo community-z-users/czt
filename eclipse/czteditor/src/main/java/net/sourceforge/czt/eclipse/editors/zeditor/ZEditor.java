@@ -2347,7 +2347,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     
     IDocumentProvider documentProvider = getDocumentProvider();
     IEditorInput input = getEditorInput();
-    if (input != null && documentProvider != null) {
+    if (input == null || documentProvider == null) {
       // this may happen if reconciling has been launched and the editor closed
       // TODO cancel reconcile as well?
       return;
