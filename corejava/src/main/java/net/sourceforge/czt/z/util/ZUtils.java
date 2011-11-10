@@ -726,6 +726,11 @@ public final class ZUtils
     return term instanceof TupleSelExpr;
   }
 
+  public static boolean isLambdaExpr(Term term)
+  {
+    return term instanceof LambdaExpr;
+  }
+
   public static boolean isMemPred(Term term)
   {
     return term instanceof MemPred;
@@ -885,6 +890,8 @@ public final class ZUtils
                  (isBindSelExpr(lhs))
                     ||
                  (isTupleSelExpr(lhs))
+                    ||
+                 (isLambdaExpr(lhs))
                 //  ||
                 // nested application expression
                 //  (isApplicationExprValid(appl))
@@ -938,9 +945,9 @@ public final class ZUtils
     {
       ApplExpr appl = (ApplExpr)term;
       result = appl.getLeftExpr();
-      // either it's is a RefExpr or a nested ApplExpr. If neither, then error!
-      // ! (!isRefExpr(result) && !isBindSelExpr(result) && !isTupleSelExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
-      if (!(isRefExpr(result) || isBindSelExpr(result) || isTupleSelExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
+      // either it's is a RefExpr or a nested ApplExpr or a tuple/binder selector or a lambda expr. If neither, then error!
+      // ! (!isRefExpr(result) && !isBindSelExpr(result) && !isTupleSelExpr(result) && !isLambdaExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
+      if (!(isRefExpr(result) || isBindSelExpr(result) || isTupleSelExpr(result) || isLambdaExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
         throw new UnsupportedAstClassException("Invalid ApplExpr " + term);
     }
     return result;
