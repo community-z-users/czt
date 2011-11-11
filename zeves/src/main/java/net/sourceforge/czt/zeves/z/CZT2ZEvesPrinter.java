@@ -39,6 +39,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.parser.util.OperatorTokenType;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
@@ -367,6 +368,18 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   private OpTable opTable_;
 
+  /**
+   * List of markup directive information. This is useful for when processing
+   * operator templates that have LaTeX commands in their names.
+   *
+   * ex:
+   * %%Zinchar \ffun U+????   --> leads to Directive(\ffun, U+????)
+   *
+   * then an OpTempPara for its definition as infix function generic. We have
+   * in the map bellow the following information:
+   *
+   * Function(UnicodeCommand -> (LatexCommand, DirectiveType))
+   */
   private final Map<String, Pair<String, DirectiveType>> latexMarkupDirectives_;
 
   /* Constructors */
@@ -2765,18 +2778,24 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitOptempPara(OptempPara term)
   {
-    //boolean okay = fetchOpTable();
-    //if (!okay) throw new ZEvesIncompatibleASTException("Could not fetch operator table for " + fSectionName, term);
-    //assert opTable_ != null;
+    boolean okay = fetchOpTable();
+    if (!okay)
+      throw new ZEvesIncompatibleASTException("Could not fetch operator table for " + fSectionName, term);
+    assert opTable_ != null;
 
     Assoc a = term.getAssoc();
     BigInteger p = term.getPrec();
     int prec = 0;
     if (p != null) prec = p.intValue();
     Cat cat = term.getCat();
+
+    // <syntax-def>Name Class Extra</syntax-def>
+    // Name = usually the LaTeX command (e.g., \ffun), but could be Unicode
+    // Extra= can be empty, but we use the Unicode command, which is never empty
     String opName = null;
     String opExtra = null;
     String opClass = null;
+
     int place = 1;
     Iterator<Oper> it = term.getOper().iterator();
     List<Integer> opClassIdxs = new ArrayList<Integer>();
@@ -2790,15 +2809,22 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         if (opName != null)
           throw new ZEvesIncompatibleASTException("ZEves does not allow multiple-word operators; relational image is predefined.");
         Operator opt = (Operator)op;
-        opName = opt.getWord();
-        opExtra = opName;
-//        if (latexMarkupDirectives_.containsKey(opName))
-//        {
-//          opDirective = latexMarkupDirectives_.get(opName);
-//          // get the Latex command name instead of unicode
-//          opExtra = opDirective.getFirst();
-//          // opExtra already contains the previous Unicode opName
-//        }
+        opExtra = opt.getWord();
+        if (latexMarkupDirectives_.containsKey(opExtra))
+        {
+          opDirective = latexMarkupDirectives_.get(opExtra);
+          // opExtra already contains the Unicode opName = syntax-def doesn't allow LaTeX commands
+          opName = opExtra;
+          // get the Latex command name instead of unicode for opExtra
+          //opExtra = opDirective.getFirst();
+          // extra cannot be LaTeX either :-(
+        }
+        else
+        {
+          opName = opExtra;
+          final String message = "Operator template " + opExtra + " has no LaTeX Markup directive information. Using Unicode for the <syntax-def> declaration instead.";
+          CztLogger.getLogger(getClass()).info(message);
+        }
         opsComment.append(opName);
       }
       else if (op instanceof Operand)
@@ -3366,16 +3392,25 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     StringBuilder result = new StringBuilder();
     result.append(comment("LaTeX Markup Directives Paragraph", term.getDirective().toString()));
+    boolean hasOpTable = fetchOpTable();
     for(Directive d : term.getDirective())
     {
       Pair<String, DirectiveType> old = latexMarkupDirectives_.put(d.getUnicode(), Pair.getPair(d.getCommand(), d.getType()));
       assert old == null;
 
-      boolean addOpTemp = d.getType().equals(DirectiveType.NONE);
-      final String comment = comment("Original LaTeX markup directive ", // + (addOpTemp ? " added as operator template" : " to be used by OpTempPara"),
+      // assume every directive has an operator.
+      boolean hasOper = true;
+      if (hasOpTable)
+      {
+        OperatorTokenType opt = opTable_.getTokenType(d.getUnicode());
+        hasOper = opt != null;
+      }
+      // if the name is "none" then add it as syndef{word}; or if it is anything else (e.g., pre/post/infix) that isn't an operator
+      boolean addOpTemp = d.getType().equals(DirectiveType.NONE) || !hasOper;
+      final String comment = comment("Original LaTeX markup directive " + (addOpTemp ? " added as operator template" : " to be used by OpTempPara"),
               format(LATEX_MARKUP_DIRECTIVE_COMMENT, getDirectiveType(d.getType(), d.getUnicode().startsWith("U+")), d.getCommand(), d.getUnicode()));
       result.append(comment);
-      if (addOpTemp && false)// never for now.
+      if (addOpTemp)
       {
         // add it as word syndef as word
         final String opTemp = wrapPara(format(OEPRATOR_TEMPLATE_PATTERN, d.getCommand(), "word", d.getUnicode()));
