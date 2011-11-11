@@ -633,7 +633,7 @@ public class OpTable extends InfoTable
         opname.append(getWord(s));
       }
     }
-    OpInfo result = ops_.get(opname.toString());
+    OpInfo result = lookup(opname.toString());
     return result;
   }
 
@@ -650,7 +650,7 @@ public class OpTable extends InfoTable
    */
   public OpInfo lookup(String opname)
   {
-    throw new UnsupportedOperationException();
+    return ops_.get(opname);
   }
    
   /**
