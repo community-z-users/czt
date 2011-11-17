@@ -1,6 +1,7 @@
 package net.sourceforge.czt.zeves.response;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class ZEvesError
   public String toString()
   {
     return ZEvesResponseUtil.concat(errors, "\n");
+  }
+  
+  public List<ZEvesErrorMessage> getMessages() {
+    return Collections.unmodifiableList(errors);
   }
   
   public EnumSet<ZEvesErrorType> getType() {

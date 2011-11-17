@@ -22,6 +22,8 @@ import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
 public class ZEvesOutput
 {
 
+  public static final String UNPRINTABLE_PREDICATE = "An unprintable predicate";
+  
   @XmlElement(name = "provercmd")
   private ZEvesProverCmd command;
 
