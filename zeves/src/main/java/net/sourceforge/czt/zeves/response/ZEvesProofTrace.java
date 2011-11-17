@@ -48,7 +48,7 @@ public class ZEvesProofTrace
     /*
      * Completing all cases produces ...
      */
-    CASE_COMPLETE("Completing all cases"),
+    CASE_COMPLETE("Completing all cases", "Completing case"),
     /*
      * The conjunctive normal form ...
      */
@@ -62,6 +62,10 @@ public class ZEvesProofTrace
      * Substituting<x/>produces ...
      */
     EQUALITY_SUB("Substituting"),
+    /*
+     * Assuming<x/>with the instantiations:<x/><x/>generates ...
+     */
+    USE("Assuming"),
     /*
      * Instantiating<x/>gives ...
      * Assuming<x/>with the instantiations:<x/><x/>generates ...
@@ -87,10 +91,6 @@ public class ZEvesProofTrace
      * Splitting on<x/>generates ...
      */
     SPLIT("Splitting on"),
-    /*
-     * Assuming<x/>with the instantiations:<x/><x/>generates ...
-     */
-    USE("Assuming"),
     /*
      * All below come from the rewrite chain traces:
      * 
@@ -221,7 +221,7 @@ public class ZEvesProofTrace
 
   private String checkCaseNumber(String text, String lastMatch)
   {
-    if (TraceType.CASE.texts.contains(lastMatch)) {
+    if (TraceType.CASE.texts.contains(lastMatch) || TraceType.CASE_COMPLETE.texts.contains(lastMatch)) {
       // for CASE, the next can be a case number - try checking for it
       // the case number can be written as dot-separated sequence of digits,
       // e.g. 1.2.1
