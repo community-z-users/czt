@@ -892,6 +892,8 @@ public final class ZUtils
                  (isTupleSelExpr(lhs))
                     ||
                  (isLambdaExpr(lhs))
+                    ||
+                 (isSetExpr(lhs))
                 //  ||
                 // nested application expression
                 //  (isApplicationExprValid(appl))
@@ -947,7 +949,8 @@ public final class ZUtils
       result = appl.getLeftExpr();
       // either it's is a RefExpr or a nested ApplExpr or a tuple/binder selector or a lambda expr. If neither, then error!
       // ! (!isRefExpr(result) && !isBindSelExpr(result) && !isTupleSelExpr(result) && !isLambdaExpr(result) => isApplExpr(result) && isNestedApplExpr(term))
-      if (!(isRefExpr(result) || isBindSelExpr(result) || isTupleSelExpr(result) || isLambdaExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
+      if (!(isRefExpr(result) || isBindSelExpr(result) || isTupleSelExpr(result) || 
+            isLambdaExpr(result) || isSetExpr(result) || (isApplExpr(result) && isNestedApplExpr(term))))
         throw new UnsupportedAstClassException("Invalid ApplExpr " + term);
     }
     return result;
