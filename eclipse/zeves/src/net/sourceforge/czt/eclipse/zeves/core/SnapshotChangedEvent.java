@@ -10,8 +10,7 @@ public class SnapshotChangedEvent extends EventObject {
 
 	public enum SnapshotChangeType {
 		ADD,
-		REMOVE,
-		CLEAR
+		REMOVE
 	}
 	
 	private final SnapshotChangeType type;

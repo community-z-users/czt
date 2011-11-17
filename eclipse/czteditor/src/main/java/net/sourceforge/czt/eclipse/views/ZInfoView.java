@@ -6,9 +6,11 @@ import net.sourceforge.czt.eclipse.CZTPluginImages;
 import net.sourceforge.czt.eclipse.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
+import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
+import net.sourceforge.czt.eclipse.util.IColorManager;
 import net.sourceforge.czt.session.Markup;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -50,7 +52,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.texteditor.AnnotationPreference;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
+import org.eclipse.ui.texteditor.DefaultMarkerAnnotationAccess;
+import org.eclipse.ui.texteditor.MarkerAnnotationPreferences;
+import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 
 /**
  * Adapted from org.eclipse.jdt.internal.ui.infoviews.AbstractInfoView
@@ -75,7 +81,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
 
   protected ZSourceViewer zViewer;
 
-  private FontUpdater fontUpdater;
+  protected FontUpdater fontUpdater;
 
   /** The text context menu to be disposed. */
   private Menu fTextContextMenu;
@@ -98,7 +104,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   private IZInfoObject lastSelection;
 
   /** The current input. */
-  protected IZInfoObject currentViewInput;
+  private IZInfoObject currentViewInput;
 
   /**
    * The compute job reference used to cancel it when starting a new one
@@ -186,20 +192,33 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   private Control createZViewer(Composite parent)
   {
 
-    IPreferenceStore generalTextStore = EditorsUI.getPreferenceStore();
     IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[]{
-        CZTPlugin.getDefault().getPreferenceStore(), generalTextStore});
+        CZTPlugin.getDefault().getPreferenceStore(), EditorsUI.getPreferenceStore()});
+    IColorManager colorManager = CZTPlugin.getDefault().getCZTTextTools().getColorManager();
 
-    zViewer = new ZSourceViewer(parent, null, null, false, SWT.V_SCROLL | SWT.H_SCROLL, store);
+    zViewer = new ZSourceViewer(parent, null, null, true, SWT.V_SCROLL | SWT.H_SCROLL, store);
 
-    SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
-        CZTPlugin.getDefault().getCZTTextTools().getColorManager(), store, null,
-        IZPartitions.Z_PARTITIONING, false);
+    
+    // init decoration support - it is necessary to display annotations
+    // Note: decoration support must be before configuration
+    SourceViewerDecorationSupport decorationSupport = new SourceViewerDecorationSupport(
+        zViewer, null, new DefaultMarkerAnnotationAccess(), colorManager);
+    
+    for (Object pref : new MarkerAnnotationPreferences().getAnnotationPreferences()) {
+      decorationSupport.setAnnotationPreference((AnnotationPreference) pref);
+    }
+    decorationSupport.install(store);
+    
+    // now configure the viewer
+    ZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
+        colorManager, store, null, IZPartitions.Z_PARTITIONING, true);
     zViewer.configure(configuration);
     fontUpdater = FontUpdater.enableFor(zViewer, configuration, store, JFaceResources.TEXT_FONT);
+    
     zViewer.setEditable(false);
     zViewer.setDocument(new Document());
 
+    // setup context menu
     MenuManager manager = new MenuManager();
     manager.setRemoveAllWhenShown(true);
     manager.addMenuListener(new IMenuListener()
@@ -227,8 +246,10 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   {
   }
 
-  protected void setText(String text, Markup markup)
+  protected void setContents(Object input, Markup markup)
   {
+    
+    String text = input != null ? String.valueOf(input) : "";
 
     Document document = new Document(text);
 
@@ -505,7 +526,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
         }
 
         // The actual computation
-        final String input = loadContents(part, selection, ze, monitor);
+        final Object input = loadContents(part, selection, ze, monitor);
         if (input == null) {
           return Status.OK_STATUS;
         }
@@ -562,7 +583,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
    * @param monitor a progress monitor
    * @return the input or <code>null</code> if the input was not computed successfully
    */
-  protected String loadContents(IWorkbenchPart part, ISelection selection, IZInfoObject element,
+  protected Object loadContents(IWorkbenchPart part, ISelection selection, IZInfoObject element,
       IProgressMonitor monitor)
   {
 
@@ -607,14 +628,13 @@ public class ZInfoView extends ViewPart implements ISelectionListener
     return null;
   }
 
-  protected void doSetInput(IZInfoObject element, String input, String description)
+  protected void doSetInput(IZInfoObject element, Object input, String description)
   {
 
     this.currentViewInput = element;
-    String inputText = input != null ? input : "";
     String descText = description != null ? description : "";
 
-    setText(inputText, getElementMarkup(element));
+    setContents(input, getElementMarkup(element));
 
     setContentDescription(descText);
     setTitleToolTip(descText);
@@ -622,7 +642,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
 
   protected Markup getElementMarkup(IZInfoObject element)
   {
-    return forceUnicode ? Markup.UNICODE : element.getMarkup();
+    return (forceUnicode || element == null) ? Markup.UNICODE : element.getMarkup();
   }
 
   protected boolean isSelectionInteresting(IWorkbenchPart part, ISelection selection)

@@ -1,17 +1,13 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.views.IZInfoObject;
@@ -19,14 +15,18 @@ import net.sourceforge.czt.eclipse.views.ZInfoView;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.actions.SendProofCommand;
+import net.sourceforge.czt.eclipse.zeves.core.ISnapshotChangedListener;
+import net.sourceforge.czt.eclipse.zeves.core.SnapshotChangedEvent;
+import net.sourceforge.czt.eclipse.zeves.core.SnapshotChangedEvent.SnapshotChangeType;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofTrace;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEditorObject;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofResultInfo;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot.ISnapshotEntry;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofObject;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IZEditorObject;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IZEvesInfoProvider;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IZInfoConfiguration;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
@@ -42,27 +42,25 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.rules.FastPartitioner;
-import org.eclipse.jface.text.rules.IPartitionTokenScanner;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.RuleBasedScanner;
-import org.eclipse.jface.text.rules.Token;
+import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.text.source.AnnotationModel;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -96,11 +94,15 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	
 	private boolean showProofTrace;
     private boolean showOutputSelection;
+    
+    private ISnapshotChangedListener snapshotListener = new EntryRemovedListener();
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		
 		super.createPartControl(parent);
+		
+		ZEvesPlugin.getZEves().getSnapshot().addSnapshotChangedListener(snapshotListener);
 		
 		zViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			
@@ -151,6 +153,12 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	}
 	
 	@Override
+	public void dispose() {
+		ZEvesPlugin.getZEves().getSnapshot().removeSnapshotChangedListener(snapshotListener);
+		super.dispose();
+	}
+
+	@Override
 	protected void contextMenuAboutToShow(IMenuManager menu) {
 
 		super.contextMenuAboutToShow(menu);
@@ -163,6 +171,20 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		}
 	}
 	
+	public IProofObject getCurrentProof() {
+		
+		IZInfoObject input = getCurrentInput();
+		if (input instanceof IProofObject) {
+			return (IProofObject) input;
+		}
+		
+		if (input instanceof IAdaptable) {
+			return (IProofObject) ((IAdaptable) input).getAdapter(IProofObject.class);
+		}
+		
+		return null;
+	}
+	
 	private MenuManager getApplySubmenu() {
 		
 		ZEves prover = ZEvesPlugin.getZEves();
@@ -172,11 +194,11 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		
 		ZEvesApi api = prover.getApi();
 		
-		if (!(getCurrentInput() instanceof ZEvesProofObject)) {
+		IProofObject proofResult = getCurrentProof();
+		if (proofResult == null) {
 			return null;
 		}
 		
-		ZEvesProofObject proofResult = (ZEvesProofObject) getCurrentInput();
 		Integer zEvesStepIndex = proofResult.getZEvesStepIndex();
 		if (zEvesStepIndex == null) {
 			// no step index, cannot determine the rules
@@ -189,7 +211,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			return null;
 		}
 		
-		SectionManager sectInfo = proofResult.getEditor().getParsedData().getSectionManager().clone();
+		SectionManager sectInfo = proofResult.getSectionManager().clone();
 		String sectName = proofResult.getSectionName();
 		
 		String exprStr = printTerm(selectedTerm, sectInfo, sectName);
@@ -247,15 +269,13 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			return null;
 		}
 		
-		if (!(getCurrentInput() instanceof ZEvesProofObject)) {
+		IProofObject proofResult = getCurrentProof();
+		if (proofResult == null) {
 			return null;
 		}
 		
-		ZEvesProofObject proofResult = (ZEvesProofObject) getCurrentInput();
-		ZEditor editor = proofResult.getEditor();
-		
 		String selectedText = selection.getText();
-		SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
+		SectionManager sectInfo = proofResult.getSectionManager().clone();
 		String sectName = proofResult.getSectionName();
 		
 		try {
@@ -268,21 +288,6 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			// cannot parse
 			return null;
 		}
-	}
-	
-	private void setText(String text, PredefinedTokenScanner scanner) {
-		
-	    Document document = new Document(text);
-	    
-//		CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
-//				document, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
-	    
-	    String[] contentTypes = scanner.getContentTypes().toArray(new String[0]);
-	    IDocumentPartitioner partitioner = new FastPartitioner(scanner, contentTypes);
-	    document.setDocumentPartitioner(IZPartitions.Z_PARTITIONING, partitioner);
-	    partitioner.connect(document);
-	    
-	    zViewer.setDocument(document);
 	}
 	
     /**
@@ -302,98 +307,56 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	protected IZInfoObject findSelectedZInfoElement(IWorkbenchPart part, ISelection selection, int caretPos) {
 		
 		if (part instanceof ZEditor && selection instanceof ITextSelection) {
-			return ZEditorResults.getZEvesResult((ZEditor) part, (ITextSelection) selection, caretPos);
+			return ZEditorResults.getZEvesResult((ZEditor) part, caretPos);
 		}
     	
 		return super.findSelectedZInfoElement(part, selection, caretPos);
 	}
     
     @Override
-	protected void doSetInput(IZInfoObject element, String input, String description) {
-		super.doSetInput(element, input, description);
+	protected Object loadContents(IWorkbenchPart part, ISelection selection, IZInfoObject element,
+			IProgressMonitor monitor) {
+
+		if (element instanceof IZEvesInfoProvider) {
+			try {
+				return ((IZEvesInfoProvider) element).loadContents(
+						getElementMarkup(element), showProofTrace, monitor);
+			} catch (CoreException e) {
+				CZTPlugin.log(e);
+				return null;
+			}
+		}
+
+		return super.loadContents(part, selection, element, monitor);
+	}
+
+	@Override
+	protected void doSetInput(IZInfoObject element, Object input, String description) {
 		
 		updateEditorMarker(element);
-
-		List<IProofResultInfo> proofInfos = new ArrayList<IProofResultInfo>();
-		if (element instanceof IAdaptable) {
-			
-			IAdaptable elementAdapt = (IAdaptable) element;
-			
-			if (showProofTrace) {
-				IProofTrace proofTrace = (IProofTrace) elementAdapt.getAdapter(IProofTrace.class);
-				if (proofTrace != null) {
-					proofInfos.addAll(proofTrace.getTrace());
-				}
-			} else {
-				IProofResultInfo proofInfo = (IProofResultInfo) elementAdapt.getAdapter(IProofResultInfo.class);
-				if (proofInfo != null) {
-					proofInfos.add(proofInfo);
-				}
-			}
-		}
-		
-		if (!proofInfos.isEmpty()) {
-    		
-    		PredefinedTokenScanner scanner = new PredefinedTokenScanner();
-    		String text = printResult(proofInfos, scanner, getElementMarkup(element), showProofTrace);
-    		setText(text, scanner);
-    		
-    	} else {
-    		super.doSetInput(element, input, description);
-    	}
+    	super.doSetInput(element, input, description);
 	}
 
-	private String printResult(List<IProofResultInfo> proofInfos, PredefinedTokenScanner scanner,
-			Markup markup, boolean printTrace) {
+	@Override
+	protected void setContents(Object input, Markup markup) {
 		
-		StringBuilder out = new StringBuilder();
-		
-		String delim = "";
-		for (IProofResultInfo info : proofInfos) {
+		if (input instanceof IZInfoConfiguration) {
+			IZInfoConfiguration inputConfig = (IZInfoConfiguration) input;
+			// TODO support viewer configurations?
+			IDocument document = inputConfig.getDocument();
 			
-			out.append(delim);
-			
-			if (printTrace) {
-				String commandStr = info.getCommand();
-				if (commandStr != null && !commandStr.isEmpty()) {
-					out.append("Proof command: " + commandStr + "\n\n");
-				}
-				
-				String infoStr = info.getInfo();
-				if (infoStr != null && !infoStr.isEmpty()) {
-					out.append(infoStr + "\n\n");
-				}
-				
-			}
-			
-			String resultStr = info.getResult();
-			
-			Position resultPos = new Position(out.length(), resultStr.length());
-			out.append(resultStr);
-			
-			String zPartition = markup == Markup.UNICODE ? 
-					IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION : 
-						IZPartitions.Z_PARAGRAPH_LATEX_ZED;
-			scanner.addTokenPosition(resultPos, zPartition);
-			
-			if (delim.isEmpty()) {
-				delim = createProofResultDelimiter(markup == Markup.UNICODE ? 50 : 80);
-			}
+		    fontUpdater.setFont(ZEditorUtil.getEditorFont(markup));
+		    
+		    IAnnotationModel model = new AnnotationModel();
+		    for (Entry<Annotation, Position> annotation : inputConfig.getAnnotations().entrySet()) {
+		    	model.addAnnotation(annotation.getKey(), annotation.getValue());
+		    }
+		    
+		    zViewer.setDocument(document, model);
+		    
+		} else {
+			super.setContents(input, markup);
 		}
-		
-		return out.toString();
-	}
-	
-	private String createProofResultDelimiter(int textWidth) {
-		StringBuilder delim = new StringBuilder("\n\n");
-		
-		for (int index = 0; index < textWidth; index++) {
-			delim.append("\u2500");
-		}
-		
-		delim.append("\n\n");
-		
-		return delim.toString();
 	}
 
 	private void updateEditorMarker(IZInfoObject element) {
@@ -412,8 +375,8 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			return;
 		}
 		
-		if (element instanceof ZEditorObject<?>) {
-			ZEditorObject<?> editorObj = (ZEditorObject<?>) element;
+		if (element instanceof IZEditorObject) {
+			IZEditorObject editorObj = (IZEditorObject) element;
 			ZEditor editor = editorObj.getEditor();
 			
 			IResource resource = ZEditorUtil.getEditorResource(editor);
@@ -447,6 +410,39 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     	}
 		
 		return false;
+	}
+    
+    private class EntryRemovedListener implements ISnapshotChangedListener {
+		
+		@Override
+		public void snapshotChanged(SnapshotChangedEvent event) {
+			if (event.getType() == SnapshotChangeType.REMOVE) {
+				
+				IZInfoObject currentInput = getCurrentInput();
+				if (currentInput instanceof IAdaptable) {
+					ISnapshotEntry snapshotEntry = (ISnapshotEntry) 
+							((IAdaptable) currentInput).getAdapter(ISnapshotEntry.class);
+					
+					if (snapshotEntry != null && event.getEntries().contains(snapshotEntry)) {
+						// the current input snapshot has been removed - 
+						// need to reload the output view
+						// TODO better reload? clearing at the moment
+						
+						Display display = getViewSite().getWorkbenchWindow().getWorkbench().getDisplay();
+						if (display.isDisposed()) {
+							return;
+						}
+						
+						display.asyncExec(new Runnable() {
+							@Override
+							public void run() {
+								doSetInput(null, null, null);
+							}
+						});
+					}
+				}
+			}
+		}
 	}
     
 	private class ShowProofTraceAction extends Action {
@@ -522,10 +518,10 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		private final String cmdFormat;
 		private final Term term;
 		
-		private final ZEvesProofObject proofResult;
+		private final IProofObject proofResult;
 		
 		public SendApplyAction(String cmdName, String cmdFormat, Term term,
-				ZEvesProofObject proofResult) {
+				IProofObject proofResult) {
 			super(cmdName);
 			
 			this.cmdName = cmdName;
@@ -551,7 +547,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		public void run() {
 			
 			ZEditor editor = proofResult.getEditor();
-			SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
+			SectionManager sectInfo = proofResult.getSectionManager().clone();
 			String sectName = proofResult.getSectionName();
 			
 			String param = ZEvesResultConverter.printResult(sectInfo, sectName, term,
@@ -567,77 +563,4 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		
 	}
 	
-	/**
-	 * A custom token scanner for the output view - it allows to pre-set partitions
-	 * based on information displayed in the output. This is necessary, for example, to
-	 * print predicates that are not wrapped in any Z paragraph, or to distinguish
-	 * the inline comments, etc. 
-	 * 
-	 * @author Andrius Velykis
-	 */
-	private static class PredefinedTokenScanner extends RuleBasedScanner implements IPartitionTokenScanner {
-		
-		private final Map<Position, String> tokenPositions = new LinkedHashMap<Position, String>();
-		
-		public void addTokenPosition(Position pos, String contentType) {
-			tokenPositions.put(pos, contentType);
-		}
-		
-		public Set<String> getContentTypes() {
-			return new HashSet<String>(tokenPositions.values());
-		}
-		
-		/*
-		 * @see ITokenScanner#nextToken()
-		 */
-		@Override
-		public IToken nextToken() {
-
-			fTokenOffset= fOffset;
-			fColumn= UNDEFINED;
-
-			if (read() == EOF) {
-				return Token.EOF;
-			}
-			
-			unread();
-			
-			for (Entry<Position, String> tokenPos : tokenPositions.entrySet()) {
-				
-				Position pos = tokenPos.getKey();
-				
-				if (pos.overlapsWith(fTokenOffset, fRangeEnd - fTokenOffset)) {
-					
-					if (fTokenOffset < pos.getOffset()) {
-						// the position does not start yet - read up to its start
-						read(fTokenOffset, pos.getOffset());
-						return Token.UNDEFINED;
-					}
-					
-					int posEnd = pos.getOffset() + pos.getLength();
-					
-					read(fTokenOffset, posEnd);
-					return new Token(tokenPos.getValue());
-				}
-			}
-			
-			// nothing found - read to the end
-			read(fTokenOffset, fRangeEnd);
-			return Token.UNDEFINED;
-		}
-		
-		private void read(int start, int end) {
-			for (int i = start; i < end; i++) {
-				read();
-			}
-		}
-
-		@Override
-		public void setPartialRange(IDocument document, int offset, int length, String contentType,
-				int partitionOffset) {
-			// ignore for now?
-		}
-		
-	}
-
 }

@@ -2,9 +2,11 @@ package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.Assert;
@@ -262,6 +264,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	// mark unfinished
     	MarkerInfo unfinishedMarker = markUnfinished(pos);
     	
+    	SnapshotData.Builder dataBuilder = new SnapshotData.Builder(term);
+    	
     	try {
     	
 	    	String commandXml = term.accept(getZEvesXmlPrinter());
@@ -271,6 +275,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 				handleResult(pos, output);
 				checkCancelled();
 			} catch (ZEvesException e) {
+				snapshot.addError(pos, dataBuilder.result(e).build());
 				handleZEvesException(pos, term, e);
 				return;
 			}
@@ -278,13 +283,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    	try {
 	    		int historyIndex = api.getHistoryLength();
 	    		Object zEvesPara = api.getHistoryElement(historyIndex);
-	    		// add result first, because that will be displayed in hover
-	    		snapshot.addParaResult(pos, historyIndex, term, zEvesPara);
+	    		
+	    		snapshot.addParaResult(pos, historyIndex, dataBuilder.result(zEvesPara).build());
 	    		handleResult(pos, zEvesPara);
 	    		checkCancelled();
-//	    		handleResult(pos, "History index: " + historyIndex);
 	    		
 	    	} catch (ZEvesException e) {
+	    		snapshot.addError(pos, dataBuilder.result(e).build());
 	    		handleZEvesException(pos, term, e);
 	    		return;
 	    	}
@@ -300,19 +305,28 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	MarkerInfo unfinishedMarker = markUnfinished(pos);
 		
     	String theoremName = getProofScriptName(term);
+    	
+    	SnapshotData.Builder dataBuilder = new SnapshotData.Builder(term).goalName(theoremName).goal();
 	    	
     	try {
 
     		// add result first, because that will be displayed in hover
     		ZEvesOutput result = api.getGoalProofStep(theoremName, ZEvesSnapshot.GOAL_STEP_INDEX);
-    		snapshot.addGoalResult(pos, term, result);
+    		
+    		SnapshotData data = dataBuilder.result(result)
+    									   .trace(Collections.singletonList(result))
+    									   .build();
+    		
+    		snapshot.addGoalResult(pos, theoremName, data);
+    		
     		handleResult(pos, result);
     		checkCancelled();
 //	    	boolean goalProved = api.getGoalProvedState(theoremName);
 //	    	handleResult(pos, "Proved: " + goalProved);
     		
     	} catch (ZEvesException e) {
-    		handleZEvesException(pos, term, e, false);
+    		handleZEvesException(pos, term, e);
+//    		handleZEvesException1(pos, term, e, false);
     		return;
     	} finally {
         	markFinished(unfinishedMarker);
@@ -328,6 +342,11 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     		api.setCurrentGoalName(theoremName);
     		checkCancelled();
 		} catch (ZEvesException e) {
+			snapshot.addError(pos, new SnapshotData
+					.Builder(term)
+					.goalName(theoremName)
+					.goal()
+					.result(e).build());
 			handleZEvesException(pos, term, e);
 			return false;
 		}
@@ -360,12 +379,15 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 				if (!goalProved) {
 					// do not display that goal is proved, instead just show an error otherwise,
 					// i.e. if proof script end reached without having proved the goal
-					handleZEvesException(pos, term, 
-							new ZEvesException("Goal " + theoremName + " not proved"), true);
+					ZEvesException unfinishedEx = new ZEvesException("Goal " + theoremName + " not proved");
+					snapshot.addError(pos, new SnapshotData.Builder(term)
+						.goalName(theoremName)
+						.result(unfinishedEx).build());
+					handleZEvesException(pos, term, unfinishedEx);
 				}
 				checkCancelled();
 			} catch (ZEvesException e) {
-				handleZEvesException(pos, term, e, false);
+				handleZEvesException(pos, term, e);
 			}
 			
 		} finally {
@@ -410,11 +432,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	
     	// mark unfinished
     	MarkerInfo unfinishedMarker = markUnfinished(pos);
+
+    	String theoremName = getProofScriptName(script);
+    	
+    	SnapshotData.Builder dataBuilder = new SnapshotData.Builder(command).goalName(theoremName);
     	
     	try {
 
-    		String theoremName = getProofScriptName(script);
-    		
     		/*
     		 * The command may be a tactic, represented by a command sequence,
     		 * thus resolve the command into a command sequence
@@ -485,6 +509,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     		if (lastException != null && !isNoEffectError(lastException)) {
     			
     			// a serious error - handle the exception
+    			snapshot.addError(pos, dataBuilder.result(lastException).build());
     			handleZEvesException(pos, command, lastException);
     			
     			if (submittedCount > 0) {
@@ -502,15 +527,20 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     		
     		if (results.isEmpty()) {
     			// no results - report last exception (should be No change error)
+    			snapshot.addError(pos, dataBuilder.result(lastException).build());
     			handleZEvesException(pos, command, lastException);
     			return;
     		}
     		
     		Assert.isTrue(results.size() == submittedCount);
     		
-			snapshot.addProofResult(pos, script, lastStepIndex, command, results);
+    		ZEvesOutput lastResult = results.get(results.size() - 1);
+    		
+    		snapshot.addProofResult(pos, theoremName, submittedCount, dataBuilder
+    				.proofStep(lastStepIndex)
+    				.result(lastResult)
+    				.trace(results).build());
 			
-			ZEvesOutput lastResult = results.get(results.size() - 1);
 			handleResult(pos, lastResult, isResultTrue(lastResult));
 			checkCancelled();
     		
@@ -560,15 +590,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     }
 
     private void handleZEvesException(Position pos, Term term, ZEvesException e) {
-    	handleZEvesException(pos, term, e, true);
-    }
-    
-    private void handleZEvesException(Position pos, Term term, ZEvesException e, boolean markState) {
-    	
-    	if (markState) {
-    		snapshot.addError(pos, term, e);
-    	}
-    	// TODO clear previous markers?
     	
     	boolean addedMarkers = false;
 		if (markers != null) {
@@ -683,11 +704,16 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		if (firstResult == null) {
 			return null;
 		}
+		
+		String resultZEves = firstResult.toString().trim();
+		
+		if (ZEvesOutput.UNPRINTABLE_PREDICATE.equals(resultZEves)) {
+			// a special case - do not try parsing
+			return resultZEves;
+		}
 
 		ZSect sect = getCurrentSect();
 		String sectName = sect != null ? sect.getName() : null;
-		
-		String resultZEves = firstResult.toString();
 		
 		try {
 			return ZEvesResultConverter.convertPred(sectInfo, sectName, resultZEves, Markup.UNICODE, 80, true);
@@ -700,7 +726,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 			if (cause == null) {
 				cause = e;
 			}
-			throw handleParseException("Cannot parse Z/Eves result: " + cause.getMessage(), cause, resultZEves);
+			throw handleParseException("Cannot parse Z/Eves result: " + StringUtils.strip(cause.getMessage()), 
+					cause, resultZEves);
 		}
 	}
 	

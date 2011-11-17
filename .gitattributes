@@ -339,6 +339,8 @@ eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ISnapshotChangedListene
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/IZEvesExecCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ResourceUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/SnapshotChangedEvent.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/SnapshotData.java -text svneol=unset#text/plain
+eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/SnapshotUtil.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEves.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesBackCommand.java -text svneol=unset#text/plain
 eclipse/zeves/src/net/sourceforge/czt/eclipse/zeves/core/ZEvesExecVisitor.java -text svneol=unset#text/plain

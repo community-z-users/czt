@@ -2,10 +2,11 @@ package net.sourceforge.czt.eclipse.zeves.actions;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.views.ZEvesOutputView;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofObject;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -23,6 +24,8 @@ public abstract class SendProofCommand extends AbstractHandler {
 
 	private static final String PARAM_CMD_NAME = ZEvesPlugin.PLUGIN_ID + ".proof.cmdName";
 	
+	private static final String DEFAULT_IDENT = "  ";
+	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
@@ -37,13 +40,11 @@ public abstract class SendProofCommand extends AbstractHandler {
 		Shell shell = HandlerUtil.getActiveShell(event);
 		
 		ZEvesOutputView outputView = (ZEvesOutputView) part;
-		IZInfoObject currentInput = outputView.getCurrentInput();
-		if (!(currentInput instanceof ZEvesProofObject)) {
+		IProofObject proofResult = outputView.getCurrentProof();
+		if (proofResult == null) {
 			MessageDialog.openError(shell, "Invalid element", "Proof commands must be executed on proof goals.");
 			return null;
 		}
-		
-		ZEvesProofObject proofResult = (ZEvesProofObject) currentInput;
 		
 		String proofCommand = getCommand(event, proofCommandName, proofResult);
 		if (proofCommand == null) {
@@ -55,7 +56,7 @@ public abstract class SendProofCommand extends AbstractHandler {
 		return null;
 	}
 
-	public static void addSubmitCommand(ZEvesProofObject proofResult, String proofCommand)
+	public static void addSubmitCommand(IProofObject proofResult, String proofCommand)
 			throws ExecutionException {
 		
 		// insert the command after the proof result position into the editor
@@ -68,16 +69,18 @@ public abstract class SendProofCommand extends AbstractHandler {
 			return;
 		}
 		
-		// TODO reference proof separator somewhere?
-		String separator = ";\n";
+		String separator = ZEvesString.ZPROOFCOMMANDSEP + "\n";
 		String cmdWithSep;
 		final int addOffset;
-		if (proofResult.isGoal()) {
-			cmdWithSep = proofCommand + separator;
-			addOffset = 1;
+		if (proofResult.getZEvesStepIndex() == ZEvesSnapshot.GOAL_STEP_INDEX) {
+			// if the goal (use default indent)
+			cmdWithSep = DEFAULT_IDENT + proofCommand + separator;
+			addOffset = DEFAULT_IDENT.length() + 1;
 		} else {
-			cmdWithSep = separator + proofCommand;
-			addOffset = separator.length() + 1;
+			
+			String indent = getIndent(document, pos);
+			cmdWithSep = separator + indent + proofCommand;
+			addOffset = separator.length() + indent.length() + 1;
 		}
 		
 		final int posEnd = pos.getOffset() + pos.getLength();
@@ -93,8 +96,32 @@ public abstract class SendProofCommand extends AbstractHandler {
 		
 		SubmitToPointCommand.submitToOffset(editor, posEnd + addOffset);
 	}
+
+	private static String getIndent(IDocument document, Position pos) {
+		
+		String indent = "";
+		try {
+			int prevLine = document.getLineOfOffset(pos.getOffset());
+			int prevLineOffset = document.getLineOffset(prevLine);
+			String textToPos = document.get(prevLineOffset, pos.getOffset() - prevLineOffset);
+			StringBuilder out = new StringBuilder();
+			for (int index = 0; index < textToPos.length(); index++) {
+				char c = textToPos.charAt(index);
+				if (Character.isWhitespace(c)) {
+					// take all whitespace at the start - it will be the indent to repeat
+					out.append(c);
+				} else {
+					break;
+				}
+			}
+			indent = out.toString();
+		} catch (BadLocationException e) {
+			ZEvesPlugin.getDefault().log(e);
+		}
+		return indent;
+	}
 	
 	protected abstract String getCommand(ExecutionEvent event, String proofCommand,
-			ZEvesProofObject proofResult);
+			IProofObject proofResult);
 
 }

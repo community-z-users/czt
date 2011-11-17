@@ -6,7 +6,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEvesProofObject;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IProofObject;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
@@ -22,7 +22,7 @@ public class SendSelectionProofCommand extends SendProofCommand {
 
 	@Override
 	protected String getCommand(ExecutionEvent event, String proofCommand,
-			ZEvesProofObject proofResult) {
+			IProofObject proofResult) {
 		
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		if (selection.isEmpty()) {
@@ -37,7 +37,7 @@ public class SendSelectionProofCommand extends SendProofCommand {
 		ZEditor editor = proofResult.getEditor();
 		
 		String selectedText = textSel.getText();
-		SectionManager sectInfo = editor.getParsedData().getSectionManager().clone();
+		SectionManager sectInfo = proofResult.getSectionManager().clone();
 		String sectName = proofResult.getSectionName();
 		
 		Term selTerm = parseSelection(editor.getSite().getShell(), selectedText, sectInfo, sectName);

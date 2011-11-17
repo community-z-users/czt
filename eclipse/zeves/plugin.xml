@@ -698,6 +698,12 @@
             markerType="net.sourceforge.czt.eclipse.zeves.outputSelectionMarker"
             name="net.sourceforge.czt.eclipse.zeves.annotation.outputSelection">
       </type>
+      <type
+            name="net.sourceforge.czt.eclipse.zeves.annotation.output.error">
+      </type>
+      <type
+            name="net.sourceforge.czt.eclipse.zeves.annotation.output.warning">
+      </type>
    </extension>
    <extension
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
@@ -829,6 +835,42 @@
             textStylePreferenceValue="NONE"
             verticalRulerPreferenceKey="outputSelectionInVerticalRuler"
             verticalRulerPreferenceValue="true">
+      </specification>
+      <specification
+            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.output.error"
+            colorPreferenceKey="outputErrorColor"
+            colorPreferenceValue="255,204,204"
+            highlightPreferenceKey="outputErrorHighlighting"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Z/Eves Output View Error Message"
+            overviewRulerPreferenceKey="outputErrorInOverviewRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="1"
+            textPreferenceKey="outputErrorIndication"
+            textPreferenceValue="false"
+            textStylePreferenceKey="outputErrorTextStyle"
+            textStylePreferenceValue="NONE"
+            verticalRulerPreferenceKey="outputErrorInVerticalRuler"
+            verticalRulerPreferenceValue="false">
+      </specification>
+      <specification
+            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.output.warning"
+            colorPreferenceKey="outputWarningColor"
+            colorPreferenceValue="248,229,122"
+            highlightPreferenceKey="outputWarningHighlighting"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Z/Eves Output View Warning Message"
+            overviewRulerPreferenceKey="outputWarningInOverviewRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="1"
+            textPreferenceKey="outputWarningIndication"
+            textPreferenceValue="false"
+            textStylePreferenceKey="outputWarningTextStyle"
+            textStylePreferenceValue="NONE"
+            verticalRulerPreferenceKey="outputWarningInVerticalRuler"
+            verticalRulerPreferenceValue="false">
       </specification>
    </extension>
    <extension

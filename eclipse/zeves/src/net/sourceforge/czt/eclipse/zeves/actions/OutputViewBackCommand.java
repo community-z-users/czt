@@ -5,7 +5,7 @@ import net.sourceforge.czt.eclipse.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesUndoCommand;
-import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.ZEditorObject;
+import net.sourceforge.czt.eclipse.zeves.views.ZEditorResults.IZEditorObject;
 import net.sourceforge.czt.eclipse.zeves.views.ZEvesOutputView;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -25,12 +25,12 @@ public class OutputViewBackCommand extends AbstractHandler {
 		final ZEvesOutputView outputView = (ZEvesOutputView) HandlerUtil.getActivePart(event);
 		
 		IZInfoObject currentInput = outputView.getCurrentInput();
-		if (!(currentInput instanceof ZEditorObject<?>)) {
+		if (!(currentInput instanceof IZEditorObject)) {
 			// unknown input - ignore
 			return null;
 		}
 
-		ZEditorObject<?> editorElement = (ZEditorObject<?>) currentInput;
+		IZEditorObject editorElement = (IZEditorObject) currentInput;
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
