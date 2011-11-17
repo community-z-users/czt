@@ -49,7 +49,8 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
 
   private final Factory factory_ = new Factory();
 
-  private static final String AXIOM_LABEL_NAME = "axiom";
+  // "Axiom" to avoid problems with keyword "axiom"
+  private static final String AXIOM_LABEL_NAME = "Axiom";
 
   public ParserState(Source loc)
   {
