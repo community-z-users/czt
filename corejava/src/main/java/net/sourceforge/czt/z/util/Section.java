@@ -18,6 +18,10 @@
 */
 package net.sourceforge.czt.z.util;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * Common section names.
  *
@@ -59,5 +63,19 @@ public enum Section
   public String getName()
   {
     return name_;
+  }
+
+  private static Set<String> stdSect_ = null;
+  public static Set<String> standardSections()
+  {
+    if (stdSect_ == null)
+    {
+      stdSect_ = new TreeSet<String>();
+      for(Section s : values())
+      {
+        stdSect_.add(s.getName());
+      }
+    }
+    return Collections.unmodifiableSet(stdSect_);
   }
 }
