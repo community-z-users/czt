@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: net.sourceforge.czt.eclipse.zeves.ZEvesPlugin
 Bundle-Vendor: Community Z Tools
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+ org.eclipse.core.runtime;bundle-version="3.7.0",
  net.sourceforge.czt.eclipse;bundle-version="1.6.0",
  org.eclipse.ui.editors,
  net.sourceforge.czt.library;bundle-version="1.6.0",
@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.expressions,
  net.sourceforge.czt.eclipse.vcg;bundle-version="1.0.0",
  org.eclipse.core.filesystem,
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ org.apache.commons.lang;bundle-version="2.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: net.sourceforge.czt.eclipse.zeves,
