@@ -258,6 +258,9 @@ class TheoremTree extends FilteredTree2 {
 			
 			try {
 				Object result = zEves.getApi().getTheorem(theoremName);
+				if (result == null) {
+					return "Theorem " + theoremName + " cannot be found in Z/Eves.";
+				}
 				return result.toString();
 			} catch (ZEvesException e) {
 				throw new CoreException(ZEvesPlugin.newErrorStatus(e.getMessage(), e));
@@ -266,7 +269,7 @@ class TheoremTree extends FilteredTree2 {
 
 		@Override
 		public String loadDescription(IProgressMonitor monitor) throws CoreException {
-			return "theorem " + theoremName;
+			return "Theorem " + theoremName;
 		}
     }
 
