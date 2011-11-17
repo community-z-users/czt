@@ -498,6 +498,16 @@ public class ZEvesApi
     return theoremNames;
   }
 
+  /**
+   * Queries Z/Eves for theorem contents.
+   * 
+   * @param theoremName
+   *            name of theorem
+   * @return Theorem definition as represented in Z/Eves, or null if the 
+   *         theorem does not exist in Z/Eves
+   * @throws ZEvesException
+   *             if there are communications errors or Z/Eves errors
+   */
   public ZEvesTheorem getTheorem(String theoremName) throws ZEvesException
   {
 
@@ -505,6 +515,18 @@ public class ZEvesApi
     return (ZEvesTheorem) output.getFirstResult();
   }
   
+  /**
+   * Queries Z/Eves for the source paragraph (submitted by the user) introducing
+   * the given name.
+   * 
+   * @param name
+   *            name of Z/Eves construct
+   * @return source paragraph, as counted in Z/Eves, that introduces the given
+   *         name, or -1 if the name is unknown (or the name was introduced in the
+   *         mathematical toolkit)
+   * @throws ZEvesException
+   *             if there are communications errors or Z/Eves errors
+   */
   public int getNameSource(String name) throws ZEvesException
   {
     ZEvesOutput output = sendCommand("get-name-source", name);
