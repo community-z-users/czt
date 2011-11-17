@@ -579,35 +579,8 @@ ZREFINES = //{NL_SPACE}*
                   // for global apply "apply NAME", this gets reset at the next proof command
                   seenApply_ = proofWord.equals("apply");
                   proofWord = cleanProofWord(proofWord);
-                  //System.out.println("PROOFWORD = " + proofWord);
+                  //System.out.println("PROOFWORD = '" + proofWord + "'");
                   return symbol(Sym.PROOFWORD, new Proofword(proofWord, getLocation()));
-                }
-
-  {DECORWORD} / "to"
-                {
-                  // if we've seen apply, and have a name (decorword) followed by "to", then we
-                  // have a THMNAME. Otherwise, it's just a DECORWORD. TODO: should we check we are within ZPROOF?
-
-                  //Sym sym = null;
-                  //String word = yytext();
-                  //if (seenApply_)
-                  //{
-                  //  sym = Sym.THMNAME;
-                  //}
-                  //else
-                  //{
-                  //  sym = Sym.DECORWORD;
-                  //  //if (word.endsWith(NL*)) yypushback(number_of_nl) ARGH...
-                  //}
-                  //assert sym != null;
-                  //System.out.println("DECORWORD middle = " + yytext());
-
-                  Symbol symb = symbol(seenApply_ ? Sym.THMNAME : Sym.DECORWORD,
-                    new Decorword(yytext(), getLocation()));
-
-                  //System.out.println("DECORWORD / TO = '" + yytext() + "'; seen apply? = " + seenApply_);
-                  return symb;
-
                 }
 
   ({PROOFWORDMIXED} {NL}*) / " "
@@ -624,7 +597,10 @@ ZREFINES = //{NL_SPACE}*
   /* strip spaces (context-sensitive lexis; 7.4.1)
      \t is added so that unicode files containing tabs
      can be read properly */
-  {SPACE} | {CONTROL} { }
+  {SPACE} | {CONTROL}
+                {
+                  //System.out.println("SPACE-IGNORE");
+                }
 
   <add:pattern>
   {RULELINE}    { return symbol(Sym.RULELINE); }
@@ -698,9 +674,19 @@ ZREFINES = //{NL_SPACE}*
   </add:zeves>
   
   {DECORWORD}   {
+                   <add:zeves>
+                   // if we've seen "apply" this DECORWORD will be "THMNANMEto" because
+                   // white spaces will be removed. Push the "to" back to the token stream.
+                   // it will be read as a keyword instead.
+                   // This was previously defined earlier in the productions as {DECORWORD} / "to"
+                   // but that wrongly catches "to" as keyword in user variable names like "roundto"
+                   if (seenApply_ &amp;&amp; yytext().endsWith("to")) yypushback(2);
+                   </add:zeves>
+
                    Symbol sym = symbol(
                                  <add:zeves>seenApply_ ? Sym.THMNAME : </add:zeves>Sym.DECORWORD,
                                  new Decorword(yytext(), getLocation()));
+                   //System.out.println("DECORWORD= '" + yytext() <add:zeves>+ "'; seen apply? = " + seenApply_</add:zeves>);
                    <add:zeves>
                       seenApply_ = false;
                    </add:zeves>
