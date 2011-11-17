@@ -428,6 +428,12 @@ public class TypeCheckUtils
     }
   }
 
+  @Override
+  protected net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn createSectSummaryAnn(String sectName)
+  {
+    return new net.sourceforge.czt.typecheck.zeves.impl.SectSummaryAnn(sectName);
+  }
+
   /**
    * Get a Command object for use in SectionManager
    *

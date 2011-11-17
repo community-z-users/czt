@@ -38,4 +38,9 @@ public class TypeCheckCommand
     return TypeCheckUtils.typecheck(term, manager, recursiveTypes_, sortDeclNames_,
       useNameIds_, warningOutput_, null);
   }
-}
+
+  @Override
+  protected net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn createSectSummaryEnv(String sectName)
+  {
+    return new net.sourceforge.czt.typecheck.zeves.impl.SectSummaryAnn(sectName);
+  }
