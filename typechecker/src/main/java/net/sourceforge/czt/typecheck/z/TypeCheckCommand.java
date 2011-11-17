@@ -20,6 +20,7 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
@@ -93,6 +94,21 @@ public class TypeCheckCommand extends AbstractCommand
     return result;
   }
 
+  protected SectSummaryAnn createSectSummaryEnv(String sectName)
+  {
+    return new SectSummaryAnn(sectName);
+  }
+
+  protected SectSummaryAnn summarise(SectionManager sm, ZSect zs)
+  {
+    SectSummaryAnn result = createSectSummaryEnv(zs.getName());
+    result.generateSummary(sm, zs);
+    if (zs.hasAnn(SectSummaryAnn.class))
+      zs.removeAnn(SectSummaryAnn.class);
+    zs.getAnns().add(result);
+    return result;
+  }
+
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
@@ -140,6 +156,12 @@ public class TypeCheckCommand extends AbstractCommand
         manager.put(new Key<SectWarningsAnn>(name, SectWarningsAnn.class), warnings);
       }
 
+      SectSummaryAnn summary = summarise(manager, zs);
+      if (summary != null)
+      {
+        manager.put(new Key<SectSummaryAnn>(name, SectSummaryAnn.class), summary);
+      }
+      
       // if there are remaining errors from filtered warnings raise exception
       if (!errors.isEmpty())
       {

@@ -19,6 +19,7 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
+import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import java.io.*;
 import java.io.File;
 import java.util.Arrays;
@@ -28,7 +29,6 @@ import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.MarshalException;
 import net.sourceforge.czt.base.util.XmlWriter;
-import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -37,8 +37,8 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.util.WarningManager;
-import sun.nio.cs.ext.TIS_620;
 
 /**
  * Utilities for typechecking Z specifications.
@@ -196,9 +196,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                 WarningManager.WarningOutput warningOutput,
                                                 String sectName)
   {
-    ZFactory zFactory = new ZFactoryImpl();    
     //((net.sourceforge.czt.z.util.PrintVisitor)((ZFactoryImpl)zFactory).getToStringVisitor()).setPrintIds(true);
-    TypeChecker typeChecker = new TypeChecker(new Factory(zFactory), 
+    TypeChecker typeChecker = new TypeChecker(new Factory(new ZFactoryImpl()),
 					      sectInfo, useBeforeDecl, 
 					      recursiveTypes);
     typeChecker.setPreamble(sectName, sectInfo);
@@ -509,6 +508,24 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                           " : " + printTerm(triple.getType(), sectInfo, currSect, markup));
         prevSect = triple.getSect();
       }
+    }
+  }
+
+  protected SectSummaryAnn createSectSummaryAnn(String sectName)
+  {
+    return new SectSummaryAnn(sectName);
+  }
+
+  protected void printSummary(SectSummaryAnn summary)
+  {
+    System.out.println();
+    System.out.println("Summary information for section " + summary.getSectName());
+    for(Pair<String, Integer> pair : summary.getSectSummary())
+    {
+      System.out.print("\t");
+      System.out.print(pair.getFirst());
+      System.out.print(" = ");
+      System.out.println(pair.getSecond());
     }
   }
 
@@ -925,6 +942,32 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         lastTime = currentTime;
         currentTime = System.currentTimeMillis();
         printZmlTime = currentTime - lastTime;
+      }
+      if (term != null)
+      {
+        SectSummaryAnn summary = term.getAnn(SectSummaryAnn.class);
+        if (summary == null && term instanceof Spec)
+        {
+          for(Sect s : ((Spec)term).getSect())
+          {
+            if (s.hasAnn(SectSummaryAnn.class))
+            {
+              printSummary(s.getAnn(SectSummaryAnn.class));
+            }
+            else if (s instanceof ZSect)
+            {
+              ZSect zs = (ZSect)s;
+              summary = createSectSummaryAnn(zs.getName());
+              summary.generateSummary(manager, zs);
+              s.getAnns().add(summary);
+              printSummary(summary);
+            }
+          }
+        }
+        else if (summary != null)
+        {
+          printSummary(summary);
+        }
       }
       benchmarkPerFile.put(file, Arrays.asList(parsingErrors, numberOfErrors,
           numberOfWarnings, parseTime, typeCheckTime, printTypeTime, printZmlTime, 

@@ -65,7 +65,10 @@ public interface TypecheckPropertiesKeys
   
   String PROP_TYPECHECK_USE_SPECREADER =
     "typecheck_use_spec_reader";
-  
+
+  String PROP_TYPECHECK_SUMMARY_INCLUDE_PARENTS = "typecheck_summary_incl_parents";
+  String PROP_TYPECHECK_SUMMARY_INCLUDE_STDSECTS = "typecheck_summary_incl_stdsects";
+
   boolean PROP_TYPECHECK_DEBUG_DEFAULT           = false;
   boolean PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT = false;
   boolean PROP_TYPECHECK_RECURSIVE_TYPES_DEFAULT = false;
@@ -73,4 +76,7 @@ public interface TypecheckPropertiesKeys
   boolean PROP_TYPECHECK_USE_NAMEIDS_DEFAULT     = false;  
   boolean PROP_TYPECHECK_USE_SPECREADER_DEFAULT  = false;
   WarningManager.WarningOutput PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT = WarningManager.WarningOutput.SHOW;
+
+  boolean PROP_TYPECHECK_SUMMARY_INCLUDE_PARENTS_DEFAULT = true;
+  boolean PROP_TYPECHECK_SUMMARY_INCLUDE_STDSECTS_DEFAULT = false;
 }
