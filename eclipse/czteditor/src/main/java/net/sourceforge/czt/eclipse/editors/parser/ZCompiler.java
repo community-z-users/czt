@@ -22,8 +22,8 @@ import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
-
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IFileEditorInput;
 
@@ -35,7 +35,7 @@ public enum ZCompiler
   
   INSTANCE;
 
-  private static final String DEFAULT_SECTION_NAME = "NEWSECTION";
+  public static final String DEFAULT_SECTION_NAME = "NEWSECTION";
 
   private String sectionName_ = DEFAULT_SECTION_NAME;
 
@@ -63,11 +63,14 @@ public enum ZCompiler
     source.setEncoding(editor.getEncoding()); // for Unicode
 
     // MarkU: set czt.path to the directory that contains this file
-    String path = file.getLocation().toString();
-    assert path.endsWith(name);
-    String dir = path.substring(0, path.lastIndexOf(name));
-    //System.out.println("DEBUG: setting czt.path to "+dir);
-    sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
+    IPath path = file.getLocation();
+    if (path != null) {
+      IPath dirPath = path.removeLastSegments(1).addTrailingSeparator();
+      String dir = dirPath.toString();
+      
+      //System.out.println("DEBUG: setting czt.path to "+dir);
+      sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
+    }
 
     ParsedData parsedData = new ParsedData(editor, documentVersion, sectMan);
     
@@ -103,7 +106,7 @@ public enum ZCompiler
 
     try {
       // check for parse exceptions
-      ParseException parseException = (ParseException) sectMan.get(
+      ParseException parseException = sectMan.get(
           new Key<ParseException>(source.getName(), ParseException.class));
       
       if (parseException != null) {
