@@ -18,6 +18,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.typecheck.z.SectWarningsAnn;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
@@ -90,12 +91,23 @@ public enum ZCompiler
     if (parsed != null) {
       for (Sect sect : parsed.getSect()) {
         if (sect instanceof ZSect) {
+          
+          ZSect zSect = (ZSect) sect;
+          
           try {
             // typecheck sections
-            sectMan.get(new Key<SectTypeEnvAnn>(((ZSect) sect).getName(), SectTypeEnvAnn.class));
+            sectMan.get(new Key<SectTypeEnvAnn>(zSect.getName(), SectTypeEnvAnn.class));
           } catch (CommandException ce) {
             errors.addAll(handleException(ce));
           }
+          
+          // check for warnings after typechecking
+          SectWarningsAnn warnings = zSect.getAnn(SectWarningsAnn.class);
+          if (warnings != null) {
+            errors.addAll(warnings.getWarnings());
+          }
+          
+          // TODO warnings about parents?
         }
       }
 
