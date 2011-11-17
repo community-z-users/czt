@@ -44,3 +44,4 @@ public class TypeCheckCommand
   {
     return new net.sourceforge.czt.typecheck.zeves.impl.SectSummaryAnn(sectName);
   }
+}
