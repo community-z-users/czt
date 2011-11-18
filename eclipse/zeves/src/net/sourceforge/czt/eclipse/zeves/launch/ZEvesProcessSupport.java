@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesServer;
@@ -54,7 +55,7 @@ public class ZEvesProcessSupport {
 		stop();
 		
 		if (launchConfig != null) {
-			runInUI(new Runnable() {
+			PlatformUtil.runInUI(new Runnable() {
 				@Override
 				public void run() {
 					DebugUITools.launch(launchConfig, ILaunchManager.RUN_MODE);
@@ -75,7 +76,7 @@ public class ZEvesProcessSupport {
 	}
 	
 	private void notifyServerDied() {
-		runInUI(new Runnable() {
+		PlatformUtil.runInUI(new Runnable() {
 			@Override
 			public void run() {
 				
@@ -97,15 +98,6 @@ public class ZEvesProcessSupport {
 				}
 			}
 		});
-	}
-	
-	private void runInUI(Runnable runnable) {
-		try {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(runnable);
-		} catch (IllegalStateException e) {
-			// no workbench - just log
-			ZEvesPlugin.getDefault().log(e);
-		}
 	}
 	
 	private Shell getShell() {

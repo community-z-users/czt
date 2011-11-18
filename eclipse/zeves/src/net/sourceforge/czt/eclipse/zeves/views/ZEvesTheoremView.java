@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
@@ -211,7 +212,7 @@ public class ZEvesTheoremView extends ViewPart {
 				}
 			});
 			
-			getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			PlatformUtil.runInUI(new Runnable() {
 				public void run() {
 					filteredTree.setInput(theorems);
 				}

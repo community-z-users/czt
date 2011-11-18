@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.actions;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
@@ -50,7 +51,7 @@ public class EditorSubmitNextCommand extends AbstractHandler {
 		final int lastOffset = ZEvesPlugin.getZEves().getSnapshot().getLastPositionOffset(filePath);
 		
 		// set caret position in display thread
-		editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+		PlatformUtil.runInUI(new Runnable() {
 			@Override
 			public void run() {
 				ZEditorUtil.setCaretPosition(editor, lastOffset);

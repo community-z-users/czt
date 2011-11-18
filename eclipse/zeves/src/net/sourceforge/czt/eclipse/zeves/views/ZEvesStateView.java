@@ -1,6 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.views;
 
 import net.sourceforge.czt.eclipse.CZTPluginImages;
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
@@ -318,7 +319,7 @@ public class ZEvesStateView extends ViewPart {
 	}
 	
 	private void fireUpdateState() {
-		getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
+		PlatformUtil.runInUI(new Runnable() {
 			@Override
 			public void run() {
 				updateState();

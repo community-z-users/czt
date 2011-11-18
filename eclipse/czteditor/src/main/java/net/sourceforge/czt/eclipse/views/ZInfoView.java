@@ -11,6 +11,7 @@ import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.util.IColorManager;
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.session.Markup;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -38,9 +39,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
@@ -540,19 +539,9 @@ public class ZInfoView extends ViewPart implements ISelectionListener
         if (monitor.isCanceled()) {
           return Status.CANCEL_STATUS;
         }
-
-        Shell shell = getViewSite().getShell();
-        if (shell.isDisposed()) {
-          return Status.OK_STATUS;
-        }
-
-        Display display = shell.getDisplay();
-        if (display.isDisposed()) {
-          return Status.OK_STATUS;
-        }
-
+        
         final Job theJob = this;
-        display.asyncExec(new Runnable()
+        PlatformUtil.runInUI(new Runnable()
         {
           @Override
           public void run()

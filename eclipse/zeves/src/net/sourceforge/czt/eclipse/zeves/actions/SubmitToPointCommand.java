@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.actions;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesSubmitCommand;
@@ -40,7 +41,7 @@ public class SubmitToPointCommand extends AbstractHandler {
 			@Override
 			protected void completed(IStatus result) {
 				// set caret position in display thread
-				editor.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+				PlatformUtil.runInUI(new Runnable() {
 					@Override
 					public void run() {
 						ZEditorUtil.setCaretPosition(editor, offset);

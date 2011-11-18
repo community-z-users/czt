@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.launch;
 import java.io.IOException;
 import java.net.ConnectException;
 
+import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -16,7 +17,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
@@ -116,11 +116,9 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 	
 	private boolean askToRetry() {
 		
-		// raise a dialog in the SWT thread
-		Display display = PlatformUI.getWorkbench().getDisplay();
-		
+		// raise a dialog in the UI thread
 		final int[] result = new int[1];
-		display.syncExec(new Runnable() {
+		PlatformUtil.runInUI(true, new Runnable() {
 			
 			@Override
 			public void run() {
