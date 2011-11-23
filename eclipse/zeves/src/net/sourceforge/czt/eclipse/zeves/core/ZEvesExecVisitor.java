@@ -482,11 +482,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 					} catch (ZEvesException e) {
 						lastException = e;
 
-						if (!isNoEffectError(e)) {
-							// unknown error - stop
-							loop = false;
-							break;
-						}
+						// Don't break on error - e.g., to avoid eq-subst. errors in middle of "prove"
+						//if (!isNoEffectError(e)) {
+						//	// unknown error - stop
+						//	loop = false;
+						//	break;
+						//}
 						
 						// no effect from the command here
 						if (cmd.isStopOnNoEffect()) {
