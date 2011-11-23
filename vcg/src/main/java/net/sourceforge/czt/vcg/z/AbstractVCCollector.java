@@ -27,8 +27,10 @@ import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * Abstract VCG for CZT terms. For unknown/unprocessed terms, it returns false
@@ -244,7 +246,8 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     }
     catch (CztException e)
     {
-      throw new VCCollectionException("VC-COLLECT-CALC-ERROR = " + para.toString(), e);
+      final String text = ZUtils.getAxParaSchOrAbbrName(para) != null ? ZUtils.getAxParaSchOrAbbrName(para).toString() : para.toString();
+      throw new VCCollectionException("VC-COLLECT-CALC-ERROR = see " + text, e);
     }
 
     // create the result with a unique number for this collector

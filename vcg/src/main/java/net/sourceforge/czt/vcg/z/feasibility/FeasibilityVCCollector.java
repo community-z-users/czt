@@ -500,7 +500,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       {
         checkPreviousState(prefixMsg, stateInitSchema_, termDefName);
         setZStateInitName(termDefName);
-        checkStateBindings(prefixMsg, stateInitSchema_, BindingUtils.DASHED_FILTER);
+        checkStateBindings(prefixMsg, stateInitSchema_, BindingUtils.INIT_FILTER);
         if (stateLoc_ == null)
           stateLoc_ = term.getAnn(LocAnn.class);
         result = true;
@@ -510,7 +510,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       {
         checkPreviousState(prefixMsg, stateFinSchema_, termDefName);
         setZStateFinName(termDefName);
-        checkStateBindings(prefixMsg, stateFinSchema_, BindingUtils.STATE_FILTER);
+        checkStateBindings(prefixMsg, stateFinSchema_, BindingUtils.FIN_FILTER);
         if (stateLoc_ == null)
           stateLoc_ = term.getAnn(LocAnn.class);
         result = true;
@@ -536,13 +536,21 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     checkStateBindings(prefix, stName, BindingUtils.STATE_FILTER);
   }
 
+  /**
+   * Checks the given schema name in the definition table
+   * @param prefix
+   * @param stName
+   * @param filter
+   * @throws CztException
+   */
   protected void checkStateBindings(String prefix, ZName stName, BindingFilter filter) throws CztException
   {
     SortedSet<Definition> mixedBindings;
     try
     {
       mixedBindings = getDefTable().bindings(stName);
-      computedStBindings_.put(stName, new TreeSet<Definition>(mixedBindings));
+      SortedSet<Definition> old = computedStBindings_.put(stName, new TreeSet<Definition>(mixedBindings));
+      if (old != null) throw new DefinitionException("VC-FSB-DUPLICATE-SCHEMA-IN-DEFTBL = " + stName);
     }
     catch (DefinitionException ex)
     {
@@ -611,28 +619,22 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       SortedSet<Definition> beforeBindings = BindingUtils.beforeBindingsOf(mixedBindings);
       assert BindingUtils.bindingsInvariant(mixedBindings, beforeBindings, afterBindings);
 
-      // if either before or after bindings are empty, then this is a existential proof
-      // that is, an initialisation proof for the state say.
-      boolean existential = beforeBindings.isEmpty() || afterBindings.isEmpty();
+      SortedSet<Definition> inputBindings = BindingUtils.inputBindingsOf(beforeBindings);
+      SortedSet<Definition> outputBindings = BindingUtils.outputBindingsOf(afterBindings);
+
+      // initialisation with non-empty inputs will have both before and after bindings, but it is not mixed.
+      // similarly for finalisation with output!
+      boolean initWithInput = !afterBindings.isEmpty() && !inputBindings.isEmpty() && inputBindings.equals(beforeBindings);
+      boolean finWithOutput = !beforeBindings.isEmpty() && !outputBindings.isEmpty() && outputBindings.equals(afterBindings);
 
       // if both bindings are empty, then this is a degenerate case, and there is nothing todo.
       boolean emptybindings = beforeBindings.isEmpty() && afterBindings.isEmpty();
-
-      // create the zSchText of assumptions and set the precondition to the user-suplied predicate
-      // populate the ZDeclList for the before bindings - this create a flat list of decl (e.g., all schemas expanded)
-      // we assume this will typecheck. if it doesn't it is up to the user.
-      //
-      // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
-      ZSchText fsbAssumptions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
-      populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
-
-      // get any user defined predicates
-      fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName, genParams));
 
       AxPara schNameSigSchema = null;
       ZName schSigName = null;
       Expr schSigRef = null;
       ZSchText schSigSchText = null;
+      ZSchText fsbAssumptions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
 
       if (isCreatingZSchemas())
       {
@@ -646,68 +648,149 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         schNameSigSchema = predTransformer_.createSchExpr(genParams, schSigName, fsbAssumptions);
       }
 
-      // only consider precondition predicates for schemas with after variables
-      // schemas with before variables should have a existential proof!
-      //
-      // St  == [ x: T | I ]
-      // Sch == [ \Delta St; i?, o!: T | P ] ==> \forall [ x: T; i?: T | I \land USER-DEF-PRE ] @ \pre Sch
-      //                                         \forall x: T; i?: T @ I \land USER-DEF-PRE \implies \exist x': T; o!: T @ Sch
-      if (!existential) // before \neq {} \land after \neq {}
-      {
-        if (!isCreatingZSchemas())
-        {
-          // create the zSchText of conclusions as a flat list of decl: [ | true ]
-          ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
-          // conclusions = [ d1', ... dn', do!: T | true ]
-          populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
 
-          // \forall assumptions @ \exists conclusions @ Sch
-          //Pred invariant = getSchemaInvariant(schRef);//, schExpr); // try expanding the schema invariants - if fails, just use the schema reference
-          result = predTransformer_.asPred(
-                  predTransformer_.forAllExpr(fsbAssumptions,
-                    predTransformer_.existsExpr(fsbConclusions, schRef)));
+      if (initWithInput || finWithOutput)
+      {
+        // e.g., FreeRTOS (and others), where state init is in stages.... might have diff names
+        //if ((initWithInput && !ZUtils.namesEqual(schName, stateInitSchema_))
+        //     ||
+        //   (finWithOutput && !ZUtils.namesEqual(schName, stateFinSchema_)))
+        if (!(initWithInput ^ finWithOutput)) // XOR
+        {
+          final String errorMsg = "Found inconsistent mixed bindings for " + (initWithInput ? "initialisation schema with inputs " + schName :
+              finWithOutput ? "finalisation schema with outputs " + schName : "unknown schema kind with possible I/O " + schName);
+          handleInclBindingsMismatch(errorMsg);
+        }
+        //assert !initWithInput || ZUtils.namesEqual(schName, stateInitSchema_);
+        //assert !finWithOutput || ZUtils.namesEqual(schName, stateFinSchema_);
+
+        if (initWithInput)
+        {
+          populateDeclList(fsbAssumptions.getZDeclList(), afterBindings);
+          populateDeclList(fsbAssumptions.getZDeclList(), inputBindings);
         }
         else
         {
-          assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
-          // create the conclusions as a Z-centric \pre SchRef operator
-          // \forall SchSig | true @ \pre Sch
-          result = predTransformer_.asPred(
-                  predTransformer_.forAllExpr(
-                    schSigSchText, factory_.createPreExpr(schRef)));
+          assert finWithOutput;
+          populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings);
+          populateDeclList(fsbAssumptions.getZDeclList(), outputBindings);
+        }
+
+        // get any user defined predicates - also checks whether the schName given have more than the state schema as declared bindings
+        fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName, genParams));
+
+        // always existential
+        if (!emptybindings)
+        {
+          // for the state schema, if there is a init schema, then a vc \exists State' @ StInit is added in the end
+          // otherwise, add the whole VC anyway as \exists State' @ true; similarly for init/fin schemas
+          if ((stateInitSchema_ != null &&
+               ZUtils.namesEqual(schName, stateInitSchema_)) ||
+              (stateFinSchema_ != null &&
+               ZUtils.namesEqual(schName, stateFinSchema_)) ||
+              (stateSchema_ != null && ZUtils.namesEqual(schName, stateSchema_) &&
+                (stateInitSchema_ != null || stateFinSchema_ != null)))
+          {
+            result = predTransformer_.truePred();
+          }
+          else if (!isCreatingZSchemas())
+          {
+            // fsbAssumptions will have either initialisation or just true
+            result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+          }
+          else
+          {
+            // z centric existential proof
+            // \exists SchSig @ true
+            assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
+            result = predTransformer_.existsPred(schSigSchText, factory_.createTruePred());
+          }
+        }
+        // otherwise, there is nothing to do: just return P
+        else 
+        {
+          result = predTransformer_.truePred(); // TODO: still to return P from ZName (!!!)
         }
       }
-      // no after bindings; if there are any before bindings then create existential proof
-      else if (!emptybindings) // before \neq {} XOR after \neq {} and it is existential
+      else
       {
-        // for the state schema, if there is a init schema, then a vc \exists State' @ StInit is added in the end
-        // otherwise, add the whole VC anyway as \exists State' @ true; similarly for init/fin schemas
-        if ((stateInitSchema_ != null &&
-             ZUtils.namesEqual(schName, stateInitSchema_)) ||
-            (stateFinSchema_ != null &&
-             ZUtils.namesEqual(schName, stateFinSchema_)) ||
-            (stateSchema_ != null && ZUtils.namesEqual(schName, stateSchema_) &&
-              (stateInitSchema_ != null || stateFinSchema_ != null)))
+        // if either before or after bindings are empty, then this is a existential proof
+        // that is, an initialisation proof for the state say.
+        boolean existential = (beforeBindings.isEmpty() || afterBindings.isEmpty());
+
+        // create the zSchText of assumptions and set the precondition to the user-suplied predicate
+        // populate the ZDeclList for the before bindings - this create a flat list of decl (e.g., all schemas expanded)
+        // we assume this will typecheck. if it doesn't it is up to the user.
+        //
+        // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
+        populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
+
+        // get any user defined predicates
+        fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName, genParams));
+
+        // only consider precondition predicates for schemas with after variables
+        // schemas with before variables should have a existential proof!
+        //
+        // St  == [ x: T | I ]
+        // Sch == [ \Delta St; i?, o!: T | P ] ==> \forall [ x: T; i?: T | I \land USER-DEF-PRE ] @ \pre Sch
+        //                                         \forall x: T; i?: T @ I \land USER-DEF-PRE \implies \exist x': T; o!: T @ Sch
+        if (!existential) // before \neq {} \land after \neq {}
         {
-          result = predTransformer_.truePred();
+          if (!isCreatingZSchemas())
+          {
+            // create the zSchText of conclusions as a flat list of decl: [ | true ]
+            ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
+            // conclusions = [ d1', ... dn', do!: T | true ]
+            populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
+
+            // \forall assumptions @ \exists conclusions @ Sch
+            //Pred invariant = getSchemaInvariant(schRef);//, schExpr); // try expanding the schema invariants - if fails, just use the schema reference
+            result = predTransformer_.asPred(
+                    predTransformer_.forAllExpr(fsbAssumptions,
+                      predTransformer_.existsExpr(fsbConclusions, schRef)));
+          }
+          else
+          {
+            assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
+            // create the conclusions as a Z-centric \pre SchRef operator
+            // \forall SchSig | true @ \pre Sch
+            result = predTransformer_.asPred(
+                    predTransformer_.forAllExpr(
+                      schSigSchText, factory_.createPreExpr(schRef)));
+          }
         }
-        else if (!isCreatingZSchemas())
+        // no after bindings; if there are any before bindings then create existential proof
+        else if (!emptybindings) // before \neq {} XOR after \neq {} and it is existential
         {
-          // fsbAssumptions will have either initialisation or just true
-          result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+          // for the state schema, if there is a init schema, then a vc \exists State' @ StInit is added in the end
+          // otherwise, add the whole VC anyway as \exists State' @ true; similarly for init/fin schemas
+          if ((stateInitSchema_ != null &&
+               ZUtils.namesEqual(schName, stateInitSchema_)) ||
+              (stateFinSchema_ != null &&
+               ZUtils.namesEqual(schName, stateFinSchema_)) ||
+              (stateSchema_ != null && ZUtils.namesEqual(schName, stateSchema_) &&
+                (stateInitSchema_ != null || stateFinSchema_ != null)))
+          {
+            result = predTransformer_.truePred();
+          }
+          else if (!isCreatingZSchemas())
+          {
+            // fsbAssumptions will have either initialisation or just true
+            result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
+          }
+          else
+          {
+            // z centric existential proof
+            // \exists SchSig @ true
+            assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
+            result = predTransformer_.existsPred(schSigSchText, factory_.createTruePred());
+          }
         }
-        else
+        // otherwise, there is nothing to do: just return P
+        else // before = after = {}
         {
-          // z centric existential proof
-          // \exists SchSig @ true
-          assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
-          result = predTransformer_.existsPred(schSigSchText, factory_.createTruePred());
+          result = predTransformer_.truePred(); // TODO: still to return P from ZName (!!!)
         }
-      }
-      // otherwise, there is nothing to do: just return P
-      else // before = after = {}
-      {
-        result = predTransformer_.truePred(); // TODO: still to return P from ZName (!!!)
       }
 
       // if anything got created, add them
@@ -774,7 +857,22 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         // for instance the Z State schema as tagged by \zstate or \zastate (e.g., abstract only for now).
         else
         {
-          result = handleStateSchemaInUserDefinedSchemaPRE(schName, genParams, before);
+          // init/fin with I/O parameters
+          SortedSet<Definition> inputBindings = BindingUtils.inputBindingsOf(before);
+          SortedSet<Definition> outputBindings = BindingUtils.outputBindingsOf(after);
+          boolean initWithInput = !after.isEmpty() && !inputBindings.isEmpty() && inputBindings.equals(before);
+          boolean finWithOutput = !before.isEmpty() && !outputBindings.isEmpty() && outputBindings.equals(after);
+          boolean dashedState = (initWithInput ^ finWithOutput); // both true then not the case;
+
+          SortedSet<Definition> relevantBindings = before;
+          // if just one of them is true, and that is finWithOutput, then use after
+          if (dashedState && finWithOutput)
+            relevantBindings = after;
+
+          // check the bindings...: initWithInputs is just like normal cases; finWithOutput needs after bindings
+          result = handleStateSchemaInUserDefinedSchemaPRE(schName, genParams,
+                    relevantBindings, dashedState);
+
         }
       }
       catch(DefinitionException e)
@@ -789,7 +887,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     return result;
   }
 
-  protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> beforeBindings)
+  protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> relevantBindings, boolean dashedState)
   {
     Pred result = predTransformer_.truePred();
     if (stateSchema_ != null)
@@ -804,26 +902,72 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         CztLogger.getLogger(getClass()).warning(message);
       }
 
-      checkInclBindingsWithinGivenSchBindings(stateSchema_, schName, beforeBindings);
+      // if state schema is not null but init schema is okay, then check it against the state init schema
+      if (stateInitSchema_ != null && ZUtils.namesEqual(schName, stateInitSchema_))
+      {
+        // init schema has already checked the state bindings by using checkStateInfo upon assignment.
+        // so, the only problem is to check whether the before bindings are inputs only
+        SortedSet<Definition> inputBindings = BindingUtils.inputBindingsOf(relevantBindings);
+        relevantBindings.removeAll(inputBindings);
+        if (!relevantBindings.isEmpty())
+        {
+          final String message = "Could not generate user-defined predicate for initialisation schema " + ZUtils.toStringZName(schName) +
+              " because it has invalid before bindings (e.g., only input or state bindings are valid)" +
+              "\n\tGiven.....: " + String.valueOf(relevantBindings) +
+              "\n\tAllowed...: " + String.valueOf(inputBindings);
+          handleInclBindingsMismatch(message);
+        }
+      }
+      else if (stateFinSchema_ != null && ZUtils.namesEqual(schName, stateFinSchema_))
+      {
+        // init schema has already checked the state bindings by using checkStateInfo upon assignment.
+        // so, the only problem is to check whether the before bindings are inputs only
+        SortedSet<Definition> outputBindings = BindingUtils.outputBindingsOf(relevantBindings);
+        relevantBindings.removeAll(outputBindings);
+        if (!relevantBindings.isEmpty())
+        {
+          final String message = "Could not generate user-defined predicate for finalisation schema " + ZUtils.toStringZName(schName) +
+              " because it has invalid after bindings (e.g., only output or after state bindings are valid)" +
+              "\n\tGiven.....: " + String.valueOf(relevantBindings) +
+              "\n\tAllowed...: " + String.valueOf(outputBindings);
+          handleInclBindingsMismatch(message);
+        }
+      }
+      else
+      {
+        // otherwise check the before bindings for the given schema name
+        checkInclBindingsWithinGivenSchBindings(stateSchema_, schName, relevantBindings);
+      }
 
       // Keep the state schema as Pred part of "OpSig == [ x, y : T | State ]", for "State = [ x, y: T | inv(x,y) ]".
       // the repetition of bindings is for both clarity of what the VCG is doing and to ensure in odd cases we do not
       // mess up the VC itself (e.g., State having more bindings than we found for OpSig will lead to a type error).
-      result = predTransformer_.asPred(predTransformer_.createSchRef(stateSchema_, stateSchemaGenParams_));
+      Expr schExpr;
+      if (dashedState)
+        schExpr = predTransformer_.createDashedSchRef(stateSchema_, stateSchemaGenParams_);
+      else
+        schExpr = predTransformer_.createSchRef(stateSchema_, stateSchemaGenParams_);
+      result = predTransformer_.asPred(schExpr);
     }
     // else ???? TODO: let the user give schemas as string text and parser ???
     return result;
   }
 
-  protected void checkInclBindingsWithinGivenSchBindings(ZName inclSchema, ZName schName, SortedSet<Definition> beforeBindings)
+  /**
+   *
+   * @param inclStateSchemaName concrete or abstract state schema
+   * @param schName
+   * @param beforeBindings
+   */
+  protected void checkInclBindingsWithinGivenSchBindings(ZName inclStateSchemaName, ZName schName, SortedSet<Definition> beforeBindings)
   {
-    assert inclSchema != null && schName != null;
+    assert inclStateSchemaName != null && schName != null;
     
     // check the given mixed bindings are indeed within the remit of the state associated with it.
-    SortedSet<Definition> stateBindings = computedStBindings_.get(inclSchema);
+    SortedSet<Definition> stateBindings = computedStBindings_.get(inclStateSchemaName);
     if (stateBindings == null || !beforeBindings.containsAll(stateBindings))
     {
-      final String message = "Included state schema " + ZUtils.toStringZName(inclSchema) +
+      final String message = "Included state schema " + ZUtils.toStringZName(inclStateSchemaName) +
               " depends on bindings not declared in schema " + ZUtils.toStringZName(schName) +
               "\n\tGiven.....: " + String.valueOf(beforeBindings) +
               "\n\tExpected..: " + String.valueOf(stateBindings);

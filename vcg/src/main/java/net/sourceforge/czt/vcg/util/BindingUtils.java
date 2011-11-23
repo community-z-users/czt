@@ -42,6 +42,8 @@ public final class BindingUtils
   public static final BindingFilter OUTPUT_FILTER = new OutputBindings();
   public static final BindingFilter STATE_FILTER  = new StateBindings();
   public static final BindingFilter DASHED_FILTER = new DashedBindings();
+  public static final BindingFilter INIT_FILTER   = new InitBindings();
+  public static final BindingFilter FIN_FILTER   = new FinBindings();
 
   /**
    * Filter the given set of bindings according to the binding filter criteria given.
@@ -93,6 +95,11 @@ public final class BindingUtils
   public static SortedSet<Definition> stateBindingsOf(SortedSet<Definition> bindings)
   {
     return filterBindings(bindings, STATE_FILTER);
+  }
+
+  public static SortedSet<Definition> initBindingsOf(SortedSet<Definition> bindings)
+  {
+    return filterBindings(bindings, INIT_FILTER);
   }
 
   public static SortedSet<Definition> dashedBindingsOf(SortedSet<Definition> bindings)

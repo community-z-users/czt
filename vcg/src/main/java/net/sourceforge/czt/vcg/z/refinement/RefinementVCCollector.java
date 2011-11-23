@@ -310,7 +310,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
         checkPreviousState(prefixMsg, concreteStateInit_, termDefName);
         setConcreteStateInitName(termDefName);
         // assuming the generic parameters are just like the concrete state's
-        checkStateBindings(prefixMsg, concreteStateInit_, BindingUtils.DASHED_FILTER);
+        checkStateBindings(prefixMsg, concreteStateInit_, BindingUtils.INIT_FILTER);
         result = true;
       }
       else if (zsii.equals(ZStateInfo.CSTFIN))
@@ -318,7 +318,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
         checkPreviousState(prefixMsg, concreteStateFin_, termDefName);
         setConcreteStateFinName(termDefName);
         // assuming the generic parameters are just like the concrete state's
-        checkStateBindings(prefixMsg, concreteStateFin_, BindingUtils.STATE_FILTER);
+        checkStateBindings(prefixMsg, concreteStateFin_, BindingUtils.FIN_FILTER);
         result = true;
       }
       else if (zsii.equals(ZStateInfo.RETRIEVE))
@@ -377,7 +377,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
         checkPreviousState(prefixMsg, abstractStateFinOut_, termDefName);
         // assuming the same as retrieve gen params
         setAbstractStateFinOut(termDefName);
-        checkStateBindings(prefixMsg, abstractStateFinOut_, BindingUtils.INPUT_FILTER);
+        checkStateBindings(prefixMsg, abstractStateFinOut_, BindingUtils.OUTPUT_FILTER);
         result = true;
       }
       else if (zsii.equals(ZStateInfo.CFINOUT))
@@ -385,7 +385,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
         checkPreviousState(prefixMsg, concreteStateFinOut_, termDefName);
         // assuming the same as retrieve gen params
         setConcreteStateFinOut(concreteStateFinOut_);
-        checkStateBindings(prefixMsg, concreteStateFinOut_, BindingUtils.INPUT_FILTER);
+        checkStateBindings(prefixMsg, concreteStateFinOut_, BindingUtils.OUTPUT_FILTER);
         result = true;
       }
     }
@@ -486,7 +486,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
 
 
   @Override
-  protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> beforeBindings)
+  protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> relevantBindings, boolean dashedState)
   {
     Pred result = predTransformer_.truePred();
     // if this is a concrete operation for refinement, then use concrete state
@@ -504,8 +504,13 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
           CztLogger.getLogger(getClass()).warning(message);
         }
 
-        checkInclBindingsWithinGivenSchBindings(concreteState_, schName, beforeBindings);
-        result = predTransformer_.asPred(predTransformer_.createSchRef(concreteState_, concreetStateGenParams_));
+        checkInclBindingsWithinGivenSchBindings(concreteState_, schName, relevantBindings);
+        Expr schExpr;
+        if (dashedState)
+          schExpr = predTransformer_.createDashedSchRef(concreteState_, concreetStateGenParams_);
+        else
+          schExpr = predTransformer_.createSchRef(concreteState_, concreetStateGenParams_);
+        result = predTransformer_.asPred(schExpr);
       }
       // else ???? TODO: let the user give schemas as string text and parse them?
     }
@@ -515,7 +520,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       try
       {
-        result = super.handleStateSchemaInUserDefinedSchemaPRE(schName, genParams, beforeBindings);
+        result = super.handleStateSchemaInUserDefinedSchemaPRE(schName, genParams, relevantBindings, dashedState);
       }
       catch (CztException e)
       {
@@ -526,8 +531,14 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
           final String message = "An exception occurred while trying to create operation signature schema for '" + schName +
                   "'. Trying to use concrete state instead. Original message....: " + e.getCause().getMessage();
           CztLogger.getLogger(getClass()).warning(message);
-          checkInclBindingsWithinGivenSchBindings(concreteState_, schName, beforeBindings);
-          result = predTransformer_.asPred(predTransformer_.createSchRef(concreteState_, concreetStateGenParams_));
+          checkInclBindingsWithinGivenSchBindings(concreteState_, schName, relevantBindings);
+
+          Expr schExpr;
+          if (dashedState)
+            schExpr = predTransformer_.createDashedSchRef(concreteState_, concreetStateGenParams_);
+          else
+            schExpr = predTransformer_.createSchRef(concreteState_, concreetStateGenParams_);
+          result = predTransformer_.asPred(schExpr);
         }
         else
           throw e;
