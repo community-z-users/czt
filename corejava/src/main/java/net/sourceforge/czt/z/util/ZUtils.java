@@ -1376,8 +1376,16 @@ public final class ZUtils
    */
   public static boolean namesEqual(ZName zName1, ZName zName2)
   {
-    boolean result = zName1.getWord().equals(zName2.getWord()) &&
-      zName1.getStrokeList().equals(zName2.getStrokeList());
+    boolean result = zName1 != null && zName2 != null;
+    if (result)
+    {
+      result = zName1.getWord().equals(zName2.getWord()) &&
+        zName1.getStrokeList().equals(zName2.getStrokeList());
+    }
+    else
+    {
+      result = zName1 == null && zName2 == null;
+    }
     return result;
   }
   
