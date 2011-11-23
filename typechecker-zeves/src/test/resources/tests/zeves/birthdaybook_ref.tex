@@ -1,0 +1,217 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+%----------------------------------
+
+\begin{zsection}	 \SECTION birthdaybook\_ref \parents~function\_toolkit , birthdaybook
+\end{zsection}
+
+VC ZSection Created at Wed Nov 23 17:42:31 GMT 2011.
+
+
+Added schema for feasibility VC signature of paragraph named AddBirthdayFSBSig at unknown.
+\begin{schema}{AddBirthdayFSBSig}
+birthday : NAME \pfun DATE \\
+ date? : DATE \\
+ known : \power NAME \\
+ name? : NAME 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named AlreadyKnownFSBSig at unknown.
+\begin{schema}{AlreadyKnownFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ name? : NAME 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named BirthdayBookFSBSig at unknown.
+\begin{schema}{BirthdayBookFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME 
+\where
+ BirthdayBook
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named FindBirthdayFSBSig at unknown.
+\begin{schema}{FindBirthdayFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ name? : NAME 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named InitBirthdayBookFSBSig at unknown.
+\begin{schema}{InitBirthdayBookFSBSig}
+birthday' : NAME \pfun DATE \\
+ known' : \power NAME 
+\where
+ InitBirthdayBook
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named NotKnownFSBSig at unknown.
+\begin{schema}{NotKnownFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ name? : NAME 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RAddBirthdayFSBSig at unknown.
+\begin{schema}{RAddBirthdayFSBSig}
+birthday : NAME \pfun DATE \\
+ date? : DATE \\
+ known : \power NAME \\
+ name? : NAME \\
+ name? : NAME 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RFindBirthdayFSBSig at unknown.
+\begin{schema}{RFindBirthdayFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ name? : NAME \\
+ name? : NAME 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RRemindFSBSig at unknown.
+\begin{schema}{RRemindFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ today? : DATE 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RemindFSBSig at unknown.
+\begin{schema}{RemindFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ today? : DATE 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named RemindOneFSBSig at unknown.
+\begin{schema}{RemindOneFSBSig}
+birthday : NAME \pfun DATE \\
+ known : \power NAME \\
+ today? : DATE 
+\where
+ true
+\end{schema}
+
+
+Added schema for feasibility VC signature of paragraph named SuccessFSBSig at unknown.
+\begin{schema}{SuccessFSBSig}
+result! : REPORT 
+\where
+ Success
+\end{schema}
+
+VC3 for line 13 column 1 start 348 length 39 in "birthdaybook"
+\begin{theorem}{ vc2\_ vc\_ ref}\\
+ \lnot NAME = \{ \} \land \lnot DATE = \{ \} \\
+
+\end{theorem}
+
+VC5 for line 20 column 1 start 476 length 128 in "birthdaybook"
+\begin{theorem}{ BirthdayBook\_ vc\_ ref}\\
+ \exists BirthdayBookFSBSig | true @ true \\
+
+\end{theorem}
+
+VC7 for line 32 column 1 start 794 length 90 in "birthdaybook"
+\begin{theorem}{ InitBirthdayBook\_ vc\_ ref}\\
+ \exists InitBirthdayBookFSBSig | true @ true \\
+
+\end{theorem}
+
+VC9 for line 41 column 1 start 984 length 189 in "birthdaybook"
+\begin{theorem}{ AddBirthday\_ vc\_ ref}\\
+ \forall AddBirthdayFSBSig | true @ \pre AddBirthday \\
+
+\end{theorem}
+
+VC11 for line 51 column 1 start 1175 length 158 in "birthdaybook"
+\begin{theorem}{ FindBirthday\_ vc\_ ref}\\
+ \forall FindBirthdayFSBSig | true @ \pre FindBirthday \\
+
+\end{theorem}
+
+VC13 for line 61 column 1 start 1335 length 161 in "birthdaybook"
+\begin{theorem}{ Remind\_ vc\_ ref}\\
+ \forall RemindFSBSig | true @ \pre Remind \\
+
+\end{theorem}
+
+VC15 for line 73 column 1 start 1690 length 158 in "birthdaybook"
+\begin{theorem}{ RemindOne\_ vc\_ ref}\\
+ \forall RemindOneFSBSig | true @ \pre RemindOne \\
+
+\end{theorem}
+
+VC19 for line 92 column 1 start 2066 length 80 in "birthdaybook"
+\begin{theorem}{ Success\_ vc\_ ref}\\
+ \exists SuccessFSBSig | true @ true \\
+
+\end{theorem}
+
+VC21 for line 98 column 1 start 2148 length 163 in "birthdaybook"
+\begin{theorem}{ AlreadyKnown\_ vc\_ ref}\\
+ \forall AlreadyKnownFSBSig | true @ \pre AlreadyKnown \\
+
+\end{theorem}
+
+VC23 for line 108 column 1 start 2314 length 158 in "birthdaybook"
+\begin{theorem}{ NotKnown\_ vc\_ ref}\\
+ \forall NotKnownFSBSig | true @ \pre NotKnown \\
+
+\end{theorem}
+
+VC25 for line 122 column 5 start 2660 length 61 in "birthdaybook"
+\begin{theorem}{ RAddBirthday\_ vc\_ ref}\\
+ \forall RAddBirthdayFSBSig | true @ \pre RAddBirthday \\
+
+\end{theorem}
+
+VC26 for line 123 column 5 start 2729 length 59 in "birthdaybook"
+\begin{theorem}{ RFindBirthday\_ vc\_ ref}\\
+ \forall RFindBirthdayFSBSig | true @ \pre RFindBirthday \\
+
+\end{theorem}
+
+VC27 for line 124 column 5 start 2796 length 31 in "birthdaybook"
+\begin{theorem}{ RRemind\_ vc\_ ref}\\
+ \forall RRemindFSBSig | true @ \pre RRemind \\
+
+\end{theorem}
+
+
+
+ VC Z section "birthdaybookARGref" has $13$ interesting VCs (Total = 28; Simplified to $true$ = 15).
+
+
+
+%----------------------------------
+\end{document}

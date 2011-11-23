@@ -975,6 +975,8 @@ typechecker-zeves/src/test/resources/tests/zeves/appTo.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bar.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
+typechecker-zeves/src/test/resources/tests/zeves/birthdaybook.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/birthdaybook_ref.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/caviar.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/chain.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/debug/typechecker-test.tex -text
@@ -983,8 +985,11 @@ typechecker-zeves/src/test/resources/tests/zeves/dollarNamedThm.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/foo.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/foobar.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/forest.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/freertos.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/freertos_ref.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/ifthenElse.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/keywordProblems.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/lenrev.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/mondex.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/mondex2.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/mondex3.tex -text
