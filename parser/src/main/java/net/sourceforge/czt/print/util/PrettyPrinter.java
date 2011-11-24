@@ -93,6 +93,14 @@ public class PrettyPrinter
     return spaceLeft;
   }
 
+  /**
+   * Check tokens to see whether space handling is to be treated as special case or not.
+   * This depends on various factors like if the LHS or RHS are token sequences or actual
+   * tokens themselves.
+   * @param previous
+   * @param current
+   * @return
+   */
   protected boolean isSpecialCase(Token previous, Token current)
   {
     if (current instanceof TokenSequence)
@@ -115,6 +123,14 @@ public class PrettyPrinter
     }
   }
 
+  /**
+   * Check tokens to see whether space handling is to be treated as a special case or not.
+   * It only handles non-token-sequence cases.
+   * @param previous
+   * @param current
+   * @return
+   * @throws PrintException is either previous or current is a token sequence.
+   */
   protected boolean isSpecialTokenCase(Token previous, Token current)
   {
     if (previous instanceof TokenSequence || current instanceof TokenSequence)
@@ -136,8 +152,43 @@ public class PrettyPrinter
   protected boolean considerAddingNL(Token previous, Token current,
           int spaceLeft, int length, boolean startedProcessing)
   {
-    return (spaceLeft < 0 ||
+    boolean result = (spaceLeft < 0 ||
            (spaceLeft < length && startedProcessing));
+    if (!result)
+    {
+      // if couldn't tell, try checking if either side were token sequences
+      if (current instanceof TokenSequence)
+      {
+        final TokenSequence seq = (TokenSequence) current;
+        final List<Token> list = seq.getSequence();
+        if (list.isEmpty())
+          result = false;
+        else
+          result = considerAddingNL(previous, list.get(0), spaceLeft, length, startedProcessing);
+      }
+      else if (previous instanceof TokenSequence)
+      {
+        final TokenSequence seq = (TokenSequence) previous;
+        final List<Token> list = seq.getSequence();
+        if (list.isEmpty())
+          result = false;
+        else
+          result = considerAddingNL(list.get(list.size()-1), current, spaceLeft, length, startedProcessing);
+      }
+      else
+      {
+        return considerAddingNLForToken(previous, current, spaceLeft, length, startedProcessing);
+      }
+    }
+    return result;
+  }
+
+  protected boolean considerAddingNLForToken(Token previous, Token current,
+          int spaceLeft, int length, boolean startedProcessing)
+  {
+    if (previous instanceof TokenSequence || current instanceof TokenSequence)
+      throw new PrintException("Cannot consider adding NL case over token sequences");
+    return false;
   }
 
   protected int handleSpaces(ListIterator<Token> iter, Token previous,
