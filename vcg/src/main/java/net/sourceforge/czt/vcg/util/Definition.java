@@ -563,6 +563,12 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       return toString();
   }
 
+  /**
+   * TODO: equals does use the equals for all fields, including defName_, yet ZNameComparator
+   * where some Definition within Set<Definition> leave only consider word/strokes and no id! Normalise?
+   * @param o
+   * @return
+   */
   @Override
   public boolean equals(Object o)
   {
@@ -571,7 +577,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     {
       Definition d = (Definition) o;
       result = this.getSectionName().equals(d.getSectionName()) &&
-              this.defName_.equals(d.defName_) &&
+              this.defName_.equals(d.defName_) && // this does consider getId()!
               this.defKind_.equals(d.defKind_) &&
               this.genericParams_.equals(d.genericParams_) &&
               this.locals_.equals(d.locals_) &&

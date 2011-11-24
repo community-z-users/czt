@@ -1048,6 +1048,7 @@ vcg/src/main/java/net/sourceforge/czt/vcg/util/CarrierSet.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DashedBindings.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefaultVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/Definition.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionComparator.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTable.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/DefinitionTableService.java -text

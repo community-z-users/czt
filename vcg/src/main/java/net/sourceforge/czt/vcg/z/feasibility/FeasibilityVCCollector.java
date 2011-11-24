@@ -41,6 +41,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.BindingFilter;
 import net.sourceforge.czt.vcg.util.BindingUtils;
+import net.sourceforge.czt.vcg.util.DefinitionComparator;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
@@ -49,8 +50,10 @@ import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NumExpr;
@@ -130,7 +133,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   private ZName stateFinSchema_;
   private ZNameList stateSchemaGenParams_;
   protected final Map<ZName, AxPara> addedSigSchemas_;
-  protected final Map<ZName, SortedSet<Definition>> computedStBindings_;
+  protected final Map<ZName, SortedSet<Definition>> computedBindings_;
 
   //private final List<AxPara> addedSigSchemasList_;
 
@@ -159,14 +162,14 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
     freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
     addedSigSchemas_ = new TreeMap<ZName, AxPara>(ZUtils.ZNAME_COMPARATOR);
-    computedStBindings_ = new TreeMap<ZName, SortedSet<Definition>>(ZUtils.ZNAME_COMPARATOR);
+    computedBindings_ = new TreeMap<ZName, SortedSet<Definition>>(ZUtils.ZNAME_COMPARATOR);
     //addedSigSchemasList_ = new ArrayList<AxPara>();
   }
 
   protected void clearAddedPara()
   {
     addedSigSchemas_.clear();
-    computedStBindings_.clear();
+    computedBindings_.clear();
     setZStateName(null);
     setZStateInitName(null);
     setZStateFinName(null);
@@ -548,9 +551,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     SortedSet<Definition> mixedBindings;
     try
     {
-      mixedBindings = getDefTable().bindings(stName);
-      SortedSet<Definition> old = computedStBindings_.put(stName, new TreeSet<Definition>(mixedBindings));
-      if (old != null) throw new DefinitionException("VC-FSB-DUPLICATE-SCHEMA-IN-DEFTBL = " + stName);
+      if (computedBindings_.containsKey(stName))
+        throw new DefinitionException("VC-FSB-DUPLICATE-SCHEMA-IN-DEFTBL = " + stName);
+      mixedBindings = new TreeSet<Definition>(getBindingsFor(stName));
     }
     catch (DefinitionException ex)
     {
@@ -563,6 +566,27 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       throw new CztException(createVCCollectionException(
              prefix + " '" + stName + "' has inconsistent state bindings.\n\tBindings...: " + mixedBindings.toString()));
     }
+  }
+
+  /**
+   * Check whether bindings were already computed for the given name and return a copy of them if so.
+   * Otherwise, return compute them, save them, and return a copy so that the next call can use the originals.
+   * This is useful to see whether to populate schema declarations with schema inclusions or not.
+   * Ah, actually there is no need to copy the result, providing it's not changed. So return a unmodifiable version then.
+   * @param name
+   * @return
+   * @throws DefinitionException
+   */
+  protected SortedSet<Definition> getBindingsFor(ZName name) throws DefinitionException
+  {
+    SortedSet<Definition> result = computedBindings_.get(name);
+    if (result == null)
+    {
+      result = getDefTable().bindings(name);
+      computedBindings_.put(name, result);
+    }
+    assert result != null;
+    return Collections.unmodifiableSortedSet(result); //new TreeSet<Definition>(result);
   }
 
   /* VC GENERATION HELPER METHODS */
@@ -614,7 +638,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     {
       Pred result;
       // get the bindings and filter then by category
-      SortedSet<Definition> mixedBindings  = getDefTable().bindings(schName);
+      SortedSet<Definition> mixedBindings  = getBindingsFor(schName);
       SortedSet<Definition> afterBindings  = BindingUtils.afterBindingsOf(mixedBindings);
       SortedSet<Definition> beforeBindings = BindingUtils.beforeBindingsOf(mixedBindings);
       assert BindingUtils.bindingsInvariant(mixedBindings, beforeBindings, afterBindings);
@@ -666,14 +690,14 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
 
         if (initWithInput)
         {
-          populateDeclList(fsbAssumptions.getZDeclList(), afterBindings);
-          populateDeclList(fsbAssumptions.getZDeclList(), inputBindings);
+          populateDeclList(fsbAssumptions.getZDeclList(), afterBindings, true);
+          populateDeclList(fsbAssumptions.getZDeclList(), inputBindings, false);
         }
         else
         {
           assert finWithOutput;
-          populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings);
-          populateDeclList(fsbAssumptions.getZDeclList(), outputBindings);
+          populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings, false);
+          populateDeclList(fsbAssumptions.getZDeclList(), outputBindings, true);
         }
 
         // get any user defined predicates - also checks whether the schName given have more than the state schema as declared bindings
@@ -723,7 +747,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         // we assume this will typecheck. if it doesn't it is up to the user.
         //
         // In case of existential (e.g., either is empty, then put after for before in assumptions: \exists S' @ Init)
-        populateDeclList(fsbAssumptions.getZDeclList(), beforeBindings.isEmpty() ? afterBindings : beforeBindings);
+        populateDeclList(fsbAssumptions.getZDeclList(), 
+                (beforeBindings.isEmpty() ? afterBindings : beforeBindings),
+                (beforeBindings.isEmpty() ? true : false));
 
         // get any user defined predicates
         fsbAssumptions.setPred(getUserDefinedSchemaPRE(schName, genParams));
@@ -741,7 +767,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
             // create the zSchText of conclusions as a flat list of decl: [ | true ]
             ZSchText fsbConclusions = factory_.createZSchText(factory_.createZDeclList(), factory_.createTruePred());
             // conclusions = [ d1', ... dn', do!: T | true ]
-            populateDeclList(fsbConclusions.getZDeclList(), afterBindings);
+            populateDeclList(fsbConclusions.getZDeclList(), afterBindings, true);
 
             // \forall assumptions @ \exists conclusions @ Sch
             //Pred invariant = getSchemaInvariant(schRef);//, schExpr); // try expanding the schema invariants - if fails, just use the schema reference
@@ -836,7 +862,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       {
         // not quite the same as calling method: it consider names without strokes (!)
         // TODO: see if we could avoid this rework
-        SortedSet<Definition> mixed = getDefTable().bindings(nameNoStrokes);
+        SortedSet<Definition> mixed = getBindingsFor(nameNoStrokes);
         SortedSet<Definition> before = BindingUtils.beforeBindingsOf(mixed);
         SortedSet<Definition> after = BindingUtils.afterBindingsOf(mixed);
         assert BindingUtils.bindingsInvariant(mixed, before, after);
@@ -939,15 +965,22 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         checkInclBindingsWithinGivenSchBindings(stateSchema_, schName, relevantBindings);
       }
 
-      // Keep the state schema as Pred part of "OpSig == [ x, y : T | State ]", for "State = [ x, y: T | inv(x,y) ]".
-      // the repetition of bindings is for both clarity of what the VCG is doing and to ensure in odd cases we do not
-      // mess up the VC itself (e.g., State having more bindings than we found for OpSig will lead to a type error).
-      Expr schExpr;
-      if (dashedState)
-        schExpr = predTransformer_.createDashedSchRef(stateSchema_, stateSchemaGenParams_);
-      else
-        schExpr = predTransformer_.createSchRef(stateSchema_, stateSchemaGenParams_);
-      result = predTransformer_.asPred(schExpr);
+      // if creating ZSchemas, then the name will already be within the ZDeclList
+      if (!isCreatingZSchemas())
+      {
+
+        // Keep the state schema as Pred part of "OpSig == [ x, y : T | State ]", for "State = [ x, y: T | inv(x,y) ]".
+        // the repetition of bindings is for both clarity of what the VCG is doing and to ensure in odd cases we do not
+        // mess up the VC itself (e.g., State having more bindings than we found for OpSig will lead to a type error).
+        Expr schExpr;
+        if (dashedState)
+          schExpr = predTransformer_.createDashedSchRef(stateSchema_, stateSchemaGenParams_);
+        else
+          schExpr = predTransformer_.createSchRef(stateSchema_, stateSchemaGenParams_);
+        result = predTransformer_.asPred(schExpr);
+
+      }
+
     }
     // else ???? TODO: let the user give schemas as string text and parser ???
     return result;
@@ -964,7 +997,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     assert inclStateSchemaName != null && schName != null;
     
     // check the given mixed bindings are indeed within the remit of the state associated with it.
-    SortedSet<Definition> stateBindings = computedStBindings_.get(inclStateSchemaName);
+    SortedSet<Definition> stateBindings = computedBindings_.get(inclStateSchemaName);
     if (stateBindings == null || !beforeBindings.containsAll(stateBindings))
     {
       final String message = "Included state schema " + ZUtils.toStringZName(inclStateSchemaName) +
@@ -1027,54 +1060,122 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     vcList.add(initStateVC);
   }
 
-//  protected Pred getSchemaInvariant(Expr expr)
-//  {
-//    Pred result = factory_.createExprPred(expr);
-//    // USE RULES TO CALCULATE
-////    if (expr instanceof SchExpr)
-////    {
-////      SchExpr sexpr = (SchExpr)expr;
-////      sexpr.getZSchText().
-////    }
-//    return result;
-//  }
+  private DefinitionComparator definitionComparatorIgnoringStrokes_ = new DefinitionComparator(true);
 
-  protected void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings)
+  protected boolean bindingsSubsetEq(SortedSet<Definition> LHS, SortedSet<Definition> RHS, boolean dashed)
   {
-
-    Iterator<Definition> it = bindings.iterator();
-
-    // process the first one
-    Definition currentBinding = it.hasNext() ? it.next() : null;
-    ZName currentName = currentBinding != null ? currentBinding.getDefName() : null;
-    Expr currentExpr;
-    VarDecl currentVarDecl = null;
-    List<VarDecl> decls = factory_.list();
-    if (currentName != null)
+    if (!dashed)
+      return LHS.containsAll(RHS);
+    else
     {
-      currentExpr = currentBinding.getExpr();
-      currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
-      decls.add(currentVarDecl);
+      // change the comparator to ignore strokes
+      SortedSet<Definition> lhs = new TreeSet<Definition>(definitionComparatorIgnoringStrokes_);
+      lhs.addAll(LHS);
+      // if considering dashed bindings, then ignore dash for comparison
+      for (Definition e : RHS)
+        if (!lhs.contains(e))
+         return false;
+      return true;
     }
-    // if there is more
-    while (it.hasNext())
+  }
+
+  protected boolean bindingsRemoveAll(SortedSet<Definition> LHS, SortedSet<Definition> RHS, boolean dashed)
+  {
+    if (!dashed)
+      return LHS.removeAll(RHS);
+    else
     {
-      currentBinding = it.next();
-      currentName = currentBinding.getDefName();
-      currentExpr = currentBinding.getExpr();
-      // if names colide, change known expression -> n : E1, n: E2 ==> n: E1 \cap E2
-      if (currentVarDecl != null && currentVarDecl.getZNameList().contains(currentName))
+      // change the comparator to ignore strokes
+      SortedSet<Definition> rhs = new TreeSet<Definition>(definitionComparatorIgnoringStrokes_);
+      rhs.addAll(RHS);
+
+      // if considering dashed bindings, then ignore dash for comparison
+      boolean modified = false;
+      Iterator<Definition> it = LHS.iterator();
+      while (it.hasNext()) 
       {
-        currentVarDecl.setExpr(factory_.createFunOpAppl(setInterName_, factory_.createTupleExpr(currentVarDecl.getExpr(), currentExpr)));
+        if (rhs.contains(it.next()))
+        {
+          // affects the LHS from caller.
+          it.remove();
+          modified = true;
+        }
       }
-      // otherwise create a new expression
-      else
+      return modified;
+    }
+  }
+
+  protected void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings, boolean dashed)
+  {
+    if (bindings.isEmpty())
+    {
+      throw new CztException(new FeasibilityException("Invalid (empty) bindings to populate ZDeclList of current name " + currentName_));
+    }
+    assert !bindings.isEmpty();
+    List<Decl> decls = factory_.list();
+    if (isCreatingZSchemas())
+    {
+      // look for known bindings packed up as schema names
+      Iterator<Map.Entry<ZName, SortedSet<Definition>>> it = computedBindings_.entrySet().iterator();
+      while (it.hasNext() && !bindings.isEmpty())
       {
+        Map.Entry<ZName, SortedSet<Definition>> entry = it.next();
+        SortedSet<Definition> knownBindings = entry.getValue();
+        // if all bindings from the known set is within bindings given
+        // then add the name as an inclusion to the declaration list
+        if (bindingsSubsetEq(bindings, knownBindings, dashed))
+        {
+          bindingsRemoveAll(bindings, knownBindings, dashed);
+          
+          // TODO: generic params properly - for now consider only abstract state ones.
+          // "properly means going through all the generic params in the bindings given
+          // to see whether they are contained within the state or concrete state ones.
+          Expr schExpr = dashed ? predTransformer_.createDashedSchRef(entry.getKey(), stateSchemaGenParams_) :
+                                        predTransformer_.createSchRef(entry.getKey(), stateSchemaGenParams_);
+          InclDecl id = factory_.createInclDecl(schExpr);
+          decls.add(id);
+        }
+      }
+    }
+
+    // process any remaining bindings
+    if (!bindings.isEmpty())
+    {
+      Iterator<Definition> it = bindings.iterator();
+
+      // process the first one
+      Definition currentBinding = it.hasNext() ? it.next() : null;
+      ZName currentName = currentBinding != null ? currentBinding.getDefName() : null;
+      Expr currentExpr;
+      VarDecl currentVarDecl = null;
+      if (currentName != null)
+      {
+        currentExpr = currentBinding.getExpr();
         currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
         decls.add(currentVarDecl);
       }
-      
+      // if there is more
+      while (it.hasNext())
+      {
+        currentBinding = it.next();
+        currentName = currentBinding.getDefName();
+        currentExpr = currentBinding.getExpr();
+        // if names colide, change known expression -> n : E1, n: E2 ==> n: E1 \cap E2
+        if (currentVarDecl != null && currentVarDecl.getZNameList().contains(currentName))
+        {
+          currentVarDecl.setExpr(factory_.createFunOpAppl(setInterName_, factory_.createTupleExpr(currentVarDecl.getExpr(), currentExpr)));
+        }
+        // otherwise create a new expression
+        else
+        {
+          currentVarDecl = factory_.createVarDecl(factory_.createZNameList(factory_.list(currentName)), currentExpr);
+          decls.add(currentVarDecl);
+        }
+
+      }
     }
+
+    // update the decl list with created bindings as either VarDecl or InclDecl
     zDeclList.addAll(decls);
   }
 }

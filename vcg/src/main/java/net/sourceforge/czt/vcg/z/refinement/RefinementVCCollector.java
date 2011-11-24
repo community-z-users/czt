@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.Pair;
@@ -424,9 +425,10 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     Throwable cause = null;
     try
     {
-      SortedSet<Definition> asStateBindings = getDefTable().bindings(getStateSchema());
-      SortedSet<Definition> csStateBindings = getDefTable().bindings(concreteState_);
-      SortedSet<Definition> retrieveBindings = getDefTable().bindings(retrieve_);
+      SortedSet<Definition> asStateBindings = getBindingsFor(getStateSchema());
+      SortedSet<Definition> csStateBindings = getBindingsFor(concreteState_);
+      // the result of getBindingsFor is unmodifiable!
+      SortedSet<Definition> retrieveBindings = new TreeSet<Definition>(getBindingsFor(retrieve_));
 
       // check all concrete and abstract bindings are within the retrieve
       okay = retrieveBindings.containsAll(csStateBindings) &&
