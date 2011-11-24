@@ -116,4 +116,13 @@ public class PrettyPrinter
            previous.equals(ZKeyword.IMP)))
            ;
   }
+
+  @Override
+  protected boolean considerAddingNLForToken(Token previous, Token current,
+          int spaceLeft, int length, boolean startedProcessing)
+  {
+    boolean result = super.considerAddingNLForToken(previous, current, spaceLeft, length, startedProcessing); // always false for Z
+    result = current.equals(ZKeyword.IF) || current.equals(ZKeyword.ELSE) || current.equals(ZKeyword.THEN);
+    return result;
+  }
 }
