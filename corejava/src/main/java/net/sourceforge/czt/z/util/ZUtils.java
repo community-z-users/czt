@@ -1373,6 +1373,7 @@ public final class ZUtils
   
   /**
    * Test whether the base name and strokes of two ZNames are equal.
+   * This ignores name ids. 
    */
   public static boolean namesEqual(ZName zName1, ZName zName2)
   {
@@ -1391,6 +1392,7 @@ public final class ZUtils
   
   /**
    * Test whether the base name and strokes of two Names are equal.
+   * This ignores name ids
    */
   public static boolean namesEqual(Name name1, Name name2)
   {
@@ -1548,19 +1550,54 @@ public final class ZUtils
   {    
     ZNameComparator() { }    
 
+    @Override
     public int compare(ZName n1, ZName n2) 
     {
       int result = compareTo(n1, n2);
       return result;
     }
     
+    @Override
     public boolean equals(Object o) 
     {
       return o != null && o instanceof ZNameComparator;        
     }
+
+    @Override
+    public int hashCode()
+    {
+      int hash = 7;
+      return hash;
+    }
   }
-  
+
+  private static class ZNameIgnoreStrokesComparator implements Comparator<ZName>
+  {
+    ZNameIgnoreStrokesComparator() { }
+
+    @Override
+    public int compare(ZName n1, ZName n2)
+    {
+      int result = compareToIgnoreStrokes(n1, n2);
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+      return o != null && o instanceof ZNameIgnoreStrokesComparator;
+    }
+
+    @Override
+    public int hashCode()
+    {
+      int hash = 5;
+      return hash;
+    }
+  }
+
   public final static Comparator<ZName> ZNAME_COMPARATOR = new ZNameComparator();
+  public final static Comparator<ZName> ZNAME_IGNORE_STROKES_COMPARATOR = new ZNameIgnoreStrokesComparator();
   
   public static int compareTo(ZName zName1, ZName zName2)
   {
@@ -1597,7 +1634,14 @@ public final class ZUtils
       }
     }
   }
-  
+
+  public static int compareToIgnoreStrokes(ZName zName1, ZName zName2)
+  {
+    String word1 = zName1.getWord();
+    String word2 = zName2.getWord();
+    return word1.compareTo(word2);
+  }
+
   public static int getStrokeValue(Stroke stroke)
   {
     int result = -1;
