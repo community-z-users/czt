@@ -217,7 +217,7 @@ public class ZEvesSnapshot {
 			Assert.isLegal(pos.getOffset() >= lastEnd,
 					"Result positions must be added in increasing order. " 
 							+ "Last position: [" + lastEnd 
-							+ "], new: [" + pos + "]");
+							+ "], new: [" + pos + "]. Please resubmit the section.");
 		}
 	}
 	
