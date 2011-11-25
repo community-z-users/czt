@@ -22,6 +22,7 @@ import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Expr;
@@ -146,7 +147,7 @@ public class VCManager {
 		ignoreSources.add(vcSchName);
 		// ignore other VC schemas that are based on VC sources
 		// FIXME fix names
-		ignoreSchemas.add(vcSchName + "Sig");
+		ignoreSchemas.add(vcSchName + FeasibilityPropertyKeys.VCG_FEASIBILITY_SIGSCHEMA_SUFFIX);
 	}
 	
 	private void mergeVCSchemaWithSpec(AxPara vcSchema) throws VCGException {
