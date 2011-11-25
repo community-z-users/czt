@@ -102,8 +102,6 @@ public class DefinitionTable extends InfoTable
     if (parents != null)
     {
 
-
-
       // collect all exceptions in one chain of throwable causes
       // rather than stopping the collection upon finding the
       // first duplication problem. This way, we leave room for
@@ -122,6 +120,7 @@ public class DefinitionTable extends InfoTable
           exceptions.add(e);
         }
       }
+
       // throw exception if one only, or throw their list otherwise
       if (exceptions.size() == 1)
       {
@@ -202,6 +201,7 @@ public class DefinitionTable extends InfoTable
           try
           {
             addGlobalDecl(sectName, def);
+            //addGlobalDecl(def.getSectionName(), def);
           }
           catch (DefinitionException e)
           {
@@ -233,7 +233,7 @@ public class DefinitionTable extends InfoTable
   private void checkSectionConsistency(String sectName, Definition def)
      throws DefinitionException
   {
-    if (!def.getSectionName().equals(sectName))
+    if (!def.getSectionName().equals(sectName) && !knownSections_.contains(sectName))
     {
       final String message = "Inconsistent sections within defined name: " +
               printTerm(def.getDefName()) + ". Given " + sectName +
@@ -241,6 +241,7 @@ public class DefinitionTable extends InfoTable
               " in DefTbl for " + getSectionName();
       throw new DefinitionException(def.getDefName(), message);
     }
+    // local names might be declared in another sections. So use the first name
     checkSectionConsistency(sectName, def.getLocalDecls().values());
   }
 
@@ -251,7 +252,7 @@ public class DefinitionTable extends InfoTable
     {
       for(Definition d : defs)
       {
-       checkSectionConsistency(sectName, d);
+        checkSectionConsistency(sectName, d);
       }
     }
   }
@@ -536,8 +537,12 @@ public class DefinitionTable extends InfoTable
                         if (bindingFound) break;
                       }
                     }
+                  }
+                  // add the collusion for later
+                  if (!bindingFound)
+                  {
                     // TODO: what if add is false?
-                    else if (!namesCollusion.add(globalBindingName))
+                    if (!namesCollusion.add(globalBindingName))
                     {
                       SectionManager.traceInfo("multiple collusion for bindings of globalName " +
                               DefinitionTable.printTerm(globalName) + " = " +
@@ -573,7 +578,7 @@ public class DefinitionTable extends InfoTable
               {
                 // found more bindings than names in type: log the fact that there are name collusions.
                 assert !allNamesRemoved;
-                SectionManager.traceInfo("name collusion for bindings of globalName " + 
+                SectionManager.traceInfo("possible name collusion for bindings of globalName " +
                         DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printList(namesCollusion));
               }
             }

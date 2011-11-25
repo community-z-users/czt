@@ -23,7 +23,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.SortedSet;
-import net.sourceforge.czt.print.z.LatexPrinterPropertyKeys;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -31,12 +30,14 @@ import net.sourceforge.czt.session.KnownExtensions;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
+import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.WarningManager.WarningOutput;
 import net.sourceforge.czt.z.util.ZUtils;
 
 
@@ -215,8 +216,9 @@ public class DefinitionTableService
     assert fileName != null;
 
     SectionManager manager = new SectionManager(extension);
-    manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(hideWarnings));
+    manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(false));
     manager.setProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY, String.valueOf(checkDefTblConsistency));
+    manager.setProperty(TypecheckPropertiesKeys.PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(hideWarnings ? WarningOutput.HIDE : WarningOutput.SHOW));
     manager.setTracing(debug);
     manager.putCommand(getCommandInfoType(), getCommand(manager));
     DefinitionTable table = null;
