@@ -54,7 +54,7 @@ public interface VCG<R> {
 
   Class<? extends VCEnvAnn<R>> getVCEnvAnnClass();
 
-  void typeCheck(String sectName) throws VCGException;
+  void typeCheck(String sectName, boolean sourceSect) throws VCGException;
 
   /**
    * Process the given Z section to generate VCs. The result is a Z sections with the

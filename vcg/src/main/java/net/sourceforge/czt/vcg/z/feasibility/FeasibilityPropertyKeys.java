@@ -77,4 +77,5 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   String VCG_FEASIBILITY_VCNAME_SUFFIX     = "_vc_fsb";
 
   String VCG_FEASIBILITY_SIGSCHEMA_SUFFIX  = "FSBSig";
+  
 }

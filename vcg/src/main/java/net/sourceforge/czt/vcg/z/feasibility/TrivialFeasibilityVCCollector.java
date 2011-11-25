@@ -20,15 +20,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.vcg.z.feasibility;
 
 import net.sourceforge.czt.vcg.z.TrivialVCCollector;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCConfig;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Directive;
-import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.Fact;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
 import net.sourceforge.czt.z.ast.Oper;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -197,5 +199,18 @@ public abstract class TrivialFeasibilityVCCollector extends TrivialVCCollector i
   public Pred visitZNumeral(ZNumeral term)
   {
     return truePred();
+  }
+
+  @Override
+  protected Pred calculateVC(Para term) throws VCCollectionException
+  {
+    Pred vc = super.calculateVC(term);
+    
+    if (vc.getAnn(VCConfig.class) == null) {
+      // no VC config set, mark it as DC default
+      vc.getAnns().add(new VCConfig(ZFsbVCKind.DEFAULT.getTypeId(), null));
+    }
+    
+    return vc;
   }
 }

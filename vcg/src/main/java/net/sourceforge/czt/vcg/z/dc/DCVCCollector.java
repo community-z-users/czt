@@ -380,10 +380,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
   {
     assert type.equals(VCType.NONE);
-    if (getVCNameFactory() != null)
-      return new DCVC(vcId, term, type, vc, getVCNameFactory());
-    else
-      return new DCVC(vcId, term, vc);
+    return super.createVC(vcId, term, type, vc);
   }
 
   @Override

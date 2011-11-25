@@ -20,39 +20,26 @@
 package net.sourceforge.czt.vcg.z.feasibility;
 
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  *
  * @author Leo Freitas
  * @date Aug 19, 2011
  */
-public class FeasibilityVCNameFactory extends DefaultVCNameFactory implements FeasibilityPropertyKeys, FSBVCNameFactory
+public class FeasibilityVCNameFactory extends DefaultVCNameFactory 
+  implements FeasibilityPropertyKeys, FSBVCNameFactory
 {
-  public static final FSBVCNameFactory DEFAULT_FSBVCNAME_FACTORY = new FeasibilityVCNameFactory();
+  public static final FSBVCNameFactory DEFAULT_FSBVCNAME_FACTORY = 
+      new FeasibilityVCNameFactory(VCG_FEASIBILITY_VCNAME_SUFFIX, VCG_FEASIBILITY_SOURCENAME_SUFFIX);
 
-  @Override
-  public String createNameForVCOf(Para para, String type)
+  public FeasibilityVCNameFactory(String vcSuffix, String vcSectSuffix)
   {
-    return super.createNameForVCOf(para, type);
+    super(vcSuffix, vcSectSuffix);
   }
 
   @Override
-  public String createVCSectName(String originalSectName, String extra)
+  public String getSigSchemaName(String schName)
   {
-    return super.createVCSectName(originalSectName, extra);
-  }
-
-  @Override
-  public ZName createNameForSigSchemaOf(ZName schName)
-  {
-    return ZUtils.FACTORY.createZName(schName.getWord() + getSigSchemaNameSuffix(), schName.getStrokeList());
-  }
-
-  protected String getSigSchemaNameSuffix()
-  {
-    return VCG_FEASIBILITY_SIGSCHEMA_SUFFIX;
+    return schName + VCG_FEASIBILITY_SIGSCHEMA_SUFFIX;
   }
 }

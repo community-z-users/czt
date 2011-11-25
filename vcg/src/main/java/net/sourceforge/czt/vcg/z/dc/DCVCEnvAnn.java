@@ -86,7 +86,7 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   @Override
   public String getVCSectName()
   {
-    return getVCNameFactory().createVCSectName(getOriginalZSectName(), VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
+    return getVCNameFactory().getVCSectionName(getOriginalZSectName());
   }
 
 

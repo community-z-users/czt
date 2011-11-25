@@ -35,14 +35,13 @@ public interface VCNameFactory {
    * @param type
    * @return
    */
-  public String createNameForVCOf(Para para, String type);
+  public String getVCName(Para para, String type);
 
   /**
    * Creates a ZSect name to contains the various parts created during VCG, such
    * as NarrPara, AxPara (e.g., new schemas or axioms), and ConjPara of course.
    * @param originalSectName
-   * @param extra
    * @return
    */
-  public String createVCSectName(String originalSectName, String extra);
+  public String getVCSectionName(String originalSectName);
 }

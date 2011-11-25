@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Logger;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ErrorType;
@@ -79,7 +81,7 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
-public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
+public abstract class AbstractVCG<R>
         implements VCGPropertyKeys, 
         ParaVisitor<List<VC<R>>>,
         ParentVisitor<List<VC<R>>>,
@@ -122,8 +124,13 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   private boolean isConfigured_;
   private SortedSet<String> parentsToIgnore_;
 
+  private DefinitionTable defTable_;
   private OpTable opTable_;
   private SectionManager sectManager_;
+  
+  protected Factory factory_;
+  protected final Logger logger_;
+  protected boolean checkTblConsistency_;
 
   /* CLASS SETUP METHOS */
 
@@ -134,10 +141,16 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
 
   protected AbstractVCG(Factory factory)
   {
-    super(factory);
-    assert factory != null;
+    if (factory == null)
+    {
+      throw new IllegalArgumentException("VCG-TERM-NULL-FACTORY");
+    }
+    factory_ = factory;
+    logger_ = Logger.getLogger(getClass().getName());
+    
     isConfigured_ = false;
     opTable_ = null;
+    defTable_ = null;
     sectManager_ = null;
     addTrivialVC_    = PROP_VCG_ADD_TRIVIAL_VC_DEFAULT;
     logTypeWarnings_ = PROP_VCG_RAISE_TYPE_WARNINGS_DEFAULT;
@@ -146,6 +159,16 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     parentsToIgnore_ = new TreeSet<String>();
   }
 
+  protected Logger getLogger()
+  {
+    return logger_;
+  }
+  
+  protected Factory getZFactory()
+  {
+    return factory_;
+  }
+  
   /**
    * True whenever section manager and VC collectors are not null, if the
    * configuration flag is set as well.
@@ -514,10 +537,11 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * VCG shouldn't raise a type error for some reason - do it by capturing
    * the VCGException with a TypeErrorException cause.
    * @param sectName section name to type check
+   * @param sourceSect  true if the typechecked section is a source section, false if it is the VC section
    * @throws VCGException wrapped CommandException from type checking.
    */
   @Override
-  public void typeCheck(String sectName) throws VCGException
+  public void typeCheck(String sectName, boolean sourceSect) throws VCGException
   {
     // attempt to typecheck the DC Z section, which should succeed.
     // raise a warning if it doesn't.
@@ -651,7 +675,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * which MUST NOT be null ! If null, a proper exception is raised.
    * @param term term to visit
    */
-  @Override
   public List<VC<R>> visit(Term term)
   {
     if (term == null)
@@ -788,6 +811,17 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = setting tables for: " + sectName, e);
     }
   }
+  
+  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
+      throws VCCollectionException
+  {
+    defTable_ = AbstractVCCollector.getDefinitionTable(term, tables, checkTblConsistency_);
+  }
+  
+  protected void resetDefTable()
+  {
+    defTable_ = null;
+  }
 
   /**
    *
@@ -801,8 +835,8 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   protected List<? extends InfoTable> getAvailableSMTables()
   {
     List<InfoTable> result = factory_.list();
-    if (getDefTable() != null)
-      result.add(getDefTable());
+    if (defTable_ != null)
+      result.add(defTable_);
     if (opTable_ != null)
       result.add(opTable_);
     return result;
@@ -989,61 +1023,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
   }
 
 
-  // I DON'T LIKE THIS INHERITANCE TREE CONSEQUENCE. TROUBLE IS BECAUSE VISITING
-  // PROTOCOL FOR "VC COLLECTION" IS DIFFERENT AT TOP-LEVEL (e.g., ZSect, Parent, etc)
-  // AND AT LOW-LEVEL (e.g., AxPara, Pred, Expr, etc). Leave it for now.
-  
-//  @Override
-//  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
-//          throws VCCollectionException
-//  {
-//    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-//  }
-
-  @Override
-  protected void afterCalculateVC(VC<List<VC<R>>> vc) throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-  }
-
-  @Override
-  protected List<VC<R>> calculateVC(Para term) throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-  }
-
-  @Override
-  protected VCType getVCType(List<VC<R>> vc) throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-  }
-
-  @Override
-  public VC<List<VC<R>>> createVC(long vcId, Para term, VCType type, List<VC<R>> vc) throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-  }
-
-  @Override
-  public VC<List<VC<R>>> calculateVC(Term term, List<? extends InfoTable> tables)
-          throws VCCollectionException
-  {
-    throw new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use createVCEnvAnn!");
-  }
-
-  @Override
-  public TermTransformer<List<VC<R>>> getTransformer() {
-    throw new CztException(
-            new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use getVCCollector().getTransformer()!"));
-  }
-
-  @Override
-  public List<? extends Para> addedPara()
-  {
-    throw new CztException(
-            new VCCollectionException("VCG-TOPLEVEL-WRONG-CALL = use getVCCollector().addedPara()!"));
-  }
-
   /* VC ZSect CREATION METHODS */
 
   /**
@@ -1052,7 +1031,9 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
    * @return new VC Sect name
    */
   // for DC it is just "originalName + _dc"
-  public abstract String getVCSectName(String originalSectName);
+  public String getVCSectName(String originalSectName) {
+    return getVCCollector().getVCNameFactory().getVCSectionName(originalSectName);
+  }
 
   /**
    * Returns the list of parents as a string of section names separated by SectionManager.SECTION_MANAGER_LIST_PROPERTY_SEPARATOR
@@ -1218,23 +1199,19 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       //!addTrivialDC ==> !(paraDC instanceof TruePred)
       if (addTrivialVC || !vcI.isTrivial())
       {
+        
+        VCSource sourceInfo = new VCSource(vcI);
+        
         // Narrative paragraph with VC information
         narrPara = factory_.createNarrPara(factory_.list(vcI.getInfo()));
+        narrPara.getAnns().add(sourceInfo);
 
-        // retrieve genFormals in case of AxPara, or an empty list otherwise
-        ZNameList genFormals = factory_.createZNameList();
-        if (para instanceof AxPara)
-        {
-          genFormals.addAll(((AxPara) para).getZNameList());
-        }
-        else if (para instanceof ConjPara)
-        {
-          genFormals.addAll(((ConjPara)para).getZNameList());
-        }
+        ZNameList genFormals = getGenFormals(para, vcI);
         // create the VC as a conjecture for the VC ZSect
         ConjPara conjPara = createVCConjPara(genFormals, vcI);
         ZName annName = factory_.createZName(vcI.getName());
         conjPara.getAnns().add(annName);
+        conjPara.getAnns().add(sourceInfo);
         //conjPara.setName(annName.getWord()); no need here ,since we create the ConjPara without ann
 
         // add both narrative and dc conjecture paragraphs to the Z section result
@@ -1249,6 +1226,25 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
 
     narrPara = factory_.createNarrPara(factory_.list(narrText));
     result.getZParaList().add(narrPara);
+  }
+
+  protected ZNameList getGenFormals(Para para, VC<R> vc)
+  {
+    ZNameList genFormals = factory_.createZNameList();
+    
+    ZNameList vcGenFormals = vc.getGenFormals();
+    if (vcGenFormals != null) {
+      genFormals.addAll(vcGenFormals);
+    } else if (para instanceof AxPara)
+    {
+   // retrieve genFormals in case of AxPara, or an empty list otherwise
+      genFormals.addAll(((AxPara) para).getZNameList());
+    }
+    else if (para instanceof ConjPara)
+    {
+      genFormals.addAll(((ConjPara)para).getZNameList());
+    }
+    return genFormals;
   }
 
   /* TOP-LEVEL METHODS GENERATING VCS */
@@ -1272,7 +1268,6 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     checkSectionManager(term.getClass().getSimpleName());
 
     Para para;
-    Factory factory = getZFactory();
     if (term instanceof ZSect)
     {
       return createVCEnvAnn((ZSect) term);
@@ -1288,17 +1283,17 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       if (term instanceof Pred)
       {
         // [ | pred ]
-        zSchText = factory.createZSchText(factory.createZDeclList(), (Pred) term);
+        zSchText = factory_.createZSchText(factory_.createZDeclList(), (Pred) term);
       }
       else if (term instanceof Expr)
       {
         // [ | pred(Expr) ]
-        zSchText = factory.createZSchText(factory.createZDeclList(), factory.createExprPred((Expr) term));
+        zSchText = factory_.createZSchText(factory_.createZDeclList(), factory_.createExprPred((Expr) term));
       }
       else if (term instanceof Decl)
       {
         // [ Decl | true ]
-        zSchText = factory.createZSchText(factory.createZDeclList(factory.list((Decl) term)), factory.createTruePred());
+        zSchText = factory_.createZSchText(factory_.createZDeclList(factory_.list((Decl) term)), factory_.createTruePred());
       }
       else
       {
@@ -1307,12 +1302,12 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
       }
       // make it a schema named internally and uniquely
       assert zSchText != null;
-      para = factory.createSchema(factory.createZName(createUniqueOnTheFlySchemaName()), zSchText);
+      para = factory_.createSchema(factory_.createZName(createUniqueOnTheFlySchemaName()), zSchText);
     }
     assert para != null;
 
     // create an empty section header: that is, wrap the term as a ZSect inheriting std_toolkit
-    ZSect zsect = factory.createZSect(createUniqueZScectName(), parents, factory.createZParaList());
+    ZSect zsect = factory_.createZSect(createUniqueZScectName(), parents, factory_.createZParaList());
     zsect.getZParaList().add(para);
 
     // add the temporary section to the manager. Do I need the source? No?
@@ -1373,7 +1368,7 @@ public abstract class AbstractVCG<R> extends AbstractVCCollector<List<VC<R>>>
     
     // type check generated VC Z section just created
     // on the fly - it ought to succeed
-    typeCheck(sectNameVC);
+    typeCheck(sectNameVC, false);
 
     // calculate ThmTable for new VC ZSect
     calculateThmTable(sectNameVC);

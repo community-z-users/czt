@@ -913,7 +913,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
             try
             {
               ZSect zs = (ZSect) sect;
-              getVCG().typeCheck(zs.getName());
+              getVCG().typeCheck(zs.getName(), true);
             }
             catch (CommandException e)
             {

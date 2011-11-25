@@ -20,14 +20,9 @@
 package net.sourceforge.czt.vcg.z.transformer.refinement;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.vcg.z.refinement.ZRefVCKind;
 import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
-import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZRefKind;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -412,31 +407,5 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
         throw new AssertionError();
     }
     return result;
-  }
-
-  public ConjPara createExtraVCConjPara(ZNameList genParams, Pred pred, ZName conjName, LocAnn loc)
-  {
-    assert pred != null && conjName != null;
-    ConjPara result = factory_.createConjPara(genParams, pred);
-    result.setName(conjName);
-    if (loc != null)
-      result.getAnns().add(loc);
-    return result;
-  }
-
-  public ConjPara createExtraVCConjPara(ZRefKind kind, ZRefVCKind vck, ZNameList genParams,
-          Pred pred, ZName opName, LocAnn loc)
-  {
-    ZName conjName = createVCConjName(kind, vck, opName);
-    return createExtraVCConjPara(genParams, pred, conjName, loc);
-  }
-
-  public ZName createVCConjName(ZRefKind kind, ZRefVCKind vck, ZName name)
-  {
-    StringBuilder sb = new StringBuilder("t");
-    sb.append((kind.equals(ZRefKind.FORWARD) ? "FS" : "BS"));
-    sb.append(vck.toString());
-    sb.append(name.getWord());
-    return factory_.createZName(sb.toString());
   }
 }

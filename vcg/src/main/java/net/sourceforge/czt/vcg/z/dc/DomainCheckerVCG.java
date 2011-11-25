@@ -261,12 +261,6 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
     return DCVCEnvAnn.class;
   }
 
-  @Override
-  public String getVCSectName(String originalSectName)
-  {
-    return getVCNameFactory().createVCSectName(originalSectName, VCG_DOMAINCHECK_SOURCENAME_SUFFIX);
-  }
-
   /**
    * List of default parents for VC ZSect. For Domain check this is just "dc_toolkit".
    *
@@ -283,7 +277,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
     // Or get the getVCCollector().getVCNameFactory()?
-    return new DCVCEnvAnn(originalSectName, vcList, getVCNameFactory());
+    return new DCVCEnvAnn(originalSectName, vcList, getVCCollector().getVCNameFactory());
   }
 
   @Override

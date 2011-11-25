@@ -37,6 +37,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZRefKind;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -70,18 +71,12 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   }
 
   @Override
-  protected String getVCGSourceNameSuffix()
-  {
-    return VCG_REFINEMENT_SOURCENAME_SUFFIX;
-  }
-
-  @Override
   protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName)
   {
     return super.getVCGCreatedZSectTypeErrorWarningMessage(sectName) +
             "\nFurthermore, it might happen when Z refinement relationships are not properly set. " +
-            "\nThe current concrete state name is set to '" + getRefVCCollector().getConcreteStateName() +
-            "'; retrieve name is set to '" + getRefVCCollector().getRetrieveName() + "'.";
+            "\nThe current concrete state name is set to '" + getRefVCCollector().getState(ZStateInfo.CSTATE) +
+            "'; retrieve name is set to '" + getRefVCCollector().getState(ZStateInfo.RETRIEVE) + "'.";
   }
 
 
@@ -221,7 +216,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
     // Or get the getVCCollector().getVCNameFactory()?
-    return new RefinementVCEnvAnn(originalSectName, vcList, getVCNameFactory());
+    return new RefinementVCEnvAnn(originalSectName, vcList, getVCCollector().getVCNameFactory());
   }
 
   protected void setConcreteStateName(String name)
@@ -275,8 +270,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     super.beforeGeneratingVCG(zSect);
     assert getVCCollector() instanceof RefinementVCCollector;
 
-    assert getRefVCCollector().getConcreteStateName() == null;
-    assert getRefVCCollector().getRetrieveName() == null;
+    assert getRefVCCollector().getState(ZStateInfo.CSTATE) == null;
+    assert getRefVCCollector().getState(ZStateInfo.RETRIEVE) == null;
 
     // in case the user explicitly define the Z state name
     if (concreteStateName_ != null)
@@ -303,9 +298,9 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
       // we ought to have found at least twice as many definitions of interest + AState + CState
       assert ((opRefPairs.size() * 2) + 2 <= defsOfInterest.size());
 
-      ZName aState = rvcc.getStateSchema();
-      ZName cState = rvcc.getConcreteStateName();
-      ZName retr = rvcc.getRetrieveName();
+      ZName aState = rvcc.getState(ZStateInfo.STATE);
+      ZName cState = rvcc.getState(ZStateInfo.CSTATE);
+      ZName retr = rvcc.getState(ZStateInfo.RETRIEVE);
 
       // if we have any ref pair / def of interest information and not state/retrieve, raise an error
       if (aState == null || cState == null || retr == null)

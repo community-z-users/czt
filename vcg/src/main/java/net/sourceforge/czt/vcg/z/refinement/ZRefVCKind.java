@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.vcg.z.refinement;
 
+import net.sourceforge.czt.z.ast.ZRefKind;
+
 /**
  *
  * @author Leo Freitas
@@ -26,10 +28,44 @@ package net.sourceforge.czt.vcg.z.refinement;
  */
 public enum ZRefVCKind
 {
-  Initialisation,
-  InitialisationInput,
-  Applicability,
-  Correctness,
-  Finalisation,
-  FinalisationOutput
+  /**
+   * Initialisation
+   */
+  INIT,
+  /**
+   * Initialisation Input
+   */
+  INIT_IN,
+  /**
+   * Applicability
+   */
+  APPLIC,
+  /**
+   * Correctness
+   */
+  CORRECT,
+  /**
+   * Finalisation
+   */
+  FIN,
+  /**
+   * Finalisation Output
+   */
+  FIN_OUT;
+  
+  public String getTypeId(ZRefKind rk) {
+    return "vc_ref_" + getRefKindStr(rk) + name().toLowerCase();
+  }
+  
+  private String getRefKindStr(ZRefKind rk) {
+    if (rk != null) {
+      switch(rk) {
+        case FORWARD: return "fs_";
+        case BACKWARD: return "bs_";
+        default: return rk.name().toLowerCase() + "_";
+      }
+    }
+    
+    return "";
+  }
 }

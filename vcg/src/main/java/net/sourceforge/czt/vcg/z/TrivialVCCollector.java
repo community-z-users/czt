@@ -23,6 +23,7 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.OptempPara;
@@ -31,6 +32,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.UnparsedPara;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.AnnVisitor;
@@ -81,6 +83,27 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
   protected Pred calculateVC(Para term) throws VCCollectionException
   {
     return visit(term);
+  }
+
+  @Override
+  public VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException
+  {
+    
+    String configType = null;
+    Precedence prec = null;
+    ZNameList genParams = null;
+    
+    VCConfig vcConfig = vc.getAnn(VCConfig.class);
+    if (vcConfig != null) {
+      // TODO do something about precedence as well?
+      configType = vcConfig.getType();
+      prec = vcConfig.getPrecedence();
+      genParams = vcConfig.getGenParams();
+    }
+    
+    String vcName = getVCNameFactory().getVCName(term, configType);
+    
+    return new PredVC(vcId, term, type, vc, vcName, prec, genParams);
   }
 
   /**

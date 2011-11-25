@@ -21,6 +21,7 @@ package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZNameList;
 
 /**
  *
@@ -39,4 +40,5 @@ public interface VC<R>
   String getName();
   LocAnn getLoc();
   void setVCName(String name);
+  ZNameList getGenFormals();
 }

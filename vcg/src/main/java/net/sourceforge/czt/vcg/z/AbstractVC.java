@@ -21,9 +21,9 @@ package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
-import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -41,20 +41,25 @@ public abstract class AbstractVC<R> implements VC<R>
   private final R vc_;
   private final VCType vcType_;
   private final long vcId_;
+  private final ZNameList genFormals_;
   
-  protected AbstractVC(long vcId, Para term, VCType type, R vc, String nameSuffix) throws VCCollectionException
+  protected AbstractVC(long vcId, Para term, VCType type, R vc, String name) throws VCCollectionException
   {
-    this(vcId, term, type, vc, DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY, nameSuffix);
+    this(vcId, term, type, vc, name, null);
   }
-
-  protected AbstractVC(long vcId, Para term, VCType type, R vc, VCNameFactory factory, String nameSuffix) throws VCCollectionException
+  
+  protected AbstractVC(long vcId, Para term, VCType type, R vc, String name, ZNameList genFormals) 
+      throws VCCollectionException
   {
-    if (term == null || vc == null || type == null || vcId <= 0)
+    if (term == null || vc == null || type == null || name == null || vcId <= 0)
       throw new VCCollectionException("VC-CTOR-ILLEGAL-ARG-VC");
     vcId_ = vcId;
     para_ = term;
     vcType_ = type;
     vc_ = vc;
+    name_ = name;
+    genFormals_ = genFormals;
+    
     LocAnn paraLoc = para_.getAnn(LocAnn.class);
     if (paraLoc != null)
     {
@@ -78,9 +83,7 @@ public abstract class AbstractVC<R> implements VC<R>
     {
       loc_ = null;
     }
-
-    // create a candidate VC name
-    name_ = factory.createNameForVCOf(para_, nameSuffix);
+    
   }
 
   @Override
@@ -123,6 +126,12 @@ public abstract class AbstractVC<R> implements VC<R>
   public void setVCName(String name)
   {
     name_ = name;
+  }
+
+  @Override
+  public ZNameList getGenFormals()
+  {
+    return genFormals_;
   }
 
   @Override

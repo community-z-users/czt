@@ -68,7 +68,7 @@ public class RefinementVCEnvAnn extends FeasibilityVCEnvAnn implements Refinemen
   @Override
   public String getVCSectName()
   {
-    return getVCNameFactory().createVCSectName(getOriginalZSectName(), VCG_REFINEMENT_SOURCENAME_SUFFIX);
+    return getVCNameFactory().getVCSectionName(getOriginalZSectName());
   }
 
   /**

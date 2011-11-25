@@ -20,7 +20,6 @@
 package net.sourceforge.czt.vcg.z.feasibility;
 
 import net.sourceforge.czt.vcg.util.VCNameFactory;
-import net.sourceforge.czt.z.ast.ZName;
 
 /**
  *
@@ -34,5 +33,5 @@ public interface FSBVCNameFactory extends VCNameFactory
    * @param schName
    * @return
    */
-  ZName createNameForSigSchemaOf(ZName schName);
+  String getSigSchemaName(String schName);
 }

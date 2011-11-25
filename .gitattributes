@@ -299,6 +299,7 @@ eclipse/vcg/plugin.xml -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/IVcgConstants.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/VcgImages.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/VcgPlugin.java -text svneol=unset#text/plain
+eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/SectionVCNameFactory.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCEntry.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCManager.java -text svneol=unset#text/plain
 eclipse/vcg/src/net/sourceforge/czt/eclipse/vcg/views/VCPage.java -text svneol=unset#text/plain
@@ -1041,6 +1042,7 @@ ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=uns
 util/src/test/java/net/sourceforge/czt/util/TermAnnTest.java -text
 vcg/pom.xml -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/AbstractBindingFilter.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/util/AbstractVCNameFactory.java -text svneol=unset#text/plain
 vcg/src/main/java/net/sourceforge/czt/vcg/util/AfterBindings.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/BeforeBindings.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/BindingFilter.java -text
@@ -1064,11 +1066,13 @@ vcg/src/main/java/net/sourceforge/czt/vcg/util/VCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/AbstractVCG.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/PredVC.java -text svneol=unset#text/plain
 vcg/src/main/java/net/sourceforge/czt/vcg/z/TermTransformer.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/TrivialVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCCollectionException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/VCConfig.java -text svneol=unset#text/plain
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCEnvAnn.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCEnvAnnVisitor.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCG.java -text
@@ -1076,8 +1080,8 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGPropertyKeys.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCGUtils.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/VCSource.java -text svneol=unset#text/plain
 vcg/src/main/java/net/sourceforge/czt/vcg/z/VCType.java -text
-vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVCEnvAnn.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/dc/DCVCEnvAnnVisitor.java -text
@@ -1092,18 +1096,17 @@ vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityCommand.java 
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityPropertyKeys.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityUtils.java -text
-vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnn.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCEnvAnnVisitor.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCG.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityVCNameFactory.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/TrivialFeasibilityVCCollector.java -text
+vcg/src/main/java/net/sourceforge/czt/vcg/z/feasibility/ZFsbVCKind.java -text svneol=unset#text/plain
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementCommand.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementException.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementPropertyKeys.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementUtils.java -text
-vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVC.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCCollector.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCEnvAnn.java -text
 vcg/src/main/java/net/sourceforge/czt/vcg/z/refinement/RefinementVCEnvAnnVisitor.java -text

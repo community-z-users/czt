@@ -37,8 +37,8 @@ import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.NameList;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -65,11 +65,6 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     super(factory);
     zStateName_ = null;
     fsbCheck_ = new FeasibilityVCCollector(factory);
-  }
-
-  protected String getVCGSourceNameSuffix()
-  {
-    return VCG_FEASIBILITY_SOURCENAME_SUFFIX;
   }
 
   @Override
@@ -199,12 +194,12 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
         throw new CztException(new FeasibilityException("Cannot set Z state name that contains prime decoration"));
       zStateName_ = name;
-      getFSBVCCollector().setZStateName(factory_.createZName(name));
+      getFSBVCCollector().setStateName(ZStateInfo.STATE, factory_.createZName(name));
     }
     else
     {
       zStateName_ = null;
-      getFSBVCCollector().setZStateName(null);
+      getFSBVCCollector().setStateName(ZStateInfo.STATE, null);
     }
   }
 
@@ -218,7 +213,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
 
     // this sets the ZState name within the collector to null.
     getFSBVCCollector().clearAddedPara();
-    assert getFSBVCCollector().getStateSchema() == null;
+    assert getFSBVCCollector().getState(ZStateInfo.STATE) == null;
 
     // in case the user explicitly define the Z state name 
     if (zStateName_ != null)
@@ -231,12 +226,6 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   public Class<? extends VCEnvAnn<Pred>> getVCEnvAnnClass()
   {
     return FeasibilityVCEnvAnn.class;
-  }
-
-  @Override
-  public String getVCSectName(String originalSectName)
-  {
-    return getVCNameFactory().createVCSectName(originalSectName, getVCGSourceNameSuffix());
   }
 
   /**
@@ -261,7 +250,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
     // Or get the getVCCollector().getVCNameFactory()?
-    return new FeasibilityVCEnvAnn(originalSectName, vcList, getVCNameFactory());
+    return new FeasibilityVCEnvAnn(originalSectName, vcList, getVCCollector().getVCNameFactory());
   }
 
   @Override
@@ -271,19 +260,19 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   }
 
   @Override
-  public void typeCheck(String sectName) throws VCGException
+  public void typeCheck(String sectName, boolean sourceSect) throws VCGException
   {
     try
     {
-      super.typeCheck(sectName);
+      super.typeCheck(sectName, sourceSect);
     }
     catch (VCGException e)
     {
       // if it is a type error on the FSB section created, then warn the user
       // if it is on the user-suplied Z section, raise it as we expect type-correct input
-      if (e.getCause() != null && (e.getCause() instanceof CommandException) &&
+      if (!sourceSect && e.getCause() != null && (e.getCause() instanceof CommandException) &&
           e.getCause().getCause() != null && (e.getCause().getCause() instanceof TypeErrorException) &&
-          sectName != null && sectName.endsWith(getVCGSourceNameSuffix()))
+          sectName != null)
       {
         final String msg = getVCGCreatedZSectTypeErrorWarningMessage(sectName);
         logger_.info(msg);
@@ -305,10 +294,10 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName)
   {
     return "\nType errors on " + getClass().getSimpleName() + " for Z section " +
-          sectName.substring(0, sectName.length()-getVCGSourceNameSuffix().length()) +
+          sectName +
           ".\nThis may happen if complex gneric types are involved" +
           (isCreatingZSchemas() ? " or the state schema (i.e., '"
-          + getFSBVCCollector().getStateSchema()  + "') is not properly set.": ".");
+          + getFSBVCCollector().getState(ZStateInfo.STATE)  + "') is not properly set.": ".");
   }
 
   @Override

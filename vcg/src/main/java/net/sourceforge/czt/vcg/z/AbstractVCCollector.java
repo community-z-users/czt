@@ -66,8 +66,10 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     vcCnt_ = 0;
     factory_ = factory;
     defTable_ = null;
-    vcNameFactory_ = DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY;
     logger_ = Logger.getLogger(getClass().getName());
+    
+    setVCNameFactory(DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY);
+    
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //
     // get underlying ToStringVisitor of the Z factory of the given factory and set LocAnn offsets.
@@ -86,6 +88,10 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   @Override
   public void setVCNameFactory(VCNameFactory vcf)
   {
+    if (vcf == null) {
+      vcf = DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY;
+    }
+    
     vcNameFactory_ = vcf;
   }
 
@@ -171,24 +177,31 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
           throws VCCollectionException
   {
-    defTable_ = null; // a null dts means always "applies$to", rather than \in \dom~? when possible
-    for (InfoTable tbl : tables)
-    {
-      if (tbl instanceof DefinitionTable)
-      {
-        defTable_ = (DefinitionTable)tbl;
-        if (checkTblConsistency_)
-        {
-          DefinitionException de = defTable_.checkOverallConsistency();
-          if (de != null)
-          {
+    defTable_ = getDefinitionTable(term, tables, checkTblConsistency_);
+  }
+  
+  static DefinitionTable getDefinitionTable(Term term, List<? extends InfoTable> tables,
+      boolean checkTblConsistency_) throws VCCollectionException
+  {
+    
+    //a null dts means always "applies$to", rather than \in \dom~? when possible
+    DefinitionTable defTable = null;
+    
+    for (InfoTable tbl : tables) {
+      if (tbl instanceof DefinitionTable) {
+        defTable = (DefinitionTable) tbl;
+        if (checkTblConsistency_) {
+          DefinitionException de = defTable.checkOverallConsistency();
+          if (de != null) {
             throw new VCCollectionException("Definition table inconsistency, see DefinitionException "
-                    + "within VCGException cause for details.",
-                    defTable_.getSectionName(), new VCGException(de));
+                    + "within VCGException cause for details.", 
+                    defTable.getSectionName(), new VCGException(de));
           }
         }
       }
     }
+
+    return defTable;
   }
 
   protected void afterCalculateVC(VC<R> vc) throws VCCollectionException

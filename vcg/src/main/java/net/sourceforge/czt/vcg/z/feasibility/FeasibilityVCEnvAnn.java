@@ -66,7 +66,7 @@ public class FeasibilityVCEnvAnn extends VCEnvAnn<Pred> implements FeasibilityPr
   @Override
   public String getVCSectName()
   {
-    return getVCNameFactory().createVCSectName(getOriginalZSectName(), VCG_FEASIBILITY_SOURCENAME_SUFFIX);
+    return getVCNameFactory().getVCSectionName(getOriginalZSectName());
   }
 
   /**

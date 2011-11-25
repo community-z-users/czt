@@ -20,7 +20,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.vcg.z.dc;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.z.TrivialVCCollector;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCConfig;
+import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.Fact;
 import net.sourceforge.czt.z.ast.GivenPara;
@@ -29,6 +33,7 @@ import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
 import net.sourceforge.czt.z.ast.Oper;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ThetaExpr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -54,6 +59,7 @@ import net.sourceforge.czt.z.visitor.ZNumeralVisitor;
  * @date Dec 23, 2010
  */
 public abstract class TrivialDCVCCollector extends TrivialVCCollector implements
+        DomainCheckPropertyKeys,
         LatexMarkupParaVisitor<Pred>,
         GivenParaVisitor<Pred>,
         ThetaExprVisitor<Pred>,
@@ -75,6 +81,8 @@ public abstract class TrivialDCVCCollector extends TrivialVCCollector implements
   public TrivialDCVCCollector(Factory factory)
   {
     super(factory);
+    setVCNameFactory(new DefaultVCNameFactory(
+        VCG_DOMAINCHECK_VCNAME_SUFFIX, VCG_DOMAINCHECK_SOURCENAME_SUFFIX));
   }
 
   @Override
@@ -174,5 +182,18 @@ public abstract class TrivialDCVCCollector extends TrivialVCCollector implements
   public Pred visitZNumeral(ZNumeral term)
   {
     return truePred();
+  }
+
+  @Override
+  protected Pred calculateVC(Para term) throws VCCollectionException
+  {
+    Pred vc = super.calculateVC(term);
+    
+    if (vc.getAnn(VCConfig.class) == null) {
+      // no VC config set, mark it as DC default
+      vc.getAnns().add(new VCConfig(VCTYPE_DC_DEFAULT, Precedence.AFTER));
+    }
+    
+    return vc;
   }
 }

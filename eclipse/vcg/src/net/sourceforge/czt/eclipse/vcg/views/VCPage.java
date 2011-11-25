@@ -16,6 +16,7 @@ import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.vcg.z.AbstractVCG;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGUtils;
@@ -379,18 +380,25 @@ public class VCPage extends Page {
 			
 			List<VCEntry> vcs = new ArrayList<VCEntry>();
 
-//			vcs.addAll(createVCs(initDomainVcg()));
-			vcs.addAll(createVCs(initFeasibilityVcg()));
+//			vcs.addAll(createVCs(initDomainVcg(), "_dc"));
+			vcs.addAll(createVCs(initFeasibilityVcg(), "_fsb"));
 			
 			return vcs;
 		}
 
-		private List<VCEntry> createVCs(AbstractVCG<Pred> fsbVcg) throws CommandException {
+		private List<VCEntry> createVCs(AbstractVCG<Pred> fsbVcg, String vcSectionSuffix) 
+				throws CommandException {
 			List<VCEntry> vcs = new ArrayList<VCEntry>();
 			
 			for (Sect sect : parsedData.getSpec().getSect()) {
 				if (sect instanceof ZSect) {
-					VCManager vcManager = new VCManager(editor, fsbVcg, parsedData, (ZSect) sect);
+					
+					ZSect zSect = (ZSect) sect;
+					
+					VCNameFactory nameFactory = new SectionVCNameFactory(zSect, vcSectionSuffix);
+					fsbVcg.getVCCollector().setVCNameFactory(nameFactory);
+					
+					VCManager vcManager = new VCManager(editor, fsbVcg, parsedData, zSect);
 					vcs.addAll(vcManager.generateVCs());
 				}
 			}
@@ -408,7 +416,8 @@ public class VCPage extends Page {
 //			sectInfo.setTracing(true);
 //			sectInfo.setTracingLevel(Level.ALL);
 			
-			FeasibilityVCG fsbVcg = new RefinementVCG();//new FeasibilityVCG();
+			FeasibilityVCG fsbVcg = new RefinementVCG();
+//			FeasibilityVCG fsbVcg = new FeasibilityVCG();
 			fsbVcg.setSectionManager(sectInfo);
 			return fsbVcg;
 		}
