@@ -142,7 +142,10 @@ public abstract class CztManagedTest extends TestCase
     TestSuite suite = new TestSuite();
     try
     {
-      collectTests(suite, getClass().getResource(relativeTestDirectory), negativeTestExceptionClass);
+      for(String dir : relativeTestDirectory.split(File.pathSeparator))
+      {
+        collectTests(suite, getClass().getResource(dir), negativeTestExceptionClass);
+      }
     }
     catch (IOException e)
     {
