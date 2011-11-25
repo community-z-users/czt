@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import net.sourceforge.czt.eclipse.editors.PixelConverter;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferencePage;
@@ -18,9 +20,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -28,8 +28,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
 /**
@@ -48,7 +46,7 @@ public class ZEditorAnnotationConfigurationBlock
   private ColorSelector fSchemaBoxLineColorEditor;
   private Combo fSchemaBoxLineWidthCombo;
 
-  private Button fAppearanceColorDefault;
+//  private Button fAppearanceColorDefault;
 
   private FontMetrics fFontMetrics;
 
@@ -96,7 +94,7 @@ public class ZEditorAnnotationConfigurationBlock
     initializeDialogUnits(parent);
 
     Composite composite = new Composite(parent, SWT.NONE);
-    composite.setLayout(new GridLayout());
+    composite.setLayout(GridLayoutFactory.fillDefaults().create());
 
     createHeader(composite);
     createAnnotationPage(composite);
@@ -106,7 +104,7 @@ public class ZEditorAnnotationConfigurationBlock
 
   private void createHeader(Composite contents)
   {
-    final Shell shell = contents.getShell();
+//    final Shell shell = contents.getShell();
     String text = PreferencesMessages.ZEditorPreferencePage_annotation_note_link;
     Link link = new Link(contents, SWT.NONE);
     link.setText(text);
@@ -183,21 +181,15 @@ public class ZEditorAnnotationConfigurationBlock
   {
 
     Composite annotationComposite = new Composite(parent, SWT.NONE);
-    GridLayout annotationLayout = new GridLayout();
-    annotationLayout.numColumns = 2;
-    annotationComposite.setLayout(annotationLayout);
+    annotationComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).create());
+    annotationComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 
     String label;
 
     Group schemaBoxGroup = new Group(annotationComposite, SWT.NONE);
-    GridLayout schemaBoxGroupLayout = new GridLayout();
-    schemaBoxGroupLayout.numColumns = 2;
-    schemaBoxGroup.setLayout(schemaBoxGroupLayout);
-    GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    gd.horizontalSpan = 2;
-    schemaBoxGroup.setLayoutData(gd);
-    schemaBoxGroup
-        .setText(PreferencesMessages.ZEditorPreferencePage_annotation_schema_box);
+    schemaBoxGroup.setLayout(GridLayoutFactory.swtDefaults().numColumns(2).create());
+    schemaBoxGroup.setLayoutData(GridDataFactory.fillDefaults().span(2, 1).grab(true, false).create());
+    schemaBoxGroup.setText(PreferencesMessages.ZEditorPreferencePage_annotation_schema_box);
     
     label = PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_enable;
     Button schemaBoxEnableButton = addCheckBox(schemaBoxGroup, label,
@@ -206,12 +198,10 @@ public class ZEditorAnnotationConfigurationBlock
     label = PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_style;
     Label boxStyleLabel = new Label(schemaBoxGroup, SWT.LEFT);
     boxStyleLabel.setText(label);
-    gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    boxStyleLabel.setLayoutData(gd);
+    boxStyleLabel.setLayoutData(GridDataFactory.swtDefaults().create());
 
     fSchemaBoxStyleCombo = new Combo(schemaBoxGroup, SWT.NONE);
-    gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    fSchemaBoxStyleCombo.setLayoutData(gd);
+    fSchemaBoxStyleCombo.setLayoutData(GridDataFactory.swtDefaults().create());
     fSchemaBoxStyleCombo.setItems(new String[]{PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_style_1, PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_style_2});
     fSchemaBoxStyleCombo.addSelectionListener(new SelectionListener() {
       public void widgetDefaultSelected(SelectionEvent e)
@@ -233,14 +223,12 @@ public class ZEditorAnnotationConfigurationBlock
     
     label = PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_line_color;
     Label boxLineColorLabel = new Label(schemaBoxGroup, SWT.LEFT);
-    gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    boxLineColorLabel.setLayoutData(gd);
+    boxLineColorLabel.setLayoutData(GridDataFactory.swtDefaults().create());
     boxLineColorLabel.setText(label);
     
     fSchemaBoxLineColorEditor = new ColorSelector(schemaBoxGroup);
     Button boxLineColorButton = fSchemaBoxLineColorEditor.getButton();
-    gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    boxLineColorButton.setLayoutData(gd);
+    boxLineColorButton.setLayoutData(GridDataFactory.swtDefaults().create());
     
     boxLineColorButton.addSelectionListener(new SelectionListener()
     {
@@ -259,13 +247,11 @@ public class ZEditorAnnotationConfigurationBlock
     
     label = PreferencesMessages.ZEditorPreferencePage_annotation_schema_box_line_width;
     Label boxLineWidthLabel = new Label(schemaBoxGroup, SWT.LEFT);
-    gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    boxLineWidthLabel.setLayoutData(gd);
+    boxLineWidthLabel.setLayoutData(GridDataFactory.swtDefaults().create());
     boxLineWidthLabel.setText(label);
     
     fSchemaBoxLineWidthCombo = new Combo(schemaBoxGroup, SWT.NONE);
-    gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-    fSchemaBoxLineWidthCombo.setLayoutData(gd);
+    fSchemaBoxLineWidthCombo.setLayoutData(GridDataFactory.swtDefaults().create());
     fSchemaBoxLineWidthCombo.setItems(new String[]{ "0", "1", "2", "3", "4", "5" });
     fSchemaBoxLineWidthCombo.addSelectionListener(new SelectionListener() {
       public void widgetDefaultSelected(SelectionEvent e)

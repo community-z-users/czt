@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import net.sourceforge.czt.eclipse.editors.PixelConverter;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferencePage;
@@ -21,7 +22,6 @@ import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -37,7 +37,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
 {
   private ColorSelector fMatchingBracketsColorEditor;
 
-  private Button fAppearanceColorDefault;
+//  private Button fAppearanceColorDefault;
 
   private FontMetrics fFontMetrics;
 
@@ -91,7 +91,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     initializeDialogUnits(parent);
 
     Composite composite = new Composite(parent, SWT.NONE);
-    composite.setLayout(new GridLayout());
+    composite.setLayout(GridLayoutFactory.fillDefaults().create());
 
     createHeader(composite);
     createAppearancePage(composite);
@@ -186,9 +186,7 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
   {
 
     Composite appearanceComposite = new Composite(parent, SWT.NONE);
-    GridLayout layout = new GridLayout();
-    layout.numColumns = 2;
-    appearanceComposite.setLayout(layout);
+    appearanceComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).create());
 
     String label;
 

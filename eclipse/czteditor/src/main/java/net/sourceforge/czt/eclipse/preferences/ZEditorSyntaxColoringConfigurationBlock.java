@@ -20,6 +20,7 @@ import net.sourceforge.czt.eclipse.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
@@ -609,7 +610,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
     layout.marginHeight = 0;
     layout.marginWidth = 0;
     editorComposite.setLayout(layout);
-    GridData gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+    GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
     editorComposite.setLayoutData(gd);
 
     fListViewer = new TreeViewer(editorComposite, SWT.SINGLE | SWT.BORDER);
@@ -630,7 +631,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
         return 0;
       }
     });
-    gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, true);
+    gd = new GridData(SWT.FILL, SWT.BEGINNING, true, true);
     gd.heightHint = convertHeightInCharsToPixels(9);
     int maxWidth = 0;
     for (HighlightingColorListItem item : fListModel) {
@@ -645,12 +646,8 @@ public class ZEditorSyntaxColoringConfigurationBlock
     fListViewer.getControl().setLayoutData(gd);
 
     Composite stylesComposite = new Composite(editorComposite, SWT.NONE);
-    layout = new GridLayout();
-    layout.marginHeight = 0;
-    layout.marginWidth = 0;
-    layout.numColumns = 2;
-    stylesComposite.setLayout(layout);
-    stylesComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+    stylesComposite.setLayout(GridLayoutFactory.fillDefaults().numColumns(2).spacing(0, 0).create());
+    stylesComposite.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false));
 
     fEnableCheckbox = new Button(stylesComposite, SWT.CHECK);
     fEnableCheckbox.setText(PreferencesMessages.ZEditorPreferencePage_enable);
@@ -700,6 +697,11 @@ public class ZEditorSyntaxColoringConfigurationBlock
     gd.horizontalIndent = 20;
     gd.horizontalSpan = 2;
     fUnderlineCheckBox.setLayoutData(gd);
+    
+    Composite spacer = new Composite(colorComposite, SWT.NONE);
+    gd = new GridData();
+    gd.heightHint = 0;
+    spacer.setLayoutData(gd);
 
     label = new Label(colorComposite, SWT.LEFT);
     label.setText(PreferencesMessages.ZEditorPreferencePage_preview);
