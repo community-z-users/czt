@@ -23,9 +23,14 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils;
+import net.sourceforge.czt.vcg.z.refinement.RefinementPropertyKeys;
 import net.sourceforge.czt.z.ast.Spec;
 
 /**
@@ -37,15 +42,16 @@ public class DefinitionTableTest extends VCGTest
 {
 
   protected static final boolean DEBUG_TESTING = false;
-  protected final static String TEST_DIR =
-          "/tests/z/";
+  protected static final boolean TESTING_MONDEX = false;
+  protected static final String EXTENSION = SectionManager.DEFAULT_EXTENSION;
+  protected final static String TEST_DIR = "/tests/z/";
+  protected final static String TEST_MONDEX_DIR = "/tests/mondex/";
 
   public static Test suite() throws VCGException
   {
-    SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(
-            FeasibilityUtils.getFeasibilityUtils().getExtension());
+    SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(TESTING_MONDEX ? "zeves" : EXTENSION);
     VCGTest test = new DefinitionTableTest(manager, DEBUG_TESTING);
-    Test result = test.suite(TEST_DIR, null);
+    Test result = test.suite(TESTING_MONDEX ? TEST_MONDEX_DIR : TEST_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }
@@ -69,7 +75,9 @@ public class DefinitionTableTest extends VCGTest
   @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return true; // include all
+    return name.lastIndexOf(DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1 &&
+           name.lastIndexOf(FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1 &&
+           name.lastIndexOf(RefinementPropertyKeys.VCG_REFINEMENT_SOURCENAME_SUFFIX) == -1;
   }
 
   public class NormalDefTableTest extends CztManagedTest.TestNormal
@@ -82,7 +90,28 @@ public class DefinitionTableTest extends VCGTest
     @Override
     protected void doTest(Spec term) throws Exception
     {
-      // do nothing
+      DefinitionTable table = null;
+      Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(DefinitionTableTest.this.getSourceName(url_), DefinitionTable.class);
+      try
+      {
+        table = getManager().get(defTblKey);
+      }
+      catch (CommandException ex)
+      {
+        //exceptionThrown = true;
+        // try a second time to see if the one with errors was cached
+        //try
+        //{
+          table = getManager().get(defTblKey);
+        //}
+        //catch (CommandException fx)
+        //{
+        //  handleCmdException(fx);
+        //}
+      }
+      DefinitionException de = table.checkOverallConsistency();
+      if (de != null)
+        throw de;
     }
 
     /**
@@ -101,7 +130,7 @@ public class DefinitionTableTest extends VCGTest
         {
           failureMsg.append("DefinitionException = \n");
           failureMsg.append(((DefinitionException)e).getMessage(true));
-          result = true;//don't fail, but print out --- TODO: change to false when more examples are handled.
+          //result = true;//don't fail, but print out --- TODO: change to false when more examples are handled.
         }
       }
       return result;

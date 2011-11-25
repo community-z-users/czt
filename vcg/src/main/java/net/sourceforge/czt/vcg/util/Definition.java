@@ -58,6 +58,15 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   private final List<NewOldPair> specialBindings_; // local bindings for Hide/Rename; new for Hide is null.
   private final SortedMap<ZName, Definition> locals_;
 
+  /**
+   * Usual constructor given parameters for both local and global definitions.
+   * @param sectName
+   * @param defName
+   * @param generic
+   * @param definition
+   * @param carrierType
+   * @param definitionKind
+   */
   protected Definition(String sectName, ZName defName, 
           ZNameList generic, Expr definition, Type2 carrierType,
           DefinitionKind definitionKind)
@@ -73,9 +82,17 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     locals_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
   }
 
-  protected Definition(ZNameList contextGenerics, Definition deepCopy)
+  /**
+   * Deep copies the given definition with the generics in context. This is used
+   * for local references like included schemas or implicit ones (E.g., Delta S = S and S')
+   * @param contextGenerics
+   * @param deepCopy
+   */
+  protected Definition(ZNameList contextGenerics, Definition deepCopy) throws DefinitionException
   {
     super(deepCopy == null ? null : deepCopy.getSectionName());
+    DefinitionTable.checkLocalDef(deepCopy.getSectionName(), deepCopy);
+
     assert contextGenerics != null && deepCopy != null;
     genericParams_ = cloneTerm(deepCopy.genericParams_);
     defName_ = cloneTerm(deepCopy.defName_);
@@ -108,13 +125,14 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   }
 
   /**
-   * Copies all from the given definition, yet changes a local name's name accordingly.
+   * Copies all from the given definition, yet changes definition name's accordingly.
    * @param copy
    * @param newLocalName
    */
-  protected Definition(Definition copy, ZName newLocalName)
+  protected Definition(Definition copy, ZName newLocalName) throws DefinitionException
   {
     super(copy.getSectionName());
+    DefinitionTable.checkLocalDef(copy.getSectionName(), copy);
     defName_ = newLocalName;
     genericParams_ = copy.genericParams_;
     definition_ = copy.definition_;
@@ -332,7 +350,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    * @return
    */
   private int modifyExtraBindings(SortedMap<ZName, Definition> localBindings,
-          List<DefinitionException> exceptions, Name newName, ZName oldName)
+          List<DefinitionException> exceptions, Name newName, ZName oldName) throws DefinitionException
   {
     int found = localBindings.containsKey(oldName) ? 1 : 0;
     // if we found the bindings to modify belong to given locals, do it
@@ -441,6 +459,16 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   public DefinitionKind getDefinitionKind()
   {
     return defKind_;
+  }
+
+  /**
+   * Hide   = null/old
+   * Rename = new /old
+   * @return
+   */
+  public List<NewOldPair> getSpecialBindings()
+  {
+    return Collections.unmodifiableList(specialBindings_);
   }
 
   /**

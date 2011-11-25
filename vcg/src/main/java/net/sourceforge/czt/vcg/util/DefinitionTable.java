@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.base.ast.Term;
@@ -74,6 +75,11 @@ public class DefinitionTable extends InfoTable
   private final List<String> knownSections_;
 
   /**
+   * stack of special bindings used to calculate whether to substitute or remove local bindings (e.g., rename/hiding)
+   */
+  private final Stack<List<NewOldPair>> specialBindingsStack_;
+
+  /**
    * Constructs a definition table for a new section. Changed the originally
    * public method to be protected. One should not directly update the DefinitionTable,
    * but use the lookup algorithm from the DefinitionTableVisitor instead.
@@ -89,6 +95,7 @@ public class DefinitionTable extends InfoTable
     super(sectionName);
     knownSections_ = new ArrayList<String>();
     definitions_ = new TreeMap<Integer, SortedMap<ZName, Definition>>();
+    specialBindingsStack_ = new Stack<List<NewOldPair>>();
 
     // do not use InfoTable.addParents in this specialised case
     // in a constructor, we shall not override addParents either :-(
@@ -140,10 +147,13 @@ public class DefinitionTable extends InfoTable
     super(copy.getSectionName());
     knownSections_ = new ArrayList<String>(copy.knownSections_);
     definitions_ = new TreeMap<Integer, SortedMap<ZName, Definition>>();
+    specialBindingsStack_ = new Stack<List<NewOldPair>>();
+    //specialBindingsStack_.addAll(copy.specialBindingsStack_);
     for(SortedMap.Entry<Integer, SortedMap<ZName, Definition>> entry : copy.definitions_.entrySet())
     {
       definitions_.put(entry.getKey(), new TreeMap<ZName, Definition>(entry.getValue()));
     }
+    assert copy.specialBindingsStack_.isEmpty() : "auxiliary stack for hide/renaming bindings should be empty";
     assert knownSections_.equals(copy.knownSections_) && definitions_.equals(copy.definitions_);
   }
 
@@ -253,7 +263,7 @@ public class DefinitionTable extends InfoTable
    * @param def
    * @throws DefinitionException
    */
-  private void checkGlobalDef(String sectName, Definition def)
+  public static void checkGlobalDef(String sectName, Definition def)
     throws DefinitionException
   {
     // only glogal allowed here
@@ -272,7 +282,7 @@ public class DefinitionTable extends InfoTable
    * @param def
    * @throws DefinitionException
    */
-  private void checkLocalDef(String sectName, Definition def)
+  public static void checkLocalDef(String sectName, Definition def)
     throws DefinitionException
   {
     // only local allowed here --- although there is come mixed, like schemaReference (local+global)
@@ -501,18 +511,40 @@ public class DefinitionTable extends InfoTable
                             + DefinitionTable.printTerm(globalName) + " = " + globalBindingKind));
                   }
 
-                  // remove found binding from the names collected from set.
-                  boolean br = namesInType.remove(globalBindingName);
-                  if (!br)
+                  // remove found binding from the names collected from type.
+                  boolean bindingFound = namesInType.remove(globalBindingName);
+                  if (!bindingFound)
                   {
-                    if (!namesCollusion.add(globalBindingName))
-                    {// TODO: what if add is false?
-                      SectionManager.traceInfo("multiple collusion for bindings of globalName " + 
+                    // consider hide/renaming both local and global
+                    if (!globalDef.getSpecialBindings().isEmpty() || bindDef.getSpecialBindings().isEmpty())
+                    {
+                      List<NewOldPair> sb = new ArrayList<NewOldPair>(globalDef.getSpecialBindings());
+                      sb.addAll(bindDef.getSpecialBindings());
+                      for (NewOldPair pair : sb)
+                      {
+                        if (pair.getNewName() == null)
+                        {
+                          // hiding case, just accept it's being found
+                          bindingFound = ZUtils.namesEqual(globalBindingName, pair.getOldName());
+                        }
+                        // renaming case
+                        else
+                        {
+                          // should already be the globalBindingName 
+                          //bindingFound = ZUtils.namesEqual(globalBindingName, pair.getNewName());
+                        }
+                        if (bindingFound) break;
+                      }
+                    }
+                    // TODO: what if add is false?
+                    else if (!namesCollusion.add(globalBindingName))
+                    {
+                      SectionManager.traceInfo("multiple collusion for bindings of globalName " +
                               DefinitionTable.printTerm(globalName) + " = " +
                               DefinitionTable.printTerm(globalBindingName));
                     }
                   }
-                  allNamesRemoved = br && allNamesRemoved;
+                  allNamesRemoved = bindingFound && allNamesRemoved;
 
                   // check the local name exists later on
                   if (!namesFound.contains(globalBindingName))
@@ -558,6 +590,17 @@ public class DefinitionTable extends InfoTable
           namesFound.add(localName);
           namesToFind.remove(localName);
 
+          // check if the special bindings are still to find (e.g., case of renaming)
+          // NOTE: for implicitly declared schemas (E.g., State' in Delta State), there will be no type information
+          for (NewOldPair pair : localDef.getSpecialBindings())
+          {
+            // if not hiding, then it's renaming
+            if (pair.getNewName() != null)
+            {
+              namesToFind.remove(ZUtils.assertZName(pair.getNewName()));
+            }
+          }
+
           // check it is local and names match
           try
           {
@@ -574,6 +617,16 @@ public class DefinitionTable extends InfoTable
           }
 
           // TODO: anything else on local names?
+        }
+
+        // check if the special bindings are still to find (e.g., case of renaming)
+        for (NewOldPair pair : globalDef.getSpecialBindings())
+        {
+          // if not hiding, then it's renaming
+          if (pair.getNewName() != null)
+          {
+            namesToFind.remove(ZUtils.assertZName(pair.getNewName()));
+          }
         }
       }
       SectionManager.traceLog("DEFTBL-CONSISTENCY-CHECK-FOR-" + sectName + " = " + result.size() + " errors");
@@ -732,6 +785,68 @@ public class DefinitionTable extends InfoTable
     return result;
   }
 
+  private SortedSet<Definition> bindings0(ZName defName) throws DefinitionException
+  {
+    Definition def = lookupDeclName(defName);
+    SortedSet<Definition> result = new TreeSet<Definition>();
+    // if this is a schema declaration, look for its bindings
+                        // TODO: should this be isSchemaReference()? MAYBE
+    if (def != null && def.getDefinitionKind().isSchemaReference())
+    {
+      List<NewOldPair> currentSpecialBindings = def.getSpecialBindings();
+      if (!currentSpecialBindings.isEmpty())
+        specialBindingsStack_.push(currentSpecialBindings);
+      checkGlobalDef(def.getSectionName(), def);
+      for(Definition localDef : def.getLocalDecls().values())
+      {
+        if (localDef.getDefinitionKind().isSchemaBinding())
+        {
+          assert localDef.getLocalDecls().isEmpty();
+          checkLocalDef(localDef.getSectionName(), localDef);
+          Definition localDefToAdd = localDef;
+
+          // if there are special bindings to consider check them
+          if (!specialBindingsStack_.isEmpty())
+          {
+            for(NewOldPair pair : specialBindingsStack_.peek())
+            {
+              Name oldName = pair.getOldName();
+              Name newName = pair.getNewName();
+              if (ZUtils.namesEqual(localDefToAdd.getDefName(), oldName))
+              {
+                // hiding
+                if (newName == null)
+                  localDefToAdd = null;
+                // renaming
+                else
+                  localDefToAdd = new Definition(localDef, ZUtils.assertZName(newName));
+                break;
+              }
+            }
+          }
+          // if not hiding, add the renamed one
+          if (localDefToAdd != null)
+            result.add(localDefToAdd);
+        }
+                      // TODO: should this be isSchemaReference()?
+        else if (localDef.getDefinitionKind().isSchemaReference())
+        {
+          result.addAll(bindings0(localDef.getDefName()));
+        }
+      }
+      if (!currentSpecialBindings.isEmpty())
+      {
+        List<NewOldPair> old = specialBindingsStack_.pop();
+        assert old == currentSpecialBindings;
+      }
+      return result;
+    }
+    else
+    {
+      throw new DefinitionException(defName, "Unknown schema name in DefTbl " + defName);
+    }
+  }
+
   /**
    * Looks up all local bindings of the definition for the given name.
    * If this name is not a schema reference (as in {@link DefinitionKind#isSchemaReference() }),
@@ -743,33 +858,10 @@ public class DefinitionTable extends InfoTable
    */
   public SortedSet<Definition> bindings(ZName defName) throws DefinitionException
   {
-    Definition def = lookupDeclName(defName);
-    SortedSet<Definition> result = new TreeSet<Definition>();
-    // if this is a schema declaration, look for its bindings
-                        // TODO: should this be isSchemaReference()? MAYBE
-    if (def != null && def.getDefinitionKind().isSchemaReference())
-    {
-      checkGlobalDef(def.getSectionName(), def);
-      for(Definition localDef : def.getLocalDecls().values())
-      {
-        if (localDef.getDefinitionKind().isSchemaBinding())
-        {
-          assert localDef.getLocalDecls().isEmpty();
-          checkLocalDef(localDef.getSectionName(), localDef);
-          result.add(localDef);
-        }
-                      // TODO: should this be isSchemaReference()?
-        else if (localDef.getDefinitionKind().isSchemaReference())
-        {
-          result.addAll(bindings(localDef.getDefName()));
-        }
-      }
-      return result;
-    }
-    else
-    {
-      throw new DefinitionException(defName, "Unknown schema name in DefTbl " + defName);
-    }
+    assert specialBindingsStack_.isEmpty();
+    SortedSet<Definition> result = bindings0(defName);
+    assert specialBindingsStack_.isEmpty();
+    return result;
   }
   // ALTERNATIVE RECURSIVE ALGORITHM WHEN THERE WERE NO LOCAL DEFINITIONS.
         // assert all elements have isSchemaBinding() kind

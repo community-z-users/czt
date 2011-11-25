@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Stack;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.AbstractVisitor;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.session.CommandException;
@@ -60,6 +61,7 @@ import net.sourceforge.czt.z.ast.Qnt1Expr;
 import net.sourceforge.czt.z.ast.QntExpr;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.RenameList;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchExpr2;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -71,6 +73,7 @@ import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
@@ -87,6 +90,7 @@ import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils.ZExprKind;
+import net.sourceforge.czt.z.visitor.ZNameVisitor;
 
 /**
  * A visitor that computes a {@link DefinitionTable} from a given
@@ -348,7 +352,7 @@ public class DefinitionTableVisitor
                       givenName,
                       factory_.createPowerExpr(
                         factory_.createRefExpr(givenName)),
-                      DefinitionKind.GIVENSET);
+                      DefinitionKind.GIVENSET, null);
       }
     }
     currentLocAnn_ = null;
@@ -379,7 +383,7 @@ public class DefinitionTableVisitor
 
     currentGlobalDef_ = addGlobalDefinition(factory_.createZNameList(),
        ftName, factory_.createPowerExpr(factory_.createRefExpr(ftName)),
-       DefinitionKind.GIVENSET);
+       DefinitionKind.GIVENSET, null);
 
     visit(term.getBranchList());
 
@@ -428,7 +432,7 @@ public class DefinitionTableVisitor
       ftExpr = factory_.createGenOpApp(freeTypeCtorOpName_,
               factory_.list(term.getExpr(), freeType));
     }
-    addLocalDefinition(factory_.createZNameList(), ftElem, ftExpr, DefinitionKind.FREETYPE);
+    addLocalDefinition(factory_.createZNameList(), ftElem, ftExpr, DefinitionKind.FREETYPE, null);
     return null;
   }
 
@@ -586,34 +590,81 @@ public class DefinitionTableVisitor
     }
   }
 
-  protected Type2 getType(Name declName)
+  private class TypeSynthesisVisitor implements ZNameVisitor<Term>, TermVisitor<Term>
+  {
+    private Stack<Stroke> strokes_ = null;
+    public <T extends Type2> T run(T term, Stack<Stroke> strokes)
+    {
+      strokes_ = strokes;
+      @SuppressWarnings("unchecked")
+      T result = (T)term.accept(this);
+      strokes_ = null;
+      return result;
+    }
+
+    @Override
+    public Term visitTerm(Term term)
+    {
+      Term result = VisitorUtils.visitTerm(this, term, false);
+      return result;
+    }
+
+    @Override
+    public Term visitZName(ZName term)
+    {
+      Term result = buildName(term, strokes_);
+      return result;
+    }
+  }
+  private final TypeSynthesisVisitor typeSynthesisVisitor_ = new TypeSynthesisVisitor();
+
+  protected Type2 getType(Name declName, Stack<Stroke> strokes)
   {
     Type2 result = null;
     if (types_ != null)
     {
+      boolean needsTypeCreation = false;
+      boolean canIgnoreStrokesInName = strokes != null && !strokes.isEmpty();
       for(NameSectTypeTriple nstt : types_.getNameSectTypeTriple())
       {
-        if (ZUtils.namesEqual(declName, nstt.getName()))
+        ZName zdn = ZUtils.assertZName(declName);
+        ZName tn  = ZUtils.assertZName(nstt.getName());
+
+        boolean found = (canIgnoreStrokesInName &&
+                         ZUtils.compareToIgnoreStrokes(zdn, tn) == 0) ||
+                         ZUtils.namesEqual(zdn, tn);
+        if (found)
         {
           // unwrap generic types, if necessary
           result = UnificationEnv.unwrapType(nstt.getType());
+        
+          // needs to synthesise type when can ignore strokes, yet nstt has no strokes but declName does
+          needsTypeCreation = canIgnoreStrokesInName &&
+                  tn.getZStrokeList().isEmpty() &&
+                  !zdn.getZStrokeList().isEmpty();
+          break;
         }
+      }
+
+      if (result != null && needsTypeCreation)
+      {
+        result = typeSynthesisVisitor_.run(result, strokes);
       }
     }
     return result;
   }
 
   protected Definition addDefinition(ZNameList genFormals, ZName declName,
-		  Expr defExpr, DefinitionKind defKind)
+		  Expr defExpr, DefinitionKind defKind, Stack<Stroke> strokes)
   {
     assert defKind != null;
     if (defKind.isGlobal())// && !defKind.isLocal())
     {
-      return addGlobalDefinition(genFormals, declName, defExpr, defKind);
+      return addGlobalDefinition(genFormals, declName, defExpr, defKind, strokes);
     }
     else //if (defKind.isLocal() && !defKind.isGlobal())
     {
-      return addLocalDefinition(genFormals, declName, defExpr, defKind);
+      return addLocalDefinition(genFormals, declName, defExpr, defKind, strokes);
     }
     //else
     //  throw new CztException(new DefinitionException("TODO = " + declName + " for " + sectName_ + " Kind = " + defKind));
@@ -625,14 +676,15 @@ public class DefinitionTableVisitor
    * @param declName
    * @param defExpr
    * @param defKind
+   * @param strokes
    * @return
    */
   protected Definition addGlobalDefinition(ZNameList genFormals, ZName declName,
-		  Expr defExpr, DefinitionKind defKind)
+		  Expr defExpr, DefinitionKind defKind, Stack<Stroke> strokes)
   {
     assert sectName_ != null;
     assert defKind.isGlobal() : "cannot add local definition as a global def of " + sectName_;
-    Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
+    Type2 unifType = getType(declName, strokes); //TODO: should this be here (on possibly built names) or at addDef calls?
     Expr resolvedExpr = defExpr;
     Definition result = new Definition(sectName_, declName, genFormals, resolvedExpr, unifType, defKind);
     try
@@ -647,12 +699,12 @@ public class DefinitionTableVisitor
   }
 
   protected Definition addLocalDefinition(/*Definition parent,*/ ZNameList genFormals,
-          ZName declName, Expr defExpr, DefinitionKind defKind)
+          ZName declName, Expr defExpr, DefinitionKind defKind, Stack<Stroke> strokes)
   {
     assert currentGlobalDef_ != null;
     assert !defKind.isGlobal() /*defKind.isLocal()*/ : "cannot add global definition as a local def of " + currentGlobalDef_;
     Definition result = null;
-    Type2 unifType = getType(declName); //TODO: should this be here (on possibly built names) or at addDef calls?
+    Type2 unifType = getType(declName, strokes); //TODO: should this be here (on possibly built names) or at addDef calls?
     Expr resolvedExpr = defExpr;
     try
     {
@@ -676,14 +728,14 @@ public class DefinitionTableVisitor
     }
                                               // TODO: should this be just isSchemaDecl()?  WAS isSchemaReference()
     assert local != null && local.getDefinitionKind().isSchemaReference() : "cannot add global definition reference for " + local;
-    Definition localDef = new Definition(currentGlobalDef_.getGenericParams(), local);
     try
     {
+      Definition localDef = new Definition(currentGlobalDef_.getGenericParams(), local);
       currentGlobalDef_.addLocalDecl(localDef);
     }
     catch (DefinitionException e)
     {
-      raiseUnsupportedCase("while adding local ref (cloned+geninst): " + e.getMessage(), localDef.getDefinitionKind(), localDef.getExpr());
+      raiseUnsupportedCase("while adding local ref (cloned+geninst): " + e.getMessage(), local.getDefinitionKind(), local.getExpr());
     }
   }
 
@@ -700,7 +752,7 @@ public class DefinitionTableVisitor
     }
   }
 
-  private void modifyLocalBindings(Expr1 expr)
+  private void modifyLocalBindings(Expr1 expr, Stack<Stroke> strokes)
   {
     assert currentGlobalDef_ != null : "cannot modify bindings of null global def";
     List<NewOldPair> bindings = factory_.list();
@@ -708,12 +760,40 @@ public class DefinitionTableVisitor
     {
       for(Name hide : ((HideExpr)expr).getZNameList())
       {
-        bindings.add(factory_.createNewOldPair(null, hide));
+        // consider strokes
+        ZName strokedName = buildName(hide, strokes);
+        bindings.add(factory_.createNewOldPair(null, strokedName));
       }
     }
     else if (expr instanceof RenameExpr)
     {
-      bindings.addAll(((RenameExpr)expr).getZRenameList());
+      RenameList rl = ((RenameExpr)expr).getRenameList();
+      if (rl instanceof ZRenameList)
+      {
+        for (NewOldPair pair : ((ZRenameList) rl))
+        {
+          Name oldName = buildName(pair.getOldName(), strokes);
+          Name newName = buildName(pair.getNewName(), strokes);
+          bindings.add(factory_.createNewOldPair(newName, oldName));
+        }
+      }
+      // TODO: remove this Corejava dependency to ZEves?
+//      else if (rl instanceof InstantiationList)
+//      {
+//        RenameInExprVisitor renameInExprVisitor_ = new RenameInExprVisitor();
+//        for (Instantiation inst : ((InstantiationList)rl))
+//        {
+//          Name name = buildName(inst.getName(), strokes);
+//
+//          renameInExprVisitor_.toRename_ = ZUtils.assertZName(name);
+//          // either get the expression itself, or its deep copy?
+//          Expr renExpr = strokes.isEmpty() ? inst.getExpr() : VisitorUtils.visitTerm(renameInExprVisitor_, inst.getExpr(), false);
+//
+//          bindings.add(factory_.createNewOldPair(name, ????));
+//        }
+//      }
+      else
+        raiseUnsupportedCase("Unknown type of rename list " + rl.getClass().getSimpleName(), currentGlobalDef_.getDefinitionKind(), expr);
     }
     // assert expr instanceof HideExpr || expr instanceof RenameExpr;
     // otherwise bindings will be empty, which will raise an exception
@@ -727,6 +807,21 @@ public class DefinitionTableVisitor
       debug("error whilst modifying local bindinds \t\t with stack = " + currentName_ + ": \n\"" + e.getMessage(true) + "\"\n");
     }
   }
+
+//  private class RenameInExprVisitor implements ZNameVisitor<Object> {
+//
+//    ZName toRename_ = null;
+//
+//		@Override
+//		public Object visitZName(ZName term)
+//    {
+//      if (term.getWord().equals(toRename_.getWord()) && term.getId().equals(toRename_.getId()))
+//      {
+//        term.getZStrokeList().addAll(toRename_.getZStrokeList());
+//      }
+//      return term;
+//		}
+//	}
 
 
   /**
@@ -815,7 +910,8 @@ public class DefinitionTableVisitor
           // create local definition as a schema and add its Decl as bindings
           ZName defName = factory_.createZName("local"+qexpr.hashCode());
           SchExpr defExpr = factory_.createSchExpr(qexpr.getSchText());
-          currentGlobalDef_ = addGlobalDefinition(genFormals, defName, defExpr, DefinitionKind.SCHEMADECL);
+          // ignore strokes on names when trying to find types for defName is what the boolean "true" means
+          currentGlobalDef_ = addGlobalDefinition(genFormals, defName, defExpr, DefinitionKind.SCHEMADECL, null);
 
         // Lambda Decl @ Expr => see Expr for adding this as AXIOM or SCHDECL
         // Let X == E @ E2 => see E2
@@ -873,13 +969,13 @@ public class DefinitionTableVisitor
    * @param defKind
    */
   protected void processVarDecl(VarDecl decl, ZNameList genFormals,
-          List<Stroke> strokes, DefinitionKind defKind)
+          Stack<Stroke> strokes, DefinitionKind defKind)
   {
     Expr defExpr = decl.getExpr();
     for(Name name : decl.getZNameList())
     {
       ZName bname = buildName(name, strokes);
-      addDefinition(genFormals, bname, defExpr, defKind);
+      addDefinition(genFormals, bname, defExpr, defKind, strokes);
     }
   }
 
@@ -898,7 +994,7 @@ public class DefinitionTableVisitor
    * @param defKind
    */
   protected void processConstDecl(ConstDecl decl, ZNameList genFormals,
-          List<Stroke> strokes, DefinitionKind defKind)
+          Stack<Stroke> strokes, DefinitionKind defKind)
   {
     Expr defExpr = decl.getExpr();
     switch (defKind.value())
@@ -934,7 +1030,9 @@ public class DefinitionTableVisitor
 
 
     ZName bname = buildName(decl.getName(), strokes);
-    addDefinition(genFormals, bname, defExpr, defKind);
+
+    // when querying types, if strokes is non-empty use non-stroked names as well
+    addDefinition(genFormals, bname, defExpr, defKind, strokes);
   }
 
   /**
@@ -1025,7 +1123,7 @@ public class DefinitionTableVisitor
           specialExpr.getAnns().add(loc);
         }
         // add it as a schema decl, so global = it is a SchExpr (e.g., it has S \land S')? No. It is [ S; S' ] okay.
-        includedDef = addDefinition(genFormals, includedName, specialExpr, DefinitionKind.SCHEMADECL);
+        includedDef = addDefinition(genFormals, includedName, specialExpr, DefinitionKind.SCHEMADECL, strokes);
 
         // also process its inner definitions, which should already be available as
         //processSchExpr(genFormals, includedName, specialExpr, defKinds, strokes);
@@ -1133,7 +1231,7 @@ public class DefinitionTableVisitor
               // save top-level def where DecorExpr is being included from
               Definition topLevelDef = currentGlobalDef_;
               // add+process the DecorExpr as a top-level decl (e.g., add S' == [ x', y': T ] globally)
-              strokedDef = addDefinition(def.getGenericParams()/*genFormals*/, strokedName, schExpr, DefinitionKind.SCHEMADECL);
+              strokedDef = addDefinition(def.getGenericParams()/*genFormals*/, strokedName, schExpr, DefinitionKind.SCHEMADECL, strokes);
               currentGlobalDef_ = strokedDef;
               
               // this is being globally defined, so update defKind in case of SCHEXPR
@@ -1171,7 +1269,7 @@ public class DefinitionTableVisitor
     // couldn't find the declaration where this reference came from
     else
     {
-      raiseUnsupportedCase("unknown reference", def.getDefinitionKind(), refName);
+      raiseUnsupportedCase("unknown reference", null, refName);
     }
   }
 
@@ -1325,7 +1423,7 @@ public class DefinitionTableVisitor
           // Hide, Rename
           if (!(expr instanceof NegExpr))
           {
-            modifyLocalBindings((Expr1)expr);
+            modifyLocalBindings((Expr1)expr, strokes);
           }
         }
       }
@@ -1430,7 +1528,7 @@ public class DefinitionTableVisitor
             ConstDecl cDecl = (ConstDecl)decl;
 
             // add the schema definition itself before processing its bindings, so that locals can be added.
-            currentGlobalDef_ = addGlobalDefinition(genFormals, cDecl.getZName(), cDecl.getExpr(), currentDefKind);
+            currentGlobalDef_ = addGlobalDefinition(genFormals, cDecl.getZName(), cDecl.getExpr(), currentDefKind, strokes);
 
             // process the SchExpr; this is being globally defined, so update defKind in case of SCHEXPR
             DefinitionKind schDefKind = processSchExpr(genFormals, cDecl.getZName(), cDecl.getExpr(), defKinds, strokes);

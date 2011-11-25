@@ -23,13 +23,16 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.SortedSet;
+import net.sourceforge.czt.print.z.LatexPrinterPropertyKeys;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.KnownExtensions;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZName;
@@ -44,7 +47,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @author Leo Freitas
  */
 public class DefinitionTableService
-  implements Command
+  implements Command, VCGPropertyKeys
 {
   SectionInfo sectInfo_;
 
@@ -166,11 +169,58 @@ public class DefinitionTableService
   {
     long startTime = System.nanoTime();
     DefinitionTableVisitor.DEFAULT_DEBUG_DEFTBL_VISITOR = true;
-    SectionManager manager = new SectionManager();
+
+    String fileName = null;
+    String extension = "z";
+    boolean debug = false;
+    boolean hideWarnings = false;
+    boolean checkDefTblConsistency = false;
+    int fileArgIndex = 0;
+    for (int i = 0; i < args.length && fileName == null; i++, fileArgIndex++)
+    {
+      if ("-y".equals(args[i]))
+      {
+        checkDefTblConsistency = true;
+      }
+      else if ("-h".equals(args[i]))
+      {
+        hideWarnings = true;
+      }
+      else if ("--debug".equals(args[i]))
+      {
+        debug = true;
+      }
+      else if (args[i].startsWith("-e"))
+      {
+        final String ext = args[i].substring(2).toUpperCase();
+        try
+        {
+          extension = KnownExtensions.valueOf(ext).toString();
+        }
+        catch (IllegalArgumentException e)
+        {
+          System.err.println("Unknown CZT extension " + ext);
+          System.exit(-3);
+        }
+      }
+      else if (args[i].startsWith("-"))
+      {
+        System.err.println("Ignoring unknown argument " + args[i]);
+      }
+      else
+      {
+        fileName = args[i];
+      }
+    }
+    assert fileName != null;
+
+    SectionManager manager = new SectionManager(extension);
+    manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(hideWarnings));
+    manager.setProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY, String.valueOf(checkDefTblConsistency));
+    manager.setTracing(debug);
     manager.putCommand(getCommandInfoType(), getCommand(manager));
-    manager.setTracing(false);
     DefinitionTable table = null;
-    File file = new File(args[0]);
+    File file = new File(fileName);
     String sourceName = SourceLocator.getSourceName(file.getName());
     SourceLocator.addCZTPathFor(file, manager);
     manager.put(new Key<net.sourceforge.czt.session.Source>(sourceName, net.sourceforge.czt.session.Source.class),
@@ -241,9 +291,9 @@ public class DefinitionTableService
           }
         }
         dtOther = System.nanoTime();
-        if (args.length > 1)
+        if (args.length > fileArgIndex)
         {
-          ZName arg = ZUtils.FACTORY.createZName(args[1]);
+          ZName arg = ZUtils.FACTORY.createZName(args[fileArgIndex]);
           System.out.println("\n------------------------------- BINDINGS -------------------------------");
           Definition def = table.lookupName(arg);
           if (def == null)
@@ -257,12 +307,12 @@ public class DefinitionTableService
               SortedSet<Definition> bindings = table.bindings(arg);
               dtBinding = System.nanoTime() - dtOther;
               final String result2 = bindings.toString().replaceAll(", ", ",\n");
-              System.out.println("Bindings for " + args[1] + " = " + bindings.size());
+              System.out.println("Bindings for " + args[fileArgIndex] + " = " + bindings.size());
               System.out.println(result2);
             }
             catch (DefinitionException ex)
             {
-              System.err.println("Could not retrive bindings for " + args[1]);
+              System.err.println("Could not retrive bindings for " + args[fileArgIndex]);
             }
             System.out.println("\n-------------- of Def -------------");
             System.out.println(def.toString());
