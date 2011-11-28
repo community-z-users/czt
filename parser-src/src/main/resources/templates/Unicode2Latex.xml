@@ -1056,7 +1056,7 @@ precedence nonassoc INDENT;
              |
              WHERE:t
              {:
-                RESULT = resultTT("\n\\where\n", ZString.VL); :}
+                RESULT = resultTT("\n\\where\n", ZString.NL + ZString.VL); :}
 <add:oz>
              |
              SDEF
@@ -1391,7 +1391,7 @@ zStInfo   ::=
              {:
                 assert s != null;
                 if (s instanceof WhereWord) {
-                  RESULT = resultTT("\n\\where\n", ZString.VL);
+                  RESULT = resultTT("\n\\where\n", ZString.NL + ZString.VL);
                 }
 <add:oldz>
                 else if (s instanceof DefsWord) {
@@ -1561,8 +1561,8 @@ zStInfo   ::=
                 int i = indent.length();
                 int ts = (i / parser.tabSize_);
                 int trail = (i % parser.tabSize_);
-                if (trail >= (parser.tabSize_ / 2)) ts++;
-                if (ts > 9) ts = 9; else if (ts &lt; 1) ts = 1;
+                if (trail &gt;= (parser.tabSize_ / 2)) ts++;
+                if (ts &gt; 9) ts = 9; else if (ts &lt; 1) ts = 1;
                 String latex = indent + "\\t" + ts + "\t";
                 RESULT = resultTT(latex, indent);
              :} 
