@@ -1,0 +1,173 @@
+\chapter[\Betw\ to \Conc\  rules]{Refinement Proof Rules}\label{ch25}
+
+Like in Chapters~\ref{ch9}, this chapter introduces meta-theorems
+for the refinement rules, but for \Betw\ and \Conc\ instead of \Abs\
+and \Betw.
+
+The only formal part here for \zeves\ is the simplification of the
+precondition in the general simulation rules.
+
+%---------------------
+\section{Security of the implementation}
+%---------------------
+
+We prove the concrete model \Conc\ is secure with respect to the
+between model \Betw\ by showing that every concrete operation
+correctly refines a between operation.  The concrete and between
+operations are similarly-named.  The full list of refinements is:
+\begin{gzed}
+%%\forall \BOp; Rbc; Rbc' @
+  StartTo
+%%\implies
+  \sqsubseteq CStartTo
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  StartFrom
+%%\implies
+  \sqsubseteq CStartFrom
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Req
+%%\implies
+  \sqsubseteq CReq
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Val
+%%\implies
+  \sqsubseteq CVal
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Ack
+%%\implies
+  \sqsubseteq CAck
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  ReadExceptionLog
+%%\implies
+  \sqsubseteq CReadExceptionLog
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  ClearExceptionLog
+%%\implies
+  \sqsubseteq CClearExceptionLog
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  AuthoriseExLogClear
+%%\implies
+  \sqsubseteq CAuthoriseExLogClear
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Archive
+%%\implies
+  \sqsubseteq CArchive
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Abort
+%%\implies
+  \sqsubseteq CAbort
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Increase
+%%\implies
+  \sqsubseteq CIncrease
+  \\ %
+%%\forall \BOp; Rbc; Rbc' @
+  Ignore
+%%\implies
+  \sqsubseteq CIgnore
+\end{gzed}
+
+Commented in the original PRG, these theorems are given as
+%
+\begin{gzed}
+  \forall StartTo; Rbc; Rbc' @ CStartTo
+\end{gzed}
+%
+which is a simplified version of the correctness theorem for forward
+simulation with functional retrieve relation where $\pre StartTo =
+true$.
+
+%-----------------
+\section{Forwards rules proof obligations}\label{ch15.proof-forward}
+%-----------------
+
+Each of these refinements must be proved correct.
+
+%............
+\subsection{Retrieve}
+%............
+
+The retrieve relation has one part that links the abstract and
+concrete states.
+
+%............
+\subsection{Initialisation}
+%............
+
+\begin{gzed}
+%%\forall
+  CInit
+%%@
+  \shows \exists B' @ BInit \land Rbc'
+\end{gzed}
+
+%............
+\subsection{Finalisation}
+%............
+
+\begin{gzed}
+%%\forall
+  Rbc; CFin
+%%@
+  \shows BFin
+\end{gzed}
+
+%............
+\subsection{Applicability}
+%............
+
+\begin{gzed}
+%%\forall
+  Rbc ; BIn  | \pre BOp
+%%@
+  \shows \pre COp
+\end{gzed}
+
+%............
+\subsection{Correctness}
+\label{ch25.proof-forward-correctness}
+
+%............
+\begin{gzed}
+%%\forall
+  Rbc; COp | \pre BOp
+%%@
+  \shows \exists B' @ Rbc' \land BOp
+\end{gzed}
+
+We can simplify the correctness condition because we know that all
+the between operations are total, i.e.
+\begin{gzed}
+\pre BOp = true
+\end{gzed}
+This was proved earlier, in section~\ref{ch8.specproof-betw-total}.
+This is true because of the  disjunction with $Ignore$.
+
+We can therefore simplify the correctness condition to
+\begin{gzed}
+%%\forall
+  Rbc; COp
+%%@
+  \shows \exists B' @ Rbc' \land BOp
+\end{gzed}
+
+\newpage
+
+\section{Summary}\label{ch25.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

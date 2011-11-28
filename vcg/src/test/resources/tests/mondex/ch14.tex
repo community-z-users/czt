@@ -1,0 +1,1561 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch14 \parents ch12
+\end{zsection}
+CHANGES:
+* changed zproof to gzproof on meta-environments
+* add hard spaces for decor word
+}
+
+\chapter[\Abs\ to \Betw\ lemmas]{Lemmas for the \Abs\ to \Betw\ correctness proofs}\label{ch14}
+
+\newcommand{\pdThisPred}{\mathcal{P}}
+\newcommand{\chosenLostPred}{\mathcal{Q}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% IMPORTANT NOTE!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THIS CHAPTER IS ABOUT LEMMAS TO REFINEMENT PROOFS
+% THESE LEMMAS DO NOT WORK AS CLOSE/NICE WITH Z/EVES
+% THUS, WE INTRODUCE MODIFIED VERSIONS OF THESE LEMMAS HERE
+% AS WE ARE PROVING THE SAME REFINEMENT THEOREMS, IT DOES NOT MATTER.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this Chapter a series of lemmas for the backward refinement proofs are
+explained. Nevertheless, by the nature of the inference system of \zeves\
+many of these are trivially characterised if not already present via some of
+the (\textit{prenex}) tactics to deal with quantifiers.
+
+Moreover, some of the lemmas are in fact a proof strategy as
+meta-theorems for a general operation $BOp$, instead of the actual
+operation name. Therefore, we \textbf{DO NOT} include the lemmas as
+they are presented because:~(i)~they are an informal argument with
+meta-lemmas;~(ii)~they are only suitable for proving the actual
+simulation theorems by hand.
+
+Instead, we provide lemmas/definitions that are similar to those of
+Mondex, but that suits \zeves\ needs. In this path, \textbf{we provide the actual
+proof steps} to reach to such \zeves\ goal from the original Mondex text.
+Basically, we ``expand'' the meta-theorems into their actual forms for each $Okay$
+operation in \Betw, as well as the special cases for $Ignore$ and $Abort$. In the
+end, because we prove the same backward refinement theorems with a
+quite similar/close proof strategy, it does not matter which
+particular route (of lemmas) we have chosen to follow.
+
+\section{Introduction}
+
+\section{Lemma `multiple refinement'}\label{ch14.between-sep}
+
+In this section, there is no additional lemma for \zeves.
+
+\section{Lemma `ignore': separating the branches}\label{ch14.between-special}
+
+Each between operation $BOp$ is promoted from $BOpPurseOkay$,
+disjoined with $Ignore$, and sometimes with $Abort$.  Call the first
+disjunction $BOpOkay$:
+%
+\begin{gzed}
+  BOpOkay ~~\defs~~ \exists \Delta ConPurse  @ PhiBOp \land BOpPurseOkay
+\end{gzed}
+%
+Here the $BOpPurseOkay$ are one of the following:
+\[
+\begin{array}{lll}
+    AbortPurseOkay    & IncreasePurseOkay & StartFromPurseOkay \\
+    StartToPurseOkay  & ReqPurseOkay      & ValPurseOkay \\
+    AckPurseOkay      & ReadExceptionLogPurseOkay & ClearExceptionLogPurseOkay\\
+    AuthoriseExLogClearOkay &Archive
+\end{array}
+\]
+%
+For this, we added new definitions for those operations separating
+the disjunction with $Ignore$ and/or $Abort$. These disjuncts come
+from Section~\ref{ch5.ignore.increase.abort} onwards. As they are
+needed for the precondition proofs we must include then in
+Chapter~\ref{ch8} rather than here. They are given in
+Sections~\ref{ch8.specproof-betw.promotedalone}
+and~\ref{ch8.specproof-betw.worldlevelalone}.
+
+\section{Lemma `deterministic': simplifying the $Okay$ branch}\label{ch14.general-bop-okay}
+
+In here, although we do not use the lemmas of the first two sections
+to choose an input and $\Delta ConPurse$ because \zeves\ prenexing
+will expose this directly, the way $pdThis$ is exposed is quite
+interesting and demands closer inspection, as we do in the following
+subsection~\ref{ch14.exposing-pdthis}.
+
+\subsection{Choosing an input}
+
+That is, in Mondex, we had the goal
+%
+\begin{gzed}
+BOpOkay; RabOut; Rab'; a? : AIN | RabIn
+%%@
+\\ %
+\shows
+\\ %
+RabIn \land (~ \exists AbWorld @ Rab \land AOp ~)
+\end{gzed}
+%
+In \zeves\ that means a rule or lemma that will expose (or weaken)
+such goal via what in the PRG is called \textit{[cut]}. If we assume
+the operation for $BOpOkay$ as $Increase$ without $Ignore$, and the
+$AOp$ to be $AbTransferOkay$, we would have
+%
+\begin{gzed}
+  IncreaseOkay; RabOut; Rab'; a? : AIN | RabIn
+  %%@
+  \\ %
+  \shows
+  \\ %
+  RabIn \land (~ \exists AbWorld @ Rab \land AbTransferOkay ~)
+\end{gzed}
+%
+For \zeves\ this is state as
+\begin{gzed}
+   \forall IncreaseOkay; RabOut; Rab'; a? : AIN | RabIn @ \\
+    \t1 RabIn \land (~ \exists AbWorld @ Rab \land AbTransferOkay ~)
+\end{gzed}
+%
+As pointed out in Mondex, because $RabIn$ already contains $a? \in
+AIN$, it can be further simplified in \zeves\ after expanding
+$RabIn$ to
+%
+\begin{gzed}
+  IncreaseOkay \land RabOut \land Rab' \land a? \in AIN \land BetwInitIn[a?/g?]
+  \\
+  \t1 \implies
+  \\
+  (\exists AbWorld @ Rab \land AbTransferOkay)
+\end{gzed}
+%
+with \textsf{invoke RabIn} and \textsf{simplify}.
+
+This is not proved in Mondex, but just pointed out as a proof
+strategy. So, nothing need to be added here.
+
+%try
+%  \forall IncreaseOkay; RabOut; Rab'; a?: AIN | RabIn
+%    @       RabIn \\
+%      \land (\exists AbWorld
+%               @ (      Rab \\
+%                  \land AbTransferOkay));
+%invoke RabIn;
+%simplify;
+
+\subsection{Cutting in $\Delta ConPurse$}
+
+Mondex follows the previous result and simplifies it once more by
+expanding the promoted operation. For our running example in \zeves,
+we need to expand $IncreaseOkay$ with \textsf{invoke IncreaseOkay} in
+%
+\begin{gzed}
+  IncreaseOkay \land RabOut \land Rab' \land RabIn
+  \\
+  \t1 \implies
+  \\
+  (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+%
+and reach
+%
+\begin{gzed}
+  (~\exists \Delta ConPurse @ PhiBOp \land IncreasePurseOkay~) \land
+  \\ %
+  \t2 RabOut \land Rab' \land RabIn
+  \\ %
+  \implies
+  \\ %
+  (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+%
+which we can further \textsf{prenex} to
+%
+\begin{gzed}
+    \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+    \land RabOut \land Rab' \land RabIn \\
+ \t2 \implies \\
+    (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+
+%try
+%                 IncreaseOkay \\
+%           \land RabOut \\
+%           \land Rab' \\
+%           \land RabIn \\
+%  \implies (\exists AbWorld
+%              @       Rab \\
+%                \land AbTransferOkay);
+%invoke IncreaseOkay;
+%prenex;
+
+\subsection{Exposing $chosenLost$ and $pdThis$}\label{ch14.exposing-pdthis}
+
+From the previous section, we now expand $Rab'$ with \textsf{invoke predicate Rab'},
+and get rid of the quantifier with \textsf{prenex} to reach
+%
+\begin{gzed}
+     \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+      \land RabOut \land chosenLost \in \power PayDetails \\
+      \land RabCl'[chosenLost/chosenLost'] \land RabIn \\
+\t2 \implies \\
+    (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+
+Next, Mondex declares a general (meta-) lemmas about every $BOpOkay$ operation as
+%
+\begin{gzed}
+   PhiBOp; BOpPurseOkay; RabOut; RabCl'; RabIn \\
+   \shows \\
+   \exists pdThis: PayDetails @ \pdThisPred
+\end{gzed}
+%
+which is to be \textit{[cut]} into the goals. For now, let us assume that $\pdThisPred$ is just $true$.
+In \zeves\ that means to \textsf{use} the lemma. For our running example, the lemma is
+%
+\begin{gzed}
+   \forall PhiBOp; IncreasePurseOkay; RabOut; RabCl'; RabIn @ (~\exists pdThis: PayDetails @ \pdThisPred~)
+\end{gzed}
+%\begin{theorem}{lIncreaseOkayPdThisLemma}
+%    \forall PhiBOp; IncreasePurseOkay; RabOut; RabCl'; RabIn @ (~\exists pdThis: PayDetails @ true~)
+%\end{theorem}
+%
+where $\pdThisPred$ is to be defined earlier depending on the context. If we call this lemma
+\[
+lIncreaseOkayPdThisLemma
+\]
+we can transform the goal to be
+%
+\begin{gzed}
+    \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+    \land RabOut \land chosenLost \in \power PayDetails \\
+    \land RabCl'[chosenLost/chosenLost'] \land RabIn \\
+    \land pdThis \in PayDetails \land \pdThisPred \\
+\t2 \implies \\
+    (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+%
+after the proof commands
+%
+\begin{gzproof}
+   use lIncreaseOkayPdThisLemma[chosenLost' := chosenLost];
+   rearrange;
+   simplify;
+   prenex;
+\end{gzproof}
+
+After that, we use the universally quantified version of $RabCl'$ (see Section~\ref{ch10.retrieve-value-mig-quant})
+and transform the goal into
+%
+\begin{gzed}
+    \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+    \land RabOut \land chosenLost \in \power PayDetails \\
+    \land RabCl'[chosenLost/chosenLost'] \land RabIn \\
+    \land pdThis \in PayDetails \land \pdThisPred \\
+    \land (\forall pdThis\_\_0: PayDetails @ \\
+        \t1 RabClPd'[chosenLost/chosenLost', pdThis\_\_0/pdThis']) \\
+\t2 \implies \\
+    (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+%
+with the following proof commands
+%
+\begin{gzproof}
+    use tRetrieveForAllRabClPd'[chosenLost' := chosenLost];
+    rearrange;
+    simplify;
+    simplify;
+\end{gzproof}
+%
+In \zeves, when we use a theorem name with a dash, all variables in its declaration are dashed.
+That is, for a theorem $T$, $T' \iff T['/\_]$.
+
+The next simplification is to instantiate quantified $pdThis\_\_0$ with the known $pdThis$
+from the lemma involving $\pdThisPred$.  This changes the goal to
+%
+\begin{gzed}
+    \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+    \land RabOut \land chosenLost \in \power PayDetails \\
+    \land RabCl'[chosenLost/chosenLost'] \land RabIn \\
+    \land pdThis \in PayDetails \land \pdThisPred \\
+    \land RabClPd'[chosenLost/chosenLost', pdThis/pdThis']
+    \land (\forall pdThis\_\_0: PayDetails @ \\
+        \t1 RabClPd'[chosenLost/chosenLost', pdThis\_\_0/pdThis']) \\
+\t2 \implies \\
+    (~\exists AbWorld @ Rab \land AbTransferOkay~)
+\end{gzed}
+%
+after the proof steps below.
+%
+\begin{gzproof}
+   instantiate pdThis\_\_0 == pdThis;
+   rewrite;
+\end{gzproof}
+
+Mondex then removes elements from the assumptions to simplify the goal.
+We cannot do this in \zeves\ and it is irrelevant for further proofs, since
+the assumptions are being removed for clarification of the goal only.
+
+The next change, which uses the existentially quantified version of $Rab$ in
+the consequent cannot be applied once more. That is because in \zeves, after
+expanding the goal to
+%
+\begin{gzed}
+    \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+    \land RabOut \land chosenLost \in \power PayDetails \\
+    \land RabCl'[chosenLost/chosenLost'] \land RabIn \\
+    \land pdThis \in PayDetails \land \pdThisPred \\
+    \land RabClPd'[chosenLost/chosenLost', pdThis/pdThis']
+    \land (\forall pdThis\_\_0: PayDetails @ \\
+        \t1 RabClPd'[chosenLost/chosenLost', pdThis\_\_0/pdThis']) \\
+\t2 \implies \\
+    (~\exists AbWorld @ \\
+        \t1 (\exists chosenLost\_\_0: \power PayDetails \\
+            \t2 @ RabCl[chosenLost\_\_0/chosenLost]) \\
+        \t1 \land AbTransferOkay~)
+\end{gzed}
+%
+with \textsf{invoke Rab}, we cannot \textbf{use tRetrieveExistsRabClPd}
+directly because $chosenLost\_\_0$ is not available to use in the \textsf{use} proof step.
+What we can do is to say that $chosenLost\_\_0$ is $chosenLost$. It leads to the following
+goal
+%
+\begin{gzed}
+    \Delta ConPurse \land PhiBOp \land IncreasePurseOkay \\
+    \land RabOut \land chosenLost \in \power PayDetails \\
+    \land RabCl'[chosenLost/chosenLost'] \land RabIn \\
+    \land pdThis \in PayDetails \land \pdThisPred \\
+    \land RabClPd'[chosenLost/chosenLost', pdThis/pdThis']
+    \land (\forall pdThis\_\_0: PayDetails @ \\
+        \t1 RabClPd'[chosenLost/chosenLost', pdThis\_\_0/pdThis']) \\
+\t2 \implies \\
+    (~\exists AbWorld @ \\
+            \t2 (RabCl \lor \\
+                \t3 (\exists chosenLost\_\_0: \power PayDetails \\
+                    \t4 @ RabCl[chosenLost\_\_0/chosenLost])~) \\
+        \t1 \land AbTransferOkay~)
+\end{gzed}
+%
+with proof steps
+%
+\begin{gzproof}
+    invoke Rab;
+    instantiate chosenLost\_\_0 == chosenLost;
+    rewrite;
+\end{gzproof}
+
+%try
+%                 IncreaseOkay \\
+%           \land RabOut \\
+%           \land Rab' \\
+%           \land RabIn \\
+%  \implies (\exists AbWorld
+%              @       Rab \\
+%                \land AbTransferOkay);
+%invoke IncreaseOkay;
+%prenex;
+%invoke predicate Rab';
+%prenex;
+%use lIncreaseOkayPdThisLemma[chosenLost' := chosenLost];
+%rearrange;
+%simplify;
+%prenex;
+%use tRetrieveForAllRabClPd'[chosenLost' := chosenLost];
+%rearrange;
+%simplify;
+%simplify;
+%instantiate pdThis\_\_0 == pdThis;
+%rewrite;
+%invoke Rab;
+%instantiate chosenLost\_\_0 == chosenLost;
+%rewrite;
+
+As \zeves\ does not allow application/usage of theorems in the consequent,
+we need to use a simplified version of the given goal. By fiddling with the
+original it is clear that it is just a matter of variable renaming.
+
+For our running example for $IncreasePurseOkay$, we need to include another lemma
+relating the actual ($Increase$) operation and $\chosenLostPred$ as
+%
+\begin{gzed}
+    \forall PhiBOp; IncreasePurseOkay; RabOut; RabIn; pdThis: PayDetails; \\
+        \t1 RabClPd'[pdThis/pdThis'] | \pdThisPred @ \\
+            \t2 \exists chosenLost: \power~PayDetails @ \chosenLostPred \land chosenLost \subseteq maybeLost
+\end{gzed}
+%\begin{theorem}{lIncreaseOkayChosenLostLemma}
+%    \forall PhiBOp; IncreasePurseOkay; RabOut; RabIn; pdThis: PayDetails; RabClPd'[pdThis/pdThis'] | true @ \\
+%        \t1 \exists chosenLost: \power~PayDetails @ true \land chosenLost \subseteq maybeLost
+%\end{theorem}
+%
+
+%try
+%                 PhiBOp \\
+%           \land IncreasePurseOkay \\
+%           \land RabOut \\
+%           \land RabIn \\
+%           \land \Local pdThis \in PayDetails \\
+%           \land true \\
+%           \land RabClPd'[pdThis/pdThis'] \\
+%  \implies (\exists AbWorld
+%              @       (\exists chosenLost: \power PayDetails; pd: PayDetails
+%                         @ RabClPd[pd/pdThis]) \\
+%                \land AbTransferOkay);
+%use lIncreaseOkayChosenLostLemma;
+%rearrange;
+%rewrite;
+%prenex;
+%instantiate chosenLost\_\_0 == chosenLost, pd == pdThis;
+%rewrite;
+%use lAbWorldUnique;
+%rearrange;
+%rewrite;
+%prenex;
+%instantiate abAuthPurse\_\_1 == abAuthPurse;
+%simplify;
+
+In the derivation of this section, the two lemmas from Section~\ref{ch10.retrieve-value-mig-quant} are used.
+And here is the problem:~the universally quantified equivalence ($tRetrieveForAllRabClPd$) holds,
+but the existentially quantified one ($tRetrieveExistsRabClPd$) does not!
+The proof is not possible because for $tRetrieveExistsRabClPd$ we reach the predicate
+%
+\begin{gzed}
+    \exists pd: PayDetails @ true
+\end{gzed}
+%
+This is exactly the side condition to be proven below in Section~\ref{ch14.general-summary}
+for each $BOpOkay$ operation when
+%
+\begin{gzed}
+   \pdThisPred \iff true
+\end{gzed}
+%
+This sheds light on the nature of the proofs being done at this stage. That is,
+because of the use of the existential equivalence via $tRetrieveExistsRabClPd$
+in order to expose $chosenLost$ as required, we need to prove
+%
+\begin{gzed}
+    \exists pd: PayDetails @ \pdThisPred
+\end{gzed}
+%
+and something similar for $chosenLost$ (in $\chosenLostPred$).
+
+\subsection{The existence of $AbWorld$}
+
+We also need another lemma from Appendix~C as
+%
+\begin{LLemma}[$AbWorld$ is unique within a choice in $Betweenworld$]
+\begin{theorem}{lAbWorldUniqueC15}
+    \forall RabCl; BetweenWorld; chosenLost: \power~PayDetails; pdThis: PayDetails | \\
+        \t1 chosenLost \subseteq maybeLost @ \exists_1 AbWorld @ RabClPd
+\end{theorem}~\end{LLemma}
+
+
+%prenex;
+%rewrite;
+%invoke RabClPd;
+%invoke RabCl;
+%invoke AbstractBetween;
+%prove by rewrite;
+%instantiate abAuthPurse\_\_0 == abAuthPurse;
+%prove by rewrite;
+
+\subsection*{Proof}
+
+\begin{LPScript}\begin{zproof}[lAbWorldUniqueC15]
+
+\end{zproof}~\end{LPScript}
+
+Each element of $AbWorld$ has an explicit equation in
+$Rab$ defining it uniquely in terms of $BeweenWorld$ components.
+The components are entirely independent, and the only constraint
+that ties any together is that on $chosenLost$ and $maybeLost$,
+which we have directly in the hypothesis.
+
+The constraints required of any $AbWorld$ can be shown to hold as
+follows:
+\begin{itemize}
+\item $abAuthPurse : NAME \ffun AbPurse$
+
+  $conAuthPurse$ is a finite function.  From the retrieve
+  $AbstractBetween$ its domain equals the
+  domain of $conAuthPurse$, and so is finite, too.
+\end{itemize}
+
+\subsection{Statement of lemma `deterministic'}\label{ch14.general-summary}
+
+TODO: CONTINUE TEXT FROM HERE
+
+We summarise the results that Section~\ref{ch14.general-bop-okay} has
+developed as a lemma, for each $BOpPurseOkay$ operation.
+%%\begin{lemma}[deterministic]
+  {\rm The correctness proof for a general $Okay$ branch consists of
+    the following three proof obligations:}
+
+ % %\index{exists-pd@{\bf exists-pd}}
+  \noindent {\bf exists-pd}:
+  \begin{gzed}
+%%\forall
+    PhiBOp; BOpPurseOkay; RabOut; RabCl'; RabIn
+%%@
+    \\ %
+    \shows
+    \\ %
+    \exists pdThis: PayDetails @ \pdThisPred
+  \end{gzed}
+
+  %\index{exists-chosenLost@{\bf exists-chosenLost}}
+  \noindent {\bf exists-chosenLost}:
+  \begin{gzed}
+%%\forall
+    PhiBOp; BOpPurseOkay; RabOut; RabClPd'[pdThis/pdThis']; RabIn |
+    \\ %
+    \t1 \pdThisPred
+%% @
+    \\ %
+    \shows
+    \\ %
+    \exists chosenLost: \power PayDetails @ \chosenLostPred \land
+    chosenLost \subseteq maybeLost
+  \end{gzed}
+
+  %%\index{check-operation@{\bf check-operation}}
+  \noindent {\bf check-operation}:
+  \begin{gzed}
+%% \forall
+    PhiBOp; BOpPurseOkay; RabOut; RabClPd'[pdThis / pdThis'];
+    \\ %
+    \t2 AbWorld; RabClPd; RabIn |
+    \\ %
+    \t1 \pdThisPred \land \chosenLostPred
+%% @
+    \\ %
+    \shows
+    \\ %
+    AOp
+  \end{gzed}
+%\end{lemma}
+
+$\Box$ \ref{ch14.general-bop-okay}
+%---------------------
+\section{Lemma `lost unchanged'}
+\label{ch14.lost-unchanged}
+%---------------------
+Many operations do not change $maybeLost$ or $definitelyLost$.  We
+call a general such operation $BOp\Xi Lost$.
+
+%\index{lemma `lost unchanged'}
+%\begin{lemma}[lost unchanged]
+  {\rm For $BOp\Xi Lost$ operations, where $maybeLost$ $=$
+    $maybeLost'$ and $definitelyLost' = definitelyLost$, the proof
+    obligations {\bf exists-pd} and {\bf exists-chosenLost} are
+    satisfied automatically by the instantiation of the predicates
+    $\pdThisPred$ and $\chosenLostPred$ as:
+    \begin{gzed}
+%%\forall pdThis : PayDetails @
+      \pdThisPred \iff true
+      \also %
+%% \forall \Delta RabClPd @
+      \chosenLostPred \iff chosenLost = chosenLost'
+    \end{gzed}
+    leaving the remaining {\bf check-operation} proof obligation as
+
+    \def\BOpXiLostPurseOkay{BOp\Xi LostPurseOkay}
+%%\begin{gzed} \BOpXiLostPurseOkay \defs BOp \end{gzed}
+    \begin{gzed}
+%% \forall
+      PhiBOp; \BOpXiLostPurseOkay; RabOut; RabClPd'[pdThis / pdThis'];
+      \\ %
+      \t2 AbWorld; RabClPd; RabIn |
+      \\ %
+      \t1 chosenLost = chosenLost'
+      \\ %
+      \t1 \land maybeLost = maybeLost'
+      \\ %
+      \t1 \land definitelyLost' = definitelyLost
+%% @
+      \\ %
+      \shows
+      \\ %
+      AOp
+    \end{gzed}
+    }
+%\end{lemma}
+%---------------------
+\subsection{Proof}
+%---------------------
+We add the hypotheses $maybeLost = maybeLost'$ and
+$definitelyLost' = definitelyLost$ to the proof
+obligations for these $BOp\Xi Lost$ operations.
+%................
+\subsubsection{exists-pd}
+\label{ignore-maybeLost-pd}
+%................
+\def\BOpXiLostPurseOkay{BOp\Xi LostPurseOkay}
+\begin{gzed}
+%% \forall
+  PhiBOp; \BOpXiLostPurseOkay; RabOut; RabCl'; RabIn |
+  \\ %
+  \t1 maybeLost' = maybeLost
+  \\ %
+  \t1 \land definitelyLost' = definitelyLost
+%%@
+  \\ %
+  \shows
+  \\ %
+  \exists pdThis : PayDetails @ true
+\end{gzed}
+This is trivially true.
+
+$\Box$ \ref{ignore-maybeLost-pd}
+
+%................
+\subsubsection{exists-chosenLost}
+\label{ignore-maybeLost-cl}
+%................
+
+\begin{gzed}
+%% \forall
+  PhiBOp; \BOpXiLostPurseOkay; RabOut; RabClPd'[pdThis / pdThis'];
+  \\ %
+  \t1 RabIn |
+  \\ %
+  \t1 maybeLost' = maybeLost
+  \\ %
+  \t1 \land definitelyLost' = definitelyLost
+%% @
+  \\ %
+  \shows
+  \\ %
+  \exists chosenLost : \power PayDetails @
+  \\ %
+  \t1 chosenLost = chosenLost' \land chosenLost \subseteq maybeLost
+\end{gzed}
+We apply the \texttt{onept} rule to remove the existential quantifier in
+the consequent, substitute for $maybeLost$, and \texttt{thin}.
+\begin{gzed}
+%% \forall
+  RabClPd'[pdThis / pdThis']
+%% @
+  \shows chosenLost' \subseteq maybeLost'
+\end{gzed}
+The hypothesis $ RabClPd'[pdThis / pdThis'] $ has $chosenLost'
+\subseteq maybeLost'$.
+
+$\Box$ \ref{ignore-maybeLost-cl}
+
+$\Box$ \ref{ch14.lost-unchanged}
+%---------------------
+\subsection{Sufficient conditions for invoking lemma `lost unchanged'}
+\label{sufficient-conditions}
+%---------------------
+Since $PhiBOp$ gives us that $archive$ is unchanged, sufficient
+conditions for invoking lemma `lost unchanged' are that the
+operation in question changes neither the purse's status (hence no
+movement into or out of $epv$ or $epa$) nor its exception log (hence
+no change to $from$ logs or $to$ logs).
+%---------------------
+\section{Lemma `$AbIgnore$': Operations that refine $AbIgnore$}
+\label{abignore}
+%---------------------
+%%\begin{gzed} BOpIg \defs Ignore\end{gzed}
+As shown in section~\ref{ch14.between-sep}, to prove the refinement of
+the abstract identity operation $AbIgnore$, we can separately prove
+correctness for each of the between operations $StartFrom$,
+$StartTo$, $Val$, $Ack$, {\it ReadExceptionLog}, {\it
+  ClearExceptionLog}, $AuthoriseExLogClear$, $Archive$,
+$Ignore$, $Increase$, and $Abort$.
+
+For those which are structured as promoted operations (that is, all
+except $Archive$ and $Ignore$), consider a general such operation,
+call it $BOpIg$.  We note that all $BOpIg$ operations have the
+properties:
+\begin{itemize}
+\item $BOpIg$ is a promoted operation, and thus alters only one
+  concrete purse.  It has the form
+  \begin{gzed}
+  \exists \Delta ConPurse @ PhiBOp \land BOpIgPurse
+  \end{gzed}
+%%\begin{gzed}
+%%      BOpIgPurse \defs \Delta ConPurse
+%%\end{gzed}
+\item for any purse, the $name$ is unchanged (by definition of the
+  single purse operations)
+\item the domain of $conAuthPurse$ is unchanged (by construction of
+  the promotion)
+\item for any purse, either $nextSeqNo$ is unchanged, or increased.
+  \begin{gzed}
+  \forall BOpIgPurse @ nextSeqNo \leq nextSeqNo'
+  \end{gzed}
+\end{itemize}
+We use these properties to simplify the proof obligation for the
+$BOpIg$ operations.
+
+We invoke lemma `deterministic' (section~\ref{ch14.general-bop-okay}) to
+reduce the $BOpIg$ proof obligation to {\bf exists-pd}, {\bf
+  exists-chosenLost} and {\bf check-operation}:
+\begin{gzed}
+%%\forall
+  PhiBOp; BOpIgPurse; RabOut; RabClPd'[pdThis/pdThis'];
+  \\ %
+  \t2 AbWorld; RabClPd; RabIn  |
+  \\ %
+  \t1 \pdThisPred \land \chosenLostPred
+%% @
+  \\ %
+  \shows
+  \\ %
+  AbIgnore
+\end{gzed}
+
+%%\index{lemma $AbIgnore$}%
+%%\index{{\bf check-operation-ignore}}
+%\begin{lemma}[$AbIgnore$]
+  {\rm For a $BOpIg$ operation, the {\bf check-operation} proof
+    obligation reduces to
+    {\bf check-operation-ignore}%
+    }%
+  \footnote{Used in: $Ignore$, \ref{ignore-ignore-check-operation}.
+    }:
+  \begin{gzed}
+%%\forall
+    PhiBOp; BOpIgPurse; RabClPd'[pdThis/pdThis']; AbWorld; RabClPd |
+    \\ %
+    \t1 \pdThisPred \land \chosenLostPred
+    \\ %
+    \shows
+%% @
+    \\ %
+    \forall n: \dom abAuthPurse @
+    \\ %
+    \t1 (abAuthPurse'~n).lost = (abAuthPurse~n).lost
+    \\ %
+    \t1 \land (abAuthPurse'~n).balance = (abAuthPurse~n).balance
+  \end{gzed}
+%\end{lemma}
+{\bf Proof:}
+
+We take the {\bf check-operation} proof obligation, and expand
+$AbIgnore$.  The $BOpIgPurse$ operations have certain properties in
+common; we explicitly state these in the hypothesis.
+\begin{gzed}
+%%\forall
+  PhiBOp; BOpIgPurse; RabOut; RabClPd'[pdThis/pdThis'];
+  \\ %
+  \t2 AbWorld; RabClPd; RabIn  |
+  \\ %
+  \t1 \pdThisPred \land \chosenLostPred
+  \\ %
+  \t1 \land name' = name
+  \\ %
+  \t1 \land nextSeqNo' \geq nextSeqNo
+%% @
+  \\ %
+  \shows
+  \\ %
+  AbOp \land abAuthPurse' = abAuthPurse
+\end{gzed}
+We use \texttt{consqconj} to split this proof into two parts.  The $AbOp$
+part is trivial: there are no constraints.  This leaves the other
+conjunct to be proven, which is rewritten as follows:
+\begin{gzed}
+%%\forall
+  PhiBOp; BOpIgPurse; RabOut; RabClPd'[pdThis/pdThis'];
+  \\ %
+  \t2 AbWorld; RabClPd; RabIn  |
+  \\ %
+  \t1 \pdThisPred \land \chosenLostPred
+  \\ %
+  \t1 \land name' = name
+  \\ %
+  \t1 \land nextSeqNo' \geq nextSeqNo
+%% @
+  \\ %
+  \shows
+  \\ %
+  \forall n:\dom abAuthPurse @ abAuthPurse'~n = abAuthPurse~n
+\end{gzed}
+We prove this component by component.  From $PhiBOp$ in the
+hypothesis, all concrete purses other than purse $name?$ remain
+unchanged.  For the purse $name?$, we also have the equality of the
+pre and post states of $name$.  This leaves the components
+$balanace$ and $lost$.  We use this with \texttt{consqconj} to reduce our
+proof requirement to the following:
+\begin{gzed}
+%%\forall
+  PhiBOp; BOpIgPurse; RabOut; RabClPd'[pdThis/pdThis'];
+  \\ %
+  \t2 AbWorld; RabClPd; RabIn  |
+  \\ %
+  \t1 \pdThisPred \land \chosenLostPred
+  \\ %
+  \t1 \land name' = name
+  \\ %
+  \t1 \land nextSeqNo' \geq nextSeqNo
+%% @
+  \\ %
+  \shows
+  \\ %
+  \forall n:\dom abAuthPurse @
+  \\ %
+  \t1 (abAuthPurse'~n).balance = (abAuthPurse~n).balance
+  \\ %
+  \t1 \land (abAuthPurse'~n).lost = (abAuthPurse~n).lost
+\end{gzed}
+We then \texttt{thin} the hypothesis to get the following, which proves
+the $AbIgnore$ lemma.
+\begin{gzed}
+%%\forall
+  PhiBOp; BOpIgPurse; RabClPd'[pdThis/pdThis']; AbWorld; RabClPd  |
+  \\ %
+  \t1 \pdThisPred \land \chosenLostPred
+%% @
+  \\ %
+  \shows
+  \\ %
+  \forall n:\dom abAuthPurse @
+  \\ %
+  \t1 (abAuthPurse'~n).balance = (abAuthPurse~n).balance
+  \\ %
+  \t1 \land (abAuthPurse'~n).lost = (abAuthPurse~n).lost
+\end{gzed}
+
+$\Box$ \ref{abignore}
+%---------------------
+\section{$Ignore$ refines $AbIgnore$}
+\label{ignore}
+%---------------------
+
+\begin{LThm}[Backward simulation correctness: $AbIgnore \sqsubseteq Ignore$]
+\begin{theorem}{tBetwIgnoreBackardCorrectness}
+  \forall Ignore; Rab~'; RabOut @ \exists AbWorld; a?:AIN @ Rab \land RabIn \land AbIgnore
+\end{theorem}~\end{LThm}
+%
+\begin{LThm}[Backward simulation correctness: $AbIgnore \sqsubseteq Abort$]
+\begin{theorem}{tBetwAbortBackardCorrectness}
+    \forall Abort; Rab~'; RabOut @ \exists AbWorld; a?:AIN @ Rab \land RabIn \land AbIgnore
+\end{theorem}~\end{LThm}
+
+\section*{Proofs}
+
+\begin{LPScript}\begin{zproof}[tBetwIgnoreBackardCorrectness]
+
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAbortBackardCorrectness]
+
+\end{zproof}\end{LPScript}
+
+
+As we saw at the end of section~\ref{ch14.between-special}, by
+splitting up promoted operations, we have generated a requirement to
+prove the correctness of the $Ignore$ branch once only.  We do that
+here.
+%...............
+\subsection{Invoking lemma `deterministic'}
+%...............
+Lemma `deterministic' (section~\ref{ch14.general-summary}) cannot be
+applied as-is, because $Ignore$ is not written as a promotion (in
+order to ensure it is total).  However, the arguments to split the
+proof obligation into three parts follow in exactly the same manner
+even if the unpromoted purse is not exposed.  The proof obligations
+simply have $BOpOkay$ in the hypothesis, instead of $PhiBOp ;
+BOpPurseOkay$.  We use that form to simplify the $Ignore$ proof
+obligation to three parts, and then invoke lemma `lost unchanged' to
+discharge the first two obligations.  We similarly use lemma
+`AbIgnore' to simplify the third proof obligation to {\bf
+  check-operation-ignore}.
+
+%...............
+\subsection{check-operation-ignore}
+\label{ignore-ignore-check-operation}
+%...............
+\begin{gzed}
+%%\forall
+  Ignore; RabClPd'[pdThis/pdThis']; AbWorld; RabClPd |
+  \\ %
+  \t1 chosenLost = chosenLost'
+  \\ %
+  \t1 \land maybeLost = maybeLost'
+  \\ %
+  \t1 \land definitelyLost = definitelyLost'
+%%@
+  \\ %
+  \shows
+  \\ %
+  \forall n: \dom abAuthPurse @
+  \\ %
+  \t1 (abAuthPurse'~n).balance = (abAuthPurse~n).balance
+  \\ %
+  \t1 \land (abAuthPurse'~n).lost = (abAuthPurse~n).lost
+\end{gzed}
+The proof of this is immediate: $Ignore$ changes no values,
+$definitelyLost$, $maybeLost$ and $chosenLost$ do not change,
+from the hypothesis; so the abstract $balance$ and $lost$, which
+depend only on these unchanging values, are unchanged.
+
+$\Box$ \ref{ignore-ignore-check-operation}
+
+$\Box$ \ref{ignore}
+%---------------------
+\section{$Abort$ refines $AbIgnore$}
+\label{proof-gen-abort-lemma}
+%---------------------
+As we saw at the end of section~\ref{ch14.between-special}, by
+splitting up promoted operations, we have generated a requirement to
+prove the correctness of the $Abort$ branch once only.  We do that
+here.  We cast it as a lemma, because we also use it to simplify the
+proofs of operations that first abort (lemma `abort backward').
+%\index{lemma `$Abort$ refines $AbIgnore$'}
+%\begin{lemma}[$Abort$ refines $AbIgnore$]
+  {\rm Concrete $Abort$ refines abstract $Ignore$.}%
+  \footnote{Used in proof of lemma abort, \ref{ignore-abort-op}}
+  \begin{gzed}
+%% \forall
+    Abort; Rab'; RabOut
+%% @
+    \shows \exists AbWorld; a?:AIN @ Rab \land RabIn \land AbIgnore
+  \end{gzed}
+%\end{lemma}
+
+\noindent{\bf Proof:}
+
+$Abort$ is written as a disjunction between $Ignore$ and a promoted
+$AbortPurseOkay$.  We use lemma `ignore'
+(section~\ref{ch14.between-special}) to simplify the proof
+obligation to the correctness of $Ignore$ (which we discharge in
+section~\ref{ignore}), and the $Okay$ branch, which we prove here.
+%...............
+\subsection{Invoking lemma `deterministic'}
+%...............
+We use lemma `deterministic' (section~\ref{ch14.general-summary}) to
+simplify the proof obligations and then lemma `AbIgnore'
+(section~\ref{abignore}) to simplify the {\bf check-operation} step.
+
+We have to instantiate the predicates $\pdThisPred$ and
+$\chosenLostPred$.
+
+$\pdThisPred$ is a predicate identifying the $pdThis$ involved in
+the transaction.  This is the $pdAuth$ stored in the aborting purse,
+unless the aborting purse is in $eaFrom$, in which case we don't
+have a defined transaction.  We cater for the case of no transaction
+in the $\chosenLostPred$ predicate, so $\pdThisPred$ can safely be
+defined as
+\begin{gzed}
+\pdThisPred \iff pdThis = pdAuth
+\end{gzed}
+$\chosenLostPred$ is a predicate on $chosenLost$.  The after set
+$chosenLost'$ either has $pdThis$ removed (if the transaction moves
+it from $chosenLost$ to $definitelyLost$), or is unchanged (because
+$pdThis$ was not in $chosenLost$ to start with) or is unchanged
+because there was no transaction to abort.  Hence
+\begin{gzed}
+\chosenLostPred \iff
+\\ %
+\t1 (pdThis \in maybeLost \land chosenLost = chosenLost' \cup \{
+pdThis \})
+\\ %
+\t1 \lor (pdThis \notin maybeLost \land status \neq eaFrom \land
+\null
+\\ %
+\t2 chosenLost = chosenLost')
+\\ %
+\t1 \lor (status = eaFrom \land chosenLost = chosenLost')
+\end{gzed}
+%...............
+\subsection{exists-pd}
+\label{abort-exists-pd}
+%...............
+The unpromoted operation $AbortPurseOkay$ is incomplete.  The
+output, $m! = \bot$, is not provided until promotion.
+\begin{gzed}
+%%\forall
+  PhiBOp; AbortPurseOkay; RabOut; RabCl'; RabIn | m! = \bot
+%%@
+  \\ %
+  \shows
+  \\ %
+  \exists pdThis: PayDetails @ pdThis = pdAuth
+\end{gzed}
+This is immediate by the one point rule.
+
+$\Box$ \ref{abort-exists-pd}
+%...............
+\subsection{Three cases}
+%...............
+We split the remaining two proofs, of {\bf exists-chosenLost} and
+{\bf
+  check-operation}, into three cases each, for each of the three
+disjuncts of $\chosenLostPred$.  We start by arguing the behaviour
+of $maybeLost$ and $definitelyLost$ in the three cases.
+\begin{itemize}
+\item {\bf Case 1: aborted transaction in `limbo'}: The aborting purse
+  is the $to$ purse in $epv$; the corresponding $from$ purse is in
+  $epa$ or has logged.  Hence aborting the transaction will definitely
+  lose the value.
+  \begin{gzed}
+  pdThis \in maybeLost
+  \end{gzed}
+\item {\bf Case 2: aborted transaction not in `limbo'}: The aborting
+  purse is not the $to$ purse in $epv$, or the corresponding $from$
+  purse is not in $epa$ and has not logged.  The transaction has
+  either not got far enough to lose anything, or has progressed
+  sufficiently far that the value was already either successfully
+  transferred or definitely lost.
+  \begin{gzed}
+  pdThis \notin maybeLost \land status \neq eaFrom
+  \end{gzed}
+\item {\bf Case 3: no transaction to abort}: The aborting purse is in
+  $eaFrom$, so has no defined transaction.  Nothing is aborted, so no
+  value is lost.
+  \begin{gzed}
+  status = eaFrom
+  \end{gzed}
+\end{itemize}
+%................
+\subsubsection{Case 1: old transaction in limbo}
+\label{abort-inlimbo}
+%................
+\begin{gzed}
+pdThis \in (fromInEpa \cup fromLogged) \cap toInEpv
+\end{gzed}
+We argue about the behaviour of $maybeLost$ and $definitelyLost$
+using the fact that the purse is the $to$ purse initially in $epv$
+in the aborting transaction, and it logs the old transaction and
+moves to $eaFrom$.  We argue that the transaction $pdThis$,
+initially in $maybeLost$ by construction, is moved into
+$definitelyLost'$ by this case of the $Abort$ operation.  The
+transaction was far enough progressed that value may be lost, and it
+is lost in this case.
+
+\paragraph{Behaviour of $fromInEpa$ and $fromLogged$}
+
+$pdThis$ is in $toInEpv$ (by our case assumption), so the only purse
+undergoing any change ($name?$) is the $to$ purse; hence there can
+be no change to the status or logs of any $from$ purse.  Hence
+\begin{gzed}
+fromInEpa = fromInEpa'
+\also %
+fromLogged = fromLogged'
+\end{gzed}
+
+\paragraph{Behaviour of $toInEpv$}
+
+$pdThis$ is in $toInEpv$ (by our case assumption); $pdThis$ is not
+in $toInEpv'$ ($Abort$ puts the purse into $eaFrom$); all other
+purses and transactions remain unchanged.  So
+\begin{gzed}
+toInEpv = toInEpv' \cup \{ pdThis \}
+\end{gzed}
+
+\paragraph{Behaviour of $toLogged$}
+
+$pdThis$ is not in $toLogged$ (using lemma `notLoggedAndIn'
+with $pdThis \in toInEpv$); $pdThis$ is in $toLogged'$ (the purse
+makes a $to$ log when it aborts from $epv$); all other purses and
+transactions remain unchanged.  So
+\begin{gzed}
+toLogged = toLogged' \setminus \{ pdThis \}
+\end{gzed}
+
+\paragraph{Behaviour of $definitelyLost$}
+\begin{argue}
+  definitelyLost
+  \also %
+  \t1 = toLogged \cap (fromLogged \cup fromInEpa) & defn
+  $definitelyLost$
+  \also %
+  \t1 = (toLogged' \setminus \{ pdThis \} ) \cap (fromLogged' \cup
+  fromInEpa') & above
+  \also %
+  \t1 = (toLogged' \cap (fromLogged' \cup fromInEpa')) {} \setminus \{
+  pdThis \} & rearrange
+  \also %
+  \t1 = definitelyLost' \setminus \{ pdThis \} & defn
+  $definitelyLost'$
+\end{argue}
+
+\paragraph{Behaviour of $maybeLost$}
+\begin{argue}
+  maybeLost
+  \also %
+  \t1 = (fromInEpa \cup fromLogged) \cap toInEpv & defn $maybeLost$
+  \also %
+  \t1 = (fromInEpa' \cup fromLogged') \cap (toInEpv' \cup \{pdThis\})
+  & above
+  \also %
+  \t1 = ((fromInEpa' \cup fromLogged') \cap toInEpv')
+  \\ %
+  \t2 {} \cup ((fromInEpa' \cup fromLogged') \cap \{pdThis\}) & Spivey
+  \also %
+  \t1 = ((fromInEpa' \cup fromLogged') \cap toInEpv')
+  \\ %
+  \t2 {} \cup \{pdThis\} & case assumption
+  \also %
+  \t1 = maybeLost' \cup \{pdThis\} & defn $maybeLost'$
+\end{argue}
+%................
+\subsubsection{Case 2: old transaction not in limbo}
+\label{abort-not-inlimbo}
+%................
+\begin{gzed}
+pdThis \notin (fromInEpa \cup fromLogged) \cap toInEpv \land status
+\neq eaFrom
+\end{gzed}
+We argue that the transaction $pdThis$ is not moved into or out of
+$maybeLost$ or $definitelyLost$ by this case of the $Abort$
+operation.
+
+\paragraph{Behaviour of $fromInEpa \cup fromLogged$}
+
+If $pdThis$ is in $fromInEpa$ it is also in $fromLogged'$ (the purse
+is in $epa$, so it makes a $from$ log when it aborts); if $pdThis$
+is in $fromLogged$ it is also in $fromLogged'$ (logs cannot be
+removed); if $pdThis$ is not in $fromInEpa \cup fromLogged$ it is
+not in $fromLogged'$ (the purse is not in $epa$, so does not make a
+$from$ log when it aborts), and not in $fromInEpa'$ (because it ends
+in $eaFrom$); all the other purses and transactions remain
+unchanged. So
+\begin{gzed}
+fromInEpa \cup fromLogged = fromInEpa' \cup fromLogged'
+\end{gzed}
+
+\paragraph{Behaviour of $definitelyLost$}
+
+The cases allowed by our case assumption are:
+\begin{itemize}
+\item $pdThis$ refers to the $to$ purse in $epv$, hence is not in
+  \begin{gzed}
+  fromInEpa \cup fromLogged
+  \end{gzed}
+  and hence not in $definitelyLost$.
+
+  Also it is not in $fromInEpa' \cup fromLogged'$, and hence not in
+  $definitelyLost'$.  So $definitelyLost$ is unchanged.
+\item $pdThis$ refers to the $to$ purse, but not in $epv$, or $pdThis$
+  refers to the $from$ purse.  Hence $toLogged$ is unchanged, since no
+  $to$ log is written, and logs cannot be lost.
+
+  Also $fromInEpa \cup fromLogged$ is unchanged, and so
+  $definitelyLost$ is unchanged.
+\end{itemize}
+So
+\begin{gzed}
+definitelyLost' = definitelyLost
+\end{gzed}
+
+\paragraph{Behaviour of $maybeLost$}
+
+The cases allowed by our case assumption are:
+\begin{itemize}
+\item $pdThis$ refers to the $to$ purse in $epv$, hence is not in
+  \begin{gzed}
+  fromInEpa \cup fromLogged
+  \end{gzed}
+  and hence not in $maybeLost$.  Also it is not in $fromInEpa' \cup
+  fromLogged'$, and hence not in $maybeLost'$, so $maybeLost$ is
+  unchanged.
+\item $pdThis$ refers to the $to$ purse, but not in $epv$, or $pdThis$
+  refers to the $from$ purse.  Hence $toInEpv$ is unchanged, since no
+  purse moves out of or in to $epv$.  Also $fromInEpa \cup fromLogged$
+  is unchanged, so $maybeLost$ is unchanged.
+\end{itemize}
+So
+\begin{gzed}
+maybeLost' = maybeLost
+\end{gzed}
+
+%................
+\subsubsection{Case 3: no transaction to abort}
+\label{abort-no-transaction}
+%................
+
+\begin{gzed}
+status = eaFrom
+\end{gzed}
+
+\noindent From $AbortPurseOkay$, no purses change state and no logs
+are written. Therefore, $definitelyLost$ and $maybeLost$ don't
+change.
+\begin{gzed}
+definitelyLost' = definitelyLost
+\also %
+maybeLost' = maybeLost
+\end{gzed}
+
+%...............
+\subsection{exists-chosenLost}
+\label{abort-exists-chosenlost}
+%...............
+
+We now use the behaviour of $maybeLost$ and $definitelyLost$ in the
+three cases to prove {\bf exists-chosenLost}.
+
+\begin{gzed}
+%%\forall
+  PhiBOp; AbortPurseOkay; RabOut; RabClPd'[pdThis/pdThis']; RabIn |
+  \\ %
+  \t1 m! = \bot
+  \\ %
+  \t1 \land pdThis = pdAuth
+%%@
+  \\ %
+  \shows
+  \\ %
+  \exists  chosenLost: \power PayDetails @
+  \\ %
+  \t1 (pdThis \in maybeLost \land chosenLost = chosenLost' \cup \{
+  pdThis \}
+  \\ %
+  \t2 \lor pdThis \notin maybeLost \land status \neq eaFrom
+  \\ %
+  \t4 \land chosenLost = chosenLost'
+  \\ %
+  \t2 \lor status = eaFrom \land chosenLost = chosenLost')
+  \\ %
+  \t1 \land chosenLost \subseteq maybeLost
+\end{gzed}
+We push the existential quantifier in the consequent into the
+predicates:
+
+\begin{gzed}
+%%\forall
+  PhiBOp; AbortPurseOkay; RabOut; RabClPd'[pdThis/pdThis']; RabIn |
+  \\ %
+  \t1 m! = \bot
+  \\ %
+  \t1 \land pdThis = pdAuth
+%%@
+  \\ %
+  \shows
+  \\ %
+  pdThis \in maybeLost
+  \\ %
+  \t1 \land (~\exists  chosenLost: \power PayDetails @
+  \\ %
+  \t2 chosenLost = chosenLost' \cup \{ pdThis \}
+  \\ %
+  \t2 \land chosenLost \subseteq maybeLost~)
+
+  \also %
+  \lor pdThis \notin maybeLost \land status \neq eaFrom
+  \\ %
+  \t1 \land (~\exists  chosenLost: \power PayDetails @
+  \\ %
+  \t2 chosenLost = chosenLost'
+  \\ %
+  \t2 \land chosenLost \subseteq maybeLost~)
+  \also %
+  \lor status = eaFrom
+  \\ %
+  \t1 \land (~\exists  chosenLost: \power PayDetails @
+  \\ %
+  \t2 chosenLost = chosenLost'
+  \\ %
+  \t2 \land chosenLost \subseteq maybeLost~)
+\end{gzed}
+In each case, we \texttt{onept} away the $chosenLost$ because the
+predicate includes an explicit definition for it.
+\begin{gzed}
+%%\forall
+  PhiBOp; AbortPurseOkay; RabOut; RabClPd'[pdThis/pdThis']; RabIn |
+  \\ %
+  \t1 m! = \bot
+  \\ %
+  \t1 \land pdThis = pdAuth
+%%@
+  \\ %
+  \shows
+  \\ %
+  pdThis \in maybeLost
+  \\ %
+  \t1 \land chosenLost' \cup \{ pdThis \} \subseteq maybeLost
+  \also %
+  \lor pdThis \notin maybeLost \land status \neq eaFrom
+  \\ %
+  \t1 \land chosenLost' \subseteq maybeLost
+  \also %
+  \lor status = eaFrom
+  \\ %
+  \t1 \land chosenLost' \subseteq maybeLost
+\end{gzed}
+In each case, the predicate is of the form $(a \land b)$, and we
+argue below that $a \implies b$. This allows us to replace $(a \land
+b)$ with $a$.  If we do this, we obtain
+\begin{gzed}
+%%\forall
+  PhiBOp; AbortPurseOkay; RabOut; RabClPd'[pdThis/pdThis']; RabIn |
+  \\ %
+  \t1 m! = \bot
+  \\ %
+  \t1 \land pdThis = pdAuth
+%%@
+  \\ %
+  \shows
+  \\ %
+  pdThis \in maybeLost
+  \also %
+  \lor pdThis \notin maybeLost \land status \neq eaFrom
+  \also %
+  \lor status = eaFrom
+\end{gzed}
+which is $true$.
+
+We now carry out the argument as described above for each of the
+three disjuncts.
+
+%................
+\subsubsection{Case 1: old transaction in limbo}
+\label{abort-exists-inlimbo}
+%................
+
+We must show that under the assumptions of this lemma and in this
+case
+
+\begin{gzed}
+%%\forall RabClPd; RabClPd' @
+  pdThis \in maybeLost \implies
+  \\ %
+  \t1 chosenLost' \cup \{ pdThis \} \subseteq maybeLost
+\end{gzed}
+This follows by:
+\begin{argue}
+  chosenLost' \cup \{ pdThis \}
+  \also %
+  \t1 \subseteq maybeLost' \cup \{ pdThis \} & hypothesis
+  \also %
+  \t1 \subseteq maybeLost & previous argument for case 1
+\end{argue}
+
+$\Box$ \ref{abort-exists-inlimbo}
+%................
+\subsubsection{Case 2: old transaction not in limbo}
+\label{abort-exists-not-inlimbo}
+%................
+We must show that under the assumptions of this lemma and in this
+case
+\begin{gzed}
+%%\forall RabClPd; RabClPd'; ConPurse @
+  pdThis \notin maybeLost \land status \neq eaFrom \implies
+  \\ %
+  \t1 chosenLost' \subseteq maybeLost
+\end{gzed}
+This follows by
+\begin{argue}
+  chosenLost' \subseteq maybeLost'        & hypothesis
+  \also %
+  \t1 \implies chosenLost' \subseteq maybeLost & previous argument for
+  case 2
+\end{argue}
+
+$\Box$ \ref{abort-exists-not-inlimbo}
+%................
+\subsubsection{Case 3: no transaction to abort}
+\label{abort-exists-no-transaction}
+%................
+We must show that under the assumptions of this lemma and in this
+case
+\begin{gzed}
+%%\forall RabClPd; RabClPd'; ConPurse @
+  status = eaFrom \implies
+  \\ %
+  \t1 chosenLost' \subseteq maybeLost
+\end{gzed}
+This follows by
+\begin{argue}
+  chosenLost' \subseteq maybeLost' & hypothesis
+  \also %
+  \t1 \implies chosenLost' \subseteq maybeLost & previous argument for
+  case 3
+\end{argue}
+
+$\Box$ \ref{abort-exists-no-transaction}
+
+$\Box$ \ref{abort-exists-chosenlost}
+%...............
+\subsection{check-operation-ignore}
+\label{abort-check-operation}
+%...............
+We now use the behaviour of $maybeLost$ and $definitelyLost$ in the
+three cases to prove {\bf check-operation-ignore}.
+\begin{gzed}
+%%\forall
+  PhiBOp; AbortPurseOkay; RabClPd'[pdThis/pdThis'];
+  \\ %
+  \t1 AbWorld; RabClPd
+  |
+  \\ %
+  \t1 pdThis = pdAuth
+  \\ %
+  \t1 \land (pdThis \in maybeLost \land chosenLost = chosenLost' \cup
+  \{ pdThis \}
+  \\ %
+  \t2 \lor pdThis \notin maybeLost \land status \neq eaFrom
+  \\ %
+  \t4 \land chosenLost = chosenLost'
+  \\ %
+  \t2 \lor status = eaFrom \land chosenLost = chosenLost')
+%%@
+  \\ %
+  \shows
+  \\ %
+  \forall n: \dom abAuthPurse @
+  \\ %
+  \t1 (abAuthPurse'~n).balance = (abAuthPurse~n).balance
+  \\ %
+  \t1 \land (abAuthPurse'~n).lost = (abAuthPurse~n).lost
+\end{gzed}
+We can prove this for each of the three disjuncts in the hypothesis
+by \texttt{hypdisj}.
+%................
+\subsubsection{Case 1: old transaction in limbo}
+\label{abort-check-inlimbo}
+%................
+$lost$ is a function of
+\[definitelyLost \cup chosenLost\].  The
+$pdThis$ moves from $chosenLost$ to $definitelyLost'$, so the
+union is unchanged.
+
+$balance$ is a function of $maybeLost \setminus chosenLost$.  The
+$pdThis$ moves from $chosenLost$, and hence from $maybeLost$, so the
+difference is unchanged.
+
+$\Box$ \ref{abort-check-inlimbo}
+%................
+\subsubsection{Case 2+3: old transaction not in limbo or no transaction}
+\label{abort-check-not-inlimbo}
+%................
+From $chosenLost = chosenLost'$ and the arguments above, all the
+relevant sets are unchanging, so $lost$ and $balalnce$ are
+unchanging.
+
+$\Box$ \ref{abort-check-not-inlimbo}
+
+$\Box$ \ref{abort-check-operation}
+
+$\Box$ \ref{proof-gen-abort-lemma}
+%---------------------
+\section{Lemma `abort backward': operations that first abort}
+\label{ignore-abort-op}
+%---------------------
+Some of the concrete operations are written as a composition of
+$AbortPurseOkay$ with a simpler operation starting from
+$eaFrom$ ($StartFrom$, $StartTo$, $ReadExceptionLog$,
+{\it
+  ExceptionLogClear}).
+
+%\index{lemma `abort backward'}
+%\begin{lemma}[abort backward]
+  {\rm Where a concrete operation is written as a composition of
+    $AbortPurseOkay$ and a simpler operation starting from $eaFrom$,
+    it is sufficient to prove that the promotion of the simpler
+    operation alone refines the relevant abstract operation.  }
+  \begin{gzed}
+  \exists \Delta ConPurse @ PhiBOp \land (AbortPurseOkay \semi
+  BOpPurseEafromOkay);
+  \\ %
+  \t2 Rab'; RabOut;
+  \\ %
+  \t2 (~\forall BOpEafromOkay; Rab'; RabOut @
+  \\ %
+ \t3 \exists AbWorld; a?:AIN @ Rab \land RabIn \land AOp~)
+ \\ %
+ \shows
+ \\ %
+ \exists AbWorld; a?:AIN @ Rab \land RabIn \land AOp
+ \end{gzed}
+%\end{lemma}
+
+\noindent{\bf Proof}
+\begin{itemize}
+\item Use lemma `promoted composition'
+  (section~\ref{lemma-promoted-composition}) to rewrite the promotion
+  of the composition to a composition of promotions, yielding
+  \begin{gzed}
+  (AbortOkay \semi BOpEafromOkay);
+  \\ %
+  \t2 Rab'; RabOut;
+  \\ %
+  \t2 (~\forall BOpEafromOkay; Rab'; RabOut @
+  \\ %
+  \t3 \exists AbWorld; a?:AIN @ Rab \land RabIn \land AOp~)
+  \\ %
+  \shows
+  \\ %
+  \exists AbWorld; a?:AIN @ Rab \land RabIn \land AOp
+  \end{gzed}
+
+\item If $BOp1$ refines $AOp1$ and $BOp2$ refines $AOp2$, then $BOp1
+  \semi BOp2$ refines $AOp1 \semi AOp2$ (invoke lemma `compose
+  backward', section~\ref{lemma-compose}).
+\item Take $BOp1 = AbortOkay$, $AOp1 = AbIgnore$, and invoke lemma
+  `$Abort$ refines {\it AbIgnore}' (section
+  \ref{proof-gen-abort-lemma}), to discharge this proof.
+\item Take $BOp2 = BOpEafromOkay$, $AOp2 = AOp$, and note that we
+  have that $BOp$ refines $AOp$ in the hypothesis.
+\item Note that $AbIgnore \semi AOp = AOp$, to reduce this
+  expression in the consequent.
+\end{itemize}
+
+$\Box$ \ref{ignore-abort-op}
+%---------------------
+\section{Summary of lemmas}
+%---------------------
+In section \ref{ch25.proof-forward-correctness} we reduced the refinement correctness
+proof for an operation to:
+\begin{gzed}
+%%\forall
+  BOp; Rab'; RabOut
+%%@
+  \shows \exists AbWorld; a? : AIN @ Rab \land RabIn \land AOp
+\end{gzed}
+We then built up a set of lemmas which may be used to simplify this
+proof requirement.
+
+$AOp$ and $BOp$ are often disjunctions of simpler operations, and
+lemmas `multiple refinement' (section \ref{ch14.between-sep}) and
+`ignore' (section \ref{ch14.between-special}) are used to prove that
+any $Ignore$ or $Abort$ branches of $BOp$ need be proved once only
+for all $BOp$s. These two branches are proved in lemmas later on,
+after further simplification for a general disjunct ($Ignore$,
+$Abort$ or $Okay$) of $BOp$.  This simplification starts with lemma
+`deterministic' (section \ref{ch14.general-bop-okay}) which removes
+the $\exists AbWorld$ in the consequent of the correctness
+obligation. In doing so, it requires us to prove three side-lemmas
+({\bf exists-pd}, {\bf exists-chosenLost}, {\bf check-operation}).
+Lemma `lost unchanged' (section \ref{ch14.lost-unchanged}) allows the
+side-lemmas {\bf exists-pd} and {\bf
+  exists-chosenLost} to be discharged immediately given certain
+conditions.  Lemma `$AbIgnore$' (section \ref{abignore}) then
+provides a simplification of the side-lemma {\bf check-operation}
+when $AOp$ is $AbIgnore$.
+
+We can now prove that the $Ignore$ and $Abort$ branches of $BOp$ are
+correct with respect to $AOp$.  Section \ref{ignore} proves that
+$Ignore$ refines $AbIgnore$, and lemma `$Abort$ refines $AbIgnore$'
+(section \ref{proof-gen-abort-lemma}) handles the $Abort$ branch.
+With lemmas `multiple refinement' and `ignore', this has now proved
+the correctness of the $Ignore$ and $Abort$ branches of all $BOp$.
+
+Where the $Okay$ branch of an operation is composed of $Abort$
+followed by the `active' operation, lemma `abort backward' gives us
+that we only need to prove the `active' part.
+
+Returning to the proof obligation written above, any of the $Ignore$
+or $Abort$ branches of a $BOp$ operation are dealt with by the
+lemmas. This leaves the $Okay$ branch (if this contains an initial
+$Abort$, this can be ignored --- from lemma `abort backward' we need
+only prove the non-aborting part).  Usually, we then apply lemma
+`deterministic' yielding a number of side-lemmas.  These may
+sometimes be further simplified using lemmas `lost unchanged' and
+`$AbIgnore$'.  The remaining proof is then particular to the $BOp$.
+
+
+\newpage
+\section{Summary}\label{ch14.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

@@ -6,8 +6,9 @@
 \SECTION axioms \parents set\_toolkit
 \end{zsection}
 
+table consistency is now strict: won't allow colluded bindings, unless user handles it.
 \begin{schema}{S}
-   x: \{ 1, 3, 5, 7, 9 \}
+   x: \nat %\{ 1, 3, 5, 7, 9 \}
 \where
    true
 \end{schema}
@@ -79,7 +80,6 @@ For schemas this is different.
 
 
 \begin{axdef}
-   test0: Oh \\
    test1: Doh \\
    test2: Odd \\
    \Delta Odd % hahaha! twice as odd!

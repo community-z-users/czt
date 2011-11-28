@@ -31,6 +31,7 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -174,6 +175,7 @@ public class DefinitionTableService
     String fileName = null;
     String extension = "z";
     boolean debug = false;
+    boolean printSchRefs = false;
     boolean hideWarnings = false;
     boolean checkDefTblConsistency = false;
     int fileArgIndex = 0;
@@ -186,6 +188,10 @@ public class DefinitionTableService
       else if ("-h".equals(args[i]))
       {
         hideWarnings = true;
+      }
+      else if ("-p".equals(args[i]))
+      {
+        printSchRefs = true;
       }
       else if ("--debug".equals(args[i]))
       {
@@ -201,7 +207,7 @@ public class DefinitionTableService
         catch (IllegalArgumentException e)
         {
           System.err.println("Unknown CZT extension " + ext);
-          System.exit(-3);
+          System.exit(-1);
         }
       }
       else if (args[i].startsWith("-"))
@@ -211,9 +217,11 @@ public class DefinitionTableService
       else
       {
         fileName = args[i];
+        System.out.println("Processing " + fileName);
       }
     }
     assert fileName != null;
+    System.out.println();
 
     SectionManager manager = new SectionManager(extension);
     manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(false));
@@ -239,6 +247,7 @@ public class DefinitionTableService
     catch(CommandException ex)
     {
       System.out.println("Parsing errors!");
+      handleCmdException(ex, -2);
     }
     long parseTime = System.nanoTime();
     try
@@ -248,6 +257,7 @@ public class DefinitionTableService
     catch(CommandException ex)
     {
       System.out.println("Typechecking errors!");
+      handleCmdException(ex, -3);
     }
     long typeTime = System.nanoTime();
     try
@@ -256,7 +266,8 @@ public class DefinitionTableService
     }
     catch (CommandException ex)
     {
-      handleCmdException(ex);
+      handleCmdException(ex, 0);//>=0 is to try again
+
       //exceptionThrown = true;
       // try a second time to see if the one with errors was cached
       try
@@ -265,11 +276,14 @@ public class DefinitionTableService
       }
       catch (CommandException fx)
       {
-        handleCmdException(fx);
+        handleCmdException(fx, 0);
+        exceptionThrown = true;
       }
     }
     long defTblTime = System.nanoTime();
     long dtCons = 0, dtOther = 0, dtBinding = 0;
+    StringBuilder output = new StringBuilder();
+    output.append("\n\n");
     if (table != null)
     {
       DefinitionException consistency = table.checkOverallConsistency();
@@ -284,23 +298,27 @@ public class DefinitionTableService
 //        System.out.println();
 
         Set<Definition> defs = table.lookupDefinitions(sourceName);
-        System.out.println("\n------------------------------- SCHREFS --------------------------------");
-        for(Definition d : defs)
+        if (printSchRefs)
         {
-          if (d.getDefinitionKind().isSchemaReference())
+          output.append("\n------------------------------- SCHREFS --------------------------------");
+          for(Definition d : defs)
           {
-            System.out.println(d.toString());
+            if (d.getDefinitionKind().isSchemaReference())
+            {
+              output.append(d.toString()).append("\n");
+            }
           }
         }
         dtOther = System.nanoTime();
+        dtBinding = dtOther;
         if (args.length > fileArgIndex)
         {
           ZName arg = ZUtils.FACTORY.createZName(args[fileArgIndex]);
-          System.out.println("\n------------------------------- BINDINGS -------------------------------");
+          output.append("\n------------------------------- BINDINGS -------------------------------").append("\n");
           Definition def = table.lookupName(arg);
           if (def == null)
           {
-            System.out.println("Could not find bindings for " + arg);
+            output.append("Could not find bindings for ").append(arg).append("\n");
           }
           else
           {
@@ -309,41 +327,44 @@ public class DefinitionTableService
               SortedSet<Definition> bindings = table.bindings(arg);
               dtBinding = System.nanoTime() - dtOther;
               final String result2 = bindings.toString().replaceAll(", ", ",\n");
-              System.out.println("Bindings for " + args[fileArgIndex] + " = " + bindings.size());
-              System.out.println(result2);
+              output.append("Bindings for ").append(args[fileArgIndex]).append(" = ").append(bindings.size()).append("\n");
+              output.append(result2).append("\n");
             }
             catch (DefinitionException ex)
             {
               System.err.println("Could not retrive bindings for " + args[fileArgIndex]);
+              handleCmdException(ex, 0);
             }
-            System.out.println("\n-------------- of Def -------------");
-            System.out.println(def.toString());
+            output.append("\n-------------- of Def -------------").append("\n");
+            output.append(def.toString()).append("\n");
           }
-          System.out.println("\n------------------------------------------------------------------------");
-          System.out.println();
+          output.append("\n------------------------------------------------------------------------").append("\n");
+          output.append("\n");
         }
       }
       else
       {
         dtOther = System.nanoTime();
-        dtBinding = System.nanoTime();
+        dtBinding = dtOther;
       }
-      System.out.println("CONSISTENCY-CHECK = " + (consistency == null ? " okay! " : " has " + (consistency.totalNumberOfErrors()-1) + " errors"));
-      System.out.println(consistency == null ? "" : consistency.getMessage(true));
+      output.append("CONSISTENCY-CHECK = ").append(consistency == null ? " okay! " : " has " + (consistency.totalNumberOfErrors() - 1) + " errors");
+      output.append(consistency == null ? "" : consistency.getMessage(true)).append("\n");
     }
     long finishTime = System.nanoTime();
     long nano2msec = 1000000;
-    System.out.println("\n------------------------------------------------------------------------");
-    System.out.println("START-TIME = " + startTime / nano2msec);
-    System.out.println("SETUP-TIME = " + (setupTime / nano2msec) + "\t " + ((setupTime-startTime)/nano2msec));
-    System.out.println("PARSE-TIME = " + (parseTime / nano2msec) + "\t " + ((parseTime-setupTime)/nano2msec));
-    System.out.println("TYPEC-TIME = " + (typeTime / nano2msec) + "\t " + ((typeTime-parseTime)/nano2msec));
-    System.out.println("DEFTB-TIME = " + (defTblTime / nano2msec) + "\t " + ((defTblTime-typeTime)/nano2msec));
-    System.out.println("DTCON-TIME = " + (dtCons / nano2msec) + "\t " + ((dtCons-defTblTime)/nano2msec));
-    System.out.println("DTOTH-TIME = " + (dtOther / nano2msec) + "\t " + ((dtOther-dtCons)/nano2msec));
-    System.out.println("DTBIN-TIME = " + (dtBinding / nano2msec) + "\t " + ((dtBinding-dtOther)/nano2msec));
-    System.out.println("TOTAL-TIME = " + (finishTime / nano2msec) + "\t " + ((finishTime-startTime)/nano2msec));
-    System.out.println();
+    output.append("\n------------------------------------------------------------------------").append("\n");
+    output.append("START-TIME = ").append(startTime / nano2msec).append("\n");
+    output.append("SETUP-TIME = ").append(setupTime / nano2msec).append("\t ").append((setupTime - startTime) / nano2msec).append("\n");
+    output.append("PARSE-TIME = ").append(parseTime / nano2msec).append("\t ").append((parseTime - setupTime) / nano2msec).append("\n");
+    output.append("TYPEC-TIME = ").append(typeTime / nano2msec).append("\t ").append((typeTime - parseTime) / nano2msec).append("\n");
+    output.append("DEFTB-TIME = ").append(defTblTime / nano2msec).append("\t ").append((defTblTime - typeTime) / nano2msec).append("\n");
+    output.append("DTCON-TIME = ").append(dtCons / nano2msec).append("\t ").append((dtCons - defTblTime) / nano2msec).append("\n");
+    output.append("DTOTH-TIME = ").append(dtOther / nano2msec).append("\t ").append((dtOther - dtCons) / nano2msec).append("\n");
+    output.append("DTBIN-TIME = ").append(dtBinding / nano2msec).append("\t ").append((dtBinding - dtOther) / nano2msec).append("\n");
+    output.append("TOTAL-TIME = ").append(finishTime / nano2msec).append("\t ").append((finishTime - startTime) / nano2msec).append("\n");
+    output.append("\n");
+
+    System.out.println(output.toString());
 
 //    DefinitionException c =
 //      new DefinitionException("a",
@@ -379,7 +400,7 @@ public class DefinitionTableService
 
   }
 
-  private static void handleCmdException(CommandException ex)
+  private static void handleCmdException(CommandException ex, int status) // negative exits
   {
     System.err.println("\n\n");
     System.err.println("--------------- ERRORS --------------------");
@@ -394,6 +415,7 @@ public class DefinitionTableService
     }
     System.err.println("-------------------------------------------");
     System.err.println("\n\n");
+    if (status < 0) System.exit(status);
   }
 
   private static void printException(CommandException e)

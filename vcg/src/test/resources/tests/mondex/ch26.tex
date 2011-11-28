@@ -1,0 +1,197 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch26 \parents ch14
+\end{zsection}
+CHANGES:
+}
+\chapter[$Rbc$]{\Betw\ to \Conc\ retrieve relation}
+\label{ch26}
+
+\section{Retrieve state}
+
+The \Betw\ and \Conc\ worlds are identical, except that the \Conc\
+world can `lose' $ether$ messages.
+%
+\begin{LSDef}[\Betw\ and \Conc\ (functional) retrieve relation]
+\begin{schema}{Rbc}
+  BetweenWorld
+  \\ %
+  ConWorldCh7
+  \where %
+  conAuthPurseCh7 = conAuthPurse
+  \also %
+  etherCh7 \subseteq ether
+  \also %
+  archiveCh7 = archive
+\end{schema}~\end{LSDef}
+
+\newpage
+
+\section{Summary}\label{ch26.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary
+
+%%%try lemma tRbcIsFunctional; with disabled (BetweenWorld) prove by
+%%%reduce; instantiate ether == etherCh7,
+%%%  allLogs == archiveCh7 \cup
+%%%      \{~ n: \dom~conAuthPurseCh7;pd: PayDetails | pd \in (conAuthPurseCh7~n).exLog ~\},
+%%%  authenticFrom == \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\},
+%%%  authenticTo == \{~ pd: PayDetails | pd.to \in \dom~conAuthPurseCh7~\},
+%%%  fromLogged == \{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%        pd.from \mapsto pd \in archiveCh7 \cup  \{~ n: \dom~conAuthPurseCh7;pd:
+%%%        PayDetails | pd \in (conAuthPurseCh7~n).exLog ~\} ~\},
+%%%  toLogged == \{~ pd: \{~ pd: PayDetails | pd.to \in \dom~conAuthPurseCh7~\} |
+%%%        pd.to \mapsto pd \in archiveCh7 \cup \{~ n: \dom~conAuthPurseCh7;pd:
+%%%        PayDetails | pd \in (conAuthPurseCh7~n).exLog ~\} ~\},
+%%%  toInEpv == \{~ pd: \{~ pd: PayDetails | pd.to \in \dom~conAuthPurseCh7~\} |
+%%%         \t3 (conAuthPurseCh7 pd.to).status = epv
+%%%         \t2 \land (conAuthPurseCh7 pd.to).pdAuth = pd ~\},
+%%%  toInEapayee == \{~ pd: \{~ pd: PayDetails | pd.to \in \dom~conAuthPurseCh7~\} |
+%%%        \t3 (conAuthPurseCh7 pd.to).status = eaTo
+%%%        \t2 \land (conAuthPurseCh7 pd.to).pdAuth = pd ~\},
+%%%  fromInEpr == \{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%        \t3 (conAuthPurseCh7 pd.from).status = epr
+%%%        \t2 \land (conAuthPurseCh7 pd.from).pdAuth = pd ~\},
+%%%  fromInEpa == \{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%        \t3 (conAuthPurseCh7 pd.from).status = epa
+%%%        \t2 \land (conAuthPurseCh7 pd.from).pdAuth = pd ~\},
+%%%  definitelyLost == \{~ pd: \{~ pd: PayDetails | pd.to \in \dom~conAuthPurseCh7~\} |
+%%%        pd.to \mapsto pd \in archiveCh7 \cup \{~ n: \dom~conAuthPurseCh7;pd:
+%%%        PayDetails | pd \in (conAuthPurseCh7~n).exLog ~\} ~\} \cap
+%%%        (\{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%        pd.from \mapsto pd \in archiveCh7 \cup  \{~ n: \dom~conAuthPurseCh7;pd:
+%%%        PayDetails | pd \in (conAuthPurseCh7~n).exLog ~\} ~\} \cup
+%%%         \{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%         (conAuthPurseCh7 pd.from).status = epa
+%%%        \land (conAuthPurseCh7 pd.from).pdAuth = pd ~\}),
+%%%  maybeLost == (\{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%        (conAuthPurseCh7 pd.from).status = epa
+%%%        \land (conAuthPurseCh7 pd.from).pdAuth = pd ~\} \cup
+%%%        \{~ pd: \{~ pd: PayDetails | pd.from \in \dom~conAuthPurseCh7~\} |
+%%%        pd.from \mapsto pd \in archiveCh7 \cup  \{~ n: \dom~conAuthPurseCh7;pd:
+%%%        PayDetails | pd \in (conAuthPurseCh7~n).exLog ~\} ~\}) \cap
+%%%        \{~ pd: \{~ pd: PayDetails | pd.to \in \dom~conAuthPurseCh7~\} |
+%%%         (conAuthPurseCh7 pd.to).status = epv
+%%%         \land (conAuthPurseCh7 pd.to).pdAuth = pd ~\};
+%%%prove by rewrite; invoke predicate
+%%%  BetweenWorld[allLogs
+%%%                 := archiveCh7
+%%%                    \cup \{ n\_\_0: \dom conAuthPurseCh7;pd\_\_7: PayDetails
+%%%                              | pd\_\_7 \in (conAuthPurseCh7 n\_\_0).exLog \},
+%%%               archiveCh7/archive,
+%%%               authenticFrom
+%%%                 := \{ pd\_\_1: PayDetails
+%%%                         | pd\_\_1.from \in \dom conAuthPurseCh7 \},
+%%%               authenticTo
+%%%                 := \{ pd\_\_2: PayDetails
+%%%                         | pd\_\_2.to \in \dom conAuthPurseCh7 \},
+%%%               conAuthPurseCh7/conAuthPurse,
+%%%               definitelyLost
+%%%                 := (\{ pd\_\_23:
+%%%                          \{ pd\_\_0: PayDetails
+%%%                               | pd\_\_0.from \in \dom conAuthPurseCh7 \}
+%%%                          |       (conAuthPurseCh7 pd\_\_23.from).status
+%%%                                  = epa \\
+%%%                            \land (conAuthPurseCh7 pd\_\_23.from).pdAuth
+%%%                                  = pd\_\_23 \}
+%%%                     \cup \{ pd:
+%%%                               \{ pd\_\_3: PayDetails
+%%%                                    | pd\_\_3.from \in \dom conAuthPurseCh7 \}
+%%%                               | pd.from \mapsto pd
+%%%                                 \in archiveCh7
+%%%                                     \cup \{ n\_\_1: \dom conAuthPurseCh7;pd\_\_4: PayDetails
+%%%                                               | pd\_\_4
+%%%                                                 \in (conAuthPurseCh7 n\_\_1).
+%%%                                                     exLog \} \})
+%%%                    \cap \{ pd\_\_5:
+%%%                              \{ pd\_\_6: PayDetails
+%%%                                   | pd\_\_6.to \in \dom conAuthPurseCh7 \}
+%%%                              | pd\_\_5.to \mapsto pd\_\_5
+%%%                                \in archiveCh7
+%%%                                    \cup \{ n\_\_2: \dom conAuthPurseCh7;pd\_\_8: PayDetails
+%%%                                              | pd\_\_8
+%%%                                                \in (conAuthPurseCh7 n\_\_2).
+%%%                                                    exLog \} \},
+%%%               etherCh7/ether,
+%%%               fromInEpa
+%%%                 := \{ pd\_\_9:
+%%%                         \{ pd\_\_10: PayDetails
+%%%                              | pd\_\_10.from \in \dom conAuthPurseCh7 \}
+%%%                         |       (conAuthPurseCh7 pd\_\_9.from).status = epa \\
+%%%                           \land
+%%%                            (conAuthPurseCh7 pd\_\_9.from).pdAuth = pd\_\_9 \},
+%%%               fromInEpr
+%%%                 := \{ pd\_\_11:
+%%%                         \{ pd\_\_12: PayDetails
+%%%                              | pd\_\_12.from \in \dom conAuthPurseCh7 \}
+%%%                         |       (conAuthPurseCh7 pd\_\_11.from).status
+%%%                                 = epr \\
+%%%                           \land (conAuthPurseCh7 pd\_\_11.from).pdAuth
+%%%                                 = pd\_\_11 \},
+%%%               fromLogged
+%%%                 := \{ pd\_\_13:
+%%%                         \{ pd\_\_14: PayDetails
+%%%                              | pd\_\_14.from \in \dom conAuthPurseCh7 \}
+%%%                         | pd\_\_13.from \mapsto pd\_\_13
+%%%                           \in archiveCh7
+%%%                               \cup \{ n\_\_3: \dom conAuthPurseCh7;pd\_\_15: PayDetails
+%%%                                         | pd\_\_15
+%%%                                           \in (conAuthPurseCh7 n\_\_3).
+%%%                                               exLog \} \},
+%%%               maybeLost
+%%%                 := \{ pd\_\_16:
+%%%                         \{ pd\_\_17: PayDetails
+%%%                              | pd\_\_17.to \in \dom conAuthPurseCh7 \}
+%%%                         |       (conAuthPurseCh7 pd\_\_16.to).status = epv \\
+%%%                           \land
+%%%                            (conAuthPurseCh7 pd\_\_16.to).pdAuth = pd\_\_16 \}
+%%%                    \cap (\{ pd\_\_18:
+%%%                               \{ pd\_\_19: PayDetails
+%%%                                    | pd\_\_19.from \in \dom conAuthPurseCh7 \}
+%%%                               |       (conAuthPurseCh7 pd\_\_18.from).status
+%%%                                       = epa \\
+%%%                                 \land (conAuthPurseCh7 pd\_\_18.from).pdAuth
+%%%                                       = pd\_\_18 \}
+%%%                          \cup \{ pd\_\_20:
+%%%                                    \{ pd\_\_21: PayDetails
+%%%                                         | pd\_\_21.from
+%%%                                           \in \dom conAuthPurseCh7 \}
+%%%                                    | pd\_\_20.from \mapsto pd\_\_20
+%%%                                      \in archiveCh7
+%%%                                          \cup \{ n\_\_4: \dom conAuthPurseCh7;pd\_\_22: PayDetails
+%%%                                                    | pd\_\_22
+%%%                                                      \in (conAuthPurseCh7
+%%%                                                           n\_\_4).
+%%%                                                          exLog \} \}),
+%%%               toInEapayee
+%%%                 := \{ pd\_\_24:
+%%%                         \{ pd\_\_25: PayDetails
+%%%                              | pd\_\_25.to \in \dom conAuthPurseCh7 \}
+%%%                         |       (conAuthPurseCh7 pd\_\_24.to).status = eaTo \\
+%%%                           \land
+%%%                            (conAuthPurseCh7 pd\_\_24.to).pdAuth = pd\_\_24 \},
+%%%               toInEpv
+%%%                 := \{ pd\_\_26:
+%%%                         \{ pd\_\_27: PayDetails
+%%%                              | pd\_\_27.to \in \dom conAuthPurseCh7 \}
+%%%                         |       (conAuthPurseCh7 pd\_\_26.to).status = epv \\
+%%%                           \land
+%%%                            (conAuthPurseCh7 pd\_\_26.to).pdAuth = pd\_\_26 \},
+%%%               toLogged
+%%%                 := \{ pd\_\_28:
+%%%                         \{ pd\_\_29: PayDetails
+%%%                              | pd\_\_29.to \in \dom conAuthPurseCh7 \}
+%%%                         | pd\_\_28.to \mapsto pd\_\_28
+%%%                           \in archiveCh7
+%%%                               \cup \{ n\_\_5: \dom conAuthPurseCh7;pd\_\_30: PayDetails
+%%%                                         | pd\_\_30
+%%%                                           \in (conAuthPurseCh7 n\_\_5).
+%%%                                               exLog \} \}];
+%%%invoke predicate
+%%%    BetweenWorld[archiveCh7/archive, conAuthPurseCh7/conAuthPurse];
+%%%with disabled (BetweenWorld) prove by reduce ;

@@ -1,0 +1,123 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch12\_ps \parents ch12
+\end{zsection}
+CHANGES:
+* to/status -> toN/statuS
+}
+\chapter{Chapter~\ref{ch12} proofs}
+
+\section{Output proofs}\plink{ch12.out}
+
+The proof of $tBetwAbsFinalOutput$ follows directly from the PRG
+explanation of it.
+%
+\begin{LPScript}\begin{zproof}[tBetwAbsFinalOutput]
+    invoke RabOut;
+    invoke AbFinOut;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\section{State proofs}\plink{ch12.state}
+
+\subsection*{Case $AbFinState$}
+
+\begin{LPScript}\begin{zproof}[lBetwAbsFinalStateAbWorldCutAbFinStateCase]
+    invoke AbFinState;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\subsection*{Case $Rab$}
+
+\begin{LPScript}\begin{zproof}[rConPurseBalanceTypeOpen]
+    apply inDom;
+    prenex;
+    use pairInFunction[NAME, \lblot balance: \num;exLog: \power~
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo: \num;value: \num
+        \rblot;name: NAME;nextSeqNo: \num;pdAuth:~\lblot
+            from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo: \num;value: \num
+        \rblot;statuS: STATUS~\rblot ]
+        [f := purse, x := name, y := y];
+    apply ConPurse\$inSet;
+    prove by rewrite;
+    invoke (\_ \ffun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    prove by rewrite;
+    apply inPower;
+    instantiate e == (name, y);
+    apply tupleInCross2;
+    apply ConPurse\$member;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldMaybeLostIsFinite]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+%\begin{LPScript}\begin{zproof}[lBetwAbsFinalStateAbWorldCutRabCase]
+%    invoke Rab;
+%    invoke RabCl;
+%    invoke BetwFinState;
+%    invoke GlobalWorld;
+%    invoke AbstractBetween;
+%    prove by rewrite;
+%    use lBetweenWorldMaybeLostExpansion;
+%    use lBetweenWorldMaybeLostIsFinite;
+%    rearrange;
+%    simplify;
+%    instantiate chosenLost == maybeLost;
+%    prove by rewrite;
+%    instantiate name\_\_0 == name;
+%    prove by rewrite;
+%    apply diffSuperset to expression
+%        toInEpv \cap (fromInEpa \cup fromLogged)
+%        \setminus toInEpv \cap (fromInEpa \cup fromLogged);
+%    rewrite;
+%    apply the\$IntegerElimination;
+%    rewrite;
+%    use rConPurseBalanceTypeOpen[purse := conAuthPurse, name := name];
+%    apply inNat;
+%    rearrange;
+%    rewrite;
+%\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetwAbsFinalStateAbWorldCutRabCase]
+    invoke Rab;
+    invoke RabCl;
+    invoke BetwFinState;
+    invoke GlobalWorld;
+    invoke AbstractBetween;
+    prove by rewrite;
+    use lBetweenWorldMaybeLostExpansion;
+    use lBetweenWorldMaybeLostIsFinite;
+    rearrange;
+    simplify;
+    instantiate chosenLost == maybeLost;
+    prove by rewrite;
+    instantiate name\_\_0 == name;
+    prove by rewrite;
+    apply diffSuperset to expression
+        toInEpv \cap (fromInEpa \cup fromLogged)
+        \setminus toInEpv \cap (fromInEpa \cup fromLogged);
+    rewrite;
+    use rConPurseBalanceTypeOpen[purse := conAuthPurse, name := name];
+    apply inNat;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAbsFinalState]
+    instantiate abAuthPurse == gAuthPurse;
+    use lBetwAbsFinalStateAbWorldCutAbFinStateCase;
+    use lBetwAbsFinalStateAbWorldCutRabCase;
+    rearrange;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\newpage
+\section{Summary}\label{ch12.ps.summary}
+\lpscriptsummary

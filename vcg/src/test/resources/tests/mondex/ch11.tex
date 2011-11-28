@@ -1,0 +1,42 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch11 \parents ch10
+\end{zsection}
+CHANGES:
+* added missing hard space to DecorExpr
+}
+\chapter{\Abs\ to \Betw\ initialisation proof}\label{ch11}
+
+\section{Proof obligations}
+
+For simulation proofs we use the convention to include in theorem
+names the suffixes $SimAppl$ and $SimCorr$ for the applicability and
+correctness theorems.
+%
+\begin{LThm}[\Betw\ world init. refines \Abs\ world init.]%
+\begin{theorem}{tBetwAbsInitSimAppl}
+   \forall BetweenInitState; Rab~' @ AbInitState
+\end{theorem}~\end{LThm}
+
+\begin{LThm}[\Betw\ world init. refines \Abs\ world init.]%
+\begin{theorem}{tBetwAbsInputSimAppl}
+   \forall BetwInitIn; RabIn @ AbInitIn
+\end{theorem}~\end{LThm}
+
+\section{Proof of initial inputs}
+
+Expand $RabIn$ and $AbInitIn$.
+\begin{LThm}[\Betw\ and \Abs\ world initial inputs]
+\begin{theorem}{tBetwAbsInitInputs}
+    \forall BetwInitIn; BetwInitIn[a?/g?] @ a? = g?
+\end{theorem}~\end{LThm}
+
+\newpage
+\section{Summary}\label{ch11.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

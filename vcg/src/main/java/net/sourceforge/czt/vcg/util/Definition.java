@@ -55,11 +55,39 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   private final ZNameList genericParams_;
   private final Expr definition_;
   private final Type2 carrierType_;
+  /**
+   * Local bindings to hide/rename, where new=null for hide. It is a list because of
+   * possible chained rename/hide, in which case latter ones override former.
+   * ex.  Op[x/y] hide (x)
+   */
   private final List<NewOldPair> specialBindings_; // local bindings for Hide/Rename; new for Hide is null.
   private final SortedMap<ZName, Definition> locals_;
 
   /**
-   * Usual constructor given parameters for both local and global definitions.
+   * A definition that has local names, e.g., schema bindings, might have name 
+   * collusion (e.g., S == [x:\seq \nat]; T == [x: \nat\fun\nat]; State == [S; T]).
+   * 
+   * That means, the bindings of State will have collusion on "x". That is in spite
+   * of unifiable types (e.g., maximally correct types), and is allowed. We tag State
+   * as such to inform the user of that.
+   */
+  private boolean hasLocalNamesCollusion_;
+  // invariant: hasLocalNamesCollusion_ => definitionKind.isSchemaBinding()
+  //    only schema bindings can have name collusion flag on
+
+  /**
+   * On local bindings of State, say "x" above, there will be a synthetic type for
+   * it, namely the intersection of all declared types involved (e.g., x : \seq \nat \cap \nat\fun\nat).
+   * If that's the case, we tag it with a boolean flag here. That's to differentiate to the rather
+   * unusual user-declared type, if it ever happens. Notice that there is a clear link between
+   * the local bindings of State which might collude and will have synthetic types tag and this flag.
+   */
+  private final boolean hasSyntheticTypeDueToCollusion_;
+  // invariant: hasSyntheticTypeDueToCollusion_ => DefinitionTable.checkLocalDef(this) && \exists def @ def.locals_.containsKey(this.defName_) && def.definitionKind.isSchemaBinding()
+  //    if this definition has synthetic types from name collusion, then it must be a local definition of some schema binding
+
+  /**
+   * Usual constructor given parameters for global definitions.
    * @param sectName
    * @param defName
    * @param generic
@@ -71,6 +99,23 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
           ZNameList generic, Expr definition, Type2 carrierType,
           DefinitionKind definitionKind)
   {
+    this(sectName, defName, generic, definition, carrierType, definitionKind, false);
+  }
+
+  /**
+   * Usual constructor given parameter for local definitions
+   * @param sectName
+   * @param defName
+   * @param generic
+   * @param definition
+   * @param carrierType
+   * @param definitionKind
+   * @param hasSynthTypes
+   */
+  private Definition(String sectName, ZName defName,
+          ZNameList generic, Expr definition, Type2 carrierType,
+          DefinitionKind definitionKind, boolean hasSynthTypes)
+  {
     super(sectName);
     assert generic != null && defName != null && definition != null && definitionKind != null;
     genericParams_ = generic;
@@ -79,6 +124,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     defKind_ = definitionKind;
     carrierType_ = carrierType; // type maybe null
     specialBindings_ = new ArrayList<NewOldPair>();
+    hasSyntheticTypeDueToCollusion_ = hasSynthTypes;
+    hasLocalNamesCollusion_ = false;
     locals_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
   }
 
@@ -87,6 +134,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    * for local references like included schemas or implicit ones (E.g., Delta S = S and S')
    * @param contextGenerics
    * @param deepCopy
+   * @throws DefinitionException
    */
   protected Definition(ZNameList contextGenerics, Definition deepCopy) throws DefinitionException
   {
@@ -98,6 +146,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     defName_ = cloneTerm(deepCopy.defName_);
     defKind_ = deepCopy.defKind_; //new DefinitionKind(local.defKind_);
     carrierType_ = deepCopy.carrierType_ == null ? null : cloneTerm(deepCopy.carrierType_);
+    hasSyntheticTypeDueToCollusion_ = deepCopy.hasSyntheticTypeDueToCollusion_;
+    hasLocalNamesCollusion_ = deepCopy.hasLocalNamesCollusion_;
     Expr copiedExpr = cloneTerm(deepCopy.definition_);
     assert genericParams_.equals(deepCopy.genericParams_) &&
            defName_.equals(deepCopy.defName_) &&
@@ -128,6 +178,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    * Copies all from the given definition, yet changes definition name's accordingly.
    * @param copy
    * @param newLocalName
+   * @throws DefinitionException
    */
   protected Definition(Definition copy, ZName newLocalName) throws DefinitionException
   {
@@ -138,6 +189,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     definition_ = copy.definition_;
     defKind_ = copy.defKind_;
     carrierType_ = copy.carrierType_;
+    hasLocalNamesCollusion_ = copy.hasLocalNamesCollusion_;
+    hasSyntheticTypeDueToCollusion_ = copy.hasSyntheticTypeDueToCollusion_;
     locals_ = new TreeMap<ZName, Definition>(copy.locals_);
     specialBindings_ = new ArrayList<NewOldPair>(copy.specialBindings_);
   }
@@ -231,6 +284,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
           ZNameList generic, Expr definition, Type2 carrierSet,
           DefinitionKind definitionKind) throws DefinitionException
   {
+    boolean foundCollusion = false;
     // if new local def is a schema binding
     if (definitionKind.isSchemaBinding())
     {
@@ -252,6 +306,10 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
             + " adding intersection of declarations as " + DefinitionTable.printTerm(definition);
           //throw new DefinitionException(oldLocalDef.getDefName(), message);
           CztLogger.getLogger(getClass()).warning(message);
+
+          foundCollusion = true;
+          // tag this schema reference with a name collusion.
+          hasLocalNamesCollusion_ = true;
         }
         else
         {
@@ -270,7 +328,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       //       not transitively investigated. Maybe should ? TODO see...
     }
     Definition localDef = new Definition(getSectionName(), defName,
-            generic, definition, carrierSet, definitionKind);
+            generic, definition, carrierSet, definitionKind, foundCollusion);
     addLocalDecl(localDef);
     return localDef;
   }

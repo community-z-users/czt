@@ -73,6 +73,7 @@ public class DomainCheckerTest extends VCGTest implements DomainCheckPropertyKey
   @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return name.lastIndexOf(VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1;
+    return super.includeVCGTest(name, positive) &&
+           positive && name.lastIndexOf(VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1;
   }
 }

@@ -80,10 +80,13 @@ public abstract class VCGTest extends CztManagedTest
     if (positive)
       return super.includeTest(name, positive) && includeVCGTest(name, positive);
     else
-      return super.includeTest(name, positive);
+      return super.includeTest(name, positive) || includeVCGTest(name, positive);
   }
 
-  protected abstract boolean includeVCGTest(String name, boolean positive);
+  protected boolean includeVCGTest(String name, boolean positive)
+  {
+    return !name.equals("validColludedTypes.tex");
+  }
 
   /**
    * Positive test case

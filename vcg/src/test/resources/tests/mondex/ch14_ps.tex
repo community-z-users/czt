@@ -1,0 +1,72 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch14\_ps \parents ch14
+\end{zsection}
+CHANGES:
+* PROOFS TODO
+}
+
+\chapter{Chapter~\ref{ch14} proofs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% IMPORTANT NOTE!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THIS CHAPTER IS ABOUT LEMMAS TO REFINEMENT PROOFS
+% THESE LEMMAS DO NOT WORK AS CLOSE/NICE WITH Z/EVES
+% THUS, WE INTRODUCE MODIFIED VERSIONS OF THESE LEMMAS HERE
+% AS WE ARE PROVING THE SAME REFINEMENT THEOREMS, IT DOES NOT MATTER.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%try
+%%  \forall
+%%    BetweenWorld; chosenLost: \power PayDetails; pdThis: PayDetails
+%%      | \Local chosenLost \subseteq \Local maybeLost
+%%    @ \exists_1 AbWorld @ RabClPd;
+%%rewrite;
+%%invoke RabClPd;
+%%rewrite;
+%%invoke RabCl;
+%%rewrite;
+%%invoke AbstractBetween;
+%%rewrite;
+%%instantiate abAuthPurse == \{\};
+%%rewrite;
+%%invoke AbWorld;
+%%rewrite;
+%%prenex;
+%%invoke AbWorld;
+%%prove by rewrite;
+%%apply domDefinition to expression \dom abAuthPurse;
+%%prove by rewrite;
+%%apply extensionality to predicate \{\} = abAuthPurse;
+%%apply extensionality to predicate
+%%  \{ x\_\_0: NAME; y\_\_0: \lblot balance: \num; lost: \num \rblot
+%%       | (x\_\_0, y\_\_0) \in abAuthPurse @ x\_\_0 \}
+%%  = \{\};
+%%prove by rewrite;
+%%invoke (\_ \pfun \_);
+%%invoke (\_ \rel \_);
+%%prove by rewrite;
+%%apply inPower to predicate abAuthPurse \in \power (NAMES \cross AbPurse);
+%%instantiate e == y;
+%%apply inCross2;
+%%prenex;
+%%rearrange;
+%%simplify;
+%%instantiate x\_\_2 == x;
+%%rewrite;
+%%rewrite;
+%%rearrange;
+%%rewrite;
+%%instantiate y\_\_2 == y\_\_0;
+%%rewrite;
+%%split chosenLost \in \finset PayDetails;
+%%rewrite;
+%%cases;
+%%
+
+
+\newpage
+\section{Summary}\label{ch14.ps.summary}
+\lpscriptsummary

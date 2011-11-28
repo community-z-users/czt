@@ -1,0 +1,593 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch5\_ps \parents ch5
+\end{zsection}
+CHANGES:
+* to -> "toN"
+* added missing hard space
+* removed znote
+}
+
+\chapter{Chapter~\ref{ch5} proofs}
+
+\section{The world}
+
+\begin{LPScript}\begin{zproof}[tLogbookConsistency]
+    prove by rewrite;
+    invoke (\_ \rel \_);
+    apply cupSubset;
+    apply inPower;
+    prove by rewrite;
+    apply mapDef;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[ConWorld\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\section{$AuxWorld$}\plink{ch5.auxworld}
+
+\begin{LDCheck}\begin{zproof}[AuxWorld\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[tAuxWorldIdentity]
+  invoke AuxWorld;
+  equality substitute definitelyLost;
+  equality substitute maybeLost;
+  apply cupCommutes to expression fromLogged \cup fromInEpa;
+  apply capCommutes to expression
+            (fromInEpa \cup fromLogged) \cap (toInEpv \cup toLogged);
+  apply distributeCapOverCupLeft to expression
+            (toInEpv \cup toLogged) \cap (fromInEpa \cup fromLogged);
+  rewrite;
+\end{zproof}\end{LPScript}
+
+\subsection{Finiteness properties}
+
+\begin{LPScript}\begin{zproof}[rCrossFinite]
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lFinsetSubset]
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsSpaceFiniteMaxType]
+    reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsBindingsSubsetPayDetailsSpace]
+    apply inPower;
+    apply inDom;
+    prove by reduce;
+    invoke (\_ \rel \_);
+    with normalization simplify;
+    prove by rewrite;
+    apply inPower;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsBindingsFiniteMaxType]
+    use lFinsetSubset[X := \dom~PayDetailsBindings, Y := PayDetailsSpace,
+        Z := ((NAME \cross NAME) \cross (\num \cross (\num \cross \num)))];
+    use lPayDetailsBindingsSubsetPayDetailsSpace;
+    use lPayDetailsSpaceFiniteMaxType;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gPayDetailsBindingsPfun]
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gPayDetailsBindingsFfun]
+    use functionFinite[((NAME \cross NAME) \cross (\num \cross (\num \cross \num))),
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo: \num;value: \num \rblot]
+        [A := ((NAME \cross NAME) \cross (\num \cross (\num \cross \num))),
+         B := PayDetails, f := PayDetailsBindings];
+    use gPayDetailsBindingsPfun;
+    use lPayDetailsBindingsFiniteMaxType;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsBindinsRange]
+    apply extensionality2;
+    apply inPower;
+    apply inRan;
+    prove by rewrite;
+    apply PayDetails\$member;
+    prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsIsFinite]
+    use finiteFunction[((NAME \cross NAME) \cross (\num \cross (\num \cross \num))),
+        \lblot from: NAME;fromSeqNo: \num;toN: NAME;toSeqNo: \num;value: \num \rblot]
+        [f := PayDetailsBindings];
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsFromPurseNameFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := \{  pd: PayDetails | pd.from = name \},
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    rewrite;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    rewrite;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsToPurseNameFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := \{  pd: PayDetails | pd.toN = name \},
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    rewrite;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    rewrite;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsFromPurseDomainFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := \{  pd: PayDetails | pd.from \in \dom~purse \},
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    rewrite;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsToPurseDomainFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := \{  pd: PayDetails | pd.toN \in \dom~purse \},
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    rewrite;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fAuxWorldAuthenticFromIsFinite]
+    invoke AuxWorld;
+    equality substitute authenticFrom;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fAuxWorldAuthenticToIsFinite]
+    invoke AuxWorld;
+    equality substitute authenticTo;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\subsection{$AuxWorld$ does not add constraints}
+
+\begin{LDCheck}\begin{zproof}[PayDetailsFromDomEPRPurse\$domainCheck]
+    rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[PayDetailsFromDomEPAPurse\$domainCheck]
+    rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[PayDetailsToDomEPVPurse\$domainCheck]
+    rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[PayDetailsToDomEATOPurse\$domainCheck]
+    rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsFromPurseEPRIsFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := PayDetailsFromDomEPRPurse,
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    simplify;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsFromPurseEPAIsFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := PayDetailsFromDomEPAPurse,
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    simplify;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsToPurseEPVIsFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := PayDetailsToDomEPVPurse,
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    simplify;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lPayDetailsToPurseEATOIsFinite]
+    use lPayDetailsIsFinite;
+    use lFinsetSubset[X := PayDetailsToDomEATOPurse,
+        Y := PayDetails, Z := \lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot ];
+    rearrange;
+    simplify;
+    invoke (\finset \_);
+    trivial rewrite;
+    rearrange;
+    rewrite;
+    prenex;
+    instantiate n\_\_0 == n;
+    instantiate f\_\_0 == f;
+    rewrite;
+    apply ranDefinition;
+    rewrite;
+    apply extensionality;
+    prenex;
+    rewrite;
+    prenex;
+    rewrite;
+    instantiate x\_\_1 == x;
+    instantiate y\_\_0 == y;
+    prenex;
+    rewrite;
+    rewrite;
+    instantiate x\_\_2 == x\_\_0;
+    instantiate x\_\_5 == x\_\_0;
+    rearrange;
+    rewrite;
+    rearrange;
+    rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tAuxWorldDoesNotAddConstraints]
+    rewrite;
+    invoke AuxWorld;
+    simplify;
+    invoke NewVariables;
+    instantiate
+      conAuthPurse\_\_0 == conAuthPurse, archive\_\_0 == archive,
+      ether\_\_0 == ether;
+    invoke AuxWorld;
+    simplify;
+    invoke (\_ \rel \_);
+    rewrite;
+    use lPayDetailsFromPurseEPRIsFinite[purse := conAuthPurse];
+    use lPayDetailsFromPurseEPAIsFinite[purse := conAuthPurse];
+    use lPayDetailsToPurseEPVIsFinite[purse := conAuthPurse];
+    use lPayDetailsToPurseEATOIsFinite[purse := conAuthPurse];
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\section{Constraints on the ether}\plink{ch5.betweenworld}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB1\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB2\$domainCheck]
+    %\znote{Do not prove by reduce because it will apply}
+    %\znote{too much equality substitution on authenticTo}
+    prove by rewrite;
+    invoke BetweenWorldB1;
+    instantiate pd\_\_0 == pd;
+    %\znote{Now we have everything exposed, it is fine}
+    prove by reduce;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldNEW1\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldNEW2\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB3\$domainCheck]
+   prove by rewrite;
+   invoke BetweenWorldNEW1;
+   invoke BetweenWorldNEW2;
+   instantiate pd\_\_0 == pd;
+   instantiate pd\_\_1 == pd;
+   prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldNEW3\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldNEW4\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB4\$domainCheck]
+   prove by rewrite;
+   invoke BetweenWorldNEW3;
+   invoke BetweenWorldNEW4;
+   instantiate pd\_\_0 == pd;
+   instantiate pd\_\_1 == pd;
+   prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB5\$domainCheck]
+   %\znote{As there is no need for instantiation this time,}
+   %\znote{prove by reduce is a better (and simpler) choice.}
+   prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB6\$domainCheck]
+   prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB7\$domainCheck]
+   prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB8\$domainCheck]
+   prove by reduce ;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB9\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB10\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB11\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB12\$domainCheck]
+   %\znote{Reduction is needed because of the disjunction}
+   %\znote{at the assumptions generated by the set union.}
+   prove by reduce;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB15\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[BetweenWorldB16\$domainCheck]
+   %\znote{Similar to domain check of BetweenWorldB12}
+   prove by reduce;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB16;
+    invoke BetweenWorldB15;
+    invoke BetweenWorldB14;
+    invoke BetweenWorldB13;
+    invoke BetweenWorldB12;
+    invoke BetweenWorldB11;
+    invoke BetweenWorldB10;
+    invoke BetweenWorldB9;
+    invoke BetweenWorldB8;
+    invoke BetweenWorldB7;
+    invoke BetweenWorldB6;
+    invoke BetweenWorldB5;
+    invoke BetweenWorldB4;
+    invoke BetweenWorldNEW4;
+    invoke BetweenWorldNEW3;
+    invoke BetweenWorldB3;
+    invoke BetweenWorldNEW2;
+    invoke BetweenWorldNEW1;
+    invoke BetweenWorldB2;
+    invoke BetweenWorldB1;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldAuxWorldExpansion]
+    use lBetweenWorldExpansion;
+    rearrange;
+    simplify;
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldFullExpansion]
+    use lBetweenWorldAuxWorldExpansion;
+    rearrange;
+    simplify;
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    invoke ConWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\section{Framing schema}\plink{ch5.phibop}
+
+\begin{LDCheck}\begin{zproof}[PhiBOp\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+
+\section{Operations at the world level only}\plink{ch5.worldop}
+
+\begin{LDCheck}\begin{zproof}[AuthoriseExLogClearOkay\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[Archive\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\newpage
+\section{Summary}\label{ch5.ps.summary}
+\lpscriptsummary

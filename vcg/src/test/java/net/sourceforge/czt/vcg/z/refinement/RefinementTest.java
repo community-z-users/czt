@@ -76,7 +76,8 @@ public class RefinementTest extends VCGTest implements RefinementPropertyKeys
   @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return name.lastIndexOf(DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1 &&
+    return super.includeVCGTest(name, positive) &&
+           positive && name.lastIndexOf(DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1 &&
            name.lastIndexOf(FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1 &&
            name.lastIndexOf(RefinementPropertyKeys.VCG_REFINEMENT_SOURCENAME_SUFFIX) == -1;
   }

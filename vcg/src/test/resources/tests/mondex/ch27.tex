@@ -1,0 +1,66 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch27 \parents ch26
+\end{zsection}
+CHANGES:
+* add missing hard spaces to decor expr
+}
+\chapter{Initialisation, Finalisation, and Applicability}\label{ch27}
+
+\section{Initialisation proof}\label{ch27.bc-init}
+
+\begin{LThm}[\Betw\ to \Conc\ initialisation]
+\begin{theorem}{tBetwConcInit}
+   \forall ConInitState @ \exists BetweenWorld~' @ BetweenInitState \land Rbc~'
+\end{theorem}~\end{LThm}
+
+\section{Finalisation proof}\label{ch27.bc-fin}
+
+Upon finalisation, it is possible identify the \Conc\
+$definitelyLostCh7$ and $maybeLostCh7$ with the correspondent \Betw\
+components.
+%
+\begin{LNewLemma}[Concrete $AuxWorld$ equivalence at finalisation]
+\begin{theorem}{lCAuxWorldFinalEquiv}
+    \forall AuxWorldCh7; BetweenWorld |  \\
+        \t1 conAuthPurseCh7 = conAuthPurse \land archiveCh7 = archive @ \\
+            \t2 definitelyLostCh7 = definitelyLost \land maybeLostCh7 = maybeLost %
+\end{theorem}~\end{LNewLemma}
+%
+This is used in the next proof, as mentioned by the original Mondex
+explanation below.
+
+\begin{LThm}[\Betw\ to \Conc\ finalisation]
+\begin{theorem}{tBetwConcFinal}
+   \forall Rbc; ConFinState @ BetwFinState
+\end{theorem}~\end{LThm}
+
+We have defined $ConFinState$ and $BetwFinState$ to have the same
+mathematical form.
+
+$Rbc$ in the hypothesis requires the concrete and between purse
+states and archives to be identical, and allows the between $ether$
+to be bigger than the concrete $ether$.
+
+Finalisation of the purses depends only on the purse states
+(identical by hypothesis) and on the sets $definitelyLost$ and
+$maybeLost$. These sets themselves depend only on purse states and
+on the archive (also identical for concrete and between worlds by
+the retrieve in the hypothesis).  As result, $gAuthPurse$ for
+between finalisation is identical to that for concrete finalisation.
+
+\section{Applicability proofs}\label{ch27.bc-applic}
+
+Applicability follows automatically from the totality of the
+concrete operations as shown in section~\ref{ch8.specproof-conc}.
+
+\newpage
+
+\section{Summary}\label{ch27.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

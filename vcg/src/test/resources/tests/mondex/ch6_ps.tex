@@ -1,0 +1,169 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch6\_ps \parents ch6
+\end{zsection}
+CHANGES:
+* to -> "toN"
+* added missing hard space
+* removed znote
+}
+
+\chapter{Chapter~\ref{ch6} proofs}
+
+\section{Summing values}\plink{ch6.sumValue}
+
+\begin{LDCheck}\begin{zproof}[sumValue\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\section{Initialisation}\plink{ch6.init}
+
+\begin{LDCheck}\begin{zproof}[BetweenInitState\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+
+\begin{LPScript}\begin{zproof}[fPayDetailsFromType]
+   with enabled (PayDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fPayDetailsToType]
+   with enabled (PayDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fPayDetailsValueType]
+   with enabled (PayDetails\$member) prove by reduce ;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[fPayDetailsMember]
+    with enabled (PayDetails\$member, PayDetails\$inSet) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEReqRelType]
+    use req\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    invoke (\_ \rel \_);
+    %\znote{At this point fCounterPartyDetailsMember and}
+    %\znote{fCounterPartyDetailsInSetMember are used}
+    rewrite;
+    %\znote{Trivial rewriting is needed in order}
+    %\znote{not to loose information about power}
+    %\znote{type of req.}
+    trivial rewrite;
+    prenex;
+    rearrange;
+    equality substitute r;
+    apply inPower;
+    prenex;
+    instantiate e\_\_0 == e;
+    with enabled (inCross2) prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEReqPFunType]
+    use req\$declaration;
+    invoke (\_\fun \_);
+    invoke (\_\pfun \_);
+    %\znote{At this point gMESSAGEReqRelType is used}
+    prove by rewrite;
+    instantiate x\_\_0 == x, y1\_\_0 == y1, y2\_\_0 == y2;
+    %\znote{At this point fPayDetailsMember is used}
+    prove by rewrite;
+    %\znote{Small difference from other similar proofs}
+    %\znote{as there is no fPayDetailsInSetMember}
+    invoke (\_ \rel \_);
+    apply inPower;
+    instantiate e == (x, y1);
+    with enabled (inCross2) prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEReqPayDetailsRelType]
+    use req\$declaration;
+    invoke (\_ \fun \_);
+    invoke (\_ \pfun \_);
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[gMESSAGEReqPInjType]
+    invoke (\_\pinj \_);
+    rewrite;
+    invoke (\_\pfun \_);
+    %\znote{At this point gMESSAGEReqRelType is used}
+    prove by rewrite;
+    %\znote{At this point gMESSAGEReqPFunType is used}
+    use pairInFunction[\lblot from: NAME;fromSeqNo: \nat;toN: NAME;toSeqNo:
+                        \nat;value: \nat\rblot, MESSAGE]
+                          [f := req, x := y1, y := x];
+    use pairInFunction[\lblot from: NAME;fromSeqNo: \nat;toN: NAME;toSeqNo:
+                        \nat;value: \nat\rblot, MESSAGE]
+                          [f := req, x := y2, y := x];
+    %\znote{At this point fPayDetailsMember is used}
+    prove by rewrite;
+    %\znote{Small difference from other similar proofs}
+    use gMESSAGEReqPayDetailsRelType;
+    invoke (\_ \rel \_);
+    apply inPower;
+    instantiate e == (y2, req~ y2);
+    instantiate e == (y1, req~ y2);
+    with enabled (inCross2) prove by rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[rMESSAGEReqInvMaxType]
+    apply inRan;
+    prove by rewrite;
+    use pairInFunction[\lblot from: NAME;fromSeqNo: \num;toN:
+            NAME;toSeqNo: \num;value: \num \rblot, MESSAGE]
+            [f := req, x := x, y := m];
+    prove by rewrite;
+    use memberFirstInDom[\lblot from: NAME;fromSeqNo: \num;toN:
+            NAME;toSeqNo: \num;value: \num \rblot, MESSAGE]
+            [R := req, x := x, y := req~ x];
+    rearrange;
+    with predicate (req \in \lblot from: NAME;fromSeqNo:
+        \num;toN: NAME;toSeqNo: \num;value: \num \rblot
+            \rel MESSAGE) rewrite;
+    simplify;
+    use applyInverse[\lblot from: NAME;fromSeqNo: \num;toN:
+        NAME;toSeqNo: \num;value: \num \rblot, MESSAGE]
+        [A := \lblot from: NAME;fromSeqNo: \num;toN:
+            NAME;toSeqNo: \num;value: \num \rblot,
+         B := MESSAGE, f := req, x := x];
+    with enabled (PayDetails\$member) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[BetwInitIn\$domainCheck]
+    cases;
+    prove by rewrite;
+    next;
+    prove by reduce;
+    use rMESSAGEReqInvMaxType[m := m?];
+    apply PayDetails\$inSet;
+    prove by rewrite;
+    next;
+    use muInSet[\{ TransferDetails[from\_\_1/from, toN\_\_1/toN, value\_\_1/value]
+        | from\_\_1 = ((req~\inv)~m?).from \land toN\_\_1 = ((req~\inv)~m?).toN
+          \land value\_\_1 = ((req~\inv)~m?).value \}];
+    prove by reduce;
+    instantiate a == \theta TransferDetails[from := ((req~\inv)~m?).from,
+        toN := ((req~\inv)~m?).toN, value := ((req~\inv)~m?).value];
+    use rMESSAGEReqInvMaxType[m := m?];
+    apply PayDetails\$inSet;
+    prove by reduce;
+    equality substitute
+      (\mu m: \{ TransferDetails[from\_\_1/from, toN\_\_1/toN, value\_\_1/value]
+         | from\_\_1 = ((req~\inv)~ m?).from \land toN\_\_1 = ((req~\inv)~m?).toN
+           \land value\_\_1 = ((req~ \inv)~ m?).value \});
+    apply TransferDetails\$thetaMember;
+    prove by reduce;
+    next;
+\end{zproof}\end{LDCheck}
+
+\section{Finalisation}\plink{ch6.final}
+
+\begin{LDCheck}\begin{zproof}[BetwFinState\$domainCheck]
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\newpage
+\section{Summary}\label{ch6.ps.summary}
+\lpscriptsummary

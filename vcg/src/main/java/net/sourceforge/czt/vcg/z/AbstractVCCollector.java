@@ -27,7 +27,6 @@ import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -181,7 +180,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   }
   
   static DefinitionTable getDefinitionTable(Term term, List<? extends InfoTable> tables,
-      boolean checkTblConsistency_) throws VCCollectionException
+      boolean checkTblConsistency) throws VCCollectionException
   {
     
     //a null dts means always "applies$to", rather than \in \dom~? when possible
@@ -190,7 +189,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     for (InfoTable tbl : tables) {
       if (tbl instanceof DefinitionTable) {
         defTable = (DefinitionTable) tbl;
-        if (checkTblConsistency_) {
+        if (checkTblConsistency) {
           DefinitionException de = defTable.checkOverallConsistency();
           if (de != null) {
             throw new VCCollectionException("Definition table inconsistency, see DefinitionException "

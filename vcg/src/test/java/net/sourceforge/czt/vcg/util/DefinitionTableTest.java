@@ -73,11 +73,64 @@ public class DefinitionTableTest extends VCGTest
   }
 
   @Override
+  protected TestCase createNegativeTest(URL url, String exception, Class<?> expCls)
+  {
+    return new NegativeDefTableTest(url);
+  }
+
+
+  @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return name.lastIndexOf(DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1 &&
+    return (positive &&
+           name.lastIndexOf(DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1 &&
            name.lastIndexOf(FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1 &&
-           name.lastIndexOf(RefinementPropertyKeys.VCG_REFINEMENT_SOURCENAME_SUFFIX) == -1;
+           name.lastIndexOf(RefinementPropertyKeys.VCG_REFINEMENT_SOURCENAME_SUFFIX) == -1);
+  }
+
+  public class NegativeDefTableTest extends CztManagedTest.TestError<DefinitionException>
+  {
+
+    protected NegativeDefTableTest(URL url)
+    {
+      super(url, DefinitionException.class, "DefinitionException");
+    }
+
+    @Override
+    protected void process(Spec term) throws Exception
+    {
+      DefinitionTable table = null;
+      Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(DefinitionTableTest.this.getSourceName(url_), DefinitionTable.class);
+      try
+      {
+        table = getManager().get(defTblKey);
+      }
+      catch (CommandException ex)
+      {
+        //exceptionThrown = true;
+        // try a second time to see if the one with errors was cached
+        //try
+        //{
+          table = getManager().get(defTblKey);
+        //}
+        //catch (CommandException fx)
+        //{
+        //  handleCmdException(fx);
+        //}
+      }
+      DefinitionException de = table.checkOverallConsistency();
+      if (de != null)
+        throw de;
+      else
+        throw new IllegalStateException("Couldn't find any definition exception errors!");
+    }
+
+    @Override
+    protected String getErrorMessage()
+    {
+      return "DefinitionException";
+    }
+    
   }
 
   public class NormalDefTableTest extends CztManagedTest.TestNormal
@@ -128,9 +181,8 @@ public class DefinitionTableTest extends VCGTest
       {
         if (e instanceof DefinitionException)
         {
-          failureMsg.append("DefinitionException = \n");
           failureMsg.append(((DefinitionException)e).getMessage(true));
-          //result = true;//don't fail, but print out --- TODO: change to false when more examples are handled.
+          result = true;//don't fail, but print out --- TODO: change to false when more examples are handled.
         }
       }
       return result;

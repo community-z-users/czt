@@ -1,0 +1,479 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch10 \parents ch8
+\end{zsection}
+CHANGES:
+* to/status -> "toN"/"statusS"
+* added missing hard space
+}
+
+\chapter{\Abs\ to \Betw\ retrieve relation}\label{ch10}
+
+\section{Extended theory for $sumValue$}
+
+TODO
+
+\section{Retrieve state}\label{ch10.abs.retrive}
+
+\begin{LSDef}[Retrieve state of \Abs\ and \Betw\ models]
+\begin{schema}{AbstractBetween}
+  AbWorld
+  \\ %
+  BetweenWorld
+\where %
+  \dom~abAuthPurse = \dom~conAuthPurse
+\end{schema}~\end{LSDef}
+
+\subsection{Exposing $chosenLost$}
+
+\subsection*{Retrieve state}
+
+Here $chosenLost$ is finite by definition but because it is a subset of $maybetLost$, but it is not given as one.
+\begin{LSDef}[Retrieve state of between and concrete models]
+\begin{schema}{RabCl}
+  AbstractBetween
+  \\ %
+  chosenLost: \power PayDetails
+\where %
+  chosenLost \in \finset PayDetails \\
+  chosenLost \subseteq maybeLost
+  \also %
+  \forall name: \dom~conAuthPurse @
+  \also %
+  \t1 (abAuthPurse~name).lost =
+  \\ %
+  \t2 sumValue~( (definitelyLost \cup chosenLost)
+  \\ %
+  \t3 \cap \{~ pd:PayDetails | pd.from = name ~\})
+  \also %
+  \t1 \land (abAuthPurse~name).balance =
+  \\ %
+  \t2 (conAuthPurse~name).balance
+  \\ %
+  \t2 + sumValue~( (maybeLost \setminus chosenLost)
+  \\ %
+  \t3 \cap \{~ pd:PayDetails | pd.toN = name ~\})
+\end{schema}~\end{LSDef}
+
+\subsection{Hiding $chosenLost$}
+
+\begin{LSDef}[Hiding $chosenLost$]
+\begin{zed}
+  Rab \defs \exists chosenLost: \power PayDetails @ RabCl
+\end{zed}~\end{LSDef}
+
+\subsection{Exposing $pdThis$}
+
+\begin{LSDef}[Exposing $pdThis$]
+\begin{schema}{RabClPd}
+  RabCl
+  \\ %
+  pdThis : PayDetails
+\where
+  true
+\end{schema}~\end{LSDef}
+
+\begin{LSDef}[Other purses in the retrieve state]
+\begin{schema}{OtherPursesRab}
+  AbstractBetween
+  \\ %
+  chosenLost: \power PayDetails
+  \\ %
+  pdThis: PayDetails
+\where %
+  \forall name: \dom~conAuthPurse | name \notin \{~ pdThis.from, pdThis.toN ~\} @
+  \also %
+  \t1 (abAuthPurse~name).lost =
+  \\ %
+  \t2 sumValue~( (definitelyLost \cup chosenLost)
+  \\ %
+  \t3 {} \cap \{~ pd:PayDetails | pd.from = name ~\})
+  \also %
+  \t1 \land (abAuthPurse~name).balance =
+  \\ %
+  \t2 (conAuthPurse~name).balance
+  \\ %
+  \t2 {} + sumValue~( (maybeLost \setminus chosenLost)
+  \\ %
+  \t3 {} \cap \{~ pd:PayDetails | pd.toN = name ~\} )
+\end{schema}~\end{LSDef}
+
+Use this intermediary lemma to avoid expansion of $BetweenWorld$
+with corresponding (huge) substitutions for $maybeLost$, which lead
+\zeves\ to the brink of crashing.
+%
+\begin{LNewLemma}[$maybeLost \setminus chosenLost$ member purses $\in \dom~conAuthPurse$]
+\begin{theorem}{lRabOkayClPdInDomConAuthPurse}
+    \forall AuxWorld; pdThis: PayDetails; chosenLost: \power~PayDetails | \\
+        \t1 chosenLost \subseteq maybeLost \\
+        \t1 \land pdThis \in maybeLost \setminus chosenLost @ \\
+            \t2 pdThis.from \in \dom~conAuthPurse \\
+            \t2 \land pdThis.toN \in \dom~conAuthPurse
+\end{theorem}~\end{LNewLemma}
+
+\begin{LSDef}[Retrieve state of \Abs, \Betw\ and \Conc\ for $Okay$ operations]
+\begin{schema}{RabOkayClPd}
+  AbstractBetween
+  \\ %
+  chosenLost: \power PayDetails
+  \\ %
+  pdThis: PayDetails
+\where %
+  chosenLost \subseteq maybeLost
+  \also %
+  pdThis \in maybeLost \setminus chosenLost
+  \also %
+  (abAuthPurse~pdThis.from).balance =
+  \\ %
+  \t1 (conAuthPurse~pdThis.from).balance
+  \\ %
+  \t1 {} + sumValue~(( (maybeLost \setminus chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.toN = pdThis.from ~\} )
+  \\ %
+  \t2 \setminus \{ pdThis \})
+  \also %
+  (abAuthPurse~pdThis.toN).balance =
+  \\ %
+  \t1 pdThis.value
+  \\ %
+  \t1 {} + (conAuthPurse~pdThis.toN).balance
+  \\ %
+  \t1 {} + sumValue~(( (maybeLost \setminus chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.toN = pdThis.toN ~\} )
+  \\ %
+  \t2 \setminus \{ pdThis \})
+  \also %
+  \forall name: \{ pdThis.from, pdThis.toN \} @
+  \also %
+  \t1 (abAuthPurse~name).lost =
+  \\ %
+  \t2 sumValue~(( (definitelyLost \cup chosenLost)
+  \\ %
+  \t3 {} \cap \{~ pd:PayDetails | pd.from = name ~\})
+  \\ %
+  \t3 \setminus \{ pdThis \} )
+  \also %
+  OtherPursesRab
+\end{schema}~\end{LSDef}
+
+\begin{LNewLemma}[$chosenLost$ member purses $\in \dom~conAuthPurse$]
+\begin{theorem}{lRabWillBeLostClPdInDomConAuthPurse}
+    \forall AuxWorld; pdThis: PayDetails; chosenLost: \power~PayDetails | \\
+        \t1 chosenLost \subseteq maybeLost \\
+        \t1 \land pdThis \in chosenLost @ \\
+            \t2 pdThis.from \in \dom~conAuthPurse \\
+            \t2 \land pdThis.toN \in \dom~conAuthPurse
+\end{theorem}~\end{LNewLemma}
+
+
+\begin{LSDef}[Retrieve state of \Abs, \Betw\ and \Conc\ for future $Lost$ operations]
+\begin{schema}{RabWillBeLostClPd}
+  AbstractBetween
+  \\ %
+  chosenLost: \power PayDetails
+  \\ %
+  pdThis: PayDetails
+\where %
+  chosenLost \subseteq maybeLost
+  \also %
+  pdThis \in chosenLost
+  \also %
+  (abAuthPurse~pdThis.from).lost =
+  \\ %
+  \t1 pdThis.value
+  \\ %
+  \t1 {} + sumValue~(( (definitelyLost \cup chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.from = pdThis.from ~\})
+  \\ %
+  \t2 \setminus \{ pdThis \} )
+  \also %
+  (abAuthPurse~pdThis.toN).lost =
+  \\ %
+  \t1 sumValue~(( (definitelyLost \cup chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.from = pdThis.toN ~\})
+  \\ %
+  \t2 \setminus \{ pdThis \} )
+  \also %
+  \forall name: \{ pdThis.from, pdThis.toN \} @
+  \also %
+  \t1 (abAuthPurse~name).balance =
+  \\ %
+  \t2 (conAuthPurse~name).balance
+  \\ %
+  \t2 {} + sumValue~(( (maybeLost \setminus chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.toN = name ~\} )
+  \\ %
+  \t3 \setminus \{ pdThis \} )
+  \also %
+  OtherPursesRab
+\end{schema}~\end{LSDef}
+
+\begin{LNewLemma}[$definitelyLost$ member purses $\in \dom~conAuthPurse$]
+\begin{theorem}{lRabHasBeenLostClPdInDomConAuthPurse}
+    \forall AuxWorld; pdThis: PayDetails; chosenLost: \power~PayDetails | \\
+        \t1 chosenLost \subseteq maybeLost \\
+        \t1 \land pdThis \in definitelyLost @ \\
+            \t2 pdThis.from \in \dom~conAuthPurse \\
+            \t2 \land pdThis.toN \in \dom~conAuthPurse
+\end{theorem}~\end{LNewLemma}
+
+\begin{LSDef}[Retrieve state of \Abs, \Betw\ and \Conc\ for past $Lost$ operations]
+\begin{schema}{RabHasBeenLostClPd}
+  AbstractBetween
+  \\ %
+  chosenLost: \power PayDetails
+  \\ %
+  pdThis: PayDetails
+\where %
+  chosenLost \subseteq maybeLost
+  \also %
+  pdThis \in definitelyLost
+  \also %
+  (abAuthPurse~pdThis.from).lost =
+  \\ %
+  \t1 pdThis.value
+  \\ %
+  \t1 {} + sumValue~(( (definitelyLost \cup chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.from = pdThis.from ~\})
+  \\ %
+  \t2 \setminus \{ pdThis \} )
+  \also %
+  (abAuthPurse~pdThis.toN).lost =
+  \\ %
+  \t1 sumValue~(( (definitelyLost \cup chosenLost)
+  \\ %
+  \t2 {} \cap \{~ pd:PayDetails | pd.from = pdThis.toN ~\})
+  \\ %
+  \t2 \setminus \{ pdThis \} )
+  \also %
+  \forall name: \{ pdThis.from, pdThis.toN \} @
+  \also %
+  \t1 (abAuthPurse~name).balance =
+  \\ %
+  \t2 (conAuthPurse~name).balance
+  \\ %
+  \t2 {} + sumValue~(( (maybeLost \setminus chosenLost)
+  \\ %
+  \t3 {} \cap \{~ pd:PayDetails | pd.toN = name ~\} )
+  \\ %
+  \t3 \setminus \{ pdThis \})
+  \also %
+  OtherPursesRab
+\end{schema}~\end{LSDef}
+
+\begin{LSDef}[Retrieve state of \Abs, \Betw\ and \Conc\ for finalisation]
+\begin{schema}{RabEndClPd}
+  AbstractBetween
+  \\ %
+  chosenLost: \power PayDetails
+  \\ %
+  pdThis: PayDetails
+\where %
+  chosenLost \subseteq maybeLost
+  \also %
+  pdThis \notin definitelyLost \cup maybeLost
+  \also %
+  \forall name: \dom~conAuthPurse \cap \{ pdThis.from, pdThis.toN \} @
+  \also %
+  \t1 (abAuthPurse~name).lost =
+  \\ %
+  \t2 sumValue~(( (definitelyLost \cup chosenLost)
+  \\ %
+  \t3 {} \cap \{~ pd:PayDetails | pd.from = name ~\})
+  \\ %
+  \t3 \setminus \{ pdThis \} )
+  \also %
+  \t1 \land (abAuthPurse~name).balance =
+  \\ %
+  \t2 (conAuthPurse~name).balance
+  \\ %
+  \t2 {} + sumValue~(( (maybeLost \setminus chosenLost)
+  \\ %
+  \t3 {} \cap \{~ pd:PayDetails | pd.toN = name ~\} )
+  \\ %
+  \t3 \setminus \{ pdThis \})
+  \also %
+  OtherPursesRab
+\end{schema}~\end{LSDef}
+
+\subsection{Partition}\label{ch10.partition}
+
+\subsubsection{Lemma `lost' }
+
+In here we introduce a similar expansion of $AuxWorld$ but assuming $BetweenWorld$. These are
+just convenience (repetitive) lemmas.
+%
+\begin{LNewLemma}[\Betw\ $fromLogged$ extraction]
+\begin{theorem}{lBetweenWorldFromLoggedExpansion}
+    \forall  BetweenWorld @ fromLogged = \{~  pd: authenticFrom | pd.from \mapsto  pd \in  allLogs ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $toNLogged$ extraction]
+\begin{theorem}{lBetweenWorldToLoggedExpansion}
+   \forall  BetweenWorld @ toLogged = \{~  pd: authenticTo | pd.toN \mapsto  pd \in  allLogs ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $authenticFrom$ extraction]
+\begin{theorem}{lBetweenWorldAuthenticFromExpansion}
+    \forall BetweenWorld @ authenticFrom = \{~  pd: PayDetails | pd.from \in  \dom~ conAuthPurse ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $authenticTo$ extraction]
+\begin{theorem}{lBetweenWorldAuthenticToExpansion}
+    \forall BetweenWorld @ authenticTo = \{~  pd: PayDetails | pd.toN \in  \dom~ conAuthPurse ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $toInEpv$ extraction]
+\begin{theorem}{lBetweenWorldToInEpvExpansion}
+    \forall  BetweenWorld @ toInEpv = \{~  pd: authenticTo | \\
+        \t1 (conAuthPurse~ pd.toN).statuS = epv \land  (conAuthPurse~ pd.toN).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $toInEapayee$ extraction]
+\begin{theorem}{lBetweenWorldToInEapayeeExpansion}
+    \forall  BetweenWorld @ toInEapayee = \{~ pd: authenticTo | \\
+        \t1 (conAuthPurse~ pd.toN).statuS = eaTo \land (conAuthPurse~ pd.toN).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $fromInEpr$ extraction]
+\begin{theorem}{lBetweenWorldFromInEprExpansion}
+    \forall  BetweenWorld @ fromInEpr = \{~  pd: authenticFrom | \\
+        \t1 (conAuthPurse~ pd.from).statuS = epr \land (conAuthPurse~ pd.from).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $fromInEpa$ extraction]
+\begin{theorem}{lBetweenWorldFromInEpaExpansion}
+    \forall  BetweenWorld @ fromInEpa = \{~  pd: authenticFrom | \\
+        \t1 (conAuthPurse~ pd.from).statuS = epa \land  (conAuthPurse~ pd.from).pdAuth = pd ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $allLogs$ extraction]
+\begin{theorem}{lBetweenWorldAllLogsExpansion}
+    \forall  BetweenWorld @ allLogs = archive \cup \\
+        \t1 \{~ n: \dom~conAuthPurse; pd: PayDetails | pd \in (conAuthPurse~n).exLog ~\}
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $definitelyLost$ extraction]
+\begin{theorem}{lBetweenWorldDefinitelyLostExpansion}
+    \forall BetweenWorld @ definitelyLost = toLogged \cap (fromLogged \cup  fromInEpa)
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $maybeLost$ extraction]
+\begin{theorem}{lBetweenWorldMaybeLostExpansion}
+    \forall BetweenWorld @ maybeLost = (fromInEpa \cup  fromLogged) \cap  toInEpv
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[\Betw\ $archive$ extraction]
+\begin{theorem}{lBetweenWorldArchiveExpansion}
+    \forall BetweenWorld @ archive \in \power~(\{~PayDetails @ from \mapsto \theta PayDetails~\} \cup \\
+      \t2 \{~PayDetails @ toN \mapsto \theta PayDetails ~\})
+\end{theorem}~\end{LNewLemma}
+
+\begin{LLemma}[Lemma `notLoggedAndIn' ($C.12$)]
+\begin{theorem}{lNotLoggedAndInC12}
+    \forall BetweenWorld @ (fromInEpr \cup fromInEpa) \cap fromLogged = \emptyset \land \\
+        \t2 (toInEpv \cup toInEapayee) \cap toLogged = \emptyset
+\end{theorem}~\end{LLemma}
+
+\begin{LLemma}[Lemma `lost' ($C.13$)]
+\begin{theorem}{lLostC13}
+   \forall BetweenWorld @ definitelyLost \cap maybeLost = \emptyset
+\end{theorem}~\end{LLemma}
+
+%\begin{LNewLemma}[Summation absorbs $sumValue$ difference]
+%\begin[disabled]{theorem}{rule lSumValueDiffAbsorbtion}
+%    \forall pdSet: \power PayDetails | pdSet \in \finset PayDetails @ \forall pd: pdSet @ pd.value + sumValue~(pdSet \setminus \{~pd~\}) = sumValue~pdSet
+%\end{theorem}~\end{LNewLemma}
+
+\begin{LThm}[Retrieve state partition]
+\begin{theorem}{tRetrievePartition}
+   \forall RabClPd @ RabClPd \iff
+  \\ %
+  \t1 ( RabOkayClPd
+  \\ %
+  \t2 \lor RabWillBeLostClPd
+  \\ %
+  \t2 \lor RabHasBeenLostClPd
+  \\ %
+  \t2 \lor RabEndClPd )
+\end{theorem}~\end{LThm}
+
+\subsection{Quantified forms}\label{ch10.retrieve-value-mig-quant}
+
+\begin{LThm}[Retrieve state partition $\forall$ format]
+\begin{theorem}{tRetrieveForAllRabClPd}
+   \forall RabCl @ RabCl \iff (~ \forall pdThis: PayDetails @ RabClPd ~)
+\end{theorem}~\end{LThm}
+
+There is one problem with the existential equivalence. It assumes that there is
+at least one payment done. This might not be necessarily true if no payment $from$-$toN$ a purse has taken place.
+This is fixed by the structured way we redefined names in Section~\ref{ch3.pursenames},
+where we axiomatically state that there exists at least two different names we can refer to,
+so that a payment can be made.
+%
+\begin{LThm}[Retrieve state partition $\exists$ format]
+\begin{theorem}{tRetrieveExistsRabClPd}
+   \forall RabCl @ RabCl \iff (~ \exists pdThis: PayDetails @ RabClPd ~)
+\end{theorem}~\end{LThm}
+%
+As we approached Chapter~\ref{ch14}, it became clear that the unproved
+goal from this predicate
+%
+\begin{gzed}
+    \exists pd: PayDetail @ true
+\end{gzed}
+%
+is later discharged, where $true$ varies according to the operation being refined.
+
+\subsection{The full Retrieve state relation}
+
+\begin{LSDef}[Complete retrieve state for $Okay$ operations]
+\begin{zed}
+  RabOkay \defs RabOkayClPd \hide (pdThis, chosenLost)
+\end{zed}~\end{LSDef}
+
+\begin{LSDef}[Complete retrieve state for future $Lost$ operations]
+\begin{zed}
+  RabWillBeLost \defs RabWillBeLostClPd \hide (pdThis, chosenLost)
+\end{zed}~\end{LSDef}
+
+\begin{LSDef}[Complete retrieve state for past $Lost$ operations]
+\begin{zed}
+  RabHasBeenLost \defs RabHasBeenLostClPd \hide (pdThis, chosenLost)
+\end{zed}~\end{LSDef}
+
+\begin{LSDef}[Complete retrieve state for finalisation operations]
+\begin{zed}
+  RabEnd \defs RabEndClPd \hide (pdThis, chosenLost)
+\end{zed}~\end{LSDef}
+
+\section{Retrieve inputs}
+
+\begin{LSDef}[Complete retrieve state inputs]
+\begin{zed}
+  RabIn \defs BetwInitIn[a?/g?]
+\end{zed}~\end{LSDef}
+
+\section{Retrieve outputs}
+
+\begin{LSDef}[Complete retrieve state outputs]
+\begin{zed}
+  RabOut \defs BetwFinOut[a!/g!]
+\end{zed}~\end{LSDef}
+
+\newpage
+
+\section{Summary}\label{ch10.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary
+%\lpscriptsummary

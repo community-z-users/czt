@@ -1,0 +1,99 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION apch2 \parents apD
+\end{zsection}
+CHANGES:
+* add missing hard spaces
+}
+\chapter[SPs]{Security Properties}\label{apch2}
+
+\section{Abstract model SPs}
+
+\subsection{No value creation}
+
+\begin{LSDef}[No value is created]
+\begin{schema}{NoValueCreation}
+   \Delta AbWorld
+\where
+   totalAbBalance~ abAuthPurse' \leq totalAbBalance~abAuthPurse
+\end{schema}~\end{LSDef}
+
+\subsection*{Proofs}
+
+Maybe I should include a frule for $AbWorld$ for the type of
+$abAuthPurse$. Let us see.
+\begin{LDCheck}\begin{zproof}[NoValueCreation\$domainCheck]
+   prove by reduce;
+\end{zproof}\end{LDCheck}
+
+\subsection{All value accounted}
+
+\begin{LSDef}[All values are accounted for]
+\begin{schema}{AllValueAccounted}
+   \Delta AbWorld
+\where
+   totalAbBalance~ abAuthPurse' + totalLost~ abAuthPurse' = \\
+      \t1 totalAbBalance~ abAuthPurse + totalLost~ abAuthPurse = \\
+          \t2 totalAbBalance~ abAuthPurse + totalLost~ abAuthPurse
+\end{schema}~\end{LSDef}
+
+\subsection*{Proofs}
+
+\begin{LDCheck}\begin{zproof}[AllValueAccounted\$domainCheck]
+   prove by reduce;
+\end{zproof}\end{LDCheck}
+
+\subsection{Authentic purses}
+
+Already included in~\ref{ch3}.
+
+\section{Concrete model SPs}
+
+Already included in~\ref{ch4}.
+
+\section{SPs and the models}
+
+The
+
+%\begin{theorem}{tAbTransferOkay}
+%   \forall AbTransferOkay @ NoValueCreation \land AllValueAccounted
+%\end{theorem}
+%
+%\begin{theorem}{tAbTransferLost}
+%   \forall AbTransferLost @ NoValueCreation \land AllValueAccounted
+%\end{theorem}
+%
+%\begin{theorem}{rule rTotalAbBalanceOfSelfIsLeq}
+%   \forall w: NAME \ffun AbPurse @ totalAbBalance w \leq totalAbBalance w
+%\end{theorem}
+%
+%\begin{theorem}{tAbIgnore}
+%   \forall AbIgnore @ NoValueCreation \land AllValueAccounted
+%\end{theorem}
+%
+%\subsection*{Proofs}
+
+%[rTotalAbBalanceOfSelfIsLeq]
+%    split w = \{~\};
+%    cases;
+%    prove;
+%    next;
+%    znote{STUCK!}
+%    next;
+%
+%
+%[tAbIgnore]
+%   prove by reduce;
+%   equality substitute abAuthPurse';
+%   rewrite ;
+%
+
+\newpage
+\section{Summary}\label{apch2.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

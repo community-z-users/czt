@@ -1,0 +1,440 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch10\_ps \parents ch10
+\end{zsection}
+CHANGES:
+* remove znote
+}
+
+\chapter{Chapter~\ref{ch10} proofs}
+
+\section{Retrieve state}\plink{ch10.abs.retrive}
+
+Do not use prove by reduce because of $BetweenWorld$.
+%
+\begin{LDCheck}\begin{zproof}[RabCl\$domainCheck]
+    invoke AbstractBetween;
+    prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[OtherPursesRab\$domainCheck]
+   invoke AbstractBetween;
+   prove by rewrite;
+\end{zproof}\end{LDCheck}
+
+We put it here a repeated proof case by case for better performance.
+Although we believe this domain check $true$, this proof is being a
+nightmare. Whatever approach we take, the complexity of predicates
+involved reaches a point where \zeves\ starts struggling real hard
+about available identifiers and possibilities for instantiations. As
+the source of the problem lies inside sets equalities/substitution
+of $AuxWorld$, we cannot get rid of them, but instead we need to
+find different proof trees. To solve this, we used the lemma below.
+We tried more than $10$ variations until we got the final proof.
+\begin{LPScript}\begin{zproof}[lRabOkayClPdInDomConAuthPurse]
+    apply inDiff;
+    rewrite;
+    invoke AuxWorld;
+    equality substitute maybeLost;
+    rewrite;
+    equality substitute toInEpv;
+    rewrite;
+    equality substitute authenticTo;
+    rewrite;
+    split pdThis \in fromInEpa;
+    simplify;
+    cases;
+    rearrange;
+    equality substitute fromInEpa;
+    rewrite;
+    equality substitute authenticFrom;
+    rewrite;
+    next;
+    equality substitute fromLogged;
+    rewrite;
+    equality substitute authenticFrom;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+%
+\begin{LDCheck}\begin{zproof}[RabOkayClPd\$domainCheck]
+    %%\znote{common to all goals}
+    prenex;
+    rearrange;
+    %%\znote{ensures that pdThis in domain of conAuthPurse}
+    use lRabOkayClPdInDomConAuthPurse;
+    %%\znote{links abAuthPurse with conAuthPurse}
+    invoke AbstractBetween;
+    equality substitute \dom abAuthPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    %%\znote{two goals for name as pdThis.from, pdThis.to}
+    split name = pdThis.from;
+    simplify;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lRabWillBeLostClPdInDomConAuthPurse]
+    rewrite;
+    apply inPower to predicate chosenLost \in \power maybeLost;
+    instantiate e == pdThis;
+    rearrange;
+    rewrite;
+    invoke AuxWorld;
+    equality substitute maybeLost;
+    rewrite;
+    equality substitute toInEpv;
+    rewrite;
+    equality substitute authenticTo;
+    rewrite;
+    split pdThis \in fromInEpa;
+    simplify;
+    cases;
+    rearrange;
+    equality substitute fromInEpa;
+    rewrite;
+    equality substitute authenticFrom;
+    rewrite;
+    next;
+    equality substitute fromLogged;
+    rewrite;
+    equality substitute authenticFrom;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+%
+\begin{LDCheck}\begin{zproof}[RabWillBeLostClPd\$domainCheck]
+    %%\znote{common to all goals}
+    prenex;
+    rearrange;
+    %%\znote{ensures that pdThis in domain of conAuthPurse}
+    use lRabWillBeLostClPdInDomConAuthPurse;
+    %\znote{links abAuthPurse with conAuthPurse}
+    invoke AbstractBetween;
+    equality substitute \dom abAuthPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    %\znote{two goals for name as pdThis.from, pdThis.to}
+    split name = pdThis.from;
+    simplify;
+\end{zproof}\end{LDCheck}
+
+\begin{LPScript}\begin{zproof}[lRabHasBeenLostClPdInDomConAuthPurse]
+    invoke AuxWorld;
+    equality substitute definitelyLost;
+    rewrite;
+    equality substitute toLogged;
+    rewrite;
+    equality substitute authenticTo;
+    rewrite;
+    split pdThis \in fromInEpa;
+    simplify;
+    cases;
+    rearrange;
+    equality substitute fromInEpa;
+    rewrite;
+    equality substitute authenticFrom;
+    rewrite;
+    next;
+    equality substitute fromLogged;
+    rewrite;
+    equality substitute authenticFrom;
+    rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LDCheck}\begin{zproof}[RabHasBeenLostClPd\$domainCheck]
+    %\znote{common to all goals}
+    prenex;
+    rearrange;
+    %\znote{ensures that pdThis in domain of conAuthPurse}
+    use lRabHasBeenLostClPdInDomConAuthPurse;
+    %\znote{links abAuthPurse with conAuthPurse}
+    invoke AbstractBetween;
+    equality substitute \dom abAuthPurse;
+    rearrange;
+    rewrite;
+    rearrange;
+    %\znote{two goals for name as pdThis.from, pdThis.to}
+    split name = pdThis.from;
+    simplify;
+\end{zproof}\end{LDCheck}
+
+\begin{LDCheck}\begin{zproof}[RabEndClPd\$domainCheck]
+    %\znote{links abAuthPurse with conAuthPurse}
+    invoke AbstractBetween;
+    rewrite;
+\end{zproof}\end{LDCheck}
+
+\section{Partition}\plink{ch10.partition}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldFromLoggedExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldToLoggedExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldAuthenticFromExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldAuthenticToExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldToInEpvExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldToInEapayeeExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldFromInEprExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldFromInEpaExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldAllLogsExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldDefinitelyLostExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldMaybeLostExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lBetweenWorldArchiveExpansion]
+    invoke BetweenWorld;
+    invoke BetweenWorldB1;
+    invoke AuxWorld;
+    invoke ConWorld;
+    apply dLogbook;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lNotLoggedAndInC12]
+    %\znote{Expand the equalities}
+    apply extensionality;
+    prove by rewrite;
+    cases;
+        %\znote{from case:}
+        %\znote{firstly, expand what we need}
+        use lBetweenWorldFromLoggedExpansion;
+        use lBetweenWorldFromInEpaExpansion;
+        use lBetweenWorldFromInEprExpansion;
+        use lBetweenWorldAuthenticFromExpansion;
+        rearrange;
+        simplify;
+        %\znote{follow advice to use B7}
+        invoke BetweenWorld;
+        invoke BetweenWorldB7;
+        instantiate pd == x;
+        %\znote{carefully avoid rearrangement in order}
+        %\znote{to avoid BetweenWorld substitutions.}
+        equality substitute fromInEpr;
+        equality substitute fromInEpa;
+        equality substitute authenticFrom;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Finished: just need rearrangement}
+        cases;
+            %\znote{epa case from B7}
+            rearrange;
+            rewrite;
+            rearrange;
+            rewrite;
+        next;
+            %\znote{epr case from B7}
+            rearrange;
+            rewrite;
+    next;
+        %\znote{to case: firstly, expand what we need}
+        use lBetweenWorldToLoggedExpansion;
+        use lBetweenWorldToInEapayeeExpansion;
+        use lBetweenWorldToInEpvExpansion;
+        use lBetweenWorldAuthenticToExpansion;
+        rearrange;
+        simplify;
+        %\znote{follow advice to use B8}
+        invoke BetweenWorld;
+        invoke BetweenWorldB8;
+        instantiate pd == x\_\_0;
+        %\znote{carefully avoid rearrangement in order}
+        %\znote{to avoid BetweenWorld substitutions.}
+        equality substitute toInEapayee;
+        equality substitute toInEpv;
+        equality substitute authenticTo;
+        rewrite;
+        rearrange;
+        rewrite;
+        %\znote{Finished: just need rearrangement}
+        cases;
+            %\znote{eaTo case from B8}
+            rearrange;
+            rewrite;
+            rearrange;
+            rewrite;
+        next;
+            %\znote{epv case from B8}
+            rearrange;
+            rewrite;
+    next;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[lLostC13]
+    use lBetweenWorldMaybeLostExpansion;
+    use lBetweenWorldDefinitelyLostExpansion;
+    rearrange;
+    simplify;
+    equality substitute definitelyLost;
+    equality substitute maybeLost;
+    rewrite;
+    apply capSubsetLeft to expression (fromInEpa \cup fromLogged) \cap
+        (fromInEpa \cup fromLogged) ;
+    rewrite;
+    use lNotLoggedAndInC12;
+    rearrange;
+    rewrite;
+    apply extensionality;
+    prove by rewrite;
+    instantiate x\_\_3 == x;
+    prove by rewrite;
+\end{zproof}\end{LPScript}
+
+% Theorem used not declared? TODO: find it
+%\begin{LPScript}\begin{zproof}[tRetrievePartition]
+%    use lRetrievePartitionWillBeLostEquiv;
+%    simplify;
+%\end{zproof}\end{LPScript}
+
+%simplify;
+%invoke RabEndClPd;
+%invoke RabClPd;
+%invoke RabCl;
+%simplify;
+%cases;
+%invoke RabOkayClPd;
+%simplify;
+%split
+%        (abAuthPurse pdThis.from).balance
+%        = (conAuthPurse pdThis.from).balance
+%          + sumValue
+%            ((maybeLost \setminus chosenLost)
+%             \cap \{ pd\_\_1: PayDetails | pd\_\_1.to = pdThis.from \}
+%             \setminus \{ pdThis \}) \\
+%  \land (abAuthPurse pdThis.to).balance
+%        = pdThis.value
+%          + ((conAuthPurse pdThis.to).balance
+%             + sumValue
+%               ((maybeLost \setminus chosenLost)
+%                \cap \{ pd\_\_2: PayDetails | pd\_\_2.to = pdThis.to \}
+%                \setminus \{ pdThis \})) \\
+%  \land (\forall name\_\_0: \{pdThis.from\} \cup \{pdThis.to\}
+%           @ (abAuthPurse name\_\_0).lost
+%             = sumValue
+%               ((definitelyLost \cup chosenLost)
+%                \cap \{ pd\_\_3: PayDetails | pd\_\_3.from = name\_\_0 \}
+%                \setminus \{ pdThis \})) \\
+%  \land OtherPursesRab;
+%simplify;
+%cases;
+%invoke RabWillBeLostClPd;
+%simplify;
+%rearrange;
+%split
+%        (abAuthPurse pdThis.from).lost
+%        = pdThis.value
+%          + sumValue
+%            ((definitelyLost \cup chosenLost)
+%             \cap \{ pd\_\_4: PayDetails | pd\_\_4.from = pdThis.from \}
+%             \setminus \{ pdThis \}) \\
+%  \land (abAuthPurse pdThis.to).lost
+%        = sumValue
+%          ((definitelyLost \cup chosenLost)
+%           \cap \{ pd\_\_5: PayDetails | pd\_\_5.from = pdThis.to \}
+%           \setminus \{ pdThis \}) \\
+%  \land (\forall name\_\_1: \{pdThis.from\} \cup \{pdThis.to\}
+%           @ (abAuthPurse name\_\_1).balance
+%             = (conAuthPurse name\_\_1).balance
+%               + sumValue
+%                 ((maybeLost \setminus chosenLost)
+%                  \cap \{ pd\_\_6: PayDetails | pd\_\_6.to = name\_\_1 \}
+%                  \setminus \{ pdThis \}));
+%simplify;
+%cases;
+%invoke RabHasBeenLostClPd;
+%simplify;
+%rearrange;
+%use lLostC13;
+%rearrange;
+%simplify;
+%rewrite;
+
+\subsection{Quantified forms}\plink{ch10.retrieve-value-mig-quant}
+
+\begin{LPScript}\begin{zproof}[tRetrieveForAllRabClPd]
+   invoke RabClPd ;
+   prove by rewrite;
+\end{zproof}\end{LPScript}
+
+With the structured definition of names, it is now possible to proof
+this theorem, as we know there exists at least two different names so
+that a payment can be made.
+%
+\begin{LPScript}\begin{zproof}[tRetrieveExistsRabClPd]
+    invoke RabClPd;
+    prove by rewrite;
+    use lExistsPayDetails;
+    prenex;
+    instantiate pdThis == pd;
+    with disabled (RabCl) prove by reduce;
+\end{zproof}\end{LPScript}
+
+\newpage
+\section{Summary}\label{ch10.ps.summary}
+\lpscriptsummary

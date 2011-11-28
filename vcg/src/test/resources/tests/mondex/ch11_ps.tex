@@ -1,0 +1,35 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch11\_ps \parents ch11
+\end{zsection}
+}
+\chapter{Chapter~\ref{ch11} proofs}
+
+See Chapter~\ref{ch11}.
+
+The PRG's textual proof was very helpful here!
+%
+\begin{LPScript}\begin{zproof}[tBetwAbsInitSimAppl]
+   invoke Rab ;
+   prenex;
+   invoke RabCl ;
+   invoke AbInitState ;
+   simplify;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAbsInputSimAppl]
+   invoke ;
+   split m? \in \ran~req;
+   rewrite;
+\end{zproof}\end{LPScript}
+
+\begin{LPScript}\begin{zproof}[tBetwAbsInitInputs]
+    invoke BetwInitIn;
+    rewrite;
+    split m? \in \ran req;
+    simplify;
+\end{zproof}\end{LPScript}
+
+\newpage
+\section{Summary}\label{ch11.ps.summary}
+\lpscriptsummary

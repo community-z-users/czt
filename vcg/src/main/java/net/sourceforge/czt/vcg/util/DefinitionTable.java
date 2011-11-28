@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.SortedMap;
 import java.util.Set;
 import java.util.SortedSet;
@@ -35,9 +36,12 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.InfoTable.InfoTableException;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
+import net.sourceforge.czt.z.ast.PipeExpr;
+import net.sourceforge.czt.z.ast.PreExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
@@ -390,6 +394,11 @@ public class DefinitionTable extends InfoTable
 
   public DefinitionException checkOverallConsistency()
   {
+    return checkOverallConsistency(false);
+  }
+
+  public DefinitionException checkOverallConsistency(boolean modifyDeclaredTypesOfColludedNames)
+  {
     SortedSet<ZName> namesToFind = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
     SortedSet<ZName> namesFound = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
     List<DefinitionException> result = new ArrayList<DefinitionException>();
@@ -451,6 +460,7 @@ public class DefinitionTable extends InfoTable
           }
 
           // if we have type, check the names in the type are indeed those we find bindings definition for (!!!)
+          // TODO: MAYBE ASSUME THERE MUST BE TYPE INFO? THEN SIMPLIFY IT CONSIDERABLY BELOW?
           Type2 globalType = globalDef.getCarrierType();
           if (globalType != null)
           {
@@ -464,20 +474,25 @@ public class DefinitionTable extends InfoTable
             {
               // first get the type names
               boolean allNamesRemoved = true; // don't use a set for the bindings names because there may be more bindings than in the type in case of name collusion.
-              SortedSet<ZName> namesCollusion = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
               SortedSet<ZName> namesInType = new TreeSet<ZName>(ZUtils.ZNAME_COMPARATOR);
-              for(NameTypePair ntp : UnificationEnv.schemaType(UnificationEnv.powerType(globalType).getType()).getSignature().getNameTypePair())
+              SortedMap<ZName, SortedSet<Definition>> possiblyColludedNames = new TreeMap<ZName, SortedSet<Definition>>(ZUtils.ZNAME_COMPARATOR);
+              List<NameTypePair> ntpl = UnificationEnv.schemaType(UnificationEnv.powerType(globalType).getType()).getSignature().getNameTypePair();
+              int varCountDifference = ntpl.size();
+              for(NameTypePair ntp : ntpl)
               {
                 namesInType.add(ntp.getZName());
+                possiblyColludedNames.put(ntp.getZName(), new TreeSet<Definition>());
               }
+              assert namesInType.size() == possiblyColludedNames.size() : "inconsistent type info: " + namesInType.toString() + " yet " + possiblyColludedNames.toString();
 
               // next get the bindings
               try
               {
                 SortedSet<Definition> bindingsOf = bindings(globalName);
+                varCountDifference = bindingsOf.size() - varCountDifference;
                 for(Definition bindDef : bindingsOf)
                 {
-                  ZName globalBindingName = bindDef.getDefName();
+                  ZName localNameOfGlobalBindingName = bindDef.getDefName();
                   DefinitionKind globalBindingKind = bindDef.getDefinitionKind();
 
                   // check it is binding and names match
@@ -489,11 +504,11 @@ public class DefinitionTable extends InfoTable
                   {
                     result.add(e);
                   }
-                  if (!ZUtils.namesEqual(globalBindingName, bindDef.getDefName()))
+                  if (!ZUtils.namesEqual(localNameOfGlobalBindingName, bindDef.getDefName()))
                   {
                     result.add(new DefinitionException("inconsistent binding name of " +
                             DefinitionTable.printTerm(globalName) + " in " + sectName +
-                            " = (MAP: " + DefinitionTable.printTerm(globalBindingName) +
+                            " = (MAP: " + DefinitionTable.printTerm(localNameOfGlobalBindingName) +
                             ", DEF: " + DefinitionTable.printTerm(bindDef.getDefName()) + ")"));
                   }
 
@@ -512,8 +527,8 @@ public class DefinitionTable extends InfoTable
                             + DefinitionTable.printTerm(globalName) + " = " + globalBindingKind));
                   }
 
-                  // remove found binding from the names collected from type.
-                  boolean bindingFound = namesInType.remove(globalBindingName);
+                  // remove found binding from the names collected from type: if not found could be because of hiding/renaming
+                  boolean bindingFound = namesInType.remove(localNameOfGlobalBindingName);
                   if (!bindingFound)
                   {
                     // consider hide/renaming both local and global
@@ -526,34 +541,57 @@ public class DefinitionTable extends InfoTable
                         if (pair.getNewName() == null)
                         {
                           // hiding case, just accept it's being found
-                          bindingFound = ZUtils.namesEqual(globalBindingName, pair.getOldName());
+                          bindingFound = ZUtils.namesEqual(localNameOfGlobalBindingName, pair.getOldName());
                         }
                         // renaming case
                         else
                         {
-                          // should already be the globalBindingName 
-                          //bindingFound = ZUtils.namesEqual(globalBindingName, pair.getNewName());
+                          // should already be the localNameOfGlobalBindingName ?
+                          bindingFound = ZUtils.namesEqual(localNameOfGlobalBindingName, pair.getOldName());
                         }
-                        if (bindingFound) break;
+                        if (bindingFound) 
+                        {
+                          break;
+                        }
                       }
                     }
                   }
+                  else
+                  {
+                    // when found, add it to the bindDef
+                    if (!possiblyColludedNames.containsKey(localNameOfGlobalBindingName))
+                    {
+                      result.add(new DefinitionException("inconsistent name collusion information. could not find " + DefinitionTable.printTerm(localNameOfGlobalBindingName)));
+                    }
+                    else
+                    {
+                      possiblyColludedNames.get(localNameOfGlobalBindingName).add(bindDef);
+                    }
+                  }
+
                   // add the collusion for later
                   if (!bindingFound)
                   {
                     // TODO: what if add is false?
-                    if (!namesCollusion.add(globalBindingName))
+                    SortedSet<Definition> colludedDefs = possiblyColludedNames.get(localNameOfGlobalBindingName);
+                    if (colludedDefs == null)
+                    {
+                      result.add(new DefinitionException("could not find bindings for possibly colluded name "  
+                              + DefinitionTable.printTerm(localNameOfGlobalBindingName) +
+                              " of global name " + DefinitionTable.printTerm(globalName)));
+                    }
+                    else if (!colludedDefs.add(bindDef))
                     {
                       SectionManager.traceInfo("multiple collusion for bindings of globalName " +
                               DefinitionTable.printTerm(globalName) + " = " +
-                              DefinitionTable.printTerm(globalBindingName));
+                              DefinitionTable.printTerm(localNameOfGlobalBindingName));
                     }
                   }
                   allNamesRemoved = bindingFound && allNamesRemoved;
 
                   // check the local name exists later on
-                  if (!namesFound.contains(globalBindingName))
-                    namesToFind.add(globalBindingName);
+                  if (!namesFound.contains(localNameOfGlobalBindingName))
+                    namesToFind.add(localNameOfGlobalBindingName);
                 }
               }
               catch (DefinitionException ex)
@@ -572,16 +610,71 @@ public class DefinitionTable extends InfoTable
                 assert !namesInType.isEmpty();
                 result.add(new DefinitionException("bindings of " + 
                         DefinitionTable.printTerm(globalName) + " were not found = " +
-                        DefinitionTable.printList(namesInType)));
+                        DefinitionTable.printCollection(namesInType)));
               }
-              else if (namesInType.isEmpty())
+              // if not all elements in the type were found, or the variable count difference exists
+              else if (namesInType.isEmpty() || varCountDifference > 0)
               {
                 // found more bindings than names in type: log the fact that there are name collusions.
-                assert !allNamesRemoved;
-                SectionManager.traceInfo("possible name collusion for bindings of globalName " +
-                        DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printList(namesCollusion));
+                assert !allNamesRemoved && !possiblyColludedNames.isEmpty();
+
+                //if there is name collusion there might be different causes: hiding/renaming; multi-layer, etc...
+                //assert possiblyColludedNames.size() >= varCountDifference;
+
+                // remove any duplicated (or empty) mappings.
+                Iterator<SortedMap.Entry<ZName, SortedSet<Definition>>> it = possiblyColludedNames.entrySet().iterator();
+                while (it.hasNext())
+                {
+                  SortedMap.Entry<ZName, SortedSet<Definition>> next = it.next();
+                  // == 1 is the usual; == 0 is for hidding; > 1 is for collusion
+                  if (next.getValue().size() <= 1)
+                    it.remove();
+                  else
+                  {
+                    // check if duplicated types aren't just the same
+                    boolean typeEquiv = true;
+                    Iterator<Definition> dit = next.getValue().iterator();
+                    assert dit.hasNext(); // can call next
+                    Expr defTypeExpr = dit.next().getExpr();
+                    assert dit.hasNext(); // more than once
+                    while (dit.hasNext() && typeEquiv)
+                    {
+                      Expr defTypeExprOther = dit.next().getExpr();
+                      typeEquiv = defTypeExpr.equals(defTypeExprOther);
+                      if (typeEquiv) dit.remove();
+                    }
+                    // try again
+                    if (next.getValue().size() <= 1) it.remove();
+                  }
+                }
+                if (!possiblyColludedNames.isEmpty())
+                {
+                  if (!modifyDeclaredTypesOfColludedNames)
+                    result.add(new DefinitionException("name collusion for bindings of globalName " +
+                            DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printMap(possiblyColludedNames)));
+                  else
+                  {
+                    // modify colluded name types.... by intersecting or unioning? or what? TODO
+                    result.add(new DefinitionException("UNSUPPORTED OPERATION - MODIFICATION OF COLLUDED NAMES TYPES for bindings of globalName " +
+                            DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printMap(possiblyColludedNames)));
+                  }
+                }
               }
             }
+          }
+          else
+          {
+            boolean addMissingInfoError = true;
+            
+            // check if it's for \Delta or \Xi: if so, add the error only if the base name doesn't have bindings being checked
+            if (ZUtils.isDeltaXi(globalName))
+            {
+              ZName baseName = ZUtils.getSpecialSchemaBaseName(ZUtils.FACTORY, globalName);
+              addMissingInfoError = !global.containsKey(baseName);
+            }
+            if (addMissingInfoError)
+              result.add(new DefinitionException("could not retrieve type information for " +
+                         DefinitionTable.printTerm(globalName) + ". Cannot check bindings consistency"));
           }
         }
 
@@ -794,6 +887,7 @@ public class DefinitionTable extends InfoTable
   {
     Definition def = lookupDeclName(defName);
     SortedSet<Definition> result = new TreeSet<Definition>();
+
     // if this is a schema declaration, look for its bindings
                         // TODO: should this be isSchemaReference()? MAYBE
     if (def != null && def.getDefinitionKind().isSchemaReference())
@@ -811,9 +905,13 @@ public class DefinitionTable extends InfoTable
           Definition localDefToAdd = localDef;
 
           // if there are special bindings to consider check them
-          if (!specialBindingsStack_.isEmpty())
+          boolean foundPair = false;
+          ListIterator<List<NewOldPair>> it = specialBindingsStack_.listIterator(specialBindingsStack_.size());
+          while (it.hasPrevious() && !foundPair)
           {
-            for(NewOldPair pair : specialBindingsStack_.peek())
+            List<NewOldPair> top = it.previous();
+            // take care of renaming/hiding
+            for(NewOldPair pair : top)
             {
               Name oldName = pair.getOldName();
               Name newName = pair.getNewName();
@@ -825,25 +923,55 @@ public class DefinitionTable extends InfoTable
                 // renaming
                 else
                   localDefToAdd = new Definition(localDef, ZUtils.assertZName(newName));
+                foundPair = true;
                 break;
               }
             }
           }
           // if not hiding, add the renamed one
           if (localDefToAdd != null)
-            result.add(localDefToAdd);
+          {
+            assert localDefToAdd == localDef /*|| specialBindingsStack_.isEmpty()*/ ^ foundPair;
+            boolean isNew = result.add(localDefToAdd);
+            if (!isNew)
+            {
+              //System.out.println("HAS COLLUSION FOR " + localDefToAdd.getDefName());
+            }
+          }
+
         }
                       // TODO: should this be isSchemaReference()?
         else if (localDef.getDefinitionKind().isSchemaReference())
         {
-          result.addAll(bindings0(localDef.getDefName()));
+          SortedSet<Definition> localResult = bindings0(localDef.getDefName());
+          for(Definition d : localResult)
+          {
+            boolean isNew = result.add(d);
+            if (!isNew)
+            {
+              // possible name collusion?
+            }
+          }
         }
       }
+
       if (!currentSpecialBindings.isEmpty())
       {
         List<NewOldPair> old = specialBindingsStack_.pop();
         assert old == currentSpecialBindings;
       }
+
+      // for complex schema expressions, we need to apply further modification to bindings.
+      if (def.getDefinitionKind().isSchemaExpr())
+      {
+        if (def.getExpr() instanceof PreExpr)
+        {
+          result = BindingUtils.beforeBindingsOf(result);
+        }
+        else if (def.getExpr() instanceof PipeExpr)
+          throw new DefinitionException("Cannot calculate bindings for schema piping expression yet - " + DefinitionTable.printTerm(defName));
+      }
+
       return result;
     }
     else
@@ -1018,10 +1146,23 @@ public class DefinitionTable extends InfoTable
     return term.accept(printVisitor_);
   }
 
-  public static String printList(Collection<? extends Term> list)
+  public static String printMap(SortedMap<ZName, SortedSet<Definition>> map)
   {
-    StringBuilder result = new StringBuilder(list.size()*30);
-    for(Term t : list)
+    StringBuilder result = new StringBuilder(map.size()*50);
+    for(SortedMap.Entry<ZName, SortedSet<Definition>> entry : map.entrySet())
+    {
+      result.append("\n\t");
+      result.append(printTerm(entry.getKey()));
+      result.append(" |--> ");
+      result.append((entry.getValue()));
+    }
+    return result.toString().trim();
+  }
+
+  public static String printCollection(Collection<? extends Term> collection)
+  {
+    StringBuilder result = new StringBuilder(collection.size()*30);
+    for(Term t : collection)
     {
       result.append(printTerm(t));
       result.append("  ");

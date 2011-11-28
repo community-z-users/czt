@@ -1,0 +1,602 @@
+\ai4fmignore{
+\begin{zsection}
+  \SECTION ch28 \parents ch27
+\end{zsection}
+CHANGES:
+* missing hard spaces for DecorExpr
+* \bot -> mondexError
+* status -> statuS
+}
+\chapter[\Betw\ to \Conc\ lemmas]{Lemmas for the \Betw\ to \Conc\ correctness proofs} \label{ch28} %
+
+\section{Specialising the proof rules}\label{ch28.bc-ignore-spec}
+%-------------------
+
+For each concrete operation $COp$ and corresponding between
+operation $BOp$ we have to show
+
+\begin{gzed}
+%%\forall
+  Rbc ; COp
+%%@
+  \shows \exists BetweenWorld' @ Rbc' \land BOp
+\end{gzed}
+Many operations are defined as the disjunction of other operations.
+A $COp$ will have the same branches as a corresponding $BOp$: a
+$CIgnore$ branch, and either a $CAbort$ or $COpOkay$ branch, or
+both. We split the proof obligation into $CIgnore$, $CAbort$ and
+$COpOkay$ branches, as we did in section~\ref{ch14.between-special}.
+This gives some or all of the following proof requirements,
+depending on which branches are in $COp$:
+%
+\begin{gzed}
+%%(\forall
+  Rbc ; CIgnore
+%%@
+  \shows \exists BetweenWorld' @ Rbc' \land Ignore
+%%)\land
+  \also %
+%%(\forall
+  Rbc ; CAbort
+%% @
+  \shows \exists BetweenWorld' @ Rbc' \land Abort
+%%) \land
+  \also %
+%%(\forall
+  Rbc ;  COpOkay
+%%@
+  \shows \exists BetweenWorld'  @ Rbc' \land BOpOkay
+%%)
+\end{gzed}
+%
+The correctness of the $CIgnore$ branch is dealt with below in
+section \ref{ch28.bc-ignore-ignore}.  We then develop the
+correctness proof for the $CAbort$ and $COpOkay$ branches, and
+introduce a lemma applicable to certain operations.  Following this,
+we present the proof of correctness of two common branches ---
+$CIncrease$ and $CAbort$.
+
+\section{Correctness of $CIgnore$}\label{ch28.bc-ignore-ignore}
+%-------------------
+
+The correctness of the $CIgnore$ branch follows trivially by
+choosing
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CIgnore$ correct]
+\begin{theorem}{tBetwConcCIgnoreCorrect}
+    \forall Rbc ; CIgnore @ \exists BetweenWorld~' @ Rbc~' \land Ignore
+\end{theorem}~\end{LNewThm}
+
+Like $PhiBOpBranchesSig$
+(see~\ref{ch8.betw.promotionschema.branches}), but with $ConPurse'$
+from $AbortPurseOkay$.
+%
+\begin{LNewSDef}[$Abort \sqsubseteq CAbort$ correctness signature]
+\begin{zed}
+    BetwCAbortCorrectSig ~~\defs~~ PhiBOpBranchesSig \land AbortPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{LNewLemma}[$Abort \sqsubseteq CAbort$ correct $AuxWorld$ type]
+\begin{theorem}{lAuxWorldCAbortType}
+    \forall BetwCAbortCorrectSig @ AuxWorld[conAuthPurse := conAuthPurse \oplus \\
+        \t1 \{~(name?, \theta ConPurse'[statuS' := eaFrom])~\}, ether := ether \cup \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewLemma}[$Abort \sqsubseteq CAbort$ correct $BetweenWorld$ type]
+\begin{theorem}{lBetweenWorldCAbortType}
+    \forall BetwCAbortCorrectSig @ BetweenWorld[conAuthPurse := conAuthPurse \oplus \\
+        \t1 \{~(name?, \theta ConPurse'[statuS' := eaFrom])~\}, ether := ether \cup \{~mondexError~\}]
+\end{theorem}~\end{LNewLemma}
+
+\begin{LNewThm}[\Betw\ \Conc\ correctness for $Abort$]
+\begin{theorem}{tBetwConcCAbortCorrect}
+    \forall Rbc ; CAbort @ \exists BetweenWorld~' @ Rbc~' \land Abort
+\end{theorem}~\end{LNewThm}
+
+
+\section{Correctness of a branch of the operation}\label{ch28.bc-ignore-okay}
+
+Like in Section~\ref{ch14.between-special}, in here we need to
+consider each $BOpOkay$ branch separately. The formal declaration of
+these branches were given in
+Sections~\ref{ch8.specproof-betw.promotedalone}
+and~\ref{ch8.specproof-betw.worldlevelalone}.
+
+As occurred in Chapter~\ref{ch14}, the proof strategy described in
+Mondex uses meta-theorems to generalise the proof. For
+mechanisation, we need to state those theorems explicitly.
+
+\subsection{Theorems for each branch from $BOpOkay$ operation}
+
+As $CIncrease$ and $CAbort$ are originally dealt with separately in
+their own sections, we just add here the remaining cases.
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CStartFrom$ correct]
+\begin{theorem}{tBetwConcCStartFromCorrect}
+    \forall Rbc ; CStartFrom @ \exists BetweenWorld~' @ Rbc~' \land StartFrom %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CStartTo$ correct]
+\begin{theorem}{tBetwConcCStartToCorrect}
+    \forall Rbc ; CStartTo @ \exists BetweenWorld~' @ Rbc~' \land StartTo %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewSDef}[$Req \sqsubseteq CReq$ signature]
+\begin{zed}
+    BetwCReqCorrectSig ~~\defs~~ PhiBOpBranchesSig \land ReqPurseOkay
+\end{zed}~\end{LNewSDef}
+
+\begin{theorem}{lAuxWorldCReqType}
+    \forall BetwCReqCorrectSig @ AuxWorld[conAuthPurse := conAuthPurse \oplus \\
+        \t1 \{~(name?, \theta ConPurse'[statuS' := epa])~\}, ether := ether \cup \{~m!~\}]
+\end{theorem}
+
+\begin{theorem}{lBetweenWorldCReqType}
+    \forall BetwCReqCorrectSig @ BetweenWorld[conAuthPurse := conAuthPurse \oplus \\
+        \t1 \{~(name?, \theta ConPurse'[statuS' := epa])~\}, ether := ether \cup \{~m!~\}]
+\end{theorem}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CReq$ correct]
+\begin{theorem}{tBetwConcCReqCorrect}
+    \forall Rbc ; CReq @ \exists BetweenWorld~' @ Rbc~' \land Req %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CVal$ correct]
+\begin{theorem}{tBetwConcCValCorrect}
+    \forall Rbc ; CVal @ \exists BetweenWorld~' @ Rbc~' \land Val %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CAck$ correct]
+\begin{theorem}{tBetwConcCAckCorrect}
+    \forall Rbc ; CAck @ \exists BetweenWorld~' @ Rbc~' \land Ack %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CReadExceptionLog$ correct]
+\begin{theorem}{tBetwConcCReadExceptionLogCorrect}
+    \forall Rbc ; CReadExceptionLog @ \exists BetweenWorld~' @ Rbc~' \land ReadExceptionLog %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CClearExceptionLog$ correct]
+\begin{theorem}{tBetwConcCClearExceptionLogCorrect}
+    \forall Rbc ; CClearExceptionLog @ \exists BetweenWorld~' @ Rbc~' \land ClearExceptionLog %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CAuthoriseExLogClear$ correct]
+\begin{theorem}{tBetwConcCAuthoriseExLogClearCorrect}
+    \forall Rbc ; CAuthoriseExLogClear @ \exists BetweenWorld~' @ Rbc~' \land AuthoriseExLogClear %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CArchive$ correct]
+\begin{theorem}{tBetwConcCArchiveCorrect}
+    \forall Rbc ; CArchive @ \exists BetweenWorld~' @ Rbc~' \land CArchive %
+\end{theorem}~\end{LNewThm}
+
+\begin{LNewThm}[\Betw\ to \Conc\ $CIncrease$ correct]
+\begin{theorem}{tBetwConcCIncreaseCorrect}
+    \forall Rbc ; CIncrease @ \exists BetweenWorld~' @ Rbc~' \land Increase %
+\end{theorem}~\end{LNewThm}
+
+
+
+\begin{LNewThm}[\Betw\ to \Conc\ branching is correct]
+\begin{theorem}{tBetwConcBranchingCorrect}
+    (Rbc \land CIncrease \implies (\exists BetweenWorld~' @ Rbc~' \land Increase))\\ %
+    \iff \\
+    (
+     (Rbc \land CIgnore \implies (\exists BetweenWorld~' @ Rbc~' \land Ignore)) \land \\ %
+     (Rbc \land CAbort \implies (\exists BetweenWorld~' @ Rbc~' \land Abort)) \land \\ %
+     (Rbc \land (~ \exists \Delta ConPurse @ PhiCOp \land IncreasePurseOkay ~) \\ %
+        \t1 \implies (\exists BetweenWorld~' @ Rbc~' \land IncreaseOkay)))  %
+\end{theorem}~\end{LNewThm}
+
+\subsection{Choosing $BetweenWorld'$}\label{ch28.bc-choice}
+
+TODO: CONTINUE TEXT FROM HERE
+
+In choosing $BetweenWorld'$, we base our choice of the
+$conAuthPurse'$ and $archive'$ components on $Rbc'$, and our choice
+of the $ether'$ component on $BOpOkay'$.
+
+We have $conAuthPurse_0'$ and $archive_0'$ in the hypothesis, and we
+use this to provide the value for $conAuthPurse'$ and $archive'$,
+respectively (this satisfies the constraint on $conAuthPurse'$ and
+$archive'$ in $Rbc'$).
+\begin{gzed}
+%% \forall Rbc' @
+  conAuthPurse' = conAuthPurse_0'
+%%\land
+  \\ %
+  archive' = archive_0'
+\end{gzed}
+$m!$ and $ether$ are declared in the hypothesis, and $ether'$ can be
+constructed deterministically from these (note that the following
+construction satisfies the relevant constraint in $BOpOkay$ ---
+either in $PhiBOp$ or explicitly as in $Archive$).
+\begin{gzed}
+%% \forall BOp @
+  ether' = ether \cup \{ m! \}
+\end{gzed}
+We need to show that the chosen $BetweenWorld'$ and $m!$ satisfy
+each of the conjuncts in the consequent (retrieve $Rbc'$ and
+operation $BOpOkay$).
+
+We also need to show that this choice is indeed an after
+$BetweenWorld'$ (that it satisfies the constraints on $BetweenWorld$
+specified in section~\ref{ch5.betweenworld}).
+%............
+\subsection{Case $BOpOkay$}
+\label{bc-bop}
+%............
+From the choice of $ether'$ above, the relevant constraint on
+$ether'$ in $BOpOkay$ is satisfied by construction.
+
+At most one purse changes in $COpOkay$.  Let us call this new purse
+value $p$.  This gives
+\begin{argue}
+  conAuthPurse_0' = conAuthPurse_0 \oplus \{ p \}
+  \also %
+  conAuthPurse_0' = conAuthPurse \oplus \{ p \} & $Rbc$
+  \also %
+  conAuthPurse' = conAuthPurse \oplus \{ p \} & choice of
+  $conAuthPurse'$
+\end{argue}
+This satisfies the constraint on $conAuthPurse'$ in $BOpOkay$ (where
+at most one purse changes in an identical manner to $COpOkay$).
+
+$archive'$ is a function of $archive$ and $m!$, defined in
+$BOpOkay$. Call this function $f$:
+\begin{gaxdef}
+  f: Logbook \cross MESSAGE \fun Logbook
+\end{gaxdef}
+Because $COpOkay$ is defined in an analogous way, $f$ also relates
+$archive_0'$ to $archive_0$ and $m!$.
+
+From the hypothesis we have $COpOkay$ and $Rbc$, and with our choice
+of $archive'$ we have, respectively
+\begin{gzed}
+%%\forall COp; BOp @
+  archive_0' = f(archive_0, m!)
+  \\ %
+  \land archive = archive_0
+  \\ %
+  \land archive' = archive_0'
+\end{gzed}
+Substituting the latter two equations into the first gives the
+predicate in $BOpOkay$.
+
+Thus, the $BOpOkay$ constraints on all the components of our chosen
+$BetweenWorld'$ are satisfied under the correctness hypothesis and
+choice of $BetweenWorld'$.
+
+$\Box$ \ref{bc-bop}
+%....................
+\subsection{Case $Rbc'$}
+\label{bc-rbc-dash}
+%....................
+Both the $conAuthPurse'$ and $archive'$ components of
+$BetweenWorld'$ satisfy $Rbc'$ from the choice of $BetweenWorld'$.
+
+All $COpOkay$ operations constrain $ether'$ as
+\begin{gzed}
+%% \forall COp @
+  ether_0' \subseteq ether_0 \cup \{ m! \}
+\end{gzed}
+either through $PhiCOp$, or explicitly in $CArchive$.  Hence for
+$ether'$ we have
+\begin{argue}
+  ether'
+  \also %
+  \t1 = ether \cup \{ m! \} & choice of $ether'$
+  \also %
+  \t1 \supseteq ether_0 \cup \{ m! \} & $Rbc$
+  \also %
+  \t1 \supseteq ether_0' & $COpOkay$
+\end{argue}
+This satisfies the constraint on $ether'$ in $Rbc'$.
+%............
+\subsection{Case `obey constraints'}
+\label{bc-cons}
+%............
+We know from the hypothesis that the before $BetweenWorld$ satisfies
+the constraints, so we need check only that the chosen message $m!$,
+and any change of purse state during the operation, maintains this
+constraint.
+
+%\begin{lemma}[constraint]\index{lemma `constraint'}
+  {\rm If an operation obeys the following properties, then it
+    preserves the $BetweenWorld$ constraints:
+    \begin{itemize}
+    \item it does not change purse statuS or current transaction
+      details ($pdAuth$)
+    \item it does not change $allLogs$
+    \item it does not change the payment detail messages, exception
+      log read messages or exception log clear messages in the $ether$
+      (either by not emitting such a message, or by emitting an
+      already existing message)
+    \item no sequence number decreases (all concrete operations have
+      the property, so it is automatically satisfied)
+    \end{itemize}
+    }
+%\end{lemma}
+{\bf Proof:}
+
+\noindent The $BetweenWorld$ constraints refer only to certain
+$ether$ messages, namely,
+\[
+req,\ val,\ ack,\ exceptionLogResult,\ \mbox{and}\ exceptionLogClear %
+\]
+and relate their presence or absence to purse
+status ($statuS$, $pdAuth$ and $nextSeqNo$) and $allLogs$. From the
+hypothesis we can invoke lemma `logs unchanged'
+(section~\ref{lemma-logs-unchanged}) to say that, as $allLogs$ does
+not change, not does $alLogs$.  So operations that do not change the
+purse status, do not change $allLogs$, and do not emit any relevant
+new messages, will automatically preserve the constraints.
+
+$\Box$ \ref{bc-cons}
+
+\noindent Even when lemma `constraint' does not apply, we know from
+the form of the operation that at most one purse changes, and one
+message is emitted.  As at most one purse changes, the proof that
+the $BetweenWorld$ constraints are preserved need refer only to this
+purse; the constraints hold on the other purses before the operation
+by hypothesis, and so they hold afterward, too.
+%............
+\subsection{Summary of $ConOkay$ proof obligation}
+\label{bc-summary}
+%............
+For each operation, we have to show that either lemma `constraint'
+holds or that the choice of $BetweenWorld'$ obeys the constraints
+(see section~\ref{ch5.betweenworld}).
+%-----------
+\section{Correctness of $CIncrease$}
+\label{bc-increase}
+%-----------
+$CIncrease$ does not change $statuS$ or $pdAuth$, does not log, and
+no relevant message is emitted to the $ether$, so lemma `constraint'
+(section \ref{lemma-constraint}) is applicable.
+
+$\Box$ \ref{bc-increase}
+%---------------------
+\section{Correctness of $CAbort$}
+\label{bc-abort}
+%---------------------
+Lemma `constraint' is not applicable, because $CAbort$ moves one
+purse into $eaFrom$, and it may not have been in this state before,
+and it may log a pending transaction.  Therefore we have to show
+that our chosen $BetweenWorld'$ obeys the constraints.
+
+One $mondexError$ message is emitted, and (possibly) one log is recorded.
+
+\renewcommand{\labelenumi}{B--\theenumi}
+\begin{enumerate}
+\item $req \implies$ authentic $to$ purse.  No new $req$ messages.
+\item No future $req$s.  No new $req$ messages.
+\item No future $val$s.  No new $val$ messages.
+\item No future $ack$s.  No new $ack$ messages.
+\item No future $from$ logs.  The purse moves into $eaFrom$, possibly
+  logging a transaction, and possibly increasing $nextSeqNo$.  This
+  does not invalidate this constraint for any previous logs.  To
+  create a new $from$ log, the purse would have had to have been in
+  $epa$ (from {\it LogIfNecessary}).  Hence, using $ConPurse$
+  constraint P--ref[p-epr], we have
+  \[
+  pdAuth.fromSeqNo < nextSeqNo
+  \]
+  From $AbortPurse$,  we also have
+  \[
+  nextSeqNo \leq nextSeqNo'
+  \]
+  This gives
+  \[
+  pdAuth.fromSeqNo < nextSeqNo'
+  \]
+  The $pdAuth$ is logged when the pre-state purse is in $epa$, and
+  thus the new log obeys the constraint.
+
+\item No future $to$ logs.  The purse moves into $eaFrom$, possibly
+  logging a transaction, and possibly increasing $nextSeqNo$.  This
+  does not invalidate this constraint for any previous logs.  To
+  create a new $to$ log, the purse would have had to have been in
+  $epv$ (from {\it LogIfNecessary}); hence, using $ConPurse$
+  constraint P--ref[p-epr-name], we have
+  \[
+  pdAuth.toSeqNo < nextSeqNo
+  \]
+  From $AbortPurse$,  we also have
+  \[
+  nextSeqNo \leq nextSeqNo'
+  \]
+  This gives
+  \[
+  pdAuth.toSeqNo < nextSeqNo'
+  \]
+  The $pdAuth$ is logged when the pre-state purse is in $epv$, and
+  thus the new log obeys the constraint.
+
+\item $from$ in $\{epr,epa\}$, so no future $from$ logs.  The purse
+  moves into $eaFrom$, so no new purses in $epr$ or $epa$.
+\item $to$ in $\{epv,eaTo\}$, so no future $to$ logs.  The purse
+  moves into $eaFrom$, so no new purses in $epv$ or $eaTo$.
+
+\item $epr \implies \lnot val \land \lnot ack$.  The purse moves into
+  $eaFrom$, and so does not move into $epr$.
+
+\item $req \land \lnot ack \iff toInEpv \lor toLogged$.
+  \begin{itemize}
+  \item case $\implies$:
+
+    No new $req$ messages; no $ack$ messages removed from the $ether$.
+
+    The purse may have moved out of $epv$, but in such a case
+    $LogIfNecessary$ says that it logs, hence re-establishing the
+    condition.
+
+  \item case $\Leftarrow$:
+
+    No purses newly in $epv$.
+
+    There might be a new $to$ log, in which case we must show there
+    was a $req$, but no $ack$ before.  A $to$ log can be made only by
+    a purse moving out of $epv$.  Then the $BetweenWorld$ constraint
+    B--ref[b-req-no-ack], on $toInEpv$, before the operation gives us
+    the required $req$ and lack of $ack$.
+  \end{itemize}
+\item $epv \land val \implies fromInEpa \lor fromLogged$.  No purses
+  newly in $epv$; no new $val$ messages.
+
+  The purse may have moved out of $epa$.  But in such a case
+  $LogIfNecessary$ says that it logs, hence re-establishing the
+  condition.
+\item $fromInEpa \lor fromLogged \implies req$.  No purses newly in
+  $epa$.
+
+  There might be a new $from$ log, in which case we must show there
+  was a $req$ before.  A $from$ log can be made only by a purse moving
+  out of $epa$.  Then the $BetweenWorld$ constraint B--ref[b-is-req],
+  on $fromInEpa$, before the operation gives us the required $req$.
+\item $toLogged$ finite.  At most one $to$ log written, so finite
+  before gives finite after.
+\item $exceptionLogResult$s in $allLogs$.  No new exception log result
+  messages.
+\item Cleared logs archived.  No $exceptionLogClear$ messages are
+  added, and the archive is unchanged.
+\item $req$ for each log.  If there are no new logs, then the
+  constraint holds from the pre-state.
+
+  If a transaction exception is logged, then the purse status must
+  have been either $epv$ or $epa$.  From constraints
+  B--ref[b-req-no-ack] and B--ref[b-is-req], there was a $req$ in
+  the pre-state $ether$ for the transaction which was logged.  This
+  $req$ will also be in the post-state $ether$.
+\end{enumerate}
+
+$\Box$ \ref{bc-abort}
+
+%---------------------
+\section{Lemma `logs unchanged'}
+\label{logs-unchanged}
+%---------------------
+%\begin{lemma}[logs unchanged]
+  {\rm When the $archive$ and the individual purse logs do not change,
+    and when no new $req$ messages are added to the $ether$, the set
+    of $PayDetails$ representing all the logs does not change either.
+    }
+  \begin{gzed}
+  BOpOkay | archive' = archive
+  \\ %
+  \t1 \land req \rres ether' = req \rres ether
+  \\ %
+  \t1 \land \forall n : \dom conAuthPurse @
+  \\ %
+  \t2 (conAuthPurse'~n).exLog =  (conAuthPurse~n).exLog
+  \\ %
+  \shows
+  \\ %
+  allLogs' = allLogs
+  \\ %
+  \land toLogged' = toLogged
+  \\ %
+  \land fromLogged' = fromLogged
+  \end{gzed}
+%\end{lemma}
+
+\noindent{\bf Proof:}
+\begin{argue}
+  allLogs = archive
+  \\ %
+  \t2 {} \cup \{~ n:\dom conAuthPurse; ld:PayDetails |
+  \\ %
+  \t3 ld \in (conAuthPurse~n).exLog ~\}
+  \\ %
+  & defn
+  \also %
+  \t1 = archive'
+  \\ %
+  \t2 {} \cup \{~ n:\dom conAuthPurse'; ld:PayDetails |
+  \\ %
+  \t3 ld \in (conAuthPurse'~n).exLog ~\}
+  \\ %
+  & assumption and $PhiBOp$
+  \also %
+  \t1 = allLogs' & defn
+  \also %
+  allLogs =  \{~ n:\dom conAuthPurse; pd:PayDetails |
+  \\ %
+  \t2 n \mapsto pd \in allLogs \land req~pd \in ether ~ \}
+  \\ %
+  & defn
+
+  \also %
+  \t1 =  \{~ n:\dom conAuthPurse'; pd:PayDetails |
+  \\ %
+  \t2 n \mapsto pd \in allLogs' \land req~pd \in ether' ~ \}
+  \\ %
+  & assumption and  above
+  \also %
+  \t1 = allLogs'
+  \\ %
+  & defn
+\end{argue}
+The arguments for $toLogged$ and $fromLogged$ follow in exactly the
+same way.
+
+$\Box$ \ref{logs-unchanged}
+%---------------------
+\section{Lemma `abort forward': operations that first abort}
+\label{ignore-abort-bc-op}
+%---------------------
+Some concrete operations are written as a composition of $Abort$ and
+a simpler operation starting from $eaFrom$ ($StartFrom$, $StartTo$,
+$ReadExceptionLog$, {\it ClearExceptionLog}, etc.).
+
+%\begin{lemma}[abort forward]
+  {\rm Where a \Conc\ operation is written as a composition of
+    $CAbort$ and a simpler operation starting from $eaFrom$, and the
+    corresponding \Betw\ operation is structured analogously, it is
+    sufficient to prove that the simpler \Conc\ operation refines the
+    corresponding \Betw\ operation.  }
+  \begin{gzed}
+  (CAbort \semi COpEafrom); Rbc;
+  \\ %
+  \t2 (\forall COpEafrom; Rbc @ \exists BetweenWorld' @ Rbc' \land
+  BOpEafrom)
+  \\ %
+  \shows
+  \\ %
+  \exists BetweenWorld' @ Rbc' \land (Abort \semi BOpEafrom)
+  \end{gzed}
+%\end{lemma}
+
+\noindent{\bf Proof} We have already proved in section
+\ref{bc-abort} that $CAbort$ refines $Abort$.  Adding this to our
+hypothesis, we get
+\begin{gzed}
+(CAbort \semi COpEafrom); Rbc;
+\\ %
+\t2 (\forall CAbort; Rbc @ \exists BetweenWorld' @ Rbc' \land
+Abort);
+\\ %
+\t2 (\forall COpEafrom; Rbc @ \exists BetweenWorld' @ Rbc' \land
+BOpEafrom)
+\\ %
+\shows
+\\ %
+\exists BetweenWorld' @ Rbc' \land (Abort \semi BOpEafrom)
+\end{gzed}
+The hypothesis is now in precisely the form required to use lemma
+`compose forward', (section~\ref{lemma-compose-fwd}) and we do so to
+prove the consequent.
+
+$\Box$ \ref{ignore-abort-bc-op}
+
+
+\newpage
+\section{Summary}\label{ch28.summary}
+
+\ldefsummary %
+\lthmsummary %
+\lthmaddeddefsummary %
+\lthmaddedthmsummary %
+\lzevessummary %
+%\lpscriptsummary

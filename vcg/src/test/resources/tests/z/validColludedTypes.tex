@@ -1,0 +1,33 @@
+\begin{zsection}
+\SECTION validColludedTypes \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+   x: \nat
+\end{schema}
+
+\begin{schema}{T}
+  S \\
+  x: \num
+\end{schema}
+
+\begin{schema}{R}
+  S \\
+  x: 1 \upto 10
+\end{schema}
+
+\begin{zed}
+   OpA == S \lor T \lor R
+\\
+   OpB == \Delta OpA \semi \Xi OpA
+\\
+   OpC == OpB[a/x, a'/x'] \hide (a)
+\end{zed}
+
+And now some name collusion as horizontal def
+\begin{zed}
+   [G] \\
+   Man  == [ knowledge: G \fun G ] \\
+   Lion == [ knowledge: \power~(G \cross G) ] \\
+   Sphinx == [ Man; Lion ]
+\end{zed}
