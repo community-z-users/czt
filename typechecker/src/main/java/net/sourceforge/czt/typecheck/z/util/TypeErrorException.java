@@ -56,4 +56,15 @@ public class TypeErrorException extends net.sourceforge.czt.util.CztException
     public List<ErrorAnn> getErrors() {
       return Collections.unmodifiableList(fErrors);
     }
+
+    @Override
+    public String getMessage()
+    {
+      StringBuilder result = new StringBuilder(super.getMessage());
+      for(ErrorAnn e : fErrors)
+      {
+        result.append("\n\t").append(e);
+      }
+      return result.toString();
+    }
 }
