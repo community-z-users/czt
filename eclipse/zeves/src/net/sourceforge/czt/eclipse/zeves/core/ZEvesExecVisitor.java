@@ -448,7 +448,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     		
     		// command sequence may loop - it should be repeated until fixed point
     		// or until stopped by ineffective command
-    		boolean loop = commandSeq.isLoopCommands();
+    		int loopCount = commandSeq.getLoopCount();
 
     		// capture the trace and last exception/step index
     		// we only need the last exception/step index for the snapshot
@@ -459,7 +459,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     		int submittedCount = 0;
     		List<ZEvesOutput> results = new ArrayList<ZEvesOutput>();
     		
-    		do {
+    		// loop the indicated number of steps, or unlimited
+    		for (int loop = 0; loop < loopCount || loopCount == CommandSequence.UNLIMITED; loop++) {
     			
     			boolean affected = false;
     			
@@ -482,17 +483,25 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 					} catch (ZEvesException e) {
 						lastException = e;
 
-						// Don't break on error - e.g., to avoid eq-subst. errors in middle of "prove"
-						//if (!isNoEffectError(e)) {
-						//	// unknown error - stop
-						//	loop = false;
-						//	break;
-						//}
-						
-						// no effect from the command here
-						if (cmd.isStopOnNoEffect()) {
-							loop = false;
-							break;
+						if (isNoEffectError(e)) {
+							
+							// no effect from the command here
+							if (cmd.isStopOnNoEffect()) {
+								break;
+							}
+							
+						} else {
+							
+							/*
+							 * Unknown error - stop if needed.
+							 * 
+							 * Do not break on error by default, e.g. eq-subst.
+							 * errors may report errors rectified by a
+							 * subsequent rewrite call
+							 */
+							if (cmd.isStopOnError()) {
+								break;
+							}
 						}
 					}
 	    		}
@@ -505,7 +514,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    			break;
 	    		}
 	    		
-    		} while (loop);
+    		}
     		
     		if (lastException != null && !isNoEffectError(lastException)) {
     			

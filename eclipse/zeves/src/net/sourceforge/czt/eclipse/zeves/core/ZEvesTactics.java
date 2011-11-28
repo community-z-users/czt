@@ -27,6 +27,11 @@ import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
  * @author Andrius Velykis
  */
 public class ZEvesTactics {
+	
+	/**
+	 * Z/Eves default loop count for prove by rewrite/prove by reduce commands.
+	 */
+	private static final int PROVE_LOOP_COUNT = 11;
 
     public static CommandSequence getTacticCommands(ProofCommand tactic, 
     		ProofCommandVisitor<String> printer) {
@@ -95,7 +100,7 @@ public class ZEvesTactics {
 		replaceCommand(fullCmd, rewriteCmd, proveCmd);
 		
 		// create a loop that would stop if last command (rewrite) has no effect
-		return CommandSequence.createEndLoop(loopCommands);
+		return CommandSequence.createEndLoop(PROVE_LOOP_COUNT, loopCommands);
 	}
 
 	private static ProofCommand addToSequence(List<String> loopCommands, ProofCommand fullCmd,
@@ -136,42 +141,51 @@ public class ZEvesTactics {
 	 */
 	public static class CommandSequence {
 		
+		/**
+		 * A predefined constant to indicate unlimited loop of commands
+		 */
+		public static final int UNLIMITED = -1;
+		
 		private final List<IgnorableCommand> commands = new ArrayList<IgnorableCommand>();
-		private final boolean loopCommands;
+		private final int loopCount;
 		
-		public CommandSequence(boolean loop) {
+		public CommandSequence(int loopCount) {
 			super();
-			this.loopCommands = loop;
+			this.loopCount = loopCount;
 		}
 		
-		public boolean isLoopCommands() {
-			return loopCommands;
+		public int getLoopCount() {
+			return loopCount;
 		}
 		
-		public void addCommand(String command, boolean stopOnNoEffect) {
-			commands.add(new IgnorableCommand(command, stopOnNoEffect));
+		public void addCommand(String command, boolean stopOnNoEffect, boolean stopOnError) {
+			commands.add(new IgnorableCommand(command, stopOnNoEffect, stopOnError));
 		}
 		
 		public List<IgnorableCommand> getCommands() {
 			return Collections.unmodifiableList(commands);
 		}
 		
-		public static CommandSequence createEndLoop(List<String> commands) {
+		public static CommandSequence createEndLoop(int loopCount, List<String> commands) {
 			
-			CommandSequence seq = new CommandSequence(true);
+			CommandSequence seq = new CommandSequence(loopCount);
 			
 			for (Iterator<String> it = commands.iterator(); it.hasNext(); ) {
 				String cmd = it.next();
 				boolean isLast = !it.hasNext();
-				seq.addCommand(cmd, isLast);
+				/*
+				 * Ignores errors and no-effect for all commands except the last
+				 * one.
+				 */
+				seq.addCommand(cmd, isLast, isLast);
 			}
 			
 			return seq;
 		}
 		
 		public static CommandSequence createSingle(String command) {
-			CommandSequence seq = new CommandSequence(false);
-			seq.addCommand(command, true);
+			CommandSequence seq = new CommandSequence(1);
+			seq.addCommand(command, true, true);
 			return seq;
 		}
 	}
@@ -186,11 +200,13 @@ public class ZEvesTactics {
 		
 		private final String command;
 		private final boolean stopOnNoEffect;
+		private final boolean stopOnError;
 		
-		public IgnorableCommand(String command, boolean stopOnNoEffect) {
+		public IgnorableCommand(String command, boolean stopOnNoEffect, boolean stopOnError) {
 			super();
 			this.command = command;
 			this.stopOnNoEffect = stopOnNoEffect;
+			this.stopOnError = stopOnError;
 		}
 
 		public String getCommand() {
@@ -199,6 +215,10 @@ public class ZEvesTactics {
 
 		public boolean isStopOnNoEffect() {
 			return stopOnNoEffect;
+		}
+		
+		public boolean isStopOnError() {
+			return stopOnError;
 		}
 	}
 	
