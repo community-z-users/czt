@@ -549,16 +549,25 @@ public abstract class CztManagedTest extends TestCase
     @Override
     protected final void doTest(Spec term) throws Exception
     {
-      errorsFound_ = process(term);
+      try
+      {
+        process(term);
+      }
+      catch (Exception e)
+      {
+        errorsFound_ = excetptionClass_.isInstance(e);
+        StringBuilder failureMsg = new StringBuilder();
+        if (!handledException(e, failureMsg))
+          fail(failureMsg.toString());
+      }
     }
 
     /**
      * Further process term during test to say if errors were found or not
      * @param term to process
-     * @return true if errors were found, false otherwise
-     * @throws Exception during processing, if any.
+     * @throws Exception during processing, if found.
      */
-    protected abstract boolean process(Spec term) throws Exception;
+    protected abstract void process(Spec term) throws Exception;
 
     /**
      * Actual errors message produced by processing Spec term during testing.
@@ -608,7 +617,7 @@ public abstract class CztManagedTest extends TestCase
           final String actualError = removeUnderscore(getErrorMessage());
 
           // is this right error? 
-          result = (exception_.compareToIgnoreCase(actualError) == 0);
+          result = (exception_.endsWith(actualError));
 
           // if not, raise it
           if (!result)
