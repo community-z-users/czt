@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves.response.para;
 
 import java.util.ArrayList;
@@ -23,49 +24,51 @@ import net.sourceforge.czt.zeves.response.form.ZEvesSchName;
  * @author Andrius Velykis
  */
 @XmlRootElement(name = "axdef")
-public class ZEvesAxDef {
+public class ZEvesAxDef
+{
 
-	/**
-	 * <!ATTLIST axdef %ability;>
-	 */
-	@XmlAttribute
-	private ZEvesAbility ability;
-	
-	/**
-	 * <!ELEMENT formals (name+)>
-	 */
-	@XmlElementWrapper(name = "formals")
-	@XmlElement(name = "name")
-	private List<ZEvesName> formals = new ArrayList<ZEvesName>();
-	
-	
-	/**
-	 * <!ELEMENT decpart (decl | schname)+>
-	 */
-	@XmlElementWrapper(name = "decpart", required = true)
-	@XmlElements({
-		@XmlElement(name = "decl", type=ZEvesDecl.class),
-		@XmlElement(name = "schname", type=ZEvesSchName.class) })
-	private List<?> decPart = new ArrayList<Object>();
-	
-	
-	/**
-	 * <!ELEMENT axpart (labeledform | %form;)+>
-	 */
-	@XmlElement(name = "axpart")
-	private XmlAnyElementList axPart = new XmlAnyElementList();
+  /**
+   * <!ATTLIST axdef %ability;>
+   */
+  @XmlAttribute
+  private ZEvesAbility ability;
 
-	@Override
-	public String toString() {
-		
-		String formalsStr = !formals.isEmpty() ? 
-				"[" + ZEvesResponseUtil.concat(formals, ", ") + "]\n" : "";
-		String axStr = !axPart.getItems().isEmpty() ? 
-				ZEvesResponseUtil.concat(axPart.getItems(), "\n") : "";
+  /**
+   * <!ELEMENT formals (name+)>
+   */
+  @XmlElementWrapper(name = "formals")
+  @XmlElement(name = "name")
+  private List<ZEvesName> formals = new ArrayList<ZEvesName>();
 
-		return ZEvesAbility.getInfo(ability) + ZString.AX + "\n" + formalsStr
-				+ ZEvesResponseUtil.concat(decPart, "\n") + "\n" + ZString.VL + "\n" 
-				+ axStr + "\n" + ZString.ENDCHAR;
-	}
-	
+  /**
+   * <!ELEMENT decpart (decl | schname)+>
+   */
+  @XmlElementWrapper(name = "decpart", required = true)
+  @XmlElements({
+    @XmlElement(name = "decl", type = ZEvesDecl.class),
+    @XmlElement(name = "schname", type = ZEvesSchName.class)})
+  private List<?> decPart = new ArrayList<Object>();
+
+  /**
+   * <!ELEMENT axpart (labeledform | %form;)+>
+   */
+  @XmlElement(name = "axpart")
+  private XmlAnyElementList axPart = new XmlAnyElementList();
+
+  @Override
+  public String toString()
+  {
+
+    String formalsStr = !formals.isEmpty()
+        ? ZString.LSQUARE + ZEvesResponseUtil.concat(formals, ", ") + ZString.RSQUARE + ZString.NL
+        : "";
+    String axStr = !axPart.getItems().isEmpty()
+        ? ZString.VL + ZString.NL + ZEvesResponseUtil.concat(axPart.getItems(), ZString.NL) + ZString.NL 
+        : "";
+
+    return ZEvesAbility.getInfo(ability) + ZString.AX + ZString.NL + formalsStr
+        + ZEvesResponseUtil.concat(decPart, ZString.NL) + ZString.NL + axStr
+        + ZString.ENDCHAR;
+  }
+
 }
