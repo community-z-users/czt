@@ -271,13 +271,6 @@ public abstract class AbstractVCG<R>
   @Override
   public SectionManager getManager()
   {
-    /*
-    if (sectManager_ == null)
-    {
-      getLogger().warning("VCG-SM-REQUEST = null!");
-    }
-     *
-     */
     return sectManager_;
   }
 
