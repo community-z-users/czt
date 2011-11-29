@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
@@ -15,6 +16,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 
 
@@ -39,6 +41,18 @@ public class ZEvesResultConverter {
 
 		try {
 			return ParseUtils.parseExpr(source, sectName, sectInfo);
+		} catch (CommandException e) {
+			throw handleCommandException(e);
+		}
+	}
+	
+	public static List<Para> parseZEvesParas(SectionManager sectInfo, String sectName, String zEvesExprStr)
+			throws IOException, CommandException {
+		
+		Source source = createParseSource(zEvesExprStr);
+
+		try {
+			return ParseUtils.parseParas(source, sectName, sectInfo);
 		} catch (CommandException e) {
 			throw handleCommandException(e);
 		}
@@ -122,6 +136,22 @@ public class ZEvesResultConverter {
 		
 		Term term = parseZEvesResult(sectInfo, sectName, zEvesStr);
 		return printResult(sectInfo, sectName, term, markup, textWidth, display);
+	}
+	
+	public static String convertParas(SectionManager sectInfo, String sectName, String zEvesParasStr,
+			Markup markup, int textWidth, boolean display) throws IOException, CommandException {
+		
+		List<Para> paras = parseZEvesParas(sectInfo, sectName, zEvesParasStr);
+		
+		StringBuilder out = new StringBuilder();
+		
+		String delim = "";
+		for (Para para : paras) {
+			out.append(delim).append(printResult(sectInfo, sectName, para, markup, textWidth, display));
+			delim = "\n";
+		}
+		
+		return out.toString();
 	}
 	
 }

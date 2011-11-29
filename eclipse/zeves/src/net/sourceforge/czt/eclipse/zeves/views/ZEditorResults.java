@@ -386,25 +386,30 @@ public class ZEditorResults {
 		}
 	}
 	
-	private static class ZEvesParaObject extends ZEditorObject<Para> implements IZInfoObject {
+	private static class ZEvesParaObject extends ZEditorObject<Para> implements IZEvesInfoProvider {
 
 		public ZEvesParaObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 		
 		@Override
-		public String loadContents(Markup markup, IProgressMonitor monitor) throws CoreException {
+		public IZInfoConfiguration loadContents(Markup markup, boolean showTrace,
+				IProgressMonitor monitor) throws CoreException {
+			
+			List<PartitionString> output = new ArrayList<PartitionString>();
 			
 			Object result = getSnapshotEntry().getData().getResult();
-			String unicodeStr = result.toString();
-			if (markup == Markup.UNICODE) {
-				return unicodeStr;
-			}
+			output.addAll(convertOutputResult(getEditor().getParsedData().getSectionManager(),
+					getSectionName(), markup, TEXT_WIDTH, result, false));
 			
-			// TODO fix the non-unicode output
-			return unicodeStr;
-//			SectionManager sectMan = getEditor().getParsedData().getSectionManager().clone();
-//			return convertResult(sectMan, getSectionName(), markup, 80, unicodeStr);
+			Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();
+			IDocument document = createDocument(markup, output, annotations);
+			return new ZInfoConfiguration(null, document, annotations);
+		}
+		
+		@Override
+		public String loadContents(Markup markup, IProgressMonitor monitor) throws CoreException {
+			return loadContents(markup, true, monitor).getDocument().get();
 		}
 
 		@Override
@@ -509,9 +514,6 @@ public class ZEditorResults {
 			String sectName, Markup markup, ISnapshotEntry snapshotEntry,
 			int textWidth, boolean showTrace) {
 		
-		// clone section manager for printing
-		sectInfo = sectInfo.clone();
-		
 		List<ZEvesOutput> results = showTrace ?
 				snapshotEntry.getData().getTrace() :
 				Collections.singletonList((ZEvesOutput) snapshotEntry.getData().getResult());
@@ -560,7 +562,7 @@ public class ZEditorResults {
 			
 			if (first) {
 				first = false;
-				output.addAll(convertResultPred(sectInfo, sectName, markup, textWidth, res));
+				output.addAll(convertOutputResult(sectInfo, sectName, markup, textWidth, res, true));
 			} else if (res instanceof ZEvesNumber) {
 				// case number - ignore, as it is printed in other ways
 				continue;
@@ -864,8 +866,8 @@ public class ZEditorResults {
 		
 	}
 	
-	private static List<PartitionString> convertResultPred(SectionManager sectInfo, 
-			String sectName, Markup markup, int textWidth, Object result) {
+	private static List<PartitionString> convertOutputResult(SectionManager sectInfo, 
+			String sectName, Markup markup, int textWidth, Object result, boolean isPred) {
 
 		String str = result.toString().trim();
 		
@@ -878,8 +880,9 @@ public class ZEditorResults {
 		}
 		
 		try {
-			String converted = ZEvesResultConverter.convertPred(
-					sectInfo, sectName, str, markup, textWidth, true);
+			String converted = isPred ? 
+					ZEvesResultConverter.convertPred(sectInfo, sectName, str, markup, textWidth, true) : 
+					ZEvesResultConverter.convertParas(sectInfo, sectName, str, markup, textWidth, true);
 
 			outputZ(output, converted);
 			return output;
