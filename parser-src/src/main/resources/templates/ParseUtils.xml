@@ -26,6 +26,7 @@ package <package/>;
 import java.io.*;
 import java.net.URL;
 import java.util.Properties;
+import java.util.List;
 import java.util.logging.Logger;
 import org.xml.sax.InputSource;
 
@@ -272,6 +273,67 @@ public class <class/> extends AbstractCommand
     assert axPara != null;
     ConstDecl cdecl = (ConstDecl) axPara.getZSchText().getZDeclList().get(0);
     return cdecl.getExpr();
+  }
+  
+  /** Parse a Source string/file as Z Paragraphs.
+   *  @param src The String or File etc. to be parsed.
+   *  @param section The Z section (in Unicode)
+   *                 to parse within (null=standard_toolkit).
+   *  @param sectman A section manager to use.  Must be non-null.
+   *
+   * @throws IOException if there are errors reading file/url inputs
+   * @throws CommandException if the content cannot be parsed.
+   */
+  public static List&lt;Para&gt; parseParas(Source src, String section,
+                               /*@non_null@*/SectionManager sectman) 
+    throws IOException, CommandException
+  {
+    String parent = section;
+    String name = "CZT_parseParas_tmp1433589372849";
+    StringBuffer buf = new StringBuffer();
+    if (src.getMarkup() == Markup.LATEX) {
+      if (parent == null)
+        parent = "standard_toolkit";
+      buf.append("\\begin{zsection}\\SECTION ");
+      buf.append(name);
+      buf.append(" \\parents ");
+      buf.append(parent.replaceAll("_", "\\\\_"));
+      buf.append("\\end{zsection} \n");
+      Reader reader = src.getReader();
+      int ch = reader.read();
+      while (ch != -1) {
+        buf.appendCodePoint(ch);
+        ch = reader.read();
+      }
+    }
+    else {
+      if (parent == null)
+        parent = "standard_toolkit";
+      buf.append(ZString.ZED);
+      buf.append(" section ");
+      buf.append(name);
+      buf.append(" parents ");
+      buf.append(parent);
+      buf.append(ZString.END);
+      Reader reader = src.getReader();
+      int ch = reader.read();
+      while (ch != -1) {
+        buf.appendCodePoint(ch);
+        ch = reader.read();
+      }
+    }
+    // we create a temporary sectman so that this temp section does not
+    //  clutter up the original section manager.
+    SectionManager tmpsectman = (SectionManager)sectman.clone();
+    Source input = new StringSource(buf.toString());
+    input.setMarkup(src.getMarkup());
+    input.setEncoding(src.getEncoding());
+    tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
+    // Use the parser itself to create the objects - this makes section management easier
+    Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
+    
+    ZSect sect = (ZSect) spec.getSect().get(0);
+    return ZUtils.assertZParaList(sect.getParaList());
   }
 
   /**
