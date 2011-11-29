@@ -259,7 +259,9 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     catch (CztException e)
     {
       final String text = ZUtils.getAxParaSchOrAbbrName(para) != null ? ZUtils.getAxParaSchOrAbbrName(para).toString() : para.toString();
-      throw new VCCollectionException("VC-COLLECT-CALC-ERROR = see " + text, e);
+      final String message = "VC-COLLECT-CALC-ERROR = see " + text + " of sect "
+              + (defTable_ != null ? defTable_.getSectionName() : "unknown");
+      throw new VCCollectionException(message, e);
     }
 
     // create the result with a unique number for this collector

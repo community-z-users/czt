@@ -703,4 +703,31 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     }
     return result;
   }
+
+  public enum BindingType { HIDING, RENAMING, EXISTS, FORALL }
+
+  protected class SpecialBinding
+  {
+  }
+
+  protected class HideBinding extends SpecialBinding
+  {
+
+  }
+
+  protected class RenameBinding extends SpecialBinding
+  {
+
+  }
+
+  protected class ExistsBinding extends HideBinding
+  {
+    
+  }
+
+  protected class ForallBinding extends HideBinding
+  {
+
+  }
+
 }

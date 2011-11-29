@@ -80,4 +80,17 @@ public class FeasibilityTest extends VCGTest
            name.lastIndexOf(FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1 &&
            name.lastIndexOf(RefinementPropertyKeys.VCG_REFINEMENT_SOURCENAME_SUFFIX) == -1;
   }
+
+  @Override
+  protected boolean handleVCGException(VCGException e, StringBuilder failureMsg)
+  {
+    boolean result = e instanceof FeasibilityException || super.handleVCGException(e, failureMsg);
+    if (result)
+    {
+      FeasibilityException fe = (FeasibilityException)e;
+      failureMsg.append("Feasibility VCG errors = \n");
+      failureMsg.append(fe.getMessage());
+    }
+    return result;
+  }
 }

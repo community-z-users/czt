@@ -22,7 +22,10 @@ package net.sourceforge.czt.vcg.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
@@ -40,8 +43,11 @@ import net.sourceforge.czt.z.ast.CondExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.Exists1Expr;
+import net.sourceforge.czt.z.ast.ExistsExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Expr1;
+import net.sourceforge.czt.z.ast.ForallExpr;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
@@ -752,7 +758,7 @@ public class DefinitionTableVisitor
     }
   }
 
-  private void modifyLocalBindings(Expr1 expr, Stack<Stroke> strokes)
+  private void modifyLocalBindings(Expr expr, Stack<Stroke> strokes)
   {
     assert currentGlobalDef_ != null : "cannot modify bindings of null global def";
     List<NewOldPair> bindings = factory_.list();
@@ -795,6 +801,59 @@ public class DefinitionTableVisitor
       else
         raiseUnsupportedCase("Unknown type of rename list " + rl.getClass().getSimpleName(), currentGlobalDef_.getDefinitionKind(), expr);
     }
+    else if (expr instanceof Qnt1Expr)
+    {
+      Qnt1Expr qe = (Qnt1Expr)expr;
+      // predicate calculus quantified expressions has a similar effect as hiding the variables from
+      if (qe instanceof Exists1Expr || qe instanceof ForallExpr || qe instanceof ExistsExpr)
+      {
+        for(Decl d : qe.getZSchText().getZDeclList())
+        {
+          if (d instanceof VarDecl)
+          {
+            VarDecl vd = (VarDecl)d;
+            for(Name name : vd.getZNameList())
+            {
+              ZName strokedName = buildName(name, strokes);
+              bindings.add(factory_.createNewOldPair(null, strokedName));
+            }
+          }
+          else if (d instanceof InclDecl)
+          {
+            InclDecl id = (InclDecl)d;
+            Expr inclExpr = id.getExpr();
+            if (inclExpr instanceof RefExpr)
+            {
+              RefExpr re = (RefExpr)inclExpr;
+              try
+              {
+                SortedSet<Definition> localBindings = table_.bindings(re.getZName());
+                for(Definition def : localBindings)
+                {
+                  // TODO: check if this is too naive?
+                  ZName strokedName = buildName(def.getDefName(), strokes);
+                  bindings.add(factory_.createNewOldPair(null, strokedName));
+                }
+              }
+              catch (DefinitionException ex)
+              {
+                errors_.add(ex);
+                debug("definition exception error whilst modifying local bindings \t\t with stack = " + currentName_ + ": \n\"" + ex.getMessage(true) + "\"\n");
+              }
+            }
+            else
+              raiseUnsupportedCase("Cannot handle InclDecl in Qnt1Expr that is not RefExpr", currentGlobalDef_.getDefinitionKind(), id);
+          }
+          else
+            raiseUnsupportedCase("Cannot handle ConstDecl in Qnt1Expr", currentGlobalDef_.getDefinitionKind(), d);
+        }
+      }
+      // letexpr, lambdaexpr, are defined in terms of sets and definite description...
+      else
+        raiseUnsupportedCase("Cannot yet handle bindings of quantified expression", currentGlobalDef_.getDefinitionKind(), qe);
+    }
+    else
+      raiseUnsupportedCase("Unknown type of expression to modify local bindings", currentGlobalDef_.getDefinitionKind(), expr);
     // assert expr instanceof HideExpr || expr instanceof RenameExpr;
     // otherwise bindings will be empty, which will raise an exception
     try
@@ -1429,9 +1488,12 @@ public class DefinitionTableVisitor
       }
       else if (expr instanceof Qnt1Expr)
       {
-        //((Qnt1Expr)expr).getZSchText();
         // Exists, Exists1, ForallExpr - whatKindOfZExpr above filter other Qnt1Expr like Lambda.
-        raiseUnsupportedCase("TODO: handling Exists/Forall local bindings", currentDefKind, expr);
+        Qnt1Expr qe = (Qnt1Expr)expr;
+        // process the body
+        processSchExpr(genFormals, refName, qe.getExpr(), defKinds, strokes);
+        // filter quantified bindings
+        modifyLocalBindings(qe, strokes);
       }
       else
       {

@@ -331,9 +331,6 @@ public class DefinitionTable extends InfoTable
 
     checkGlobalDef(sectName, def);
 
-    // check sect names are consistent, even if different from getSectionName() of this table.
-    checkSectionConsistency(sectName, def);
-
     ZName defName = def.getDefName();
 
     // get / create defs for calling section
@@ -357,6 +354,10 @@ public class DefinitionTable extends InfoTable
     }
     assert defOfSect != null && key >= 0;
     assert knownSections_.size() >= definitions_.keySet().size();
+
+    // check sect names are consistent, even if different from getSectionName() of this table.
+    // do it after updating known sections, though.
+    checkSectionConsistency(sectName, def);
 
     // add definition or raise duplicates
     Definition old = defOfSect.put(defName, def);

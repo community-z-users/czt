@@ -1220,6 +1220,7 @@ vcg/src/test/resources/tests/z/freertos.tex -text
 vcg/src/test/resources/tests/z/freetype.tex -text
 vcg/src/test/resources/tests/z/nestedappl.tex -text
 vcg/src/test/resources/tests/z/nestedappl2.tex -text
+vcg/src/test/resources/tests/z/quantifiedSchemas.tex -text
 vcg/src/test/resources/tests/z/refRulesEquiv.tex -text
 vcg/src/test/resources/tests/z/refRulesEquiv_ref.tex -text
 vcg/src/test/resources/tests/z/renaming.tex -text

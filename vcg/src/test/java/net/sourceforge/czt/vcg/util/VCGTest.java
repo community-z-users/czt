@@ -26,6 +26,8 @@ import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
@@ -189,6 +191,11 @@ public abstract class VCGTest extends CztManagedTest
           }
           SectionManager.traceWarning("VCG-RESULT-HAS-ERRORS");
         }
+        else if (e instanceof VCCollectionException && e.getCause() instanceof CztException && e.getCause().getCause() instanceof VCGException)
+        {
+          VCGException czt = (VCGException)e.getCause().getCause();
+          result = handleVCGException(czt, failureMsg);
+        }
       }
       if (!result || isDebugging())
       {
@@ -196,5 +203,10 @@ public abstract class VCGTest extends CztManagedTest
       }
       return result;
     }
+  }
+
+  protected boolean handleVCGException(VCGException e, StringBuilder failureMsg)
+  {
+    return false;
   }
 }

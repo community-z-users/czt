@@ -23,10 +23,8 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.vcg.util.VCGTest;
 import net.sourceforge.czt.vcg.z.VCGException;
-import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
-import net.sourceforge.czt.vcg.z.feasibility.FeasibilityPropertyKeys;
+import net.sourceforge.czt.vcg.z.feasibility.FeasibilityTest;
 import net.sourceforge.czt.z.ast.Pred;
 
 /**
@@ -34,13 +32,8 @@ import net.sourceforge.czt.z.ast.Pred;
  * @author Leo Freitas
  * @date Aug 31, 2011
  */
-public class RefinementTest extends VCGTest implements RefinementPropertyKeys
+public class RefinementTest extends FeasibilityTest implements RefinementPropertyKeys
 {
-
-  protected static final boolean DEBUG_TESTING = false;
-  protected final static String TEST_DIR =
-          "/tests/z/";
-
   public static Test suite() throws VCGException
   {
     SectionManager manager = RefinementUtils.getRefinementUtils().createSectionManager(
@@ -67,18 +60,4 @@ public class RefinementTest extends VCGTest implements RefinementPropertyKeys
     return new NormalVCGTest<Pred>(url, RefinementUtils.getRefinementUtils());
   }
 
-  /**
-   * Do not include "_dc.tex" in tests. this includes dc for fsb, though!
-   * @param name
-   * @param positive
-   * @return
-   */
-  @Override
-  protected boolean includeVCGTest(String name, boolean positive)
-  {
-    return super.includeVCGTest(name, positive) &&
-           positive && name.lastIndexOf(DomainCheckPropertyKeys.VCG_DOMAINCHECK_SOURCENAME_SUFFIX) == -1 &&
-           name.lastIndexOf(FeasibilityPropertyKeys.VCG_FEASIBILITY_SOURCENAME_SUFFIX) == -1 &&
-           name.lastIndexOf(RefinementPropertyKeys.VCG_REFINEMENT_SOURCENAME_SUFFIX) == -1;
-  }
 }

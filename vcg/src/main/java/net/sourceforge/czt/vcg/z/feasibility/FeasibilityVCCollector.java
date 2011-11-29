@@ -1177,7 +1177,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected void populateDeclList(ZDeclList zDeclList, SortedSet<Definition> bindings, boolean dashed)
   {
     if (bindings.isEmpty())
-    {
+    { 
       throw new CztException(new FeasibilityException("Invalid (empty) bindings to populate ZDeclList of current name " + currentName_));
     }
     assert !bindings.isEmpty();
