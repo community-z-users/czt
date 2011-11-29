@@ -95,8 +95,8 @@ public class ZEvesXmlEntities {
 		
 		// adapted from CZT2ZEvesPrinter#getSchExprOpName
         header.append(getEntityDef(ZString.COMP, "fatsemi"));
-//        header.append(getEntityDef(ZString.???, "gtgt")); // piping
-//        header.append(getEntityDef(ZString.???, "uharr")); // projection
+        header.append(getEntityDef(ZString.ZPIPE, "gtgt")); // piping
+        header.append(getEntityDef(ZString.ZPROJ, "uharr")); // projection
         header.append(getEntityDef(ZString.AND, "wedge"));
         header.append(getEntityDef(ZString.OR, "vee"));
         header.append(getEntityDef(ZString.IMP, "rArr"));
