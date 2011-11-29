@@ -14,6 +14,17 @@
    y > 100
 \end{schema}
 
+
+\begin{zed}
+   OpSi == [ \Delta S; \Delta T; in?: \nat ]
+   \\
+   OpSo == [ \Delta S; out!: \nat ]
+   \\
+   OpS == OpSi \semi OpSo
+   \\
+   OpP == OpSi \pipe OpSo
+\end{zed}
+
 \begin{schema}{Op}
    \Delta S \\
    \Delta T
