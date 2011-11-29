@@ -978,7 +978,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     }
     else if (term instanceof PipeExpr)
     {
-      result = "&gtgt";
+      result = "&gtgt;";
     }
     else if (term instanceof ProjExpr)
     {
