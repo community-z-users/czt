@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -429,7 +430,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         {
         //  Expr termExpr  = ((ConstDecl)term.getZSchText().getZDeclList().get(0)).getExpr();
 //          assert termDef.getExpr().equals(termExpr);
-          
+
+          currentName_ = termName;
+
           if (termDef.getDefinitionKind().isSchemaReference())
           {
             collectStateInfo(term, termDef);
@@ -439,6 +442,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           {
             result = handleHorizDef(termDef);
           }
+          currentName_ = null;
+          
           break;
         }
         else
@@ -835,42 +840,6 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           vcType = ZFsbVCKind.DEFAULT;
         }
       }
-        
-//      // no after bindings; if there are any before bindings then create existential proof
-//      else if (!emptybindings) // before \neq {} XOR after \neq {} and it is existential
-//      {
-//        // for the state schema, if there is a init schema, then a vc \exists State' @ StInit is added in the end
-//        // otherwise, add the whole VC anyway as \exists State' @ true; similarly for init/fin schemas
-//        if (isState(STINIT, schName)
-//            || isState(STFIN, schName)
-//            || isState(STATE, schName)
-//                && (getState(STINIT) != null 
-//                   || getState(STFIN) != null))
-//        {
-//          result = predTransformer_.truePred();
-//        }
-//        else if (!isCreatingZSchemas())
-//        {
-//          // fsbAssumptions will have either initialisation or just true
-//          result = predTransformer_.existsPred(fsbAssumptions, factory_.createTruePred());
-//        }
-//        else
-//        {
-//          // z centric existential proof
-//          // \exists SchSig @ true
-//          assert schSigName != null && schSigRef != null && schSigSchText != null && schNameSigSchema != null;
-//          result = predTransformer_.existsPred(schSigSchText, factory_.createTruePred());
-//        }
-//        
-//        vcType = ZFsbVCKind.STATE;
-//      }
-//      // otherwise, there is nothing to do: just return P
-//      else // before = after = {}
-//      {
-//        result = predTransformer_.truePred(); // TODO: still to return P from ZName (!!!)
-//        
-//        vcType = ZFsbVCKind.DEFAULT;
-//      }
 
       // if anything got created, add them (if the result pred is not trivial)
       if (schNameSigSchema != null && result != null && !(result instanceof TruePred))
@@ -1178,7 +1147,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   {
     if (bindings.isEmpty())
     { 
-      throw new CztException(new FeasibilityException("Invalid (empty) bindings to populate ZDeclList of current name " + currentName_));
+      //throw new CztException(new FeasibilityException("Invalid (empty) bindings to populate ZDeclList of current name " + currentName_));
+      CztLogger.getLogger(getClass()).log(Level.WARNING, "Empty bindings to populate ZDeclList of current name {0}", currentName_);
+      return;
     }
     assert !bindings.isEmpty();
     List<Decl> decls = factory_.list();
