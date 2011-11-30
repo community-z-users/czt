@@ -974,6 +974,7 @@ typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/Warning
 typechecker-zeves/src/test/java/net/sourceforge/czt/typecheck/zeves/TypeCheckerTest.java -text
 typechecker-zeves/src/test/resources/tests/zeves/TID-proofs.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/appTo.tex -text
+typechecker-zeves/src/test/resources/tests/zeves/atm_bags.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bar.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
