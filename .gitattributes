@@ -647,7 +647,7 @@ parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintMessage.jav
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZEvesPrintVisitor.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZToWhyMPrintVisitor.java -text
 parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZmlScanner.java -text
-parser-zeves/src/main/resources/lib/bag_toolkit_zeves.tex -text
+parser-zeves/src/main/resources/lib/zeves_bag_toolkit.tex -text
 parser-zeves/src/main/resources/lib/zeves_prelude.tex -text
 parser-zeves/src/main/resources/lib/zeves_toolkit.tex -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/OnTheFlyParsingTest.java -text
@@ -657,6 +657,7 @@ parser-zeves/src/test/java/net/sourceforge/czt/print/zeves/ZmlPrintTest.java -te
 parser-zeves/src/test/resources/tests/zeves/TID-proofs.tex -text
 parser-zeves/src/test/resources/tests/zeves/appTo.tex -text
 parser-zeves/src/test/resources/tests/zeves/appTo.zed8 -text
+parser-zeves/src/test/resources/tests/zeves/atm_bags.tex -text
 parser-zeves/src/test/resources/tests/zeves/bar.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.tex -text
 parser-zeves/src/test/resources/tests/zeves/bbook.zed8 -text
@@ -674,6 +675,7 @@ parser-zeves/src/test/resources/tests/zeves/genericSchemas.zml -text
 parser-zeves/src/test/resources/tests/zeves/instantiateTest.tex -text
 parser-zeves/src/test/resources/tests/zeves/keywordProblems.tex -text
 parser-zeves/src/test/resources/tests/zeves/missingHardSpace.tex -text
+parser-zeves/src/test/resources/tests/zeves/opnames.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofCmds.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofGoal.tex -text
 parser-zeves/src/test/resources/tests/zeves/proofGoal.zed8 -text

@@ -12,7 +12,7 @@ package net.sourceforge.czt.parser.zeves;
 
 public enum ZEvesParseMessage {
   
-  MSG_NOT_WITHIN_PROOFSCRIPT("Recognised proof command word {0} outside zproof environment.", " The lexer is identifying a proof command word from a part of the specification outside a zproof. Try and see if you have any name overlap with any of the possible proof command words"),
+  MSG_NOT_WITHIN_PROOFSCRIPT("Recognised proof command word _ {0} _ outside zproof environment.", " The lexer is identifying a proof command word from a part of the specification outside a zproof. Try and see if you have any name overlap with any of the possible proof command words"),
 
   MSG_NOT_WITHIN_AXDEF("Recognised Z/Eves predicate label {0} outside axiomatic box.", "The lexer is identifying a Z/Eves label from a part of the specification where it is not allwoed."),
   MSG_CANNOT_ADD_PROOFSCRIPT ("Cannot add named proof script ({0}). "),

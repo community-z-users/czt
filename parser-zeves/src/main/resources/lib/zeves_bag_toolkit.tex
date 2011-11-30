@@ -9,7 +9,7 @@ theorem prover. It follows Spivey's definitions, yet with the
 right flavour for Z/Eves
 
 \begin{zsection}
-\SECTION bag\_toolkit\_zeves \parents standard\_toolkit
+\SECTION zeves\_bag\_toolkit \parents standard\_toolkit
 \end{zsection}
 
 \section{Bags }\label{def-bag}
@@ -17,6 +17,8 @@ right flavour for Z/Eves
 \subsection*{Operator templates}
 
 %%Zpreword \bag bag
+%%Zprechar \lbag U+27E6
+%%Zpostchar \rbag U+27E7
 %%Zinchar \bcount U+266F
 %%Zinchar \otimes U+2297
 %%Zinchar \inbag U+22FF
@@ -25,6 +27,7 @@ right flavour for Z/Eves
 %%Zinchar \uminus U+2A41
 \begin{zed}
     \generic (\bag \_) \\
+    \function (\lbag \listarg \rbag) \\
     \function 50 \leftassoc (\_ \bcount \_) \\
     \function 40 \leftassoc (\_ \otimes \_) \\
     \relation (\_ \inbag \_) \\
@@ -49,8 +52,14 @@ right flavour for Z/Eves
   \forall x: X; B: \bag X @ (count ~ B)x = B \bcount x
 \also
   \forall x: X; B: \bag X @ B \bcount x =
-    \IF x \inbag B \THEN B(x) \ELSE 0
+    \IF x \inbag B \THEN B~(x) \ELSE 0
 \end{gendef}
+
+\subsection*{Bag brackets}
+
+\begin{zed}
+\lbag \listarg \rbag [ X ]  == (\lambda b : \bag~ X @ b)
+\end{zed}
 
 \subsubsection*{Subbags}
 
@@ -98,7 +107,7 @@ of theorems hold for them. See the Z/Eves toolkit for details.
 To use this file, just add
 
 begin{zsection}
-\SECTION my\_section \parents zeves\_toolkit
+\SECTION my\_section \parents circus\_toolkit, bag\_toolkit\_zeves
 end{zsection}
 
 within a file caled \verb'my\_section.tex'.
