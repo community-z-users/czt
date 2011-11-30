@@ -68,7 +68,8 @@ public class TermPositionProvider implements IPositionProvider<Term>
       if (document != null && locAnn.getLine() != null && locAnn.getCol() != null) {
         try {
           return BigInteger.valueOf(
-              document.getLineOffset(locAnn.getLine().intValue() - 1)
+        		  // the LocAnn.getLine() apparently is 0-based, so no need to remove 1
+              document.getLineOffset(locAnn.getLine().intValue())// - 1)
                 + locAnn.getCol().intValue());
         }
         catch (BadLocationException e) {}
@@ -76,16 +77,22 @@ public class TermPositionProvider implements IPositionProvider<Term>
     }
     
     // if the term itself does not have a proper location annotation, check its children depth-first
+    BigInteger min = null;
     for (Object child : term.getChildren()) {
       if (child instanceof Term) {
         BigInteger start = getStart((Term) child, document);
         if (start != null) {
-          return start;
+          
+          if (min == null) {
+            min = start;
+          } else {
+            min = min.min(start);
+          }
         }
       }
     }
     
-    return null;
+    return min;
   }
   
   private BigInteger getEnd(Term term)
@@ -100,20 +107,23 @@ public class TermPositionProvider implements IPositionProvider<Term>
     }
     
     // if the term itself does not have a proper location annotation, 
-    // check its children depth-first, starting from the end
-    Object[] children = term.getChildren();
-    for (int index = children.length - 1; index >= 0; index--) {
-      Object child = children[index];
-      
+    // check its children depth-first
+    BigInteger max = null;
+    for (Object child : term.getChildren()) {
       if (child instanceof Term) {
         BigInteger end = getEnd((Term) child);
         if (end != null) {
-          return end;
+          
+          if (max == null) {
+            max = end;
+          } else {
+            max = max.max(end);
+          }
         }
       }
     }
     
-    return null;
+    return max;
     
   }
 
