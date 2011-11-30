@@ -1661,7 +1661,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           // added a comparison for "to" for the *very* specific "applies$to" operator :-(
           if (!inProofScript_ &amp;&amp; proofWord.compareToIgnoreCase("to") != 0)
           {
-            reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
+            //reportError(ErrorType.ERROR, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
+            reportError(ErrorType.WARNING, ZEvesParseMessage.MSG_NOT_WITHIN_PROOFSCRIPT, proofWord, proofWord);//no extra information
+            return result(proofWord); // return it as just unicode
           }
           //System.out.println("SEE PROOF-WORD-IN-ZED-STATE = '" + proofWord + "'; inProofScript? = " + inProofScript_);
           return result(LatexSym.PROOFWORD, proofWord);
