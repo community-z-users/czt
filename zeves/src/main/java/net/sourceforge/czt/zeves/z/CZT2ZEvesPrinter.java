@@ -1199,6 +1199,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       result = format(ROMAN_PATTERN, word);
     }
     // Bags
+    else if (word.equals(ZEvesString.LBAG))
+    {
+      result = "&lbag;";
+    }
+    else if (word.equals(ZEvesString.RBAG))
+    {
+      result = "&rbag;";
+    }
     else if (word.equals(ZEvesString.BCOUNT)) //Bag count
     {
       result = "&sharp;";
@@ -2058,7 +2066,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       // Handling special cases known to Z/Eves
 
       // LANGLE / RANGLE
-      if (op.startsWith("&lang;&rang;"))
+      if (op.startsWith("&lang;&rang;") || op.startsWith("&lbag;&rbag;"))
       {
         assert args.size() == 1 &&
                args.get(0) instanceof SetExpr; // SetExpr with all the elements enumerated... < a, b > =  (<,,>)({(1,a), (2,b)})
@@ -2070,7 +2078,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
           seqElems.append(delim).append(extractSeqElem(e));
           delim = ",";
         }
-        result = format(APPL_EXPR_SEQ_PATTERN, seqElems);
+        boolean isSeq = op.startsWith("&lang;&rang;");
+        result = format(isSeq ? APPL_EXPR_SEQ_PATTERN : APPL_EXPR_BAG_PATTERN, seqElems);
       }
       // LIMG / RIMG
       else if (op.startsWith("&lvparen;&rvparen;"))
@@ -2830,7 +2839,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       else if (op instanceof Operand)
       {
         if (((Operand)op).getList())
-          throw new ZEvesIncompatibleASTException("ZEves does not allow list-arg operators; sequence display is predefined.");
+          //throw new ZEvesIncompatibleASTException("ZEves does not allow list-arg operators; sequence and bag displays are predefined.");
+          CztLogger.getLogger(this.getClass()).warning("ZEves does not allow list-arg operators; sequence and bag displays are predefined.");
         else
         {
           opClassIdxs.add(place);
@@ -3266,10 +3276,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             switch (genFormalP.size())
             {
               case 2:
+                // this if for a case like (_ op _) [X, Y] == \nat \cross \nat (e.g., zboxItemName already has opArgs
                 assert !hasOpArg(zboxItemName);
                 result = format(ZED_BOX_INFIXGENOP_HORIZONTAL_PATTERN, zboxLocation, zboxAbility,
                           getIdent(ZUtils.assertZName(genFormalP.get(0))), zboxItemName,
                           getIdent(ZUtils.assertZName(genFormalP.get(1))), zboxItemSymbol, zboxItemExpr);
+                break;
+              case 1:
+                assert !hasOpArg(zboxItemName);
+                final String genParam = getIdent(ZUtils.assertZName(genFormalP.get(0)));
+                result = format(ZED_BOX_INFIXGENOP_HORIZONTAL_PATTERN, zboxLocation, zboxAbility,
+                          genParam, zboxItemName, genParam, zboxItemSymbol, zboxItemExpr);
                 break;
               case 0:
                 // this if for a case like (_ op _) == \nat \cross \nat (e.g., zboxItemName already has opArgs
@@ -3279,7 +3296,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
                 break;
               default:
-                throw new ZEvesIncompatibleASTException("Generic infix operator in horizontal definition requires (2) explicit or (0) implicit formal parameters");
+                throw new ZEvesIncompatibleASTException("Generic infix operator in horizontal definition requires (1 or 2) explicit or (0) implicit formal parameters - " + zboxItemName + " LOC " + zboxLocation);
             }
             break;
           case POSTFIX:

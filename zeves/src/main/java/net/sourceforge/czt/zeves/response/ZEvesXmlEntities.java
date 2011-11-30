@@ -1,6 +1,7 @@
 package net.sourceforge.czt.zeves.response;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 
 public class ZEvesXmlEntities {
 
@@ -61,12 +62,14 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.LBIND, "lvang"));
         header.append(getEntityDef(ZString.RBIND, "rvang"));
         // Bags
-//        header.append(getEntityDef(ZString.???, "sharp"));//Bag count
-//        header.append(getEntityDef(ZString.???, "otimes"));//Bag scaling
-//        header.append(getEntityDef(ZString.???, "sqisin"));//Bag membership
-//        header.append(getEntityDef(ZString.???, "sqsubeq"));//sub-bag
-//        header.append(getEntityDef(ZString.???, "uplus"));//bag union
-//        header.append(getEntityDef(ZString.???, "uminus"));//bag difference
+        header.append(getEntityDef(ZEvesString.BCOUNT, "sharp"));//Bag count
+        header.append(getEntityDef(ZEvesString.OTIMES, "otimes"));//Bag scaling
+        header.append(getEntityDef(ZEvesString.INBAG, "sqisin"));//Bag membership
+        header.append(getEntityDef(ZEvesString.SUBBAGEQ, "sqsubeq"));//sub-bag
+        header.append(getEntityDef(ZEvesString.UPLUS, "uplus"));//bag union
+        header.append(getEntityDef(ZEvesString.UMINUS, "uminus"));//bag difference
+        header.append(getEntityDef(ZEvesString.LBAG, "lbag"));//bag union
+        header.append(getEntityDef(ZEvesString.RBAG, "rbag"));//bag difference
 		
 		// copied from CZT2ZEvesPrinter#translateWord
         header.append(getEntityDef(ZString.DELTA, "Delta"));

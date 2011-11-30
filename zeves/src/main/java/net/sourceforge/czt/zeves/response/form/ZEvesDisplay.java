@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.zeves.util.ZEvesString;
 
 /**
  * <!ELEMENT display ((%form;)*, type?)>
@@ -52,7 +53,7 @@ public class ZEvesDisplay {
 
 		switch (type) {
 		case BAG:
-			return "B(" + content + ")B"; // TODO get proper brackets for bags
+			return ZEvesString.LBAG + content + ZEvesString.RBAG; // TODO get proper brackets for bags
 		case SEQUENCE:
 			return ZString.LANGLE + content + ZString.RANGLE;
 		case SET:

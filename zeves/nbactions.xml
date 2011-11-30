@@ -7,9 +7,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.1.1:exec</goal>
             </goals>
             <properties>
-                <exec.workingdir>/Users/nljsf/Documents/research/java/netbeans/czt/zeves/src/test/resources/tests</exec.workingdir>
                 <exec.classpathScope>runtime</exec.classpathScope>
-                <exec.args>-classpath %classpath net.sourceforge.czt.zeves.CZT2ZEves -print ./schemaCalculus.tex</exec.args>
+                <exec.workingdir>/Users/nljsf/Documents/research/java/netbeans/czt/zeves/src/test/resources/tests</exec.workingdir>
+                <exec.args>-classpath %classpath net.sourceforge.czt.zeves.CZT2ZEves -print ./atm_bags.tex</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -20,9 +20,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.1.1:exec</goal>
             </goals>
             <properties>
-                <exec.workingdir>/Users/nljsf/Documents/research/java/netbeans/czt/zeves/src/test/resources/tests</exec.workingdir>
                 <exec.classpathScope>runtime</exec.classpathScope>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath net.sourceforge.czt.zeves.CZT2ZEves -print ./schemaCalculus.tex</exec.args>
+                <exec.workingdir>/Users/nljsf/Documents/research/java/netbeans/czt/zeves/src/test/resources/tests</exec.workingdir>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath net.sourceforge.czt.zeves.CZT2ZEves -print ./atm_bags.tex</exec.args>
                 <jpda.listen>true</jpda.listen>
                 <exec.executable>java</exec.executable>
             </properties>
@@ -34,8 +34,8 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.1.1:exec</goal>
             </goals>
             <properties>
+                <exec.args>${profiler.args} -classpath %classpath net.sourceforge.czt.zeves.CZT2ZEves -print ./atm_bags.tex</exec.args>
                 <exec.workingdir>/Users/nljsf/Documents/research/java/netbeans/czt/zeves/src/test/resources/tests</exec.workingdir>
-                <exec.args>${profiler.args} -classpath %classpath net.sourceforge.czt.zeves.CZT2ZEves -print ./schemaCalculus.tex</exec.args>
                 <profiler.action>profile</profiler.action>
                 <exec.executable>${profiler.java}</exec.executable>
             </properties>

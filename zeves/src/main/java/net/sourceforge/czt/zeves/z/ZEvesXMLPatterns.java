@@ -331,6 +331,7 @@ public interface ZEvesXMLPatterns {
      * {0} comma sep list of expressions from getExpr(ZUtils.getApplExprArguments(term).get(n));
      */
     public static final String APPL_EXPR_SEQ_PATTERN = "(&lang; {0} &rang;)";
+    public static final String APPL_EXPR_BAG_PATTERN = "(&lbag; {0} &rbag;)";
 
     /**
      * {0} expression   => getExpr(ZUtils.getApplExprArguments(term).get(0));
