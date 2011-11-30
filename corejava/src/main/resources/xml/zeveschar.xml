@@ -17,12 +17,14 @@
       <char id="RLABEL" hex="300B" description="right label bracket"/>
       <char id="LZNOTE" hex="231C" description="left znote bracket"/>
       <char id="RZNOTE" hex="231D" description="right znote bracket"/>
+      <char id="LBAG"   hex="27E6" description="left bag display bracket"/>
+      <char id="RBAG"   hex="27E7" description="right bag display bracket"/>
     </BRACKET>
   </SPECIAL>
   <SYMBOL>
     <TOOLKITSYMBOL>
       <!-- ZEves Bag toolkit symbols -->
-      <char id="BCOUNT" hex="226F" description="bag count"/>
+      <char id="BCOUNT" hex="266F" description="bag count"/>
       <char id="OTIMES" hex="2297" description="bag scalling"/>
       <char id="INBAG" hex="22FF" description="bag containment"/>
       <char id="SUBBAGEQ" hex="2291" description="bag subset equal"/>
