@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves.response;
 
 import java.io.StringReader;
@@ -49,146 +50,155 @@ import org.xml.sax.ext.DefaultHandler2;
  * 
  * @author Andrius Velykis
  */
-public class ZEvesResponseReader {
+public class ZEvesResponseReader
+{
 
-	private final static Pattern OP_DECL_XML_PATTERN = Pattern.compile("\\&[a-z]+\\$declaration");
-	/** 
-	 * A pattern to match entities without a semicolon, which get output by Z/Eves sometimes, e.g.
-	 * in a message "the next token, "&lvparen (left rel image bracket), is not ")"." We need
-	 * to capture this and fix by adding a semicolon. 
-	 */
-	private final static Pattern ENTITY_NO_SEMI_PATTERN = Pattern.compile("\\&[A-Za-z][A-Za-z0-9]*\\s");
-	
-	private final Unmarshaller unmarshaller;
-	private final XMLReader xmlReader;
+  private final static Pattern OP_DECL_XML_PATTERN = Pattern.compile("\\&[a-z]+\\$declaration");
 
-	private ZEvesResponseReader(Unmarshaller unmarshaller, XMLReader xmlReader) {
-		super();
-		this.unmarshaller = unmarshaller;
-		this.xmlReader = xmlReader;
-	}
+  /** 
+   * A pattern to match entities without a semicolon, which get output by Z/Eves sometimes, e.g.
+   * in a message "the next token, "&lvparen (left rel image bracket), is not ")"." We need
+   * to capture this and fix by adding a semicolon. 
+   */
+  private final static Pattern ENTITY_NO_SEMI_PATTERN = 
+      Pattern.compile("\\&[A-Za-z][A-Za-z0-9]*\\s");
 
-	private static JAXBContext configZEvesApiContext() throws JAXBException {
+  private final Unmarshaller unmarshaller;
 
-		return JAXBContext.newInstance(
-				ZEvesOutput.class, ZEvesError.class,
+  private final XMLReader xmlReader;
 
-				/*
-				 * <!ENTITY % form "(binder | let | if | schematext | op | relchain |
-				 * 					 application | parenform | display | schematype | 
-				 * 					 name | schname | number | string)">
-				 */
-				ZEvesBinder.class, ZEvesLet.class, ZEvesIf.class, ZEvesSchemaText.class, 
-				ZEvesOp.class, ZEvesRelChain.class, ZEvesApplication.class, ZEvesParenForm.class,
-				ZEvesDisplay.class, ZEvesSchemaType.class, ZEvesName.class, ZEvesSchName.class,
-				ZEvesNumber.class, ZEvesResponseString.class,
-				/*
-				 * <!ENTITY % para "(schemadef | axdef | theorem | givendef |
-				 * 					 horschdef | abbrevdef | freetypedef | %form; | 
-				 * 					 labeledform | syndef)">
-				 */
-				ZEvesSchemaDef.class, ZEvesAxDef.class, ZEvesTheorem.class, ZEvesGivenDef.class,
-				ZEvesHorSchDef.class, ZEvesAbbrevDef.class, ZEvesFreeTypeDef.class,
-				ZEvesLabeledForm.class, ZEvesSynDef.class);
-	}
+  private ZEvesResponseReader(Unmarshaller unmarshaller, XMLReader xmlReader)
+  {
+    super();
+    this.unmarshaller = unmarshaller;
+    this.xmlReader = xmlReader;
+  }
 
-	public static ZEvesResponseReader createReader() throws JAXBException,
-			ParserConfigurationException, SAXException {
+  private static JAXBContext configZEvesApiContext() throws JAXBException
+  {
 
-		// setup object mapper using the Z/Eves API context classes
-		JAXBContext context = configZEvesApiContext();
-		XMLReader xmlReader = configXmlReader();
+    return JAXBContext.newInstance(ZEvesOutput.class, ZEvesError.class,
 
-		// create the unmarshaller from XML to Z/Eves API POJOs
-		Unmarshaller unmarshaller = context.createUnmarshaller();
+    /*
+     * <!ENTITY % form "(binder | let | if | schematext | op | relchain |
+     *                   application | parenform | display | schematype | 
+     *                   name | schname | number | string)">
+     */
+    ZEvesBinder.class, ZEvesLet.class, ZEvesIf.class, ZEvesSchemaText.class, ZEvesOp.class,
+    ZEvesRelChain.class, ZEvesApplication.class, ZEvesParenForm.class, ZEvesDisplay.class,
+    ZEvesSchemaType.class, ZEvesName.class, ZEvesSchName.class, ZEvesNumber.class,
+    ZEvesResponseString.class,
+    /*
+     * <!ENTITY % para "(schemadef | axdef | theorem | givendef |
+     *                   horschdef | abbrevdef | freetypedef | %form; | 
+     *                   labeledform | syndef)">
+     */
+    ZEvesSchemaDef.class, ZEvesAxDef.class, ZEvesTheorem.class, ZEvesGivenDef.class,
+    ZEvesHorSchDef.class, ZEvesAbbrevDef.class, ZEvesFreeTypeDef.class, ZEvesLabeledForm.class,
+    ZEvesSynDef.class);
+  }
 
-		return new ZEvesResponseReader(unmarshaller, xmlReader);
-	}
+  public static ZEvesResponseReader createReader() throws JAXBException,
+      ParserConfigurationException, SAXException
+  {
 
-	private static XMLReader configXmlReader() throws ParserConfigurationException, SAXException {
+    // setup object mapper using the Z/Eves API context classes
+    JAXBContext context = configZEvesApiContext();
+    XMLReader xmlReader = configXmlReader();
 
-		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-		// do not validate, otherwise we need to include whole of DTD, 
-		// not just the entities
-		parserFactory.setValidating(false);
+    // create the unmarshaller from XML to Z/Eves API POJOs
+    Unmarshaller unmarshaller = context.createUnmarshaller();
 
-		SAXParser parser = parserFactory.newSAXParser();
-		XMLReader reader = parser.getXMLReader();
+    return new ZEvesResponseReader(unmarshaller, xmlReader);
+  }
 
-		reader.setErrorHandler(new DefaultHandler2());
+  private static XMLReader configXmlReader() throws ParserConfigurationException, SAXException
+  {
 
-		return reader;
-	}
+    SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+    // do not validate, otherwise we need to include whole of DTD, not just the entities
+    parserFactory.setValidating(false);
 
-	public Object readXml(String xml) throws JAXBException {
+    SAXParser parser = parserFactory.newSAXParser();
+    XMLReader reader = parser.getXMLReader();
 
-		xml = fixXmlResponse(xml);
+    reader.setErrorHandler(new DefaultHandler2());
 
-		// use the XML string as the input source to JAXB unmarshaller
-		InputSource inputSource = new InputSource(new StringReader(appendXmlHeader(xml)));
+    return reader;
+  }
 
-		// wrap the plain XML text into SAX source to perform 
-		// parsing and entity resolving
-		SAXSource xmlSource = new SAXSource(xmlReader, inputSource);
+  public Object readXml(String xml) throws JAXBException
+  {
 
-		return unmarshaller.unmarshal(xmlSource);
-	}
+    xml = fixXmlResponse(xml);
 
-	private String appendXmlHeader(String xml) {
-		return ZEvesXmlEntities.XML_HEADER + xml;
-	}
+    // use the XML string as the input source to JAXB unmarshaller
+    InputSource inputSource = new InputSource(new StringReader(appendXmlHeader(xml)));
 
-	/**
-	 * The Z/Eves response XML is not well-formatted. This method adapts the XML
-	 * to fix that.
-	 * 
-	 * One of the problems is theorem references to Z/Eves mathematical toolkit,
-	 * e.g. "&dom$declaration". This is invalid, because in XML, everything that
-	 * starts with "&" is an XML entity, and must finish with a semicolon.
-	 * However, it is not the case for these theorem references.
-	 * 
-	 * @param xmlStr
-	 * @return
-	 */
-	private String fixXmlResponse(String xmlStr) {
-		
-	 	StringBuilder xml = new StringBuilder(xmlStr);
-	 	Matcher opDeclMatcher = OP_DECL_XML_PATTERN.matcher(xml);
-	 	while(opDeclMatcher.find()) {
-	 		int startIndex = opDeclMatcher.start();
-	 		// remove the first ampersand, then reference will be ok
-	 		xml.deleteCharAt(startIndex);
-	 		opDeclMatcher.reset(xml);
-	 	}
-	 	
-	 	Matcher noSemiMatcher = ENTITY_NO_SEMI_PATTERN.matcher(xml);
-		while(noSemiMatcher.find()) {
-			int endIndex = noSemiMatcher.end();
-			// add a semicolon in the last-to position
-			xml.insert(endIndex - 1, ";");
-			noSemiMatcher.reset(xml);
-		}
-	 	
-	 	xmlStr = xml.toString();
-		
-		// Replaced by RegEx matching above
-//		return xmlStr.replace("&dom$declaration", "dom$declaration")
-//				.replace("&cup$declaration", "cup$declaration")
-//				.replace("&map$declaration", "map$declaration")
-//				.replace("&notin$declaration", "notin$declaration")
-//				.replace("&neq$declaration", "neq$declaration")
-//				.replace("&upto$declaration", "neq$declaration")
-//				.replace("&cardinality$declaration", "neq$declaration")
-//				.replace("&setminus$declaration", "neq$declaration")
-				
-		/*
-		 * Need to replace Arithmos and Finset ZEves XML symbols with
-		 * their unicode representation, because they get represented as
-		 * a UTF-16 surrogate pair and the parser somehow misses them
-		 * them. See ZEvesXmlEntities class for more explanation.
-		 */
-		return xmlStr.replace("&Aopf;", "&#x1d538;")
-				.replace("&Fopf;", "&#x1d53d;");
-	}
+    // wrap the plain XML text into SAX source to perform 
+    // parsing and entity resolving
+    SAXSource xmlSource = new SAXSource(xmlReader, inputSource);
+
+    return unmarshaller.unmarshal(xmlSource);
+  }
+
+  private String appendXmlHeader(String xml)
+  {
+    return ZEvesXmlEntities.XML_HEADER + xml;
+  }
+
+  /**
+   * The Z/Eves response XML is not well-formatted. This method adapts the XML
+   * to fix that.
+   * 
+   * One of the problems is theorem references to Z/Eves mathematical toolkit,
+   * e.g. "&dom$declaration". This is invalid, because in XML, everything that
+   * starts with "&" is an XML entity, and must finish with a semicolon.
+   * However, it is not the case for these theorem references.
+   * 
+   * @param xmlStr
+   * @return
+   */
+  private String fixXmlResponse(String xmlStr)
+  {
+
+    StringBuilder xml = new StringBuilder(xmlStr);
+    Matcher opDeclMatcher = OP_DECL_XML_PATTERN.matcher(xml);
+    while (opDeclMatcher.find()) {
+      int startIndex = opDeclMatcher.start();
+      // remove the first ampersand, then reference will be ok
+      xml.deleteCharAt(startIndex);
+      opDeclMatcher.reset(xml);
+    }
+
+    Matcher noSemiMatcher = ENTITY_NO_SEMI_PATTERN.matcher(xml);
+    while (noSemiMatcher.find()) {
+      int endIndex = noSemiMatcher.end();
+      // add a semicolon in the last-to position
+      xml.insert(endIndex - 1, ";");
+      noSemiMatcher.reset(xml);
+    }
+
+    xmlStr = xml.toString();
+
+    // Replaced by RegEx matching above
+    // return xmlStr.replace("&dom$declaration", "dom$declaration")
+    //              .replace("&cup$declaration", "cup$declaration")
+    //              .replace("&map$declaration", "map$declaration")
+    //              .replace("&notin$declaration", "notin$declaration")
+    //              .replace("&neq$declaration", "neq$declaration")
+    //              .replace("&upto$declaration", "neq$declaration")
+    //              .replace("&cardinality$declaration", "neq$declaration")
+    //              .replace("&setminus$declaration", "neq$declaration")
+
+    /*
+     * Need to replace Arithmos and Finset ZEves XML symbols with
+     * their unicode representation, because they get represented as
+     * a UTF-16 surrogate pair and the parser somehow misses them
+     * them. See ZEvesXmlEntities class for more explanation.
+     */
+    return xmlStr.replace("&Aopf;", "&#x1d538;")
+                 .replace("&Fopf;", "&#x1d53d;");
+  }
 
 }
