@@ -62,6 +62,27 @@ public class ZEvesResponseReader
    */
   private final static Pattern ENTITY_NO_SEMI_PATTERN = 
       Pattern.compile("\\&[A-Za-z][A-Za-z0-9]*\\s");
+  
+  /**
+   * The pattern finds XML numerical character references and stores the 
+   * contents as $1 backreference.
+   */
+  private final static String UNICODE_XML_PATTERN_SEARCH = "\\&#(x?[A-Fa-f0-9]+);";
+  
+  /**
+   * The pattern restores XML numerical character reference with the contents of
+   * $1 backreference. 
+   */
+  private final static String UNICODE_XML_PATTERN_REPLACE = "\\&#$1;";
+  
+  /**
+   * Using axiom_ as a prefix, because axiom is a reserved word in CZT so user should not be able
+   * to define a name starting with axiom_. This improves prevention against accidental clashing.
+   * 
+   * Also using the suffix _unicode, to know the end of the character reference.
+   */
+  private final static String ZEVES_XML_PATTERN_SEARCH = "axiom_(x?[A-Fa-f0-9]+)_unicode";
+  private final static String ZEVES_XML_PATTERN_REPLACE = "axiom_$1_unicode";
 
   private final Unmarshaller unmarshaller;
 
@@ -161,6 +182,9 @@ public class ZEvesResponseReader
    */
   private String fixXmlResponse(String xmlStr)
   {
+    
+    // unescape custom unicode characters
+    xmlStr = unescapeUnicode(xmlStr);
 
     StringBuilder xml = new StringBuilder(xmlStr);
     Matcher opDeclMatcher = OP_DECL_XML_PATTERN.matcher(xml);
@@ -199,6 +223,64 @@ public class ZEvesResponseReader
      */
     return xmlStr.replace("&Aopf;", "&#x1d538;")
                  .replace("&Fopf;", "&#x1d53d;");
+  }
+  
+  public static String escapeUnicode(String text) {
+
+    return escapeXmlNumericalZEves(unicodeToXml(text));
+  }
+  
+  private static String unescapeUnicode(String text) {
+    return unescapeXmlNumericalZEves(text);
+  }
+  
+  private static String escapeXmlNumericalZEves(String text) {
+    return text.replaceAll(UNICODE_XML_PATTERN_SEARCH, ZEVES_XML_PATTERN_REPLACE);
+  }
+  
+  private static String unescapeXmlNumericalZEves(String text) {
+    return text.replaceAll(ZEVES_XML_PATTERN_SEARCH, UNICODE_XML_PATTERN_REPLACE);
+  }
+
+  /*
+   * Adapted from org.apache.commons.lang3.text.translate.CharSequenceTranslator
+   */
+  private static String unicodeToXml(CharSequence input)
+  {
+
+    StringBuilder out = new StringBuilder();
+
+    int pos = 0;
+    int len = input.length();
+    while (pos < len) {
+
+      int codepoint = Character.codePointAt(input, pos);
+      boolean consumed = translate(codepoint, out);
+
+      if (!consumed) {
+        char[] c = Character.toChars(Character.codePointAt(input, pos));
+        out.append(c);
+        pos += c.length;
+      }
+      else {
+        pos += Character.charCount(Character.codePointAt(input, pos));
+      }
+    }
+
+    return out.toString();
+  }
+
+  private static boolean translate(int codepoint, StringBuilder out)
+  {
+    if (codepoint < 0x7f) {
+      // ASCII - do not translate
+      return false;
+    }
+
+    out.append("&#x");
+    out.append(Integer.toHexString(codepoint));
+    out.append(';');
+    return true;
   }
 
 }

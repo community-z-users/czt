@@ -270,6 +270,9 @@ public class ZEvesApi
    */
   public ZEvesOutput send(String command) throws ZEvesException
   {
+    
+    // escape custom unicode characters in the command
+    command = ZEvesResponseReader.escapeUnicode(command);
 
     debug("Sending to Z/Eves: " + command);
 
