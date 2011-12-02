@@ -5918,6 +5918,7 @@ zeves/.classpath
 zeves/.project
 zeves/.settings
 zeves/nb-configuration.xml
+zeves/nbactions.xml
 zeves/src/*.aux
 zeves/src/*.blg
 zeves/src/*.log
