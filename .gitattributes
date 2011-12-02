@@ -1350,7 +1350,6 @@ z2alloy/src/test/resources/substitution.tex -text
 z2alloy/src/test/resources/substitution_fold.als -text
 z2alloy/src/test/resources/theta1.tex -text
 z2alloy/src/test/resources/theta1_fold.als -text
-zeves/nbactions.xml -text
 zeves/src/main/java/net/sourceforge/czt/zeves/ZEvesApi.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/ZEvesException.java -text svneol=unset#text/plain
 zeves/src/main/java/net/sourceforge/czt/zeves/ZEvesServer.java -text svneol=unset#text/plain
