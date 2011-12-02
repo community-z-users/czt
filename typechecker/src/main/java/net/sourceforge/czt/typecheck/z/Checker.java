@@ -255,7 +255,7 @@ abstract public class Checker<R>
   
   protected CarrierSet getCarrierSet()
   {
-    return new CarrierSet();
+    return new CarrierSet(true);
   }
   
   protected void print(Term term,
@@ -1814,7 +1814,7 @@ abstract public class Checker<R>
       //remove an UndeclaredAnn if there is one
       removeAnn(zName, UndeclaredAnn.class);
     }
-    
+
     return type;
   }
 

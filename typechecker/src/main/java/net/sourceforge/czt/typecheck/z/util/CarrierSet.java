@@ -179,7 +179,7 @@ public class CarrierSet
       }
       ZStrokeList strokes = zFactory_.createZStrokeList();
       strokes.addAll(vType.getName().getZStrokeList());
-      ZName zName = factory_.createZName("??", strokes);
+      ZName zName = factory_.createZName(vType.getName().getWord(), strokes);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr result =
         zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);

@@ -93,8 +93,9 @@ public class UnificationEnv
 
     //look in the generic name unification list
     for (NameTypePair pair : peek()) {
-      //use object ID to counter nested generic environments
-      if (zName == pair.getZName()) {
+      //use "equals" (include the name ID) to counter nested generic
+      //environments
+      if (zName.equals(pair.getZName())) {
         result = (Type2) pair.getType();
         break;
       }

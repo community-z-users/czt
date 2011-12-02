@@ -190,7 +190,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
    */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
-                                                   boolean useBeforeDecl,
+						boolean useBeforeDecl,
                                                 boolean recursiveTypes,
                                                 boolean useNameIds,
                                                 WarningManager.WarningOutput warningOutput,
