@@ -112,6 +112,17 @@ public class ZCompilerMessageParser
     int column = error.getColumn();
     int start = error.getStart();
     int length = error.getLength();
+    
+    if (line < 0) {
+      line = 0;
+    } else if (line >= document.getNumberOfLines()) {
+      line = document.getNumberOfLines() - 1;
+      column = 0;
+    }
+    
+    if (column < 0) {
+      column = 0;
+    }
 
     try {
       if (start < 0)
