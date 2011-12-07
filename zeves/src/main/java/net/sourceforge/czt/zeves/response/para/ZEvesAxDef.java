@@ -59,16 +59,31 @@ public class ZEvesAxDef
   public String toString()
   {
 
-    String formalsStr = !formals.isEmpty()
-        ? ZString.LSQUARE + ZEvesResponseUtil.concat(formals, ", ") + ZString.RSQUARE + ZString.NL
-        : "";
     String axStr = !axPart.getItems().isEmpty()
         ? ZString.VL + ZString.NL + ZEvesResponseUtil.concat(axPart.getItems(), ZString.NL) + ZString.NL 
         : "";
 
-    return ZEvesAbility.getInfo(ability) + ZString.AX + ZString.NL + formalsStr
+    return ZEvesAbility.getInfo(ability) + ZString.AX + getGenChar(formals) + getGenFormalsInfo(formals) + ZString.NL
         + ZEvesResponseUtil.concat(decPart, ZString.NL) + ZString.NL + axStr
         + ZString.ENDCHAR;
+  }
+
+  public static String getGenChar(List<ZEvesName> formals) {
+    
+    if (formals.isEmpty()) {
+      return "";
+    }
+    
+    return ZString.GENCHAR;
+  }
+  
+  public static String getGenFormalsInfo(List<ZEvesName> formals) {
+    
+    if (formals.isEmpty()) {
+      return "";
+    }
+    
+    return ZString.LSQUARE + ZEvesResponseUtil.concat(formals, ", ") + ZString.RSQUARE;
   }
 
 }

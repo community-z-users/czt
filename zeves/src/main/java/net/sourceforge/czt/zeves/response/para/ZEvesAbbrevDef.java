@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 
 /**
@@ -97,14 +96,11 @@ public class ZEvesAbbrevDef
       infoStr = infoStr + ZString.NL;
     }
 
-    String formalsStr = !formals.isEmpty()
-        ? ZString.LSQUARE + ZEvesResponseUtil.concat(formals, ZString.COMMA + ZString.SPACE) + ZString.RSQUARE
-        : "";
-
     return infoStr
         + ZString.ZED + ZString.NL 
-        + String.valueOf(getName()) + formalsStr + " == " + String.valueOf(getForm()) 
-        + ZString.NL + ZString.END;
+        + String.valueOf(getName()) + ZEvesAxDef.getGenFormalsInfo(formals) 
+        + ZString.SPACE + ZString.DEFEQUAL + ZString.SPACE 
+        + String.valueOf(getForm()) + ZString.NL + ZString.END;
   }
 
 }

@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.zeves.response.para;
 
 import java.util.ArrayList;
@@ -22,56 +23,58 @@ import net.sourceforge.czt.zeves.response.form.ZEvesName;
  * @author Andrius Velykis
  */
 @XmlRootElement(name = "theorem")
-public class ZEvesTheorem {
+public class ZEvesTheorem
+{
 
-	/**
-	 * <!ATTLIST theorem %ability;>
-	 */
-	@XmlAttribute
-	private ZEvesAbility ability;
-	
-	/**
-	 * <!ATTLIST theorem %usage;>
-	 */
-	@XmlAttribute
-	private ZEvesUsage usage;
-	
-	@XmlElement(required = true)
-	private ZEvesName name;
-	
-	/**
-	 * <!ELEMENT formals (name+)>
-	 */
-	@XmlElementWrapper(name = "formals")
-	@XmlElement(name = "name")
-	private List<ZEvesName> formals = new ArrayList<ZEvesName>();
-	
-	@XmlAnyElement(lax = true)
-	private Object form;
-	
-	/**
-	 * <!ELEMENT proof (provercmd+)>
-	 */
-	@XmlElementWrapper(name = "proof")
-	@XmlElement(name = "provercmd", type = ZEvesProverCmd.class)
-	private List<ZEvesProverCmd> proof = new ArrayList<ZEvesProverCmd>();
-	
-	public List<ZEvesProverCmd> getProof() {
-		return Collections.unmodifiableList(proof);
-	}
-	
-	@Override
-	public String toString() {
-		
-		String formalsStr = !formals.isEmpty() ? 
-				"[" + ZEvesResponseUtil.concat(formals, ", ") + "]" : "";
-		String proofStr = !proof.isEmpty() ? 
-				ZEvesResponseUtil.concat(proof, "\n") + "\n" : "";
-		
-		return ZEvesAbility.getInfo(ability) + ZString.ZEDCHAR + " theorem "
-				+ ZEvesUsage.getInfo(usage) + String.valueOf(name) + formalsStr + "\n"
-				+ /*ZString.CONJECTURE + */" " + String.valueOf(form) + "\n" + ZString.END 
-				+ proofStr;
-	}
-	
+  /**
+   * <!ATTLIST theorem %ability;>
+   */
+  @XmlAttribute
+  private ZEvesAbility ability;
+
+  /**
+   * <!ATTLIST theorem %usage;>
+   */
+  @XmlAttribute
+  private ZEvesUsage usage;
+
+  @XmlElement(required = true)
+  private ZEvesName name;
+
+  /**
+   * <!ELEMENT formals (name+)>
+   */
+  @XmlElementWrapper(name = "formals")
+  @XmlElement(name = "name")
+  private List<ZEvesName> formals = new ArrayList<ZEvesName>();
+
+  @XmlAnyElement(lax = true)
+  private Object form;
+
+  /**
+   * <!ELEMENT proof (provercmd+)>
+   */
+  @XmlElementWrapper(name = "proof")
+  @XmlElement(name = "provercmd", type = ZEvesProverCmd.class)
+  private List<ZEvesProverCmd> proof = new ArrayList<ZEvesProverCmd>();
+
+  public List<ZEvesProverCmd> getProof()
+  {
+    return Collections.unmodifiableList(proof);
+  }
+
+  @Override
+  public String toString()
+  {
+
+    String proofStr = !proof.isEmpty() ? 
+        ZEvesResponseUtil.concat(proof, ZString.NL) + ZString.NL : "";
+
+    return ZEvesAbility.getInfo(ability) 
+        + ZString.ZEDCHAR + ZString.SPACE + ZString.THEOREM + ZString.SPACE
+        + ZEvesUsage.getInfo(usage) + String.valueOf(name) + ZEvesAxDef.getGenFormalsInfo(formals) + ZString.NL
+        + /*ZString.CONJECTURE + */" " + String.valueOf(form) + ZString.NL + ZString.END 
+        + proofStr;
+  }
+
 }
