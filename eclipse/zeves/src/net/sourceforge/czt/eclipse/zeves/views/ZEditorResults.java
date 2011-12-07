@@ -44,7 +44,6 @@ import net.sourceforge.czt.zeves.response.ZEvesProofTrace.TraceType;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -895,12 +894,8 @@ public class ZEditorResults {
 			if (cause == null) {
 				cause = e;
 			}
-			/*
-			 * This special trim function is necessary, because CZT sometimes
-			 * uses strange characters, e.g. #8232, which is not caught by
-			 * trim() function.
-			 */
-			String msg = "Cannot parse Z/Eves result: " + StringUtils.strip(cause.getMessage());
+			
+			String msg = "Cannot parse Z/Eves result: " + ZEditorUtil.clean(cause.getMessage()).trim();
 			ZEvesPlugin.getDefault().log(msg, cause);
 			return withWarning(msg, str);
 		}
