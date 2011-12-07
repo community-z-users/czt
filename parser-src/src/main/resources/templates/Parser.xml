@@ -3002,7 +3002,8 @@ precedence left         ZPIPE;
 precedence left         ZHIDE;
 precedence left         ZPROJ;
 precedence right        ZPRE;
-precedence left         EL, ERE, SRE, I, CROSS;
+precedence left         I, CROSS;
+precedence left         EL, ERE, SRE;
 precedence right        POWER, PRE, L;
 <add:oz>
 precedence right        POLY;

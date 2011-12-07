@@ -1510,7 +1510,11 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   "-"
         {
           String result = addSpace();
-          return result(result + ZString.SPACE + ZString.MINUS + ZString.SPACE);
+          result += result + ZString.SPACE + ZString.MINUS;
+          if (braceStack_.empty()) {
+            result += ZString.SPACE;
+          }
+          return result(result);
         }
   {SCRIPT} {IGNORE}* ({RELATION}|{PUNCTATION}|{FUNCTION}|{LETTER}|[0-9])
         {
