@@ -168,7 +168,16 @@ public class ZEditorUtil {
       }
     }
 
-    return result;
+    return clean(result);
+  }
+  
+  public static String clean(String text)
+  {
+    /*
+     * This special clean function is necessary, because CZT sometimes
+     * uses strange characters, e.g. #8232, which mess up the output.
+     */
+    return text.replace("\u2028", "");
   }
 
   public static void runOnReconcile(final ZEditor editor, final ReconcileRunnable callback)
