@@ -1207,29 +1207,30 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&rbag;";
     }
+    // Bags: from Mark Saaltink's comment about the API, which is different from what the tools accept
     else if (word.equals(ZEvesString.BCOUNT)) //Bag count
     {
-      result = "&sharp;";
+      result = "&bagcount;";//"&sharp;";
     }
     else if (word.equals(ZEvesString.OTIMES))//Bag scaling
     {
-        result = "&otimes;";
+        result = "&bagscale;"; //"&otimes;";
     }
     else if (word.equals(ZEvesString.INBAG))//Bag membership
     {
-      result = "&sqisin;";
+      result = "&inbag;"; //"&sqisin;";
     }
     else if (word.equals(ZEvesString.SUBBAGEQ))//sub-bag
     {
-      result = "&sqsubeq;";
+      result = "&subbageq;"; //"&sqsubeq;";
     }
     else if (word.equals(ZEvesString.UPLUS))//bag union
     {
-      result = "&uplus;";
+      result = "&bagUnion;";//"&uplus;";
     }
     else if (word.equals(ZEvesString.UMINUS))//bag difference
     {
-      result = "&uminus;";
+      result = "&bagDifference;"; //"&uminus;";
     }
     else if (word.equals(ZString.ARG))
     {

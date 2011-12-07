@@ -61,13 +61,13 @@ public class ZEvesXmlEntities {
         header.append(getEntityDef(ZString.RANGLE, "rang"));
         header.append(getEntityDef(ZString.LBIND, "lvang"));
         header.append(getEntityDef(ZString.RBIND, "rvang"));
-        // Bags
-        header.append(getEntityDef(ZEvesString.BCOUNT, "sharp"));//Bag count
-        header.append(getEntityDef(ZEvesString.OTIMES, "otimes"));//Bag scaling
-        header.append(getEntityDef(ZEvesString.INBAG, "sqisin"));//Bag membership
-        header.append(getEntityDef(ZEvesString.SUBBAGEQ, "sqsubeq"));//sub-bag
-        header.append(getEntityDef(ZEvesString.UPLUS, "uplus"));//bag union
-        header.append(getEntityDef(ZEvesString.UMINUS, "uminus"));//bag difference
+        // Bags: from Mark Saaltink's comment about the API, which is different from what the tools accept
+        header.append(getEntityDef(ZEvesString.BCOUNT, "bagcount"));//"sharp"));//Bag count
+        header.append(getEntityDef(ZEvesString.OTIMES, "bagscale")); //"otimes"));//Bag scaling
+        header.append(getEntityDef(ZEvesString.INBAG, "inbag"));//"sqisin"));//Bag membership
+        header.append(getEntityDef(ZEvesString.SUBBAGEQ, "subbageq"));//"sqsubeq"));//sub-bag
+        header.append(getEntityDef(ZEvesString.UPLUS, "bagUnion"));//uplus"));//bag union
+        header.append(getEntityDef(ZEvesString.UMINUS, "bagDifference"));//"uminus"));//bag difference
         header.append(getEntityDef(ZEvesString.LBAG, "lbag"));//bag union
         header.append(getEntityDef(ZEvesString.RBAG, "rbag"));//bag difference
 		
