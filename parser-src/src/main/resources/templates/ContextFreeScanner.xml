@@ -659,7 +659,7 @@ ZREFINES = //{NL_SPACE}*
   {SE} {DIGIT} {NW}
                 {
                    LocInt locInt =
-                     new LocInt(yytext().substring(1,2), getLocation());
+                     new LocInt(yytext().substring(1,2),getLocation());
                    return symbol(Sym.NUMSTROKE, locInt);
                 }
   {NUMERAL}     {  return symbol(Sym.NUMERAL,

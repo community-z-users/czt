@@ -32,6 +32,8 @@ import java.util.Stack;
 import net.sourceforge.czt.java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -182,7 +184,9 @@ public class KeywordScanner
     }
     else if (stroke instanceof NumStroke) {
       NumStroke numStroke = (NumStroke) stroke;
-      return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getDigit().getValue());
+      LocAnn locAnn = (LocAnn) stroke.getAnn(LocAnn.class);
+      LocInt locInt = new LocInt(numStroke.getDigit().getValue(), new LocInfoImpl(locAnn));
+      return new Symbol(Sym.NUMSTROKE, left, right, locInt);
     }
     else {
       throw new CztException("Unexpected stroke");
