@@ -512,4 +512,19 @@ public class NewZSpecificationWizardPage extends WizardPage
   {
     return fNewFile;
   }
+
+  @Override
+  public void setVisible(boolean visible)
+  {
+    if (fContainerText.getText().trim().length() == 0) {
+      // nothing in the container - request focus there
+      fContainerText.setFocus();
+    } else {
+      // focus the file name
+      fFileText.setFocus();
+    }
+    
+    
+    super.setVisible(visible);
+  }
 }
