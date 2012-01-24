@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.form.ZEvesBlurb;
 import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
@@ -37,7 +38,7 @@ public class ZEvesOutput
   private ZEvesBlurb info;
 
   @XmlAnyElement(lax = true)
-  private List<?> para = new ArrayList<Object>();
+  private List<?> para = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   
   private ZEvesProofTrace trace;
 
@@ -87,7 +88,7 @@ public class ZEvesOutput
     // proof case is a list of numbers, that go after
     // the proof result (first element in the para)
     // thus take all numbers starting from the second element
-    List<Integer> proofCaseNumbers = new ArrayList<Integer>();
+    List<Integer> proofCaseNumbers = new ArrayList<Integer>(para.size());
     for (int index = 1; index < para.size(); index++) {
       
       Object zEvesElem = para.get(index);

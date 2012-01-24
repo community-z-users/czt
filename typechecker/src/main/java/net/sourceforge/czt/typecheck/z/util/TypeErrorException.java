@@ -22,6 +22,7 @@ package net.sourceforge.czt.typecheck.z.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.parser.util.CztErrorList;
 
@@ -32,7 +33,7 @@ import net.sourceforge.czt.parser.util.CztErrorList;
 public class TypeErrorException extends net.sourceforge.czt.util.CztException
   implements CztErrorList {    
     
-    private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>();
+    private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     
     /** Creates a new instance of TypeErrorException
      * @param message 

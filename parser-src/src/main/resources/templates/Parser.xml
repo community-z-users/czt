@@ -37,6 +37,7 @@ import java.io.*;
 
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 <add:circus>
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
@@ -578,7 +579,7 @@ action code
 
     protected List&lt;String&gt; toStringList(List&lt;LocString&gt; list)
     {
-      List&lt;String&gt; result = new ArrayList&lt;String&gt;();
+      List&lt;String&gt; result = new ArrayList&lt;String&gt;(list.size());
       for (LocString ls : list) {
         result.add(ls.getString());
       }
@@ -1997,7 +1998,7 @@ parser code
       super(scanner);
       source_ = source;
       sectInfo_ = sectInfo;
-      errorList_ = new ArrayList&lt;CztError&gt;();
+      errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
       parseException_ = null;
       if (source != null) {
         try {

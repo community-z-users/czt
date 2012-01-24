@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 
@@ -55,7 +56,7 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
   public ParserState(Source loc)
   {
     super(loc);
-    labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>();
+    labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 //  NOTE: added LatexMarkupDirective manually, and the other via zeves_toolkit as Tex source.
 //

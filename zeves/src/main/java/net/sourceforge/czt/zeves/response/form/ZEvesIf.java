@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 
@@ -25,7 +26,7 @@ public class ZEvesIf {
 	private ZEvesKind kind = ZEvesKind.EXPR;
 
 	@XmlAnyElement(lax = true)
-	private List<?> form = new ArrayList<Object>();
+	private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	@XmlElement
 	private ZEvesType type;

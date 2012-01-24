@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.form.ZEvesBlurb;
 
@@ -276,7 +277,7 @@ public class ZEvesProofTrace
     }
     
     // add an empty list for the text (either matched or the end)
-    traceContents.put(text, new ArrayList<Object>());
+    traceContents.put(text, new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY));
   }
   
   private void addTraceElement(String traceText, Object elem) {
@@ -293,7 +294,7 @@ public class ZEvesProofTrace
    */
   public List<Object> getTraceElements(TraceType type) {
     
-    List<Object> elems = new ArrayList<Object>();
+    List<Object> elems = new ArrayList<Object>(type.texts.size());
     for (String typeText : type.texts) {
       List<Object> textElems = traceContents.get(typeText);
       if (textElems != null) {

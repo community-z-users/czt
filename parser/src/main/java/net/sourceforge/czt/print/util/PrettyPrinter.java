@@ -70,7 +70,8 @@ public class PrettyPrinter
     int spaceLeft = space;
     int processed = 0;
     Token previous = null;
-    for (ListIterator<Token> iter = list.listIterator(); iter.hasNext();) {
+    ListIterator<Token> iter = list.listIterator(); 
+    while (iter.hasNext()) {
       final Token current = iter.next();
       final int length = getLength(current);
       if (previous != null) { // handle space
@@ -90,6 +91,7 @@ public class PrettyPrinter
       processed += length;
       previous = current;
     }
+    iter = null;
     return spaceLeft;
   }
 

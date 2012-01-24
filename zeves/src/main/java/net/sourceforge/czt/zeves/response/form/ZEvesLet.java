@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.z.util.ZString;
@@ -26,7 +27,7 @@ public class ZEvesLet {
 	private ZEvesKind kind = ZEvesKind.EXPR;
 
 	@XmlElement(name = "letdef")
-	private List<ZEvesLetDef> letDefs = new ArrayList<ZEvesLetDef>();
+	private List<ZEvesLetDef> letDefs = new ArrayList<ZEvesLetDef>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	@XmlAnyElement(lax = true)
 	private Object form;

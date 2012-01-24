@@ -22,6 +22,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.parser.util.ErrorType;
 
 /**
@@ -33,7 +34,7 @@ import net.sourceforge.czt.parser.util.ErrorType;
  */
 public class SectWarningsAnn {
 
-  private final List<ErrorAnn> warnings_ = new ArrayList<ErrorAnn>();
+  private final List<ErrorAnn> warnings_ = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   
   public final List<? extends ErrorAnn> getWarnings()
   {

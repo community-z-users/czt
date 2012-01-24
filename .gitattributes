@@ -1042,6 +1042,7 @@ ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
+util/src/main/java/net/sourceforge/czt/base/util/PerformanceSettings.java -text
 util/src/test/java/net/sourceforge/czt/util/TermAnnTest.java -text
 vcg/pom.xml -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/AbstractBindingFilter.java -text
@@ -1212,6 +1213,7 @@ vcg/src/test/resources/tests/mondex/ch8_ps.tex -text
 vcg/src/test/resources/tests/mondex/ch9.tex -text
 vcg/src/test/resources/tests/mondex/ch9_ps.tex -text
 vcg/src/test/resources/tests/mondex/loadproofs.tex -text
+vcg/src/test/resources/tests/z/TID_proofs.old -text
 vcg/src/test/resources/tests/z/axioms.tex -text
 vcg/src/test/resources/tests/z/basicsm.tex -text
 vcg/src/test/resources/tests/z/basicsm_ref.tex -text

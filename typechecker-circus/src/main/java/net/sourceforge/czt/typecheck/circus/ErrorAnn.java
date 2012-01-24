@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.ast.LocAnn;
 
@@ -43,7 +44,7 @@ import net.sourceforge.czt.typecheck.circus.util.CarrierSet;
 public class ErrorAnn
     extends net.sourceforge.czt.typecheck.z.ErrorAnn {
   
-  private List<ErrorAnn> callErrors_ = new ArrayList<ErrorAnn>();
+  private List<ErrorAnn> callErrors_ = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   
   private final static String RESOURCE_NAME =
       "net.sourceforge.czt.typecheck.circus.TypeCheckResources";

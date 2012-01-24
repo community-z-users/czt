@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.z.util.ZString;
@@ -30,7 +31,7 @@ public class ZEvesFreeTypeDef {
 	private ZEvesName name;
 	
 	@XmlElement(name = "branch")
-	private List<ZEvesBranch> branches = new ArrayList<ZEvesBranch>();
+	private List<ZEvesBranch> branches = new ArrayList<ZEvesBranch>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	@Override
 	public String toString() {

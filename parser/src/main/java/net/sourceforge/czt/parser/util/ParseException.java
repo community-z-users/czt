@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.session.CommandException;
 
@@ -38,7 +39,7 @@ public class ParseException
 
   public ParseException()
   {
-    errorList_ = new ArrayList<CztError>();
+    errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
   /**
    * Constructs a new parse exception with the specified error list.

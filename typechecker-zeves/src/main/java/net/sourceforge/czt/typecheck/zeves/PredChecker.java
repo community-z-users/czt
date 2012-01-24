@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.zeves;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.NameTypePair;
@@ -53,7 +54,7 @@ public class PredChecker
   {
     super(typeChecker);
     zPredChecker_ = new net.sourceforge.czt.typecheck.z.PredChecker(typeChecker);
-    labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>();
+    labelledPreds_ = new ArrayList<Pair<Pred, ZEvesLabel>>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
 
   protected void clearLabelledPredList()

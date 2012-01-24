@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZKeyword;
@@ -883,6 +884,7 @@ public class ZPrintVisitor
         visit((Term) object);
       }
     }
+    array = null;
     return null;
   }
 
@@ -904,6 +906,7 @@ public class ZPrintVisitor
       }
     }
     if (braces) print(ZToken.RPAREN);
+    array = null;
     return null;
   }
 
@@ -922,6 +925,7 @@ public class ZPrintVisitor
       }
     }
     if (braces) print(ZToken.RPAREN);
+    array = null;
     return null;
   }
 
@@ -1231,7 +1235,7 @@ public class ZPrintVisitor
    */
   private String printOperator(OperatorName op, Object arguments)
   {
-    List<Object> args = new ArrayList<Object>();
+    List<Object> args = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     if (arguments instanceof List) {
       args = (List) arguments;
     }

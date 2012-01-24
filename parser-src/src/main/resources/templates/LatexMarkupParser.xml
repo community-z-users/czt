@@ -466,6 +466,7 @@ public class <class/>
                        ZParseMessage.MSG_LATEX_COMMAND_DEFINED_TWICE,
                        args,
                        location);
+    args = null;
   }
 
   <add:zeves>

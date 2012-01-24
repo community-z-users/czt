@@ -60,7 +60,7 @@ public class Pair<T1, T2>
 
   public static <A, B> List<Pair<A, B>> getPairList(A first, B second)
   {
-    List<Pair<A, B>> result = new ArrayList<Pair<A, B>>();
+    List<Pair<A, B>> result = new ArrayList<Pair<A, B>>(1);
     result.add(getPair(first, second));
     return result;
   }

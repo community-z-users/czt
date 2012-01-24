@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.testutil;
 
 import java.util.List;
 import java.util.ArrayList;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -315,6 +316,6 @@ public class TypeParser
 
   protected static <T> List<T> list()
   {
-    return new ArrayList<T>();
+    return new ArrayList<T>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
 }

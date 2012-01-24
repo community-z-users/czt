@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.form.ZEvesLetDef;
 import net.sourceforge.czt.zeves.response.form.ZEvesTheoremRef;
@@ -78,13 +79,13 @@ public class ZEvesProverCmd {
   private ZEvesProverCmd command;
 
   @XmlElement(name = "letdef")
-  private List<ZEvesLetDef> letDefs = new ArrayList<ZEvesLetDef>();
+  private List<ZEvesLetDef> letDefs = new ArrayList<ZEvesLetDef>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @XmlElement(name = "theoremref")
   private ZEvesTheoremRef theoremRef;
 
   @XmlAnyElement(lax = true)
-  private List<?> form = new ArrayList<Object>();
+  private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @Override
   public String toString()
@@ -108,7 +109,7 @@ public class ZEvesProverCmd {
     String commandStr = command != null ? command.print(printer) : "";
     String theoremRefStr = theoremRef != null ? printer.print(theoremRef) : "";
     
-    List<Object> formatArgs = new ArrayList<Object>();
+    List<Object> formatArgs = new ArrayList<Object>(6);
     formatArgs.add(commandStr);
     formatArgs.add(letDefsConcat);
     formatArgs.add(theoremRefStr);
@@ -124,7 +125,7 @@ public class ZEvesProverCmd {
   
   private List<String> printList(List<?> elems, ZEvesResponsePrinter printer) {
     
-    List<String> printed = new ArrayList<String>();
+    List<String> printed = new ArrayList<String>(elems.size());
     
     for (Object e : elems) {
       printed.add(printer.print(e));

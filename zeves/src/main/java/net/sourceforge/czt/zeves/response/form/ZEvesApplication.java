@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.zeves.response.form;
 
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ZEvesApplication
 {
 
   @XmlAnyElement(lax = true)
-  private List<?> form = new ArrayList<Object>();
+  private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @XmlElement
   private ZEvesType type;

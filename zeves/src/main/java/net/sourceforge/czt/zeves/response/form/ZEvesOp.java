@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
@@ -53,7 +54,7 @@ public class ZEvesOp
   private ZEvesType elType;
 
   @XmlAnyElement(lax = true)
-  private List<?> form = new ArrayList<Object>();
+  private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   public ZEvesName getName()
   {

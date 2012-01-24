@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.ZEvesProverCmd;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
@@ -46,7 +47,7 @@ public class ZEvesTheorem
    */
   @XmlElementWrapper(name = "formals")
   @XmlElement(name = "name")
-  private List<ZEvesName> formals = new ArrayList<ZEvesName>();
+  private List<ZEvesName> formals = new ArrayList<ZEvesName>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @XmlAnyElement(lax = true)
   private Object form;
@@ -56,7 +57,7 @@ public class ZEvesTheorem
    */
   @XmlElementWrapper(name = "proof")
   @XmlElement(name = "provercmd", type = ZEvesProverCmd.class)
-  private List<ZEvesProverCmd> proof = new ArrayList<ZEvesProverCmd>();
+  private List<ZEvesProverCmd> proof = new ArrayList<ZEvesProverCmd>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   public List<ZEvesProverCmd> getProof()
   {

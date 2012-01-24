@@ -162,6 +162,7 @@ public class ErrorAnn
     }
     String localised = getStringFromResourceBundle(getMessageKey());
     MessageFormat form = new MessageFormat(localised);
+    params = null;
     return form.format(formatted);
   }
   

@@ -1907,6 +1907,7 @@ abstract public class Checker<R>
         }
         result = (Type2) type.create(newChildren);
         copyAnns(type, result);
+        newChildren = null;
       }
     }
     return result;
@@ -1962,6 +1963,7 @@ abstract public class Checker<R>
         removeTypeAnns((Term) next);
       }
     }
+    children = null;
   }
   
   protected void removeErrorAnns(Term term)
@@ -2003,6 +2005,7 @@ abstract public class Checker<R>
         removeErrorAndTypeAnns((Term) next);
       }
     }
+    children = null;
   }
   
   /**

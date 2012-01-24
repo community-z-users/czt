@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
@@ -58,7 +59,7 @@ public class SectSummaryAnn implements TypecheckPropertiesKeys
     sectName_ = sectName;
     includeParents_ = true;
     includeStandardSections_ = false;
-    summary_ = new ArrayList<Pair<String, Integer>>();
+    summary_ = new ArrayList<Pair<String, Integer>>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
 
   public void generateSummary(SectionManager sm, ZSect zs)

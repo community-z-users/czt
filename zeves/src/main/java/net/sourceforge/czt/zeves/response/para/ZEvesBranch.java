@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
@@ -20,7 +21,7 @@ public class ZEvesBranch {
 //	private ZEvesName name;
 	
 	@XmlAnyElement(lax = true)
-	private List<?> form = new ArrayList<Object>();
+	private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 	
 	public ZEvesName getName() {
 		// always take the first in form

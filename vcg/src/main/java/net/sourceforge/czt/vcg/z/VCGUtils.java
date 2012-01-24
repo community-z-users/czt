@@ -30,6 +30,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
@@ -1248,7 +1249,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     int vcgErrors = 0;
     int parsingErrors = 0;
     int typeErrors = 0;
-    List<Throwable> result = new ArrayList<Throwable>();
+    List<Throwable> result = new ArrayList<Throwable>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     // if VCG during collection, expose possible def tbl errors
     if (e instanceof VCCollectionException && e.getCause() instanceof VCGException)
     {

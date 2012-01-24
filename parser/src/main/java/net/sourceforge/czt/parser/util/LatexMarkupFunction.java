@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
@@ -58,7 +59,7 @@ public class LatexMarkupFunction
    * added.
    */
   private List<MarkupDirective> directives_ =
-    new ArrayList<MarkupDirective>();
+    new ArrayList<MarkupDirective>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   /**
    * @throws NullPointerException if <code>section</code>

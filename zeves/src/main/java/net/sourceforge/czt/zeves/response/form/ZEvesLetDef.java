@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 /**
  * <!ELEMENT letdef (name, %form;)>
@@ -17,7 +18,7 @@ public class ZEvesLetDef {
 //	private ZEvesName name;
 	
 	@XmlAnyElement(lax = true)
-	private List<?> form = new ArrayList<Object>();
+	private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 	
 	public ZEvesName getName() {
 		// always take the first in form

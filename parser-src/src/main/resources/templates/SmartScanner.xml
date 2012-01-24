@@ -752,7 +752,8 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 
         // remove the offset size of each stroke.
         dwSize--;
-      }        
+      }
+      zsl = null;
 
       // update the decorword accordingly - no need for location update
       symbol.value = new Decorword(dw.getWord(), dw.getLocation());

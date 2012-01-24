@@ -449,7 +449,7 @@ public class DefinitionTableVisitor
     currentLocAnn_ = zSect.getAnn(LocAnn.class);
     // collect information from parents - accumulate errors rather than raise then
     List<DefinitionTable> parentTables =
-      new ArrayList<DefinitionTable>();
+      new ArrayList<DefinitionTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) 
     {
       try

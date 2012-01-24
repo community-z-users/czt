@@ -98,7 +98,7 @@ public class ThmTableVisitor
   public ThmTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List<ThmTable> parentTables = new ArrayList<ThmTable>();
+    List<ThmTable> parentTables = new ArrayList<ThmTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       ThmTable parentTable = get(parent.getWord(), ThmTable.class);
       parentTables.add(parentTable);

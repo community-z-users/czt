@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
@@ -20,7 +21,7 @@ public class ZEvesSchemaType
 {
 
   @XmlElement(name = "decl")
-  private List<ZEvesDecl> decls = new ArrayList<ZEvesDecl>();
+  private List<ZEvesDecl> decls = new ArrayList<ZEvesDecl>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @Override
   public String toString()

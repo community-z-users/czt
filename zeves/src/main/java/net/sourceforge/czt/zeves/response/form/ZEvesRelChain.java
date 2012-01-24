@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 
@@ -17,7 +18,7 @@ import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 public class ZEvesRelChain {
 
 	@XmlAnyElement(lax = true)
-	private List<?> items = new ArrayList<Object>();
+	private List<?> items = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 	
 	@Override
 	public String toString() {

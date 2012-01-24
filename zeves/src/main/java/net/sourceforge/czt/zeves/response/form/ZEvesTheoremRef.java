@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.XmlAnyElementList;
@@ -47,7 +48,7 @@ public class ZEvesTheoremRef
   @XmlElementWrapper
   @XmlElements({ @XmlElement(name = "rename", type = ZEvesRename.class),
                  @XmlElement(name = "replace", type = ZEvesReplace.class)})
-  private List<?> renaming = new ArrayList<Object>();
+  private List<?> renaming = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @Override
   public String toString()

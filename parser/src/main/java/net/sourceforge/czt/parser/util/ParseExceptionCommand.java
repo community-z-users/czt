@@ -20,6 +20,7 @@
 package net.sourceforge.czt.parser.util;
 
 import java.util.ArrayList;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.session.*;
 
@@ -32,7 +33,7 @@ public class ParseExceptionCommand
   {
     final Key<ParseException> key = new Key<ParseException>(name, ParseException.class);
     if (! manager.isCached(key)) {
-      manager.put(key, new ParseException(new ArrayList<CztError>()));
+      manager.put(key, new ParseException(new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY)));
     }
     return true;
   }

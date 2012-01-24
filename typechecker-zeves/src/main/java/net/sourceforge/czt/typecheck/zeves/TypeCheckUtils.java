@@ -24,6 +24,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.zeves.ast.ZEvesFactory;
 import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
 import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
@@ -262,7 +263,7 @@ public class TypeCheckUtils
     typeChecker.setUseNameIds(useNameIds);
     typeChecker.getWarningManager().setWarningOutput(warningOutput);
 
-    List<net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
+    List<net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     errors.addAll(guardedTypeCheck(typeChecker, term));
     for(net.sourceforge.czt.typecheck.z.ErrorAnn err : typeChecker.getWarningManager().warnErrors())
     {

@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.util.CztLogger;
 
 /**
@@ -110,7 +111,7 @@ public class WarningManager
     final String sect = getCurrentSectName();
     if (!sectWarnings_.containsKey(sect))
     {
-      sectWarnings_.put(sect, new ArrayList<String>());
+      sectWarnings_.put(sect, new ArrayList<String>(PerformanceSettings.INITIAL_ARRAY_CAPACITY));
     }
     sectWarnings_.get(sect).add(msg);
     return msg;

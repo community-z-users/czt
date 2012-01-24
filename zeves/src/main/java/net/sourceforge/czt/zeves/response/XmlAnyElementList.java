@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 /**
  * A special list to act for XmlAnyElement wrappers, because currently one
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 public class XmlAnyElementList {
 
 	@XmlAnyElement(lax = true)
-	private List<?> items = new ArrayList<Object>();
+	private List<?> items = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	public List<?> getItems() {
 		return items;

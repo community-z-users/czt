@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * A command to compute the URL for a Z section.
@@ -98,7 +97,7 @@ public class SourceLocator extends AbstractCommand
     }
     traceLog("SL-NO-CURDIR    = try czt.path");
     // try to retrieve czt.path
-    List<String> cztpaths = new ArrayList<String>();
+    List<String> cztpaths = new ArrayList<String>(2);
     String path = manager.getProperty(PROP_CZT_PATH);
     traceLog("SL-SM-czt.path  = " + path);
     // if empty or null, try czt.properties

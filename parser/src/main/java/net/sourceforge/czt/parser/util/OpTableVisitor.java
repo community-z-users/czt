@@ -97,7 +97,7 @@ public class OpTableVisitor
   public OpTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List<OpTable> parentTables = new ArrayList<OpTable>();
+    List<OpTable> parentTables = new ArrayList<OpTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       OpTable parentTable =
         (OpTable) get(parent.getWord(), OpTable.class);

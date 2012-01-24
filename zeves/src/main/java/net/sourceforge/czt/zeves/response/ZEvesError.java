@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 @XmlRootElement(name = "zerror")
 public class ZEvesError
@@ -26,7 +27,7 @@ public class ZEvesError
   private static final String TYPECHECK_ERR_STR = "[Type checker]";
 
   @XmlElement(name = "errormessage")
-  private List<ZEvesErrorMessage> errors = new ArrayList<ZEvesErrorMessage>();
+  private List<ZEvesErrorMessage> errors = new ArrayList<ZEvesErrorMessage>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @Override
   public String toString()

@@ -149,6 +149,7 @@ public class ${class.Name}
         }
       }
     }
+    args = null;
     return result;
   }
 #if($class.AdditionalCodeFilename)

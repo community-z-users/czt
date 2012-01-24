@@ -114,7 +114,7 @@ public class ProofTableVisitor
   public ProofTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    List<ProofTable> parentTables = new ArrayList<ProofTable>();
+    List<ProofTable> parentTables = new ArrayList<ProofTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       ProofTable parentTable = get(parent.getWord(), ProofTable.class);
       parentTables.add(parentTable);

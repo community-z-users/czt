@@ -46,6 +46,7 @@ import java.util.logging.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.util.Visitor;
 #foreach($p in $projects)
@@ -77,12 +78,12 @@ public class ${class.ImplName}
    * The list containing the data.
    */
   /*@ non_null @*/
-  private List<${type}> list_ = new ArrayList<${type}>();
+  private List<${type}> list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   /**
    * A list of annotations.
    */
-  private List<Object> anns_ = new java.util.ArrayList<Object>();
+  private List<Object> anns_ = new java.util.ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   /**
    * The default constructor.
@@ -260,7 +261,7 @@ public class ${class.ImplName}
 
   public Object[] getChildren()
   {
-    return list_.toArray();
+    return list_.isEmpty() ? new Object[0] : list_.toArray();
   }
 
   public ${class.ImplName} create(Object[] args)

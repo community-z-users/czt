@@ -17,6 +17,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import java.util.ArrayList;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
@@ -32,7 +33,7 @@ public class WarningManager
   private Markup markup_ = Markup.LATEX;
   private final SectionInfo sectInfo_;
   private Term term_ = null;
-  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>();  
+  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   
   public WarningManager()
   {

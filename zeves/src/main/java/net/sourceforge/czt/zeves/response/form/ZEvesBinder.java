@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.XmlAnyElementItem;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
@@ -60,7 +61,7 @@ public class ZEvesBinder {
 	@XmlElementWrapper(name = "decpart", required = true)
 	@XmlElements({ @XmlElement(name = "decl", type = ZEvesDecl.class),
 			@XmlElement(name = "schname", type = ZEvesSchName.class) })
-	private List<?> decPart = new ArrayList<Object>();
+	private List<?> decPart = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	/**
 	 * <!ELEMENT predpart (%form;)>

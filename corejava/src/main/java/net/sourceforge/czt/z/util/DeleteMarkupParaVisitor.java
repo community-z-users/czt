@@ -54,7 +54,7 @@ public class DeleteMarkupParaVisitor
    */
   public Object visitSpec(Spec spec)
   {
-    List<Sect> newSects = new ArrayList<Sect>();
+    List<Sect> newSects = new ArrayList<Sect>(spec.getSect().size());
     for (Sect sect : spec.getSect()) {
       newSects.add((Sect) sect.accept(this));
     }

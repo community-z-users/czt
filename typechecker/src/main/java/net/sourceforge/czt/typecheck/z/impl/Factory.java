@@ -29,6 +29,7 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 
@@ -113,6 +114,7 @@ public class Factory
     Term result = term.create(children);
     assert result.equals(term);
     copyAnns(term, result);
+    children = null;
     return result;
   }
 
@@ -168,7 +170,7 @@ public class Factory
                                        Type2 type,
                                        Type2 optionalType)
   {
-    List<Type2> types = new ArrayList<Type2>();
+    List<Type2> types = new ArrayList<Type2>(optionalType != null ? 2 : 1);
     types.add(type);
     if (optionalType != null) types.add(optionalType);
     GenericType genericType =
@@ -599,13 +601,13 @@ public class Factory
      
   public <E> List<E> list()
   {
-    java.util.List<E> result = new ArrayList<E>();
+    java.util.List<E> result = new ArrayList<E>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     return result;
   }
 
   public <E> List<E> list(E... elems)
   {
-    java.util.List<E> result = new ArrayList<E>();
+    java.util.List<E> result = new ArrayList<E>(elems.length + PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     result.addAll(java.util.Arrays.asList(elems));
     return result;
   }

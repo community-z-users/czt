@@ -937,7 +937,7 @@ public class SectionManager
   public void reset()
   {
     getLogger().finest("Resetting section manager key-mapped resources.");
-    List<Key<?>> keys = new ArrayList<Key<?>>();
+    List<Key<?>> keys = new ArrayList<Key<?>>(content_.keySet().size());
     for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
       final Key<?> key = iter.next();
       keys.add(key);

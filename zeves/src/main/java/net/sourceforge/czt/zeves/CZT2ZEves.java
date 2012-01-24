@@ -131,7 +131,7 @@ public class CZT2ZEves {
         {
             result = specToZEvesXML(term, manager, printNarrParaAsComment);
         } else {
-            result = new ArrayList<String>();
+            result = new ArrayList<String>(errors.size()+1);
             result.add("ERRORS");
             System.out.println("We expect a well-typed specification for Z/Eves translation.");
             System.out.println(errors.size() + " error(s) found:");

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.Visitor;
 
@@ -42,7 +43,7 @@ public abstract class TermImpl implements Term
   /**
    * A list of annotations.
    */
-  private List<Object> anns_ = new ArrayList<Object>();
+  private List<Object> anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   protected TermImpl()
   {

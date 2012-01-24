@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
@@ -68,10 +69,10 @@ public class ZEvesAbbrevDef
    */
   @XmlElementWrapper(name = "formals")
   @XmlElement(name = "name")
-  private List<ZEvesName> formals = new ArrayList<ZEvesName>();
+  private List<ZEvesName> formals = new ArrayList<ZEvesName>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   @XmlAnyElement(lax = true)
-  private List<?> form = new ArrayList<Object>();
+  private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   // note that differently from DTD, sometimes the name can be 
   // a ZEvesParenForm (e.g. for operator defs)

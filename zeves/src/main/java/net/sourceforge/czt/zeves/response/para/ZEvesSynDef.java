@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 
@@ -24,7 +25,7 @@ public class ZEvesSynDef {
 	private String opClass;
 	
 	@XmlElement(name = "name")
-	private List<ZEvesName> names = new ArrayList<ZEvesName>();
+	private List<ZEvesName> names = new ArrayList<ZEvesName>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	@Override
 	public String toString() {

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 
 import net.sourceforge.czt.parser.util.Token;
@@ -38,7 +39,7 @@ public class TokenSequence implements Token
     @                 (o instanceof Token) ||
     @                 (o instanceof TokenSequence));
     @*/
-  private List<Token> list_ = new ArrayList<Token>();
+  private List<Token> list_ = new ArrayList<Token>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   private final ZPrinter printer_;
 

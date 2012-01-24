@@ -2808,7 +2808,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
     int place = 1;
     Iterator<Oper> it = term.getOper().iterator();
-    List<Integer> opClassIdxs = new ArrayList<Integer>();
+    List<Integer> opClassIdxs = new ArrayList<Integer>(3);
     StringBuilder opsComment = new StringBuilder();
     Pair<String, DirectiveType> opDirective = null;
     while (it.hasNext())
@@ -3596,7 +3596,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     @Override
     public List<String> visitNarrSect(NarrSect term)
     {
-      List<String> result = new ArrayList<String>();
+      List<String> result = new ArrayList<String>(term.getContent().size()+1);
       result.add(comment("Narrative Section", ""));
       for (Object o : term.getContent())
       {
@@ -3629,7 +3629,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     @Override
     public List<String> visitZSect(ZSect term)
     {
-      List<String> result = new ArrayList<String>();
+      List<String> result = new ArrayList<String>(term.getZParaList().size() + 2);
       result.add(format(ZSECTION_BEGIN_PATTERN, term.getName(),
               getParents(term.getParent())));
       // mark section name
@@ -3652,7 +3652,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     @Override
     public List<String> visitSpec(Spec term)
     {
-      List<String> result = new ArrayList<String>();
+      List<String> result = new ArrayList<String>(term.getSect().size()+1);
       result.add(comment("Specification Information",
               String.valueOf(term.getVersion())));
       for (Sect sect : term.getSect())

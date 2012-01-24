@@ -163,7 +163,7 @@ public final class PrintUtils
           if (toValue.containsKey(with)) {
               toWarnings = toValue.get(with);
           } else {
-              toWarnings = new ArrayList<String>();              
+              toWarnings = new ArrayList<String>(entry.getValue().size());
               toValue.put(with, toWarnings);
           }          
           toWarnings.addAll(entry.getValue());

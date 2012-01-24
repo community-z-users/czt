@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
@@ -123,7 +124,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     definition_ = definition;
     defKind_ = definitionKind;
     carrierType_ = carrierType; // type maybe null
-    specialBindings_ = new ArrayList<NewOldPair>();
+    specialBindings_ = new ArrayList<NewOldPair>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     hasSyntheticTypeDueToCollusion_ = hasSynthTypes;
     hasLocalNamesCollusion_ = false;
     locals_ = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);

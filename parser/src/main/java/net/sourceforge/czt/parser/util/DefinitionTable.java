@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 
@@ -113,7 +114,7 @@ public class DefinitionTable extends InfoTable
     assert parentTable != null;
 
     // collect all exceptions from this one parent.
-    List<DefinitionException> exceptions = new ArrayList<DefinitionException>();
+    List<DefinitionException> exceptions = new ArrayList<DefinitionException>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
     // process them one-by-one, so add can check for duplicates.
     for (Entry<String, Definition> def : parentTable.definitions_.entrySet()) 

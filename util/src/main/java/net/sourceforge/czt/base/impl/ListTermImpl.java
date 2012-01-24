@@ -26,6 +26,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.ListTermVisitor;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.Visitor;
@@ -44,12 +45,12 @@ public class ListTermImpl<E>
    * The list containing the data.
    */
   /*@ non_null @*/
-  private List<E> list_ = new ArrayList<E>();
+  private List<E> list_ = new ArrayList<E>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   /**
    * A list of annotations.
    */
-  private List<Object> anns_ = new ArrayList<Object>();
+  private List<Object> anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   /**
    * Constructs an empty list term that accepts all Objects.
@@ -148,7 +149,7 @@ public class ListTermImpl<E>
   @Override
   public Object[] getChildren()
   {
-    return list_.toArray();
+    return list_.isEmpty() ? new Object[0] : list_.toArray();
   }
 
   @Override

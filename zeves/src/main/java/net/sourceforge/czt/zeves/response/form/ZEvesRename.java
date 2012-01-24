@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 /**
  * <!ELEMENT rename (name, name)>
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class ZEvesRename {
 
 	@XmlElement(name = "name")
-	private List<ZEvesName> names = new ArrayList<ZEvesName>();
+	private List<ZEvesName> names = new ArrayList<ZEvesName>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
 	@Override
 	public String toString() {

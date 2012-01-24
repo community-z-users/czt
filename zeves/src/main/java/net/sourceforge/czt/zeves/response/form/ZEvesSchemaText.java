@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
@@ -27,10 +28,10 @@ public class ZEvesSchemaText {
 	@XmlElements({
 		@XmlElement(name = "decl", type=ZEvesDecl.class),
 		@XmlElement(name = "schname", type=ZEvesSchName.class) })
-	private List<?> decPart = new ArrayList<Object>();
+	private List<?> decPart = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 	
 	@XmlAnyElement(lax = true)
-	private List<?> form = new ArrayList<Object>();
+	private List<?> form = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 	
 	@Override
 	public String toString() {

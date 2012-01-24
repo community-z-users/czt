@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.ast.Action2;
@@ -1103,7 +1104,7 @@ public class PrintVisitor
     ProcessParaVisitor<Object>
   {
 
-    List<ProcessPara> processPara_ = new ArrayList<ProcessPara>();
+    List<ProcessPara> processPara_ = new ArrayList<ProcessPara>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
     public Object visitProcessPara(ProcessPara term)
     {

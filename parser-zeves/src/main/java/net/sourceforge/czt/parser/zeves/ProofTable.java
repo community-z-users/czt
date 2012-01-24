@@ -98,7 +98,7 @@ public class ProofTable  extends InfoTable
 
   public List<ZName> checkAgainst(ThmTable thmTable)
   {
-    List<ZName> unknown = new ArrayList<ZName>();
+    List<ZName> unknown = new ArrayList<ZName>(proofTable_.keySet().size() / 2);
     for(ZName name : proofTable_.keySet())
     {
       if (thmTable.lookup(name.getWord()) == null)

@@ -96,7 +96,7 @@ public final class ZUtils
   public static List<NameTypePair> subsignature(Signature sig,
                                                 Class<?> decor)
   {
-    List<NameTypePair> result = new ArrayList<NameTypePair>();
+    List<NameTypePair> result = new ArrayList<NameTypePair>(sig.getNameTypePair().size());
     for (NameTypePair pair : sig.getNameTypePair()) {
       final ZName zName = pair.getZName();
       final ZStrokeList strokeList = zName.getZStrokeList();
@@ -530,6 +530,7 @@ public final class ZUtils
     T result = (T)term.create(children);
     assert result.equals(term);
     cloneAnns(term, result);
+    children = null;
     return result;
   }
 

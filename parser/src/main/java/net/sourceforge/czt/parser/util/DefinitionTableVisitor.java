@@ -113,7 +113,7 @@ public class DefinitionTableVisitor
   {
 	sectName_ = zSect.getName();
     List<DefinitionTable> parentTables =
-      new ArrayList<DefinitionTable>();
+      new ArrayList<DefinitionTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       DefinitionTable parentTable =
         (DefinitionTable) get(parent.getWord(), DefinitionTable.class);

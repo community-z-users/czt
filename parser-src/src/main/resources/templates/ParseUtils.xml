@@ -85,10 +85,12 @@ public class <class/> extends AbstractCommand
     if (source.getMarkup() == Markup.LATEX) {
       LatexParser parser = new LatexParser(source, sectInfo, properties);
       result = parser.parse();
+      parser = null;
     }
     else if (source.getMarkup() == Markup.UNICODE) {
       UnicodeParser parser = new UnicodeParser(source, sectInfo, properties);
       result = parser.parse();
+      parser = null;
     }
     else if (source.getMarkup() == Markup.ZML) {
       JaxbXmlReader reader = new JaxbXmlReader();
@@ -108,6 +110,7 @@ public class <class/> extends AbstractCommand
         sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect,
           calculateDependencies(zSect, ZSect.class));
       }
+      reader = null;
     }
     else {
       throw new UnsupportedOperationException();
@@ -189,6 +192,7 @@ public class <class/> extends AbstractCommand
     Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
     AxPara axPara = firstAxPara(spec);
     assert axPara != null;
+    tmpsectman = null;
     return axPara.getZSchText().getPred();
   }
 
@@ -272,6 +276,7 @@ public class <class/> extends AbstractCommand
     AxPara axPara = firstAxPara(spec);
     assert axPara != null;
     ConstDecl cdecl = (ConstDecl) axPara.getZSchText().getZDeclList().get(0);
+    tmpsectman = null;
     return cdecl.getExpr();
   }
   
@@ -333,6 +338,7 @@ public class <class/> extends AbstractCommand
     Spec spec = tmpsectman.get(new Key&lt;Spec&gt;(name, Spec.class));
     
     ZSect sect = (ZSect) spec.getSect().get(0);
+    tmpsectman = null;
     return ZUtils.assertZParaList(sect.getParaList());
   }
 

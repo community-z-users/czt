@@ -139,12 +139,12 @@ public abstract class JAstObjectImpl implements JAstObject
     String methodName = "getAllProperties";
     LOGGER.entering(CLASS_NAME, methodName);
 
-    List<Object> result = new ArrayList<Object>();
     List<Object> props = getProperties();
     List<Object> inhProps = getInheritedProperties();
     if (props == null || inhProps == null)
       return null;
 
+    List<Object> result = new ArrayList<Object>(inhProps.size() + props.size());
     result.addAll(inhProps);
     result.addAll(props);
 

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 
 /**
  *
@@ -48,7 +49,7 @@ public final class ReflectionUtils
 
   public static List<Class<?>> transitiveSuperClasses(Class<?> cls)
   {
-    List<Class<?>> result = new ArrayList<Class<?>>();
+    List<Class<?>> result = new ArrayList<Class<?>>(PerformanceSettings.INITIAL_ARRAY_CAPACITY * 2);
     Class<?> aClass = cls;
     while (aClass != null) {
       if (!result.contains(aClass)) {
@@ -61,7 +62,7 @@ public final class ReflectionUtils
 
   protected static List<Class<?>> transitiveInterfaces(Class<?>... cls)
   {
-    List<Class<?>> result = new ArrayList<Class<?>>();
+    List<Class<?>> result = new ArrayList<Class<?>>(cls.length);
     List<Class<?>> partialResult;
     for (Class<?> intf : cls) {
       partialResult = transitiveInterfaces(intf.getInterfaces());
@@ -89,7 +90,7 @@ public final class ReflectionUtils
 
   public static List<Class<?>> transitiveInterfaces(Class<?> cls)
   {
-    List<Class<?>> result = new ArrayList<Class<?>>();
+    List<Class<?>> result = new ArrayList<Class<?>>(PerformanceSettings.INITIAL_ARRAY_CAPACITY * 2);
     List<Class<?>> partialResult;
     Class<?> aClass = cls;
     while (aClass != null) {

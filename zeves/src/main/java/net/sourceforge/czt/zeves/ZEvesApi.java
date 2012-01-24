@@ -565,7 +565,7 @@ public class ZEvesApi
   {
 
     ZEvesOutput output = sendCommand(commandName, goalName, String.valueOf(stepNumber), term);
-    List<String> rules = new ArrayList<String>();
+    List<String> rules = new ArrayList<String>(output.getResults().size());
     for (Object res : output.getResults()) {
       if (res instanceof ZEvesName) {
         rules.add(((ZEvesName) res).getIdent());

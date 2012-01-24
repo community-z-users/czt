@@ -267,6 +267,8 @@ public class AstToPrintTreeVisitor
       for (int i = 1; i < array2.length; i++) {
         list.add(array2[i]);
       }
+      array1 = null;
+      array2 = null;
     }
     else if (And.NL.equals(andPred.getAnd())) {
       visitAndPredChild(andPred.getLeftPred(), false, list);

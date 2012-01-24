@@ -116,6 +116,7 @@ public final class VisitorUtils
     }
     T newTerm = (T) term.create(args);
     newTerm.getAnns().addAll(term.getAnns());
+    args = null;
     return newTerm;
   }
 

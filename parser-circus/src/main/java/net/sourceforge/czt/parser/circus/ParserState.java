@@ -21,13 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CircusAction;
-import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
-import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.Factory;
@@ -97,7 +96,7 @@ public class ParserState
   //private List<ActionPara> implicitlyDeclActPara_ =
   //   new ArrayList<ActionPara>();
   private List<Para> locallyDeclPara_ =
-    new ArrayList<Para>();
+    new ArrayList<Para>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   /**
    * <p>List of implicitly declared processes as process paragraphs,
    * where the process name is given according to
@@ -109,7 +108,7 @@ public class ParserState
    * section being parsed.</p>
    */
   private List<ProcessPara> implicitlyDeclProcPara_ =
-    new ArrayList<ProcessPara>();
+    new ArrayList<ProcessPara>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   private CircusAction mainAction_ = null;
   private Factory factory_ = new Factory();
 
@@ -656,7 +655,7 @@ public class ParserState
     return true;
   }
   private List<Pair<String, LocInfo>> processScopeWarnings_ =
-    new ArrayList<Pair<String, LocInfo>>();
+    new ArrayList<Pair<String, LocInfo>>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   // procName, LocInfo
   private Pair<Name, LocInfo> processEndWarning_;
 

@@ -482,7 +482,7 @@ public final class CircusUtils
   public static String createFullQualifiedName(String name, int idSeed)
   {
     String pattern = FULLNAME_UNIQUE_ID;
-    List<String> params = new ArrayList<String>();    
+    List<String> params = new ArrayList<String>(2);
     params.add(name);
     params.add(String.valueOf(idSeed));
     return MessageFormat.format(pattern, params.toArray());
@@ -491,10 +491,10 @@ public final class CircusUtils
   public static String createFullQualifiedName(String name, LocAnn loc, boolean usePhysicalLoc)
   {
     String pattern, result;
-    List<String> params = new ArrayList<String>();    
-    params.add(name);
     if (loc != null)
     {
+      List<String> params = new ArrayList<String>();
+      params.add(name);
       pattern = FULLNAME_LINE_COLUMN;
       params.add(loc.getLine().toString());
       params.add(loc.getCol().toString());      
