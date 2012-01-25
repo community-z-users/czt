@@ -53,7 +53,7 @@ public class Key<T>
   {
     if (other == null || ! (other instanceof Key))
       return false;
-    Key key2 = (Key) other;
+    Key<?> key2 = (Key<?>) other;
     return name_.equals(key2.name_) && type_.equals(key2.type_);
   }
 
