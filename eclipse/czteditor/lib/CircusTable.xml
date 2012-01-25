@@ -43,7 +43,15 @@
      <item name="&#x22A2;?"
            description="Conjecture"
            unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
-           latex="\begin{zed}&#xA;  \vdash? PRED&#xA;\end{zed}&#xA;"/>
+           latex="\begin{theorem}{NAME}&#xA;  \vdash? PRED&#xA;\end{theorem}&#xA;"/>
+     <item name="Circus"
+           description="Circus"
+           unicode="&#x2500;&#xA; &#xA; &#x2514;&#xA;"
+           latex="\begin{circus}&#xA; &#xA;\end{circus}&#xA;"/> 
+     <item name="Action"
+           description="Action paragraph"
+           unicode="&#x2014;&#xA; Name &#x2259; &#xA;&#x2514;&#xA;"
+           latex="\begin{circusaction}&#xA; Name ~~\circdef~~ Action &#xA;\end{circusaction}&#xA;"/>         
   </row>
   <row heading="Predicates">
     <item name="&#x2200;"
@@ -284,5 +292,142 @@
     <item name="&#x2198;1&#x2196;"
           description="Subscript decoration"
           latex="_{1}"/>
+  </row> 
+  <row heading="CSP Actions">
+    <item name="Skip"
+          description="Successful termination"
+          latex="\Skip"/>      
+    <item name="Stop"
+          description="Deadlock"
+          latex="\Stop"/>                
+    <item name="Chaos"
+          description="Divergence"
+          latex="\Chaos"/>                          
+    <item name="c &#x27F6; A"
+          description="Synchronisation"
+          latex="c \then A"/>        
+    <item name="c ?x &#x2236; P &#x27F6; A"
+          description="Input prefixing"
+          latex="c?x \prefixcolon P \then A"/>          
+    <item name="c!x &#x27F6; A"
+          description="Output prefixing"
+          latex="c!x \then A"/>                    
+    <item name="&#x00B5; X &#x2219; A"
+          description="Recursion"
+          latex="\circmu\ X \circspot A"/>
+    <item name="&#x3014; g &#x3015; &#x0026; A"
+          description="Guarded action"
+          latex="\lcircguard g \rcircguard \circguard A"/>          
+    <item name="A &#x037E; B"
+          description="Sequential composition"
+          latex="A \circseq B"/>    
+    <item name="A &#x25B3; B"
+          description="Action Interrupt"
+          latex="A \circinterrupt B"/>    
+    <item name="A &#x25FB; B"
+          description="External choice"
+          latex="A \extchoice B"/>
+    <item name="A &#x2293; B"
+          description="Internal choice"
+          latex="A \intchoice B"/>
+    <item name="A &#x2980; B"
+          description="Action interleave with empty name sets"
+          latex="A \interleave B"/>          
+    <item name="&#x27E6;..&#x27E7;"
+          description="Action parallel composition with empty name sets and explicit channel set"
+          unicode="A &#x27E6; &#x2983; cs &#x2984; &#x27E7; B"
+          latex="A \lpar \lchanset cs \rchanset \rpar B"/>                    
+    <item name="A &#x2AF5; B"
+          description="Hiding"
+          latex="A \circhide B"/>
   </row>
-</table>
+  <row heading="Circus Acts.">
+    <item name="&#x2768; SExp &#x2769;"
+          description="Schema expression action"
+          latex="\lschexpract\ SExp \rschexpract"/>
+    <item name="A &#x301A; nA | nB &#x301B; B"
+          description="Action interleave"
+          unicode="A &#x301A; nA | nB &#x301B; B"
+          latex="A \linter nA | nB \rinter B"/>          
+    <item name="A &#x27E6; nA | &#x2983; c &#x2984; | nsB &#x27E7; B"
+          description="Action parallel composition with explicit channel set"
+          unicode="A &#x27E6; nsA | &#x2983; c &#x2984; | nsB &#x27E7; B"
+          latex="A \lpar nsA | \lchanset c \rchanset | nsB \rpar B"/>                                
+  </row>  
+  <!--
+  <row heading="Circus Proc.">
+    <item name="x: T &#x2299; P"
+          description="Indexed process"
+          latex="x: T \circindex P"/>                  
+  </row>    -->
+  <row heading="Commands">
+    <item name="var"
+          description="Local variable declaration"
+          unicode="var x: T &#x2219; A &#xA;"
+          latex="\circvar\ x : T @ A &#xA;"/>  
+    <item name=":="
+          description="Assignment"
+          unicode="x := y"
+          latex="x := y"/>  
+    <item name="if"
+          description="If-then-else statement"
+          unicode="if g1 &#x27FC; A1 &#xA; &#x25AF; g2 &#x27FC; A2 &#xA; fi &#xA;"
+          latex="\circif\ g1 \circthen\ A1 &#xA; \t1 \circelse\ g2 \circthen\ A2 &#xA; \circfi\ &#xA;"/>  
+    <item name="do"
+          description="do-od (loop) statement"
+          unicode="do g &#x27FC; A &#xA; od &#xA;"
+          latex="\circdo\ g \circthen\ A &#xA; \circod &#xA;"/>                      
+    <item name="stmt"
+          description="Specification statement"
+          unicode="x : [ P, Q ]"
+          latex="x : [ P, Q ]"/>                      
+<!--          
+    <item name="con"
+          description="Logical constant declaration"
+          unicode="cons x: T &#x2219; A &#xA;"
+          latex="\circons\ x : T \circspot A &#xA;"/>                
+-->          
+    <item name="val"
+          description="Parameter passed by value"
+          unicode="val x: T"
+          latex="\circval\ x : T"/>
+    <item name="res"
+          description="Parameter passed by result (reference)"
+          unicode="res x: T"
+          latex="\circval\ x : T"/>            
+    <item name="vres"
+          description="Parameter passed by value-result"
+          unicode="vres x: T "
+          latex="\circvres\ x : T "/>          
+  </row>
+  <row heading="Rep. CSP Act.">
+    <item name="&#x2A1F;"
+          description="Replicated sequential composition"
+          unicode="&#x2A1F; x: T &#x2219; A(x)"
+          latex="\Semi x: T \circspot A(x)"/>    
+    <item name="&#x25A1;" 
+          description="Replicated external choice"
+          unicode="&#x25A1; x: T &#x2219; A(x)"
+          latex="\Extchoice x: T \circspot A(x)"/>    
+    <item name="&#x2294;" 
+          description="Replicated internal choice"
+          unicode="&#x2294; x: T &#x2219; A(x)"
+          latex="\Intchoice x: T \circspot A(x)"/>    
+  </row>
+  <!-- Support for Circus Time -->
+  <row heading="Circus Time">
+    <item name="A &#x21BB; TExp &#x22B3; B"
+          description="Timeout Action"
+          unicode="A &#x21BB; TExp &#x27E7; B"
+          latex="A \lcirctimeout TExp \rcirctimeout B"/>
+    <item name="wait TExp"
+          description="Wait Action"
+          unicode="wait TExp"
+          latex="\circwait TExp"/>
+    <item name="A deadline TExp"
+          description="Deadline Action"
+          unicode="A deadline TExp"
+          latex="A \circdeadline TExp"/>
+  </row>
+</table>         
+
