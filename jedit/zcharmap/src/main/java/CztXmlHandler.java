@@ -1,51 +1,60 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import com.microstar.xml.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.ext.DefaultHandler2;
 
-public class CztXmlHandler extends HandlerBase
+/**
+ * 
+ * @author Andrius Velykis
+ */
+public class CztXmlHandler extends DefaultHandler2
 {
   private List<List<Object>> table_ = new ArrayList<List<Object>>();
   private List<Object> row_;
-  private String name_;
-  private String unicode_;
-  private String latex_;
-  private String description_;
 
   public List<List<Object>> getList()
   {
     return table_;
   }
-
-  public void attribute(String name, String value, boolean isSpecified)
+  
+  @Override
+  public void startElement(String uri, String localName, String qName, Attributes attributes)
+      throws SAXException
   {
-    if ("HEADING".equalsIgnoreCase(name)) {
-      row_ = new ArrayList<Object>();
-      row_.add(value);
-    }
-    else if ("NAME".equalsIgnoreCase(name)) {
-      name_ = value;
-    }
-    else if ("UNICODE".equalsIgnoreCase(name)) {
-      unicode_ = value;
-    }
-    else if ("LATEX".equalsIgnoreCase(name)) {
-      latex_ = value;
-    }
-    else if ("DESCRIPTION".equalsIgnoreCase(name)) {
-      description_ = value;
-    }
-  }
-
-  public void endElement(String name)
-  {
-    if ("ITEM".equalsIgnoreCase(name)) {
-      if (unicode_ == null) unicode_ = name_;
-      row_.add(new ZChar(name_, unicode_, latex_, description_));
-      name_ = unicode_ = latex_ = description_ = null;
-    }
-    else if ("ROW".equalsIgnoreCase(name)) {
+    if ("row".equals(qName)) {
+      row_ = createRow(attributes);
       table_.add(row_);
     }
+    else if ("item".equals(qName)) {
+      row_.add(createZChar(attributes));
+    }
   }
+
+  private List<Object> createRow(Attributes attributes)
+  {
+    List<Object> row = new ArrayList<Object>();
+
+    String rowHeading = attributes.getValue("heading");
+    row.add(rowHeading);
+
+    return row;
+  }
+
+  private ZChar createZChar(Attributes attributes)
+  {
+
+    String name = attributes.getValue("name");
+    String description = attributes.getValue("description");
+    String unicode = attributes.getValue("unicode");
+    String latex = attributes.getValue("latex");
+
+    if (unicode == null) {
+      unicode = name;
+    }
+
+    return new ZChar(name, unicode, latex, description);
+  }
+
 }

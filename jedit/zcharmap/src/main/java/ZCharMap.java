@@ -26,10 +26,11 @@ import java.util.List;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.msg.*;
-import com.microstar.xml.*;
 import java.util.ArrayList;
 
 /**
@@ -234,44 +235,47 @@ public class ZCharMap extends JPanel
       mTableArray = getTable(url);
     }
 
-    
     private Object[][] getTable(URL url)
     {
+      CztXmlHandler handler = new CztXmlHandler();
+
       try {
-        InputStream stream = url.openStream();
-        XmlParser parser = new XmlParser();
-        CztXmlHandler handler = new CztXmlHandler();
-        parser.setHandler(handler);
-        parser.parse(null, null, stream, null);
-        List<List<Object>> lists = handler.getList();
-        int maxsize = 0;
-        for (List<Object> list : lists) {
-          int size = list.size();
-          if (size > maxsize) maxsize = size;
-        }
-        // row/col
-        Object[][] result = new Object[lists.size()][maxsize];
-        widestCollumn.clear();
-        for(int k = 0; k < maxsize; k++) {
-          widestCollumn.add("");
-        }
-        int i = 0;
-        for (List<Object> list : lists) {
-          int j = 0;
-          for (Object elem : list) {
-            result[i][j] = elem;
-            if (elem.toString().length() > widestCollumn.get(j).length()) {
-              widestCollumn.add(j, elem.toString());
-            }
-            j++;
-          }
-          i++;        
-        }          
-        return result;
+    	InputStream stream = url.openStream();
+
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser saxParser = factory.newSAXParser();
+
+        saxParser.parse(stream, handler);
       }
       catch (Exception e) {
-        throw new RuntimeException(e);
+    	throw new RuntimeException(e);
       }
+    	
+      List<List<Object>> lists = handler.getList();
+      int maxsize = 0;
+      for (List<Object> list : lists) {
+        int size = list.size();
+        if (size > maxsize) maxsize = size;
+      }
+      // row/col
+      Object[][] result = new Object[lists.size()][maxsize];
+      widestCollumn.clear();
+      for(int k = 0; k < maxsize; k++) {
+        widestCollumn.add("");
+      }
+      int i = 0;
+      for (List<Object> list : lists) {
+        int j = 0;
+        for (Object elem : list) {
+          result[i][j] = elem;
+          if (elem.toString().length() > widestCollumn.get(j).length()) {
+            widestCollumn.add(j, elem.toString());
+          }
+          j++;
+        }
+        i++;
+      }
+      return result;
     }
 
     /**
