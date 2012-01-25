@@ -35,6 +35,8 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.parser.util.SectParentResolver;
+import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsException;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -566,7 +568,6 @@ abstract public class Checker<R>
     List<Parent> parents = zSect.getParent();
     List<String> names = factory().list();
     for (Parent parent : parents) {
-      parent.accept(specChecker());
       if (names.contains(parent.getWord())) {
         Object [] params = {parent.getWord(), sectName()};
         error(parent, ErrorMessage.REDECLARED_PARENT, params);
@@ -574,10 +575,36 @@ abstract public class Checker<R>
       else if (parent.getWord().equals(sectName())) {
         Object [] params = {parent.getWord()};
         error(parent, ErrorMessage.SELF_PARENT, params);
+        // do not continue checking, because it gets into a loop
+        continue;
       }
       else {
+        
+        try {
+          SectParentResolver.checkCyclicParents(parent.getWord(), sectInfo());
+          
+        } catch (CyclicSectionsException cse) {
+          
+          StringBuilder parentLoop = new StringBuilder();
+          String delim = "";
+          for (String pName : cse.getCyclicSects()) {
+            parentLoop.append(delim).append(pName);
+            delim = " > ";
+          }
+          
+          error(parent, ErrorMessage.CYCLIC_PARENT, new Object[]{parentLoop.toString()} );
+          // do not continue checking, because it gets into a loop
+          continue;
+          
+        } catch (CommandException ce) {
+          
+          String msg = "Problems resolving the parent relationships: " + ce.getMessage();
+          throw new CztException(msg, ce);
+        }
+        
         names.add(parent.getWord());
       }
+      parent.accept(specChecker());
     }
 
     //get and visit the paragraphs of the current section
