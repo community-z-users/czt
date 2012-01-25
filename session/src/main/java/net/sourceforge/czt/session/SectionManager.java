@@ -569,7 +569,9 @@ public class SectionManager
 
   private void removeDependencies(Key<?> key)
   {
-    Set<Key<?>> depKeys = getDependencies(key);
+    // clear the dependency list - otherwise recursive removal 
+    // may loop if there are cyclic dependencies 
+    Set<Key<?>> depKeys = dependencies_.remove(key);
     if (depKeys != null)
     {
       for(Key<?> dkey : depKeys)
