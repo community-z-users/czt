@@ -734,11 +734,11 @@ parser/src/test/resources/tests/cyclic/lcycle2.zed -text
 parser/src/test/resources/tests/cyclic/lcycle3.zed -text
 parser/src/test/resources/tests/cyclic/lcycle4.zed -text
 parser/src/test/resources/tests/cyclic/selfParentLatex.zed -text
-parser/src/test/resources/tests/cyclic/selfParentUnicode.zed8 -text svneol=unset#unset
-parser/src/test/resources/tests/cyclic/ucycle1.zed8 -text svneol=unset#unset
-parser/src/test/resources/tests/cyclic/ucycle2.zed8 -text svneol=unset#unset
-parser/src/test/resources/tests/cyclic/ucycle3.zed8 -text svneol=unset#unset
-parser/src/test/resources/tests/cyclic/ucycle4.zed8 -text svneol=unset#unset
+parser/src/test/resources/tests/cyclic/selfParentUnicode.zed8 -text
+parser/src/test/resources/tests/cyclic/ucycle1.zed8 -text
+parser/src/test/resources/tests/cyclic/ucycle2.zed8 -text
+parser/src/test/resources/tests/cyclic/ucycle3.zed8 -text
+parser/src/test/resources/tests/cyclic/ucycle4.zed8 -text
 parser/src/test/resources/tests/z/basicsm.tex -text
 parser/src/test/resources/tests/z/explicitRefExpr.tex -text
 parser/src/test/resources/tests/z/unboxedparalist.tex -text
