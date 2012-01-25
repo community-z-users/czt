@@ -220,6 +220,12 @@ public final class PrintUtils
     if (!warnings.isEmpty()) {
         System.out.println(warnings);
     }
+
+    toPrintTree = null;
+    tree = null;
+    scanner = null;
+    parser = null;
+    printer = null;
   }
 
   /**
@@ -265,6 +271,12 @@ public final class PrintUtils
     catch (Exception e) {
       throw new CztException(e);
     }
+
+    toPrintTree = null;
+    tree = null;
+    scanner = null;
+    parser = null;
+    printer = null;
   }
 
   /**

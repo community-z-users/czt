@@ -646,8 +646,10 @@ public class DefinitionTable extends InfoTable
                     }
                     // try again
                     if (next.getValue().size() <= 1) it.remove();
+                    dit = null;
                   }
                 }
+                it = null;
                 if (!possiblyColludedNames.isEmpty())
                 {
                   if (!modifyDeclaredTypesOfColludedNames)
@@ -929,6 +931,7 @@ public class DefinitionTable extends InfoTable
               }
             }
           }
+          it = null;
           // if not hiding, add the renamed one
           if (localDefToAdd != null)
           {
@@ -1090,6 +1093,7 @@ public class DefinitionTable extends InfoTable
         if (itE.hasNext())
           buffer.append("\n\t");
       }
+      itE = null;
       buffer.append('\n');
       return buffer.toString();
     }
@@ -1129,9 +1133,11 @@ public class DefinitionTable extends InfoTable
              if (itE.hasNext())
                buffer.append("\n\t\t");
            }
+           itE = null;
          }
          buffer.append("}\n\t");
       }
+      it = null;
     }
     buffer.append('\n');
     return buffer.toString();

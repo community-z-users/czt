@@ -735,6 +735,7 @@ public class PrintVisitor
       result.append(",\n\t");
       result.append(visit(it.next()));
     }
+    it = null;
     return result.toString();
   }
 
@@ -793,6 +794,7 @@ public class PrintVisitor
         result.append(" = ");
         result.append(visit(it.next()));
       }
+      it = null;
       return result.toString();
     }
   }

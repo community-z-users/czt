@@ -504,7 +504,8 @@ public final class ZUtils
   public static boolean containsObject(List<?> list, Object o)
   {
     boolean result = false;
-    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
+    Iterator<?> iter = list.iterator();
+    while (iter.hasNext())
     {
       Object next = iter.next();
       if (next == o)
@@ -513,6 +514,7 @@ public final class ZUtils
         break;
       }
     }
+    iter = null;
     return result;
   }
 

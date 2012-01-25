@@ -50,6 +50,11 @@ public class LatexPrinterCommand
     catch (Exception e) {
       throw new CztException(e);
     }
+
+    tree = null;
+    scanner = null;
+    parser = null;
+    printer = null;
   }
 
   /* That's how I expect it to work (using the pretty printer)

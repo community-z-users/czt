@@ -114,7 +114,8 @@ public abstract class TermImpl implements Term
   public <T> void removeAnn(Class<T> aClass)
   {
     List<Object> anns = getAnns();
-    for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
+    Iterator<Object> iter = anns.iterator();
+    while (iter.hasNext())
     {
       Object ann = iter.next();
       if (aClass.isInstance(ann))
@@ -122,6 +123,7 @@ public abstract class TermImpl implements Term
         iter.remove();
       }
     }
+    iter = null;
   }
 
   @Override
@@ -139,6 +141,7 @@ public abstract class TermImpl implements Term
     {
       iter.remove();
     }
+    iter = null;
     return result;
   }
 

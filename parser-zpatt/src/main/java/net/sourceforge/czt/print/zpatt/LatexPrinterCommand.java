@@ -55,6 +55,12 @@ public class LatexPrinterCommand
       writer.close();
       manager.put(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
+
+      toPrintTree = null;
+      tree = null;
+      scanner = null;
+      parser = null;
+
       return true;
     }
     catch (IOException e) {

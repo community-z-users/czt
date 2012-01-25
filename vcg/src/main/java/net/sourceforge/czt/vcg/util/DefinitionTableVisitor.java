@@ -539,7 +539,8 @@ public class DefinitionTableVisitor
   private boolean containsObject(List<?> list, Object o)
   {
     boolean result = false;
-    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
+    Iterator<?> iter = list.iterator();
+    while (iter.hasNext())
     {
       Object next = iter.next();
       if (next == o)
@@ -548,6 +549,7 @@ public class DefinitionTableVisitor
         break;
       }
     }
+    iter = null;
     return result;
   }
 

@@ -492,6 +492,7 @@ public class PrintVisitor
           }
         }
       }
+      it = null;
 //      boolean first = true;
 //      for (NameTypePair pair : signature.getNameTypePair()) {
 //        if (! first) result.append("; ");

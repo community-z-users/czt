@@ -206,7 +206,8 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   private static boolean containsObject(List<?> list, Object o)
   {
     boolean result = false;
-    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
+    Iterator<?> iter = list.iterator();
+    while (iter.hasNext())
     {
       Object next = iter.next();
       if (next == o)
@@ -215,6 +216,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
         break;
       }
     }
+    iter = null;
     return result;
   }
 
@@ -585,6 +587,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
           buffer.append(oldName);
         }
       }
+      itB = null;
     }
     buffer.append(" }");
     return buffer.toString();
@@ -609,6 +612,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
         //buffer.append("=");
         buffer.append(entry2.getValue().toString(simple));
       }
+      itE = null;
       //buffer.append('\n');
       //buffer.append(asMany('\t', localsDepth_+1));
     }

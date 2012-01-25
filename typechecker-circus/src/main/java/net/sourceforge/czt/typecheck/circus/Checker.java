@@ -1224,6 +1224,7 @@ public abstract class Checker<R>
         }
         i++;
       }
+      itExpr = null;
     }
     
     checkCircusNameStrokes(channelNames);
@@ -2397,7 +2398,8 @@ public abstract class Checker<R>
   {    
     Map<String, ZName> map = factory().hashMap();
     int i = 1;
-    for (Iterator<Name> iter = declNames.iterator(); iter.hasNext();)
+    Iterator<Name> iter = declNames.iterator();
+    while (iter.hasNext())
     {
       ZName first = ZUtils.assertZName(iter.next());
       String firstName = ZUtils.toStringZName(first);
@@ -2413,7 +2415,8 @@ public abstract class Checker<R>
       }
       map.put(firstName.intern(), first);
       i++;
-    }    
+    }
+    iter = null;
   }
   
   protected void checkForDuplicateNames(List<NameTypePair> pairs, Term term)
@@ -2880,7 +2883,8 @@ public abstract class Checker<R>
           net.sourceforge.czt.typecheck.z.ErrorAnn error = it.next();
           // do not consider warnings
           result = !error.getErrorType().equals(ErrorType.ERROR);
-        }      
+        }
+        it = null;
       }
     }
     return result;

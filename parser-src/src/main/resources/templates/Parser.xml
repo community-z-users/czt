@@ -1975,6 +1975,7 @@ parser code
           CztLogger.getLogger(<class/>.class).warning(e.toString());
         }
       }
+      it = null;
       // in case there are no more warnings...
       if (hasErrors())
       {
@@ -3462,6 +3463,7 @@ unboxedParagraphList ::=
                         it.remove();
                     }
                 }
+                it = null;
              }
            </add:circus>
            RESULT = uil;

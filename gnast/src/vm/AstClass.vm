@@ -151,7 +151,8 @@ public class ${class.ImplName}
   public <T> void removeAnn(Class<T> aClass)
   {
     List<Object> anns = getAnns();
-    for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
+    Iterator<Object> iter = anns.iterator();
+    while (iter.hasNext())
     {
       Object ann = iter.next();
       if (aClass.isInstance(ann))
@@ -159,6 +160,7 @@ public class ${class.ImplName}
         iter.remove();
       }
     }
+    iter = null;
   }
 
   @Override
@@ -176,6 +178,7 @@ public class ${class.ImplName}
     {
       iter.remove();
     }
+    iter = null;
     return result;
   }
 

@@ -1139,6 +1139,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           modified = true;
         }
       }
+      it = null;
       return modified;
     }
   }
@@ -1176,6 +1177,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           decls.add(id);
         }
       }
+      it = null;
     }
 
     // process any remaining bindings
@@ -1213,6 +1215,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         }
 
       }
+      it = null;
     }
 
     // update the decl list with created bindings as either VarDecl or InclDecl

@@ -1266,7 +1266,8 @@ public class ZPrintVisitor
         }
         SetExpr setExpr = (SetExpr) arg;
         List<Expr> sequence = setExpr.getZExprList();
-        for (Iterator<Expr> i = sequence.iterator(); i.hasNext();) {
+        Iterator<Expr> i = sequence.iterator();
+        while (i.hasNext()) {
           Expr o = i.next();
           if (! (o instanceof TupleExpr)) {
             return "Expected TupleExpr but got " + o;
@@ -1279,6 +1280,7 @@ public class ZPrintVisitor
           visit(tupleContents.get(1));
           if (i.hasNext()) print(ZKeyword.COMMA);
         }
+        i = null;
         pos++;
       }
       else {
@@ -1312,19 +1314,22 @@ public class ZPrintVisitor
   protected void printTermList(List<? extends Term> list, Token separator)
   {
     if (separator == null) throw new NullPointerException();
-    for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
+    Iterator<? extends Term> iter = list.iterator();
+    while (iter.hasNext()) {
       Term term = (Term) iter.next();
       visit(term);
       if (iter.hasNext()) {
         print(separator);
       }
     }
+    iter = null;
   }
 
   protected void printTermList(List<? extends Term> list, List<? extends Token> separators)
   {
     if (separators == null || separators.isEmpty()) throw new NullPointerException();
-    for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
+    Iterator<? extends Term> iter = list.iterator();
+    while (iter.hasNext()) {
       Term term = (Term) iter.next();
       visit(term);
       if (iter.hasNext())
@@ -1335,8 +1340,10 @@ public class ZPrintVisitor
           Token separator = sepit.next();
           print(separator);
         }
+        sepit = null;
       }
     }
+    iter = null;
   }
 
   /**
@@ -1345,13 +1352,15 @@ public class ZPrintVisitor
   protected void printTermList(List<? extends Term> list, String separator)
   {
     if (separator == null) throw new NullPointerException();
-    for (Iterator<? extends Term> iter = list.iterator(); iter.hasNext();) {
+    Iterator<? extends Term> iter = list.iterator();
+    while (iter.hasNext()) {
       Term term = iter.next();
       visit(term);
       if (iter.hasNext()) {
         printDecorword(separator);
       }
     }
+    iter = null;
   }
 
   public interface Utils

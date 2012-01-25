@@ -179,6 +179,7 @@ public final class VisitorUtils
       while (!found && it.hasNext()) {
         found = it.next().getName().endsWith(intfName);
       }
+      it = null;
       if (!found) {
         System.err.println("Warning: class "
                            + visitorClass

@@ -78,6 +78,7 @@ public class CircusSymMap
     assert 
       ((m.keySet().containsAll(result.values()) && m.keySet().size() == result.values().size()) &&
       (result.keySet().containsAll(m.values()) && result.keySet().size() == m.values().size())) : "map flipped ok";
+    it = null;
     return result;
   }
   

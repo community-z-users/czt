@@ -564,6 +564,7 @@ public abstract class Checker<R>
           // do not consider warnings
           result = !error.getErrorType().equals(ErrorType.ERROR);
         }
+        it = null;
       }
     }
     return result;

@@ -101,6 +101,7 @@ public class ZPredTransformer extends AbstractPredTransformer
     {
       result = (it.next() instanceof ConstDecl);
     }
+    it = null;
     return result;
   }
 }

@@ -44,6 +44,11 @@ public class LatexPrinterCommand
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
     parse(out, sectInfo, parser, sectionName);
+
+    printer = null;
+    tseq = null;
+    scanner = null;
+    parser = null;
   }
 
   @Override

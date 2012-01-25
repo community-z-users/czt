@@ -221,8 +221,9 @@ abstract public class Checker<R>
   
   protected void removeError(Term term)
   {
-    List anns = term.getAnns();
-    for (Iterator iter = anns.iterator(); iter.hasNext(); )
+    List<Object> anns = term.getAnns();
+    Iterator<Object> iter = anns.iterator();
+    while (iter.hasNext() )
     {
       Object ann = iter.next();
       if (ann instanceof ErrorAnn)
@@ -231,6 +232,7 @@ abstract public class Checker<R>
         paraErrors().remove(ann);
       }
     }
+    iter =null;
   }
   
   /**
@@ -1043,7 +1045,8 @@ abstract public class Checker<R>
 				    String errorMessage)
   {
     Map<String, NameTypePair> map =  factory().hashMap();
-    for (Iterator<NameTypePair> iter = pairs.iterator(); iter.hasNext(); )
+    Iterator<NameTypePair> iter = pairs.iterator();
+    while (iter.hasNext() )
     {
       NameTypePair first = iter.next();
       //TODO: CHECK: what is the toString() visitor has printIds
@@ -1062,6 +1065,7 @@ abstract public class Checker<R>
       }
       map.put(firstName.intern(), first);
     }
+    iter = null;
   }
   
   protected List<NameTypePair> checkVarDecl(VarDecl varDecl,
@@ -1237,14 +1241,16 @@ abstract public class Checker<R>
       //if it is in the schema, remove it
       else
       {
-        for (Iterator pIter = newPairs.iterator(); pIter.hasNext(); )
+        Iterator<NameTypePair> pIter = newPairs.iterator();
+        while (pIter.hasNext())
         {
-          NameTypePair nPair = (NameTypePair) pIter.next();
+          NameTypePair nPair = pIter.next();
           if (nPair == rPair)
           {
             pIter.remove();
           }
         }
+        pIter = null;
       }
     }
     Signature result = factory().createSignature(newPairs);

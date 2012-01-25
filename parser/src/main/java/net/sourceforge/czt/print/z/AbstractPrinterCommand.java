@@ -112,6 +112,8 @@ public abstract class AbstractPrinterCommand extends AbstractCommand implements 
       PrettyPrinter prettyPrinter = createPrettyPrinter(term, printTextWidth_);
       prettyPrinter.handleTokenSequence(tseq, 0);
     }
+    visitor = null;
+    tree = null;
     return tseq;
   }
 

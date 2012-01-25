@@ -90,6 +90,7 @@ public class TypeCheckCommand extends AbstractCommand
           it.remove();
         }
       }
+      it = null;
     }
     return result;
   }

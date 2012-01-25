@@ -82,5 +82,8 @@ public class UnicodePrinterCommand
     ZPrinter printer = new UnicodePrinter(out);
     TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName, props);
     printer.printToken(tseq);
+    tseq = null;
+    printer = null;
+    props = null;
   }
 }
