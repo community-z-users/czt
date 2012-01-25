@@ -25,6 +25,17 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>session</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser</artifactId>
+      <type>test-jar</type>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
