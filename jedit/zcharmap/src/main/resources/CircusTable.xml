@@ -1,4 +1,8 @@
-<table>
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://czt.sourceforge.net/ztable"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://czt.sourceforge.net/ztable 
+                                ZTable.xsd">
   <row heading="Paragraphs">
     <item name="Sect"
           description="Section Header"
@@ -91,7 +95,7 @@
     <item name="&#x2119;"
           description="Power Set"
           latex="\power"/>
-    <item name="&#xD835;&#xDD3D;"
+    <item name="&#x1D53D;"
           description="Finite Power Set"
           latex="\finset"/>
     <item name="{"
@@ -228,7 +232,7 @@
     <item name="&#x2115;"
           description="Natural Numbers"
           latex="\nat"/>
-    <item name="&#xD835;&#xDD38;"
+    <item name="&#x1D538;"
           description="All Numbers"
           latex="\arithmos"/>
     <item name="+"
