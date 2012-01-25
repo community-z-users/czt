@@ -894,7 +894,6 @@ action code
       try {
         
         resetOpTable(section, validParents, line, column);
-        resetOpTable(section, validParents, line, column);
         resetThmTable(section, validParents, line, column);
 <add:pattern>
         resetJokerTable(section, validParents, line, column);
