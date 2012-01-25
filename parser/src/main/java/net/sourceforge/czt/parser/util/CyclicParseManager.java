@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import net.sourceforge.czt.parser.z.ZParseError;
+import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
@@ -267,6 +269,52 @@ public class CyclicParseManager {
     
     // get the cycle from the section to the end
     return new ArrayList<String>(cycle.subList(sectIndex, cycle.size()));
+  }
+  
+  /**
+   * Renders the parent cycle into a nice String. Returns as a pair of parent
+   * and the cycle rendered based on the parent as root.
+   * 
+   * @param cycle
+   * @param locProvider
+   * @return Pair of <parentName, cycleString>
+   */
+  public static Pair<String, String> renderParseParentCycle(List<String> cycle)
+  {
+    
+    assert cycle.size() > 1 : "Invalid cycle: " + cycle;
+    
+    // Because the cycle starts with the section, we want to rebase it to start
+    // with the parent of the section.
+    
+    // copy the list for modification
+    cycle = new ArrayList<String>(cycle);
+    String sect = cycle.get(0);
+    // remove the first section - the cycle is now based on the parent
+    cycle.remove(0);
+    String cycleParent = cycle.get(0);
+    
+    // check if it was a full cycle (e.g. "A -> B -> C -> A"), 
+    // or just a cycle later in the stack, e.g. "A -> B -> C -> D -> C".
+    if (sect.equals(cycle.get(cycle.size() - 1))) {
+      // full cycle - the section is at the end of the cycle
+      // add the cycle parent to the end to "rotate" the cycle
+      // it becomes "B -> C -> A -> B"
+      cycle.add(cycleParent);
+    } else {
+      // the cycle is later in the stack, so do not do anything else,
+      // e.g. we now have "B -> C -> D -> C"
+    }
+    
+    // print the cycle
+    StringBuilder parentLoop = new StringBuilder();
+    String delim = "";
+    for (String pName : cycle) {
+      parentLoop.append(delim).append(pName);
+      delim = " > ";
+    }
+    
+    return new Pair<String, String>(cycleParent, parentLoop.toString());
   }
   
 }

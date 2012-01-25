@@ -905,7 +905,6 @@ action code
         
       } finally {
         // mark section inactive and report cycles
-        // we only do this for info tables, to avoid duplicate warnings from LatexMarkupParser
         List&lt;List&lt;String&gt;&gt; cycles = cyclicMan.visitedParents(section);
         for (List&lt;String&gt; cycle : cycles) {
           // report found cycles, if any, as warnings
@@ -917,53 +916,36 @@ action code
     
     private void reportParentCycle(List&lt;String&gt; cycle, List&lt;Parent&gt; parents)
     {
+      Pair&lt;String, String&gt; render = CyclicParseManager.renderParseParentCycle(cycle);
+      String cycleParent = render.getFirst();
+      String cycleStr = render.getSecond();
       
-      assert cycle.size() &gt; 1 : "Invalid cycle: " + cycle + ", parents: " + parents;
-      
-      // Because the cycle starts with the section, we want to rebase it to start
-      // with the parent of the section.
-      
-      // copy the list for modification
-      cycle = new ArrayList&lt;String&gt;(cycle);
-      String sect = cycle.get(0);
-      // remove the first section - the cycle is now based on the parent
-      cycle.remove(0);
-      String cycleParent = cycle.get(0);
-      
-      // check if it was a full cycle (e.g. "A -&gt; B -&gt; C -&gt; A"), 
-      // or just a cycle later in the stack, e.g. "A -&gt; B -&gt; C -&gt; D -&gt; C".
-      if (sect.equals(cycle.get(cycle.size() - 1))) {
-        // full cycle - the section is at the end of the cycle
-        // add the cycle parent to the end to "rotate" the cycle
-        // it becomes "B -&gt; C -&gt; A -&gt; B"
-        cycle.add(cycleParent);
-      } else {
-        // the cycle is later in the stack, so do not do anything else,
-        // e.g. we now have "B -&gt; C -&gt; D -&gt; C"
-      }
-      
-      // print the cycle
-      StringBuilder parentLoop = new StringBuilder();
-      String delim = "";
-      for (String pName : cycle) {
-        parentLoop.append(delim).append(pName);
-        delim = " &gt; ";
-      }
-      
+      boolean found = false;
       for (Parent parent : parents) {
         if (cycleParent.equals(parent.getWord())) {
           // found the parent - report cycle with its location as a warning
-          ZParseError.report(sectInfo_,
-              source_,
-              ErrorType.WARNING,
-              ZParseMessage.MSG_CYCLIC_PARENT,
-              new String[] { parentLoop.toString() },
-              getLocation(parent));
-          
+          reportCyclicParent(cycleStr, getLocation(parent));
+          found = true;
           // do not break, because several parents with the same name could be
           // listed - we need to report the same cycle for all of them
         }
       }
+      
+      if (!found) {
+        // no applicable parent found? 
+        // still report - using dummy location
+        reportCyclicParent(cycleStr, new LocInfoImpl(source_.getName(), 0, 0));
+      }
+    }
+    
+    private void reportCyclicParent(String cycleStr, LocInfo location)
+    {
+      ZParseError.report(sectInfo_,
+          source_,
+          ErrorType.WARNING,
+          ZParseMessage.MSG_CYCLIC_PARENT,
+          new String[] { cycleStr },
+          location);
     }
 
     private OpTable getOperatorTable(String section, int line, int column)
