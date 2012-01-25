@@ -707,6 +707,7 @@ parser/doc/parser.pdf -text svneol=unset#unset
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
+parser/src/main/java/net/sourceforge/czt/parser/util/CyclicParseManager.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/CztLexerImpl.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/CztScannerImpl.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/SectParentResolver.java -text

@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
@@ -99,27 +101,34 @@ public class LatexMarkupFunctionVisitor
   {
     final String name = zSect.getName();
     table_ = new LatexMarkupFunction(name);
-    for (Parent parent : zSect.getParent()) {
+    
+    // use the cyclic manager to get valid parents avoiding cyclic recursion
+    CyclicParseManager cyclicMan = CyclicParseManager.getManager(manager_);
+    List<Parent> validParents = cyclicMan.getValidParents(name, zSect.getParent()); 
+    try {
       
-      if (parent.getWord().equals(name)) {
-        // self parent - ignore
-        continue;
+      for (Parent parent : validParents) {
+        
+        try {
+          LatexMarkupFunction parentTable = manager_.get(
+              new Key<LatexMarkupFunction>(parent.getWord(), LatexMarkupFunction.class));
+          table_.add(parentTable);
+        }
+        catch (CommandException e)
+        {
+          throw new LatexMarkupException(e);
+        }
+        catch (MarkupException e)
+        {
+          throw new LatexMarkupException(e);
+        }
       }
       
-      try {
-        LatexMarkupFunction parentTable = manager_.get(
-            new Key<LatexMarkupFunction>(parent.getWord(), LatexMarkupFunction.class));
-        table_.add(parentTable);
-      }
-      catch (CommandException e)
-      {
-        throw new LatexMarkupException(e);
-      }
-      catch (MarkupException e)
-      {
-        throw new LatexMarkupException(e);
-      }
+    } finally {
+      // mark section inactive
+      cyclicMan.visitedParents(name);
     }
+    
     visit(zSect.getParaList());
     return null;
   }

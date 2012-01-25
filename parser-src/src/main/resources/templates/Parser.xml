@@ -31,9 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.Properties;
-import java.io.*;
 
 
 import net.sourceforge.czt.base.ast.*;
@@ -80,7 +78,6 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.Factory;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
 import net.sourceforge.czt.parser.zeves.ProofTable;
-import net.sourceforge.czt.parser.zeves.Proofword;
 </add:zeves>
 
 
@@ -884,6 +881,33 @@ action code
       for (int i = 0; i &lt; es.size(); i += 2) {
         expList.addAll((List) es.get(i));
       }
+    }
+    
+    private void resetInfoTables(String section, List&lt;Parent&gt; parents,
+                                 int line, int column)
+      throws Exception
+    {
+      
+      // use the cyclic manager to get valid parents avoiding cyclic recursion
+      CyclicParseManager cyclicMan = CyclicParseManager.getManager(sectInfo_);
+      List&lt;Parent&gt; validParents = cyclicMan.getValidParents(section, parents); 
+      try {
+        
+        resetOpTable(section, validParents, line, column);
+        resetOpTable(section, validParents, line, column);
+        resetThmTable(section, validParents, line, column);
+<add:pattern>
+        resetJokerTable(section, validParents, line, column);
+</add:pattern>
+<add:zeves>
+        resetProofTable(section, validParents, line, column);
+</add:zeves>
+        
+      } finally {
+        // mark section inactive
+        cyclicMan.visitedParents(section);
+      }
+      
     }
 
     private OpTable getOperatorTable(String section, int line, int column)
@@ -3132,14 +3156,8 @@ emptySectionHeader ::=
            final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
-           resetOpTable(name, parents, eleft, eright);
-           resetThmTable(name, parents, eleft, eright);
-<add:pattern>
-           resetJokerTable(name, parents, eleft, eright);
-</add:pattern>
-<add:zeves>
-           resetProofTable(name, parents, eleft, eright);
-</add:zeves>
+           resetInfoTables(name, parents, eleft, eright);
+           
            RESULT = createZSect(name, parents);
 <add:circus>
            parserState_.clearAllProcessInformation();
@@ -3225,14 +3243,8 @@ sectionHeader ::=
              p.add(circusParent);
            }
 </add:circus>
-           resetOpTable(name, p, pleft, pright);
-           resetThmTable(name, p, pleft, pright);
-<add:pattern>
-           resetJokerTable(name, p, pleft, pright);
-</add:pattern>
-<add:zeves>
-           resetProofTable(name, p, pleft, pright);
-</add:zeves>
+           resetInfoTables(name, p, pleft, pright);
+           
            RESULT = createZSect(name, p);
 <add:circus>
            parserState_.clearAllProcessInformation();

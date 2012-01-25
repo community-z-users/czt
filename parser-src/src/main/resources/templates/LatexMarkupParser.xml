@@ -22,7 +22,9 @@
 package <package/>;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.parser.util.*;
@@ -224,12 +226,26 @@ public class <class/>
 </add:zeves>
         if (parents_ != null) {
           String[] parents = parents_.split(",");
-          for (int i = 0; i &lt; parents.length; i++) {
-            String parent = trim(parents[i]);
+          List&lt;String&gt; parentList = new ArrayList&lt;String&gt;();
+          for (String parent : parents) {
+            parent = trim(parent);
             if (parent != null &amp;&amp; ! parent.equals("")) {
-              addMarkupFunction(parent);
+              parentList.add(parent);
             }
           }
+          
+          // use the cyclic manager to get valid parents avoiding cyclic recursion
+          CyclicParseManager cyclicMan = CyclicParseManager.getManager(sectInfo_);
+          List&lt;String&gt; validParents = cyclicMan.getValidParentNames(sectName_, parentList); 
+          try {
+            for (String parent : validParents) {
+              addMarkupFunction(parent);
+            }
+          } finally {
+            // mark section inactive
+            cyclicMan.visitedParents(sectName_);
+          }
+          
         }
         sectHead_ = false;
       }
