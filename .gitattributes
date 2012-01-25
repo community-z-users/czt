@@ -828,6 +828,7 @@ typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypecheckP
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties -text
+typechecker-circus/src/test/java/net/sourceforge/czt/typecheck/circus/CyclicParentTypeCheckerTest.java -text
 typechecker-circus/src/test/resources/tests/circus/VarDeclCallScope-CommDotfieldDontUnify.error -text
 typechecker-circus/src/test/resources/tests/circus/act-interrupt.tex -text
 typechecker-circus/src/test/resources/tests/circus/action_rename-RenameActionListDontUnify.error -text
@@ -869,6 +870,7 @@ typechecker-circus/src/test/resources/tests/circus/tc327_genprocess-ParameterMis
 typechecker-circus/src/test/resources/tests/circus/tc327_wrongcall-PostcheckingCallError.error -text
 typechecker-circus/src/test/resources/tests/circus/wrongly_placed_parameterised_muaction-InvalidParameterisedMuactionPlacement.error -text
 typechecker-oz/src/main/resources/net/sourceforge/czt/typecheck/oz/ErrorMessage_en.properties -text
+typechecker-oz/src/test/java/net/sourceforge/czt/typecheck/oz/CyclicParentTypeCheckerTest.java -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistConjOpExpr.error -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistExChoiceOpExpr.error -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistSeqOpExpr.error -text
@@ -994,6 +996,7 @@ typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/util/Carrier
 typechecker-zeves/src/main/java/net/sourceforge/czt/typecheck/zeves/util/UnificationEnv.java -text
 typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/ErrorMessage_en.properties -text
 typechecker-zeves/src/main/resources/net/sourceforge/czt/typecheck/zeves/WarningMessage_en.properties -text
+typechecker-zeves/src/test/java/net/sourceforge/czt/typecheck/zeves/CyclicParentTypeCheckerTest.java -text
 typechecker-zeves/src/test/java/net/sourceforge/czt/typecheck/zeves/TypeCheckerTest.java -text
 typechecker-zeves/src/test/resources/tests/zeves/TID-proofs.tex -text
 typechecker-zeves/src/test/resources/tests/zeves/appTo.tex -text
