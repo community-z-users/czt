@@ -31,12 +31,14 @@ public class LatexMarkupCommand
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    final Key key = new Key(name, LatexMarkupFunction.class);
-    LatexMarkupFunctionVisitor visitor =
-      new LatexMarkupFunctionVisitor(manager);
-    ZSect zsect = (ZSect) manager.get(new Key(name, ZSect.class));
-    if (! manager.isCached(key)) {
-      manager.put(key, visitor.run(zsect));
+    final Key<LatexMarkupFunction> key = new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
+    if ( !manager.isCached(key)) {
+      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
+      if ( !manager.isCached(key)) {
+        LatexMarkupFunctionVisitor visitor = new LatexMarkupFunctionVisitor(manager);
+        LatexMarkupFunction markup = visitor.run(zSect); 
+        manager.put(key, markup);
+      }
     }
     return true;
   }
