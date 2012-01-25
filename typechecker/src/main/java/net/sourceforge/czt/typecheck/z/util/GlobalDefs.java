@@ -199,7 +199,7 @@ public class GlobalDefs
    */
   public static void removeAnn(Term term, Object ann)
   {
-    if (ann != null)
+    if (ann != null && term.annsSize() > 0)
     {
       List anns = term.getAnns();
       for (Iterator iter = anns.iterator(); iter.hasNext(); )
@@ -222,13 +222,16 @@ public class GlobalDefs
    */
   public static void removeAnn(Term term, Class aClass)
   {
-    List anns = term.getAnns();
-    for (Iterator iter = anns.iterator(); iter.hasNext(); )
+    if (term.annsSize() > 0)
     {
-      Object ann = iter.next();
-      if (aClass.isInstance(ann))
+      List anns = term.getAnns();
+      for (Iterator iter = anns.iterator(); iter.hasNext(); )
       {
-        iter.remove();
+        Object ann = iter.next();
+        if (aClass.isInstance(ann))
+        {
+          iter.remove();
+        }
       }
     }
   }

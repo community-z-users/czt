@@ -26,6 +26,6 @@ package net.sourceforge.czt.base.util;
  */
 public interface PerformanceSettings {
 
-  public static final int INITIAL_ARRAY_CAPACITY = 1;
+  public static final int INITIAL_ARRAY_CAPACITY = 0;
 
 }

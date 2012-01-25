@@ -101,7 +101,7 @@ public class $class.Name
     final String ns = "$NS";
     Element elem = getDocument().createElementNS(ns, "$c.Name");
     try {
-      if (zedObject.getAnns().size() > 0) {
+      if (zedObject.hasAnn()) {
         Node anns = getDocument().createElementNS(ns, "Anns");
         Iterator iter = zedObject.getAnns().iterator();
         while (iter.hasNext()) {

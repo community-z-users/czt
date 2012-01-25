@@ -139,7 +139,7 @@ public class ${class.Name}
       }
     }
     Term result = create(term, args);
-    if (copyAnnotations && term.getAnns() != null) {
+    if (copyAnnotations && term.hasAnn()) {
       for (Object o : term.getAnns()) {
         if (o instanceof Term) {
           result.getAnns().add(copy((Term) o, copyAnnotations));

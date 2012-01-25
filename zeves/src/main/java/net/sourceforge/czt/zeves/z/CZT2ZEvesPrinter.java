@@ -1165,6 +1165,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       result = "&uharl;";
     }
+    else if (word.equals(ZString.FILTER))
+    {
+      // sequence filter is the same as schema projection
+      result = "&uharr;";
+    }
     // POWER can also be used as operator (e.g. P_1), so adding the translation here as well
     else if (word.equals(ZString.POWER))
     {

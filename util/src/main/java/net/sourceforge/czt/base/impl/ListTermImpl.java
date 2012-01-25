@@ -45,12 +45,15 @@ public class ListTermImpl<E>
    * The list containing the data.
    */
   /*@ non_null @*/
-  private List<E> list_ = new ArrayList<E>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  private final List<E> list_;
 
   /**
    * A list of annotations.
    */
-  private List<Object> anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  private List<Object> anns_;
+
+  private BaseFactory factory_;
+
 
   /**
    * Constructs an empty list term that accepts all Objects.
@@ -58,8 +61,34 @@ public class ListTermImpl<E>
   public ListTermImpl()
   {
     super();
+    anns_ = null;
+    factory_ = null;
+    list_ = new ArrayList<E>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
 
+  protected ListTermImpl(BaseFactory factory)
+  {
+    super();
+    factory_ = factory;
+    anns_ = null;
+    list_ = new ArrayList<E>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  }
+
+  @Override
+  public String toString()
+  {
+    try {
+      if (factory_ != null) {
+        final String result = factory_.toString(this);
+        if (result != null) return result;
+      }
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+    return super.toString();
+  }
+  
   /**
    * Inserts the specified element at the specified position in this list.
    * Shifts the element currently at that position (if any) and any
@@ -163,19 +192,45 @@ public class ListTermImpl<E>
   }
 
   @Override
-  public ListTerm<Object> getAnns()
+  public /*ListTerm<Object>*/ List<Object> getAnns()
   {
-    ListTermImpl<Object> result = new ListTermImpl<Object>();
-    result.addAll(anns_);
-    return result;
+    // Why this weird result here? Unique per call? why not just like in Term?
+    //ListTermImpl<Object> result = new ListTermImpl<Object>();
+    //result.addAll(anns_);
+    //return result;
+
+    // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
+    //synchronized(this)
+    //{
+      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    //}
+    assert anns_ != null;
+    return anns_;
   }
 
   @Override
-  public Object getAnn(Class aClass)
+  public int annsSize()
   {
-    for (Object annotation : anns_) {
-      if (aClass.isInstance(annotation)) {
-        return annotation;
+    return anns_ == null ? 0 : anns_.size();
+  }
+
+  @Override
+  public boolean hasAnn()
+  {
+    return annsSize() > 0;
+  }
+
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T> T getAnn(Class<T> aClass)
+  {
+    if (hasAnn())
+    {
+      for (Object annotation : getAnns()) {
+        if (aClass.isInstance(annotation)) {
+          return (T)annotation;
+        }
       }
     }
     return null;
@@ -190,13 +245,16 @@ public class ListTermImpl<E>
   @Override
   public <T> void removeAnn(Class<T> aClass)
   {
-    List<Object> anns = getAnns();
-    for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
+    if (hasAnn())
     {
-      Object ann = iter.next();
-      if (aClass.isInstance(ann))
+      List<Object> anns = getAnns();
+      for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
       {
-        iter.remove();
+        Object ann = iter.next();
+        if (aClass.isInstance(ann))
+        {
+          iter.remove();
+        }
       }
     }
   }
@@ -204,17 +262,20 @@ public class ListTermImpl<E>
   @Override
   public <T> boolean removeAnn(T annotation)
   {
-    List<Object> anns = getAnns();
     boolean result = false;
-    Iterator<Object> iter = anns.iterator();
-    while (iter.hasNext() && !result)
+    if (hasAnn())
     {
-      Object ann = iter.next();
-      result = ann.equals(annotation);
-    }
-    if (result)
-    {
-      iter.remove();
+      List<Object> anns = getAnns();
+      Iterator<Object> iter = anns.iterator();
+      while (iter.hasNext() && !result)
+      {
+        Object ann = iter.next();
+        result = ann.equals(annotation);
+      }
+      if (result)
+      {
+        iter.remove();
+      }
     }
     return result;
   }

@@ -580,7 +580,7 @@ public class DefinitionTableVisitor
   //copy the LocAnn and UndeclaredAnn from term1 to term2
   private void cloneAnns(Term term1, Term term2)
   {
-    if (term1.getAnns() != null)
+    if (term1.hasAnn())
     {
       for(Object obj : term1.getAnns())
       {

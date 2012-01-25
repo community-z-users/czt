@@ -120,4 +120,16 @@ class HeadListWrapper
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
+
+  @Override
+  public int annsSize()
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
+
+  @Override
+  public boolean hasAnn()
+  {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }

@@ -93,6 +93,12 @@ public interface Term
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
+   * <p>
+   * Avoid calling this method directly and prefer to check with <code>hasAnn()</code>
+   * first. This delays creation of underlying arrays and lead to considerable memory
+   * optimisation on large specs.
+   * </p>
+   *
    * @return a list of annotations (should never be <code>null</code>).
    */
   List<Object> getAnns();
@@ -106,6 +112,21 @@ public interface Term
    * @return
    */
   <T> T getAnn(Class<T> aClass);
+
+  /**
+   * Returns whether the annotation list size. This method is useful
+   * to check whether to create underlying structure or not (e.g., getAnns() creates
+   * objects if null initially). This delayed instantiation saves considerable memory
+   * on large ASTs.
+   * @return size of annotation list or <code>getAnns().size()</code>. If 0, no array is created.
+   */
+  int annsSize();
+
+  /**
+   * Returns true when <code>annsSize()</code> has more than zero elements.
+   * @return
+   */
+  boolean hasAnn();
 
   /**
    * Checks whether the term has any annotation of the given class type

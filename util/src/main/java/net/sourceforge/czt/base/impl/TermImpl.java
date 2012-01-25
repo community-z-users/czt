@@ -43,16 +43,18 @@ public abstract class TermImpl implements Term
   /**
    * A list of annotations.
    */
-  private List<Object> anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  private List<Object> anns_;
 
   protected TermImpl()
   {
     factory_ = null;
+    anns_ = null;
   }
 
   protected TermImpl(BaseFactory factory)
   {
     factory_ = factory;
+    anns_ = null;
   }
 
   public BaseFactory getFactory()
@@ -89,16 +91,37 @@ public abstract class TermImpl implements Term
   @Override
   public List<Object> getAnns()
   {
+    // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
+    //synchronized(this)
+    //{
+      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    //}
+    assert anns_ != null;
     return anns_;
+  }
+
+  @Override
+  public int annsSize()
+  {
+    return anns_ == null ? 0 : anns_.size();
+  }
+
+  @Override
+  public boolean hasAnn()
+  {
+    return annsSize() > 0;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <T> T getAnn(Class<T> aClass)
   {
-    for (Object annotation : anns_) {
-      if (aClass.isInstance(annotation)) {
-        return (T) annotation;
+    if (annsSize() > 0)
+    {
+      for (Object annotation : getAnns()) {
+        if (aClass.isInstance(annotation)) {
+          return (T) annotation;
+        }
       }
     }
     return null;
@@ -113,35 +136,41 @@ public abstract class TermImpl implements Term
   @Override
   public <T> void removeAnn(Class<T> aClass)
   {
-    List<Object> anns = getAnns();
-    Iterator<Object> iter = anns.iterator();
-    while (iter.hasNext())
+    if (annsSize() > 0)
     {
-      Object ann = iter.next();
-      if (aClass.isInstance(ann))
+      List<Object> anns = getAnns();
+      Iterator<Object> iter = anns.iterator();
+      while (iter.hasNext())
       {
-        iter.remove();
+        Object ann = iter.next();
+        if (aClass.isInstance(ann))
+        {
+          iter.remove();
+        }
       }
+      iter = null;
     }
-    iter = null;
   }
 
   @Override
   public <T> boolean removeAnn(T annotation)
   {
-    List<Object> anns = getAnns();
     boolean result = false;
-    Iterator<Object> iter = anns.iterator();
-    while (iter.hasNext() && !result)
+    if (annsSize() > 0)
     {
-      Object ann = iter.next();
-      result = ann.equals(annotation);
+      List<Object> anns = getAnns();
+      Iterator<Object> iter = anns.iterator();
+      while (iter.hasNext() && !result)
+      {
+        Object ann = iter.next();
+        result = ann.equals(annotation);
+      }
+      if (result)
+      {
+        iter.remove();
+      }
+      iter = null;
     }
-    if (result)
-    {
-      iter.remove();
-    }
-    iter = null;
     return result;
   }
 
