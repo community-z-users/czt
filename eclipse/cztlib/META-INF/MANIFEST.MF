@@ -85,6 +85,7 @@ Export-Package: net.sourceforge.czt.animation.eval,
  net.sourceforge.czt.z.jaxb,
  net.sourceforge.czt.z.jaxb.gen,
  net.sourceforge.czt.z.util,
+ net.sourceforge.czt.z.util.collector,
  net.sourceforge.czt.z.visitor,
  net.sourceforge.czt.zeves,
  net.sourceforge.czt.zeves.ast,
@@ -103,10 +104,7 @@ Export-Package: net.sourceforge.czt.animation.eval,
  net.sourceforge.czt.zpatt.jaxb,
  net.sourceforge.czt.zpatt.jaxb.gen,
  net.sourceforge.czt.zpatt.util,
- net.sourceforge.czt.zpatt.visitor,
- org.hamcrest,
- org.hamcrest.core,
- org.hamcrest.internal
+ net.sourceforge.czt.zpatt.visitor
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/czt.jar
