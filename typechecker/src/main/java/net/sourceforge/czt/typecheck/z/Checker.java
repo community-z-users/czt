@@ -585,14 +585,18 @@ abstract public class Checker<R>
           
         } catch (CyclicSectionsException cse) {
           
-          StringBuilder parentLoop = new StringBuilder();
-          String delim = "";
-          for (String pName : cse.getCyclicSects()) {
-            parentLoop.append(delim).append(pName);
-            delim = " > ";
+          for (List<String> cycle : cse.getAllCycles()) {
+            
+            StringBuilder cycleStr = new StringBuilder();
+            String delim = "";
+            for (String pName : cycle) {
+              cycleStr.append(delim).append(pName);
+              delim = " > ";
+            }
+            
+            error(parent, ErrorMessage.CYCLIC_PARENT, new Object[]{cycleStr.toString()} );
           }
           
-          error(parent, ErrorMessage.CYCLIC_PARENT, new Object[]{parentLoop.toString()} );
           // do not continue checking, because it gets into a loop
           continue;
           

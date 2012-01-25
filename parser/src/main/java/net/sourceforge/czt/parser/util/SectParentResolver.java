@@ -14,27 +14,76 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
 
+/**
+ * A utility class to resolve section parents, taking cyclic relationships into account.
+ * The class provides static methods to check for cycles or collect parent relationships.
+ * 
+ * @author Andrius Velykis
+ */
 public class SectParentResolver
 {
 
+  /**
+   * Exception to signal that cyclic parent sections have been found. The exception carries
+   * the cycles that triggered it as String lists.
+   * 
+   * @author Andrius Velykis
+   */
   public static class CyclicSectionsException extends Exception
   {
 
-    private final List<String> cyclicSects;
+    private final List<List<String>> cycles;
 
-    public CyclicSectionsException(String message, List<String> cyclicSects)
+    public CyclicSectionsException(List<List<String>> cycles)
     {
-      super(message);
-      this.cyclicSects = new ArrayList<String>(cyclicSects);
+      super(cyclicMsg(cycles));
+      if (cycles.isEmpty()) {
+        throw new IllegalArgumentException("Exception initialised without cycles.");
+      }
+      
+      this.cycles = new ArrayList<List<String>>(cycles.size());
+      for (List<String> cycle : cycles) {
+        // defensive copy
+        this.cycles.add(Collections.unmodifiableList(new ArrayList<String>(cycle)));
+      }
     }
 
+    /**
+     * Retrieves the first (or only) cycle found - will always return a cycle.
+     * @return
+     */
     public List<String> getCyclicSects()
     {
-      return Collections.unmodifiableList(cyclicSects);
+      return cycles.get(0);
+    }
+    
+    /**
+     * Retrieves all cycles stored.
+     * @return
+     */
+    public List<List<String>> getAllCycles() {
+      return Collections.unmodifiableList(cycles);
+    }
+
+    private static String cyclicMsg(List<List<String>> cycles) {
+      
+      StringBuilder msg = new StringBuilder("Sections are parents of each other: ");
+      String lineSep = "";
+      for (List<String> cycle : cycles) {
+        String sep = "";
+        for (String s : cycle) {
+          msg.append(sep).append(s);
+          sep = " > ";
+        }
+        msg.append(lineSep);
+        lineSep = ";\n";
+      }
+      
+      return msg.toString();
     }
   }
   
-  public static interface ParentCollector {
+  public interface ParentCollector {
     public void collect(String sectName, String parent);
   }
 
@@ -51,22 +100,6 @@ public class SectParentResolver
       throws CommandException, CyclicSectionsException
   {
     collectParents(sectName, manager, null);
-  }
-  
-  private static class OrderedParentCollector implements ParentCollector {
-    
-    private final List<String> parents = new ArrayList<String>();
-
-    public List<String> getParents()
-    {
-      return Collections.unmodifiableList(parents);
-    }
-
-    @Override
-    public void collect(String sectName, String parent)
-    {
-      // FIXME implement
-    }
   }
   
   private static class DependenciesCollector implements ParentCollector {
@@ -122,29 +155,41 @@ public class SectParentResolver
    * @param manager
    * @param collector
    * @throws CommandException
-   * @throws CyclicSectionsException if a cyclic parent relationship is found 
+   * @throws CyclicSectionsException if a cyclic parent relationships are found 
    */
   public static void collectParents(String sectName, SectionInfo manager, ParentCollector collector)
       throws CommandException, CyclicSectionsException
   {
-    collectParents(sectName, manager, new ArrayList<String>(1), collector);
+    List<List<String>> cycles = new ArrayList<List<String>>();
+    collectParents(sectName, manager, new ArrayList<String>(1), collector, cycles, true);
+    
+    if (!cycles.isEmpty()) {
+      // collecting all cycles - report found ones
+      throw new CyclicSectionsException(cycles);
+    }
   }
   
   private static void collectParents(String sectName, SectionInfo manager, List<String> visited,
-      ParentCollector collector) throws CommandException, CyclicSectionsException
+      ParentCollector collector, List<List<String>> cycles, boolean allCycles)
+      throws CommandException, CyclicSectionsException
   {
     
     boolean cyclic = visited.contains(sectName);
     visited.add(sectName);
     
     if (cyclic) {
-      
-      StringBuilder msg = new StringBuilder("Sections are parents of each other:");
-      for (String s : visited) {
-        msg.append(" ").append(s);
+      if (!cycles.contains(visited)) {
+        // avoid duplicates
+        cycles.add(visited);
       }
       
-      throw new CyclicSectionsException(msg.toString(), visited);
+      if (allCycles) {
+        // found a cycle, but collecting all cycles - do not go further
+        return;
+      } else {
+        // break on first cycle
+        throw new CyclicSectionsException(cycles);
+      }
     }
     
     Key<ZSect> sectKey = new Key<ZSect>(sectName, ZSect.class);
@@ -164,7 +209,7 @@ public class SectParentResolver
       
       String parentSectName = parent.getWord();
       // continue recursively
-      collectParents(parentSectName, manager, visitedCopy, collector);
+      collectParents(parentSectName, manager, visitedCopy, collector, cycles, allCycles);
       
       if (collector != null) {
         collector.collect(sectName, parentSectName);
