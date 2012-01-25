@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import net.sourceforge.czt.parser.z.ZParseError;
-import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
