@@ -564,6 +564,7 @@ parser-circus/doc/circus/circus.bnf.syntax.sty -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_mc_toolkit.tex -text
 parser-circus/src/main/resources/lib/circus_prelude.tex -text
+parser-circus/src/test/java/net/sourceforge/czt/parser/circus/CyclicParentParserTest.java -text
 parser-circus/src/test/java/net/sourceforge/czt/parser/circus/ParserUtilsTest.java -text
 parser-circus/src/test/java/net/sourceforge/czt/print/circus/PrintTest.java -text
 parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
@@ -616,6 +617,8 @@ parser-circus/src/test/resources/tests/circus/steam-boiler-singleenv.xml -text
 parser-circus/src/test/resources/tests/circus/test-extchoice.xml -text
 parser-circus/src/test/resources/tests/circus/universe.xml -text
 parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
+parser-oz/src/test/java/net/sourceforge/czt/parser/oz/CyclicParentParserTest.java -text
+parser-ozpatt/src/test/java/net/sourceforge/czt/parser/ozpatt/CyclicParentParserTest.java -text
 parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-zeves/pom.xml -text
@@ -650,6 +653,7 @@ parser-zeves/src/main/java/net/sourceforge/czt/print/zeves/ZmlScanner.java -text
 parser-zeves/src/main/resources/lib/zeves_bag_toolkit.tex -text
 parser-zeves/src/main/resources/lib/zeves_prelude.tex -text
 parser-zeves/src/main/resources/lib/zeves_toolkit.tex -text
+parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/CyclicParentParserTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/OnTheFlyParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ProofScriptParsingTest.java -text
 parser-zeves/src/test/java/net/sourceforge/czt/parser/zeves/ScanningTest.java -text
@@ -701,6 +705,7 @@ parser-zeves/src/test/resources/tests/zeves/zstateref.tex -text
 parser-zeves/src/test/resources/tests/zeves/zstateref.zed8 -text
 parser-zeves/src/test/resources/tests/zeves/zstateref.zml -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
+parser-zpatt/src/test/java/net/sourceforge/czt/parser/zpatt/CyclicParentParserTest.java -text
 parser/doc/parser.eps -text
 parser/doc/parser.jpg -text
 parser/doc/parser.pdf -text svneol=unset#unset
