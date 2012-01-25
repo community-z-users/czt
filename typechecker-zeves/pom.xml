@@ -27,11 +27,13 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
       <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
       <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -45,6 +47,7 @@
       <artifactId>parser-zeves</artifactId>
       <version>1.6-SNAPSHOT</version>
       <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
   </dependencies>  
 </project>

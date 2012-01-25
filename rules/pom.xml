@@ -25,6 +25,7 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
       <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

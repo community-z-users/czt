@@ -21,6 +21,7 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
       <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
