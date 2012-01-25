@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION lcycle1 \parents lcycle2
+\end{zsection}
+
+
+\end{document}

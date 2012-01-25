@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION selfParentLatex \parents selfParentLatex
+\end{zsection}
+
+
+\end{document}

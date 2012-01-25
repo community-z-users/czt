@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+% Various, repeated cycles
+
+\begin{zsection}
+\SECTION lcycle4 \parents lcycle2, lcycle4, ucycle1
+\end{zsection}
+
+
+\end{document}

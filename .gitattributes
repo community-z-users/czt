@@ -720,8 +720,20 @@ parser/src/main/java/net/sourceforge/czt/print/z/NewlinePrinter.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/ZPrintMessage.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/ZPrinter.java -text
 parser/src/main/resources/lib/zstate_toolkit.tex -text
+parser/src/test/java/net/sourceforge/czt/parser/util/AbstractCyclicParentTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CyclicParserManagerTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
+parser/src/test/java/net/sourceforge/czt/parser/z/CyclicParentParserTest.java -text
+parser/src/test/resources/tests/cyclic/lcycle1.zed -text
+parser/src/test/resources/tests/cyclic/lcycle2.zed -text
+parser/src/test/resources/tests/cyclic/lcycle3.zed -text
+parser/src/test/resources/tests/cyclic/lcycle4.zed -text
+parser/src/test/resources/tests/cyclic/selfParentLatex.zed -text
+parser/src/test/resources/tests/cyclic/selfParentUnicode.zed8 -text svneol=unset#unset
+parser/src/test/resources/tests/cyclic/ucycle1.zed8 -text svneol=unset#unset
+parser/src/test/resources/tests/cyclic/ucycle2.zed8 -text svneol=unset#unset
+parser/src/test/resources/tests/cyclic/ucycle3.zed8 -text svneol=unset#unset
+parser/src/test/resources/tests/cyclic/ucycle4.zed8 -text svneol=unset#unset
 parser/src/test/resources/tests/z/basicsm.tex -text
 parser/src/test/resources/tests/z/explicitRefExpr.tex -text
 parser/src/test/resources/tests/z/unboxedparalist.tex -text
