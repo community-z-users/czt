@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.CyclicParentError;
 import net.sourceforge.czt.parser.z.ZParseError;
 import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.*;
@@ -242,8 +243,12 @@ public class <class/>
               addMarkupFunction(parent);
             }
           } finally {
-            // mark section inactive
-            cyclicMan.visitedParents(sectName_);
+            // mark section inactive and report cycles
+            List&lt;List&lt;String&gt;&gt; cycles = cyclicMan.visitedParents(sectName_);
+            for (List&lt;String&gt; cycle : cycles) {
+              // report found cycles, if any, as warnings
+              reportParentCycle(cycle, parentList);
+            }
           }
           
         }
@@ -302,6 +307,33 @@ public class <class/>
       symbol_ = token;
     }
     return token;
+  }
+  
+  private void reportParentCycle(List&lt;String&gt; cycle, List&lt;String&gt; parents)
+  {
+    Pair&lt;String, String&gt; render = CyclicParseManager.renderParseParentCycle(cycle);
+    String cycleParent = render.getFirst();
+    String cycleStr = render.getSecond();
+    
+    int parentIndex = 0;
+    for (String parent : parents) {
+      if (cycleParent.equals(parent)) {
+        // found the parent - report cycle with its location as a warning
+        // note using dynamic location resolving errors here
+        CyclicParentError.reportCyclicParentNoLoc(sectInfo_, getSource(), 
+            sectName_, cycleParent, parentIndex, cycleStr);
+        parentIndex++;
+        // do not break, because several parents with the same name could be
+        // listed - we need to report the same cycle for all of them
+      }
+    }
+    
+    if (parentIndex == 0) {
+      // no applicable parent found? 
+      // still report - using dummy location
+      CyclicParentError.reportCyclicParent(sectInfo_, getSource(), cycleStr, 
+          new LocInfoImpl(getSource().getName(), 0, 0));
+    }
   }
 
   /**

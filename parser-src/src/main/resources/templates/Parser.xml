@@ -924,7 +924,7 @@ action code
       for (Parent parent : parents) {
         if (cycleParent.equals(parent.getWord())) {
           // found the parent - report cycle with its location as a warning
-          reportCyclicParent(cycleStr, getLocation(parent));
+          CyclicParentError.reportCyclicParent(sectInfo_, source_, cycleStr, getLocation(parent));
           found = true;
           // do not break, because several parents with the same name could be
           // listed - we need to report the same cycle for all of them
@@ -934,20 +934,11 @@ action code
       if (!found) {
         // no applicable parent found? 
         // still report - using dummy location
-        reportCyclicParent(cycleStr, new LocInfoImpl(source_.getName(), 0, 0));
+        CyclicParentError.reportCyclicParent(sectInfo_, source_, cycleStr, 
+            new LocInfoImpl(source_.getName(), 0, 0));
       }
     }
     
-    private void reportCyclicParent(String cycleStr, LocInfo location)
-    {
-      ZParseError.report(sectInfo_,
-          source_,
-          ErrorType.WARNING,
-          ZParseMessage.MSG_CYCLIC_PARENT,
-          new String[] { cycleStr },
-          location);
-    }
-
     private OpTable getOperatorTable(String section, int line, int column)
       throws ParseException
     {
