@@ -3158,6 +3158,7 @@ maven-sitesource-plugin/src/main/scripts/target
 maven-sitesource-plugin/src/main/target
 maven-sitesource-plugin/src/target
 maven-sitesource-plugin/target
+/nbactions.xml
 parser-circus/*.aux
 parser-circus/*.blg
 parser-circus/*.log
