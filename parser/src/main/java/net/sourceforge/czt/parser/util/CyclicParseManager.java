@@ -1,6 +1,8 @@
 package net.sourceforge.czt.parser.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -66,8 +68,8 @@ public class CyclicParseManager {
    * @param sectInfo Section manager
    * @return
    */
-  public static CyclicParseManager getManager(SectionInfo sectInfo) {
-    
+  public static CyclicParseManager getManager(SectionInfo sectInfo)
+  {
     if (sectInfo.isCached(CYCLIC_MANAGER_KEY)) {
       try {
         return sectInfo.get(CYCLIC_MANAGER_KEY);
@@ -77,14 +79,16 @@ public class CyclicParseManager {
         throw new CztException(e);
       }
     }
-    
+
     CyclicParseManager manager = new CyclicParseManager();
     sectInfo.put(CYCLIC_MANAGER_KEY, manager, null);
-    
+
     return manager;
   }
   
   private final Stack<String> activeSects = new Stack<String>();
+  
+  private final List<List<String>> foundCycles = new ArrayList<List<String>>();
   
   /**
    * Filters the parents - only parents that are not active in the call stack are 
@@ -106,21 +110,34 @@ public class CyclicParseManager {
    *          Filtered list of the given parents, which have not been visited yet
    * @see #visitedParents(String)
    */
-  public List<String> getValidParentNames(String section, List<String> parents) {
-    
+  public List<String> getValidParentNames(String section, List<String> parents)
+  {
     assert section != null;
-    
+    assert !activeSects.contains(section) : "Section " + section
+        + " is already active - invalid parent call. Active sections: "
+        + String.valueOf(activeSects);
+
     activeSects.add(section);
-    
+
     List<String> validParents = new ArrayList<String>();
-    
+
     for (String parent : parents) {
-      if (!activeSects.contains(parent)) {
+      if (activeSects.contains(parent)) {
+        // found a cycle - mark the stack to return for reporting
+        List<String> cycle = new LinkedList<String>(activeSects);
+        // include the end parent
+        cycle.add(parent);
+        if (!foundCycles.contains(cycle)) {
+          // maybe found a duplicate cycle?
+          foundCycles.add(cycle);
+        }
+      }
+      else {
         // only add parents that are not in the "active" parents stack
         validParents.add(parent);
       }
     }
-    
+
     // produces a filtered list of parents, which have not been visited yet
     return validParents;
   }
@@ -134,15 +151,16 @@ public class CyclicParseManager {
    * @param parents
    *          Parents of the section, which will be filtered
    * @return
+   *          Filtered list of the given parents, which have not been visited yet
    * @see #getValidParentNames(String, List)
    */
-  public List<Parent> getValidParents(String section, List<Parent> parents) {
-    
+  public List<Parent> getValidParents(String section, List<Parent> parents)
+  {
     List<String> parentNames = new ArrayList<String>();
     for (Parent parent : parents) {
       parentNames.add(parent.getWord());
     }
-    
+
     List<String> validParentNames = getValidParentNames(section, parentNames);
     List<Parent> validParents = new ArrayList<Parent>();
     for (Parent parent : parents) {
@@ -150,7 +168,7 @@ public class CyclicParseManager {
         validParents.add(parent);
       }
     }
-    
+
     return validParents;
   }
   
@@ -160,17 +178,95 @@ public class CyclicParseManager {
    * 
    * @param section 
    *          The section to deactivate
+   * @return
+   *          All cycles found for the section during the parent visit, or empty list
+   *          if no cycles found. The cycles start with the given section, then go to
+   *          its parent, and end with a second instance of the cycle section.
    * @see #getValidParents(String, List)
    */
-  public void visitedParents(String section) {
-    
+  public List<List<String>> visitedParents(String section)
+  {
     assert section != null;
     assert !activeSects.isEmpty() : "Section " + section + " has not been made active.";
     assert section.equals(activeSects.peek()) : "Section " + section
         + " cannot be made inactive, because section " + activeSects.peek()
         + " is currently activated.";
-    
+
     activeSects.pop();
     
+    List<List<String>> cyclesForSect = getFoundCyclesForSection(section);
+
+    if (activeSects.isEmpty()) {
+      // clear the found cycles
+      foundCycles.clear();
+    }
+
+    return cyclesForSect;
   }
+
+  private List<List<String>> getFoundCyclesForSection(String section)
+  {
+
+    List<List<String>> sectionCycles = new ArrayList<List<String>>();
+    
+    for (List<String> cycle : foundCycles) {
+
+      List<String> sectCycle = getCycleForSection(section, cycle);
+      if (!sectCycle.isEmpty()) {
+        // found a cycle
+        sectionCycles.add(sectCycle);
+      }
+    }
+
+    return sectionCycles;
+  }
+
+  /**
+   * <p>
+   * Calculates a cycle for the given section, based upon a given other cycle.
+   * It can unfold cyclic relationship, e.g. cycle "A &rarr; B &rarr; A" for
+   * section B would be returned as "B &rarr; A &rarr; B".
+   * </p>
+   * <p>
+   * Default visibility for testing purposes.
+   * </p>
+   * 
+   * @param section
+   * @param cycle
+   * @return
+   */
+  static List<String> getCycleForSection(String section, List<String> cycle)
+  {
+    int sectIndex = cycle.indexOf(section);
+    if (sectIndex < 0) {
+      // the section does not feature in the cycle
+      return Collections.emptyList();
+    }
+
+    // get the end of the cycle, and check where the cycle starts
+    String lastSect = cycle.get(cycle.size() - 1);
+    int cycleStart = cycle.indexOf(lastSect);
+
+    if (sectIndex > cycleStart) {
+      /*
+       * The section is inside a cycle - append to the end. 
+       * e.g. if the cycle is A -> B -> C -> B, and we want
+       * cycle for section C, first we will append the remainder
+       * between the cycle start (first B) and the section in 
+       * question - C. It will produce a cycle of
+       * A -> B -> C -> B -> C. Now we can get everything from 
+       * C to the end, and will get the necessary cycle: 
+       * C -> B -> C. 
+       */
+
+      List<String> startToSect = cycle.subList(cycleStart + 1, sectIndex + 1);
+      List<String> updatedCycle = new ArrayList<String>(cycle);
+      updatedCycle.addAll(startToSect);
+      cycle = updatedCycle;
+    }
+    
+    // get the cycle from the section to the end
+    return new ArrayList<String>(cycle.subList(sectIndex, cycle.size()));
+  }
+  
 }

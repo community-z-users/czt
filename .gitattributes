@@ -719,6 +719,7 @@ parser/src/main/java/net/sourceforge/czt/print/z/NewlinePrinter.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/ZPrintMessage.java -text
 parser/src/main/java/net/sourceforge/czt/print/z/ZPrinter.java -text
 parser/src/main/resources/lib/zstate_toolkit.tex -text
+parser/src/test/java/net/sourceforge/czt/parser/util/CyclicParserManagerTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
 parser/src/test/resources/tests/z/basicsm.tex -text
 parser/src/test/resources/tests/z/explicitRefExpr.tex -text
