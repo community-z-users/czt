@@ -20,6 +20,9 @@
 package net.sourceforge.czt.print.zeves;
 
 import java.net.URL;
+
+import org.junit.Ignore;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.print.util.LatexString;
@@ -37,6 +40,7 @@ import net.sourceforge.czt.z.ast.Spec;
  * @author Leo Freitas
  * @date Aug 10, 2011
  */
+@Ignore
 public class ZmlPrintTest 
  // extends AbstractParserTest
 {
