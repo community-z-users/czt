@@ -45,7 +45,7 @@ public class LatexMarkupFunctionVisitor
     manager_ = manager;
   }
 
-  public Object run(ZSect sect)
+  public LatexMarkupFunction run(ZSect sect)
     throws CommandException
   {
     try {
@@ -100,9 +100,15 @@ public class LatexMarkupFunctionVisitor
     final String name = zSect.getName();
     table_ = new LatexMarkupFunction(name);
     for (Parent parent : zSect.getParent()) {
+      
+      if (parent.getWord().equals(name)) {
+        // self parent - ignore
+        continue;
+      }
+      
       try {
-        LatexMarkupFunction parentTable = (LatexMarkupFunction)
-          manager_.get(new Key(parent.getWord(), LatexMarkupFunction.class));
+        LatexMarkupFunction parentTable = manager_.get(
+            new Key<LatexMarkupFunction>(parent.getWord(), LatexMarkupFunction.class));
         table_.add(parentTable);
       }
       catch (CommandException e)
