@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -30,7 +31,6 @@ import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn.SubParaSummary;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -110,6 +110,7 @@ public class SectSummaryAnn implements TypecheckPropertiesKeys
     protected final SectionManager sm_;
     protected final boolean includeParents_;
     protected final boolean includeStandardSections_;
+    private final Set<ZSect> visitedSects = new HashSet<ZSect>();
 
     protected AbstractSummary(SectionManager sm)
     {
@@ -144,6 +145,12 @@ public class SectSummaryAnn implements TypecheckPropertiesKeys
     @Override
     public int count(ZSect zs)
     {
+      if (visitedSects.contains(zs)) {
+        // a cyclic relationship - already visited
+        return 0;
+      }
+      visitedSects.add(zs);
+      
       int result = countSection(zs);
       for(Parent parent : zs.getParent())
       {
