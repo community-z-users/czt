@@ -37,7 +37,6 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Section;
-import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
@@ -57,7 +56,7 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
  * Each element in the returned list must be transmitted to the Z/Eves
  * server separately, in the given order.
  */
-public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<Object> {
+public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	
 	private final CZT2ZEvesPrinter zEvesXmlPrinter;
 	
@@ -104,13 +103,35 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 		
 		try {
 			
+			// if any parent errors happen, we will need to report them after "updatingSection" call
+			ZEvesException parentEx = null;
+			Parent errParent = null;
+			
 			for (Parent parent : term.getParent()) {
-				parent.accept(this);
+				
+				parentEx = visitParent(parent);
+				if (parentEx != null) {
+					// problem in submitting the parent
+					// do not continue to other parents, as it will mess up the order
+					errParent = parent;
+					break;
+				}
+				
 				checkCancelled();
 			}
 			
-			snapshot.updatingSection(position, filePath, getCurrentSectionName(), sectInfo);
-			handleResult(position, null);
+			checkCancelled();
+			
+			if (parentEx != null) {
+				// error in parent - use it as the section header result
+				snapshot.updatingSectionError(position, filePath, getCurrentSectionName(),
+						sectInfo, new SnapshotData.Builder(errParent).result(parentEx).build());
+				handleZEvesException(position, term, parentEx);
+			} else {
+				snapshot.updatingSection(position, filePath, getCurrentSectionName(), sectInfo);
+				handleResult(position, null);
+			}
+			
 			checkCancelled();
 			
 			// Currently commented, because begin-section is unimplemented in Z/Eves
@@ -154,8 +175,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
     	}
 	}
 
-    @Override
-	public Object visitParent(Parent term) {
+	public ZEvesException visitParent(Parent term) {
     	
     	String parentSectName = term.getWord();
     	
@@ -230,6 +250,22 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor implements ParentVisitor<O
 	    	// continue until the end of the section
 	    	// note: add +1 to the end, otherwise "end section" is excluded
 	    	int endOffset = getEnd(parentSectPos) + 1;
+	    	
+	    	if (startOffset > endOffset) {
+	    		/*
+				 * This can happen if the parsed data is not synced between
+				 * different sections. For example, if a parent changes (and
+				 * submits to Z/Eves) but the section does not reparse - it
+				 * still has old parsed info about the parent
+				 */
+				ZEvesException parentSyncEx = new ZEvesException(
+						  "The parent " + parentSectName
+						+ " is not synchronized with this section. "
+						+ "It may have changed and section" + getCurrentSectionName()
+						+ " needs to be parsed again.");
+				
+				return parentSyncEx;
+	    	}
 	    	
 	    	ZEvesExecVisitor parentExec = new ZEvesExecVisitor(
 	    			api, snapshot, parentAnns, parentDocument, 

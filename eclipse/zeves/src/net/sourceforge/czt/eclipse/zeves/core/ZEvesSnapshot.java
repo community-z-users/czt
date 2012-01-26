@@ -125,6 +125,34 @@ public class ZEvesSnapshot {
 	public void updatingSection(Position pos, String filePath, String sectionName, 
 			SectionManager sectMan) {
 		
+		updatingSection(pos, filePath, sectionName, sectMan, ResultType.SECTION, 
+				new SnapshotData.Builder(null).build());
+	}
+	
+	/**
+	 * Mark the given section (filePath + sectionName) to be updating. This
+	 * method is used to indicate an error at the beginning of the section.
+	 * 
+	 * @param pos
+	 *            Position of section header
+	 * @param filePath
+	 *            Path of the file containing the section
+	 * @param sectionName
+	 *            Name of section
+	 * @param sectMan
+	 *            Section manager for the updates
+	 * @param result
+	 *            error result
+	 */
+	public void updatingSectionError(Position pos, String filePath, String sectionName, 
+			SectionManager sectMan, SnapshotData result) {
+		
+		updatingSection(pos, filePath, sectionName, sectMan, ResultType.ERROR, result);
+	}
+	
+	private void updatingSection(Position pos, String filePath, String sectionName, 
+			SectionManager sectMan, ResultType resultType, SnapshotData result) {
+		
 		FileSection section = new FileSection(filePath, sectionName);
 		int sectionIndex = sections.indexOf(section);
 		int lastIndex = sections.size() - 1;
@@ -144,8 +172,8 @@ public class ZEvesSnapshot {
 			
 			// also add an entry for the section to signal its start
 			// note that this also ensures that sections will always have at least one entry
-			addResult(new SnapshotEntry(getLastEntry(), updatingSection, pos, ResultType.SECTION, 
-					new SnapshotData.Builder(null).build()));
+			addResult(new SnapshotEntry(getLastEntry(), updatingSection, pos, resultType, 
+					result));
 		}
 	}
 	
