@@ -19,14 +19,15 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.*;
+import java.util.Set;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
+
 
 public class OpTableService
   implements Command
@@ -37,13 +38,14 @@ public class OpTableService
    * Creates a new operator table service.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * @param sectInfo
    */
   public OpTableService(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }
 
-  public Class getInfoType()
+  public Class<?> getInfoType()
   {
     return OpTable.class;
   }
@@ -62,6 +64,7 @@ public class OpTableService
     return visitor.run(sect);
   }
 
+  @Override
   public boolean compute(String name,
                          SectionManager manager)
     throws CommandException

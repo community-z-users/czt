@@ -149,6 +149,30 @@ public class SectionManager
    */
   private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
+  /**
+   * Mapping of dependencies from (LHS) Key to the set of other (RHS) keys that depend on it.
+   * That is, it's an upward dependency chain. So, for instance, if
+   *
+   * A parents Prelude
+   * B parents A
+   * C parents B
+   *
+   * We would have a mapping that
+   *
+   * A -> { B }
+   * B -> { C }
+   * C -> { }
+   *
+   * This way, when removing dependencies for A, we know that B and all its dependencies need removing.
+   * This way, we calculate the upwards transitive closure of dependencies. So, if A is removed
+   * then by calculating the transitive closure of dependencies we would get that { B, C } need removing as well.
+   */
+  private Map<Key<?>, Set<Key<?>>> dependants_ = new HashMap<Key<?>, Set<Key<?>>>();
+
+  /**
+   * The inverse map as above (e.g., downward dependencies). This is almost the transitive parents
+   * relationship, but might also include source locator and other keys.
+   */
   private Map<Key<?>, Set<Key<?>>> dependencies_ = new HashMap<Key<?>, Set<Key<?>>>();
 
   /**
@@ -216,7 +240,7 @@ public class SectionManager
 
     // set the section manager logging level at start
     getLogger().setLevel(logLevel);
-    getLogger().finest("Creating a new " + extension + " section manager");
+    getLogger().log(Level.FINEST, "Creating a new {0} section manager", extension);
     putCommands(extension);
     dialect_ = extension;
   }
@@ -259,8 +283,8 @@ public class SectionManager
     copyMap(content_, result.content_);
     copyMap(commands_, result.commands_);
     copyMap(properties_, result.properties_);
+    copyMap(dependants_, result.dependants_);
     copyMap(dependencies_, result.dependencies_);
-    //result.dialect_ = this.dialect_;
     return result;
   }
 
@@ -345,7 +369,7 @@ public class SectionManager
    */
   public final void putCommands(String extension)
   {
-    getLogger().finest("Set extension to '" + extension + "'");
+    getLogger().log(Level.FINEST, "Set extension to ''{0}''", extension);
     URL url = getClass().getResource("/" + extension + ".commands");
     if (url != null) {
       putCommands(url);
@@ -363,7 +387,7 @@ public class SectionManager
    */
   public void putCommands(URL url)
   {
-    getLogger().finest("Load commands from URL '" + url + "'");
+    getLogger().log(Level.FINEST, "Load commands from URL ''{0}''", url);
     final String errorMessage = "Error while loading default commands " +
       "for the section manager: Cannot open " + url.toString();
     try {
@@ -413,7 +437,7 @@ public class SectionManager
         Object command = commandClass.newInstance();
         if (command instanceof Command) {
           commands_.put(typeClass, (Command) command);
-          logger.finest("Set command for " + typeClass.getSimpleName() + " to " + command);
+          logger.log(Level.FINEST, "Set command for {0} to {1}", new Object[]{typeClass.getSimpleName(), command});
           return true;
         }
         final String message = "Cannot instantiate command " +
@@ -556,22 +580,26 @@ public class SectionManager
     return result;
   }
 
-  public void removeKey(Key<?> key)
+  @Override
+  public boolean removeKey(Key<?> key)
   {
+    removeDependants(key);
     removeDependencies(key);
-    content_.remove(key);
+    Object old = content_.remove(key);
+    return old != null;
   }
 
-  public Set<Key<?>> getDependencies(Key<?> key)
+  @Override
+  public Set<Key<?>> getDependants(Key<?> key)
   {
-    return dependencies_.get(key);
+    return Collections.unmodifiableSet(dependants_.get(key));
   }
 
-  private void removeDependencies(Key<?> key)
+  private void removeDependants(Key<?> key)
   {
     // clear the dependency list - otherwise recursive removal 
     // may loop if there are cyclic dependencies 
-    Set<Key<?>> depKeys = dependencies_.remove(key);
+    Set<Key<?>> depKeys = dependants_.remove(key);
     if (depKeys != null)
     {
       for(Key<?> dkey : depKeys)
@@ -579,6 +607,17 @@ public class SectionManager
         removeKey(dkey);
       }
     }
+  }
+
+  private void removeDependencies(Key<?> key)
+  {
+    dependencies_.remove(key);
+  }
+
+  @Override
+  public Set<Key<?>> getDependencies(Key<?> key)
+  {
+    return Collections.unmodifiableSet(dependencies_.get(key));
   }
 
   /**
@@ -922,12 +961,36 @@ public class SectionManager
     }
     if (dependencies != null)
     {
-      Set<Key<?>> depKeys;
-      if (!dependencies_.containsKey(key))
+      // upward dependencies
+      //
+      // key          = C
+      // dependencies = B, A
+      // build        = A -> { C }; B -> { C }
+      for(Key<?> dk : dependencies)
       {
-        dependencies_.put(key, new HashSet<Key<?>>());
+        Set<Key<?>> depOfK = dependants_.get(dk);
+        if (depOfK == null)
+        {
+          depOfK = new HashSet<Key<?>>();
+          dependants_.put(dk, depOfK);
+        }
+        assert depOfK != null;
+        depOfK.add(key);
       }
-      depKeys = dependencies_.get(key);
+
+      // @czt.todo is this necessary in the end? say for source locator?
+      //
+      // downward dependencies
+      //
+      // key          = C
+      // dependencies = B, A
+      // build        = C -> { A, B }
+      Set<Key<?>> depKeys = dependencies_.get(key);
+      if (depKeys == null)
+      {
+        depKeys = new HashSet<Key<?>>();
+        dependencies_.put(key, depKeys);
+      }
       depKeys.addAll(dependencies);
     }
   }
@@ -942,16 +1005,15 @@ public class SectionManager
     List<Key<?>> keys = new ArrayList<Key<?>>(content_.keySet().size());
     for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
       final Key<?> key = iter.next();
-      keys.add(key);
       final String name = key.getName();
-      if (! "prelude".equals(name) &&
+      if (!"prelude".equals(name) &&
           ! name.endsWith("_toolkit")) {
-        iter.remove();
+        keys.add(key);
       }
     }
     for (Key<?> dKey : keys)
     {
-      removeDependencies(dKey);
+      removeKey(dKey);
     }
     if (isTracing_)
     {

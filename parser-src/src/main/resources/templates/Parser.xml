@@ -472,6 +472,7 @@ action code
       return createOperator(decorword.getName(), decorword.getLocation());
     }
 
+    @SuppressWarnings("unchecked")
     private Operator createOperator(String name, LocInfo locInfo)
       throws ParseException
     {
@@ -957,9 +958,9 @@ action code
                               int line, int column)
       throws ParseException
     {
-      List parentOpTables = factory_.list();
+      List&lt;OpTable&gt; parentOpTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.size() == 0;
+        assert parents.isEmpty();
       }
       else {
         for (Parent parent : parents) {
@@ -999,9 +1000,9 @@ action code
                               int line, int column)
       throws ParseException
     {
-      List parentThmTables = factory_.list();
+      List&lt;ThmTable&gt; parentThmTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.size() == 0;
+        assert parents.isEmpty();
       }
       else {
         for (Parent parent : parents) {
@@ -1185,31 +1186,35 @@ action code
 
       if (parseError) return sect;
 
-      Set dependencies = new HashSet();
-      for (Parent parent : sect.getParent()) {
-        dependencies.add(new Key(parent.getWord(), OpTable.class));
-      }
-      
-      Set thmdependencies = new HashSet();
-      for (Parent parent : sect.getParent()) {
-        thmdependencies.add(new Key(parent.getWord(), ThmTable.class));
-      }
-      
-      sectInfo_.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), sect, dependencies);
-      sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable, dependencies);
-      sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable, thmdependencies);
+      // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
+      sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable, 
+        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, OpTable.class).build());
+
+      // ThmTables of this section depend on its own ZSect and on the theorem tables of its parents.
+      sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable,
+        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, ThmTable.class).build());
+
 <add:pattern>
-      sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable, dependencies);
+      // JokerTables of this section depend on its own ZSect and on the joker tables of its parents.
+      sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable,
+        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, JokerTable.class).build());
 </add:pattern>
 <add:zeves>
-      Set proofdependencies = new HashSet();
-      for (Parent parent : sect.getParent()) {
-        proofdependencies.add(new Key(parent.getWord(), ProofTable.class));
-      }
+      // ProofTables of this section depend on its own ZSect and on the proofs tables of its parents and on its own ThmTable (??? CHECK TODO ???).
+      sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable,
+        new DependenciesBuilder().self(sect, ZSect.class).self(sect, ThmTable.class).parents(sect, ProofTable.class).build());
+
       proofTable.checkAgainst(thmTable); // just warning in case of inconsistency (e.g., more proofs than conj para).
       //proofTable.verifyConsistency(thmTable); -- for error
-      sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable, proofdependencies);
 </add:zeves>
+
+      // To parse a ZSect we depend on our own operator table and latex markup function only.
+      // These tables, depend on this section parents, but that's an indirect dependency.
+      // Notice that the OpTable dependency has a dual link with its own ZSect
+      <add:pattern>// For the ZPatt parser, we also depend on the JokerTable, just like  the OpTable.</add:pattern>
+      sectInfo_.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), sect,
+                    new DependenciesBuilder().self(sect, OpTable.class).self(sect, LatexMarkupFunction.class).
+                      <add:pattern>self(sect, JokerTable.class).</add:pattern>build());
       return sect;
     }
 

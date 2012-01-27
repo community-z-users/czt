@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.Writer;
 import java.io.StringWriter;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,7 @@ import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -681,10 +681,11 @@ abstract public class Checker<R>
         assert false : "No SectTypeEnvAnn for " + sectName();
       }
     }
-    else if (!(useBeforeDecl() && !sectTypeEnv().getSecondTime())) { 
+    else if (!(useBeforeDecl() && !sectTypeEnv().getSecondTime())) {
       SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
       sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
-                     sectTypeEnvAnn, Collections.<Key<?>>emptySet());
+                     sectTypeEnvAnn, 
+                     new DependenciesBuilder().self(zSect, ZSect.class).parents(zSect, SectTypeEnvAnn.class).build());
     }
 
 

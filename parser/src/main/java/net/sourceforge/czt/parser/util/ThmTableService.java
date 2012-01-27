@@ -19,10 +19,14 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.*;
+import java.util.Set;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.*;
 
 public class ThmTableService implements Command
 {

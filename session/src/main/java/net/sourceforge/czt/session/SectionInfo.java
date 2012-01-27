@@ -50,12 +50,14 @@ public interface SectionInfo
 
   /**
    * Add a mapping from the key to its corresponding value and set 
-   * of dependant keys of (possibly different(?)) type.
+   * of dependant keys of (possibly different(?)) type. These dependencies
+   * are iterated to create map of dependencies in both directions
+   * (e.g., the ones the key depend on as well as the ones that depend on this key).
    *
    * @param <T> key type
    * @param key   The key to be looked up.
    * @param value value to map.
-   * @param dependencies dependant keys
+   * @param dependencies dependant keys (i.e., the set of keys the key being put depend on - e.g., parents, downward dependency)
    */
   <T> void put(Key<T> key, T value, Set<Key<?>> dependencies);
 
@@ -77,11 +79,41 @@ public interface SectionInfo
   <T> Key<T> retrieveKey(T value);
 
   /**
+   * Remove a given key and all its dependants. That is, if A parents B
+   * B parents C and we remove B, it also removes C but not A. That is,
+   * it removes all dependants of the given key.
+   * 
+   * @param key
+   * @return if anything changed as a result of this call.
+   */
+  boolean removeKey(Key<?> key);
+
+  /**
+   * Return all the elements that depend on the given key. That is,
+   * A parents B, B parents C and the given key is for A, then the result
+   * is B and C. This is the inverse (transitive) relation as parents.
+   *
+   * @param key
+   * @return
+   */
+  Set<Key<?>> getDependants(Key<?> key);
+
+  /**
+   * Return all the elements that the given key depend on. That is,
+   * A parents B, B parents C and the given key is for C, then the result
+   * is A and B. This is the (transitive) relation of parents.
+   * @param key
+   * @return
+   */  
+  Set<Key<?>> getDependencies(Key<?> key);
+
+  /**
    * Set section management tracing on/off. Tracing information is useful for
    * debugging purposes of the get/put protocols involved. It is up to each
    * implementation how to achieve this. For instance, the <code>SectionManager</code>
    * uses a <code>ConsoleHandler</code> from the Java logging API.
    *
+   * @param on flag to set it on or off
    * @return the previous value of tracing flag
    */
   boolean setTracing(boolean on);

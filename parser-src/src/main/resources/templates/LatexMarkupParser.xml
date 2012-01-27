@@ -74,8 +74,8 @@ public class <class/>
   private Map&lt;String,LatexMarkupFunction&gt; markupFunctions_ =
     new HashMap&lt;String,LatexMarkupFunction&gt;();
 
-  private java.util.Set&lt;Key&lt;LatexMarkupFunction&gt;&gt; dependencies_ =
-    new java.util.HashSet&lt;Key&lt;LatexMarkupFunction&gt;&gt;();
+  private java.util.Set&lt;Key&lt;?&gt;&gt; dependencies_ =
+    new java.util.HashSet&lt;Key&lt;?&gt;&gt;();
 
   /**
    * Are we just parsing a section header?
@@ -102,6 +102,8 @@ public class <class/>
    * The section information should be able to provide information of type
    * &lt;code&gt; 
    * net.sourceforge.czt.parser.util. LatexMarkupFunction.class&lt;/code&gt;.
+   * @param lexer
+   * @param sectInfo
    */
   public <class/>(LatexLexer lexer, SectionInfo sectInfo)
   {
@@ -109,6 +111,7 @@ public class <class/>
     sectInfo_ = sectInfo;
   }
 
+  @Override
   public Source getSource()
   {
     return lexer_.getSource();
@@ -155,6 +158,7 @@ public class <class/>
     return token.getName().equals(sym.toString());
   }
 
+  @Override
   public LocToken next()
     throws IOException
   {
@@ -351,9 +355,9 @@ public class <class/>
     return result;
   }
 
-  private java.util.Set dependencies()
+  private java.util.Set&lt;Key&lt;?&gt;&gt; dependencies()
   {
-    return dependencies_;
+    return java.util.Collections.unmodifiableSet(dependencies_);
   }
 
   @SuppressWarnings("unchecked")

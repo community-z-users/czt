@@ -23,27 +23,41 @@
 <utils xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Properties;
 import java.util.List;
-import java.util.logging.Logger;
 import org.xml.sax.InputSource;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
 import java.util.Set;
 import java.util.HashSet;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ThmTable;
+import net.sourceforge.czt.session.AbstractCommand;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
@@ -51,6 +65,9 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
 </add:zpatt>
+<add:pattern>
+import net.sourceforge.czt.parser.zpatt.JokerTable;
+</add:pattern>
 <add:circuspatt>
 import net.sourceforge.czt.circuspatt.jaxb.JaxbXmlReader;
 </add:circuspatt>
@@ -101,14 +118,14 @@ public class <class/> extends AbstractCommand
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
             sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), 
-              zSect, calculateDependencies(zSect, ZSect.class));
+              zSect, calculateDependencies(zSect));
           }
         }
       }
       else if (result instanceof ZSect) {
         ZSect zSect =  (ZSect) result;
         sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect,
-          calculateDependencies(zSect, ZSect.class));
+          calculateDependencies(zSect));
       }
       reader = null;
     }
@@ -132,6 +149,7 @@ public class <class/> extends AbstractCommand
    *                 to parse within (null=standard_toolkit).
    *  @param sectman A section manager to use.  Must be non-null.
    *
+   * @return 
    * @throws IOException if there are errors reading file/url inputs
    * @throws CommandException if the predicate cannot be parsed.
    */
@@ -142,7 +160,7 @@ public class <class/> extends AbstractCommand
     // TODO: Add backslash in front of underscores
     String parent = section;
     String name = "CZT_parsePred_tmp1433589372849";
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     if (src.getMarkup() == Markup.LATEX) {
       if (parent == null)
         parent = "standard_toolkit";
@@ -183,7 +201,7 @@ public class <class/> extends AbstractCommand
     }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
-    SectionManager tmpsectman = (SectionManager) sectman.clone();
+    SectionManager tmpsectman = sectman.clone();
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
@@ -213,6 +231,7 @@ public class <class/> extends AbstractCommand
    *                 to parse within (null=standard_toolkit).
    *  @param sectman A section manager to use.  Must be non-null.
    *
+   * @return
    * @throws IOException if there are errors reading file/url inputs
    * @throws CommandException if the expression cannot be parsed.
    */
@@ -222,7 +241,7 @@ public class <class/> extends AbstractCommand
   {
     String parent = section;
     String name = "CZT_parseExpr_tmp1433589372849";
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     if (src.getMarkup() == Markup.LATEX) {
       if (parent == null)
         parent = "standard_toolkit";
@@ -266,7 +285,7 @@ public class <class/> extends AbstractCommand
     }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
-    SectionManager tmpsectman = (SectionManager)sectman.clone();
+    SectionManager tmpsectman = sectman.clone();
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
@@ -286,6 +305,7 @@ public class <class/> extends AbstractCommand
    *                 to parse within (null=standard_toolkit).
    *  @param sectman A section manager to use.  Must be non-null.
    *
+   * @return
    * @throws IOException if there are errors reading file/url inputs
    * @throws CommandException if the content cannot be parsed.
    */
@@ -295,7 +315,7 @@ public class <class/> extends AbstractCommand
   {
     String parent = section;
     String name = "CZT_parseParas_tmp1433589372849";
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     if (src.getMarkup() == Markup.LATEX) {
       if (parent == null)
         parent = "standard_toolkit";
@@ -329,7 +349,7 @@ public class <class/> extends AbstractCommand
     }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
-    SectionManager tmpsectman = (SectionManager)sectman.clone();
+    SectionManager tmpsectman = sectman.clone();
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
@@ -344,6 +364,8 @@ public class <class/> extends AbstractCommand
 
   /**
    * Determine the markup of a file.
+   * @return
+   * @param filename
    */
   public static Markup getMarkup(String filename)
   {
@@ -374,26 +396,81 @@ public class <class/> extends AbstractCommand
 
   // SECTION MANAGEMENT METHODS
 
+  public static Class&lt;?&gt;[] dependencyClassesOfInterest()
+  {
+    return new Class&lt;?&gt;[] {
+      // source locator
+      Source.class,
+      // latex markup function
+      LatexMarkupFunction.class,
+      // section parents
+      ZSect.class,
+      // thm tables
+      ThmTable.class,
+      // opt template tables
+      OpTable.class
+      <add:pattern>
+      // joker tables
+      , JokerTable.class
+      </add:pattern>
+      <add:zeves>
+      // proof script tables
+      , ProofTable.class 
+      </add:zeves>
+     };
+  }
+
+  /**
+   * Calculate the dependencies as all dependencies of all ZSect of the given spec
+   *
+   * @param term spec
+   * @return complete set of depenendcy keys
+   */
+  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(Spec term)
+  {
+    Set&lt;Key&lt;?&gt;&gt; dependencies = new HashSet&lt;Key&lt;?&gt;&gt;();
+    for (Sect s : term.getSect())
+    {
+      if (s instanceof ZSect)
+      {
+        dependencies.addAll(calculateDependencies((ZSect)s));
+      }
+    }
+    return dependencies;
+  }
+
+  /**
+   * Calculates the dependency keys for all dependencyClassesOfInterest().
+   */
+  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(ZSect term)
+  {
+    return calculateDependencies(term, dependencyClassesOfInterest());
+  }
 
   /**
    * Given a ZSection, it calculates the dependency keys from all parents, for
    * the given Key information type T
    * @param term the ZSection to calculate parents from
-   * @param type the Key type
+   * @param types
    * @return set of keys with given type
    */
-
   @SuppressWarnings("unchecked")
-  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(ZSect term, Class&lt;?&gt; type)
+  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(ZSect term, Class&lt;?&gt;... types)
   {
     Set&lt;Key&lt;?&gt;&gt; dependencies = new HashSet&lt;Key&lt;?&gt;&gt;();
     for (Parent parent : term.getParent())
     {
-      dependencies.add(new Key(parent.getWord(), type));
+      for (Class&lt;?&gt; type : types)
+      {
+        // adds dependencies for all parents on all class types of interest
+        dependencies.add(new Key(parent.getWord(), type));
+      }
     }
+    // adds a final dependency on the source for this given section
+    dependencies.add(new Key&lt;Source&gt;(term.getName(), Source.class));
     return dependencies;
   }
-  
+
   /**
    * For non-parsed ZSect (e.g., created on-the-fly by tools), one needs to update
    * a given section manager in a particular order. This method produces a similar
@@ -402,7 +479,6 @@ public class <class/> extends AbstractCommand
    * @param nonParsedZSect on-the-fly ZSect to add
    * @throws CommandException in case some command fails
    */
-  @SuppressWarnings("unchecked")
   public static void updateSectManager(net.sourceforge.czt.session.SectionInfo sectInfo, ZSect nonParsedZSect) throws CommandException
   {
     assert sectInfo != null &amp;&amp; nonParsedZSect != null;
@@ -414,7 +490,7 @@ public class <class/> extends AbstractCommand
     // tell the section manager about the presence of this new Z section
     // no need to parse, we know it is okay - it's been constructed.
     sectInfo.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), nonParsedZSect,
-            calculateDependencies(nonParsedZSect, ThmTable.class));
+            calculateDependencies(nonParsedZSect));
 
     // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see Op/ThmTableCommand protocols).
     try
@@ -474,10 +550,10 @@ public class <class/> extends AbstractCommand
           // if an annonymous ZSect, also add the file name for/to it?
           if (zsect.getName().equals(net.sourceforge.czt.z.util.Section.ANONYMOUS.getName()))
           {
-            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect, ZSect.class));
+            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect));
           }
           manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
-                      zsect, calculateDependencies(zsect, ZSect.class));
+                      zsect, calculateDependencies(zsect));
 
         }
       }
@@ -494,7 +570,7 @@ public class <class/> extends AbstractCommand
       if (source != null) {
         Term term = ParseUtils.parse(source, manager, manager.getProperties());
         if (term instanceof Spec) {
-          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term, java.util.Collections.&lt;Key&lt;?&gt;&gt;emptySet());
+          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term, calculateDependencies((Spec)term));
         }
         result = term != null;
         final String msg = "PU-PARSED = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");

@@ -19,11 +19,14 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.*;
-
-import net.sourceforge.czt.session.*;
+import java.util.Set;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.ZSect;
 
 /**
  * A visitor that computes a {@link DefinitionTable} from a given
@@ -45,13 +48,14 @@ public class DefinitionTableService
    * Creates a new definition table service.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.DefinitionTable.class</code>.
+   * @param sectInfo
    */
   public DefinitionTableService(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }
 
-  public Class getInfoType()
+  public Class<?> getInfoType()
   {
     return DefinitionTable.class;
   }
@@ -70,20 +74,21 @@ public class DefinitionTableService
     return visitor.run(sect);
   }
 
+  @Override
   public boolean compute(String name,
                          SectionManager manager)
     throws CommandException
   {
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
-    Key key = new Key(name, ZSect.class);
-    ZSect zsect = (ZSect) manager.get(key);
+    Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
+    ZSect zsect = manager.get(key);
     try
     {
       DefinitionTable table = (DefinitionTable) visitor.run(zsect);
       if (table != null) {
-        Set dep = visitor.getDependencies();
+        Set<Key<?>> dep = visitor.getDependencies();
         dep.add(key);
-        manager.put(new Key(name, DefinitionTable.class),
+        manager.put(new Key<DefinitionTable>(name, DefinitionTable.class),
                     table, dep);
         return true;
       }
