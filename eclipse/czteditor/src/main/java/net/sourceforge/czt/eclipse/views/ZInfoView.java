@@ -11,6 +11,7 @@ import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.util.IColorManager;
+import net.sourceforge.czt.eclipse.util.PartAdapter;
 import net.sourceforge.czt.eclipse.util.PlatformUtil;
 import net.sourceforge.czt.session.Markup;
 import org.eclipse.core.runtime.Assert;
@@ -113,7 +114,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   /*
    * @see IPartListener2
    */
-  private IPartListener2 partListener = new IPartListener2()
+  private IPartListener2 partListener = new PartAdapter()
   {
 
     @Override
@@ -140,31 +141,6 @@ public class ZInfoView extends ViewPart implements ISelectionListener
     {
       if (!ref.getId().equals(getSite().getId()))
         computeAndSetInput(ref.getPart(false));
-    }
-
-    @Override
-    public void partActivated(IWorkbenchPartReference ref)
-    {
-    }
-
-    @Override
-    public void partBroughtToTop(IWorkbenchPartReference ref)
-    {
-    }
-
-    @Override
-    public void partClosed(IWorkbenchPartReference ref)
-    {
-    }
-
-    @Override
-    public void partDeactivated(IWorkbenchPartReference ref)
-    {
-    }
-
-    @Override
-    public void partOpened(IWorkbenchPartReference ref)
-    {
     }
   };
 
