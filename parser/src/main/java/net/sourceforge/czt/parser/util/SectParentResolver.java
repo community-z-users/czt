@@ -171,6 +171,25 @@ public class SectParentResolver
     }
   }
   
+  /**
+   * The same as {@link #collectParents(String, SectionInfo, ParentCollector)}, but does not throw
+   * exception if cycles found. If a cycle is visited, the repeated section is ignored.
+   * 
+   * @param sectName
+   * @param manager
+   * @param collector
+   * @throws CommandException
+   */
+  public static void collectParentsUnchecked(String sectName, SectionInfo manager, ParentCollector collector)
+      throws CommandException
+  {
+    try {
+      collectParents(sectName, manager, new ArrayList<String>(1), collector, new ArrayList<List<String>>(), true);
+    } catch (CyclicSectionsException ex) {
+      // ignore - should not be thrown for all cycles
+    }
+  }
+  
   private static boolean collectParents(String sectName, SectionInfo manager, List<String> visited,
       ParentCollector collector, List<List<String>> cycles, boolean allCycles)
       throws CommandException, CyclicSectionsException
