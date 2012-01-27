@@ -1,7 +1,5 @@
 package net.sourceforge.czt.eclipse;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -38,15 +36,12 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -78,18 +73,18 @@ public class CZTPlugin extends AbstractUIPlugin
    */
   private IPropertyChangeListener fPropertyChangeListener;
 
-  private IPropertyChangeListener fFontPropertyChangeListener;
+//  private IPropertyChangeListener fFontPropertyChangeListener;
 
   /**
    * The combined preference store.
    */
   private IPreferenceStore fCombinedPreferenceStore;
 
-  /**
-   * The shared Z properties file document provider.
-   * @since 3.1
-   */
-  private IDocumentProvider fPropertiesFileDocumentProvider;
+//  /**
+//   * The shared Z properties file document provider.
+//   * @since 3.1
+//   */
+//  private IDocumentProvider fPropertiesFileDocumentProvider;
 
   /**
    *
@@ -216,56 +211,6 @@ public class CZTPlugin extends AbstractUIPlugin
     if (!(part instanceof AbstractTextEditor))
       return null;
     return part;
-  }
-
-  /**
-   * Returns an array of all editors that have an unsaved content. If the identical content is
-   * presented in more than one fEditor, only one of those editor parts is part of the result.
-   *
-   * @return an array of all dirty fEditor parts.
-   */
-  //	public static IEditorPart[] getDirtyEditors() {
-  //		Set inputs= new HashSet();
-  //		List result= new ArrayList(0);
-  //		IWorkbench workbench= getDefault().getWorkbench();
-  //		IWorkbenchWindow[] windows= workbench.getWorkbenchWindows();
-  //		for (int i= 0; i < windows.length; i++) {
-  //			IWorkbenchPage[] pages= windows[i].getPages();
-  //			for (int x= 0; x < pages.length; x++) {
-  //				IEditorPart[] editors= pages[x].getDirtyEditors();
-  //				for (int z= 0; z < editors.length; z++) {
-  //					IEditorPart ep= editors[z];
-  //					IEditorInput input= ep.getEditorInput();
-  //					if (!inputs.contains(input)) {
-  //						inputs.add(input);
-  //						result.add(ep);
-  //					}
-  //				}
-  //			}
-  //		}
-  //		return (IEditorPart[])result.toArray(new IEditorPart[result.size()]);
-  //	}
-  /**
-   * Returns an array of all instanciated editors.
-   * @return the list of instantiated editors
-   */
-  public static IEditorPart[] getInstanciatedEditors()
-  {
-    List result = new ArrayList(0);
-    IWorkbench workbench = getDefault().getWorkbench();
-    IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-    for (int windowIndex = 0; windowIndex < windows.length; windowIndex++) {
-      IWorkbenchPage[] pages = windows[windowIndex].getPages();
-      for (int pageIndex = 0; pageIndex < pages.length; pageIndex++) {
-        IEditorReference[] references = pages[pageIndex].getEditorReferences();
-        for (int refIndex = 0; refIndex < references.length; refIndex++) {
-          IEditorPart fEditor = references[refIndex].getEditor(false);
-          if (fEditor != null)
-            result.add(fEditor);
-        }
-      }
-    }
-    return (IEditorPart[]) result.toArray(new IEditorPart[result.size()]);
   }
 
   /**
