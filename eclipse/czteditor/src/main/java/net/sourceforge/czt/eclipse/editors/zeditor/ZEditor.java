@@ -454,6 +454,21 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   private final ZEditorModel model = new ZEditorModel(this);
   
   private DocumentChangeListenerSupport versionUpdater;
+  private final Job reconcileJob = new Job("Reconciling")
+  {
+    
+    @Override
+    protected IStatus run(IProgressMonitor monitor)
+    {
+      getModel().reconcile();
+      
+      // fire notifications
+      reconciled(getParsedData(), true, new NullProgressMonitor());
+      
+      return Status.OK_STATUS;
+    }
+  };
+  
   private final ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
 
   public ZEditor()
@@ -737,22 +752,15 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   }
   
   public void forceReconcile() {
-    Job reconcileJob = new Job("Reconciling")
-    {
-      
-      @Override
-      protected IStatus run(IProgressMonitor monitor)
-      {
-        getModel().reconcile();
-        
-        // fire notifications
-        reconciled(getParsedData(), true, new NullProgressMonitor());
-        
-        return Status.OK_STATUS;
-      }
-    };
-    
-    reconcileJob.schedule();
+    forceReconcile(0L);
+  }
+  
+  public void forceReconcile(long delay) {
+    // cancel the previous one
+    // TODO review
+    reconcileJob.cancel();
+    // schedule again
+    reconcileJob.schedule(delay);
   }
 
   protected ZSpecDecorationSupport getZSpecDecorationSupport(
