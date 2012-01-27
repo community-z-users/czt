@@ -1,32 +1,48 @@
 package net.sourceforge.czt.eclipse.zeves.editor;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import net.sourceforge.czt.eclipse.editors.zeditor.IResourceDocumentListener;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesUndoCommand;
 
-public class ZEditorEditListener implements IDocumentListener {
+/**
+ * A document edit listener that undoes Z/Eves Snapshot according to recent
+ * document edit. This is necessary, because updates in Z specifications can be
+ * changed, and thus things submitted to Z/Eves are no longer valid. The
+ * listener keeps the synchronization together with the changes in
+ * specification. The Z/Eves snapshot is undone up to the edit in the document.
+ * 
+ * @author Andrius Velykis
+ */
+public class ZEditorEditListener implements IResourceDocumentListener {
 
-	private final ITextEditor editor;
-	
-	public ZEditorEditListener(ITextEditor editor) {
-		super();
-		this.editor = editor;
+	@Override
+	public boolean isResourceInteresting(IEditorPart editor, IResource resource) {
+		// interested in all editors and resources
+		// let the undo command resolve what is relevant afterwards
+		return editor instanceof ITextEditor;
 	}
-
-	@Override
-	public void documentChanged(DocumentEvent event) { }
 	
 	@Override
-	public void documentAboutToBeChanged(DocumentEvent event) {
+	public void documentChanged(IEditorPart editor, IResource resource, DocumentEvent event) { }
+
+	@Override
+	public void documentAboutToBeChanged(IEditorPart editor, IResource resource, DocumentEvent event) {
+		
+		if (!(editor instanceof ITextEditor)) {
+			return;
+		}
+		
 		// undo through to the editing place
-		undoThrough(event.getOffset());
+		undoThrough((ITextEditor) editor, event.getOffset());
 	}
 	
-	private void undoThrough(int editOffset) {
+	private void undoThrough(ITextEditor editor, int editOffset) {
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
