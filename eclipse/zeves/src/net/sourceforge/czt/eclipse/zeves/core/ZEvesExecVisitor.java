@@ -20,6 +20,7 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.editors.parser.DocumentSourceLocator;
 import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
 import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
@@ -29,7 +30,6 @@ import net.sourceforge.czt.eclipse.zeves.core.ZEvesTactics.IgnorableCommand;
 import net.sourceforge.czt.parser.util.SectParentResolver;
 import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsException;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -209,12 +209,12 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	try {
     		
 	    	Source parentSource = sectInfo.get(new Key<Source>(parentSectName, Source.class));
-	    	if (!(parentSource instanceof FileSource)) {
-	    		// TODO report unsupported
-	    		return null;
-	    	}
+	    	String parentFilePath = DocumentSourceLocator.getPath(parentSource);
 	    	
-	    	String parentFilePath = parentSource.getName();
+	    	if (parentFilePath == null) {
+	    		// cannot find the file path
+	    		// TODO report unsupported
+	    	}
 	    	
 	    	ZSect parentSect = sectInfo.get(new Key<ZSect>(parentSectName, ZSect.class));
 	    	

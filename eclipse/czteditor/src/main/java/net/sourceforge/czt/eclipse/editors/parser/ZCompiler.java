@@ -12,12 +12,12 @@ import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.SourceLocator;
-import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.SectWarningsAnn;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -54,12 +54,16 @@ public enum ZCompiler
         editor.getEditorInput());
     
     SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
-
+    
+    // init dynamic sources from other editors
+    initEditorSourcesCommand(sectMan);
+    
     final IFile file = ((IFileEditorInput) editor.getEditorInput()).getFile();
     final String name = file.getName();
     // The document version was retrieved before the document contents, which 
     // will ensure the document is up-to-date or newer for that version.
-    final Source source = new StringSource(document.get(), name);
+    final Source source = new StringFileSource(document.get(), file.getLocation().toOSString());
+    source.setName(name);
     source.setMarkup(editor.getMarkup()); // or Markup.UNICODE
     source.setEncoding(editor.getEncoding()); // for Unicode
 
@@ -179,6 +183,22 @@ public enum ZCompiler
       this.sectionName_ = DEFAULT_SECTION_NAME;
     else
       this.sectionName_ = sectName;
+  }
+  
+  /**
+   * Initializes the section manager to use a dynamic source locator, which utilizes content from
+   * editors, instead of saved files, if available. This allows for re-parsing using the most
+   * up-to-date parents (otherwise if they are not saved, the changes are not used).
+   * 
+   * @param sectMan
+   */
+  private void initEditorSourcesCommand(SectionManager sectMan) {
+
+    Command sourceCmd = sectMan.getCommand(Source.class);
+    if (sourceCmd.getClass().equals(SourceLocator.class)) {
+      // replace the original source locator with a dynamic one
+      sectMan.putCommand(Source.class, new DocumentSourceLocator());
+    }
   }
 
 }
