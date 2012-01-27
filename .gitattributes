@@ -206,6 +206,7 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorB
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorConstants.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/ExceptionHandler.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/IZMode.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/PartAdapter.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/PlatformUtil.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/FilteredTree2.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/IZInfoObject.java -text svneol=unset#text/plain
