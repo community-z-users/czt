@@ -208,6 +208,7 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/ExceptionHandle
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/IZMode.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/PartAdapter.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/PlatformUtil.java -text svneol=unset#text/plain
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/VisiblePartRunner.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/FilteredTree2.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/IZInfoObject.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/SelectZCharTableAction.java -text svneol=unset#text/plain
