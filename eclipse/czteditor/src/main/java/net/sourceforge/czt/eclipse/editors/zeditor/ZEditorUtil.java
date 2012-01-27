@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -60,8 +61,13 @@ public class ZEditorUtil {
     if (editor == null) {
       return null;
     }
+    
+    IEditorInput input = editor.getEditorInput();
+    if (input instanceof IAdaptable) {
+      return (IResource) input.getAdapter(IResource.class); 
+    }
 
-    return (IResource) ((IAdaptable) editor.getEditorInput()).getAdapter(IResource.class);
+    return null;
   }
 
   public static IDocument getDocument(ITextEditor editor)
