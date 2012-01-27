@@ -169,7 +169,7 @@ public class SectParentResolver
     }
   }
   
-  private static void collectParents(String sectName, SectionInfo manager, List<String> visited,
+  private static boolean collectParents(String sectName, SectionInfo manager, List<String> visited,
       ParentCollector collector, List<List<String>> cycles, boolean allCycles)
       throws CommandException, CyclicSectionsException
   {
@@ -185,7 +185,7 @@ public class SectParentResolver
       
       if (allCycles) {
         // found a cycle, but collecting all cycles - do not go further
-        return;
+        return false;
       } else {
         // break on first cycle
         throw new CyclicSectionsException(cycles);
@@ -209,12 +209,16 @@ public class SectParentResolver
       
       String parentSectName = parent.getWord();
       // continue recursively
-      collectParents(parentSectName, manager, visitedCopy, collector, cycles, allCycles);
+      boolean success = collectParents(
+          parentSectName, manager, visitedCopy, collector, cycles, allCycles);
       
-      if (collector != null) {
+      // check if success - it can fail if a cycle is found
+      if (success && collector != null) {
         collector.collect(sectName, parentSectName);
       }
     }
+    
+    return true;
   }
   
 
