@@ -462,6 +462,13 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   private DocumentChangeListenerSupport versionUpdater;
   
   /**
+   * A version updater for parent sections. Parent Z sections can be in different specification
+   * files. If they are updated, we want this section to be recompiled to reflect the changes in
+   * parent.
+   */
+  private ParentUpdateNotifier parentVersionUpdater = new ParentUpdateNotifier(this);
+  
+  /**
    * A job to reconcile the parsed model based on the current state of the document.
    */
   private final Job reconcileJob = new Job("Reconciling")
@@ -2238,6 +2245,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   public void reconciled(ParsedData parsedData, boolean forced,
       IProgressMonitor progressMonitor)
   {
+    // update the parent version listeners
+    parentVersionUpdater.updateParentListeners(parsedData);
+    
     // Notify listeners first - something may have been waiting on reconcile
     for (Object listener : fReconcilingListeners.getListeners()) {
       ((IZReconcilingListener) listener).reconciled(parsedData, forced, progressMonitor);
