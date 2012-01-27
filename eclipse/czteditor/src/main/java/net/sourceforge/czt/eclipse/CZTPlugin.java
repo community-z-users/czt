@@ -7,6 +7,7 @@ import net.sourceforge.czt.eclipse.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
+import net.sourceforge.czt.eclipse.editors.zeditor.DocumentEditTracker;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.CztUI;
@@ -90,6 +91,12 @@ public class CZTPlugin extends AbstractUIPlugin
    *
    */
   private CZTTextTools fCZTTextTools;
+  
+  /**
+   * A tracker for document edits - listeners can register to listen to document changes within
+   * editors.
+   */
+  private DocumentEditTracker editTracker;
 
   /**
    * The constructor.
@@ -132,6 +139,9 @@ public class CZTPlugin extends AbstractUIPlugin
       }
     };
     getPreferenceStore().addPropertyChangeListener(fPropertyChangeListener);
+    
+    editTracker = new DocumentEditTracker();
+    editTracker.init();
   }
 
   /**
@@ -139,6 +149,12 @@ public class CZTPlugin extends AbstractUIPlugin
    */
   public void stop(BundleContext context) throws Exception
   {
+    
+    if (editTracker != null) {
+      editTracker.dispose();
+      editTracker = null;
+    }
+    
     try {
       if (fImageDescriptorRegistry != null)
         fImageDescriptorRegistry.dispose();
@@ -162,6 +178,15 @@ public class CZTPlugin extends AbstractUIPlugin
   public static CZTPlugin getDefault()
   {
     return plugin;
+  }
+  
+  /**
+   * Retrieves a document edit tracker, which notifies when documents are edited within Eclipse.
+   * @return the tracker for the plugin
+   * @see DocumentEditTracker
+   */
+  public static DocumentEditTracker getEditTracker() {
+    return getDefault().editTracker;
   }
 
   /**
