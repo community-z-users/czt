@@ -65,6 +65,7 @@ import net.sourceforge.czt.eclipse.util.IZEncoding;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.eclipse.util.Selector;
+import net.sourceforge.czt.eclipse.util.VisiblePartRunner;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.ZName;
@@ -124,13 +125,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWindowListener;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
@@ -291,9 +288,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
   /**
    * Runner that will toggle folding either instantly (if the editor is
-   * visible) or the next time it becomes visible. If a runner is started when
-   * there is already one registered, the registered one is canceled as
-   * toggling folding twice is a no-op.
+   * visible) or the next time it becomes visible.
    * <p>
    * The access to the fFoldingRunner field is not thread-safe, it is assumed
    * that <code>runWhenNextVisible</code> is only called from the UI thread.
@@ -301,13 +296,13 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    *
    * @since 3.1
    */
-  private final class ToggleFoldingRunner implements IPartListener2
+  private final class ToggleFoldingRunner extends VisiblePartRunner
   {
-    /**
-     * The workbench page we registered the part listener with, or
-     * <code>null</code>.
-     */
-    private IWorkbenchPage fPage;
+
+    public ToggleFoldingRunner()
+    {
+      super(ZEditor.this);
+    }
 
     /**
      * Does the actual toggling of projection.
@@ -324,99 +319,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       }
     }
 
-    /**
-     * Makes sure that the editor's folding state is correct the next time
-     * it becomes visible. If it already is visible, it toggles the folding
-     * state. If not, it either registers a part listener to toggle folding
-     * when the editor becomes visible, or cancels an already registered
-     * runner.
-     */
-    public void runWhenNextVisible()
+    @Override
+    protected void run(boolean immediate)
     {
-      // if there is one already: toggling twice is the identity
-      if (fFoldingRunner != null) {
-        fFoldingRunner.cancel();
-        return;
-      }
-      IWorkbenchPartSite site = getSite();
-      if (site != null) {
-        IWorkbenchPage page = site.getPage();
-        if (!page.isPartVisible(ZEditor.this)) {
-          // if we're not visible - defer until visible
-          fPage = page;
-          fFoldingRunner = this;
-          page.addPartListener(this);
-          return;
-        }
-      }
-      // we're visible - run now
       toggleFolding();
-    }
-
-    /**
-     * Remove the listener and clear the field.
-     */
-    private void cancel()
-    {
-      if (fPage != null) {
-        fPage.removePartListener(this);
-        fPage = null;
-      }
-      if (fFoldingRunner == this)
-        fFoldingRunner = null;
-    }
-
-    /*
-     * @see org.eclipse.ui.IPartListener2#partVisible(org.eclipse.ui.IWorkbenchPartReference)
-     */
-    @Override
-    public void partVisible(IWorkbenchPartReference partRef)
-    {
-      if (ZEditor.this.equals(partRef.getPart(false))) {
-        cancel();
-        toggleFolding();
-      }
-    }
-
-    /*
-     * @see org.eclipse.ui.IPartListener2#partClosed(org.eclipse.ui.IWorkbenchPartReference)
-     */
-    @Override
-    public void partClosed(IWorkbenchPartReference partRef)
-    {
-      if (ZEditor.this.equals(partRef.getPart(false))) {
-        cancel();
-      }
-    }
-
-    @Override
-    public void partActivated(IWorkbenchPartReference partRef)
-    {
-    }
-
-    @Override
-    public void partBroughtToTop(IWorkbenchPartReference partRef)
-    {
-    }
-
-    @Override
-    public void partDeactivated(IWorkbenchPartReference partRef)
-    {
-    }
-
-    @Override
-    public void partOpened(IWorkbenchPartReference partRef)
-    {
-    }
-
-    @Override
-    public void partHidden(IWorkbenchPartReference partRef)
-    {
-    }
-
-    @Override
-    public void partInputChanged(IWorkbenchPartReference partRef)
-    {
     }
   }
 
