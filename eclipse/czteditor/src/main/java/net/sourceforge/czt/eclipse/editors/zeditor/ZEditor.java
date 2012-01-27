@@ -141,6 +141,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
  * @author Chengdong Xu
+ * @author Andrius Velykis
  */
 public class ZEditor extends TextEditor implements IZReconcilingListener
 {
@@ -453,7 +454,16 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    */
   private final ZEditorModel model = new ZEditorModel(this);
   
+  /**
+   * A version updater for this editor. Each change in the editor bumps the document version. This
+   * is used to track the synchronization between the editor and the parsed model, because parsing
+   * can take a significant amount of time.
+   */
   private DocumentChangeListenerSupport versionUpdater;
+  
+  /**
+   * A job to reconcile the parsed model based on the current state of the document.
+   */
   private final Job reconcileJob = new Job("Reconciling")
   {
     
