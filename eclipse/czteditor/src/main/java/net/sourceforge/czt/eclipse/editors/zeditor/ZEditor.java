@@ -94,7 +94,7 @@ import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ISynchronizable;
-import org.eclipse.jface.text.ITextInputListener;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
@@ -117,8 +117,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
@@ -455,6 +453,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    */
   private final ZEditorModel model = new ZEditorModel(this);
   
+  private DocumentChangeListenerSupport versionUpdater;
   private final ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
 
   public ZEditor()
@@ -705,56 +704,27 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    * to have a check whether the reconciled ParsedData corresponds to the current 
    * state of IDocument
    */
-  private void installDocumentVersionUpdater(final ISourceViewer viewer)
+  private void installDocumentVersionUpdater(final ITextViewer viewer)
   {
+   
     /*
-     * A listener class (adapted from Listener in AbstractReconciler) to react to document 
-     * changes. It reattaches itself to the most recent IDocument within the viewer.
-     * The listener updates document version for each change.
+     * Add document change listener to the source viewer - this should 
+     * register one of the first listeners, so version update will be done 
+     * before other listeners react to document change.
      */
-    class DocumentVersionUpdater implements IDocumentListener, ITextInputListener {
-      @Override
-      public void inputDocumentChanged(IDocument oldInput, IDocument newInput)
-      {
-        // attach itself to the new document
-        if (newInput != null) {
-          newInput.addDocumentListener(this);
-        }
-      }
+    versionUpdater = new DocumentChangeListenerSupport(viewer, new IDocumentListener()
+    {
       
-      @Override
-      public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
-        if (oldInput != null) {
-          oldInput.removeDocumentListener(this);
-        }
-      }
-
-      @Override
-      public void documentAboutToBeChanged(DocumentEvent event) {}
-
       @Override
       public void documentChanged(DocumentEvent event)
       {
         // increment document version with each document change
         model.incrementDocumentVersion();
       }
-    }
-    
-    /*
-     * Add document change listener to the source viewer - this should 
-     * register one of the first listeners, so version update will be done 
-     * before other listeners react to document change.
-     */
-    final ITextInputListener versionUpdater = new DocumentVersionUpdater();
-    viewer.addTextInputListener(versionUpdater);
-    // upon dispose, detach the listener
-    viewer.getTextWidget().addDisposeListener(new DisposeListener()
-    {
+      
       @Override
-      public void widgetDisposed(DisposeEvent e)
-      {
-        viewer.removeTextInputListener(versionUpdater);
-      }
+      public void documentAboutToBeChanged(DocumentEvent event) {}
+      
     });
   }
   
@@ -1533,6 +1503,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     if (fZSpecDecorationSupport != null) {
       fZSpecDecorationSupport.dispose();
       fZSpecDecorationSupport = null;
+    }
+    
+    if (versionUpdater != null) {
+      versionUpdater.dispose();
     }
 
     super.dispose();

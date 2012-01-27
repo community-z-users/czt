@@ -188,6 +188,7 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/IZPro
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/StringFileSource.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/TermPositionProvider.java -text svneol=unset#text/plain
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/parser/ZProblemSeverity.java -text svneol=unset#text/plain
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/DocumentChangeListenerSupport.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.properties -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorModel.java -text svneol=unset#text/plain
