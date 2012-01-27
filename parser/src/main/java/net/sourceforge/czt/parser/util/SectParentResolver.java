@@ -127,6 +127,22 @@ public class SectParentResolver
     }
   }
   
+  private static class AllParentsCollector implements ParentCollector {
+    
+    private final Set<String> parents = new HashSet<String>();
+
+    public Set<String> getParents()
+    {
+      return Collections.unmodifiableSet(parents);
+    }
+
+    @Override
+    public void collect(String sectName, String parent)
+    {
+      parents.add(parent);
+    }
+  }
+  
   /**
    * Calculates a parent dependency map. The map contains sections mapping to sets of other
    * sections, that depend on it (have the first section as their parent). 
@@ -143,6 +159,22 @@ public class SectParentResolver
     DependenciesCollector deps = new DependenciesCollector();
     collectParents(sectName, manager, deps);
     return deps.getDependencyMap();
+  }
+  
+  /**
+   * Collects all parents for the given section. Ignores any cyclic dependencies.
+   * 
+   * @param sectName
+   * @param manager
+   * @return
+   * @throws CommandException
+   */
+  public static Set<String> getParents(String sectName, SectionInfo manager)
+      throws CommandException
+  {
+    AllParentsCollector parents = new AllParentsCollector();
+    collectParentsUnchecked(sectName, manager, parents);
+    return parents.getParents();
   }
   
   /**
