@@ -70,13 +70,15 @@ public class SectParentResolver
       StringBuilder msg = new StringBuilder("Sections are parents of each other: ");
       String lineSep = "";
       for (List<String> cycle : cycles) {
+        
+        msg.append(lineSep);
+        lineSep = ";\n";
+        
         String sep = "";
         for (String s : cycle) {
           msg.append(sep).append(s);
           sep = " > ";
         }
-        msg.append(lineSep);
-        lineSep = ";\n";
       }
       
       return msg.toString();
