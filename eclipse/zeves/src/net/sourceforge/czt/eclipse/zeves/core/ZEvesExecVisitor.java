@@ -26,6 +26,8 @@ import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesTactics.CommandSequence;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesTactics.IgnorableCommand;
+import net.sourceforge.czt.parser.util.SectParentResolver;
+import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsException;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -109,6 +111,19 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			
 			for (Parent parent : term.getParent()) {
 				
+				try {
+					// check for cyclic parents - we cannot submit recursively if the parents are cyclic
+					SectParentResolver.checkCyclicParents(parent.getWord(), sectInfo);
+				} catch (CommandException e) {
+					// problems checking the parents
+					parentEx = new ZEvesException("Problems checking for cyclic parents: " + e.getMessage(), e);
+					break;
+				} catch (CyclicSectionsException e) {
+					parentEx = new ZEvesException(e.getMessage(), e);
+					break;
+				}
+				
+				// go recursively into parents
 				parentEx = visitParent(parent);
 				if (parentEx != null) {
 					// problem in submitting the parent
@@ -207,8 +222,6 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		// section already submitted and completed
 	    		return null;
 	    	}
-	    	
-	    	// TODO resolve parent loops somehow?
 	    	
 	    	IFile parentResource = null;
 	    	List<IFile> files = ResourceUtil.findFile(parentFilePath);
