@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.util.IZMarker;
+import net.sourceforge.czt.eclipse.util.MarkerUtil;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
 
@@ -197,7 +198,7 @@ public class ZCompilerMessageParser
     attributes.put(IMarker.LINE_NUMBER, new Integer(lineNumber));
     attributes.put(IMarker.CHAR_START, new Integer(charStart));
     attributes.put(IMarker.CHAR_END, new Integer(charEnd));
-    attributes.put(IMarker.MESSAGE, message);
+    attributes.put(IMarker.MESSAGE, MarkerUtil.adaptMarkerValue(message));
 
     // mark all markers and create later in batch mode to avoid too many refresh events
 //    MarkerUtilities.createMarker(this.fResource, attributes, IZMarker.PROBLEM);

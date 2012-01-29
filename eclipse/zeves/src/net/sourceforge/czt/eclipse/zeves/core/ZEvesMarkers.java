@@ -19,6 +19,7 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
 
+import net.sourceforge.czt.eclipse.util.MarkerUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
 
 public class ZEvesMarkers {
@@ -117,7 +118,7 @@ public class ZEvesMarkers {
 		}
 		
 		if (message != null) {
-			markerAttrs.put(IMarker.MESSAGE, message);
+			markerAttrs.put(IMarker.MESSAGE, MarkerUtil.adaptMarkerValue(message));
 		}
 		
 		MarkerInfo markerInfo = new MarkerInfo(type, markerAttrs);

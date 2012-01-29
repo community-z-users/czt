@@ -19,6 +19,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
+import net.sourceforge.czt.eclipse.util.MarkerUtil;
 import net.sourceforge.czt.eclipse.vcg.VcgPlugin;
 
 
@@ -84,7 +85,7 @@ public class VcgAnnotations {
 			markerAttrs.put(IMarker.CHAR_END, end);
 		}
 		
-		markerAttrs.put(IMarker.MESSAGE, message);
+		markerAttrs.put(IMarker.MESSAGE, MarkerUtil.adaptMarkerValue(message));
 		
 		pendingMarkers.add(new SimpleEntry<String, Map<String, Object>>(type, markerAttrs));
 		
