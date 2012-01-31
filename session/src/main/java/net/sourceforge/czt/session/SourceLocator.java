@@ -80,6 +80,7 @@ public class SourceLocator extends AbstractCommand
     URL url = getClass().getResource(filename);
     if (url != null) {
       traceLog("SL-TK-found     = "+filename);
+      // source locators have no key dependency
       manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
       return true;
     }
