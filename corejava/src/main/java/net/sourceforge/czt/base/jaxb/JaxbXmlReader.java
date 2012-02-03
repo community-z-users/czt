@@ -55,6 +55,8 @@ public class JaxbXmlReader
 
   /**
    * Returns a new JaxbXmlReader.
+   * @param visitor
+   * @param jaxbContextPath
    */
   public JaxbXmlReader(ReflectiveVisitor visitor, String jaxbContextPath)
   {

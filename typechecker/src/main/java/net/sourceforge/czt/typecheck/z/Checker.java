@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.Writer;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,6 @@ import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -550,6 +550,11 @@ abstract public class Checker<R>
     //set the section name
     setSectName(zSect.getName());
 
+    // in case of top-level calls (e.g., not started with get(SectTypeEnv), we want to ensure that there is a transaction
+    Key<SectTypeEnvAnn> typeKey = new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class);
+    sectInfo().ensureTransaction(typeKey);
+
+
     //set the markup for this section
     setMarkup(zSect);
 
@@ -625,8 +630,7 @@ abstract public class Checker<R>
       //for all of the undeclared names, check if they are declared
       //after they are used, and add the dependency
       for (ZName zName : undeclaredNames()) {
-	UndeclaredAnn uAnn = 
-	  (UndeclaredAnn) zName.getAnn(UndeclaredAnn.class);
+	UndeclaredAnn uAnn = zName.getAnn(UndeclaredAnn.class);
 	removeAnn(zName, uAnn);
 	
 	int paraID = sectTypeEnv().getParaID(zName);
@@ -683,11 +687,13 @@ abstract public class Checker<R>
     }
     else if (!(useBeforeDecl() && !sectTypeEnv().getSecondTime())) {
       SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
-      sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
-                     sectTypeEnvAnn, 
-                     new DependenciesBuilder().self(zSect, ZSect.class).parents(zSect, SectTypeEnvAnn.class).build());
-    }
+      assert sectName().equals(zSect.getName());
 
+      // we put this Sect type environment in the manager with an explicit dependency on its ZSect.
+      // this is needed only for the case when typechecking is not done through the section manager.
+      // for the case where it is, this will be a duplicate dependency
+      sectInfo().endTransaction(typeKey, sectTypeEnvAnn, Collections.singleton(new Key<ZSect>(sectName(), ZSect.class)));
+    }
 
     //if recursive types or use before declaration are permitted and
     //this is the first pass, clear the errors and typecheck again.

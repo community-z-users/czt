@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.Collections;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -28,16 +29,35 @@ import net.sourceforge.czt.z.ast.ZSect;
 public class LatexMarkupCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    final Key<LatexMarkupFunction> key = new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
-    if ( !manager.isCached(key)) {
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      if ( !manager.isCached(key)) {
+    // create keys
+    final Key<LatexMarkupFunction> lmfKey = new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
+    final Key<ZSect> zkey = new Key<ZSect>(name, ZSect.class);
+
+    // if ZSect already parsed, don't cancel LMF transaction
+    //    e.x., recall to LMF from outside; call to LMF from a Unicode sect
+    // early cancellation would remove the already parsed Unicode ZSect (!)
+    if (!manager.isCached(zkey))
+    {
+      // cancel it only if managed to get lmf key? Trouble is if the source doesn't need LMF (e.g., is Unicode)
+      manager.cancelTransaction(lmfKey);
+    }
+
+    if (!manager.isCached(lmfKey))
+    {
+      ZSect zSect = manager.get(zkey);
+      if (!manager.isCached(lmfKey))
+      {
+        // ensure transaction rather than start - we might not cancel it
+        // in the case of an already cached ZSect (e.g., unicode one; or user given; etc)
+        manager.ensureTransaction(lmfKey);
+        
         LatexMarkupFunctionVisitor visitor = new LatexMarkupFunctionVisitor(manager);
         LatexMarkupFunction markup = visitor.run(zSect); 
-        manager.put(key, markup);
+        manager.endTransaction(lmfKey, markup, Collections.singleton(zkey));
       }
     }
     return true;

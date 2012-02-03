@@ -81,7 +81,7 @@ public class SourceLocator extends AbstractCommand
     if (url != null) {
       traceLog("SL-TK-found     = "+filename);
       // source locators have no key dependency
-      manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
+      manager.endTransaction(new Key<Source>(name, Source.class), new UrlSource(url));
       return true;
     }
     traceLog("SL-NO-TK        = try current directory.");
@@ -92,7 +92,7 @@ public class SourceLocator extends AbstractCommand
       File file = new File(filename);
       if (file.exists() && ! file.isDirectory()) {
         traceLog("SL-CURDIR-FOUND = "+filename);
-        manager.put(new Key<Source>(name, Source.class), new FileSource(file));
+        manager.endTransaction(new Key<Source>(name, Source.class), new FileSource(file));
         return true;
       }
     }
@@ -128,7 +128,7 @@ public class SourceLocator extends AbstractCommand
           File file = new File(filename);
           if (file.exists()) {
             traceLog("SL-CZTP-found   = "+filename);
-            manager.put(new Key<Source>(name, Source.class), new FileSource(file));
+            manager.endTransaction(new Key<Source>(name, Source.class), new FileSource(file));
             return true;
           }
         }

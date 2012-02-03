@@ -51,7 +51,7 @@ public class UnicodePrinterCommand
         // in case of spec (e.g., multiple  or anonymous sections; or on-the-fly, don't give sectionName)
         printUnicode(term, writer, manager, onTheFlySectName_);
       writer.close();
-      manager.put(new Key<UnicodeString>(name, UnicodeString.class),
+      manager.endTransaction(new Key<UnicodeString>(name, UnicodeString.class),
                   new UnicodeString(writer.toString()));
       return true;
     }

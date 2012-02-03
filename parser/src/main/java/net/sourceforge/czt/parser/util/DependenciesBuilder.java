@@ -50,6 +50,18 @@ public class DependenciesBuilder {
     return this;
   }
 
+  public DependenciesBuilder add(Key<?> key)
+  {
+    dependencies_.add(key);
+    return this;
+  }
+  
+  public DependenciesBuilder add(Set<Key<?>> keys)
+  {
+    dependencies_.addAll(keys);
+    return this;
+  }
+
   public Set<Key<?>> build()
   {
     return Collections.unmodifiableSet(dependencies_);

@@ -24,27 +24,30 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 
 public class XmlPrinterCommand
-  implements Command
+  extends AbstractPrinterCommand
 {
-  public boolean compute(String name, SectionManager manager)
+  @Override
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     try {
       JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
       final Writer writer = new StringWriter();
-      final Key key = new Key(name, Term.class);
-      final Term term = (Term) manager.get(key);
+      final Key<Term> key = new Key<Term>(name, Term.class);
+      final Term term = manager.get(key);
       xmlWriter.write(term, writer);
       writer.close();
-      manager.put(new Key(name, XmlString.class),
+      manager.endTransaction(new Key<XmlString>(name, XmlString.class),
                   new XmlString(writer.toString()));
+                  //new DependenciesBuilder().add(key).build());
       return true;
     }
     catch (IOException e) {

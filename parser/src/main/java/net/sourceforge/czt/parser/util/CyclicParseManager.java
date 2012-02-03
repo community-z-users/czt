@@ -81,7 +81,7 @@ public class CyclicParseManager {
     }
 
     CyclicParseManager manager = new CyclicParseManager();
-    sectInfo.put(CYCLIC_MANAGER_KEY, manager, null);
+    sectInfo.put(CYCLIC_MANAGER_KEY, manager, Collections.<Key<?>>emptySet());
 
     return manager;
   }

@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Properties;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
 import org.xml.sax.InputSource;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -35,8 +38,7 @@ import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
-import java.util.Set;
-import java.util.HashSet;
+import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ThmTable;
@@ -92,40 +94,61 @@ import net.sourceforge.czt.zeves.jaxb.JaxbXmlReader;
 public class <class/> extends AbstractCommand
 {
 
+  public static Term parse(Source source, SectionInfo sectInfo)
+    throws ParseException, IOException, UnmarshalException
+  {
+    return parse(source, sectInfo, new Properties());
+  }
+
   public static Term parse(Source source,
                            SectionInfo sectInfo,
                            Properties properties)
     throws ParseException, IOException, UnmarshalException
   {
+    return parse0(source, sectInfo, properties, Collections.&lt;Key&lt;?&gt;&gt;emptySet());
+  }
+
+
+  private static Term parse0(Source source,
+                           SectionInfo sectInfo,
+                           Properties properties,
+                           Set&lt;Key&lt;?&gt;&gt; explicitDeps)
+    throws ParseException, IOException, UnmarshalException
+  {
     traceLog("PU-parse-source = " + source);
     Term result = null;
     if (source.getMarkup() == Markup.LATEX) {
-      LatexParser parser = new LatexParser(source, sectInfo, properties);
+      LatexParser parser = new LatexParser(source, sectInfo, properties, explicitDeps);
       result = parser.parse();
       parser = null;
     }
     else if (source.getMarkup() == Markup.UNICODE) {
-      UnicodeParser parser = new UnicodeParser(source, sectInfo, properties);
+      UnicodeParser parser = new UnicodeParser(source, sectInfo, properties, explicitDeps);
       result = parser.parse();
       parser = null;
     }
-    else if (source.getMarkup() == Markup.ZML) {
+    else if (source.getMarkup() == Markup.ZML)
+    {
       JaxbXmlReader reader = new JaxbXmlReader();
       result = reader.read(new InputSource(source.getReader()));
       if (result instanceof Spec) {
         Spec spec = (Spec) result;
         for (Sect sect : spec.getSect()) {
-          if (sect instanceof ZSect) {
+          if (sect instanceof ZSect)
+          {
             ZSect zSect = (ZSect) sect;
-            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), 
-              zSect, calculateDependencies(zSect));
+
+            // no need for section manager transaction since section management is not used here.
+            // however, we need to add explicit dependencies such as source and spec. the InfoTables
+            // or LMF won't be needed (???? TODO ???)
+            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, explicitDeps);
           }
         }
       }
       else if (result instanceof ZSect) {
         ZSect zSect =  (ZSect) result;
-        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect,
-          calculateDependencies(zSect));
+        // SAME AS ABOVE: TODO???
+        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, explicitDeps);
       }
       reader = null;
     }
@@ -135,12 +158,6 @@ public class <class/> extends AbstractCommand
     assert result != null;
     traceLog("PU-parse-result = " + result.getClass().getSimpleName());
     return result;
-  }
-
-  public static Term parse(Source source, SectionInfo sectInfo)
-    throws ParseException, IOException, UnmarshalException
-  {
-    return parse(source, sectInfo, new Properties());
   }
 
   /** Parse a Source string/file as a Z Predicate.
@@ -481,6 +498,8 @@ public class <class/> extends AbstractCommand
    */
   public static void updateSectManager(net.sourceforge.czt.session.SectionInfo sectInfo, ZSect nonParsedZSect) throws CommandException
   {
+    // TODO: when handling VCG, check if this is still right with new protocol...
+
     assert sectInfo != null &amp;&amp; nonParsedZSect != null;
 
     // get info + log data
@@ -541,15 +560,16 @@ public class <class/> extends AbstractCommand
     // happens when a Spec is created manually (e.g., does not come
     // from parsing). Parsed ZSects are added by Parser.xml@updateZSect
     traceLog("PU-compute-name = " + name);
-    Key&lt;Spec&gt; key = new Key&lt;Spec&gt;(name, Spec.class);
-    if (manager.isCached(key)) {
-      Spec spec = manager.get(key);
+    Key&lt;Spec&gt; specKey = new Key&lt;Spec&gt;(name, Spec.class);
+    if (manager.isCached(specKey)) {
+      Spec spec = manager.get(specKey);
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           ZSect zsect = (ZSect) sect;
           // if an annonymous ZSect, also add the file name for/to it?
-          if (zsect.getName().equals(net.sourceforge.czt.z.util.Section.ANONYMOUS.getName()))
+          if (zsect.getName().equals(net.sourceforge.czt.util.Section.ANONYMOUS.getName()))
           {
+            // TODO: solve these
             manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect));
           }
           manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
@@ -564,14 +584,38 @@ public class <class/> extends AbstractCommand
     try {
       // the usual case, Spec comes from some Source and is parsed.
       boolean result = false;
-      Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
+      Key&lt;Source&gt; sourceKey = new Key&lt;Source&gt;(name, Source.class);
+      Source source = manager.get(sourceKey);
       // If we find the source, parse it and add Spec to the manager
       // The Parser.xml adds all ZSects (e.g., see updateZSect).
-      if (source != null) {
-        Term term = ParseUtils.parse(source, manager, manager.getProperties());
-        if (term instanceof Spec) {
-          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term, calculateDependencies((Spec)term));
+      if (source != null)
+      {
+        // cancel the ZSect started by the get(ZSect): the parser does a startTransaction for us
+        // given parsing parents or Spec would need it
+        Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(name, ZSect.class);
+        if (manager.hasTransaction(zsKey))
+        {
+          manager.cancelTransaction(zsKey);
         }
+
+        // unless we do a get(Spec), we need to have its transaction implicitly started here
+        // in case we have a get(ZSect) or when any parent Spec is parsed.
+        manager.ensureTransaction(specKey);
+        Term term = ParseUtils.parse0(source,
+                manager, manager.getProperties(),
+                new DependenciesBuilder().add(sourceKey).add(specKey).build());
+        if (term instanceof Spec)
+        {
+          // TODO: there might be more explicit dependencies to add depending on where the transaction is started
+          manager.endTransaction(specKey, (Spec) term, new DependenciesBuilder().add(sourceKey).build());
+        }
+        else
+        {
+          // TODO: VERY BIG ONE!!!! This would delete the zsKey transaction that is within!!!!
+          manager.cancelTransaction(specKey);
+          throw new CommandException("TODO BIG ONE PLEASE !!!! ADD TEST CASE: ZML test?");
+        }
+
         result = term != null;
         final String msg = "PU-PARSED = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
         traceLog(msg);

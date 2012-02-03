@@ -32,8 +32,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Properties;
+import java.util.Collections;
 
 
+import net.sourceforge.czt.util.CztException;
+
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 <add:circus>
@@ -467,14 +471,12 @@ action code
 </add:circus>
 
     private Operator createOperator(Decorword decorword)
-      throws ParseException
     {
       return createOperator(decorword.getName(), decorword.getLocation());
     }
 
     @SuppressWarnings("unchecked")
     private Operator createOperator(String name, LocInfo locInfo)
-      throws ParseException
     {
       final ZName dn = factory_.createZName(name);
       final StrokeList sl = dn.getStrokeList();
@@ -558,7 +560,6 @@ action code
      */
     protected ZName strListToZName(List&lt;String&gt; list,
                                    LocInfo location)
-      throws ParseException
     {
       try {
         OperatorName opName = createOperatorName(list);
@@ -588,7 +589,6 @@ action code
      * Converts a Term to a Pred.
      */
     protected Pred pred(Term t)
-      throws ParseException
     {
       Pred result = null;
 
@@ -617,7 +617,6 @@ action code
      * Converts an Term to an Expr.
      */
     protected Expr expr(Term t)
-      throws ParseException
     {
       Expr result = null;
 
@@ -673,7 +672,6 @@ action code
      * Converts a Term to an OpExpr.
      */
     protected OpExpr opExpr(Term t)
-      throws ParseException
     {
       if (t instanceof OpExpr) return (OpExpr) t;
       if (t instanceof RefExpr) {
@@ -714,7 +712,6 @@ action code
     protected MemPred createMemPred(List&lt;String&gt; name,
                                     ZExprList exprs,
                                     LocInfo loc)
-      throws ParseException
     {
       Expr e = createTupleExpr(exprs);
       Name rn = strListToZName(name, loc);
@@ -733,7 +730,6 @@ action code
     protected Expr createMixfixExpr(List&lt;String&gt; name,
                                     ZExprList exprs,
                                     LocInfo loc)
-      throws ParseException
     {
       final Name rn = strListToZName(name, loc);
       Expr result = null;
@@ -835,7 +831,6 @@ action code
 
     protected Pred transformChainRelInfix(Pred chain, Expr rhs, String ip,
                                           LocInfo loc)
-      throws ParseException
     {
       Pred result = null;
 
@@ -892,8 +887,23 @@ action code
       // use the cyclic manager to get valid parents avoiding cyclic recursion
       CyclicParseManager cyclicMan = CyclicParseManager.getManager(sectInfo_);
       List&lt;Parent&gt; validParents = cyclicMan.getValidParents(section, parents); 
-      try {
-        
+      try
+      {
+        // to enable proper transaction scopes within the section manager,
+        // we MUST adhere to the most natural dependency ordering between
+        // any info table involved. 
+        // the one we choose was: 
+        //  [ProofTable] dependsOn ThmTble dependsOn [JokerTble] dependsOn OpTable
+        //
+        //
+        // ahhh, but there is the possibility of unrecovered errors or syntax errors
+        // or indeed scanning errors. In that case, we would need a catch for closing/cancelling
+        // the transactions. Instead then, we decided to end the transaction with a empty
+        // info table that gets filled along the way during parsing. If such errors occur,
+        // then upon removing the ZSect involved, we know that the dependant tables get
+        // removed as well becuase they explicitly depend on the ZSect.
+        // So order here of resetXXXTable doesn't matter.
+
         resetOpTable(section, validParents, line, column);
         resetThmTable(section, validParents, line, column);
 <add:pattern>
@@ -940,9 +950,10 @@ action code
     }
     
     private OpTable getOperatorTable(String section, int line, int column)
-      throws ParseException
     {
-      try {
+      try 
+      {
+        // will have a transaction on the inner/parent table
         return sectInfo_.get(new Key&lt;OpTable&gt;(section, OpTable.class));
       }
       catch (CommandException e) {
@@ -956,8 +967,13 @@ action code
 
     private void resetOpTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
-      throws ParseException
     {
+      // starts a transaction for the top-level optable. parents will have
+      // their own transaction through the SectInfo.get() (see getOperatorTable).
+      // we assume/know here that parent cycles have been resolved.
+      Key&lt;OpTable&gt; optKey = new Key&lt;OpTable&gt;(section, OpTable.class);
+      sectInfo_.startTransaction(optKey);
+
       List&lt;OpTable&gt; parentOpTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.isEmpty();
@@ -968,6 +984,7 @@ action code
           if (parentOp != null) {
             parentOpTables.add(parentOp);
           }
+          // TODO: should we cancel the outermost transaction here? No??
         }
       }
       try {
@@ -978,11 +995,32 @@ action code
                             new Object[] { e.getMessage() },
                             getLocation(line, column));
      }
+     // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
+     // in that way, if during parsing some exception is thrown (e.g., ScanException, ParseException, etc)
+     // then upon cancellation of that transaction (e.g., over its get(ZSect) method), the OpTable will be removed.
+     // this is an example of a important explicit dependency (e.g., not implicitly known?)
+     sectInfo_.endTransaction(optKey, opTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
+
+     try
+     {
+       // get the OpTable just added by the end transaction above in order to (implicitly) include
+       // it as a dependency of the ZSect sect (e.g., ZSect depends on OpTable). That is needed here
+       // because ZSect(S) depend on OpTable(S) that depend on ZSect(S).
+       //
+       // this is needed for any table with such circular dependency (e.g., joker table yes; thm/proof table no).
+       opTable_ = sectInfo_.get(optKey);
+     }
+     catch (CommandException e)
+     {
+       // SHOULD NEVER HAPPEN!!!!
+       final String message = "Couldn't retrieve OpTable for " + section + " that has just been calculated?!";
+       throw new CztException(message, e);
+     }
+
      opScanner_.setOperatorTable(opTable_);
     }
     
     private ThmTable getThmTable(String section, int line, int column)
-      throws ParseException
     {
       try {
         return sectInfo_.get(new Key&lt;ThmTable&gt;(section, ThmTable.class));
@@ -998,8 +1036,11 @@ action code
     
     private void resetThmTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
-      throws ParseException
     {
+
+      Key&lt;ThmTable&gt; thmKey = new Key&lt;ThmTable&gt;(section, ThmTable.class);
+      sectInfo_.startTransaction(thmKey);
+
       List&lt;ThmTable&gt; parentThmTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.isEmpty();
@@ -1019,7 +1060,10 @@ action code
         parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_THMTABLES,
                             new Object[] { e.getMessage() },
                             getLocation(line, column));
-     }     
+     }
+
+     sectInfo_.endTransaction(thmKey, thmTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
+
     }
 
 <add:zeves>
@@ -1039,7 +1083,6 @@ action code
     }
 
     private ProofTable getProofTable(String section, int line, int column)
-      throws ParseException
     {
       try {
         return sectInfo_.get(new Key&lt;ProofTable&gt;(section, ProofTable.class));
@@ -1055,9 +1098,11 @@ action code
 
     private void resetProofTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
-      throws ParseException
     {
-      List parentProofTables = factory_.list();
+      Key&lt;ProofTable&gt; proofKey = new Key&lt;ProofTable&gt;(section, ProofTable.class);
+      sectInfo_.startTransaction(proofKey);
+
+      List&lt;ProofTable&gt; parentProofTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.size() == 0;
       }
@@ -1077,6 +1122,9 @@ action code
                             new Object[] { e.getMessage() },
                             getLocation(line, column));
      }
+
+     sectInfo_.endTransaction(proofKey, proofTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
+
     }
 </add:zeves>
 
@@ -1100,7 +1148,11 @@ action code
                                  int line, int column)
       throws CommandException
     {
-      List parentJokerTables = factory_.list();
+      Key&lt;JokerTable&gt; jokerKey = new Key&lt;JokerTable&gt;(section, JokerTable.class);
+      sectInfo_.startTransaction(jokerKey);
+
+
+      List&lt;JokerTable&gt; parentJokerTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.size() == 0;
       }
@@ -1121,9 +1173,52 @@ action code
                             new Object[] { e.getMessage() },
                             getLocation(line, column));
       }
+
+      sectInfo_.endTransaction(jokerKey, jokerTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
+
+      try
+       {
+         jokerTable_ = sectInfo_.get(jokerKey);
+       }
+       catch (CommandException e)
+       {
+         // SHOULD NEVER HAPPEN!!!!
+         final String message = "Couldn't retrieve JokerTable for " + section + " that has just been calculated?!";
+         throw new CztException(message, e);
+       }
+
       jokerScanner_.setJokerTable(jokerTable_);
+      
     }
 </add:pattern>
+
+    private void ensureSectInfoStateForSpec(String sectName, int left, int right)
+    {
+       Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
+
+       // start transaction right when creating the first ZSect since it is not
+       // started via sectInfo_ get. We use ensure transaction instead because
+       // it might come from either get(ZSect) - which starts transaction - or
+       // get(Term/Spec) - which doesnt - for ZSect.
+       //sectInfo_.startTransaction(zsKey);
+       //sectInfo_.ensureTransaction(zsKey);
+       //
+       // Ensure isn't good because we might have get(ZSect) -> get(Spec) -> ensureT(ZSect)
+       // which if finished will not be the top of the stack ! It must be cancelled elsewhere.
+       //sectInfo_.startTransaction(zsKey);
+
+       if (sectInfo_.isCached(zsKey))
+       {
+         //sectInfo_.removeKey(zsKey);
+         parser.report_error(ZParseMessage.MSG_ERROR_REDECLARED_ZSECT, new Object[] { sectName }, getLocation(left, right));
+         // unrecoverable
+         parser.done_parsing();
+       }
+       else
+       {
+         sectInfo_.startTransaction(zsKey);
+       }
+    }
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
     {
@@ -1183,38 +1278,50 @@ action code
 //      System.out.println();
 
 </add:circus>
+      Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
 
-      if (parseError) return sect;
+      if (!parseError)
+      {
+        // the table updates into the section manager take place at the point of creation rather than at the end.
+        // the main motivation for this is to avoid nested transaction for the tables - in particular OpTable -
+        // which might have explicit (and circular) dependencies like OpTable and its ZSect. See resetInfoTables comment/note
 
-      // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
-      sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable, 
-        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, OpTable.class).build());
+        // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
+        //sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable,
+        // new DependenciesBuilder().self(sect, ZSect.class).parents(sect, OpTable.class).build());
 
-      // ThmTables of this section depend on its own ZSect and on the theorem tables of its parents.
-      sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable,
-        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, ThmTable.class).build());
+        // ThmTables of this section depend on its own ZSect and on the theorem tables of its parents.
+        //sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable,
+        //  new DependenciesBuilder().self(sect, ZSect.class).parents(sect, ThmTable.class).build());
 
-<add:pattern>
-      // JokerTables of this section depend on its own ZSect and on the joker tables of its parents.
-      sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable,
-        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, JokerTable.class).build());
-</add:pattern>
-<add:zeves>
-      // ProofTables of this section depend on its own ZSect and on the proofs tables of its parents and on its own ThmTable (??? CHECK TODO ???).
-      sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable,
-        new DependenciesBuilder().self(sect, ZSect.class).self(sect, ThmTable.class).parents(sect, ProofTable.class).build());
+  <add:pattern>
+        // JokerTables of this section depend on its own ZSect and on the joker tables of its parents.
+        //sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable,
+        //  new DependenciesBuilder().self(sect, ZSect.class).parents(sect, JokerTable.class).build());
+  </add:pattern>
+  <add:zeves>
+        // ProofTables of this section depend on its own ZSect and on the proofs tables of its parents and on its own ThmTable (??? CHECK TODO ???).
+        //sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable,
+        //  new DependenciesBuilder().self(sect, ZSect.class).self(sect, ThmTable.class).parents(sect, ProofTable.class).build());
 
-      proofTable.checkAgainst(thmTable); // just warning in case of inconsistency (e.g., more proofs than conj para).
-      //proofTable.verifyConsistency(thmTable); -- for error
-</add:zeves>
+        proofTable.checkAgainst(thmTable); // just warning in case of inconsistency (e.g., more proofs than conj para).
+        //proofTable.verifyConsistency(thmTable); -- for error
+  </add:zeves>
 
-      // To parse a ZSect we depend on our own operator table and latex markup function only.
-      // These tables, depend on this section parents, but that's an indirect dependency.
-      // Notice that the OpTable dependency has a dual link with its own ZSect
-      <add:pattern>// For the ZPatt parser, we also depend on the JokerTable, just like  the OpTable.</add:pattern>
-      sectInfo_.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), sect,
-                    new DependenciesBuilder().self(sect, OpTable.class).self(sect, LatexMarkupFunction.class).
-                      <add:pattern>self(sect, JokerTable.class).</add:pattern>build());
+        // To parse a ZSect we depend on our own operator table and latex markup function only.
+        // These tables, depend on this section parents, but that's an indirect dependency.
+        // Notice that the OpTable dependency has a dual link with its own ZSect
+        <add:pattern>// For the ZPatt parser, we also depend on the JokerTable, just like  the OpTable.</add:pattern>
+
+        // TODO: check if dep builder is needed - we removed OpTable/JokerTable becuase we do an explicit extra get for it at resetXXXTable.
+        sectInfo_.endTransaction(zsKey, sect,
+                      new DependenciesBuilder().self(sect, LatexMarkupFunction.class).add(parser.getExplicitDeps()).build());
+      }
+      else
+      {
+        // in case of parsing errors, cancel the transaction
+        sectInfo_.cancelTransaction(zsKey);
+      }
       return sect;
     }
 
@@ -2040,6 +2147,13 @@ parser code
       }
     }
 
+    // there are more constructors created by java cup, don't put it final!
+    private Set&lt;Key&lt;?&gt;&gt; explicitDeps_ = Collections.emptySet();
+
+    Set&lt;Key&lt;?&gt;&gt; getExplicitDeps()
+    {
+      return Collections.unmodifiableSet(explicitDeps_);
+    }
 
     /**
      * Creates a new parser with the given scanner, source information,
@@ -2051,12 +2165,14 @@ parser code
     public <class/>(Scanner scanner,
                     Source source,
                     SectionInfo sectInfo,
-                    Properties properties)
+                    Properties properties,
+                    Set&lt;Key&lt;?&gt;&gt; explicitDeps)
     {
       super(scanner);
       source_ = source;
       sectInfo_ = sectInfo;
       errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
       parseException_ = null;
       if (source != null) {
         try {
@@ -2165,7 +2281,6 @@ parser code
     }
 
     public void unrecovered_syntax_error(Symbol token)
-      throws ParseException
     {
       report_error("Syntax error", createSyntaxError(token));
       done_parsing();
@@ -3188,6 +3303,9 @@ emptySectionHeader ::=
 <add:circus>
            final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
+
+           ensureSectInfoStateForSpec(name, eleft, eright);
+           
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetInfoTables(name, parents, eleft, eright);
            
@@ -3276,6 +3394,8 @@ sectionHeader ::=
              p.add(circusParent);
            }
 </add:circus>
+           ensureSectInfoStateForSpec(name, pleft, pright);
+           
            resetInfoTables(name, p, pleft, pright);
            
            RESULT = createZSect(name, p);

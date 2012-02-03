@@ -15,6 +15,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.z.util;
 
+import net.sourceforge.czt.util.Section;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;

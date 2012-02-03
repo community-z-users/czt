@@ -24,14 +24,17 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.z.UnicodePrinter;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 
 public class LatexPrinterCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
@@ -53,7 +56,7 @@ public class LatexPrinterCommand
         throw new CommandException(e);
       }
       writer.close();
-      manager.put(new Key<LatexString>(name, LatexString.class),
+      manager.endTransaction(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
 
       toPrintTree = null;

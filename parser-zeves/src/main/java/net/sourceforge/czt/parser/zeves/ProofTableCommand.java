@@ -57,7 +57,7 @@ public class ProofTableCommand
       if ( ! manager.isCached(key)) {
         ProofTableVisitor visitor = new ProofTableVisitor(manager);
         ProofTable proofTable = visitor.run(zSect);
-        manager.put(key, proofTable, ParseUtils.calculateDependencies(zSect, ProofTable.class));
+        manager.endTransaction(key, proofTable);
       }
     }
     return true;

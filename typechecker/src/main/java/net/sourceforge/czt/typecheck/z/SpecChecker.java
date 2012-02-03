@@ -25,7 +25,6 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
 
 /**
  */
@@ -69,24 +68,29 @@ public class SpecChecker
 
   /**
    * Any "left over" sections.
+   * @param sect
    */
+  @Override
   public Object visitSect(Sect sect)
   {
     return factory().list();
   }
 
+  @Override
   public Object visitZSect(ZSect zSect)
   {
     List<NameSectTypeTriple> result = checkZSect(zSect);
     return result;
   }
 
+  @Override
   public Object visitZParaList(ZParaList list)
   {
     checkParaList(list);
     return null;
   }
 
+  @Override
   public Object visitParent(Parent parent)
   {
     checkParent(parent);

@@ -15,7 +15,8 @@
 \end{schema}
 
 \begin{theorem}{BirthdayBookPredicate}
-\vdash? \forall BirthdayBook @ known = \dom birthday
+%\vdash?
+\forall BirthdayBook @ known = \dom birthday
 \end{theorem}
 
 \begin{zproof}[BirthdayBookPredicate]
@@ -30,7 +31,8 @@ reduce;
 \end{schema}
 
 \begin{theorem}{InitIsOK}
-\vdash? \exists  BirthdayBook~' @ InitBirthdayBook
+%\vdash?
+\exists  BirthdayBook~' @ InitBirthdayBook
 \end{theorem}
 
 \begin{zproof}[InitIsOK]
@@ -47,7 +49,8 @@ prove by reduce;
 \end{schema}
 
 \begin{theorem}{AddBirthdayIsHonest}
-\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ name? \notin  known \implies  \pre  AddBirthday
+%\vdash?
+\forall  BirthdayBook; name?: NAME; date?: DATE @ name? \notin  known \implies  \pre  AddBirthday
 \end{theorem}
 
 \begin{zproof}[AddBirthdayIsHonest]
@@ -55,7 +58,8 @@ prove by reduce;
 \end{zproof}
 
 \begin{theorem}{knownAddBirthday}
-\vdash? \forall AddBirthday @ known' = known \cup  \{name?\}
+%\vdash?
+\forall AddBirthday @ known' = known \cup  \{name?\}
 \end{theorem}
 
 \begin{zproof}[knownAddBirthday]
@@ -80,7 +84,8 @@ AddThenFind == AddBirthday \semi  FindBirthday
 \end{zed}
 
 \begin{theorem}{AddFind}
-\vdash? \forall AddThenFind @ date! = date?
+%\vdash?
+\forall AddThenFind @ date! = date?
 \end{theorem}
 
 \begin{zproof}[AddFind]
@@ -138,7 +143,8 @@ RAddBirthday == AddBirthday \land  Success \lor  AlreadyKnown
 \end{zed}
 
 \begin{theorem}{RAddBirthdayIsTotal}
-\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  RAddBirthday
+%\vdash?
+\forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  RAddBirthday
 \end{theorem}
 
 \begin{zproof}[RAddBirthdayIsTotal]
@@ -155,7 +161,8 @@ prove;
 \end{axdef}
 
 \begin{theorem}{tAddBirthdayPRE}
-\vdash? \forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  AddBirthday
+%\vdash?
+\forall  BirthdayBook; name?: NAME; date?: DATE @ \pre  AddBirthday
 \end{theorem}
 
 \begin{zproof}[tAddBirthdayPRE]
@@ -184,11 +191,13 @@ equality substitute \dom  birthday;
 \end{zproof}
 
 \begin{theorem}{myThm}
-\vdash? \forall  x: \nat  @ x \geq  0
+%\vdash?
+\forall  x: \nat  @ x \geq  0
 \end{theorem}
 
 \begin{theorem}{test}
-\vdash? \forall BirthdayBook @ true
+%\vdash?
+\forall BirthdayBook @ true
 \end{theorem}
 
 \begin{zproof}[test]

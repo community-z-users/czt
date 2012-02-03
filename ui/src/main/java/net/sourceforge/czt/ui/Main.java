@@ -178,7 +178,7 @@ public class Main
           SectionManager manager = new SectionManager(extension);
           if (debug_)
           {
-            manager.setTracingLevel(
+            manager.setTracing(debug_,
                verbosityLevel_.equals(SectionManager.DEFAULT_LOGLEVEL) ?     //    if extra verbosity
                   SectionManager.EXTRA_TRACELEVEL :                          //      extr tracing
                   SectionManager.DEFAULT_TRACELEVEL);                        //    else normal tracing            

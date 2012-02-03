@@ -1,4 +1,4 @@
-─ section appTo parents zeves_toolkit , set_toolkit └
+─ section appToUtf parents zeves_toolkit , set_toolkit └
 
 ─ theorem foo1 ∀ R , S : ℙ ( ℕ × ℕ ) ; x : ℕ ⦁ ( R ∪ S ) applies$to x └
 

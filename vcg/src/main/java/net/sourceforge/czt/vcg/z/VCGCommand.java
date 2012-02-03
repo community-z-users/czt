@@ -106,8 +106,7 @@ public abstract class VCGCommand<R> extends AbstractCommand
 
     // update the manager with results, depending on the kind of VCEnvAnn
     manager.put(new Key/*<VCEnvAnn<R>>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass()), vcg, ParseUtils.calculateDependencies(zSect, getVCEnvAnnClass()));
-    //manager.put(this.<R>createSMKey(vcg.getOriginalZSectName(), this.<R>getVCEnvAnnClass()), vcg);
-
+    
     return true;
   }
 

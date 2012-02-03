@@ -20,9 +20,11 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.Collections;
 import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.parser.util.ErrorType;
@@ -144,23 +146,37 @@ public class TypeCheckCommand extends AbstractCommand
       //Typechecks the given section. This will include the SectTypeEnv we
       //are looking for into the manager.
       SectTypeEnvAnn env = zs.getAnn(SectTypeEnvAnn.class);
-      if (env != null) {
-        manager.put(new Key<SectTypeEnvAnn>(name, SectTypeEnvAnn.class), env);
+      Key<SectTypeEnvAnn> typeKey = new Key<SectTypeEnvAnn>(name, SectTypeEnvAnn.class);
+      if (env != null)
+      {
+        // this is for when the user explicitly puts the annotation, but given
+        // it is within the command, it came from a get, therefore finish the transaction
+        manager.endTransaction(typeKey, env);
         return false;
       }
+      // perform the type check
       List<? extends ErrorAnn> errors = typecheck(zs, manager);
+
+      // after type checking, manual or via the command, the key must be present?
+      if (!manager.isCached(typeKey))
+      {
+        final String message = "Section " + name + " was not type checked properly. "
+                + "Couldn't find its type information key in the section manager";
+        throw new CommandException(message);
+      }
 
       // if there are warnings within the errors, add then
       SectWarningsAnn warnings = processWarnings(zs, errors);
       if (!warnings.isEmpty())
       {
-        manager.put(new Key<SectWarningsAnn>(name, SectWarningsAnn.class), warnings);
+        // no need for transactions above or below - directly, please 
+        manager.put(new Key<SectWarningsAnn>(name, SectWarningsAnn.class), warnings, Collections.singleton(typeKey));
       }
 
       SectSummaryAnn summary = summarise(manager, zs);
       if (summary != null)
       {
-        manager.put(new Key<SectSummaryAnn>(name, SectSummaryAnn.class), summary);
+        manager.put(new Key<SectSummaryAnn>(name, SectSummaryAnn.class), summary, Collections.singleton(typeKey));
       }
       
       // if there are remaining errors from filtered warnings raise exception

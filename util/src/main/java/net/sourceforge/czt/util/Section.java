@@ -16,7 +16,7 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-package net.sourceforge.czt.z.util;
+package net.sourceforge.czt.util;
 
 import java.util.Collections;
 import java.util.Set;
@@ -46,11 +46,25 @@ public enum Section
   SEQUENCE_TOOLKIT("sequence_toolkit"),
   SET_TOOLKIT("set_toolkit"),
 
-  /** Extra (Old-Z) toolkit name. */
+  /** Extra (Old-Z) toolkit names for Z. */
   FUZZ_TOOLKIT("fuzz_toolkit"),
+  WHITESPACE("whitespace"),
 
-  ZSTATE_TOOLKIT("ztate_toolkit"),
-  WHITESPACE("whitespace")
+  /** ZEves toolkits */
+  ZEVES_PRELUDE("zeves_prelude"),
+  ZSTATE_TOOLKIT("zstate_toolkit"),
+
+  /** OZ toolkits */
+  OZ_TOOLKIT("oz_toolkit"),
+
+  /** Circus toolkits */
+  CIRCUS_PRELUDE("circus_prelude"),
+  CIRCUS_TOOLKIT("circus_toolkit"),
+
+  /** VCG toolkits */
+  DC_TOOLKIT("dc_toolkit"),
+  FSB_TOOLKIT("fsb_toolkit"),
+  REF_TOOLKIT("ref_toolkit"),
           ;
 
   private String name_;

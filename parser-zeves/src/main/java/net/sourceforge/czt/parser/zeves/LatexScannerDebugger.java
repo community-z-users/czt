@@ -112,6 +112,8 @@ public class LatexScannerDebugger {
      //sectInfo_.setProperty("czt.debug.ContextFreeScanner", "true");
      //sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
      //sectInfo_.setProperty("czt.debug.*", "true");
+    //sectInfo_.setTracing(true, Level.ALL);
+
     net.sourceforge.czt.java_cup.runtime.Scanner scanner;
      if (source.getMarkup().equals(Markup.UNICODE))
        scanner = new UnicodeScanner(source, sectInfo_.getProperties());
@@ -201,6 +203,7 @@ public class LatexScannerDebugger {
           Integer width, boolean formatGoal, boolean isDebugging) throws CommandException, ParseException, IOException, UnmarshalException
   {
       SectionManager sectInfo_ = new SectionManager("zeves");
+      //sectInfo_.setTracing(true, Level.ALL);
       sectInfo_.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, width.toString());
       sectInfo_.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL,
               String.valueOf(formatGoal));

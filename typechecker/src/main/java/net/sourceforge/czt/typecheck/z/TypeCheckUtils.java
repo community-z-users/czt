@@ -20,8 +20,9 @@
 package net.sourceforge.czt.typecheck.z;
 
 import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
-import java.io.*;
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
@@ -29,15 +30,26 @@ import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.MarshalException;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SpecSource;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.Pair;
+import net.sourceforge.czt.util.Section;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**
@@ -203,9 +215,17 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
 
+    // see Checker.checkZSect for initial transaction setup
+
     return guardedTypeCheck(typeChecker, term);
   }
 
+  /**
+   *
+   * @param typeChecker
+   * @param term
+   * @return
+   */
   @SuppressWarnings("CallToThreadDumpStack")
   protected List<? extends ErrorAnn> guardedTypeCheck(TypeChecker typeChecker, Term term)
   {

@@ -18,6 +18,10 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>specreader</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>util</artifactId>
+    </dependency>
   </dependencies>
   <url>http://czt.sourceforge.net/session/</url>
 </project>

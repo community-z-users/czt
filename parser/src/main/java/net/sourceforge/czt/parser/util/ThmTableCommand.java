@@ -55,7 +55,7 @@ public class ThmTableCommand
       if ( ! manager.isCached(key)) {
         ThmTableVisitor visitor = new ThmTableVisitor(manager);
         ThmTable thmTable = visitor.run(zSect);
-        manager.put(key, thmTable);
+        manager.endTransaction(key, thmTable);
       }
     }
     return true;

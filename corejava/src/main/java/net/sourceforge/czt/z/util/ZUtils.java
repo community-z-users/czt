@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.z.util;
 
+import net.sourceforge.czt.util.Section;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;

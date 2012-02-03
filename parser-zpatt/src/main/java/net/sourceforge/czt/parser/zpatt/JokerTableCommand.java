@@ -19,16 +19,13 @@
 
 package net.sourceforge.czt.parser.zpatt;
 
-import java.util.*;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.visitor.*;
+
 
 public class JokerTableCommand
   implements Command
@@ -42,18 +39,25 @@ public class JokerTableCommand
   {
   }
 
+  @Override
   public boolean compute(String name,
                          SectionManager manager)
     throws CommandException
   {
+    Key<JokerTable> jokerKey = new Key<JokerTable>(name, JokerTable.class);
+    //manager.cancelTransaction(jokerKey);
+
     JokerTableVisitor visitor = new JokerTableVisitor(manager);
     Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
     ZSect zsect = manager.get(key);
+
+   // manager.startTransaction(jokerKey);
     JokerTable jokerTable = (JokerTable) visitor.run(zsect);
-    if (jokerTable != null) {
-      Set dep = visitor.getDependencies();
-      dep.add(key);
-      manager.put(new Key<JokerTable>(name, JokerTable.class), jokerTable, dep);
+    if (jokerTable != null)
+    {
+      manager.endTransaction(jokerKey, jokerTable);
+            // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
+            //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
       return true;
     }
     return false;

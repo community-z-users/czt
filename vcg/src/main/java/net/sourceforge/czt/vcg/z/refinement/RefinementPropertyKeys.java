@@ -22,7 +22,7 @@ package net.sourceforge.czt.vcg.z.refinement;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.ZRefKind;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  *

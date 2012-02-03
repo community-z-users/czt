@@ -23,22 +23,43 @@ package <package/>;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
-import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.parser.util.CyclicParseManager;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.LatexMarkupFunctionVisitor;
+import net.sourceforge.czt.parser.util.LatexSym;
+import net.sourceforge.czt.parser.util.Lexer;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocToken;
+import net.sourceforge.czt.parser.util.MarkupDirective;
+import net.sourceforge.czt.parser.util.MarkupException;
+import net.sourceforge.czt.parser.util.Pair;
+
 import net.sourceforge.czt.parser.z.CyclicParentError;
 import net.sourceforge.czt.parser.z.ZParseError;
 import net.sourceforge.czt.parser.z.ZParseMessage;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
+
 
 /**
  * A latex markup parser that looks like a scanner.
@@ -73,9 +94,6 @@ public class <class/>
    */
   private Map&lt;String,LatexMarkupFunction&gt; markupFunctions_ =
     new HashMap&lt;String,LatexMarkupFunction&gt;();
-
-  private java.util.Set&lt;Key&lt;?&gt;&gt; dependencies_ =
-    new java.util.HashSet&lt;Key&lt;?&gt;&gt;();
 
   /**
    * Are we just parsing a section header?
@@ -135,7 +153,6 @@ public class <class/>
       try {
         Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(parent, LatexMarkupFunction.class);
         markupFunction = sectInfo_.get(key);
-        dependencies_.add(key);
       }
       catch (CommandException exception) {
         String message = "Cannot get LatexMarkupFunction for " + parent
@@ -158,6 +175,71 @@ public class <class/>
     return token.getName().equals(sym.toString());
   }
 
+  /**
+   * This method checks the section manager state for various cases to be handled by this low level scanner/parser.
+   * This is the most complicated case to cater for because LMF is scanning (e.g., prior to parsin), yet it happens
+   * during the parsing of parents, which might lead to overlapping transactions and special care is needed in this
+   * bootstrapping scenario. Given test cases, we managed to find a good compromise to the protocol that gets a bit
+   * complicated, albeit deterministic.
+   *
+   * @param sectName same as sectName_, but to emphasise the dependency
+   */
+  private void ensureSectInfoStateForSpec(String sectName)
+  {
+    // set sectName_ first
+    assert sectName.equals(sectName_);
+
+    Key&lt;LatexMarkupFunction&gt; lmfKey = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
+
+    // NOTE: don't start the transaction as it might not have been cancelled - see ensures below
+    //
+    // start the transaction from the Spec, as the ZSect chains won't
+    // sectInfo_.startTransaction(lmfKey);
+
+    // NOTE: when file "./foo.XXX" (Unicode or LaTeX) doesn't have a section foo but say "test"
+    //       the Spec case gets a bit confused (e.g., SectManager already has "test" keys....
+    //       So no need for transactions on already cached keys
+    //
+    // Use ensure for Spec (anonynimous or otherwise). Ensures there is a transaction for LMF - it might be
+    // cancelled by LMF Command for LaTeX source; it might not when either the user gives the ZSect or the ZSect is Unicode
+    // sectInfo_.ensureTransaction(lmfKey);
+
+    // Only if the key isn't already calculated, and there isn't already a transaction for the LMF key, add one.
+    // The usual case is that of "startTransaction(lmfKey)". Cases where it differ are:
+    //
+    // a) LaTeX printing of Unicode parsed source - there won't be a LMF cached, but there is already a ZSect.
+    //    In that case, the transaction will be started - get(lmfKey) - but not cancelled - LmfCmd.
+    //
+    // b) LaTeX parsing of LaTeX source where SECTION name isn't linked to the Source file/str etc.
+    //    In that case, there is already a ZSect (and LMF) cached, hence no need for transaction at all.
+    //    If one had made the SECTION name the same as the file, this wouldn't be necessary.
+    //
+    //if (!sectInfo_.isCached(lmfKey))
+    //{
+    //  sectInfo_.ensureTransaction(lmfKey);
+    //}
+
+    // NOTE: at typechecker, we got the RedecleredSection example, which triggers a lexing case here.
+    //       we needed to remove the key first; otherwise we would lex two equal header twice, hence
+    //       keep the section manager in an inconsistent state before getting to the type error case.
+    //       so when lexing lexing the second copy, we need to remove the first one.
+    //
+    if (sectInfo_.isCached(lmfKey))
+    {
+      // this remove works because there is no link with LMF and Spec
+      //sectInfo_.removeKey(lmfKey);
+      
+      ZParseError error = new ZParseError(ZParseMessage.MSG_ERROR_REDECLARED_ZSECT,  new Object[] { sectName }, null);
+      error.setErrorType(ErrorType.ERROR);
+      error.setInfo("There might be duplicate section or files?");
+      ZParseError.report(sectInfo_, getSource(), error);
+
+      // use the ZParseError as a LocInfo - TODO: maybe put it as last seen Token later?
+      throw new ScanException(error.getMessage(), error);
+    }
+    sectInfo_.startTransaction(lmfKey);
+  }
+
   @Override
   public LocToken next()
     throws IOException
@@ -178,6 +260,10 @@ public class <class/>
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = Section.ANONYMOUS.getName();
+
+      // depends on sectName_ : update it first
+      ensureSectInfoStateForSpec(sectName_);
+
       parents_ = Section.STANDARD_TOOLKIT.getName()
         <add:oz>+", oz_toolkit"</add:oz>
         <add:circus>+", circus_prelude"</add:circus>
@@ -197,6 +283,9 @@ public class <class/>
     if (sectHead_) { // we are just parsing a section header
       if (is(token, LatexSym.END)) { // end of section header
         sectName_ = trim(sectName_);
+
+        ensureSectInfoStateForSpec(sectName_);
+        
         markupFunction_ = new LatexMarkupFunction(sectName_);
         markupFunctions_.put(sectName_, markupFunction_);
         lexer_.setMarkupFunction(markupFunction_);
@@ -355,22 +444,50 @@ public class <class/>
     return result;
   }
 
-  private java.util.Set&lt;Key&lt;?&gt;&gt; dependencies()
-  {
-    return java.util.Collections.unmodifiableSet(dependencies_);
-  }
-
   @SuppressWarnings("unchecked")
   private void updateLatexMarkupFunction()
   {
     if (markupFunction_ != null) {
       final Key&lt;LatexMarkupFunction&gt; key =
         new Key&lt;LatexMarkupFunction&gt;(markupFunction_.getSection(), LatexMarkupFunction.class);
+
+
+      // redeclared sections are considered type errors (!) but they happen at lexing time!!!!
+      // we can't add duplicate keys, neither add one key for where there are not transactions!
       if (sectInfo_.isCached(key))
       {
-        CztLogger.getLogger(LatexMarkupFunction.class).warning("About to add duplicate key '" + key.toString() + "' while updating LatexMarkupFunction. This might happen when keywords are missued in the specification");
+        CztLogger.getLogger(LatexMarkupFunction.class).log(Level.WARNING, "About to add duplicate key ''{0}'' while updating LatexMarkupFunction. This might happen when keywords are missued in the specification", key.toString());
       }
-      sectInfo_.put(key, markupFunction_, dependencies());
+      sectInfo_.endTransaction(key, markupFunction_,
+         Collections.singleton(new Key&lt;ZSect&gt;(markupFunction_.getSection(), ZSect.class)));//dependencies());
+      
+      // get method on the just added LatexMarkupFunction to force the dependency for the calling ZSect being parsed
+      // to contain the LMF itself . TODO: this is a hack given the intertwined relationship between LMF and ZS parsing.
+
+      // NOTE: we added to the ZSect a dependency to a LMF in Parser.xml updateZSect. That is added even if the buffer is Unicode (!!!)
+      //       in this way our sin is to have too many (or one spurious) dependency; hence we no longer need the hack below. 
+      //       ex: this would result in a unicode ZSect depending on its (empty) LatexMarkupFunction key.
+      //
+      //       having this "hard-wired" dependency is also helpful because we don't if when we started the transaction for
+      //       the ZSect LMF lexing took place or not. That's because it depends on the size of the CztReader buffer. So,
+      //       this bootstrapping between low-level lexing and parsing becomes quite tricky. This was our compromise that is
+      //       conservative enough to keep dependencies right for a consistent section manager state.
+      //
+      // HACK: whoever is using LatexMarkupParser and it is in a transaction will depend on it, even though might not be using it
+      //       however, this isn't in itself a problem, given that LatexMarkupParsers are only used by Latex markup itself, which
+      //       even if an empty latex markup is in place, it's okay to have an extra dependency. Trouble would be to have missed it.
+      //       given the intertwined nature of parsing / lexing and LMF, we antecipate there isn't much we can do here. TODO:CHECK
+      //try
+      //{
+      //  LatexMarkupFunction res = sectInfo_.get(key);
+      //  assert res == markupFunction_;
+      //}
+      //catch (CommandException ex)
+      //{
+      //  final String message = "Couldn't retrieve LatexMarkupFunction " + markupFunction_.getSection() + " that has just been calculated?!";
+      //  //Logger.getLogger(LatexMarkupParser.class.getName()).log(Level.WARNING, message, ex);
+      //  throw new CztException(message, ex);
+      //}
     }
   }
 

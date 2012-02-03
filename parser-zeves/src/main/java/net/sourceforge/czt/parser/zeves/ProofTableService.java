@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.zeves;
 
-import java.util.Set;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -76,11 +75,12 @@ public class ProofTableService
     Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
     ZSect zsect = manager.get(key);
     if (zsect != null) {
-      ProofTable thmTable = visitor.run(zsect);
-      if (thmTable != null) {
-        Set<Key<?>> dep = visitor.getDependencies();
-        dep.add(key);
-        manager.put(new Key<ProofTable>(name, ProofTable.class), thmTable, dep);
+      ProofTable proofTable = visitor.run(zsect);
+      if (proofTable != null) {
+        manager.endTransaction(new Key<ProofTable>(name, ProofTable.class), proofTable);
+            // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
+            //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
+
         return true;
       }
     }

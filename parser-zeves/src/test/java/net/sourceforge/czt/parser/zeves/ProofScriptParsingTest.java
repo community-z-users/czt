@@ -96,6 +96,10 @@ public class ProofScriptParsingTest
     markups.remove(Markup.getMarkup(fileName));
     for(Markup m : markups)
     {
+      // we are about to reparse files in different markups, we better reset the manager -
+      // otherwise there will be cached entities there for the same ZSects.
+      getManager().reset();
+
       final String refile = fileName + Markup.getDefaultFileExtention(m);
       if (isDebugging())
       {

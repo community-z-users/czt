@@ -54,6 +54,8 @@ public enum ZParseMessage
   MSG_LATEX_COMMAND_DEFINED_TWICE("Command {0} defined twice: {1}, {2}"),
   MSG_NOT_WITHIN_SCHBOX("Recognised Z state or refinement relationship {0} schema box.", "The lexer is identifying a Z state or refinement relationship from a part of the specification where it is not allwoed."),
 
+  MSG_ERROR_REDECLARED_ZSECT("Section {0} has been previously declared"),
+
   //Additional error messages by completing the grammar with error productions
   //wherever possible/purposeful. By Leo
   MSG_MISSING_NL_UNBOXEDPARLIST("Missing hard new-line (i.e. \\\\, \\also, etc.) in unboxed paragraph item list."),

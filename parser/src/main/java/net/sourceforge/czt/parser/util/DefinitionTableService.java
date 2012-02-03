@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.Set;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -85,11 +84,11 @@ public class DefinitionTableService
     try
     {
       DefinitionTable table = (DefinitionTable) visitor.run(zsect);
-      if (table != null) {
-        Set<Key<?>> dep = visitor.getDependencies();
-        dep.add(key);
-        manager.put(new Key<DefinitionTable>(name, DefinitionTable.class),
-                    table, dep);
+      if (table != null)
+      {
+        manager.endTransaction(new Key<DefinitionTable>(name, DefinitionTable.class), table);
+                // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect 
+                //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
         return true;
       }
     }

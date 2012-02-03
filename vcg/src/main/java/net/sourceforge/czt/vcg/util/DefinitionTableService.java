@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.SortedSet;
+import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -31,7 +32,6 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -89,12 +89,13 @@ public class DefinitionTableService
 
   protected void updateManager(SectionManager manager,
           Key<ZSect> sectKey, Key<DefinitionTable> defTblKey,
-          DefinitionTable table, Set<Key<?>> dependencies)
+          DefinitionTable table, Set<Key<?/*DefinitionTable only?*/>> dependencies)
   {
     if (table != null)
     {
-      dependencies.add(sectKey);
-      manager.put(defTblKey, table, dependencies);
+      manager.put(defTblKey, table,
+          // depend on the ZSect as well as all the parent table dependencies
+          new DependenciesBuilder().add(dependencies).add(sectKey).build());
     }
   }
 

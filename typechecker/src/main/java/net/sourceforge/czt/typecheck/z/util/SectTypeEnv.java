@@ -29,7 +29,7 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;

@@ -33,7 +33,7 @@ import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  *

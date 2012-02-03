@@ -20,7 +20,7 @@ package net.sourceforge.czt.vcg.z.feasibility;
 
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  * <P>Contains String constants for the keys used in VCG properties.</P>

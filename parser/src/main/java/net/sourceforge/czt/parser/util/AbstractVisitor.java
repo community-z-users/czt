@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +56,7 @@ public class AbstractVisitor<R>
 
   public Set<Key<?>> getDependencies()
   {
-    return dependencies_;
+    return Collections.unmodifiableSet(dependencies_);
   }
 
   /**

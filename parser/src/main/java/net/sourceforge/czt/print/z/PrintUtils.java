@@ -34,7 +34,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  * Utilities for printing Z specifications given as an AST.
@@ -65,6 +65,10 @@ public final class PrintUtils
    * the tree itself.  See {@link
    * #print(Term,Writer,SectionManager,String,Markup)} for
    * writing trees that do not contain context information.
+   * @param term
+   * @param out
+   * @param sectInfo
+   * @param markup
    */
   public static void print(Term term,
                            Writer out,

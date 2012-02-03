@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.Collections;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.ZSect;
 
@@ -41,17 +42,26 @@ public class OpTableCommand
    * @return
    * @throws CommandException
    */
-  // TODO: why not use the visitor's dependencies as well, like in OpTableService? (Leo)
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
-    final Key<OpTable> key = new Key<OpTable>(name, OpTable.class);
-    if ( !manager.isCached(key)) {
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      if ( !manager.isCached(key)) {
+    final Key<OpTable> opTKey = new Key<OpTable>(name, OpTable.class);
+
+    // TODO: revisit if this is really needed... see the hack on LatexMarkupParser.
+    manager.cancelTransaction(opTKey);
+
+    if ( !manager.isCached(opTKey)) {
+      Key<ZSect> zkey = new Key<ZSect>(name, ZSect.class);
+      ZSect zSect = manager.get(zkey);
+      if ( !manager.isCached(opTKey))
+      {
+        manager.startTransaction(opTKey);
         OpTableVisitor visitor = new OpTableVisitor(manager);
         OpTable opTable = visitor.run(zSect);
-        manager.put(key, opTable);
+        manager.endTransaction(opTKey, opTable, Collections.singleton(zkey));
+            // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
+            //new DependenciesBuilder().add(visitor.getDependencies()).add(zkey).build());
       }
     }
     return true;

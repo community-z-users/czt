@@ -20,7 +20,10 @@
 package net.sourceforge.czt.parser.util;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.AbstractCommand;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
@@ -54,18 +57,21 @@ public class TermCommand extends AbstractCommand
 
     // if name is a cached ZSection, associate the Term key to it and finish.
     if (manager.isCached(zSectKey)) {
-      manager.put(newKey, manager.get(zSectKey));
+      ZSect zs = manager.get(zSectKey);
+      manager.endTransaction(newKey, zs);
       return true;
     }
     // if name is a cached Spec, associate the term key to it and finish.
     if (manager.isCached(specKey)) {
-      manager.put(newKey, manager.get(specKey));
+      Spec spec = manager.get(specKey);
+      manager.endTransaction(newKey, spec);
       return true;
     }
 
     // otherwise, the manager doesn't know about the resource.
     Term term = null;
     try {
+
       // try parsing a ZSect: it requires the name to have a known Source Key
       term = manager.get(zSectKey);
     }
@@ -81,7 +87,7 @@ public class TermCommand extends AbstractCommand
 
     // if we get here, term must either be a ZSect or Spec; add it to the manager
     //if (term != null) {
-    manager.put(newKey, term);
+    manager.endTransaction(newKey, term);
     return true;
   }
 }

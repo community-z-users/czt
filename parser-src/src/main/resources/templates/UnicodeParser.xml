@@ -25,6 +25,7 @@ import java.io.*;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
@@ -49,11 +50,11 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Source source, SectionInfo sectInfo, Properties properties)
+  public <class/>(Source source, SectionInfo sectInfo, Properties properties, Set&lt;Key&lt;?&gt;&gt; explicitDeps)
     throws IOException
   {
     Scanner scanner = new UnicodeScanner(source, properties);
-    parser_ = new Parser(scanner, source, sectInfo, properties  );
+    parser_ = new Parser(scanner, source, sectInfo, properties, explicitDeps);
   }
 
   public Term parse()
@@ -70,7 +71,8 @@ public class <class/>
       throw new ParseException(e);
     }
     catch (Exception e) {
-      throw new RuntimeException("This should never happen", e);
+      e.printStackTrace();
+      throw new RuntimeException("This should never happen - " + e.getCause(), e);
     }
   }
 }

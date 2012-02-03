@@ -33,6 +33,7 @@ public class StringSource
   private String string_;
 
   /**
+   * @param value
    * @throws NullPointerException if value is <code>null</code>.
    */
   public StringSource(String value)
@@ -43,6 +44,7 @@ public class StringSource
   }
 
   /**
+   * @param value
    * @param name the name of this StringSource; usually used to describe
    *             the source since it is used when printing error messages.
    *
@@ -55,18 +57,21 @@ public class StringSource
     setName(name);
   }
 
+  @Override
   protected InputStream getStream()
     throws IOException
   {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public Reader getReader()
     throws IOException
   {
     return new StringReader(string_);
   }
 
+  @Override
   public String toString()
   {
     String result = getName();

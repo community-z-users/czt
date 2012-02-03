@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.rules;
 
-import java.util.*;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -33,21 +31,22 @@ import net.sourceforge.czt.session.*;
 public class RuleTableCommand
   implements Command
 {
+  @Override
   public boolean compute(String name,
                          SectionManager manager)
     throws CommandException
   {
-    ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-    manager.put(new Key(name, RuleTable.class), getRuleTable(zSect, manager));
+    ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
+    manager.endTransaction(new Key<RuleTable>(name, RuleTable.class), getRuleTable(zSect, manager));
     return true;
   }
 
   public static class RuleTableVisitor
-    implements TermVisitor,
-               SpecVisitor,
-               ZParaListVisitor,
-               ZSectVisitor,
-               RuleParaVisitor
+    implements TermVisitor<Object>,
+               SpecVisitor<Object>,
+               ZParaListVisitor<Object>,
+               ZSectVisitor<Object>,
+               RuleParaVisitor<Object>
   {
     private RuleTable rules_ = new RuleTable();
     private SectionManager manager_;
@@ -62,11 +61,13 @@ public class RuleTableCommand
       return rules_;
     }
 
+    @Override
     public Object visitTerm(Term term)
     {
       return null;
     }
 
+    @Override
     public Object visitSpec(Spec spec)
     {
       for (Sect sect : spec.getSect()) {
@@ -75,12 +76,12 @@ public class RuleTableCommand
       return null;
     }
 
+    @Override
     public Object visitZSect(ZSect zSect)
     {
       for (Parent p : zSect.getParent()) {
         try {
-          RuleTable parentRuleTable = (RuleTable)
-            manager_.get(new Key(p.getWord(), RuleTable.class));
+          RuleTable parentRuleTable =  manager_.get(new Key<RuleTable>(p.getWord(), RuleTable.class));
           rules_.addRuleParas(parentRuleTable);
         }
         catch (CommandException e) {
@@ -94,6 +95,7 @@ public class RuleTableCommand
       return null;
     }
 
+    @Override
     public Object visitZParaList(ZParaList list)
     {
       for (Para para : list) {
@@ -102,6 +104,7 @@ public class RuleTableCommand
       return null;
     }
 
+    @Override
     public Object visitRulePara(RulePara rulePara)
     {
       try {

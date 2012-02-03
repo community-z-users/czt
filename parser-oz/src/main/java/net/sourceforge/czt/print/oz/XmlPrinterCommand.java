@@ -23,18 +23,19 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 
 public class XmlPrinterCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
@@ -45,7 +46,7 @@ public class XmlPrinterCommand
       final Term term = manager.get(key);
       xmlWriter.write(term, writer);
       writer.close();
-      manager.put(new Key<XmlString>(name, XmlString.class),
+      manager.endTransaction(new Key<XmlString>(name, XmlString.class),
                   new XmlString(writer.toString(), "oz"));
       return true;
     }

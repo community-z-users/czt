@@ -79,6 +79,7 @@ public abstract class Source
   /**
    * Tries to guess markup and encoding based on the given string,
    * which is usually the file or url name.
+   * @param name
    */
   protected void guessSettings(String name)
   {
