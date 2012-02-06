@@ -53,7 +53,7 @@ public class JokerTableVisitor
   }
 
   @Override
-  public Object run(Term term)
+  public JokerTable run(Term term)
     throws CommandException
   {
     super.run(term);
