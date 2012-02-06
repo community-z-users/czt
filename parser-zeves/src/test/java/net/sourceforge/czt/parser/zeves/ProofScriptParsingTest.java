@@ -112,7 +112,9 @@ public class ProofScriptParsingTest
   @Override
   protected Spec parse(String fileName) throws CommandException
   {
-    return super.parse(fileName);
+    Spec result = super.parse(fileName);
+    getManager().reset();
+    return result;
   }
 
   @Override

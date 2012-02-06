@@ -68,12 +68,15 @@ public class ZLiveTest extends ZTestCase
     + "    a' > a\n"
     + "\\end{schema}";
 
+  @Override
   public void setUp()
   throws CommandException
   {
     Source src = new StringSource(spec);
     src.setMarkup(Markup.LATEX);
-    Key key = new Key("eg1", Source.class);
+    Key<Source> key = new Key<Source>("eg1", Source.class);
+    // remove the old source first - it may be there since the previous test
+    zlive_.getSectionManager().removeKey(key);
     zlive_.getSectionManager().put(key, src);
     zlive_.setCurrentSection("eg1");
   }
@@ -82,7 +85,7 @@ public class ZLiveTest extends ZTestCase
   throws CommandException
   {
     assertEquals("eg1", zlive_.getCurrentSection());
-    Key key = new Key("eg1", Spec.class);
+    Key<Spec> key = new Key<Spec>("eg1", Spec.class);
     assertNotNull(zlive_.getSectionManager().get(key));
   }
 
@@ -126,7 +129,7 @@ public class ZLiveTest extends ZTestCase
   {
     zlive_.reset();
     Assert.assertEquals("ZLiveDefault", zlive_.getCurrentSection());
-    Key key = new Key("eg1", Spec.class);
+    Key<Spec> key = new Key<Spec>("eg1", Spec.class);
     try {
       Object result = zlive_.getSectionManager().get(key);
       Assert.fail("section manager should be empty, but eg1="+result);

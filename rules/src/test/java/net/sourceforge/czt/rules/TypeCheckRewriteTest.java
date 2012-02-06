@@ -80,8 +80,17 @@ public class TypeCheckRewriteTest
     //apply rules
     Term rewrittenTerm = preprocess(term, manager);
     String sectName = term.accept(new GetZSectNameVisitor());
+    
+    // we are going to re-typecheck the section, so remove the previous instance of
+    // type information from the section manager
+    if (sectName != null) {
+    	manager.removeKey(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
+    }
+    
+    // continue with typechecking the rewritten section
+    // note that we need to use name IDs, otherwise types cannot be resolved correctly
     return TypeCheckUtils.typecheck(rewrittenTerm, manager, 
-				    false, false, true, sectName);
+				    false, false, true);
   }
 
   public void loadRules(SectionManager manager)
