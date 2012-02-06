@@ -2078,7 +2078,20 @@ parser code
     @Override
     public Symbol parse() throws java.lang.Exception
     {
-      Symbol symbol = super.parse();
+      Symbol symbol;
+      try {
+        symbol = super.parse();
+      } catch (Exception e) {
+        // cancel current ZSect transaction if a fatal exception occured
+        // during the parsing
+        String currentSect = action_obj.parserState_.getCurrentSectName();
+        if (currentSect != null) {
+          sectInfo_.cancelTransaction(new Key&lt;ZSect&gt;(currentSect, ZSect.class));
+        }
+        
+        throw e;
+      }
+      
       //if (error_) throw new ParseException(errorList_);
       if (hasErrors())
       {
