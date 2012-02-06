@@ -892,12 +892,12 @@ public abstract class AbstractVCG<R>
   {
     String sectName = term.getName();
     
-    retrieveTables(sectName);
-
     List<VC<R>> result = factory_.list();
     
     // process section parents, if needed
     result.addAll(collect(term.getParent().toArray(new Parent[0])));
+    
+    retrieveTables(sectName);
     
     // collect all VCs from the declared paragraphs
     result.addAll(collect(term.getZParaList().toArray(new Para[0])));
