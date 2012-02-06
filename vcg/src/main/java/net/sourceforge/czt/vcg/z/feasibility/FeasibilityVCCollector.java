@@ -271,7 +271,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     super.beforeCalculateVC(term, tables);
     if (getDefTable() == null)
     {
-      throw new VCCollectionException("VCG-FSB-NO-DEFTBL: cannot calulate fsb vcs without DefTbl");
+      throw new VCCollectionException("VCG-FSB-NO-DEFTBL: cannot calculate fsb vcs without DefTbl");
     }
   }
 

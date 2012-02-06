@@ -2061,7 +2061,7 @@ action code
 
 parser code
 {:
-    private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+    private static final Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
     <add:circus>
     //static {
@@ -2075,6 +2075,7 @@ parser code
     //}
     </add:circus>
 
+    @Override
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
