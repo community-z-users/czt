@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.vcg.z;
 
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -83,7 +82,6 @@ public abstract class VCGCommand<R> extends AbstractCommand
    * @throws CommandException
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected boolean doCompute(String name, SectionManager manager) throws CommandException
   {
     // expect name to be a section or specification name.
@@ -105,7 +103,9 @@ public abstract class VCGCommand<R> extends AbstractCommand
     typeCheck(vcg.getVCSectName(), manager);
 
     // update the manager with results, depending on the kind of VCEnvAnn
-    manager.put(new Key/*<VCEnvAnn<R>>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass()), vcg, ParseUtils.calculateDependencies(zSect, getVCEnvAnnClass()));
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    Key<VCEnvAnn<R>> vcKey = new Key/*<VCEnvAnn<R>>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass());
+    manager.endTransaction(vcKey, vcg);
     
     return true;
   }

@@ -36,12 +36,9 @@ import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ThmTable;
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
@@ -891,7 +888,6 @@ public abstract class AbstractVCG<R>
   }
 
   @Override
-  @SuppressWarnings(value = "unchecked")
   public List<VC<R>> visitZSect(ZSect term)
   {
     String sectName = term.getName();
@@ -1227,7 +1223,6 @@ public abstract class AbstractVCG<R>
    * @return VC Z section as a list of VC conjectures
    * @throws VCGException
    */
-  @SuppressWarnings("unchecked")
   public VCEnvAnn<R> createVCEnvAnn(Term term, List<? extends Parent> parents) throws VCGException
   {
     assert term != null : "invalid term for VCG";
@@ -1278,8 +1273,11 @@ public abstract class AbstractVCG<R>
     zsect.getZParaList().add(para);
 
     // add the temporary section to the manager. Do I need the source? No?
-    getManager().put(new Key<Source>(zsect.getName(), Source.class), new StringSource(zsect.toString()), ParseUtils.calculateDependencies(zsect, Source.class));
-    getManager().put(new Key<ZSect>(zsect.getName(), ZSect.class), zsect, ParseUtils.calculateDependencies(zsect, ZSect.class));
+    // since these were generated on the fly and do not depend on existing elements in the section manager,
+    // just add them without dependencies
+    // we don't even need the source, since the ZSect will be in the section manager
+//    getManager().put(new Key<Source>(zsect.getName(), Source.class), new StringSource(zsect.toString()));
+    getManager().put(new Key<ZSect>(zsect.getName(), ZSect.class), zsect);
 
     // VC on-the-fly Z section with std_toolkit as parent
     VCEnvAnn<R> result = createVCEnvAnn(zsect);
