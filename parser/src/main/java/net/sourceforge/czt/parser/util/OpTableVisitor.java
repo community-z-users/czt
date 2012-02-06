@@ -104,6 +104,7 @@ public class OpTableVisitor
   public OpTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
+    // TODO check for cyclic relationships?
     List<OpTable> parentTables = new ArrayList<OpTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       OpTable parentTable =
