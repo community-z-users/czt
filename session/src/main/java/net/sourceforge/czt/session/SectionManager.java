@@ -286,6 +286,8 @@ public class SectionManager
 
     putCommands(extension);
     dialect_ = extension;
+
+    registerDefaultPermanentKeys();
   }
 
   public String getDialect()
@@ -333,7 +335,7 @@ public class SectionManager
     return "SectionManager contains " + mapToString(content_);
   }
 
-  protected void registerDefaultPermanentKeys()
+  protected final void registerDefaultPermanentKeys()
   {
     for(String k : Section.standardSections())
     {
@@ -1081,8 +1083,8 @@ public class SectionManager
       Pair<Key<?>, Integer> top = transactionStack_.pop();
       assert trans.equals(top);
 
-      // for cancelling transactions wait until the transaction is popped to remove key
-      if (value == null)
+      // for cancelling transactions wait until the transaction is popped to remove key, if not a permanent one
+      if (value == null && !isPermanentKey(key))
       {
         // chase explicit dependencies that might be added for the cancelling key
         removeKey(key);
