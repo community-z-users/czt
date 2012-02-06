@@ -1335,16 +1335,22 @@ public abstract class AbstractVCG<R>
     Key<ZSect> vcSectKey = new Key<ZSect>(sectNameVC, ZSect.class);
     sectManager_.startTransaction(vcSectKey);
 
-    // get the VCs from term sectName
-    List<VC<R>> vcList = calculateVCS(term);
+    List<VC<R>> vcList;
+    try {
+      // get the VCs from term sectName
+      vcList = calculateVCS(term);
+  
+      // update t he VC ZSect and add it to the SectionManager
+      // it is accessible as manager.get(new Key<ZSect>(sectName + VCG_GENERAL_NAME_SUFFIX, ZSect.class));
+      populateResultsToVCZSect(zsectVC, vcList);
+    
+    } catch (VCGException e) {
+      // exception happened in the middle of transaction - cancel it
+      sectManager_.cancelTransaction(vcSectKey);
+      // rethrow the exception
+      throw e;
+    }
 
-    // update t he VC ZSect and add it to the SectionManager
-    // it is accessible as manager.get(new Key<ZSect>(sectName + VCG_GENERAL_NAME_SUFFIX, ZSect.class));
-    populateResultsToVCZSect(zsectVC, vcList);
-
-    // update section manager with calculated results: 
-    // (e.g., put VC ZSect as well as Op/Thm tables
-//    updateManager(zsectVC);
     // end the transaction for the generated section - make it explicitly dependent
     // on the source section
     sectManager_.endTransaction(vcSectKey, zsectVC, 
