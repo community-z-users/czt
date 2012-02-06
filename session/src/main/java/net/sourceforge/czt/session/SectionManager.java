@@ -408,7 +408,14 @@ public class SectionManager
 
   private String collectionsToString(Collection<?> c)
   {
-    return c.toString().replaceAll("\\),", "\\)\n\t\t");
+    StringBuilder str = new StringBuilder("[\n\t\t");
+    for (Object o : c)
+    {
+      str.append(o.toString());
+      str.append("\n\t\t");
+    }
+    str.append("]");
+    return str.toString(); //c.toString().replaceAll("\\),", "\\)\n\t\t");
   }
 
   private String mapToString(Map<?, ?> m)
