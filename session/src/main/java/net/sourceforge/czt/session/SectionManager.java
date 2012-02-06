@@ -1236,7 +1236,7 @@ public class SectionManager
     }
 
     // if there are any transactions on key, raise exception
-    assertOngoingTransaction(key);
+//    assertOngoingTransaction(key);
 
     // remove dependants / dependencies
     removeDependants(key);
@@ -1252,7 +1252,7 @@ public class SectionManager
     // if there are any transaction on any dependant, raise exception
     // that can only happen if the user mistakenly start a transaction
     // of something that is already cached.
-    assertOngoingTransaction(dependants_.keySet().toArray(new Key<?>[0]));
+//    assertOngoingTransaction(dependants_.keySet().toArray(new Key<?>[0]));
 
     // clear the dependency list - otherwise recursive removal
     // may loop if there are cyclic dependencies
@@ -1269,7 +1269,7 @@ public class SectionManager
   private void removeDependencies(Key<?> key) throws SectionInfoException
   {
     // if there are any transaction on any dependencies, raise exception
-    assertOngoingTransaction(key);
+//    assertOngoingTransaction(key);
 
     dependencies_.remove(key);
   }

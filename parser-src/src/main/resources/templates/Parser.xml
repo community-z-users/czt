@@ -1209,15 +1209,15 @@ action code
 
        if (sectInfo_.isCached(zsKey))
        {
-         //sectInfo_.removeKey(zsKey);
-         parser.report_error(ZParseMessage.MSG_ERROR_REDECLARED_ZSECT, new Object[] { sectName }, getLocation(left, right));
+         sectInfo_.removeKey(zsKey);
+         //parser.report_error(ZParseMessage.MSG_ERROR_REDECLARED_ZSECT, new Object[] { sectName }, getLocation(left, right));
          // unrecoverable
-         parser.done_parsing();
+         //parser.done_parsing();
        }
-       else
-       {
+       //else
+       //{
          sectInfo_.startTransaction(zsKey);
-       }
+       //}
     }
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
@@ -1312,6 +1312,13 @@ action code
         // These tables, depend on this section parents, but that's an indirect dependency.
         // Notice that the OpTable dependency has a dual link with its own ZSect
         <add:pattern>// For the ZPatt parser, we also depend on the JokerTable, just like  the OpTable.</add:pattern>
+
+        // TODO talk about explicit deps
+        // whoever is using LatexMarkupParser and it is in a transaction will depend on it, even though might not be using it
+        //       however, this isn't in itself a problem, given that LatexMarkupParsers are only used by Latex markup itself, which
+        //       even if an empty latex markup is in place, it's okay to have an extra dependency. Trouble would be to have missed it.
+        //       given the intertwined nature of parsing / lexing and LMF, we antecipate there isn't much we can do here.
+
 
         // TODO: check if dep builder is needed - we removed OpTable/JokerTable becuase we do an explicit extra get for it at resetXXXTable.
         sectInfo_.endTransaction(zsKey, sect,

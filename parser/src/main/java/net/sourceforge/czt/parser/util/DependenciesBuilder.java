@@ -56,7 +56,7 @@ public class DependenciesBuilder {
     return this;
   }
   
-  public DependenciesBuilder add(Set<Key<?>> keys)
+  public DependenciesBuilder add(Set<? extends Key<?>> keys)
   {
     dependencies_.addAll(keys);
     return this;

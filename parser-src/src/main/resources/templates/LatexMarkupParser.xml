@@ -27,9 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
-import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.parser.util.CyclicParseManager;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
@@ -50,7 +48,6 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
@@ -176,68 +173,131 @@ public class <class/>
   }
 
   /**
-   * This method checks the section manager state for various cases to be handled by this low level scanner/parser.
-   * This is the most complicated case to cater for because LMF is scanning (e.g., prior to parsin), yet it happens
-   * during the parsing of parents, which might lead to overlapping transactions and special care is needed in this
-   * bootstrapping scenario. Given test cases, we managed to find a good compromise to the protocol that gets a bit
-   * complicated, albeit deterministic.
-   *
-   * @param sectName same as sectName_, but to emphasise the dependency
+   * &lt;p&gt;
+   * Starts the Latex Markup Function calculation transaction in the Section Manager. The
+   * transaction allows to capture the dependencies of the LMF - e.g. that it depends on parent
+   * LMFs. Because of the "manual" use of LatexMarkupParser (as opposed to using Section Manager
+   * commands), we need to manually start and end the transaction.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The start of transaction handles issues with redeclared sections as well. See
+   * {@link #endLmfTransaction(String)} for more details about the LMF transaction and explicit
+   * dependencies.
+   * &lt;/p&gt;
+   * 
+   * @param sectName
+   *          same as sectName_, but to emphasise the dependency
+   * @see #endLmfTransaction(String)
    */
-  private void ensureSectInfoStateForSpec(String sectName)
+  private void startLmfTransaction(String sectName)
   {
     // set sectName_ first
     assert sectName.equals(sectName_);
 
-    Key&lt;LatexMarkupFunction&gt; lmfKey = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
+    Key&lt;LatexMarkupFunction&gt; lmfKey = 
+        new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
 
-    // NOTE: don't start the transaction as it might not have been cancelled - see ensures below
-    //
-    // start the transaction from the Spec, as the ZSect chains won't
-    // sectInfo_.startTransaction(lmfKey);
-
-    // NOTE: when file "./foo.XXX" (Unicode or LaTeX) doesn't have a section foo but say "test"
-    //       the Spec case gets a bit confused (e.g., SectManager already has "test" keys....
-    //       So no need for transactions on already cached keys
-    //
-    // Use ensure for Spec (anonynimous or otherwise). Ensures there is a transaction for LMF - it might be
-    // cancelled by LMF Command for LaTeX source; it might not when either the user gives the ZSect or the ZSect is Unicode
-    // sectInfo_.ensureTransaction(lmfKey);
-
-    // Only if the key isn't already calculated, and there isn't already a transaction for the LMF key, add one.
-    // The usual case is that of "startTransaction(lmfKey)". Cases where it differ are:
-    //
-    // a) LaTeX printing of Unicode parsed source - there won't be a LMF cached, but there is already a ZSect.
-    //    In that case, the transaction will be started - get(lmfKey) - but not cancelled - LmfCmd.
-    //
-    // b) LaTeX parsing of LaTeX source where SECTION name isn't linked to the Source file/str etc.
-    //    In that case, there is already a ZSect (and LMF) cached, hence no need for transaction at all.
-    //    If one had made the SECTION name the same as the file, this wouldn't be necessary.
-    //
-    //if (!sectInfo_.isCached(lmfKey))
-    //{
-    //  sectInfo_.ensureTransaction(lmfKey);
-    //}
-
-    // NOTE: at typechecker, we got the RedecleredSection example, which triggers a lexing case here.
-    //       we needed to remove the key first; otherwise we would lex two equal header twice, hence
-    //       keep the section manager in an inconsistent state before getting to the type error case.
-    //       so when lexing lexing the second copy, we need to remove the first one.
-    //
+    /*
+     * There may be cases when the Latex Markup Function (LMF) is calculated already at the start of
+     * transaction. Sometimes it can be because of the pollution of section manager (SM) from
+     * previous runs - this should have been removed before running the parsing again. Polluted
+     * section managers would generally be caught by other transactions (e.g. ZSect parsing), so it
+     * is not that important to be strict about existing objects in SM cache here. 
+     * 
+     * However, there are cases when we can encounter this case in one specification (RedeclaredSection). 
+     * The parser is required to lex/parse such specification without errors, and leave the check for
+     * the typechecker. Thus there is lexing/parsing of two identical section names (and therefore keys).
+     * For this case - when we encounter the second (redeclared) section, we remove the LMF from SM if 
+     * it is already cached, and start a new transaction for its calculation. We will have a case
+     * when the second LMF "overwrites" the first LMF via remove-endTransaction.
+     * 
+     * If we do not do such "overwriting", we would have needed to make the RedeclaredSection a
+     * parsing error and stop lexing/parsing altogether (e.g. via Exception). Current solution allows
+     * us to finish lexing and postpone the check to typechecker.
+     */
     if (sectInfo_.isCached(lmfKey))
     {
-      // this remove works because there is no link with LMF and Spec
-      //sectInfo_.removeKey(lmfKey);
-      
-      ZParseError error = new ZParseError(ZParseMessage.MSG_ERROR_REDECLARED_ZSECT,  new Object[] { sectName }, null);
-      error.setErrorType(ErrorType.ERROR);
-      error.setInfo("There might be duplicate section or files?");
-      ZParseError.report(sectInfo_, getSource(), error);
-
-      // use the ZParseError as a LocInfo - TODO: maybe put it as last seen Token later?
-      throw new ScanException(error.getMessage(), error);
+      sectInfo_.removeKey(lmfKey);
     }
+    
+    /*
+     * Force start the transaction - we cannot have it started already. The latex markup parser is
+     * used within the Z parser, and not within the command. Therefore we should not have an
+     * existing transaction on LMF. Therefore do a strict startTransaction(), instead of
+     * ensureTransaction().
+     * 
+     * If the ZSect is Unicode, or has been parsed before, this parser will never be used - the 
+     * LatexMarkupCommand will be used instead, which handles its own LMF transactions. If parsing 
+     * is started from within the LatexMarkupCommand, the original LMF transaction is cancelled 
+     * (see LatexMarkupCommand for details). 
+     */
     sectInfo_.startTransaction(lmfKey);
+    
+  }
+  
+  /**
+   * &lt;p&gt;
+   * Ends the transaction for Latex Markup Function calculation in the Section Manager. The
+   * transaction is ended immediately after calculation of the LMF. The LMF is then populated with
+   * Latex directives during lexing. This means that the LMF can be empty when first put in the
+   * section manager, and filled with content later. Such approach is necessary to ensure correct
+   * transactions in the section manager. Otherwise, Parsing and Lexing can overlap (depending on
+   * the buffer), and transactions would fail.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * To accommodate for the short-circuiting of LMF transaction, we add an explicit dependency on
+   * the ZSect for the LMF. This is to signal that the ZSect may contain Latex directives which will
+   * constitute this LMF.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The same approach (end transaction after initial resolution of an object) is used for other
+   * components in the parser as well, e.g. OpTable, JokerTable, etc. This is necessary because of a
+   * complicated parsing protocol, and is a compromise to achieve transactional structure to some
+   * level. Otherwise the transactions would overlap. To achieve better confidence in the
+   * dependencies, some dependencies are added explictly (e.g. that LMF depends on its ZSect).
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * With LMF (also with other Parser objects, e.g. OpTable, JokerTable), we have a bi-directional
+   * dependency between the LMF and ZSect (LMF &amp;harr; ZSect). This means that LMF depends on ZSect
+   * for its content, and ZSect depends on LMF for instructions how to interpret Latex symbols. We
+   * define one direction via explicit dependency - LMF depends on its ZSect. The backwards
+   * dependency (ZSect depends on its LMF) is done in the Parser, where ZSect transaction is ended.
+   * Note that this introduces unnecessary dependency on LMF for non-Latex ZSects, however we
+   * believe it to be a conservative compromise to achieve confidence in dependencies.
+   * &lt;/p&gt;
+   * 
+   * @param sectName
+   *          same as sectName_, but to emphasise the dependency
+   * @see #startLmfTransaction(String)
+   */
+  private void endLmfTransaction(String sectName) {
+
+    // set sectName_ first
+    assert sectName.equals(sectName_);
+    assert markupFunction_ != null;
+
+    Key&lt;LatexMarkupFunction&gt; lmfKey = 
+      new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
+
+    /*
+     * Add explicit dependency for LMF on its ZSect. This is because the ZSect is used afterwards to
+     * populate the current LMF.
+     */
+    sectInfo_.endTransaction(lmfKey, markupFunction_, 
+        Collections.singleton(new Key&lt;ZSect&gt;(sectName_, ZSect.class)));
+        
+    /*
+     * Note that we need to signal to the ZSect somehow to mark the dependency on this LMF. One
+     * approach could be to do a sectInfo_.get(lmfKey) - it will mark a dependency in the section
+     * manager on the LMF key, so if the outer transaction is that of the ZSect, it will capture the
+     * dependency. 
+     * 
+     * However, due to the way lexing and parsing overlap, it is often the case that
+     * lexing (and LMF calculation) has already finished by the time parsing starts (and thus ZSect
+     * transaction starts). For that reason, we cannot rely on sectInfo_.get() to mark the
+     * dependency, and it is indicated as an explicit dependency in the Parser. When ending the
+     * transaction for the ZSect, we mark that it depends on its LMF.
+     */
   }
 
   @Override
@@ -246,7 +306,13 @@ public class <class/>
   {
     final LocToken token = lexer_.next();
     if (token == null) {
-      updateLatexMarkupFunction();
+      /*
+       * Previously the current markup function (LMF) was put into the section manager at the end of
+       * lexing (when token is null). Now the LMF is put into the section manager at the time of
+       * creation. This is needed because calculation of LMF may overlap with parsing - it depends
+       * on the buffer. We want to have LMF in the section manager as soon as possible, to ensure
+       * correct layering of section manager transactions.
+       */
       return token;
     }
     final boolean isStartOfAnonymousSpec =
@@ -261,8 +327,9 @@ public class <class/>
       // we are parsing an anonymous specification
       sectName_ = Section.ANONYMOUS.getName();
 
-      // depends on sectName_ : update it first
-      ensureSectInfoStateForSpec(sectName_);
+      // start the LMF transaction, add necessary parents, and end the transaction
+      // see comments on startLmfTransaction and endLmfTransaction for details
+      startLmfTransaction(sectName_);
 
       parents_ = Section.STANDARD_TOOLKIT.getName()
         <add:oz>+", oz_toolkit"</add:oz>
@@ -279,12 +346,18 @@ public class <class/>
       addMarkupFunction("zeves_prelude");
 </add:zeves>
       addMarkupFunction(Section.STANDARD_TOOLKIT.getName());
+      
+      // end transaction now - will fill the contents during lexing afterwards
+      // see comments on startLmfTransaction and endLmfTransaction for details
+      endLmfTransaction(sectName_);
     }
     if (sectHead_) { // we are just parsing a section header
       if (is(token, LatexSym.END)) { // end of section header
         sectName_ = trim(sectName_);
 
-        ensureSectInfoStateForSpec(sectName_);
+        // start the LMF transaction, add necessary parents, and end the transaction
+        // see comments on startLmfTransaction and endLmfTransaction for details
+        startLmfTransaction(sectName_);
         
         markupFunction_ = new LatexMarkupFunction(sectName_);
         markupFunctions_.put(sectName_, markupFunction_);
@@ -345,6 +418,10 @@ public class <class/>
           }
           
         }
+        
+        // end transaction now - will fill the contents during lexing afterwards
+        // see comments on startLmfTransaction and endLmfTransaction for details
+        endLmfTransaction(sectName_);
         sectHead_ = false;
       }
       else if (is(token, LatexSym.SECTION)) { // section token
@@ -365,7 +442,11 @@ public class <class/>
       }
     }
     else if (is(token, LatexSym.SECT)) { // begin of a section header
-      updateLatexMarkupFunction();
+      /*
+       * Previously at the start of a section header, there was a clause to add existing markup
+       * function (from previous section?) to the section manager. This has now been updated to put
+       * the markup function into the section manager as soon as it is created.
+       */
       sectHead_ = true;
       parents_ = null;
       sectName_ = null;
@@ -442,53 +523,6 @@ public class <class/>
       result = result.substring(0, result.length() - 1).trim();
     }
     return result;
-  }
-
-  @SuppressWarnings("unchecked")
-  private void updateLatexMarkupFunction()
-  {
-    if (markupFunction_ != null) {
-      final Key&lt;LatexMarkupFunction&gt; key =
-        new Key&lt;LatexMarkupFunction&gt;(markupFunction_.getSection(), LatexMarkupFunction.class);
-
-
-      // redeclared sections are considered type errors (!) but they happen at lexing time!!!!
-      // we can't add duplicate keys, neither add one key for where there are not transactions!
-      if (sectInfo_.isCached(key))
-      {
-        CztLogger.getLogger(LatexMarkupFunction.class).log(Level.WARNING, "About to add duplicate key ''{0}'' while updating LatexMarkupFunction. This might happen when keywords are missued in the specification", key.toString());
-      }
-      sectInfo_.endTransaction(key, markupFunction_,
-         Collections.singleton(new Key&lt;ZSect&gt;(markupFunction_.getSection(), ZSect.class)));//dependencies());
-      
-      // get method on the just added LatexMarkupFunction to force the dependency for the calling ZSect being parsed
-      // to contain the LMF itself . TODO: this is a hack given the intertwined relationship between LMF and ZS parsing.
-
-      // NOTE: we added to the ZSect a dependency to a LMF in Parser.xml updateZSect. That is added even if the buffer is Unicode (!!!)
-      //       in this way our sin is to have too many (or one spurious) dependency; hence we no longer need the hack below. 
-      //       ex: this would result in a unicode ZSect depending on its (empty) LatexMarkupFunction key.
-      //
-      //       having this "hard-wired" dependency is also helpful because we don't if when we started the transaction for
-      //       the ZSect LMF lexing took place or not. That's because it depends on the size of the CztReader buffer. So,
-      //       this bootstrapping between low-level lexing and parsing becomes quite tricky. This was our compromise that is
-      //       conservative enough to keep dependencies right for a consistent section manager state.
-      //
-      // HACK: whoever is using LatexMarkupParser and it is in a transaction will depend on it, even though might not be using it
-      //       however, this isn't in itself a problem, given that LatexMarkupParsers are only used by Latex markup itself, which
-      //       even if an empty latex markup is in place, it's okay to have an extra dependency. Trouble would be to have missed it.
-      //       given the intertwined nature of parsing / lexing and LMF, we antecipate there isn't much we can do here. TODO:CHECK
-      //try
-      //{
-      //  LatexMarkupFunction res = sectInfo_.get(key);
-      //  assert res == markupFunction_;
-      //}
-      //catch (CommandException ex)
-      //{
-      //  final String message = "Couldn't retrieve LatexMarkupFunction " + markupFunction_.getSection() + " that has just been calculated?!";
-      //  //Logger.getLogger(LatexMarkupParser.class.getName()).log(Level.WARNING, message, ex);
-      //  throw new CztException(message, ex);
-      //}
-    }
   }
 
   private void check(LocToken t1, LocToken t2)

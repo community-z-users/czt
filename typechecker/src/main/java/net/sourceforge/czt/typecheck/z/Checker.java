@@ -550,21 +550,32 @@ abstract public class Checker<R>
 
     //set the section name
     setSectName(zSect.getName());
-
-    // in case of top-level calls (e.g., not started with get(SectTypeEnv), we want to ensure that there is a transaction
+    
     Key<SectTypeEnvAnn> typeKey = new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class);
-    sectInfo().ensureTransaction(typeKey);
-
 
     //set the markup for this section
     setMarkup(zSect);
 
     //if this section has already been declared, raise an error
     if (sectTypeEnv().isChecked(sectName()) &&
-        !sectTypeEnv().getUseNameIds()) {
+        !sectTypeEnv().getUseNameIds() &&
+        !sectTypeEnv().getSecondTime()) {
       Object [] params = {zSect.getName()};
       error(zSect, ErrorMessage.REDECLARED_SECTION, params);
+      postCheck();
+      
+      // continuing the typecheck will add a duplicate type environment,
+      // so we remove the old one instead
+      sectInfo().removeKey(typeKey);
     }
+    
+    // in case of top-level calls (e.g., not started with get(SectTypeEnv), we want to ensure that there is a transaction
+    // but avoid starting a new transaction for a second pass of typechecker
+    if (!sectTypeEnv().getSecondTime()) {
+      sectInfo().ensureTransaction(typeKey);
+    }
+    
+    int prevErrorCount = errors().size();
 
     //set this as the new section in SectTypeEnv
     sectTypeEnv().setSection(sectName());
@@ -675,12 +686,15 @@ abstract public class Checker<R>
     //if recursive types are permitted and this is the second pass,
     //copy the new type information into the SectTypeEnvAnn annotation
     if ((recursiveTypes() && sectTypeEnv().getSecondTime()) ||
+        // TODO review this - if getUseNameIds() is true, this can be called
+        // during the typechecking, and would lead to a recursive typecheck..
         sectTypeEnv().getUseNameIds()) {
       try {
-        SectTypeEnvAnn sectTypeEnvAnn =
-          sectInfo().get(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class));
-        assert sectTypeEnvAnn != null;
-        sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
+        if (sectInfo().isCached(typeKey)) {
+          SectTypeEnvAnn sectTypeEnvAnn = sectInfo().get(typeKey);
+          assert sectTypeEnvAnn != null;
+          sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
+        }
       }
       catch (CommandException e) {
         assert false : "No SectTypeEnvAnn for " + sectName();
@@ -701,7 +715,7 @@ abstract public class Checker<R>
     if ((recursiveTypes() || useBeforeDecl()) 
 	&&
 	!sectTypeEnv().getSecondTime()) {
-      clearErrors();
+      clearErrors(prevErrorCount);
       removeErrorAndTypeAnns(zSect);
       sectTypeEnv().setSecondTime(true);
       zSect.accept(specChecker());
@@ -735,9 +749,9 @@ abstract public class Checker<R>
     return result;
   }
   
-  protected void clearErrors()
+  protected void clearErrors(int fromIndex)
   {
-    errors().clear();
+    errors().subList(fromIndex, errors().size()).clear();
     paraErrors().clear(); 
     undeclaredNames().clear();
   }
