@@ -30,6 +30,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ParseException;
@@ -108,6 +109,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     // if null or for a different dialect, get a new one; CHANGED: even if same dialect, get new one to avoid duplicated entries?
     if (getVCG().getManager() == null /*|| (!getVCG().getManager().getDialect().equals(extension))*/)
     {
+      BaseFactory.resetInstanceCounter();
       SectionManager manager = new SectionManager(extension);
       setSectionManager(manager);
     }
@@ -303,6 +305,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       System.out.println("\t\ttypechecker....." + times.get(5) + "ms");
       System.out.println("\t\tVC generation..." + times.get(6) + "ms");
       System.out.println("\t\tprinter........." + times.get(7) + "ms");
+      System.out.println("\n\t\tAST instance...." + BaseFactory.howManyInstancesCreated());
     }
     System.out.println("\t with exit code = " + exitCode);
   }
@@ -1231,7 +1234,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
   protected static void cztException(String job, CztException e, String extra, boolean debug)
   {
     System.err.println("CZT exception " + e.getClass().getSimpleName()
-                       + "has happened while " + job
+                       + " has happened while " + job
                        + "\n\t message = " + e.getMessage()
                        + "\n\t cause   = " + (e.getCause() != null ? e.getCause().getMessage() : "none")
                        + "\n\t clue    = " + extra

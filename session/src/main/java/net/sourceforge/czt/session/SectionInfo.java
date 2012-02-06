@@ -36,7 +36,7 @@ import java.util.logging.Level;
  * but care should be taken when implementing such caches when
  * the information provided is mutable.</p>
  */
-public interface SectionInfo
+public interface SectionInfo 
 {
   /**
    * Lookup a key.
@@ -197,6 +197,12 @@ public interface SectionInfo
    * @return set of all keys of given type with managed mappings
    */
   <T> Set<Key<T>> keysOf(Class<T> clsName);
+
+  boolean isPermanentKey(Key<?> key);
+
+  void reset();
+  
+  //SectInfo clone();
 
   /**
    * Checks whether the given key is cached within the section information manager

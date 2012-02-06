@@ -25,17 +25,20 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.MarshalException;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -367,6 +370,11 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   {
     return false;
   }
+
+  protected boolean printDepsOfDefault()
+  {
+    return false;
+  }
   
   protected boolean syntaxOnlyDefault()
   {
@@ -590,6 +598,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     Boolean isBufferingWanted = null;
     Boolean isNarrativeWanted = null;
     String cztpath = null;
+    Boolean printDepsOf = null;
 
     BaseFactory.resetInstanceCounter();
     SectionManager manager = getSectionManager(); 
@@ -675,6 +684,10 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
           isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
           isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;          
           manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
+      }
+      else if (args[i].startsWith("-deps"))
+      {
+        printDepsOf = true;
       }
       else if (args[i].startsWith("-")) 
       {
@@ -778,6 +791,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       isBufferingWanted = isSpecReaderBufferingWantedDefault();
       isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
       cztpath           = cztPathDefault();
+      printDepsOf       = printDepsOfDefault();
     }
     // otherwise, we set all unset flags (e.g., null values) to false
     else
@@ -794,12 +808,14 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       isBufferingWanted = isBufferingWanted != null ? isBufferingWanted : false;
       isNarrativeWanted = isNarrativeWanted != null ? isNarrativeWanted : false;
       //cztpath           = cztpath != null ? cztpath : null;
+      printDepsOf       = printDepsOf != null ? printDepsOf : false;
     }  
     assert syntaxOnly != null && useBeforeDecl != null &&
       recursiveTypes != null && printTypes != null &&
       printZml != null && printBenchmark != null && useNameIds != null &&
       warningOutput != null && useSpecReader != null &&
-      isBufferingWanted != null && isNarrativeWanted != null : "Invalid flags!";
+      isBufferingWanted != null && isNarrativeWanted != null &&
+      printDepsOf != null : "Invalid flags!";
     
     // add a potentially old czt path (? TODO: decide to add this or not ?)
     String localcztpath = "";
@@ -1036,8 +1052,73 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         }
         System.out.println("\n\t\tAST instance...." + BaseFactory.howManyInstancesCreated());
       }             
-    }        
+    }
+
+    if (printDepsOf)
+    {
+      System.out.println("\n\n=========================================================================");
+      for (Key<?> sk : manager.keysOf(Source.class))
+      {
+        if (!manager.isPermanentKey(sk))
+        {
+          printSet("All keys that depend on " + sk.toString(), manager.getDependants(sk));
+          printSet("All keys that " + sk.toString() + " depends on", manager.getDependencies(sk));
+        }
+      }
+
+      for(Key<ZSect> zsk : manager.keysOf(ZSect.class))
+      {
+        if (!manager.isPermanentKey(zsk))
+        {
+          printSet("All keys that depend on " + zsk.toString(), manager.getDependants(zsk));
+          printSet("All keys that " + zsk.toString() + " depends on", manager.getDependencies(zsk));
+        }
+      }
+
+      for(Key<LatexMarkupFunction> lmfk : manager.keysOf(LatexMarkupFunction.class))
+      {
+        if (!manager.isPermanentKey(lmfk))
+        {
+          printSet("All keys that depend on " + lmfk.toString(), manager.getDependants(lmfk));
+          printSet("All keys that " + lmfk.toString() + " depends on", manager.getDependencies(lmfk));
+        }
+      }
+
+      System.out.println("\n=========================================================================");
+      
+
+//      Set<Key<Source>> sourceKeys = manager.keysOf(Source.class);
+//      Iterator<Key<Source>> it = sourceKeys.iterator();
+//      while (it.hasNext())
+//      {
+//        Key<Source> sk = it.next();
+//        if (manager.isPermanentKey(sk))
+//          it.remove();
+//      }
+//
+//      Set<Key<ZSect>> zsectKeys = manager.keysOf(ZSect.class);
+//      Iterator<Key<ZSect>> it2 = zsectKeys.iterator();
+//      while (it2.hasNext())
+//      {
+//        Key<ZSect> sk = it2.next();
+//        if (manager.isPermanentKey(sk))
+//          it2.remove();
+//      }
+
+    }
     System.exit(result);
+  }
+
+  private static void printSet(String extra, Set<Key<?>> keys)
+  {
+    System.out.print(extra);
+    System.out.print("\n\t\t");
+    for (Key<?> k : keys)
+    {
+      System.out.print(k.toString());
+      System.out.print("\n\t\t");
+    }
+    System.out.println();
   }
 
   public static void main(String[] args)

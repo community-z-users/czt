@@ -361,7 +361,8 @@ public class SectionManager
     //return permanentKeys_.contains(key.getName());
   //}
 
-  protected boolean isPermanentKey(Key<?> key)
+  @Override
+  public boolean isPermanentKey(Key<?> key)
   {
     // cyclic sections management is also permanent (?) TODO: ask andrius...
     //return isPermanentToolkitKey(key) || key.getName().equals("cyclic-parse-manager");
@@ -372,6 +373,7 @@ public class SectionManager
    * Deletes entries in the cache that are not called "prelude" and
    * that do not end with "_toolkit".
    */
+  @Override
   public void reset()
   {
     // don't reset if there are any ongoing transactions
@@ -865,7 +867,7 @@ public class SectionManager
     return result;
   }
 
-    /**
+  /**
    * Returns whether the given Key has already been computed
    * and is cached.
    * @param <T>
