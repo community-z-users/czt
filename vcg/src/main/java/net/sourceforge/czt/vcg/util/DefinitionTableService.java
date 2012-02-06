@@ -23,7 +23,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.SortedSet;
-import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -88,14 +87,15 @@ public class DefinitionTableService
   }
 
   protected void updateManager(SectionManager manager,
-          Key<ZSect> sectKey, Key<DefinitionTable> defTblKey,
-          DefinitionTable table, Set<Key<?/*DefinitionTable only?*/>> dependencies)
+          Key<ZSect> sectKey, Key<DefinitionTable> defTblKey, DefinitionTable table)
   {
     if (table != null)
     {
-      manager.put(defTblKey, table,
-          // depend on the ZSect as well as all the parent table dependencies
-          new DependenciesBuilder().add(dependencies).add(sectKey).build());
+      // table calculated successfully - end transaction to capture the dependencies implicitly
+      manager.endTransaction(defTblKey, table);
+    } else {
+      // could not calculate - cancel the transaction
+      manager.cancelTransaction(defTblKey);
     }
   }
 
@@ -116,46 +116,49 @@ public class DefinitionTableService
                          SectionManager manager)
     throws CommandException
   {
-    DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     Key<ZSect> sectKey = new Key<ZSect>(name, ZSect.class);
     ZSect zsect = manager.get(sectKey);
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(name, DefinitionTable.class);
     DefinitionTable table;
+    
+    // it cannot be cached - parsing does not calculate the definition table
     // don't calculate if cached
-    if (manager.isCached(defTblKey))
+//    if (manager.isCached(defTblKey))
+//    {
+//      table = manager.get(defTblKey);
+//      return table != null;
+//    }
+//    else
+//    {
+    
+    DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
+    // calculate table
+    try
     {
-      table = manager.get(defTblKey);
+      table = visitor.run(zsect);
+      updateManager(manager, sectKey, defTblKey, table);//, visitor.getDependencies());
       return table != null;
     }
-    else
+    catch(CommandException f)
     {
-      // calculate table
-      try
+      // in case of raised definition exception, still update the manager
+      // with calculated results, if they are available, before raising
+      // the error. It is up to the caller to fix the manager.
+      if (f instanceof DefinitionException)
       {
-        table = visitor.run(zsect);
-        updateManager(manager, sectKey, defTblKey, table, visitor.getDependencies());
-        return table != null;
+        updateManager(manager, sectKey, defTblKey, visitor.getDefinitionTable());//, visitor.getDependencies());
       }
-      catch(CommandException f)
-      {
-        // in case of raised definition exception, still update the manager
-        // with calculated results, if they are available, before raising
-        // the error. It is up to the caller to fix the manager.
-        if (f instanceof DefinitionException)
-        {
-          updateManager(manager, sectKey, defTblKey, visitor.getDefinitionTable(), visitor.getDependencies());
-        }
-        // then throw it
-        throw f;
-      }
-      catch(CztException e)
-      {
-        // catch visiting related exceptions. cmd exceptions must be handled by caller
-        throw new CommandException("Could not calculate definition table for " + name +
-          "\n\t with message " + e.getMessage() +
-          (e.getCause() != null ? ("\n\t and cause " + e.getCause().getMessage()) : "") + ".", e);
-      }
+      // then throw it
+      throw f;
     }
+    catch(CztException e)
+    {
+      // catch visiting related exceptions. cmd exceptions must be handled by caller
+      throw new CommandException("Could not calculate definition table for " + name +
+        "\n\t with message " + e.getMessage() +
+        (e.getCause() != null ? ("\n\t and cause " + e.getCause().getMessage()) : "") + ".", e);
+    }
+//    }
   }
 
   public static Command getCommand()

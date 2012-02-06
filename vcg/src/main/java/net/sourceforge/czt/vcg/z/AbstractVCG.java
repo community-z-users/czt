@@ -625,6 +625,7 @@ public abstract class AbstractVCG<R>
     assert sectManager_ != null;
     try
     {
+      // TODO no longer used?
       ParseUtils.updateSectManager(sectManager_, zSect);
       final String sectName = zSect.getName();
      // sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
@@ -1347,6 +1348,21 @@ public abstract class AbstractVCG<R>
     // where ??=DC,AX,PRE,etc for each kind of VC generation
     ZSect zsectVC = createVCZSectHeader(sectName);
     String sectNameVC = zsectVC.getName();
+    
+    // ensure all parents of zsectVC are parsed - new parents 
+    // can be introduced by the VC generator, e.g. function_toolkit
+    for (Parent parent : zsectVC.getParent()) {
+      try {
+        sectManager_.get(new Key<ZSect>(parent.getWord(), ZSect.class));
+      }
+      catch (CommandException e) {
+        // TODO add additional info?
+        throw new VCGException(e);
+      }
+    }
+    
+    Key<ZSect> vcSectKey = new Key<ZSect>(sectNameVC, ZSect.class);
+    sectManager_.startTransaction(vcSectKey);
 
     // get the VCs from term sectName
     List<VC<R>> vcList = calculateVCS(term);
@@ -1357,14 +1373,19 @@ public abstract class AbstractVCG<R>
 
     // update section manager with calculated results: 
     // (e.g., put VC ZSect as well as Op/Thm tables
-    updateManager(zsectVC);
+//    updateManager(zsectVC);
+    // end the transaction for the generated section - make it explicitly dependent
+    // on the source section
+    sectManager_.endTransaction(vcSectKey, zsectVC, 
+        Collections.singleton(new Key<ZSect>(sectName, ZSect.class)));
     
     // type check generated VC Z section just created
     // on the fly - it ought to succeed
     typeCheck(sectNameVC, false);
 
     // calculate ThmTable for new VC ZSect
-    calculateThmTable(sectNameVC);
+    // TODO: why calculate? if someone needs them, will calculate themselves
+    // calculateThmTable(sectNameVC);
 
     // create the result environment - only the original name is needed, but we also given the created name
     VCEnvAnn<R> result = newVCEnvAnn(sectNameVC, sectName, vcList);
