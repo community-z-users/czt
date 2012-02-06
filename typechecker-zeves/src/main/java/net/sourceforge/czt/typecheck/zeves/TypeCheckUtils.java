@@ -449,11 +449,8 @@ public class TypeCheckUtils
   protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager("zeves");
-    sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
-    sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
-    sectionManager.putCommand(LatexMarkupFunction.class,
-            ParseUtils.getCommand());
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
+    sectionManager.setProperties(System.getProperties());
     return sectionManager;
   }
 
