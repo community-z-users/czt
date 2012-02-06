@@ -157,48 +157,48 @@ unboxed paragraphs accept multiple items and would mean more complicated lexing.
    o! : \nat
 \end{schema}
 
-\begin{theorem}{ForwardSInitialisation}\vdash? 
+\begin{theorem}{ForwardSInitialisation} 
    \forall CSInit @ \exists Retr~' @ ASInit
 \end{theorem}
 
-\begin{theorem}{ForwardSFeasibilityAOp1}\vdash? 
+\begin{theorem}{ForwardSFeasibilityAOp1} 
    \forall AOp1Sig; COp1Sig | \pre~AOp1 \land Retr @ \pre~COp1
 \end{theorem}
 
-\begin{theorem}{ForwardSCorrctnessAOp1}\vdash? 
+\begin{theorem}{ForwardSCorrctnessAOp1} 
    \forall AOp1Sig; COp1Sig; CState~' | \pre~AOp1 \land Retr \land COp1 @ 
    	\exists AState~' | Retr~' @ AOp1
 \end{theorem}
 
-\begin{theorem}{BackwardSFeasibilityAOp1}\vdash? 
+\begin{theorem}{BackwardSFeasibilityAOp1} 
    \forall COp1Sig | (\forall AOp1Sig | Retr @ \pre AOp1) @ \pre COp1
 \end{theorem}
 
-\begin{theorem}{BackwardSCorrectnessAOp1}\vdash? 
+\begin{theorem}{BackwardSCorrectnessAOp1} 
   \forall COp1Sig | (\forall AOp1Sig | Retr @ \pre AOp1) @ 
    	(\forall AState~'; COp1 | Retr~' @ (\exists AState | Retr @ AOp1))
 \end{theorem}
 
 
-\begin{theorem}{ForwardSFeasibilityAOp2}\vdash? 
+\begin{theorem}{ForwardSFeasibilityAOp2} 
    \forall AOp2Sig; COp2Sig | \pre~AOp2 \land Retr @ \pre~COp2
 \end{theorem}
 
 To avoid undeclared identifiers quantify over COp2 as well
-\begin{theorem}{ForwardSCorrctnessAOp2}\vdash? 
+\begin{theorem}{ForwardSCorrctnessAOp2} 
   \forall AOp2Sig; COp2Sig; COp2 | \pre~AOp2 \land Retr \land COp2 @ 
    	\exists AState~' | Retr~' @ AOp2
 \end{theorem}
 
-\begin{theorem}{BarwardSInitialisation}\vdash? 
+\begin{theorem}{BarwardSInitialisation} 
    \forall CSInit; Retr~' @ ASInit 
 \end{theorem}
 
-\begin{theorem}{BackwardSFeasibilityAOp2}\vdash? 
+\begin{theorem}{BackwardSFeasibilityAOp2} 
    \forall COp2Sig | (\forall AOp2Sig | Retr @ \pre AOp2) @ \pre COp2
 \end{theorem}
 
-\begin{theorem}{BackwardSCorrectnessAOp2}\vdash? 
+\begin{theorem}{BackwardSCorrectnessAOp2} 
   \forall COp2Sig | (\forall AOp2Sig | Retr @ \pre AOp2) @ 
    	(\forall AState~'; COp2 | Retr~' @ (\exists AState | Retr @ AOp2))
 \end{theorem}
