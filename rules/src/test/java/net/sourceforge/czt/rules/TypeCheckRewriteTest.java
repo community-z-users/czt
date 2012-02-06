@@ -20,27 +20,20 @@ package net.sourceforge.czt.rules;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
-
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.oldrewriter.Rewrite;
@@ -69,6 +62,7 @@ public class TypeCheckRewriteTest
     super(false, false);
   }
 
+  @Override
   protected SectionManager getManager()
   {
     SectionManager manager = new SectionManager();
@@ -78,7 +72,8 @@ public class TypeCheckRewriteTest
     return manager;
   }
 
-  protected List typecheck(Term term, SectionManager manager)
+  @Override
+  protected List<? extends ErrorAnn> typecheck(Term term, SectionManager manager)
     throws Exception
   {
     super.typecheck(term, manager);
@@ -97,13 +92,13 @@ public class TypeCheckRewriteTest
 	throw new IOException("Cannot get unfold rules");
       }
 
-      manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
+      manager.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
       
       //load the rules
-      Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
+      Term term = manager.get(new Key<Spec>(url.toString(), Spec.class));
       String sectName = term.accept(new GetZSectNameVisitor());
-      manager.get(new Key(sectName, SectTypeEnvAnn.class)); 
-      rules_ = (RuleTable) manager.get(new Key(sectName, RuleTable.class));
+      manager.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class)); 
+      rules_ = manager.get(new Key<RuleTable>(sectName, RuleTable.class));
     }
     catch (Throwable e) {
       fail("\nUnexpected exception loading unfold rules\n" +

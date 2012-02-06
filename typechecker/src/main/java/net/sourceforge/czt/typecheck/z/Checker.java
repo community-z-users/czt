@@ -65,6 +65,7 @@ abstract public class Checker<R>
    * Double check that this visitor is not being asked to visit a
    * non-Decl object.
    */
+  @Override
   public R visitTerm(Term term)
   {
     String position = position(term);

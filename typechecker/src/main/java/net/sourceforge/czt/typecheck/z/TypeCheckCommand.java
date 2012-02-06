@@ -24,7 +24,6 @@ import java.util.Collections;
 import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.parser.util.ErrorType;

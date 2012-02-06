@@ -35,7 +35,6 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -44,7 +43,6 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -119,8 +117,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                    boolean recursiveTypes,
                                                    String sectName)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
+    return typecheck(term, sectInfo, useBeforeDecl, recursiveTypes, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
   }
 
   /**
@@ -138,9 +135,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                    boolean recursiveTypes,
                                                    boolean useNameIds)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, 
-			    recursiveTypes, useNameIds, null);
+    return typecheck(term, sectInfo, useBeforeDecl, recursiveTypes, useNameIds, null);
   }
 
 
@@ -654,7 +649,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         if (warningOutput == null || !warningOutput.equals(WarningManager.WarningOutput.RAISE))
         {
           defaultFlags = false;
-          warningOutput = warningOutput.HIDE;
+          warningOutput = WarningManager.WarningOutput.HIDE;
           manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
         }
       }
@@ -740,7 +735,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 if (warningOutput == null || (!warningOutput.equals(WarningManager.WarningOutput.RAISE) && args[i].indexOf('w') == -1))
                 {
                   defaultFlags = false;
-                  warningOutput = warningOutput.HIDE;
+                  warningOutput = WarningManager.WarningOutput.HIDE;
                   manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
                 }
                 break;

@@ -268,7 +268,7 @@ public class TypeParser
 
   protected Signature parseSignature()
   {
-    List pairs = list();
+    List<NameTypePair> pairs = list();
 
     //if empty, consume the "]" token
     if ("]".equals(lookAhead())) {
