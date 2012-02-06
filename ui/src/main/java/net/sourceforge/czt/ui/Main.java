@@ -18,22 +18,57 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.ui;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
 
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.print.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sourceforge.czt.base.impl.BaseFactory;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorList;
+import net.sourceforge.czt.parser.util.ParseException;
+
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
+
+
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.prover.ProofTree;
 import net.sourceforge.czt.rules.prover.ProverUtils;
-import net.sourceforge.czt.session.*;
+
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.SpecSource;
+
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn;
 import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
-import net.sourceforge.czt.z.ast.*;
+
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSect;
+
 
 /**
  * The command line user interface for CZT.
@@ -102,6 +137,7 @@ public class Main
     }
     if (!args[0].startsWith("-") && !args[0].contains("."))
     {
+      BaseFactory.resetInstanceCounter();
       command(args);
     }
     else
@@ -199,6 +235,7 @@ public class Main
         else
         {
           SectionManager manager = new SectionManager(extension);
+          BaseFactory.resetInstanceCounter();
           if (debug_)
           {
             manager.setTracing(debug_,
@@ -354,14 +391,24 @@ public class Main
             }
           }
         }
+        printASTInstancesCount();
       }
     }
+  }
+
+  public static void printASTInstancesCount()
+  {
+    // return the number of terms created
+    System.out.println("\n========================================================");
+      System.out.println("Number of AST objects created: " + BaseFactory.howManyInstancesCreated());
+    System.out.println("========================================================\n");
   }
 
   /**
    * Returns the version number as a String, or "unknown" if an error
    * occured when accessing the property containing the version
    * information.
+   * @return
    */
   public static String getVersion()
   {
@@ -464,6 +511,7 @@ public class Main
                   {
                     arguments
                   });
+          printASTInstancesCount();
         }
         catch (InvocationTargetException e)
         {
@@ -532,8 +580,8 @@ public class Main
           throws CommandException
   {
     Logger logger = CztLogger.getLogger(Main.class);
-    logger.info("Parse " + source);
-    logger.info("Mark-up is " + source.getMarkup());
+    logger.log(Level.INFO, "Parse {0}", source);
+    logger.log(Level.INFO, "Mark-up is {0}", source.getMarkup());
     try
     {
       // set the source for SourceLocator
@@ -568,7 +616,7 @@ public class Main
                 && ((ZParaList) zSect.getParaList()).size() > 0)
             {
               nrOfZSects++;
-              logger.info("Z Section " + sectionName);
+              logger.log(Level.INFO, "Z Section {0}", sectionName);
               if (prove)
               {
                 RuleTable rules = manager.get(

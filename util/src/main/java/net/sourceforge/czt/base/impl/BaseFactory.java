@@ -19,8 +19,8 @@
 
 package net.sourceforge.czt.base.impl;
 
+import java.math.BigInteger;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.Visit;
 import net.sourceforge.czt.util.Visitor;
 
 /**
@@ -30,6 +30,9 @@ public abstract class BaseFactory
 {
   private Visitor<String> toStringVisitor_;
 
+  private static long instanceCount_ = 0;
+  private static BigInteger higherCount_ = BigInteger.ZERO;
+
   protected BaseFactory()
   {
     toStringVisitor_ = null;
@@ -37,6 +40,7 @@ public abstract class BaseFactory
 
   /**
    * Sets the visit method of the given visitor to toString.
+   * @param toStringVisitor
    */
   protected BaseFactory(Visitor<String> toStringVisitor)
   {
@@ -56,5 +60,34 @@ public abstract class BaseFactory
   public String toString(Term term)
   {
     return term.accept(toStringVisitor_);
+  }
+
+  public static String howManyInstancesCreated()
+  {
+    promoteCounter();
+    return higherCount_.toString();
+  }
+
+  public static void resetInstanceCounter()
+  {
+    instanceCount_ = 0;
+    higherCount_ = BigInteger.ZERO;
+  }
+  
+  public static void countInstance()
+  {
+    if (instanceCount_ < Long.MAX_VALUE)
+      instanceCount_++;
+    else
+    {
+      promoteCounter();
+      countInstance();
+    }
+  }
+
+  private static void promoteCounter()
+  {
+    higherCount_ = higherCount_.add(BigInteger.valueOf(instanceCount_));
+    instanceCount_ = 0;
   }
 }

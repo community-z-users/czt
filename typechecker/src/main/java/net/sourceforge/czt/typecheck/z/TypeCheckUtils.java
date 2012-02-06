@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.MarshalException;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.z.ParseUtils;
@@ -589,7 +590,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     Boolean isNarrativeWanted = null;
     String cztpath = null;
 
-    SectionManager manager = getSectionManager();    
+    BaseFactory.resetInstanceCounter();
+    SectionManager manager = getSectionManager(); 
       
     for (int i = 0; i < args.length; i++) 
     {
@@ -1031,6 +1033,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         if (printZml) {
           System.out.println("\t\tprint zml......." + benchmarks.get(6) + "ms");
         }
+        System.out.println("\n\t\tAST instance...." + BaseFactory.howManyInstancesCreated());
       }             
     }        
     System.exit(result);

@@ -129,7 +129,7 @@ public class ZLive
     tmp.setToStringVisitor(new PrintVisitor(false));
     factory_ = new Factory(tmp);
     flatten_ = new Flatten(this);
-    sectman_ = new SectionManager();
+    sectman_ = new ZLiveSectMan();//new SectionManager();
     sectman_.putCommands("zpatt");
     // This prints IDs of ZNames, useful for debugging.
     //sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
@@ -640,4 +640,18 @@ public class ZLive
   }
 
   public net.sourceforge.czt.z.ast.Expr evalSchema(java.lang.String string ,net.sourceforge.czt.z.ast.BindExpr expr) throws net.sourceforge.czt.session.CommandException { return null; }
+
+  // An example on keeping permanent keys - perhaps the method should be made public or indeed something like loading from a file?
+  class ZLiveSectMan extends SectionManager
+  {
+    ZLiveSectMan()
+    {
+      super();
+      registerPermanentKey("expansion_rules");
+      registerPermanentKey("normalization_rules");
+      registerPermanentKey("predicate_normalization_rules");
+      registerPermanentKey("simplification_rules");
+      registerPermanentKey("unfold");
+    }
+  }
 }

@@ -78,6 +78,7 @@ public class ${class.Name}
   ${head}()
   {
     ${c.Name} zedObject = new ${c.ImplName}(this);
+    countInstance();
     return zedObject;
   }
 
@@ -94,6 +95,7 @@ public class ${class.Name}
     zedObject.${prop.SetterName}(${prop.VarName});
 #end
 #end
+	countInstance();
     return zedObject;
   }
 
