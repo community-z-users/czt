@@ -19,51 +19,39 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.Collections;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
- * A command to compute the operator table (class OpTable) of a Z section.
+ * <p>
+ * A command to compute the operator table (class OpTable) of a Z section. Since the OpTable can be
+ * calculated during the ZSect parse, a special handling is required to get correct transaction
+ * sequence. The command allows the OpTable to be calculated during the parse, or via a
+ * {@link OpTableVisitor} otherwise, on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
  */
-public class OpTableCommand
-  implements Command
+public class OpTableCommand extends SectParsableCommand<OpTable>
 {
-  /**
-   * Computes operator table for a given ZSection name. It first checks whether
-   * there is an OpTable cached. If there isn't, it retrieves the ZSect for name.
-   * This will either parse it or retrieve from the manager (e.g., manually
-   * created ZSect). Parsing already updates OpTable, so it will be cached and found.
-   * Finally, for manually added ZSect (e.g., when OpTable still not cached),
-   * it calculates the OpTable using the visitor.
-   *
-   * @param name
-   * @param manager
-   * @return
-   * @throws CommandException
-   */
+  
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected Key<OpTable> getKey(String name)
+  {
+    return new Key<OpTable>(name, OpTable.class);
+  }
+
+  @Override
+  protected OpTable calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    final Key<OpTable> opTKey = new Key<OpTable>(name, OpTable.class);
-
-    // TODO: revisit if this is really needed... see the hack on LatexMarkupParser.
-    manager.cancelTransaction(opTKey);
-
-    if ( !manager.isCached(opTKey)) {
-      Key<ZSect> zkey = new Key<ZSect>(name, ZSect.class);
-      ZSect zSect = manager.get(zkey);
-      if ( !manager.isCached(opTKey))
-      {
-        manager.startTransaction(opTKey);
-        OpTableVisitor visitor = new OpTableVisitor(manager);
-        OpTable opTable = visitor.run(zSect);
-        manager.endTransaction(opTKey, opTable, Collections.singleton(zkey));
-            // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
-            //new DependenciesBuilder().add(visitor.getDependencies()).add(zkey).build());
-      }
-    }
-    return true;
+    OpTableVisitor visitor = new OpTableVisitor(manager);
+    return visitor.run(sect);
   }
 }

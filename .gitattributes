@@ -730,6 +730,7 @@ parser/src/main/java/net/sourceforge/czt/parser/util/CztLexerImpl.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/CztScannerImpl.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/DependenciesBuilder.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/SectParentResolver.java -text
+parser/src/main/java/net/sourceforge/czt/parser/util/SectParsableCommand.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/TokeniserDebugger.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/CyclicParentError.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text

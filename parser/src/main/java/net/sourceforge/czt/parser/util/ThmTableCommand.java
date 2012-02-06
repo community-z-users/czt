@@ -19,45 +19,39 @@
 
 package net.sourceforge.czt.parser.util;
 
-import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
- * A command to compute the operator table (class OpTable) of a Z section.
+ * <p>
+ * A command to compute the conjectures table (class ThmTable) of a Z section. Since the ThmTable can be
+ * calculated during the ZSect parse, a special handling is required to get correct transaction
+ * sequence. The command allows the ThmTable to be calculated during the parse, or via a
+ * {@link ThmTableVisitor} otherwise, on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
  */
-public class ThmTableCommand
-  implements Command
+public class ThmTableCommand extends SectParsableCommand<ThmTable>
 {
-  /**
-   * Computes conjectures table for a given ZSection name. It first checks whether
-   * there is a ThmTable cached. If there isn't, it retrieves the ZSect for name.
-   * This will either parse it or retrieve from the manager (e.g., manually
-   * created ZSect). Parsing already updates ThmTable, so it will be cached and found.
-   * Finally, for manually added ZSect (e.g., when ThmTable still not cached),
-   * it calculates the ThmTable using the visitor.
-   *
-   * @param name
-   * @param manager
-   * @return
-   * @throws CommandException
-   */
-  // TODO: why not use the visitor's dependencies as well, like in ThmTableService? (Leo)
+  
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected Key<ThmTable> getKey(String name)
+  {
+    return new Key<ThmTable>(name, ThmTable.class);
+  }
+
+  @Override
+  protected ThmTable calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    final Key<ThmTable> key = new Key<ThmTable>(name, ThmTable.class);
-    if ( ! manager.isCached(key)) {
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      if ( ! manager.isCached(key)) {
-        ThmTableVisitor visitor = new ThmTableVisitor(manager);
-        ThmTable thmTable = visitor.run(zSect);
-        manager.endTransaction(key, thmTable);
-      }
-    }
-    return true;
+    ThmTableVisitor visitor = new ThmTableVisitor(manager);
+    return visitor.run(sect);
   }
 }

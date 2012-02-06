@@ -19,47 +19,42 @@
 
 package net.sourceforge.czt.parser.zpatt;
 
-import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.parser.util.SectParsableCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
 
-
-public class JokerTableCommand
-  implements Command
+/**
+ * <p>
+ * A command to compute the joker table (class JokerTable) of a Z section. Since the JokerTable can be
+ * calculated during the ZSect parse, a special handling is required to get correct transaction
+ * sequence. The command allows the JokerTable to be calculated during the parse, or via a
+ * {@link JokerTableVisitor} otherwise, on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
+ */
+public class JokerTableCommand extends SectParsableCommand<JokerTable>
 {
-  /**
-   * Creates a new joker table command.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.JokerTable.class</code>.
-   */
-  public JokerTableCommand()
+  
+  @Override
+  protected Key<JokerTable> getKey(String name)
   {
+    return new Key<JokerTable>(name, JokerTable.class);
   }
 
   @Override
-  public boolean compute(String name,
-                         SectionManager manager)
+  protected JokerTable calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    Key<JokerTable> jokerKey = new Key<JokerTable>(name, JokerTable.class);
-    //manager.cancelTransaction(jokerKey);
-
     JokerTableVisitor visitor = new JokerTableVisitor(manager);
-    Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
-    ZSect zsect = manager.get(key);
-
-   // manager.startTransaction(jokerKey);
-    JokerTable jokerTable = (JokerTable) visitor.run(zsect);
-    if (jokerTable != null)
-    {
-      manager.endTransaction(jokerKey, jokerTable);
-            // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
-            //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
-      return true;
-    }
-    return false;
+    return visitor.run(sect);
   }
 }
+
