@@ -140,16 +140,21 @@ public class <class/> extends AbstractCommand
           {
             ZSect zSect = (ZSect) sect;
 
-            // no need for section manager transaction since section management is not used here.
-            // however, we need to add explicit dependencies such as source and spec. the InfoTables
-            // or LMF won't be needed (???? TODO ???)
+            // Latex and unicode parsers put ZSect into SectMan themselves. Here we put the
+            // parsed ZSect as well for a uniform solution.
+            //
+            // No need for section manager transaction since section management is not used here.
+            // However, we need to add explicit dependencies such as source and spec.
+            //
+            // The InfoTables or LMF won't be needed: if they are requested, their respective commands
+            // will calculate them for the user.
             sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, explicitDeps);
           }
         }
       }
       else if (result instanceof ZSect) {
         ZSect zSect =  (ZSect) result;
-        // add the section directly to the manager
+        // add the section directly to the manager --- same as above
         sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, explicitDeps);
       }
       reader = null;
@@ -490,43 +495,6 @@ public class <class/> extends AbstractCommand
     return dependencies;
   }
 
-  /**
-   * For non-parsed ZSect (e.g., created on-the-fly by tools), one needs to update
-   * a given section manager in a particular order. This method produces a similar
-   * effect as does the parser when processing Source(s). see DomainChecker for use.
-   * @param sectInfo section manager to update
-   * @param nonParsedZSect on-the-fly ZSect to add
-   * @throws CommandException in case some command fails
-   */
-  public static void updateSectManager(net.sourceforge.czt.session.SectionInfo sectInfo, ZSect nonParsedZSect) throws CommandException
-  {
-    // TODO: when handling VCG, check if this is still right with new protocol...
-
-    assert sectInfo != null &amp;&amp; nonParsedZSect != null;
-
-    // get info + log data
-    final String sectName = nonParsedZSect.getName();
-    traceLog("PU-SMUPD-ZSECT = " + sectName);
-
-    // tell the section manager about the presence of this new Z section
-    // no need to parse, we know it is okay - it's been constructed.
-    sectInfo.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), nonParsedZSect,
-            calculateDependencies(nonParsedZSect));
-
-    // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see Op/ThmTableCommand protocols).
-    try
-    {
-      sectInfo.get(new Key&lt;OpTable&gt;(sectName, OpTable.class));
-      sectInfo.get(new Key&lt;ThmTable&gt;(sectName, ThmTable.class));
-    }
-    catch (CommandException e)
-    {
-      final String msg = "PU-CMDEXP-TBL = " + e.getCause();
-      traceLog(msg);
-      throw e;
-    }
-  }
-
   // Command METHODS
 
   /**
@@ -569,14 +537,15 @@ public class <class/> extends AbstractCommand
         if (sect instanceof ZSect) {
           ZSect zsect = (ZSect) sect;
           // if an annonymous ZSect, also add the file name for/to it?
-          if (zsect.getName().equals(net.sourceforge.czt.util.Section.ANONYMOUS.getName()))
-          {
-            // TODO: solve these
-            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect));
-          }
+          //if (zsect.getName().equals(net.sourceforge.czt.util.Section.ANONYMOUS.getName()))
+          //{
+          //  manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect));
+          //}
+          //
+          // TODO: this is a bit weird. wait for the specific case to manifest itself to handle
+          //       it is messing a bit with the transaction protocol here.
           manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
                       zsect, calculateDependencies(zsect));
-
         }
       }
       final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
@@ -635,7 +604,7 @@ public class <class/> extends AbstractCommand
       if (term instanceof ZSect) {
         // only parsed the ZSect, so wrap it into a Spec to be consistent
         // the ZSect should have been added to the section manager during the parsing
-        term = new Factory().createSpec(
+        term = ZUtils.FACTORY.createSpec(
             Collections.singletonList((ZSect) term), Version.ZML_VERSION);
       }
               

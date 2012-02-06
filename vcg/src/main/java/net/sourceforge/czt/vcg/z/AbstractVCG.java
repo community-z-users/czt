@@ -611,33 +611,6 @@ public abstract class AbstractVCG<R>
     }
   }
 
-  /**
-   * Like in Parser.xml, we need to add OpTable and ThmTable (and other tables)
-   * for ZSections created on-the-fly (e.g., DC ZSect).
-   *
-   * To be called only by methods creating ZSects on the fly.
-   *
-   * @param zSect DC ZSect (or on the fly ones)
-   * @throws VCGException
-   */
-  protected void updateManager(ZSect zSect) throws VCGException
-  {
-    assert sectManager_ != null;
-    try
-    {
-      // TODO no longer used?
-      ParseUtils.updateSectManager(sectManager_, zSect);
-      final String sectName = zSect.getName();
-     // sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
-    }
-    catch (CommandException e)
-    {
-      final String msg = "VCG-CMDEXP-TBL = " + (e.getCause() == null ? e : e.getCause());
-      getLogger().warning(msg);
-      throw new VCGException(msg, e);
-    }
-  }
-
   /* VC CALCULATION TERM VISITING METHODS */
 
   /* NOTE: although some of these methods are public, they are NOT top-level and
