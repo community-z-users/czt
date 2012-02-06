@@ -31,13 +31,13 @@ import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  * &lt;p&gt;A parser for unicode.  This class is a convenience class
@@ -57,12 +57,12 @@ public class <class/>
     parser_ = new Parser(scanner, source, sectInfo, properties, explicitDeps);
   }
 
-  public Term parse()
+  public Spec parse()
     throws ParseException
   {
     try {
       Symbol parseTree = parser_.parse();
-      return (Term) parseTree.value;
+      return (Spec) parseTree.value;
     }
     catch (ParseException e) {
       throw e;

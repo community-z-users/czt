@@ -27,12 +27,12 @@ import java.util.Set;
 
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.Spec;
 
 
 /**
@@ -55,12 +55,12 @@ public class <class/>
     parser_ = new Parser(scanner, source, sectInfo, properties, explicitDeps);
   }
 
-  public Term parse()
+  public Spec parse()
     throws ParseException
   {
     try {
       final Symbol parseTree = parser_.parse();
-      final Term term = (Term) parseTree.value;
+      final Spec term = (Spec) parseTree.value;
       return term;
     }
     catch (ParseException e) {
