@@ -25,6 +25,8 @@ package <package/>;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.List;
 import java.util.Set;
@@ -565,10 +567,8 @@ public class <class/> extends AbstractCommand
   private static boolean computeSpecSections(String name, SectionInfo manager)
     throws CommandException
   {
-    // create a Spec key for the given name and check if it's cached,
-    // in which case, all of its ZSect are put to the manager. This
-    // happens when a Spec is created manually (e.g., does not come
-    // from parsing). Parsed ZSects are added by Parser.xml@updateZSect
+    // check whether a Spec under the requested name is cached, then add its ZSects
+    // to the section manager
     Key&lt;Spec&gt; specKey = new Key&lt;Spec&gt;(name, Spec.class);
     if (manager.isCached(specKey)) {
       Spec spec = manager.get(specKey);
@@ -576,18 +576,24 @@ public class <class/> extends AbstractCommand
       /*
        * If the Spec is cached, that means the incoming transaction is that of a ZSect, started via
        * SectionInfo.get(ZSect). We will add the sections of the given Spec to the section manager,
-       * each with its own immediate transaction (via SectionInfo.put()). For that reason, cancel
-       * the incoming ZSect transaction.
-       * 
-       * Note a special case when Spec has no ZSects. Then we will not add anything to the section
-       * manager, and we need to handle the incoming ZSect transaction in some way. So cancellation 
-       * will solve that. The subsequent check in the section manager will flag the section as not 
-       * resolved though, since the key will not have a value for it.
+       * first - the requested one (ending the transaction), then the rest, each with its own 
+       * immediate transaction (via SectionInfo.put()).
        */
       Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(name, ZSect.class);
-      manager.cancelTransaction(zsKey);
       
-      // add all ZSects of the Spec to the section manager
+      /*
+       * Add all ZSects of the Spec to the section manager.
+       * 
+       * First of all, collect all ZSects in a map, and put them into the section manager afterwards.
+       * This is needed for several reasons. First, we may have sections with duplicate names,
+       * and putting such sections without removing the first would cause transaction problems. The
+       * map will allow us to put the last section for each name only.
+       * 
+       * Second, by querying the map, we can control the transactions appropriately. For example, the
+       * Spec may not contain the ZSect with a requested name - in that case, we need to cancel the 
+       * transaction.
+       */
+      Map&lt;Key&lt;ZSect&gt;, ZSect&gt; specSections = new LinkedHashMap&lt;Key&lt;ZSect&gt;, ZSect&gt;();
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           ZSect zsect = (ZSect) sect;
@@ -600,11 +606,11 @@ public class <class/> extends AbstractCommand
              * able to locate it. In addition to the default name, we add the anonymous section
              * under the requested key name as well, to complete successful command resolution.
              */
-            manager.put(zsKey, zsect, Collections.singleton(specKey));
+            specSections.put(zsKey, zsect);
           }
           
           // put it under the original ZSect name into the section manager
-          manager.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), zsect, Collections.singleton(specKey));
+          specSections.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), zsect);
           
           /*
            * Note that we would have a problem if the Spec would not have any sections at all, or no
@@ -615,9 +621,30 @@ public class <class/> extends AbstractCommand
         }
       }
       
+      // for all added sections, indicate an explicit dependency on the Spec they originated
+      Set&lt;Key&lt;Spec&gt;&gt; specDep = Collections.singleton(specKey);
+      
+      // check whether the requested ZSect was located
+      boolean foundRequested;
+      ZSect requestedSect = specSections.remove(zsKey);
+      if (requestedSect == null) {
+        // cannot locate the requested section - it may be the case that the Spec was empty, 
+        // or had no ZSects with the correct name. In this case - cancel the transaction.
+        manager.cancelTransaction(zsKey);
+        foundRequested = false;
+      } else {
+        manager.endTransaction(zsKey, requestedSect, specDep);
+        foundRequested = true;
+      }
+      
+      // add the rest of the sections in individual transactions, with dependency on Spec
+      for (Map.Entry&lt;Key&lt;ZSect&gt;, ZSect&gt; entry : specSections.entrySet()) {
+        manager.put(entry.getKey(), entry.getValue(), specDep);
+      }
+      
       final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
       traceLog(msg);
-      return true;
+      return foundRequested;
     }
     else {
       return false;
