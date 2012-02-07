@@ -160,28 +160,76 @@ public interface SectionInfo
 
   /**
    * <p>
-   * During certain (command programmer defined) complex transactions, it is necessary to reorder transactions
-   * to make dependencies clearer. For instance, when parsing a section lexing starts and might start a transaction
-   * (e.g., latex markup function), which might trigger parsing of other sections (i.e., parents). This way the
-   * transaction for the child being lexed will be enclosing its own the parsing transaction that did not start yet.
-   * Other example is when parsing Spec not using the manager, where we do not know yet about its ZSect within, which
-   * will depend on the Spec (not managed). TODO: Andrius, check please?
+   * Postpones the just-started transaction to ensure a correct transaction order. This is used to
+   * reorder transactions for complex commands, when the requested key (and thus started
+   * transaction) will be calculated as part of another bigger transaction.
    * </p>
    * <p>
-   * In these complex cases we need to postpone a given transaction in order to organise the processing of information
-   * and its dependencies. This method calls #cancelTransaction(Key) and ensures that the next call to #startTransaction(Key)
-   * must be on the next key expected.
+   * Some of the commands may calculate their results as part of a bigger calculation. The following
+   * are several examples the illustrating need and use case for
+   * {@link #postponeTransaction(Key, Key)}:
+   * <dl>
+   * <dt>Calculating the Latex Markup Function</dt>
+   * <dd>The Latex Markup Function (LMF) is created while parsing a Z Section (ZSect). So if the Z
+   * Section has not been parsed before, requesting a Latex Markup Function (via LatexMarkupCommand)
+   * from the section manager will trigger parsing of the Z Section. In this case, the nested
+   * calculations form the following transaction chain: LMF > ZSect > LMF. A cyclic chain is invalid
+   * in the transactional section manager, and needs to be reordered. The
+   * {@link #postponeTransaction(Key, Key)} method is used to perform this reorder, indicating that
+   * the LMF transaction will be postponed in favor of the ZSect, which may in turn perform the LMF
+   * transaction again (i.e., postponed).</dd>
+   * <dt>Parsing a ZSect</dt>
+   * <dd>The Latex and Unicode specifications are parsed as Spec, containing one or more ZSects. If
+   * the section manager is asked to calculate a ZSect (via {@link #get(Key)}), the transactional
+   * chain would be ZSect > Spec > ZSect. The initial ZSect transaction is postponed to get Spec >
+   * ZSect.</dd>
+   * <dt>Calculating the Info Tables</dt>
+   * <dd>When parsing a ZSect, a number of info tables are calculated, such as operator table, joker
+   * table (circus), etc. The cases are very similar to these of LMF. When the appropriate commands
+   * are used, we would get a cyclic transactional chain, e.g. OpTable > ZSect > OpTable. By
+   * postponing the initial transaction, we get ZSect > OpTable.</dd>
+   * <dl>
+   * </p>
+   * <h4>Usage</h4>
+   * <p>
+   * This method is a strict version of the {@link #cancelTransaction(Key)}. It requires to indicate
+   * the next expected transaction - it should be known when postponing. This will be verified when
+   * the next transaction is started in {@link #startTransaction(Key)}. Furthermore, this method can
+   * only be used for just-started transaction (which do not have any marked dependencies - no
+   * {@link #get(Key)} calls since starting it). This constraint ensures that we are not losing any
+   * dependencies by postponing.
    * </p>
    * <p>
-   * An exception is thrown if either key is null or if cancelling the current key raises an exception.
-   * The next key expected must not be cached or already postponed or an section info exception is thrown as well.
+   * Because of these constraints, postponing (and thus reordering) the transactions should be used
+   * as the first action in the command. If an inappropriate transaction has been started within
+   * {@link #get(Key)} right before launching the command, postponing it in favor of another
+   * (larger) transaction allows to achieve the desired order.
    * </p>
-   * @param currentKeyToCancel key to call cancel transaction
-   * @param nextKeyExpected next key being monitored for start transaction
-   * @return the set of dependencies of the key cancelled
-   * @throws SectionInfoException see above and #cancelTransaction(Key).
+   * 
+   * @param postponedKey
+   *          The key of an active transaction to be be postponed. The indicated transaction must be
+   *          at the top of transaction stack (currently active). It will be cancelled by this
+   *          method. The transaction cannot have any dependencies marked for it (via
+   *          {@link #get(Key)}).
+   * @param nextKey
+   *          The key for the next expected transaction. Indicates the transaction that the
+   *          postponed key is postponed in favor of. The next call to
+   *          {@link #startTransaction(Key)} must match the indicated key.
+   * @throws SectionInfoException
+   *           if constraints for postponing the transaction are violated:
+   *           <ul>
+   *           <li>{@code postponedKey} and {@code nextKey} cannot be null.</li>
+   *           <li>{@code postponedKey} must be the currently active transaction.</li>
+   *           <li>{@code postponedKey} cannot have dependencies marked for it (via
+   *           {@link #get(Key)}).</li>
+   *           <li>{@code nextKey} cannot be already cached.</li>
+   *           <li>{@code nextKey} cannot be an already active transaction.</li>
+   *           <li>There cannot be an already postponed transaction.</li>
+   *           </ul>
+   * @see #cancelTransaction(Key)
    */
-  Set<Key<?>> postponeTransaction(Key<?> currentKeyToCancel, Key<?> nextKeyExpected) throws SectionInfoException;
+  void postponeTransaction(Key<?> postponedKey, Key<?> nextKey) 
+      throws SectionInfoException;
 
   /**
    * checks whether there is any ongoing transaction for the given key

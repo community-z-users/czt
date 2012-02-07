@@ -1078,7 +1078,7 @@ public class SectionManager
   }
 
   @Override
-  public Set<Key<?>> postponeTransaction(Key<?> currentKeyToCancel, Key<?> nextKeyExpected) throws SectionInfoException
+  public void postponeTransaction(Key<?> currentKeyToCancel, Key<?> nextKeyExpected) throws SectionInfoException
   {
     if (nextKeyExpected == null)
       throw new SectionInfoException("Key expected for the next transaction cannot be null.");
@@ -1094,24 +1094,24 @@ public class SectionManager
 
     // next key cannot have already been cached or put for pending
     assertKeyNotCached(nextKeyExpected);
+    assertNoOngoingTransactionFor(nextKeyExpected);
     assertNoPendingTransactionFor(nextKeyExpected);
 
-    Set<Key<?>> result = cancelTransaction(currentKeyToCancel);
-    if (!result.isEmpty()) {
+    Set<Key<?>> cancelledDeps = cancelTransaction(currentKeyToCancel);
+    if (!cancelledDeps.isEmpty()) {
     	// There are keys already marked as transaction's dependencies.
     	// The postpone should only happen as the immediate action in the command,
     	// thus no keys can be marked as dependencies for this transaction.
         final String msg = "Postponing a transaction with dependencies - only " +
         		"fresh transactions (no dependencies) can be postponed." +
                 "\n\tKey...........: " + String.valueOf(currentKeyToCancel) +
-                "\n\tDependencies..: " + collectionsToString(result) +
+                "\n\tDependencies..: " + collectionsToString(cancelledDeps) +
                 "\n\tStack.........: " + collectionsToString(transactionStack_) +
                 "\n\tPStack........: " + collectionsToString(postponedTransactionsStack_);
         throw new SectionInfoException(msg);
     }
 
     postponedTransactionsStack_.push(nextKeyExpected);
-    return result;
   }
 
   private <T> Set<Key<?>> endTransaction0(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
