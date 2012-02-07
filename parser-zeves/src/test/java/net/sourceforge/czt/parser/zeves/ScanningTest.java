@@ -99,9 +99,11 @@ public class ScanningTest
 
     TestNormal(String path, String name)
     {
+      super("Test normal: " + path + name);
       name_ = path + name;
     }
 
+    @Override
     public void runTest()
     {
       try
@@ -135,10 +137,12 @@ public class ScanningTest
 
     TestError(String path, String name, String exception)
     {
+      super("Test error - " + exception + ": " + path + name);
       name_ = path + name;
       exception_ = exception;
     }
 
+    @Override
     public void runTest()
     {
       try
