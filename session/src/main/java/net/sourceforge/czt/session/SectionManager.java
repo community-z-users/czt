@@ -1097,6 +1097,18 @@ public class SectionManager
     assertNoPendingTransactionFor(nextKeyExpected);
 
     Set<Key<?>> result = cancelTransaction(currentKeyToCancel);
+    if (!result.isEmpty()) {
+    	// There are keys already marked as transaction's dependencies.
+    	// The postpone should only happen as the immediate action in the command,
+    	// thus no keys can be marked as dependencies for this transaction.
+        final String msg = "Postponing a transaction with dependencies - only " +
+        		"fresh transactions (no dependencies) can be postponed." +
+                "\n\tKey...........: " + String.valueOf(currentKeyToCancel) +
+                "\n\tDependencies..: " + collectionsToString(result) +
+                "\n\tStack.........: " + collectionsToString(transactionStack_) +
+                "\n\tPStack........: " + collectionsToString(postponedTransactionsStack_);
+        throw new SectionInfoException(msg);
+    }
 
     postponedTransactionsStack_.push(nextKeyExpected);
     return result;
