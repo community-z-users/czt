@@ -42,16 +42,13 @@ public class DefinitionTableTest extends VCGTest
 {
 
   protected static final boolean DEBUG_TESTING = false;
-  protected static final boolean TESTING_MONDEX = false;
-  protected static final String EXTENSION = SectionManager.DEFAULT_EXTENSION;
   protected final static String TEST_DIR = "/tests/z/";
-  protected final static String TEST_MONDEX_DIR = "/tests/mondex/";
 
   public static Test suite() throws VCGException
   {
-    SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(TESTING_MONDEX ? "zeves" : EXTENSION);
+    SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(SectionManager.DEFAULT_EXTENSION);
     VCGTest test = new DefinitionTableTest(manager, DEBUG_TESTING);
-    Test result = test.suite(TESTING_MONDEX ? TEST_MONDEX_DIR : TEST_DIR, null);
+    Test result = test.suite(TEST_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }

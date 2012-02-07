@@ -55,6 +55,7 @@ public class ProverFactory
     if (result == null) {
       String newId = "" + id_++;
       result = new  ${j.ClassName}(name, newId);
+      countInstance();
       m${j.Name}s_.put(name, result);
     }
     return result;

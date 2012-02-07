@@ -43,6 +43,10 @@ import net.sourceforge.czt.z.visitor.TypeVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.ZStrokeListVisitor;
 
+// TODO: is this dependency on ZEves bad?
+import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
+
 /**
  * Trivial Term VC generator. It returns true for all predicates that have
  * trivial/irrelevant VCs, like narrative text. This is different from a
@@ -60,7 +64,8 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
         StrokeVisitor<Pred>,
         ZStrokeListVisitor<Pred>,
         OptempParaVisitor<Pred>,
-        TermVisitor<Pred>
+        TermVisitor<Pred>,
+        ProofScriptVisitor<Pred>
 {
 
   /** Creates a new instance of TrivialVCCollector
@@ -122,6 +127,12 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
     return factory_.createTruePred();
     // don't raise exception to allow for completion of VCGing
     //throw new CztException(new VCGException(msg));
+  }
+
+  @Override
+  public Pred visitProofScript(ProofScript term)
+  {
+    return truePred();
   }
 
   @Override

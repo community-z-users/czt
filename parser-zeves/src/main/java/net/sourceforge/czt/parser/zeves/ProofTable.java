@@ -101,14 +101,16 @@ public class ProofTable  extends InfoTable
     List<ZName> unknown = new ArrayList<ZName>(proofTable_.keySet().size() / 2);
     for(ZName name : proofTable_.keySet())
     {
-      if (thmTable.lookup(name.getWord()) == null)
+      final String word = name.getWord();
+      // domain check (e.g., XXX\$domainCheck) conjectures are not explicitly declared
+     if (!word.endsWith("$domainCheck") && thmTable.lookup(word) == null)
       {
         unknown.add(name);
       }
     }
     if (!unknown.isEmpty())
     {
-      wm_.warn("Missing proof scripts for conjectures {0}", unknown);
+      wm_.warn("Missing conjecture declaration for proof scripts {0}", unknown);
     }
     return unknown;
   }
@@ -119,7 +121,7 @@ public class ProofTable  extends InfoTable
     List<ZName> result = checkAgainst(thmTable);
     if (!result.isEmpty())
     {
-      throw new ProofTableException("Missing proof scripts for conjectures " + result);
+      throw new ProofTableException("Missing conjecture declaration for proof scripts " + result);
     }
   }
 

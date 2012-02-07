@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
@@ -42,7 +43,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
 {  
   protected Factory factory_;
   private VCNameFactory vcNameFactory_;
-  protected final Logger logger_;
+  private final Logger logger_;
   protected boolean checkTblConsistency_;
   private long vcCnt_;
 
@@ -65,7 +66,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     vcCnt_ = 0;
     factory_ = factory;
     defTable_ = null;
-    logger_ = Logger.getLogger(getClass().getName());
+    logger_ = CztLogger.getLogger(getClass());
     
     setVCNameFactory(DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY);
     
@@ -85,7 +86,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   }
 
   @Override
-  public void setVCNameFactory(VCNameFactory vcf)
+  public final void setVCNameFactory(VCNameFactory vcf)
   {
     if (vcf == null) {
       vcf = DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY;
@@ -152,7 +153,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   public R visitTerm(Term term)
   { 
     final String msg = "VCG-NOVISITOR-ERROR = " +term.getClass().getSimpleName();
-    logger_.warning(msg);
+    getLogger().warning(msg);
     /*return factory_.createFalsePred();*/
     throw new CztException(new VCGException(msg));
   }

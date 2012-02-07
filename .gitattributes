@@ -1187,10 +1187,14 @@ vcg/src/main/resources/lib/standard_toolkit_dc.tex -text
 vcg/src/main/resources/lib/standard_toolkit_fsb.tex -text
 vcg/src/main/resources/lib/whitespace_dc.tex -text
 vcg/src/main/resources/lib/whitespace_fsb.tex -text
+vcg/src/test/java/net/sourceforge/czt/vcg/util/DefinitionTableMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/util/DefinitionTableTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/util/VCGTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/refinement/RefinementMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/refinement/RefinementTest.java -text
 vcg/src/test/resources/tests/mondex/apC.tex -text
 vcg/src/test/resources/tests/mondex/apD.tex -text

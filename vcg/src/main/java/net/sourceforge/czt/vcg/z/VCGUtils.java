@@ -48,6 +48,7 @@ import net.sourceforge.czt.session.KnownExtensions;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionException;
@@ -56,6 +57,7 @@ import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.WarningManager.WarningOutput;
 
 /**
  *
@@ -201,6 +203,8 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     System.err.println("       -p     process parent sections.");
     System.err.println("       -t     add trivial VCs.");
     System.err.println("       -r     apply term transformers.");
+    System.err.println("       -s     show warnings (cannot show when hiding!)");
+    System.err.println("       -h     hide warnings (cannot hide when raising!)");
     System.err.println("       -w     raise type warnings as errors.");
     System.err.println("       -y     check def table consistency.");
     System.err.println("       -mX    prefered markup to print results");
@@ -631,6 +635,8 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     Markup preferedMarkup = preferedMarkupDefault();
 
     Boolean raiseWarnings = null;
+    Boolean hideWarnings = null;
+    Boolean showWarnings = null;
     Boolean processParents = null;
     Boolean addTrivialVC = null;
     Boolean checkDefTblConsistency = null;
@@ -667,6 +673,22 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       else if ("-w".equals(args[i]))
       {
         raiseWarnings = true;
+      }
+      else if ("-h".equals(args[i]))
+      {
+        // raise has precedence over hide
+        if (raiseWarnings == null)
+        {
+          hideWarnings = true;
+        }
+      }
+      else if ("-s".equals(args[i]))
+      {
+        // raise has precedence over hide
+        if (raiseWarnings == null)
+        {
+          hideWarnings = false;
+        }
       }
       else if ("-r".equals(args[i]))
       {
@@ -759,6 +781,9 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
 
     raiseWarnings = raiseWarnings == null ? vcg.isRaisingTypeWarnings() : raiseWarnings;
+    // non-default extensions, hide warnings (e.g., ZEves) if not raising.
+    hideWarnings = !raiseWarnings && (hideWarnings == null ? !getExtension().equals(SectionManager.DEFAULT_EXTENSION) : hideWarnings);
+    
     processParents = processParents == null ? vcg.isProcessingParents() : processParents;
     addTrivialVC = addTrivialVC == null ? vcg.isAddingTrivialVC() : addTrivialVC;
     checkDefTblConsistency = checkDefTblConsistency == null ? vcg.isCheckingDefTblConsistency() : checkDefTblConsistency;
@@ -769,6 +794,9 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     manager.setProperty(PROP_VCG_ADD_TRIVIAL_VC, String.valueOf(addTrivialVC));
     manager.setProperty(PROP_VCG_APPLY_TRANSFORMERS, String.valueOf(applyPredTransf));
     manager.setProperty(PROP_VCG_RAISE_TYPE_WARNINGS, String.valueOf(raiseWarnings));
+    manager.setProperty(TypecheckPropertiesKeys.PROP_TYPECHECK_WARNINGS_OUTPUT,
+        String.valueOf(raiseWarnings != null && raiseWarnings ? WarningOutput.RAISE : hideWarnings != null && hideWarnings ? WarningOutput.HIDE : WarningOutput.SHOW));
+
     manager.setProperty(PROP_VCGU_PREFERRED_OUTPUT_MARKUP, preferedMarkup.toString());
     manager.setProperty(PROP_VCG_CHECK_DEFTBL_CONSISTENCY, String.valueOf(checkDefTblConsistency));
     manager.setProperty(LatexPrinterPropertyKeys.PROP_LATEXPRINTER_WRAPPING,
@@ -800,13 +828,15 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       String prop = "";
       if (oldpipath != null && !oldpipath.trim().isEmpty())
       {
-        prop = oldpipath + File.pathSeparator;
+        prop += oldpipath + File.pathSeparator;
       }
 
       // build it from parents to ignore
       for (String path : parentsToIgnore)
       {
-        prop = path + File.pathSeparator;
+        // add any extra ones
+        if (prop.indexOf(path) == -1)
+          prop += path + File.pathSeparator;
       }
       if (!prop.isEmpty())
       {
@@ -976,15 +1006,8 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
                 // if processing parents, print them as well
                 if (processParents)
                 {
-                  for(Parent p : zs.getParent())
-                  {
-                    final String pName = p.getWord();
-                    if (!vcs.containsKey(pName))
-                    {
-                      vc = manager.get(createSMKey(pName, getVCG().getVCEnvAnnClass()));
-                      vcs.put(pName, vc);
-                    }
-                  }
+                  // recursively process parents
+                  processParents(zs, vcs, manager);
                 }
               }
               // TODO: please simplify this very nested exception causality, please(!!!)
@@ -1119,6 +1142,22 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
       printBenchmarks(exitCode, result, timesPerFile);
     }
     System.exit(exitCode);
+  }
+
+  private void processParents(ZSect zs, SortedMap<String, VCEnvAnn<R>> vcs, SectionManager manager) throws CommandException
+  {
+    for(Parent p : zs.getParent())
+    {
+      final String pName = p.getWord();
+      // if the parent isn't to be ignored and hasn't yet been processed, process it
+      if (!getVCG().getParentsToIgnore().contains(pName) && !vcs.containsKey(pName))
+      {
+        VCEnvAnn<R> vc = manager.get(createSMKey(pName, getVCG().getVCEnvAnnClass()));
+        vcs.put(pName, vc);
+        ZSect parentZS = manager.get(new Key<ZSect>(pName, ZSect.class));
+        processParents(parentZS, vcs, manager);
+      }
+    }
   }
 
   /* ERROR HANDLING */

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.vcg.util.Definition;
@@ -71,9 +72,9 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   }
 
   @Override
-  protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName)
+  protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName, TypeErrorException tee)
   {
-    return super.getVCGCreatedZSectTypeErrorWarningMessage(sectName) +
+    return super.getVCGCreatedZSectTypeErrorWarningMessage(sectName, tee) +
             "\nFurthermore, it might happen when Z refinement relationships are not properly set. " +
             "\nThe current concrete state name is set to '" + getRefVCCollector().getState(ZStateInfo.CSTATE) +
             "'; retrieve name is set to '" + getRefVCCollector().getState(ZStateInfo.RETRIEVE) + "'.";

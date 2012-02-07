@@ -35,8 +35,7 @@ public class DomainCheckerTest extends VCGTest implements DomainCheckPropertyKey
 {
 
   protected static final boolean DEBUG_TESTING = false;
-  protected final static String TEST_DIR =
-          "/tests/z/";
+  protected final static String TEST_DIR = "/tests/z/";
 
   public static Test suite() throws VCGException
   {

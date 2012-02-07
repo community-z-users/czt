@@ -95,25 +95,25 @@ public abstract class AbstractVCG<R>
 
 
   /**
-   * Usual toolkits to ignore whilst generating VCs
+   * Usual toolkits to ignore whilst generating VCs - use Section.java instead
    */
-  protected static final String[] EXTENDED_TOOLKIT_NAMES =
-  {
-    "whitespace",
-    "fuzz_toolkit",
-    "zstate_toolkit"
-  };
-
-  protected static final String[] STANDARD_TOOLKIT_NAMES =
-  {
-      "prelude",
-      "number_toolkit",
-      "set_toolkit",
-      "relation_toolkit",
-      "function_toolkit",
-      "sequence_toolkit",
-      "standard_toolkit"
-  };
+//  protected static final String[] EXTENDED_TOOLKIT_NAMES =
+//  {
+//    "whitespace",
+//    "fuzz_toolkit",
+//    "zstate_toolkit"
+//  };
+//
+//  protected static final String[] STANDARD_TOOLKIT_NAMES =
+//  {
+//      "prelude",
+//      "number_toolkit",
+//      "set_toolkit",
+//      "relation_toolkit",
+//      "function_toolkit",
+//      "sequence_toolkit",
+//      "standard_toolkit"
+//  };
 
   private boolean addTrivialVC_;
   private boolean logTypeWarnings_;
@@ -239,8 +239,8 @@ public abstract class AbstractVCG<R>
    */
   protected SortedSet<String> defaultParentsToIgnore()
   {
-    SortedSet<String> result = new TreeSet<String>(Arrays.asList(STANDARD_TOOLKIT_NAMES));
-    result.addAll(Arrays.asList(EXTENDED_TOOLKIT_NAMES));
+    SortedSet<String> result = new TreeSet<String>(Section.standardSections());//Arrays.asList(STANDARD_TOOLKIT_NAMES));
+    //result.addAll(Arrays.asList(EXTENDED_TOOLKIT_NAMES));
     return result;
   }
 
@@ -464,7 +464,7 @@ public abstract class AbstractVCG<R>
       String prop = "";
       for (String path : defaultParentsToIgnore())
       {
-        prop = path + File.pathSeparator;
+        prop += path + File.pathSeparator;
       }
       if (!prop.isEmpty())
       {
@@ -551,8 +551,8 @@ public abstract class AbstractVCG<R>
         if (e.getCause() instanceof TypeErrorException)
         {
           TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
-          final int i = printTypeErrors(typeErrorException.getErrors());
-          //getLogger().warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
+          //final int i = printTypeErrors(typeErrorException.getErrors());
+          //getLogger().log(Level.WARNING, "VCG-TYPECHK-ZSECT-ERROR = ({0}, {1})", new Object[]{sectName, i});
         }
       }
       throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
@@ -583,6 +583,18 @@ public abstract class AbstractVCG<R>
         getLogger().warning(next.toString());
         result++;
       }
+    }
+    return result;
+  }
+
+  protected List<String> printTypeErrors(TypeErrorException tee)
+  {
+    List<String> result = new ArrayList<String>();
+    //print any errors
+    for (ErrorAnn next : tee.getErrors())
+    {
+      //if (next.getErrorType().equals(ErrorType.ERROR))
+      result.add(next.toString());
     }
     return result;
   }
