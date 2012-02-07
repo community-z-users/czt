@@ -19,47 +19,40 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.Collections;
-import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
-public class LatexMarkupCommand
-  implements Command
+/**
+ * <p>
+ * A command to compute the latex markup function (class LatexMarkupFunction) of a Z section. Since
+ * the LatexMarkupFunction can be calculated during the ZSect parse, a special handling is required
+ * to get correct transaction sequence. The command allows the LatexMarkupFunction to be calculated
+ * during the parse, or via a {@link LatexMarkupFunctionVisitor} otherwise (e.g. for a Unicode
+ * ZSect, or for an already-parsed ZSect), on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
+ */
+public class LatexMarkupCommand extends SectParsableCommand<LatexMarkupFunction>
 {
+  
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected Key<LatexMarkupFunction> getKey(String name)
+  {
+    return new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
+  }
+
+  @Override
+  protected LatexMarkupFunction calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    // create keys
-    final Key<LatexMarkupFunction> lmfKey = new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
-    final Key<ZSect> zkey = new Key<ZSect>(name, ZSect.class);
-
-    // if ZSect already parsed, don't cancel LMF transaction
-    //    e.x., recall to LMF from outside; call to LMF from a Unicode sect
-    // early cancellation would remove the already parsed Unicode ZSect (!)
-    if (!manager.isCached(zkey))
-    {
-      // cancel it only if managed to get lmf key? Trouble is if the source doesn't need LMF (e.g., is Unicode)
-      manager.cancelTransaction(lmfKey);
-    }
-
-    if (!manager.isCached(lmfKey))
-    {
-      ZSect zSect = manager.get(zkey);
-      if (!manager.isCached(lmfKey))
-      {
-        // ensure transaction rather than start - we might not cancel it
-        // in the case of an already cached ZSect (e.g., unicode one; or user given; etc)
-        manager.ensureTransaction(lmfKey);
-        
-        LatexMarkupFunctionVisitor visitor = new LatexMarkupFunctionVisitor(manager);
-        LatexMarkupFunction markup = visitor.run(zSect); 
-        manager.endTransaction(lmfKey, markup, Collections.singleton(zkey));
-      }
-    }
-    return true;
+    LatexMarkupFunctionVisitor visitor = new LatexMarkupFunctionVisitor(manager);
+    return visitor.run(sect);
   }
 }
