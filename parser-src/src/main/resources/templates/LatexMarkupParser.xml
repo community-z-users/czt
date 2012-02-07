@@ -184,6 +184,10 @@ public class <class/>
    * {@link #endLmfTransaction(String)} for more details about the LMF transaction and explicit
    * dependencies.
    * &lt;/p&gt;
+   * &lt;p&gt;
+   * Note that the code wrapped in start/end of transactions for LMF does not throw unchecked
+   * exceptions. For this reason there is no need to catch them and cancel the failed transaction.
+   * &lt;/p&gt;
    * 
    * @param sectName
    *          same as sectName_, but to emphasise the dependency
@@ -329,6 +333,8 @@ public class <class/>
 
       // start the LMF transaction, add necessary parents, and end the transaction
       // see comments on startLmfTransaction and endLmfTransaction for details
+      // Note no unchecked exceptions until endLmfTransactions, so we do not need
+      // to handle anything and cancel failed transaction.
       startLmfTransaction(sectName_);
 
       parents_ = Section.STANDARD_TOOLKIT.getName()
@@ -357,6 +363,8 @@ public class <class/>
 
         // start the LMF transaction, add necessary parents, and end the transaction
         // see comments on startLmfTransaction and endLmfTransaction for details
+        // Note no unchecked exceptions until endLmfTransactions, so we do not need
+        // to handle anything and cancel failed transaction.
         startLmfTransaction(sectName_);
         
         markupFunction_ = new LatexMarkupFunction(sectName_);
