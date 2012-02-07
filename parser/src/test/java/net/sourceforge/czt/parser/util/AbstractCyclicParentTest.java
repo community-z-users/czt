@@ -137,8 +137,8 @@ public abstract class AbstractCyclicParentTest
   
   @AfterClass
   public static void cleanupTemp() throws IOException {
-    File destination = new File(FileUtils.getTempDirectory(), TEMP_TEST_DIR);
-    FileUtils.deleteDirectory(destination);
+      // File destination = new File(FileUtils.getTempDirectory(), TEMP_TEST_DIR);
+      //FileUtils.deleteDirectory(destination);
   }
   
   private final UrlSource source;
