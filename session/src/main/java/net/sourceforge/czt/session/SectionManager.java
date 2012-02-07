@@ -998,7 +998,7 @@ public class SectionManager
    */
   @Override
   //Deprecated
-  public <T> void put(Key<T> key, T value, Set<? extends Key<?>> explicitDependencies) throws SectionInfoException
+  public <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
   {
     startTransaction(key);
     endTransaction(key, value, explicitDependencies);
@@ -1061,7 +1061,7 @@ public class SectionManager
   }
 
   @Override
-  public <T> void endTransaction(Key<T> key, T value, Set<? extends Key<?>> explicitDependencies) throws SectionInfoException
+  public <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
   {
     if (key == null || value == null || explicitDependencies == null)
       throw new SectionInfoException("Cannot end transaction with null value or explicit dependencies for key " + key);
@@ -1114,7 +1114,7 @@ public class SectionManager
     return result;
   }
 
-  private <T> Set<Key<?>> endTransaction0(Key<T> key, T value, Set<? extends Key<?>> explicitDependencies) throws SectionInfoException
+  private <T> Set<Key<?>> endTransaction0(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
   {
     assert key != null;
 

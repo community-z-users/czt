@@ -24,8 +24,8 @@ package <package/>;
 import java.io.*;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
@@ -50,7 +50,8 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Source source, SectionInfo sectInfo, Properties properties, Set&lt;Key&lt;?&gt;&gt; explicitDeps)
+  public <class/>(Source source, SectionInfo sectInfo, Properties properties, 
+  	Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
     throws IOException
   {
     Scanner scanner = new UnicodeScanner(source, properties);

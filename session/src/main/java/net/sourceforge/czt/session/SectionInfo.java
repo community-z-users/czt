@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.session;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -130,7 +131,7 @@ public interface SectionInfo
    * @param explicitDependencies non null (possibly empty)
    * @throws SectionInfoException see above
    */
-  <T> void endTransaction(Key<T> key, T value, Set<? extends Key<?>> explicitDependencies) throws SectionInfoException;
+  <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException;
 
   /**
    * <p>
@@ -204,7 +205,7 @@ public interface SectionInfo
    * deprecated use start/end transaction instead
    */
   //Deprecated
-  <T> void put(Key<T> key, T value, Set<? extends Key<?>> explicitDependencies) throws SectionInfoException;
+  <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException;
   <T> void put(Key<T> key, T value) throws SectionInfoException;
 
 

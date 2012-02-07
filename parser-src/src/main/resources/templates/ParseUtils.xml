@@ -25,6 +25,7 @@ package <package/>;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -112,7 +113,7 @@ public class <class/> extends AbstractCommand
   private static Term parse0(Source source,
                            SectionInfo sectInfo,
                            Properties properties,
-                           Set&lt;Key&lt;?&gt;&gt; explicitDeps)
+                           Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
     throws ParseException, IOException, UnmarshalException
   {
     traceLog("PU-parse-source = " + source);

@@ -22,8 +22,8 @@
 package <package/>;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Properties;
-import java.util.Set;
 
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
@@ -48,7 +48,7 @@ public class <class/>
   public <class/>(Source source,
                   SectionInfo sectInfo,
                   Properties properties,
-                  Set&lt;Key&lt;?&gt;&gt; explicitDeps)
+                  Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
     throws IOException
   {
     LatexScanner scanner = new LatexScanner(source, sectInfo, properties);
