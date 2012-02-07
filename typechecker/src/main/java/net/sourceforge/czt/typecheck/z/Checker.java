@@ -1208,7 +1208,7 @@ abstract public class Checker<R>
       //remove name from b4
       ZStrokeList strokes = factory().getZFactory().createZStrokeList();
       strokes.addAll(rName.getZStrokeList());
-      int size = strokes.size();
+      //int size = strokes.size();
       strokes.add(factory().createNextStroke());
       ZName sName = factory().createZDeclName(rName.getWord(), strokes);
       NameTypePair foundPair = findNameTypePair(sName, lSig);
@@ -1938,7 +1938,7 @@ abstract public class Checker<R>
         Signature signature = schemaType(result).getSignature();
         List<NewOldPair> pairs = uType.getPairs();
         Signature newSig = createRenameSig(signature,
-          uType.getPairs(),
+          pairs,
           null, null);
         result = factory().createSchemaType(newSig);
       }
@@ -2125,12 +2125,12 @@ abstract public class Checker<R>
   //print debuging info
   protected boolean debug()
   {
-    return typeChecker_.debug_;
+    return TypeChecker.debug_;
   }
   
   protected void setDebug(boolean b)
   {
-    typeChecker_.debug_ = b;
+    TypeChecker.debug_ = b;
   }
   
   protected void debug(String message)

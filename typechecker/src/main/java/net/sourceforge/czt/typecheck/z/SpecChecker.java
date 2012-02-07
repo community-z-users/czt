@@ -24,7 +24,6 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.session.*;
 
 /**
  */
@@ -41,6 +40,7 @@ public class SpecChecker
     super(typeChecker);
   }
 
+  @Override
   public Object visitSpec(Spec spec)
   {
     //visit each section, and get the definition made in that section
