@@ -107,12 +107,21 @@ public class LatexScannerDebugger {
 
   public static void debugScanner(Writer writer, Source source) throws IOException, Exception
   {
-     SectionManager sectInfo_ = new SectionManager("zeves");
-     //sectInfo_.setProperty("czt.debug.LatexToUnicode", "true");
-     //sectInfo_.setProperty("czt.debug.ContextFreeScanner", "true");
-     //sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
-     //sectInfo_.setProperty("czt.debug.*", "true");
+    SectionManager sectInfo_ = new SectionManager("zeves");
+    //sectInfo_.setProperty("czt.debug.LatexToUnicode", "true");
+    //sectInfo_.setProperty("czt.debug.ContextFreeScanner", "true");
+    //sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
+    //sectInfo_.setProperty("czt.debug.*", "true");
     //sectInfo_.setTracing(true, Level.ALL);
+    
+    // if available, resolve the czt.path from the source
+    // it allows us to find parent sections if needed
+    if (source instanceof FileSource) {
+      String sourceDir = new File(source.getName()).getParent();
+      if (sourceDir != null) {
+        sectInfo_.setProperty(SourceLocator.PROP_CZT_PATH, sourceDir);
+      }
+    }
 
     net.sourceforge.czt.java_cup.runtime.Scanner scanner;
      if (source.getMarkup().equals(Markup.UNICODE))
