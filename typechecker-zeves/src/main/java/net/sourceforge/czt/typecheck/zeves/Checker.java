@@ -27,13 +27,13 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.RenameExpr;
@@ -417,10 +417,12 @@ public abstract class Checker<R>
   }
 
   @Override
-  protected SectTypeEnvAnn handleParentErrors(String parentName, CommandException e) throws CztException
+  protected SectTypeEnvAnn handleParentErrors(Parent parent, CommandException e)
   {
     if (e.getCause() instanceof TypeErrorException)
     {
+      String parentName = parent.getWord();
+    	
       List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = ((TypeErrorException)e.getCause()).errors();
       int errorCnt = errors.size();
       WarningManager.WarningOutput wo = warningManager().getWarningOutput();
@@ -435,7 +437,8 @@ public abstract class Checker<R>
             errorCnt--;
             // perhaps show then if needed
             if (wo.equals(WarningManager.WarningOutput.SHOW))
-              warningManager().warn(WarningMessage.PARENT_ERRORS_WARNING.getMessage(), sectName(), parentName, error.toString());
+              warningManager().warn(WarningMessage.PARENT_ERRORS_WARNING.getMessage(), 
+            		  sectName(), parentName, error.toString());
           }
         }
       }
@@ -446,23 +449,24 @@ public abstract class Checker<R>
           (errorCnt == 1 ? " error" : " errors and ") + warningCnt +
           (warningCnt == 1 ? " warning " : " warnings ") + " from parent section " + parentName;
         Exception nestedException = new TypeErrorException(message, errors);
-        return super.handleParentErrors(parentName, new CommandException(nestedException));
+        return super.handleParentErrors(parent, new CommandException(nestedException));
       }
       else
       {
-        // if should be already cached.
+        // it should be already cached.
         try
         {
           return sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
         }
         catch (CommandException f)
         {
-          return super.handleParentErrors(parentName, f);
+          return super.handleParentErrors(parent, f);
         }
       }
     }
-    else
-      return super.handleParentErrors(parentName, e);
+    else {
+      return super.handleParentErrors(parent, e);
+    }
   }
 
   /**

@@ -25,6 +25,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -40,7 +41,6 @@ import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsExceptio
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -583,9 +583,9 @@ abstract public class Checker<R>
 
     //get and visit the parent sections of the current section
     List<Parent> parents = zSect.getParent();
-    List<String> names = factory().list();
+    List<String> visitedParentNames = factory().list();
     for (Parent parent : parents) {
-      if (names.contains(parent.getWord())) {
+      if (visitedParentNames.contains(parent.getWord())) {
         Object [] params = {parent.getWord(), sectName()};
         error(parent, ErrorMessage.REDECLARED_PARENT, params);
       }
@@ -596,6 +596,8 @@ abstract public class Checker<R>
         continue;
       }
       else {
+        
+        visitedParentNames.add(parent.getWord());
         
         try {
           SectParentResolver.checkCyclicParents(parent.getWord(), sectInfo());
@@ -619,11 +621,14 @@ abstract public class Checker<R>
           
         } catch (CommandException ce) {
           
-          String msg = "Problems resolving the parent relationships: " + ce.getMessage();
-          throw new CztException(msg, ce);
+          logger().log(Level.WARNING,
+              "Problems resolving the parent relationships: " + ce.getMessage(), ce);
+          
+          error(parent, ErrorMessage.CYCLIC_PARENT_CHECK_FAIL, new Object[]{ce.getMessage()} );
+          // ignore the parent checking due to the encountered problem
+          continue;
         }
         
-        names.add(parent.getWord());
       }
       parent.accept(specChecker());
     }
@@ -971,7 +976,7 @@ abstract public class Checker<R>
       sectTypeEnvAnn = sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
-      sectTypeEnvAnn = handleParentErrors(parentName, e);
+      sectTypeEnvAnn = handleParentErrors(parent, e);
     }
 
     //add the parent's global decls to this section's global type environment
@@ -988,10 +993,17 @@ abstract public class Checker<R>
     }
   }
 
-  protected SectTypeEnvAnn handleParentErrors(String parentName, CommandException e) throws CztException
+  protected SectTypeEnvAnn handleParentErrors(Parent parent, CommandException e)
   {
-    final String msg = "No type information for section " + parentName;
-    throw new CztException(msg, e);
+    String parentName = parent.getWord();
+    
+    logger().log(Level.WARNING,
+        "Problems typechecking the parent section " + parentName + ": " + e.getMessage(), e);
+    
+    error(parent, ErrorMessage.PARENT_TYPECHECK_FAIL, new Object[] {parentName, e.getMessage()});
+    
+    // create an empty type env
+    return factory().createSectTypeEnvAnn(factory().<NameSectTypeTriple>list());
   }
   
   protected void insertUnsort(List<NameTypePair> pairsA,
