@@ -237,6 +237,8 @@ public class SectionManager
    */
   private final Stack<Pair<Key<?>, Integer>> transactionStack_ = new Stack<Pair<Key<?>, Integer>>();
 
+  private final Stack<Key<?>> postponedTransactionsStack_ = new Stack<Key<?>>();
+
   /**
    * List of keys in the dependencies involved to calculate a particular key, which *must* belong
    * to the transaction stack
@@ -313,7 +315,7 @@ public class SectionManager
     // don't reset if there are any ongoing transactions
     assertTransactionStackEmpty(null);
 
-    // TODO: perhaps allow clonning half ways through transacytiona and then
+    // TODO: perhaps allow clonning half ways through transacytion and then
     //       cancel whatever wasn't finished? The key problem are explicit dependencies
 
     SectionManager result = new SectionManager(dialect_, isTracing_, logLevel_, tracingLevel_);
@@ -324,7 +326,7 @@ public class SectionManager
     copyMap(dependants_, result.dependants_);
     copyMap(dependencies_, result.dependencies_);
 
-    // don't copy the stack or dependencies list
+    // don't copy the stacks or dependencies list
 
     return result;
   }
@@ -726,12 +728,22 @@ public class SectionManager
     }
   }
 
+  protected void assertKeyNotCached(Key<?> key) throws SectionInfoException
+  {
+    if (isCached(key))
+    {
+      final String message = "Key " + key + " has already been calculated and cached.";
+      getLogger().warning(message);
+      throw new SectionInfoException(message);
+    }
+  }
+
   /**
    * checks if any of the expected transactions is found. if so raises exception
    * @param expected
    * @throws SectionInfoException if any of the expected transaction keys is found in the transaction stack
    */
-  protected void assertOngoingTransaction(Key<?>... expected) throws SectionInfoException
+  protected void assertNoOngoingTransactionFor(Key<?>... expected) throws SectionInfoException
   {
     Key<?> found = foundTransactionFor(expected);
     if (found != null)
@@ -748,7 +760,7 @@ public class SectionManager
    * @param expected
    * @throws SectionInfoException if top is not equals to expected.
    */
-  protected void assertStackTopIs(Key<?> expected) throws SectionInfoException
+  protected void assertTransactionStackTopIs(Key<?> expected) throws SectionInfoException
   {
     Key<?> found = currentTransactionKey();
     boolean result = found.equals(expected);
@@ -762,6 +774,21 @@ public class SectionManager
     }
   }
 
+  protected void assertPostponedStackTopIs(Key<?> expected) throws SectionInfoException
+  {
+    assert !postponedTransactionsStack_.isEmpty();
+    Key<?> found = postponedTransactionsStack_.peek();
+    boolean result = found.equals(expected);
+    if (!result)
+    {
+      final String msg = "Transaction stack top is not the one expected" +
+            "\n\tKey expected..: " + String.valueOf(expected) +
+            "\n\tKey found.....: " + found +
+            "\n\tStack.........: " + collectionsToString(postponedTransactionsStack_);
+      throw new SectionInfoException(msg, new IllegalArgumentException());
+    }
+  }
+
   /**
    * Checks that the dependency list size is within bound with the given index.
    * @param expected
@@ -770,7 +797,7 @@ public class SectionManager
    */
   protected void assertTransDepIndexRange(Key<?> expected, Integer idx) throws SectionInfoException
   {
-    assertStackTopIs(expected);
+    assertTransactionStackTopIs(expected);
     assert hasTransaction() && currentTransactionKey().equals(expected);
     if (idx > dependenciesList_.size())
     {
@@ -798,6 +825,18 @@ public class SectionManager
               "\n\tKey found.....: " + String.valueOf(found)+
               "\n\tStack...: " + collectionsToString(transactionStack_);
     return new SectionInfoException(msg);
+  }
+
+  protected void assertNoPendingTransactionFor(Key<?> keyToCheck) throws SectionInfoException
+  {
+    if (postponedTransactionsStack_.contains(keyToCheck))
+    {
+      final String msg = "Duplicate postponement of transaction: key already postponed." +
+              "\n\tKey.....: " + String.valueOf(keyToCheck) +
+              "\n\tStack...: " + collectionsToString(transactionStack_) +
+              "\n\tPStack..: " + collectionsToString(postponedTransactionsStack_);
+      throw new SectionInfoException(msg);
+    }
   }
 
   protected boolean hasTransaction()
@@ -908,7 +947,7 @@ public class SectionManager
         //       no need, since it will already be for a finished transaction?
         //
         //       don't care, given the key will be the same anyway?
-        //assertOngoingTransaction(result);
+        //assertNoOngoingTransactionFor(result);
 
         break;
       }
@@ -996,13 +1035,16 @@ public class SectionManager
     }
 
     // check for key duplication
-    assertOngoingTransaction(key);
+    assertNoOngoingTransactionFor(key);
 
-    if (isCached(key))
+    assertKeyNotCached(key);
+
+    // if there is any postponed transactions, check they match with current request
+    if (!postponedTransactionsStack_.isEmpty())
     {
-      final String message = "Key " + key + " is already calculated and cached.";
-      getLogger().warning(message);
-      throw new SectionInfoException(message);
+      // check postponed stack top is key requested
+      assertPostponedStackTopIs(key);
+      postponedTransactionsStack_.pop();
     }
 
     // add the a transaction to the stack, where the dependencies current list state/size
@@ -1027,12 +1069,37 @@ public class SectionManager
   }
 
   @Override
-  public <T> Set<Key<?>> cancelTransaction(Key<T> key) throws SectionInfoException
+  public Set<Key<?>> cancelTransaction(Key<?> key) throws SectionInfoException
   {
     if (key == null)
       throw new SectionInfoException("Cannot cancel transaction with null key");
-    assertStackTopIs(key);
+    assertTransactionStackTopIs(key);
     return endTransaction0(key, null, null);
+  }
+
+  @Override
+  public Set<Key<?>> postponeTransaction(Key<?> currentKeyToCancel, Key<?> nextKeyExpected) throws SectionInfoException
+  {
+    if (nextKeyExpected == null)
+      throw new SectionInfoException("Key expected for the next transaction cannot be null.");
+
+    if (isTracing_)
+    {
+      final String msg = "SM-POSTPONE-TRANSACTION-T"+ (transactionStack_.size()+1)
+              +"\n\t post key = (" + nextKeyExpected.getType().getSimpleName() + ", " + nextKeyExpected.getName() + ")"
+              +"\n\t caller   = " + whoWasCalling(1)
+              + "\n";
+      getLogger().fine(msg);
+    }
+
+    // next key cannot have already been cached or put for pending
+    assertKeyNotCached(nextKeyExpected);
+    assertNoPendingTransactionFor(nextKeyExpected);
+
+    Set<Key<?>> result = cancelTransaction(currentKeyToCancel);
+
+    postponedTransactionsStack_.push(nextKeyExpected);
+    return result;
   }
 
   private <T> Set<Key<?>> endTransaction0(Key<T> key, T value, Set<? extends Key<?>> explicitDependencies) throws SectionInfoException
@@ -1247,7 +1314,7 @@ public class SectionManager
     }
 
     // if there are any transactions on key, raise exception
-//    assertOngoingTransaction(key);
+//    assertNoOngoingTransactionFor(key);
 
     // remove dependants / dependencies
     removeDependants(key);
@@ -1263,7 +1330,7 @@ public class SectionManager
     // if there are any transaction on any dependant, raise exception
     // that can only happen if the user mistakenly start a transaction
     // of something that is already cached.
-//    assertOngoingTransaction(dependants_.keySet().toArray(new Key<?>[0]));
+//    assertNoOngoingTransactionFor(dependants_.keySet().toArray(new Key<?>[0]));
 
     // clear the dependency list - otherwise recursive removal
     // may loop if there are cyclic dependencies
@@ -1280,7 +1347,7 @@ public class SectionManager
   private void removeDependencies(Key<?> key) throws SectionInfoException
   {
     // if there are any transaction on any dependencies, raise exception
-//    assertOngoingTransaction(key);
+//    assertNoOngoingTransactionFor(key);
 
     dependencies_.remove(key);
   }
@@ -1289,7 +1356,7 @@ public class SectionManager
   public Set<Key<?>> getDependants(Key<?> key)  throws SectionInfoException
   {
     // if there are any transaction on given dependants, raise exception
-    assertOngoingTransaction(key);
+    assertNoOngoingTransactionFor(key);
     // TODO: is this a unnecessary restriction? SEE CHECK???
 
     Set<Key<?>> result = dependants_.get(key);
@@ -1300,7 +1367,7 @@ public class SectionManager
   public Set<Key<?>> getDependencies(Key<?> key)  throws SectionInfoException
   {
     // if there are any transaction on any dependencies, raise exception
-    assertOngoingTransaction(key);
+    assertNoOngoingTransactionFor(key);
     Set<Key<?>> result = dependencies_.get(key);
     return result == null ? Collections.<Key<?>>emptySet() : Collections.unmodifiableSet(result);
   }

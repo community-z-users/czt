@@ -65,7 +65,8 @@ public interface SectionInfo
    * <p>
    * SectionInfoExceptions might be thrown if a transaction on the key has already started (e.g., we don't allow
    * overlapping transaction scopes on the same key). Another case is when it is called on a key already
-   * cached in the section manager.
+   * cached in the section manager. When transactions are postponed, they <bf>must</bf> be the next ones to be
+   * started, in the order they were postponed (e.g., using a stack), otherwise an exception is raise. 
    * </p>
    *
    * @param <T> type of key involved
@@ -150,13 +151,37 @@ public interface SectionInfo
    *
    * TODO: shouldn't this result be only for the keys involved in unsuccessful transactions?
    * </p>
-   * @param <T>
    * @param key non null key that must be the top of the stack
    * @return set of implicit dependencies calculated during this transaction, including successful ones.
    * @throws SectionInfoException see above and #endTransaction(Key, T, Set).
    */
-  <T> Set<Key<?>> cancelTransaction(Key<T> key) throws SectionInfoException;
-  
+  Set<Key<?>> cancelTransaction(Key<?> key) throws SectionInfoException;
+
+  /**
+   * <p>
+   * During certain (command programmer defined) complex transactions, it is necessary to reorder transactions
+   * to make dependencies clearer. For instance, when parsing a section lexing starts and might start a transaction
+   * (e.g., latex markup function), which might trigger parsing of other sections (i.e., parents). This way the
+   * transaction for the child being lexed will be enclosing its own the parsing transaction that did not start yet.
+   * Other example is when parsing Spec not using the manager, where we do not know yet about its ZSect within, which
+   * will depend on the Spec (not managed). TODO: Andrius, check please?
+   * </p>
+   * <p>
+   * In these complex cases we need to postpone a given transaction in order to organise the processing of information
+   * and its dependencies. This method calls #cancelTransaction(Key) and ensures that the next call to #startTransaction(Key)
+   * must be on the next key expected.
+   * </p>
+   * <p>
+   * An exception is thrown if either key is null or if cancelling the current key raises an exception.
+   * The next key expected must not be cached or already postponed or an section info exception is thrown as well.
+   * </p>
+   * @param currentKeyToCancel key to call cancel transaction
+   * @param nextKeyExpected next key being monitored for start transaction
+   * @return the set of dependencies of the key cancelled
+   * @throws SectionInfoException see above and #cancelTransaction(Key).
+   */
+  Set<Key<?>> postponeTransaction(Key<?> currentKeyToCancel, Key<?> nextKeyExpected) throws SectionInfoException;
+
   /**
    * checks whether there is any ongoing transaction for the given key
    * @param key
