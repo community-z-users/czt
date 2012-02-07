@@ -487,12 +487,12 @@ public class <class/> extends AbstractCommand
      * the command approach. Only the case of a singleton ZSect is supported by wrapping it into a
      * ZSect.
      */
-    Key&lt;Source&gt; sourceKey = new Key&lt;Source&gt;(name, Source.class);
     
     Term term;
     try {
     
       // Retrieve the Spec source
+      Key&lt;Source&gt; sourceKey = new Key&lt;Source&gt;(name, Source.class);
       Source source = manager.get(sourceKey);
       
       // After we have the source, parse it and add the result Spec to the manager. The individual 
