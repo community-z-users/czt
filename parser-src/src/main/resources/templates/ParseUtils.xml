@@ -25,6 +25,7 @@ package <package/>;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,7 +43,6 @@ import net.sourceforge.czt.z.util.Version;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
-import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
@@ -457,95 +457,95 @@ public class <class/> extends AbstractCommand
     }
     
     /*
+     * The ParseUtils command is usually used to resolve both ZSect and Spec keys. However, even
+     * during resolve of ZSect, the whole Spec is parsed - so other ZSects from the same Spec are
+     * also added, and we need to track them in dependencies.
+     * 
+     * To achieve a uniform solution, we reorder the transactions so that the outer one is always
+     * the Spec, since ZSect transactions are handled in the Parser. This is done by postponing
+     * the ZSect transaction, if one exists and ensuring that a Spec transaction has started.
+     */
+    Key&lt;Spec&gt; specKey = new Key&lt;Spec&gt;(name, Spec.class);
+    
+    // Postpone the ZSect transaction started by the SectionInfo.get(ZSect).
+    // Note that it may not be started, if ParseUtils is called for SectionInfo.get(Spec).
+    Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(name, ZSect.class);
+    if (manager.hasTransaction(zsKey))
+    {
+      manager.postponeTransaction(zsKey, specKey);
+    }
+
+    // Unless a SectionInfo.get(Spec) was performed, we need to have its transaction explicitly
+    // started here.
+    manager.ensureTransaction(specKey);
+    
+    
+    /*
      * The usual parse case is when a Spec comes from a named Source, and is parsed from the file.
      * The Latex and Unicode parsers would produce a Spec, however ZML sources may give any term. In
      * these cases, Spec would be obtained - however at the moment we do not support these cases via
      * the command approach. Only the case of a singleton ZSect is supported by wrapping it into a
      * ZSect.
      */
-    boolean result = false;
     Key&lt;Source&gt; sourceKey = new Key&lt;Source&gt;(name, Source.class);
-    Source source = manager.get(sourceKey);
     
-    // If we find the source, parse it and add the result Spec to the manager. The individual ZSects
-    // will be added to the section manager during the parsing (see Parser#updateZSect).
-    if (source != null)
-    {
+    Term term;
+    try {
+    
+      // Retrieve the Spec source
+      Source source = manager.get(sourceKey);
       
-      /*
-       * The ParseUtils command is usually used to resolve both ZSect and Spec keys. However, even
-       * during resolve of ZSect, the whole Spec is parsed - so other ZSects from the same Spec are
-       * also added, and we need to track them in dependencies.
-       * 
-       * To achieve a uniform solution, we reorder the transactions so that the outer one is always
-       * the Spec, since ZSect transactions are handled in the Parser. This is done by cancelling
-       * the ZSect transaction, if one exists and ensuring that a Spec transaction has started.
-       */
-      Key&lt;Spec&gt; specKey = new Key&lt;Spec&gt;(name, Spec.class);
-      
-      // Cancel the ZSect transaction started by the SectionInfo.get(ZSect).
-      // Note that it may not be started, if ParseUtils is called for SectionInfo.get(Spec).
-      Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(name, ZSect.class);
-      if (manager.hasTransaction(zsKey))
-      {
-        manager.cancelTransaction(zsKey);
-      }
-
-      // Unless a SectionInfo.get(Spec) was performed, we need to have its transaction explicitly
-      // started here.
-      manager.ensureTransaction(specKey);
-      
-      Term term;
-      try {
-      
-        term = ParseUtils.parse0(source,
-               manager, manager.getProperties(),
-               // pass in explicit dependencies on the Source and the current Spec
-               new DependenciesBuilder().add(sourceKey).add(specKey).build());
-              
-      }
-      catch (ParseException exception) {
-        // in case of exceptions during parsing, cancel the manually started Spec transaction
-        // (same for other exceptions)
-        manager.cancelTransaction(specKey);
-        throw new CommandException(exception);
-      }
-      catch (IOException exception) {
-        manager.cancelTransaction(specKey);
-        throw new CommandException(exception);
-      }
-      catch (UnmarshalException exception) {
-        manager.cancelTransaction(specKey);
-        throw new CommandException(exception);
-      }
-      
-      if (term instanceof ZSect) {
-        // only parsed the ZSect, so wrap it into a Spec to be consistent
-        // the ZSect should have been added to the section manager during the parsing
-        term = ZUtils.FACTORY.createSpec(
-            Collections.singletonList((ZSect) term), Version.ZML_VERSION);
-      }
-              
-      if (term instanceof Spec) {
-        // add explicit dependencies on the source and its sections (which may 
-        // have not been caught via SectionInfo.get())
-        manager.endTransaction(specKey, (Spec) term, 
-            new DependenciesBuilder().add(sourceKey).add(getSectionKeys((Spec) term)).build());
-      }
-      else {
-        // If we are parsing ZML files, we can get any term via parsing. However, we do not add it
-        // to the section manager at the moment - this is likely to be caught by the command
-        // checks later.
-        // Cancel the Spec transaction, since we do not know how the term relates to the Spec
-        manager.cancelTransaction(specKey);
-      }
-
-
-      result = term != null;
-      final String msg = "PU-PARSED = parse " + 
-            (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
-      traceLog(msg);
+      // After we have the source, parse it and add the result Spec to the manager. The individual 
+      // ZSects will be added to the section manager during the parsing (see Parser#updateZSect).
+      // Indicate the explicit dependencies on the Source and the current Spec for the
+      // ZSects created during parsing.
+    
+      term = ParseUtils.parse0(source, manager, manager.getProperties(),
+        Arrays.asList(new Key&lt;?&gt;[] { sourceKey, specKey }));
+            
     }
+    catch (CommandException exception) {
+      // in case of exceptions during parsing (or source resolution), 
+      // cancel the manually started Spec transaction
+      // (same for other exceptions)
+      manager.cancelTransaction(specKey);
+      throw exception;
+    }
+    catch (IOException exception) {
+      manager.cancelTransaction(specKey);
+      throw new CommandException(exception);
+    }
+    catch (UnmarshalException exception) {
+      manager.cancelTransaction(specKey);
+      throw new CommandException(exception);
+    }
+    
+    if (term instanceof ZSect) {
+      // only parsed the ZSect, so wrap it into a Spec to be consistent
+      // the ZSect should have been added to the section manager during the parsing
+      term = ZUtils.FACTORY.createSpec(
+          Collections.singletonList((ZSect) term), Version.ZML_VERSION);
+    }
+            
+    if (term instanceof Spec) {
+      // add explicit dependencies on its sections (which may have not been caught via 
+      // SectionInfo.get()). The source is caught by the get() above.
+      manager.endTransaction(specKey, (Spec) term, getSectionKeys((Spec) term));
+    }
+    else {
+      // If we are parsing ZML files, we can get any term via parsing. However, we do not add it
+      // to the section manager at the moment - this is likely to be caught by the command
+      // checks later.
+      // Cancel the Spec transaction, since we do not know how the term relates to the Spec
+      manager.cancelTransaction(specKey);
+    }
+
+
+	boolean result = term != null;
+    final String msg = "PU-PARSED = parse " + 
+          (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
+    traceLog(msg);
+    
     // What if result is false? The SM protocol does not use this flag! Why keep it? [Leo]
     return result;
   }
