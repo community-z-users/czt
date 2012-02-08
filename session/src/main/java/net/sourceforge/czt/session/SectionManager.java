@@ -237,7 +237,17 @@ public class SectionManager
    */
   private final Stack<Pair<Key<?>, Integer>> transactionStack_ = new Stack<Pair<Key<?>, Integer>>();
 
-  private final Stack<Key<?>> postponedTransactionsStack_ = new Stack<Key<?>>();
+  /**
+   * The expected transaction for the next {@link #startTransaction(Key)} call. The value is added
+   * by {@link #postponeTransaction(Key, Key)}, to indicate what a transaction is postponed
+   * (cancelled) in favor of. The next {@link #startTransaction(Key)} call must be of this key, if
+   * set.
+   * 
+   * Note we are using a single value instead of stack because we do not allow multiple postpones.
+   * E.g. a postpone follows a {@link #get(Key)}, so additional dependencies would have been added
+   * to the parent transaction, violating contract of {@link #postponeTransaction(Key, Key)}.
+   */
+  private Key<?> expectedPostponeTransaction_ = null;
 
   /**
    * List of keys in the dependencies involved to calculate a particular key, which *must* belong
@@ -400,6 +410,9 @@ public class SectionManager
       final String msg = "Remaining resources = " + content_.keySet();
       getLogger().fine(msg);
     }
+    
+    // reset the expected transaction
+    expectedPostponeTransaction_ = null;
   }
 
   private static <E,F> void copyMap(Map<E,F> from, Map<E,F> to)
@@ -774,17 +787,13 @@ public class SectionManager
     }
   }
 
-  protected void assertPostponedStackTopIs(Key<?> expected) throws SectionInfoException
+  protected void assertExpectedTransaction(Key<?> key) throws SectionInfoException
   {
-    assert !postponedTransactionsStack_.isEmpty();
-    Key<?> found = postponedTransactionsStack_.peek();
-    boolean result = found.equals(expected);
-    if (!result)
-    {
-      final String msg = "Transaction stack top is not the one expected" +
-            "\n\tKey expected..: " + String.valueOf(expected) +
-            "\n\tKey found.....: " + found +
-            "\n\tStack.........: " + collectionsToString(postponedTransactionsStack_);
+    assert expectedPostponeTransaction_ != null;
+    if (!expectedPostponeTransaction_.equals(key)) {
+      final String msg = "Expected key after a postponed transaction does not match" +
+            "\n\tKey ..........: " + key +
+            "\n\tKey expected..: " + String.valueOf(expectedPostponeTransaction_);
       throw new SectionInfoException(msg, new IllegalArgumentException());
     }
   }
@@ -827,14 +836,14 @@ public class SectionManager
     return new SectionInfoException(msg);
   }
 
-  protected void assertNoPendingTransactionFor(Key<?> keyToCheck) throws SectionInfoException
+  protected void assertNoExpectedTransaction(Key<?> key) throws SectionInfoException
   {
-    if (postponedTransactionsStack_.contains(keyToCheck))
+    if (expectedPostponeTransaction_ != null)
     {
-      final String msg = "Duplicate postponement of transaction: key already postponed." +
-              "\n\tKey.....: " + String.valueOf(keyToCheck) +
-              "\n\tStack...: " + collectionsToString(transactionStack_) +
-              "\n\tPStack..: " + collectionsToString(postponedTransactionsStack_);
+      final String msg = "There already is an expected transaction - cannot postpone again." +
+              "\n\tKey....................: " + String.valueOf(key) +
+              "\n\tExisting expected key..: " + expectedPostponeTransaction_ +
+              "\n\tStack..................: " + collectionsToString(transactionStack_);
       throw new SectionInfoException(msg);
     }
   }
@@ -1039,12 +1048,12 @@ public class SectionManager
 
     assertKeyNotCached(key);
 
-    // if there is any postponed transactions, check they match with current request
-    if (!postponedTransactionsStack_.isEmpty())
+    // if there is an expected transaction (via postpone), check it matches the start key
+    if (expectedPostponeTransaction_ != null)
     {
-      // check postponed stack top is key requested
-      assertPostponedStackTopIs(key);
-      postponedTransactionsStack_.pop();
+      assertExpectedTransaction(key);
+      // reset the expected key - the postpone is fulfilled
+      expectedPostponeTransaction_ = null;
     }
 
     // add the a transaction to the stack, where the dependencies current list state/size
@@ -1102,7 +1111,7 @@ public class SectionManager
     // next key cannot have already been cached or put for pending
     assertKeyNotCached(nextKey);
     assertNoOngoingTransactionFor(nextKey);
-    assertNoPendingTransactionFor(nextKey);
+    assertNoExpectedTransaction(nextKey);
 
     Set<Key<?>> cancelledDeps = cancelTransaction(postponeKey);
     if (!cancelledDeps.isEmpty()) {
@@ -1112,13 +1121,13 @@ public class SectionManager
         final String msg = "Postponing a transaction with dependencies - only " +
         		"fresh transactions (no dependencies) can be postponed." +
                 "\n\tKey...........: " + String.valueOf(postponeKey) +
+                "\n\tNextKey.......: " + String.valueOf(nextKey) +
                 "\n\tDependencies..: " + collectionsToString(cancelledDeps) +
-                "\n\tStack.........: " + collectionsToString(transactionStack_) +
-                "\n\tPStack........: " + collectionsToString(postponedTransactionsStack_);
+                "\n\tStack.........: " + collectionsToString(transactionStack_);
         throw new SectionInfoException(msg);
     }
 
-    postponedTransactionsStack_.push(nextKey);
+    expectedPostponeTransaction_ = nextKey;
   }
 
   private <T> Set<Key<?>> endTransaction0(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
