@@ -123,6 +123,7 @@ public interface SectionInfo
    * @see #endTransaction(Key, Object)
    * @see #cancelTransaction(Key)
    * @see #ensureTransaction(Key)
+   * @see #get(Key)
    */
   void startTransaction(Key<?> key) throws SectionInfoException;
 
@@ -262,29 +263,62 @@ public interface SectionInfo
   
   /**
    * <p>
-   * Transactions can be cancelled due to some problem encountered. The effect they have is to revert the
-   * database to the point right before the start of the transaction. Nevertheless, any successful transactions
-   * in between this one <bf>are not</bf> rolled back. This means a cancelled transaction might result in a
-   * partially successful one, if it contains sub transactions within. This is the desired behaviour because we
-   * want to avoid redoing the successful bits if possible (e.g., if dependencies allow us to do so).
+   * Cancels the ongoing transaction in the section manager. A transaction is usually cancelled if
+   * an exception is thrown during computation of the result, or if the result cannot be computed
+   * for other reasons. A cancelled transaction is no longer active, and results that depend on it
+   * are removed from the section manager.
    * </p>
    * <p>
-   * For instance, for a section bar with type errors bar and type correct parent foo, we would parse both
-   * sections, type check foo and fail to type check bar. If possible (e.g., programatically or via on-the-fly paras)
-   * to correct the errors in bar, we would not need to type check foo, but just reparse bar. TODO: is this what we want?
+   * <strong>Note that cancelling a transaction does not remove successful nested transactions, if
+   * they do not depend on the cancelled one.</strong> This means that after cancelling a top-level
+   * transaction, there can still be "leftovers" from its dependencies.
    * </p>
    * <p>
-   * The set of keys returned represent the implicit keys leading to the failure. These include dependencies from
-   * the start of the calculation. That will include keys of successful transactions.
-   *
-   * TODO: shouldn't this result be only for the keys involved in unsuccessful transactions?
+   * For example, if we parse a Z section "bar {@code parents} foo". Thus a transaction for "bar"
+   * ZSect is started, which in turn has a nested transaction to calculate its parent, "foo" ZSect.
+   * If "bar" fails with a parse exception, we still want to keep the successfully parsed parent
+   * "foo" ZSect. Then when the "bar" error is corrected, there is no need to re-parse "foo" ZSect.
+   * Note that "foo" does not depend on "bar" in any way, so we can leave it in the section manager
+   * when cancelling "bar".
    * </p>
-   * @param key non null key that must be the top of the stack
-   * @return set of implicit dependencies calculated during this transaction, including successful ones.
-   * @throws SectionInfoException see above and #endTransaction(Key, T, Set).
+   * <h4>Usage</h4>
+   * <p>
+   * By default, the implementors of section manager Commands do not need to cancel the transactions
+   * manually. The {@link #get(Key)} method wraps the computation into a try-catch and cancels the
+   * started transaction if an exception is encountered - see {@link #get(Key)} for details.
+   * However, when the commands are started manually via {@link #startTransaction(Key)} (or
+   * {@link #ensureTransaction(Key)}), there is a need to handle exceptions manually as well. If
+   * possible, the paths that can throw exceptions should catch them, cancel the transaction, and
+   * re-throw the exception.
+   * </p>
+   * <p>
+   * This method can also be used to end the transaction, when the result cannot be calculated. In
+   * this case, it should be somewhere alongside {@link #endTransaction(Key, Object, Collection)},
+   * but cancelling if the {@code value} is {@code null} or invalid.
+   * </p>
+   * <p>
+   * As a last resort, {@link #get(Key)} implementations should cancel all nested un-cancelled
+   * transactions if caught in exceptions. However, for good transactional implementation, the
+   * errors of manual transactions should be managed by the commands themselves.
+   * </p>
+   * 
+   * @param key
+   *          The key of currently active transaction, which needs to be cancelled. The key, and
+   *          everything that depends on it, will be removed from the section manager.
+   * @return Set of implicit dependencies captured since the start of this transaction, including
+   *         the successful ones. They may be useful to track what the transaction depended on.
+   * @throws SectionInfoException
+   *           Unchecked exception if constraints for cancelling the transaction are violated:
+   *           <ul>
+   *           <li>{@code key} cannot be null.</li>
+   *           <li>{@code key} transaction must be the currently active one.</li>
+   *           </ul>
+   * @see #startTransaction(Key)
+   * @see #get(Key)
    */
   Set<Key<?>> cancelTransaction(Key<?> key) throws SectionInfoException;
 
+  
   /**
    * <p>
    * Postpones the just-started transaction to ensure a correct transaction order. This is used to

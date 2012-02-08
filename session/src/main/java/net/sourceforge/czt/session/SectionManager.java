@@ -969,6 +969,10 @@ public class SectionManager
     return result;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#hasTransaction(net.sourceforge.czt.session.Key)
+   */
   @Override
   public boolean hasTransaction(Key<?> key)
   {
@@ -1094,6 +1098,10 @@ public class SectionManager
     endTransaction0(key, value, explicitDependencies);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#cancelTransaction(net.sourceforge.czt.session.Key)
+   */
   @Override
   public Set<Key<?>> cancelTransaction(Key<?> key) throws SectionInfoException
   {
