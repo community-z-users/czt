@@ -1066,7 +1066,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         }
       }
 
-      for(Key<ZSect> zsk : manager.keysOf(ZSect.class))
+      for(Key<?> zsk : manager.keysOf(ZSect.class))
       {
         if (!manager.isPermanentKey(zsk))
         {
@@ -1075,7 +1075,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         }
       }
 
-      for(Key<LatexMarkupFunction> lmfk : manager.keysOf(LatexMarkupFunction.class))
+      for(Key<?> lmfk : manager.keysOf(LatexMarkupFunction.class))
       {
         if (!manager.isPermanentKey(lmfk))
         {

@@ -156,9 +156,9 @@ public class SectionManager
   
 
   /**
-   * The Cache, a mapping from Key to Object. For each (key, object) pair, the object
-   * must be an instance of key.getType(). It is the resource computed by each command
-   * associated with the key's type.
+   * The Cache storing computed values (e.g. via commands) for different keys. The contract within
+   * section manager ensures that the mappings stored in the cache are Key<T> to T value. Thus we
+   * can perform unchecked casts, such as {@code T val = (T) content_.get(Key<T>)}.
    */
   private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
@@ -392,16 +392,16 @@ public class SectionManager
     assertTransactionStackEmpty(null);
 
     getLogger().finest("Resetting section manager key-mapped resources.");
-    List<Key<?>> keys = new ArrayList<Key<?>>(content_.keySet().size());
-    for (Iterator<Key<?>> iter = content_.keySet().iterator(); iter.hasNext();) {
-      final Key<?> key = iter.next();
-      final String name = key.getName();
+    
+    List<Key<?>> removeKeys = new ArrayList<Key<?>>(content_.keySet().size());
+    for (Key<?> key : content_.keySet()) {
       if (!isPermanentKey(key))
       {
-        keys.add(key);
+        // remove non-permanent keys
+        removeKeys.add(key);
       }
     }
-    for (Key<?> dKey : keys)
+    for (Key<?> dKey : removeKeys)
     {
       removeKey(dKey);
     }
@@ -418,9 +418,7 @@ public class SectionManager
   private static <E,F> void copyMap(Map<E,F> from, Map<E,F> to)
   {
     to.clear();
-    for (Map.Entry<E,F> entry : from.entrySet()) {
-      to.put(entry.getKey(), entry.getValue());
-    }
+    to.putAll(from);
   }
 
   private String collectionsToString(Collection<?> c)
@@ -901,15 +899,18 @@ public class SectionManager
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public <T> Set<Key<T>> keysOf(Class<T> clsName)
+  public <T> Set<Key<? extends T>> keysOf(Class<T> clsName)
   {
-    Set<Key<T>> result = new HashSet<Key<T>>();
+    Set<Key<? extends T>> result = new HashSet<Key<? extends T>>();
     for (Key<?> k : content_.keySet())
     {
       if (clsName.isAssignableFrom(k.getType()))
       {
-        result.add((Key<T>)k);
+        // the above checks that the type of K is a subclass of clsName,
+        // so we can safely cast the key generics
+        @SuppressWarnings("unchecked")
+        Key<? extends T> subtypeKey = (Key<? extends T>) k;
+        result.add(subtypeKey);
       }
     }
     return result;
@@ -933,35 +934,35 @@ public class SectionManager
    * @return value's associated key
    */
   @Override
-  @SuppressWarnings("unchecked")
   public <T> Key<? super T> retrieveKey(T value)
   {
     Key<? super T> result = null;
 
-    Iterator<Map.Entry<Key<?>, Object>> iter = content_.entrySet().iterator();
-    while (iter.hasNext())
+    // Do a search of all entries containing the requested value
+    for (Map.Entry<Key<?>, Object> nextEntry : content_.entrySet())
     {
-      Map.Entry<Key<?>, Object> nextEntry = iter.next();
-
-      // this type-correctness should always be the case
-      // i.e., key-associated elements have the type of the key.
-      // @czt.todo: how to say this in the declaration of content_?
-      Object next = nextEntry.getValue();
-      if (next.equals(value))
+      Object nextValue = nextEntry.getValue();
+      if (nextValue.equals(value))
       {
-        result = (Key<? super T>) nextEntry.getKey();
+        /*
+         * The #addKeyMapping contract ensures that content_ maps Key<T> keys to T values. Since 
+         * the value can actually be a subclass of T, when doing a backwards search here, we use 
+         * Key<? super T> to indicate a correct type cast.
+         */
+        @SuppressWarnings("unchecked")
+        Key<? super T> nextKey = (Key<? super T>) nextEntry.getKey();
+        result = nextKey;
 
-        // TODO: if a key is found for the value, check there isn't an ongoing transaction?
-        //       no need, since it will already be for a finished transaction?
-        //
-        //       don't care, given the key will be the same anyway?
+        // Note that there is no need to impose any transactional constraints here, if in the middle
+        // of a transaction, it would only return the key at that moment, even if the Key-Value will
+        // change after the transaction.
         //assertNoOngoingTransactionFor(result);
 
         break;
       }
     }
     // result != null => isCached(result)
-    // result == null | isCached(result)
+    // result == null || isCached(result)
     assert result == null || isCached(result) :
       "section manager inconsistency: found a key for given value that is not cached.";
     return result;
@@ -1026,7 +1027,6 @@ public class SectionManager
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void startTransaction(Key<?> key) throws SectionInfoException
   {
     if (isTracing_)
@@ -1621,8 +1621,7 @@ public class SectionManager
    * @throws      CommandException if the lookup was unseccessful.
    */
   @Override
-  @SuppressWarnings("unchecked")
-  public <T> T get(Key<T> key) throws CommandException
+  public <T> T get(final Key<T> key) throws CommandException
   {
     if (isTracing_ && !isPermanentKey(key))
     {
@@ -1646,8 +1645,10 @@ public class SectionManager
     final Class<T> infoType = key.getType();
     final String name = key.getName();
     boolean cached = true;
+    
+    // the #addKeyMapping method ensures that content_ maps Key<T> keys to T values
     @SuppressWarnings("unchecked")
-    T result = (T)content_.get(key);
+    T result = (T) content_.get(key);
     if (result == null)
     {
       cached = false;
@@ -1661,6 +1662,9 @@ public class SectionManager
       // make the actual request
       try
       {
+        // The command result flag is not used anywhere at the moment, and is only there
+        // for possible future API needs.
+        @SuppressWarnings("unused")
         boolean cres = command.compute(name, this);
       }
       catch (CommandException e)
@@ -1682,12 +1686,18 @@ public class SectionManager
         }
         throw e;
       }
-      result = (T)content_.get(new Key<T>(name, infoType)); // why do we need a new key here?
-      if (result == null)
+      
+      // the #addKeyMapping method ensures that content_ maps Key<T> keys to T values
+      @SuppressWarnings("unchecked")
+      T commandResult = (T) content_.get(key);
+      
+      if (commandResult == null)
       {
         final String message = "Key " + key + " not computed by " + command;
         throw new CommandException(message);
       }
+      
+      result = commandResult;
     }
     assert result != null : "Section manager computed null result!";
 
@@ -1713,9 +1723,13 @@ public class SectionManager
     Throwable t = new Throwable();
     t.fillInStackTrace();
     StackTraceElement[] stes = t.getStackTrace();
-    if (stes != null && stes.length >= (3+extraCallDepth))
+    
+    int targetDepth = 2 + extraCallDepth;
+    
+    if (targetDepth >= 0 && targetDepth < stes.length)
     {
-      final String msg = stes[2+extraCallDepth].getClassName() + "." + stes[2+extraCallDepth].getMethodName() + ", " + stes[2+extraCallDepth].getLineNumber();
+      StackTraceElement el = stes[targetDepth];
+      final String msg = el.getClassName() + "." + el.getMethodName() + ", " + el.getLineNumber();
       return msg;
     }
     return "?? who is calling ??";

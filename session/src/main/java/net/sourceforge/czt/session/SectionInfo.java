@@ -270,7 +270,7 @@ public interface SectionInfo
    * @param clsName
    * @return set of all keys of given type with managed mappings
    */
-  <T> Set<Key<T>> keysOf(Class<T> clsName);
+  <T> Set<Key<? extends T>> keysOf(Class<T> clsName);
 
   boolean isPermanentKey(Key<?> key);
 
