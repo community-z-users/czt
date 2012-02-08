@@ -918,10 +918,9 @@ public class SectionManager
   /**
    * Returns whether the given Key has already been computed
    * and is cached.
-   * @param <T>
    */
   @Override
-  public <T> boolean isCached(Key<T> key)
+  public boolean isCached(Key<?> key)
   {
     return content_.get(key) != null;
   }
@@ -935,9 +934,9 @@ public class SectionManager
    */
   @Override
   @SuppressWarnings("unchecked")
-  public <T> Key<T> retrieveKey(T value)
+  public <T> Key<? super T> retrieveKey(T value)
   {
-    Key<T> result = null;
+    Key<? super T> result = null;
 
     Iterator<Map.Entry<Key<?>, Object>> iter = content_.entrySet().iterator();
     while (iter.hasNext())
@@ -947,10 +946,10 @@ public class SectionManager
       // this type-correctness should always be the case
       // i.e., key-associated elements have the type of the key.
       // @czt.todo: how to say this in the declaration of content_?
-      T next = (T)nextEntry.getValue();
+      Object next = nextEntry.getValue();
       if (next.equals(value))
       {
-        result = (Key<T>) nextEntry.getKey();
+        result = (Key<? super T>) nextEntry.getKey();
 
         // TODO: if a key is found for the value, check there isn't an ongoing transaction?
         //       no need, since it will already be for a finished transaction?
@@ -1010,7 +1009,7 @@ public class SectionManager
   }
 
   @Override
-  public <T> void ensureTransaction(Key<T> key) throws SectionInfoException
+  public void ensureTransaction(Key<?> key) throws SectionInfoException
   {
     if (isTracing_)
     {

@@ -89,9 +89,9 @@ public class SectionManagerTest
     assertTrue(manager_.isCached(key1));
     assertTrue(manager_.isCached(key2));    
     assertFalse(manager_.isCached(key3));
-    Key<String> key1_ = manager_.retrieveKey(value1);
-    Key<String> key2_ = manager_.retrieveKey(value2);    
-    Key<String> key3_ = manager_.retrieveKey(value3);
+    Key<?> key1_ = manager_.retrieveKey(value1);
+    Key<?> key2_ = manager_.retrieveKey(value2);    
+    Key<?> key3_ = manager_.retrieveKey(value3);
     assertNotNull(key1_);
     assertNotNull(key2_);
     assertNull(key3_);

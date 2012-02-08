@@ -80,11 +80,10 @@ public interface SectionInfo
 
   /**
    * Checks whether the given key has a transaction and starts one if it doesn't
-   * @param <T>
    * @param key transaction to check
    * @throws SectionInfoException
    */
-  <T> void ensureTransaction(Key<T> key) throws SectionInfoException;
+  void ensureTransaction(Key<?> key) throws SectionInfoException;
 
   /**
    * <p>
@@ -281,11 +280,10 @@ public interface SectionInfo
 
   /**
    * Checks whether the given key is cached within the section information manager
-   * @param <T> key type
    * @param key The key to be looked up.
    * @return whether the key is cached or not
    */
-  <T> boolean isCached(Key<T> key);
+  boolean isCached(Key<?> key);
   
   /**
    * Returns whether the given value has already been computed and is cached. It returns null if it hasn't.
@@ -294,7 +292,7 @@ public interface SectionInfo
    * @param value value to search for key
    * @return value's associated key
    */  
-  <T> Key<T> retrieveKey(T value);
+  <T> Key<? super T> retrieveKey(T value);
 
   /**
    * <p>
