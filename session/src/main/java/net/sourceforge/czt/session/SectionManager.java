@@ -985,10 +985,8 @@ public class SectionManager
    * @param key    The key to be added (must not be null).
    * @param value  The value; must be an instance of key.getType().
    * @throws SectionInfoException
-   * deprecated
    */
   @Override
-  //Deprecated
   public <T> void put(Key<T> key, T value) throws SectionInfoException
   {
     put(key, value, Collections.<Key<?>>emptySet());
@@ -1003,10 +1001,8 @@ public class SectionManager
    * @param value  The value; must be an instance of key.getType().
    * @param explicitDependencies dependant keys
    * @throws SectionInfoException
-   * deprecated use start/end transaction
    */
   @Override
-  //Deprecated
   public <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
   {
     startTransaction(key);

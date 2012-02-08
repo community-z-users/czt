@@ -36,6 +36,9 @@ import java.util.logging.Level;
  * <p>A SectionInfo object can cache the information provided,
  * but care should be taken when implementing such caches when
  * the information provided is mutable.</p>
+ * 
+ * @author Leo Freitas
+ * @author Andrius Velykis
  */
 public interface SectionInfo 
 {
@@ -46,7 +49,7 @@ public interface SectionInfo
    * @param <T> key type
    * @param key   The key to be looked up.
    * @return An instance of key.getType().   
-   * @throws CommandException if the lookup was unseccessful.   
+   * @throws CommandException if the lookup was unsuccessful.   
    */
   <T> T get(Key<T> key) throws CommandException;
 
@@ -216,7 +219,7 @@ public interface SectionInfo
    *          postponed key is postponed in favor of. The next call to
    *          {@link #startTransaction(Key)} must match the indicated key.
    * @throws SectionInfoException
-   *           if constraints for postponing the transaction are violated:
+   *           Unchecked exception if constraints for postponing the transaction are violated:
    *           <ul>
    *           <li>{@code postponedKey} and {@code nextKey} cannot be null.</li>
    *           <li>{@code postponedKey} must be the currently active transaction.</li>
@@ -250,9 +253,7 @@ public interface SectionInfo
    * @param value value to map.
    * @param explicitDependencies dependant keys (i.e., the set of keys the key being put depend on - e.g., parents, downward dependency)
    * @throws SectionInfoException
-   * deprecated use start/end transaction instead
    */
-  //Deprecated
   <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException;
   <T> void put(Key<T> key, T value) throws SectionInfoException;
 
