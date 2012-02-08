@@ -73,11 +73,10 @@ public interface SectionInfo
    * started, in the order they were postponed (e.g., using a stack), otherwise an exception is raise. 
    * </p>
    *
-   * @param <T> type of key involved
    * @param key key to start transaction over
    * @throws SectionInfoException duplicated transactions on same key; on cached keys
    */
-  <T> void startTransaction(Key<T> key) throws SectionInfoException;
+  void startTransaction(Key<?> key) throws SectionInfoException;
 
   /**
    * Checks whether the given key has a transaction and starts one if it doesn't
@@ -230,6 +229,7 @@ public interface SectionInfo
    *           <li>There cannot be an already postponed transaction.</li>
    *           </ul>
    * @see #cancelTransaction(Key)
+   * @see #startTransaction(Key)
    */
   void postponeTransaction(Key<?> postponedKey, Key<?> nextKey) 
       throws SectionInfoException;

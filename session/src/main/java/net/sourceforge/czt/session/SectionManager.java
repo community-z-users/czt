@@ -235,7 +235,7 @@ public class SectionManager
    * in the transaction, and all keys in the dependencies list from its integer number to the
    * length of the list are the (transitive) dependencies to calculate the given key in the pair.
    */
-  private final Stack<Pair<Key<?>, Integer>> transactionStack_ = new Stack<Pair<Key<?>, Integer>>();
+  private final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = new Stack<Pair<? extends Key<?>, Integer>>();
 
   /**
    * The expected transaction for the next {@link #startTransaction(Key)} call. The value is added
@@ -864,7 +864,7 @@ public class SectionManager
     Key<?> result = null;
     if (expected != null)
     {
-      for(Pair<Key<?>, Integer> p : transactionStack_)
+      for(Pair<? extends Key<?>, Integer> p : transactionStack_)
       {
         // TODO: if there is a list "k1, null, k2" will this give a null e or throw a NPE?
         for(Key<?> e : expected)
@@ -1028,7 +1028,7 @@ public class SectionManager
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T> void startTransaction(Key<T> key) throws SectionInfoException
+  public void startTransaction(Key<?> key) throws SectionInfoException
   {
     if (isTracing_)
     {
@@ -1055,8 +1055,8 @@ public class SectionManager
     // add the a transaction to the stack, where the dependencies current list state/size
     // determines the pointer where to collect dependencies upon put. Ex: first time it will
     // be empty, hence at index 0. After that, it will one index after the last transactions.
-    Pair<Key<T>, Integer> pair = Pair.getPair(key, dependenciesList_.size());
-    transactionStack_.push((Pair)pair);
+    Pair<? extends Key<?>, Integer> pair = Pair.getPair(key, dependenciesList_.size());
+    transactionStack_.push(pair);
   }
 
   @Override
@@ -1143,7 +1143,7 @@ public class SectionManager
     assertTransactionStackNotEmpty(key);
 
     Set<Key<?>> result;// = Collections.<Key<?>>emptySet();
-    Pair<Key<?>, Integer> trans = transactionStack_.peek();
+    Pair<? extends Key<?>, Integer> trans = transactionStack_.peek();
 
     // check the trasnaction keys match
     if (trans.getFirst().equals(key))
@@ -1180,7 +1180,7 @@ public class SectionManager
       }
       
       // pops the stack to end the transaction
-      Pair<Key<?>, Integer> top = transactionStack_.pop();
+      Pair<? extends Key<?>, Integer> top = transactionStack_.pop();
       assert trans.equals(top);
 
       // for cancelling transactions wait until the transaction is popped to remove key, if not a permanent one
