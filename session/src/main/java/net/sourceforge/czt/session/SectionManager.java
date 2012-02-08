@@ -1023,6 +1023,8 @@ public class SectionManager
     if (!hasTransaction(key))
     {
       startTransaction(key);
+    } else {
+      assertTransactionStackTopIs(key);
     }
   }
 

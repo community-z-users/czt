@@ -55,33 +55,101 @@ public interface SectionInfo
 
   /**
    * <p>
-   * Starts a transaction for key dependencies within the section manager. It is used by #get by all
-   * non cached (e.g., new) keys. Commands responsible for calculating the result are also responsible
-   * to end the transaction, so that the dependencies set within that computation is implicitly collected
-   * through all #get methods called.
+   * Starts a section manager transaction. Adding computed results to a section manager requires a
+   * transaction to be started for the result key. The transaction is then used to track
+   * dependencies of the calculated value, i.e. what other objects were used to compute the result.
    * </p>
    * <p>
-   * The previous protocol remains the same: the user don't need to start/end transactions, unless one
-   * is writing new Command interfaces (e.g., code that could interfere with the section manager information).
-   * It could also be used for complicated calculations to have overlapping transaction scopes (e.g., LatexMarkupFunction).
-   * This needs to be done with great care
+   * The section manager is updated with new results via transactions. So when computing a result to
+   * cache in the section manager, a transaction needs to be started first, and then ended by
+   * putting the computed result (see {@link #endTransaction(Key, Object)}). Alternatively, if the
+   * computation fails, the started transaction needs to be cancelled (see
+   * {@link #cancelTransaction(Key)}).
    * </p>
    * <p>
-   * SectionInfoExceptions might be thrown if a transaction on the key has already started (e.g., we don't allow
-   * overlapping transaction scopes on the same key). Another case is when it is called on a key already
-   * cached in the section manager. When transactions are postponed, they <bf>must</bf> be the next ones to be
-   * started, in the order they were postponed (e.g., using a stack), otherwise an exception is raise. 
+   * The transactional approach to section manager computations allows us to capture implicit
+   * dependencies of the computed result. Between the start and end of transaction, all calls to
+   * {@link #get(Key)} in the section manager are tracked. E.g. when typechecking a ZSect "foo", the
+   * command retrieves the parsed ZSect via {@code #get(new Key<ZSect>("foo", ZSect.class))}, and
+   * typecheck results of parent ZSects, among others. All these implicit dependencies through
+   * {@link #get(Key)} calls are assigned to the transaction upon its end.
    * </p>
-   *
-   * @param key key to start transaction over
-   * @throws SectionInfoException duplicated transactions on same key; on cached keys
+   * <p>
+   * By default, the implementors of section manager Commands do not need to start the transactions
+   * manually. The {@link #get(Key)} method starts the transaction automatically before the command
+   * is executed - see {@link #get(Key)} for details. However, in some cases, e.g. when the
+   * computations are started on-the-fly (as opposed to via section manager commands, e.g.
+   * calculating LatexMarkupFunction during parse), the transactions need to be started by this
+   * method (or {@link #ensureTransaction(Key)}). Other cases include postponing a transaction (see
+   * {@link #postponeTransaction(Key, Key)}), and then manually starting a transaction in the
+   * correct order.
+   * </p>
+   * <p>
+   * <strong>Note that if a transaction is started manually, handling of its cancellation upon
+   * exceptions needs to be done manually as well. See {@link #cancelTransaction(Key)} for details.
+   * </strong>
+   * </p>
+   * <p>
+   * The start/end/cancel transaction functionality supersedes the previous put() style of updating
+   * the section manager. The {@link #put(Key, Object)} methods now are just a convenience for
+   * starting and immediately ending the transaction.
+   * </p>
+   * <p>
+   * In addition to transactions in the section manager, duplicate computations are no longer
+   * allowed. This means that a transaction cannot be started if the result has already been cached
+   * - it is required to remove the previous result before starting a new transaction. This is
+   * necessary to get correct dependencies. During removal of the key, all dependant objects are
+   * also cleaned from the section manager.
+   * </p>
+   * <p>
+   * As part of the {@link #postponeTransaction(Key, Key)}, this method checks that the started
+   * transaction is the one expected during the last {@link #postponeTransaction(Key, Key)}.
+   * </p>
+   * 
+   * @param key
+   *          The key of the new transaction, indicating start of computation for the result.
+   * @throws SectionInfoException
+   *           Unchecked exception if constraints for starting the transaction are violated:
+   *           <ul>
+   *           <li>{@code key} transaction cannot be already started - no overlapping transactions
+   *           on the same key.</li>
+   *           <li>{@code key} result cannot be cached - no duplicate/overwritten results.</li>
+   *           <li>{@code key} must be the one indicated as "expected" in the last call of
+   *           {@link #postponeTransaction(Key, Key)}.</li>
+   *           </ul>
+   * @see #endTransaction(Key, Object)
+   * @see #cancelTransaction(Key)
+   * @see #ensureTransaction(Key)
    */
   void startTransaction(Key<?> key) throws SectionInfoException;
 
   /**
-   * Checks whether the given key has a transaction and starts one if it doesn't
-   * @param key transaction to check
+   * <p>
+   * Ensures that the indicated transaction is active in the section manager. The method checks if
+   * this transaction is started, and starts one if it is not (using {@link #startTransaction(Key)}
+   * ).
+   * </p>
+   * <p>
+   * This method is used very similarly as the {@link #startTransaction(Key)}, however it does not
+   * start a transaction if one has already been started. This can be used when it is not know if
+   * the transaction has been started before, say, via a command.
+   * </p>
+   * <p>
+   * Otherwise, the method is the same as {@link #startTransaction(Key)}, so refer to its comments
+   * for details.
+   * </p>
+   * 
+   * @param key
+   *          The key of the transaction to start (or check has already been started).
    * @throws SectionInfoException
+   *           Unchecked exception if constraints for ensuring the transaction are violated:
+   *           <ul>
+   *           <li>If {@code key} transaction has already been started, it must be the currently
+   *           active transaction.</li>
+   *           <li>If {@code key} transaction has not been started, see exception cases in
+   *           {@link #startTransaction(Key)}.</li>
+   *           </ul>
+   * @see {@link #startTransaction(Key)}
    */
   void ensureTransaction(Key<?> key) throws SectionInfoException;
 
