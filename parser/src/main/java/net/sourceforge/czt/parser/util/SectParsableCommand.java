@@ -34,6 +34,8 @@ import net.sourceforge.czt.z.ast.ZSect;
  * performs the required transaction "move".
  * </p>
  * 
+ * @param <T>
+ *          The type of command result.
  * @author Andrius Velykis
  */
 public abstract class SectParsableCommand<T> implements Command

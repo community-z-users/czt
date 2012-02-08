@@ -53,6 +53,7 @@ public interface SectionInfo
    */
   <T> T get(Key<T> key) throws CommandException;
 
+  
   /**
    * <p>
    * Starts a section manager transaction. Adding computed results to a section manager requires a
@@ -71,9 +72,11 @@ public interface SectionInfo
    * dependencies of the computed result. Between the start and end of transaction, all calls to
    * {@link #get(Key)} in the section manager are tracked. E.g. when typechecking a ZSect "foo", the
    * command retrieves the parsed ZSect via {@code #get(new Key<ZSect>("foo", ZSect.class))}, and
-   * typecheck results of parent ZSects, among others. All these implicit dependencies through
-   * {@link #get(Key)} calls are assigned to the transaction upon its end.
+   * typecheck results of parent ZSects, among others. These, in turn, will have implicit
+   * dependencies on parent sections, etc. All these implicit dependencies through {@link #get(Key)}
+   * calls are assigned to the transaction upon its end.
    * </p>
+   * <h4>Usage</h4>
    * <p>
    * By default, the implementors of section manager Commands do not need to start the transactions
    * manually. The {@link #get(Key)} method starts the transaction automatically before the command
@@ -123,6 +126,7 @@ public interface SectionInfo
    */
   void startTransaction(Key<?> key) throws SectionInfoException;
 
+  
   /**
    * <p>
    * Ensures that the indicated transaction is active in the section manager. The method checks if
@@ -149,59 +153,113 @@ public interface SectionInfo
    *           <li>If {@code key} transaction has not been started, see exception cases in
    *           {@link #startTransaction(Key)}.</li>
    *           </ul>
-   * @see {@link #startTransaction(Key)}
+   * @see #startTransaction(Key)
    */
   void ensureTransaction(Key<?> key) throws SectionInfoException;
 
+  
   /**
    * <p>
-   * This is a convenience method: it calls #endTransaction(Key, T, Set) on an empty set of explicit dependencies.
+   * Ends the transaction for the given key and associates the computed value to this key in the
+   * section manager cache. Also marks the dependencies for the key. All implicit dependencies
+   * (captured via {@link #get(Key)} calls since the start of transaction), as well as given
+   * explicit dependencies are used.
    * </p>
-   *
+   * <p>
+   * The computed results can be stored in the section manager only as a part of the completed
+   * transaction, using this method. This ensures strict contract on using the section manager, and
+   * allows capturing implicit dependencies of the computation (see {@link #startTransaction(Key)}
+   * for more details). Note that transaction can only be ended upon successful computation (when
+   * the result is available). Otherwise, it must be cancelled.
+   * </p>
+   * <h4>Usage</h4>
+   * <p>
+   * Ending of transactions is the main method to use in section manager Commands. When the result
+   * is calculated, it should be put into the section manager using this method. In the default
+   * case, the starting and cancelling (upon exception) of transaction is handled inside
+   * {@link #get(Key)}, thus only ending the transaction is required in the command.
+   * </p>
+   * <p>
+   * <strong>Note that the transactions must be nested, and cannot overlap. So we can only end the
+   * currently active transaction.</strong>
+   * </p>
+   * <p>
+   * For the manually started transactions and exception-cancellation issues, please refer to
+   * {@link #startTransaction(Key)} and {@link #cancelTransaction(Key)}.
+   * </p>
+   * <h4>Dependencies</h4>
+   * <p>
+   * As outlined in {@link #startTransaction(Key)}, all {@link #get(Key)} calls since the start of
+   * transaction are collected as dependencies of this key. So in the case of parsing a ZSect, it
+   * will collect dependencies on parent ZSects, its info tables, etc. These, in turn, will collect
+   * their own dependencies on their parents, etc. This is achieved by a nesting of start-end of
+   * transactions. The dependencies are stored in the section manager, and when one of the
+   * dependencies is removed, this key is also (transitively) removed.
+   * </p>
+   * <p>
+   * If some of the dependencies cannot be captured implicitly, the {@code explicitDependencies}
+   * parameter allows indicating explicit dependencies. The following are several examples of such
+   * cases:
+   * <dl>
+   * <dt>Complex order of transactions</dt>
+   * <dd>Due to the complex nature of some commands (especially parsing), we cannot achieve a good
+   * nested order of transaction. For example, lexing (and thus computation of LatexMarkupFunction)
+   * can happen before the parsing (and computation of a ZSect). Thus we need to explicitly indicate
+   * that ZSect depends on its LatexMarkupFunction.</dd>
+   * <dt>Bi-directional dependencies</dt>
+   * <dd>Section manager objects can be very closely inter-related, and we need bi-directional
+   * dependencies. In this case, when one of the pair is removed, the other will be as well. Such
+   * cases happen, e.g. for OpTable and its ZSect - the content of operator table is defined as
+   * paragraphs of the Z section (OpTable depends on ZSect), however to correctly parse the
+   * operators in a section, we need an oparator table (ZSect depends on OpTable). The explicit
+   * dependencies allow including bi-directional dependencies.</dd>
+   * </dl>
+   * </p>
+   * 
    * @param <T>
+   *          The type of the computed {@code value}, as indicated by the {@code key}.
    * @param key
+   *          The key referencing the {@code value} in the section manager. A transaction on this
+   *          key must be started, and will be completed with this method.
    * @param value
+   *          The computed value, which can be referenced by the {@code key} in the section manager
+   *          afterwards. The value must exist and be of the type indicated by {@code key}.
+   * @param explicitDependencies
+   *          Explicit dependencies, if needed, for the indicated {@code key}.
    * @throws SectionInfoException
+   *           Unchecked exception if constraints for ending the transaction are violated:
+   *           <ul>
+   *           <li>The parameters cannot be {@code null}.</li>
+   *           <li>{@code key} transaction must be the currently active one.</li>
+   *           <li>{@code key} result cannot be cached - no duplicate/overwritten results.</li>
+   *           </ul>
+   * @see #startTransaction(Key)
+   * @see #cancelTransaction(Key)
+   */
+  <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies)
+      throws SectionInfoException;
+
+  
+  /**
+   * This is a convenience method for {@link #endTransaction(Key, Object, Collection)}, with no
+   * explicit dependencies. See {@link #endTransaction(Key, Object, Collection)} for details.
+   * 
+   * @param <T>
+   *          The type of the computed {@code value}, as indicated by the {@code key}.
+   * @param key
+   *          The key referencing the {@code value} in the section manager. A transaction on this
+   *          key must be started, and will be completed with this method.
+   * @param value
+   *          The computed value, which can be referenced by the {@code key} in the section manager
+   *          afterwards. The value must exist and be of the type indicated by {@code key}.
+   * @throws SectionInfoException
+   *           Unchecked exception if constraints for ending the transaction are violated, see
+   *           {@link #endTransaction(Key, Object, Collection)}.
+   * @see #endTransaction(Key, Object, Collection)
    */
   <T> void endTransaction(Key<T> key, T value) throws SectionInfoException;
-
-  /**
-   * <p>
-   * Ends the transaction for the given key and associates the calculated results to this key in the
-   * managed database. All (implicit) dependencies are available on that key from this point. That is
-   * all the keys dependants (e.g., downwards dependency) and dependencies (e.g., upwards dependency).
-   * For instance, a parsed section bar with parent foo will add both foo and bar to the section manager.
-   * Key ("foo", ZSect) will have bar as a dependant and prelude/toolkit as its dependencies. The set will
-   * include all involved classes (e.g., OpTable, ThmTable, LatexMarkupFunction, ZSect, etc).
-   * </p>
-   * <p>
-   * Extra explicit dependencies can be given by the user. This method is usually called at the end of
-   * the corresponding command for the given key (e.g., it concludes the command calculation dependencies chain).
-   * Explicit dependencies cannot be null, but might be empty. Value and key must not be null. Complex
-   * or overlapping transaction scopes are possible, but need to be done with care, when mutual dependencies
-   * could cause problems. See LatexMarkupFunctionCommand for an example. It depends on ParseUtils, which
-   * depends on LatexMarkupFunctionCommand.
-   * </p>
-   * <p>
-   * A SectionInfoException is thrown either if the transaction stack is empty or if there are no matching
-   * transactions started for the given key. Otherwise, if there is a matching transaction for the key.
-   * Implementations keeping track of implicit dependencies calculated throughout the transaction might
-   * throw an exception in case the indexes/pointers for (sub-)dependencies within the transaction change
-   * or are out of bounds. Before updating the managed database, a check that the key type T
-   * matches / is an instance of the value type T is performed, where an exception is raise if they are
-   * not compatible. Finally, if the key is already cached, an exception is also raised, given duplicates
-   * or updates are not allowed in order to keep consistency checks straightforward (e.g., to update remove
-   * than add the key again).
-   * </p>
-   *
-   * @param <T>
-   * @param key non null
-   * @param value non null
-   * @param explicitDependencies non null (possibly empty)
-   * @throws SectionInfoException see above
-   */
-  <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException;
-
+  
+  
   /**
    * <p>
    * Transactions can be cancelled due to some problem encountered. The effect they have is to revert the

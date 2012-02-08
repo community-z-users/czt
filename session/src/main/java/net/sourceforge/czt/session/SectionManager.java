@@ -655,6 +655,7 @@ public class SectionManager
    * 
    * Exception messages are sent to a logger, so will probably not
    * be visible to users.
+   * @param name 
    * 
    * @return null if the requested class could not be loaded.
    */
@@ -1009,6 +1010,10 @@ public class SectionManager
     endTransaction(key, value, explicitDependencies);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#ensureTransaction(net.sourceforge.czt.session.Key)
+   */
   @Override
   public void ensureTransaction(Key<?> key) throws SectionInfoException
   {
@@ -1028,6 +1033,10 @@ public class SectionManager
     }
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#startTransaction(net.sourceforge.czt.session.Key)
+   */
   @Override
   public void startTransaction(Key<?> key) throws SectionInfoException
   {
@@ -1060,14 +1069,25 @@ public class SectionManager
     transactionStack_.push(pair);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#endTransaction(
+   *                    net.sourceforge.czt.session.Key, java.lang.Object)
+   */
   @Override
   public <T> void endTransaction(Key<T> key, T value) throws SectionInfoException
   {
     endTransaction(key, value, Collections.<Key<?>>emptySet());
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#endTransaction(
+   *            net.sourceforge.czt.session.Key, java.lang.Object, java.util.Collection)
+   */
   @Override
-  public <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
+  public <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) 
+      throws SectionInfoException
   {
     if (key == null || value == null || explicitDependencies == null)
       throw new SectionInfoException("Cannot end transaction with null value or explicit dependencies for key " + key);
@@ -1225,7 +1245,7 @@ public class SectionManager
    * @param key resource key
    * @param value value to associate with given key
    * @param dependencies ignored for now
-   * @param extraCallDepth extra stack depth to consider for caller tracing
+   * @throws SectionInfoException 
    */
   private <T> void addKeyMapping(Key<T> key, T value, Collection<Key<?>> dependencies) throws SectionInfoException
   {
@@ -1462,7 +1482,7 @@ public class SectionManager
    *      Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
    *      Term term = ParseUtils.parse(source, manager);
    *      </code>
-   *      See {@link #SourceLocator} for details.
+   *      See {@link SourceLocator} for details.
    *      </dd>
    *  <dt><code>Term</code> parsing (parser)</dt>
    *      <dd>
