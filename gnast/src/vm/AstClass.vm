@@ -84,6 +84,8 @@ public class ${class.ImplName}
    * A list of annotations.
    */
   private List<Object> anns_;
+  
+  private static long instanceCount_ = 0;
 
   /**
    * The default constructor.
@@ -98,6 +100,7 @@ public class ${class.ImplName}
     factory_ = null;
     anns_ = null;
     list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    instanceCount_++;
   }
 
   protected ${class.ImplName}(BaseFactory factory)
@@ -106,6 +109,12 @@ public class ${class.ImplName}
     factory_ = factory;
     anns_ = null;
     list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    instanceCount_++;
+  }
+  
+  public static final long instanceCount()
+  {
+  	return instanceCount_;
   }
 
   @Override
@@ -324,6 +333,9 @@ public#abstract($class) class ${class.ImplName}
 #if($class.Extends)  extends ${class.ImplExtends} #end
   implements ${class.Name}
 {
+
+   private static long instanceCount_ = 0;
+   
   /**
    * The default constructor.
    *
@@ -333,13 +345,15 @@ public#abstract($class) class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
+  	instanceCount_++;
   }
 
   protected ${class.ImplName}(BaseFactory factory)
   {
     super(factory);
+    instanceCount_++;
   }
-
+  
   /**
    * Compares the specified object with this ${class.ImplName}
    * for equality.  Returns true if and only if the specified object is
@@ -439,6 +453,13 @@ public#abstract($class) class ${class.ImplName}
   {
     Object[] erg = { #getterList(${class.AllProperties}) };
     return erg;
+  }
+  
+  /** Only concrete classes get the instance count method visible */
+  // JokerCommunication in circuspatt extends CommunicationImpl which is not abstract? weird...
+  public static /*final*/ long instanceCount()
+  {
+  	return instanceCount_;
   }
 #end##end if not abstract
 #foreach($prop in $class.Properties)
