@@ -24,42 +24,116 @@ import java.util.Set;
 import java.util.logging.Level;
 
 /**
- * <p>Provides information about sections.</p>
- *
- * <p>This interface provides a generic and extensible way
- * for applications to ask for all kinds of informations about
- * sections.  Sections are identified by its name, which should
- * be unique.  A SectionInfo object can provide a fixed set
- * of information, or can be generic in a way that classes
- * providing information about sections register there service.</p>
- *
- * <p>A SectionInfo object can cache the information provided,
- * but care should be taken when implementing such caches when
- * the information provided is mutable.</p>
+ * A section information (also called <i>section manager</i>) is the central place for storage and
+ * computation of CZT information. The computed values are stored in the section manager and can be
+ * referred to by subsequent computations.
+ * <p>
+ * The section manager provides three main functions:
+ * <dl>
+ * <dt>Caching computed values</dt>
+ * <dd>Values can be stored in the section manager after calculation, and then can be retrieved via
+ * {@link #get(Key)}. Their availability can be checked via {@link #isCached(Key)}.</dd>
+ * <dt>Computing values using commands</dt>
+ * <dd>The section manager provides a dynamic way of configuring how values are computed. Depending
+ * on different dialects, or just configurations, the section manager can use different commands to
+ * compute CZT objects. The commands are launched in {@link #get(Key)}, if the requested key is not
+ * yet cached.</dd>
+ * <dt>Tracking dependencies in a transactional way</dt>
+ * <dd>The section manager can track dependencies of computed values, so that when they are removed,
+ * the dependencies do not need to be recalculated. To facilitate correct dependency tracking, the
+ * section manager employs a transactional model. When a computation of a certain CZT object starts,
+ * its transaction should be started (see {@link #startTransaction(Key)}). Then the result value is
+ * stored in the section manager by ending the transaction (see
+ * {@link #endTransaction(Key, Object, Collection)}). If any problems occur during the computation,
+ * the transaction is cancelled (see {@link #cancelTransaction(Key)}).</dd>
+ * </dl>
+ * </p>
+ * <p>
+ * The information is stored in the section manager by using keys, which are a pair of name and
+ * value type. The section specific information should be identified by the section name, which
+ * should be unique.
+ * </p>
  * 
  * @author Leo Freitas
  * @author Andrius Velykis
+ * @see #get(Key)
+ * @see #startTransaction(Key)
+ * @see #endTransaction(Key, Object, Collection)
+ * @see #cancelTransaction(Key)
+ * @see SectionManager The default section manager implementation
  */
 public interface SectionInfo 
 {
   /**
-   * Lookup a key.
-   * It should never return <code>null</code>.
-   *
-   * @param <T> key type
-   * @param key   The key to be looked up.
-   * @return An instance of key.getType().   
-   * @throws CommandException if the lookup was unsuccessful.   
+   * Looks up and resolves the {@code key} in the section manager. It never returns {@code null}. If
+   * a key is present in the section manager (i.e., {@link #isCached(Key)}= {@code true}), the
+   * cached value is returned. Otherwise, a command must be present in the section manager for the
+   * indicated key type. It is used to compute the result for the given key and store in the section
+   * manager. This value is returned after computation. If any problems during the process occur,
+   * the {@link CommandException} is thrown.
+   * <p>
+   * The commands for different result types are configured dynamically in the section manager. See
+   * {@link SectionManager#get(Key)} for details about some core commands and their keys.
+   * </p>
+   * <p>
+   * Note that when a command is used to compute a result, it may have further calls to
+   * {@link #get(Key)}, which would in turn create their own computations. Thus a single call to
+   * this method may populate the section manager with a large amount of objects, depending on the
+   * the computation dependencies.
+   * </p>
+   * <h4>Transactions & dependencies</h4>
+   * <p>
+   * This method is the main entry point to interaction with the section manager. All computations
+   * should be done via the section manager commands, which would provide a good transactional
+   * environment with clear dependencies. For that reason, this method plays an important part in
+   * the default support for section management transactions, and dependency tracking.
+   * </p>
+   * <p>
+   * If a result value for the given key is not available in the section manager, a command is used
+   * to compute the value. This computation is wrapped in a start-cancel transaction. This means
+   * that before the computation starts, a transaction for the {@code key} is started via
+   * {@link #startTransaction(Key)}. Next, any exceptions caught during computation force the
+   * cancellation of this transaction (see {@link #cancelTransaction(Key)}). Thus for the majority
+   * of commands, they only need to end the successful transaction (via
+   * {@link #endTransaction(Key, Object, Collection)}), and the starting/cancellation is handled
+   * automatically.
+   * </p>
+   * <p>
+   * On the other hand, this method is used to track dependencies for existing transactions. A call
+   * to {@link #get(Key)} indicates that a computation requires a certain object from the section
+   * manager. Thus the computation (and result value) depends on this object. The keys of all calls
+   * to {@link #get(Key)} are collected for an existing transaction, and make up its implicit
+   * dependencies. These calls may result in their own transactions started, if the value is not
+   * computer, creating a nested tree of transactions, where "outer" transactions depend on "inner"
+   * transactions and their values. The implicit dependencies are added to the key automatically,
+   * when its transaction ends successfully.
+   * </p>
+   * 
+   * @param <T>
+   *          Type of the key, and the value which is be resolved.
+   * @param key
+   *          The key to be looked up and resolved.
+   * @return An instance referenced by the key. If the value is cached in the section manager, it is
+   *         returned. Otherwise, a command is used to compute this value and return it.
+   * @throws CommandException
+   *           If the lookup/resolution was unsuccessful:
+   *           <ul>
+   *           <li>No command is available to compute {@code key.getType()} value.</li>
+   *           <li>The computation fails within the command.</li>
+   *           <li>The computation does not provide a result.</li>
+   *           </ul>
+   * @throws SectionInfoException
+   *           Unchecked exception if computation is required, but constraints for starting the
+   *           transaction are violated (see {@link #startTransaction(Key)} for details).
+   * @see SectionManager#get(Key)
    */
-  <T> T get(Key<T> key) throws CommandException;
+  <T> T get(Key<T> key) throws CommandException, SectionInfoException;
 
   
   /**
-   * <p>
    * Starts a section manager transaction. Adding computed results to a section manager requires a
    * transaction to be started for the result key. The transaction is then used to track
    * dependencies of the calculated value, i.e. what other objects were used to compute the result.
-   * </p>
    * <p>
    * The section manager is updated with new results via transactions. So when computing a result to
    * cache in the section manager, a transaction needs to be started first, and then ended by
@@ -129,11 +203,9 @@ public interface SectionInfo
 
   
   /**
-   * <p>
    * Ensures that the indicated transaction is active in the section manager. The method checks if
    * this transaction is started, and starts one if it is not (using {@link #startTransaction(Key)}
    * ).
-   * </p>
    * <p>
    * This method is used very similarly as the {@link #startTransaction(Key)}, however it does not
    * start a transaction if one has already been started. This can be used when it is not know if
@@ -160,12 +232,10 @@ public interface SectionInfo
 
   
   /**
-   * <p>
    * Ends the transaction for the given key and associates the computed value to this key in the
    * section manager cache. Also marks the dependencies for the key. All implicit dependencies
    * (captured via {@link #get(Key)} calls since the start of transaction), as well as given
    * explicit dependencies are used.
-   * </p>
    * <p>
    * The computed results can be stored in the section manager only as a part of the completed
    * transaction, using this method. This ensures strict contract on using the section manager, and
@@ -262,12 +332,10 @@ public interface SectionInfo
   
   
   /**
-   * <p>
    * Cancels the ongoing transaction in the section manager. A transaction is usually cancelled if
    * an exception is thrown during computation of the result, or if the result cannot be computed
    * for other reasons. A cancelled transaction is no longer active, and results that depend on it
    * are removed from the section manager.
-   * </p>
    * <p>
    * <strong>Note that cancelling a transaction does not remove successful nested transactions, if
    * they do not depend on the cancelled one.</strong> This means that after cancelling a top-level
@@ -320,11 +388,9 @@ public interface SectionInfo
 
   
   /**
-   * <p>
    * Postpones the just-started transaction to ensure a correct transaction order. This is used to
    * reorder transactions for complex commands, when the requested key (and thus started
    * transaction) will be calculated as part of another bigger transaction.
-   * </p>
    * <p>
    * Some of the commands may calculate their results as part of a bigger calculation. The following
    * are several examples the illustrating need and use case for

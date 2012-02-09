@@ -1427,10 +1427,14 @@ public class SectionManager
 
   /**
    * <p>
-   * Lookup a key in the section manager. It should never return <code>null</code>.
+   * Lookup a key in the section manager. It will never return <code>null</code>.
    * That means, it calculates with the command associated with the key type, the
    * resulting value for that key. If it is already present (i.e., {@link #isCached(Key)} is true),
    * then no further calculation is needed. 
+   * </p>
+   * <p>
+   * See {@link SectionInfo#get(Key)} for the "big picture" description of this method,
+   * and for the information about transactions/dependencies.
    * </p>
    * <p>
    * Each extension may install different commands to process each type of key.
@@ -1649,9 +1653,11 @@ public class SectionManager
    * @param key   The key to be looked up.
    * @return      An instance of key.getType().
    * @throws      CommandException if the lookup was unseccessful.
+   * @throws      SectionInfoException if the transactions for computation fail.
+   * @see SectionInfo#get(Key)
    */
   @Override
-  public <T> T get(final Key<T> key) throws CommandException
+  public <T> T get(final Key<T> key) throws CommandException, SectionInfoException
   {
     if (isTracing_ && !isPermanentKey(key))
     {
