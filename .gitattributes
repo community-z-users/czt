@@ -744,6 +744,7 @@ parser/src/test/java/net/sourceforge/czt/parser/util/AbstractCyclicParentTest.ja
 parser/src/test/java/net/sourceforge/czt/parser/util/CyclicParserManagerTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/z/CyclicParentParserTest.java -text
+parser/src/test/java/net/sourceforge/czt/parser/z/SectFromSpecParserTest.java -text
 parser/src/test/resources/tests/cyclic/lcycle1.zed -text
 parser/src/test/resources/tests/cyclic/lcycle2.zed -text
 parser/src/test/resources/tests/cyclic/lcycle3.zed -text

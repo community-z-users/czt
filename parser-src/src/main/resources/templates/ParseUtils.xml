@@ -626,16 +626,13 @@ public class <class/> extends AbstractCommand
       Set&lt;Key&lt;Spec&gt;&gt; specDep = Collections.singleton(specKey);
       
       // check whether the requested ZSect was located
-      boolean foundRequested;
       ZSect requestedSect = specSections.remove(zsKey);
       if (requestedSect == null) {
         // cannot locate the requested section - it may be the case that the Spec was empty, 
         // or had no ZSects with the correct name. In this case - cancel the transaction.
         manager.cancelTransaction(zsKey);
-        foundRequested = false;
       } else {
         manager.endTransaction(zsKey, requestedSect, specDep);
-        foundRequested = true;
       }
       
       // add the rest of the sections in individual transactions, with dependency on Spec
@@ -645,7 +642,9 @@ public class <class/> extends AbstractCommand
       
       final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
       traceLog(msg);
-      return foundRequested;
+      // return true for resolving the cached Spec sections, 
+      // even though they do not match the requested
+      return true;
     }
     else {
       return false;
