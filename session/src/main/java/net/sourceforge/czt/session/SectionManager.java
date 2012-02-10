@@ -374,7 +374,6 @@ public class SectionManager
     //return permanentKeys_.contains(key.getName());
   //}
 
-  @Override
   public boolean isPermanentKey(Key<?> key)
   {
     // cyclic sections management is also permanent (?) TODO: ask andrius...
@@ -949,15 +948,9 @@ public class SectionManager
   }
 
 
-  /**
-   * Add a new (Key,Object) pair. It is an error to call put with an existing key.
-   * Dependencies are trivial: this is just a degenerate transaction (i.e., start/end)
-   * with no extra (e.g., empty) explicit dependencies.
-   *
-   * @param <T> key type
-   * @param key    The key to be added (must not be null).
-   * @param value  The value; must be an instance of key.getType().
-   * @throws SectionInfoException
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#put(net.sourceforge.czt.session.Key, java.lang.Object)
    */
   @Override
   public <T> void put(Key<T> key, T value) throws SectionInfoException
@@ -965,18 +958,14 @@ public class SectionManager
     put(key, value, Collections.<Key<?>>emptySet());
   }
 
-  /**
-   * Maps the given key to the given value in the section manager. It works by creating
-   * a transaction on the key and immediately ending it with the extra dependencies.
-   *
-   * @param <T> key type
-   * @param key    The key to be added (must not be null).
-   * @param value  The value; must be an instance of key.getType().
-   * @param explicitDependencies dependant keys
-   * @throws SectionInfoException
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#put(
+   *            net.sourceforge.czt.session.Key, java.lang.Object, java.util.Collection)
    */
   @Override
-  public <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
+  public <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies)
+      throws SectionInfoException
   {
     startTransaction(key);
     endTransaction(key, value, explicitDependencies);
@@ -1804,7 +1793,7 @@ public class SectionManager
         out.append(".");
       }
 
-      out.append(":");
+      out.append(": ");
       out.append(value);
     }
 

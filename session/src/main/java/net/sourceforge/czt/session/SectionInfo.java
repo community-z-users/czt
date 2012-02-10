@@ -466,20 +466,64 @@ public interface SectionInfo
    */
   boolean hasTransaction(Key<?> key);
 
+  
   /**
-   * Add a mapping from the key to its corresponding value. A set of explicit
-   * dependant keys of (possibly different) type is also given. These dependencies,
-   * together with any implicit dependencies involved are iterated to create map of
-   * dependencies in both directions (e.g., the ones the key depend on as well as
-   * the ones that depend on this key).
-   *
-   * @param <T> key type
-   * @param key   The key to be looked up.
-   * @param value value to map.
-   * @param explicitDependencies dependant keys (i.e., the set of keys the key being put depend on - e.g., parents, downward dependency)
+   * Adds the value to the section manager cache. This is a shorthand method for starting and
+   * immediately ending the transaction on the given {@code key}. This method should be used when
+   * there is no computation of the value, and thus no implicit dependencies are needed. So by using
+   * this method, the value is simply put in the section manager, indicating no gap in the
+   * transaction.
+   * <p>
+   * Note that the method starts a transaction, thus it must not be used if a transaction is already
+   * active. In that case, {@link #endTransaction(Key, Object, Collection)} must be used. Which is
+   * the usual case for section manager commands.
+   * </p>
+   * <p>
+   * The shorthand {@link #put(Key, Object, Collection)} method is good for putting things that do
+   * not depend on anything in the section manager, e.g. initial Source objects. However, the method
+   * allows indicating explicit dependencies in {@code explicitDependencies} parameter.
+   * </p>
+   * 
+   * @param <T>
+   *          The type of the {@code value}, as indicated by the {@code key}.
+   * @param key
+   *          The key referencing the {@code value} in the section manager. A transaction on this
+   *          key must will be started and immediately ended with this method.
+   * @param value
+   *          The value, which can be referenced by the {@code key} in the section manager
+   *          afterwards. The value must exist and be of the type indicated by {@code key}.
+   * @param explicitDependencies
+   *          Explicit dependencies, if needed, for the indicated {@code key} (e.g. the set of keys
+   *          that the value depends on - parents, etc.).
    * @throws SectionInfoException
+   *           Unchecked exception if constraints for starting and ending the transaction are
+   *           violated. See {@link #startTransaction(Key)} and
+   *           {@link #endTransaction(Key, Object, Collection)} for details.
+   * @see #startTransaction(Key)
+   * @see #endTransaction(Key, Object, Collection)
    */
   <T> void put(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException;
+  
+  
+  /**
+   * This is a convenience method for {@link #put(Key, Object, Collection)}, with no explicit
+   * dependencies. Thus the call on this method indicates that the given {@code key} has no
+   * dependencies altogether (neither implicit, nor explicit). See
+   * {@link #put(Key, Object, Collection)} for details.
+   * 
+   * @param <T>
+   *          The type of the {@code value}, as indicated by the {@code key}.
+   * @param key
+   *          The key referencing the {@code value} in the section manager. A transaction on this
+   *          key must will be started and immediately ended with this method.
+   * @param value
+   *          The value, which can be referenced by the {@code key} in the section manager
+   *          afterwards. The value must exist and be of the type indicated by {@code key}.
+   * @throws SectionInfoException
+   *           Unchecked exception if constraints for starting and ending the transaction are
+   *           violated. See {@link #put(Key, Object, Collection)} for details.
+   * @see #put(Key, Object, Collection)
+   */
   <T> void put(Key<T> key, T value) throws SectionInfoException;
 
 
@@ -498,7 +542,6 @@ public interface SectionInfo
    */
   <T> Set<Key<? extends T>> keysOf(Class<T> clsName);
 
-  boolean isPermanentKey(Key<?> key);
 
   void reset();
   
