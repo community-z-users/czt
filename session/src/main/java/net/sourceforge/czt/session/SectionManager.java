@@ -164,28 +164,49 @@ public class SectionManager
   private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
   /**
-   * Mapping of dependencies from (LHS) Key to the set of other (RHS) keys that depend on it.
-   * That is, it's an upward dependency chain. So, for instance, if
-   *
+   * Mapping of relationships from (LHS) Key to the set of other (RHS) keys that depend on it.
+   * <p>
+   * For example if <blockquote>
+   * 
+   * <pre>
    * A parents Prelude
    * B parents A
    * C parents B
-   *
-   * We would have a mapping that
-   *
-   * A -> { B }
+   * </pre>
+   * 
+   * </blockquote> We would have a mapping that (excluding {@code Prelude}) <blockquote>
+   * 
+   * <pre>
+   * A -> { B, C }
    * B -> { C }
    * C -> { }
-   *
-   * This way, when removing dependencies for A, we know that B and all its dependencies need removing.
-   * This way, we calculate the upwards transitive closure of dependencies. So, if A is removed
-   * then by calculating the transitive closure of dependencies we would get that { B, C } need removing as well.
+   * </pre>
+   * 
+   * </blockquote>
+   * </p>
+   * <p>
+   * This way, when removing dependants for {@code A}, we know that {{@code B, C}} and all their
+   * dependants need removing. This way, we calculate the transitive closure of dependants. So, if
+   * {@code A} is removed then by calculating the transitive closure of dependants we would get that
+   * {{@code B, C}} need removing as well.
+   * </p>
    */
   private Map<Key<?>, Set<Key<?>>> dependants_ = new HashMap<Key<?>, Set<Key<?>>>();
 
   /**
-   * The inverse map as above (e.g., downward dependencies). This is almost the transitive parents
-   * relationship, but might also include source locator and other keys.
+   * Mapping of relationships from (LHS) Key to the set of other (RHS) keys that it depends on.
+   * <p>
+   * For the example in {@link #dependants_}, we would get the following map (excluding
+   * {@code Prelude}) <blockquote>
+   * 
+   * <pre>
+   * A -> { }
+   * B -> { A }
+   * C -> { B, A }
+   * </pre>
+   * 
+   * </blockquote>
+   * </p>
    */
   private Map<Key<?>, Set<Key<?>>> dependencies_ = new HashMap<Key<?>, Set<Key<?>>>();
 
@@ -230,13 +251,39 @@ public class SectionManager
    */
   private ConsoleHandler consoleHandler_ = new ConsoleHandler();
 
-    /**
-   * Stack containing its originating key and associated point in the dependencies list where
-   * information (e.g., keys) get derived from. That is, the top of the stack is the current
-   * in the transaction, and all keys in the dependencies list from its integer number to the
-   * length of the list are the (transitive) dependencies to calculate the given key in the pair.
+  /**
+   * The transaction stack contains tracks active transactions. Each transaction also has a number
+   * value assigned, which indicates the index in {@link #pendingDeps_}, where the transaction's
+   * dependencies start. See {@link #pendingDeps_} for an example.
+   * <p>
+   * The top of the transaction stack is the currently active transaction.
+   * </p>
    */
-  private final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = new Stack<Pair<? extends Key<?>, Integer>>();
+  /*
+   * Invariant: From the stack top downwards, the transaction index must point to a valid element in
+   * pendingDeps_. Indexes are ordered within the stack; but might be the same, when there are no
+   * dependencies to be considered.
+   * 
+   * @invariant
+   *    forall (k, i) in transactionStack.listIterator().previous() : 
+   *            i < pendingDeps_.size() && hasPrevious() --> previous().i <= i
+   */
+  private final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = 
+      new Stack<Pair<? extends Key<?>, Integer>>();
+  
+  /**
+   * The list of pending implicit dependencies, collected via the {@link #get(Key)} calls. Each
+   * transaction in the {@link #transactionStack_} reference a particular point in this list. It
+   * means that the dependencies of that particular transactions are the ones <strong>above</strong>
+   * the index. When the transaction is ended, its dependencies from the pending list will be added
+   * to the dependency maps.
+   * <p>
+   * For example, let the {@link #transactionStack_} be [ (A, 0), (B, 2) ], and
+   * {@link #pendingDeps_} be [C, B, D, E]. Then the dependencies of B are {D, E}, and dependencies
+   * of A are {C, B, D, E}.
+   * </p>
+   */
+  private final List<Key<?>> pendingDeps_ = new ArrayList<Key<?>>();
 
   /**
    * The expected transaction for the next {@link #startTransaction(Key)} call. The value is added
@@ -250,25 +297,9 @@ public class SectionManager
    */
   private Key<?> expectedPostponeTransaction_ = null;
 
-  /**
-   * List of keys in the dependencies involved to calculate a particular key, which *must* belong
-   * to the transaction stack
-   */
-  private final List<Key<?>> dependenciesList_ = new ArrayList<Key<?>>();
-
-  /*@invariant forall (k, i) in transactionStack.listIterator().previous() :
-          // from the stack top downwards, the dependencies list point must be within range
-          i < dependenciesList_.lentgh &&
-          // indexes are order within the stack; but might be the same, when there are no dependencies to be considered
-          hasPrevious() -> previous().i <= i
-   */
-
-  private final /*Set<Key<?>>*/ Set<String> permanentKeys_ = new HashSet<String>();
+  private final Set<String> permanentKeys_ = new HashSet<String>();
 
 
-  /**
-   * 
-   */
   public SectionManager()
   {
     this(DEFAULT_EXTENSION);
@@ -779,7 +810,7 @@ public class SectionManager
   {
     assertTransactionStackTopIs(expected);
     assert hasTransaction() && currentTransactionKey().equals(expected);
-    if (idx > dependenciesList_.size())
+    if (idx > pendingDeps_.size())
     {
       throw new SectionInfoException(new LogBuilder(
           "Dependencies index (" + idx + ") out of bounds for transaction.")
@@ -1018,7 +1049,7 @@ public class SectionManager
     // add the a transaction to the stack, where the dependencies current list state/size
     // determines the pointer where to collect dependencies upon put. Ex: first time it will
     // be empty, hence at index 0. After that, it will one index after the last transactions.
-    Pair<? extends Key<?>, Integer> pair = Pair.getPair(key, dependenciesList_.size());
+    Pair<? extends Key<?>, Integer> pair = Pair.getPair(key, pendingDeps_.size());
     transactionStack_.push(pair);
   }
 
@@ -1128,11 +1159,11 @@ public class SectionManager
       // add explicit dependencies to the list
       if (explicitDependencies != null)
       {
-        dependenciesList_.addAll(explicitDependencies);
+        pendingDeps_.addAll(explicitDependencies);
       }
 
       // the keys involved in the dependency on the key
-      List<Key<?>> depOfKey = dependenciesList_.subList(trans.getSecond(), dependenciesList_.size());
+      List<Key<?>> depOfKey = pendingDeps_.subList(trans.getSecond(), pendingDeps_.size());
       result = new HashSet<Key<?>>(depOfKey);
 
       // add the mapping and create dependant/dependencies maps
@@ -1173,7 +1204,7 @@ public class SectionManager
     // if this is the last transaction clear the dependencies list
     if (!hasTransaction())
     {
-      dependenciesList_.clear();
+      pendingDeps_.clear();
     }
 
     if (isTracing_)
@@ -1596,7 +1627,7 @@ public class SectionManager
     // (e.g., avoid tracking keys when there are no pending transactions).
     if (hasTransaction())
     {
-      dependenciesList_.add(key);
+      pendingDeps_.add(key);
     }
 
     final Class<T> infoType = key.getType();
@@ -1895,7 +1926,7 @@ public class SectionManager
     
     public LogBuilder pendingDeps()
     {
-      tabbedLine("Pending deps", newLineCollection(dependenciesList_));
+      tabbedLine("Pending deps", newLineCollection(pendingDeps_));
       return this;
     }
     
