@@ -48,93 +48,90 @@ import net.sourceforge.czt.util.Pair;
 
 /**
  * <p>
- * This class is a repository for information about (Z) specs/sections (and its extensions).
- * It stores all the objects used during CZT processing, such as parsed ASTs (abstract syntax trees)
- * type environments, and so on. It provides several services, depending on the
- * kind of key requested. For instance, it can compute the operator table
- * or the LaTeX markup function for a given section, or typecheck or domain check
- * a given Term/Spec/ZSect. The keys to access an object within the section
- * manager are a (Name,Class) pair, which means that several different kinds
- * of objects can be associated with the same name.
+ * This class is a repository for information about (Z) specs/sections (and its extensions). It
+ * stores all the objects used during CZT processing, such as parsed ASTs (abstract syntax trees)
+ * type environments, and so on. It provides several services, depending on the kind of key
+ * requested. For instance, it can compute the operator table or the LaTeX markup function for a
+ * given section, or typecheck or domain check a given Term/Spec/ZSect. The keys to access an object
+ * within the section manager are a (Name,Class) pair (see {@link Key}), which means that several
+ * different kinds of objects can be associated with the same name.
+ * </p>
+ * <h3>Dependencies of cached objects</h3>
+ * <p>
+ * One of the main goals of this class is to cache commonly used objects, such as the parsed ASTs of
+ * toolkit sections, so that they do not have to be repeatedly processed. This can give great
+ * performance improvements. For instance, we envisage one section manager per project, where a
+ * project is a collection of files representing sections (e.g., an IDE project like in
+ * Netbeans/Eclipse).
  * </p>
  * <p>
- * One of the main goals of this class is to cache commonly used
- * objects, such as the parsed ASTs of toolkit sections, so that they
- * do not have to be repeatedly processed.  This can give great performance
- * improvements. For instance, we envisage one section manager per project, where a
- * project is a collection of files representing sections (e.g., an IDE project like in Netbeans/Eclipse).
- * </p>
- * <p>
- * Nevertheless, a fundamental problem is that data can become
- * inconsistent if you add a section XYZ, then add other sections that
- * uses it (e.g., depend on XYZ). If XYZ changes, it <bf>must</bf> be invalidated within
- * the section manager and have its new version reloaded. Its dependant information must also
- * be reloaded (e.g., everything it is a parent of; or other data computed that depends on it).
+ * Nevertheless, a fundamental problem is that data can become inconsistent if you add a section
+ * {@code A}, then add other sections that uses it (e.g., {@code B parent A}, so that {@code B}
+ * depends on {@code A}). If A changes, it <strong>must</strong> be invalidated within the section
+ * manager and have its new version reloaded. Its dependent information must also be reloaded (e.g.
+ * {@code B} may not be the same if {@code A} changes.
  * </p>
  * <p>
  * Our current solution is to have transactions that compute implicit dependencies whilst computing
- * information, as well as explicit (extra) dependencies given by the user. This dependency calculation
- * is quite hard to get right and this is an experimental feature at the moment. That is, the safest
- * choice is to keep fresh(er) section managers if that is of concern (i.e., have section managers
- * per file/buffer rather than projects) greater than performance gains.
+ * information, as well as explicit (extra) dependencies given by the user. This dependency
+ * calculation is quite hard to get right and this is an experimental feature at the moment. That
+ * is, the safest choice is to keep fresh(er) section managers if that is of concern (i.e., have
+ * section managers per file/buffer rather than projects) greater than performance gains.
  * </p>
  * <p>
- * We track duplicate objects as well as transaction scopes raising SectionManagerException at appropriate places.
- * We are still experimenting with the best approach. The section manager also contain tracing methods to enable
- * better debugging: tracing data is added to the console or Logger handler in order to output all information
- * stored during transaction processing.
+ * We track duplicate objects as well as transaction scopes raising SectionManagerException at
+ * appropriate places. We are still experimenting with the best approach. The section manager also
+ * contain tracing methods to enable better debugging: tracing data is added to the console or
+ * Logger handler in order to output all information stored during transaction processing.
  * </p>
+ * <h3>Usage</h3>
  * <p>
  * There are currently three ways of getting/reusing a section manager object.
  * <ol>
- *   <li> <code>new SectionManager()</code>
- *      -- which starts with an empty cache, so gives you the overhead
- *         of parsing toolkits again.</li>
- *   <li> <code>oldSectMan.reset()</code> -- this clears everything in the
- *        cache, except for the prelude and any sections called *_toolkit.</li>
- *   <li> <code>oldSectMan.clone()</code> -- depending upon WHEN you do
- *        this clone, you can decide just how much you want to leave in
- *        the cache.</li>
+ * <li>{@code new SectionManager()} - which starts with an empty cache, so gives you the overhead of
+ * parsing toolkits again.</li>
+ * <li>{@code oldSectMan.reset()} - this clears everything in the cache, except for the prelude and
+ * any sections called *_toolkit.</li>
+ * <li>{@code oldSectMan.clone()} - depending upon WHEN you do this clone, you can decide just how
+ * much you want to leave in the cache.</li>
  * </ol>
- * To avoid reparsing toolkits repeatedly (which makes things slow!),
- * you should avoid creating new section managers and use the reset or
- * clone methods instead. Moreover, you can pass the Z dialect the section
- * manager is responsible for. That (dynamically) determines (via class loading at run time)
- * what tools will be used for parsing, typechecking, etc.
+ * To avoid reparsing toolkits repeatedly (which makes things slow!), you should avoid creating new
+ * section managers and use the reset or clone methods instead. Moreover, you can pass the Z dialect
+ * the section manager is responsible for. That (dynamically) determines (via class loading at run
+ * time) what tools will be used for parsing, typechecking, etc.
  * </p>
- *
- * <p>As well as the main cache of specification-related objects,
- * this class maintains several other kinds of information, including:
+ * <p>
+ * As well as the main cache of specification-related objects, this class maintains several other
+ * kinds of information, including:
  * <ul>
- *   <li>a <em>properties</em> map that stores a string value for various
- *   property keys (see getProperty and setProperty)</li>
- *   <li>a <em>command</em> map that stores a Command object for each kind of
- *   specification-related type of interest.  These Command objects are
- *   called when the section manager needs to calculate a given type of
- *   object key and it is not already in the cache (see putCommand).</li>
+ * <li>a <em>properties</em> map that stores a string value for various property keys (see
+ * getProperty and setProperty)</li>
+ * <li>a <em>command</em> map that stores a Command object for each kind of specification-related
+ * type of interest. These Command objects are called when the section manager needs to calculate a
+ * given type of object key and it is not already in the cache (see putCommand).</li>
  * </ul>
  * </p>
  * <p>
- * There are two main operations available, get and put, and both expect a <code>Key&lt;Class&lt;?&gt;&gt;</code>
- * as input. The output is the same type of the key's <code>Class&lt;?&gt;</code> type parameter. For instance,
- * a call to <code>get(new Key&lt;Spec&gt;(string, Spec.class))</code> returns a <code>Spec</code> object if
- * successful, or throw a <code>CommandException</code> otherwise.
- * There are two main maps for a section manager. One that stores <code>Command</code>
- * processing objects for a given <code>Class&lt;?&gt;</code>. That is, each kind of <code>Class&lt;?&gt;</code>
- * within a key <bf>must</bf> have a corresponding <code>Command</code> within the map.
- * For instance, for type checking Z we have <code>SectTypeEnvAnn.class</code> mapped to
- * <codenet.sourceforge.czt.typecheck.z.TypeCheckCommand</code>. These mappings are according
- * to associated .command files within the session project.
+ * There are two main operations available, get and put (see start-end transactions), and both
+ * expect a {@code Key<Class<?>>} as input. The output is the same type of the key's
+ * {@code Class<?>} type parameter. For instance, a call to
+ * {@code get(new Key<Spec>(string, Spec.class))} returns a {@code Spec} object if successful, or
+ * throws a {@link CommandException} otherwise. There are two main maps for a section manager. One
+ * that stores {@link Command} processing objects for a given {@code Class<?>}. That is, each kind
+ * of {@code Class<?>} within a key <strong>must</strong> have a corresponding {@code Command}
+ * within the map. For instance, for type checking Z we have {@code SectTypeEnvAnn.class} mapped to
+ * {@code net.sourceforge.czt.typecheck.z.TypeCheckCommand}. These mappings are according to
+ * associated .command files within the session project.
  * </p>
  * <p>
- * The second map is between <code>Key</code> and its corresponding resource, as calculated
- * by the Key's associated command. For instance, when parsing Z we have <code>Key&lt;Spec&gt;</code>
- * mapped to the underlying <code>Spec</code> object resulting from the computation of the command.
- * One important distinction to be made is regarding managed and non-managed resources. That is,
+ * The second map is between {@link Key} and its corresponding resource, as calculated by the
+ * {@code Key}'s associated command. For instance, when parsing Z we have {@code Key<Spec>} mapped
+ * to the underlying {@code Spec} object resulting from the computation of the command. One
+ * important distinction to be made is regarding managed and non-managed resources. That is,
  * resources produced within CZT tools and resources used by CZT tools, respectively. The only
- * non-managed resources are mappings for <code>Source</code> keys: these are usually file or
- * URI resources from external sources. Everything else (so far) is managed by some CZT tool,
- * like specifications by the parser(s), and type environments by the type checker(s).
+ * non-managed resources are mappings for {@code Source} keys: these are usually file or URI
+ * resources from external sources. Everything else (so far) is managed by some CZT tool, like
+ * specifications by the parser(s), and type environments by the type checker(s).
  * </p>
  * 
  * @author Petra Malik
@@ -226,11 +223,11 @@ public class SectionManager
 
   /**
    * Determines whether console handling is on or off messages. Trace format
-   * is determined by the <code>SimpleFormatter</code> local class below and
-   * it used a <code>ConsoleHandler</code>. Each FINE trace has a call depth
+   * is determined by the {@code SimpleFormatter} local class below and
+   * it used a {@code ConsoleHandler}. Each FINE trace has a call depth
    * number attached to it. It means how deep in the command computation call
-   * it occurred. For instance "SM-UPDATE-2" it means that <code>put</code>
-   * has been called from within two <code>get</code> contexts.
+   * it occurred. For instance "SM-UPDATE-2" it means that {@code put}
+   * has been called from within two {@code get} contexts.
    */
   private boolean isTracing_ = DEFAULT_TRACING;
 
@@ -282,6 +279,10 @@ public class SectionManager
    * {@link #pendingDeps_} be [C, B, D, E]. Then the dependencies of B are {D, E}, and dependencies
    * of A are {C, B, D, E}.
    * </p>
+   * TODO The outer transaction collects all the dependencies of inner transactions, but can it be
+   * that some of them are not actually dependencies? E.g. during parsing the ThmTable is computed
+   * by calling {@code #get(parent, ThmTable)}. This means that the outer transaction (e.g. Sect)
+   * would have these ThmTables as dependencies, even though it actually does not depend on them.
    */
   private final List<Key<?>> pendingDeps_ = new ArrayList<Key<?>>();
 
@@ -340,35 +341,49 @@ public class SectionManager
   }
 
   /**
-   * <p>Returns a new SectionManager with the same content, commands,
-   * and properties.</p>
-   *
-   * <p>The maps for storing content, commands, and properties are
-   * copied, however the content of the maps is <B>not</B> copied.
-   * That is, content can be added to the new section manager without
-   * affecting the old one, but destructive changes to its content will
-   * show up in this section manager as well.
+   * Returns a new SectionManager with the same content, commands, and properties.
+   * <p>
+   * The maps for storing content, commands, and properties are copied, however the content of the
+   * maps is <B>not</B> cloned. That is, content can be added to the new section manager without
+   * affecting the old one, but destructive changes to its content will show up in this section
+   * manager as well.
    * </p>
-   * @return
+   * <p>
+   * If cloning happens during a transaction, it will only have information from already finished
+   * transaction. This includes objects in the section manager, dependencies, etc. The pending
+   * transactions and their dependencies, however, are not cloned. Even more, pending transaction
+   * keys are removed from the cloned section manager, thus removing everything that may have been
+   * depending on the pending transactions (e.g. a LMF is computed before ZSect computation ends, so
+   * cloning in the middle of this transaction, will remove the computed LMF for the pending ZSect
+   * transaction).
+   * </p>
+   * 
+   * @return A shallow clone of the section manager, minus the pending transactions.
    */
   @Override
   public SectionManager clone()
   {
-    // don't reset if there are any ongoing transactions
-    assertTransactionStackEmpty(null);
-
-    // TODO: perhaps allow clonning half ways through transacytion and then
-    //       cancel whatever wasn't finished? The key problem are explicit dependencies
+    // We allow there to be ongoing transactions during the clone. Just make sure it is cleaned
+    // appropriately, and pending transactions are removed.
+    // assertNoTransactions(null);
 
     SectionManager result = new SectionManager(dialect_, isTracing_, logLevel_, tracingLevel_);
     result.permanentKeys_.addAll(permanentKeys_);
     copyMap(content_, result.content_);
     copyMap(commands_, result.commands_);
     copyMap(properties_, result.properties_);
-    copyMap(dependants_, result.dependants_);
-    copyMap(dependencies_, result.dependencies_);
+    // For dependants/dependencies, we use a deeper cloning - we clone both the maps, and the sets
+    // in the maps. So updating dependencies in the clone will not affect the original.
+    copyMapSets(dependants_, result.dependants_);
+    copyMapSets(dependencies_, result.dependencies_);
 
-    // don't copy the stacks or dependencies list
+    // Don't copy the transaction stack or pending dependencies list.
+    // However, remove the currently pending transactions from the cloned section manager,
+    // thus removing partially-computed complex objects (e.g. LMF for partially computed ZSect).
+    for (Pair<? extends Key<?>, Integer> transaction : transactionStack_) {
+      Key<?> transactionKey = transaction.getFirst();
+      result.removeKey(transactionKey);
+    }
 
     return result;
   }
@@ -407,20 +422,20 @@ public class SectionManager
 
   public boolean isPermanentKey(Key<?> key)
   {
-    // cyclic sections management is also permanent (?) TODO: ask andrius...
+    // cyclic sections management is also permanent
     //return isPermanentToolkitKey(key) || key.getName().equals("cyclic-parse-manager");
     return permanentKeys_.contains(key.getName());
   }
 
-  /**
-   * Deletes entries in the cache that are not called "prelude" and
-   * that do not end with "_toolkit".
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#reset()
    */
   @Override
-  public void reset()
+  public void reset() throws SectionInfoException
   {
     // don't reset if there are any ongoing transactions
-    assertTransactionStackEmpty(null);
+    assertNoTransactions(null);
 
     getLogger().finest("Resetting section manager key-mapped resources.");
     
@@ -443,12 +458,30 @@ public class SectionManager
     
     // reset the expected transaction
     expectedPostponeTransaction_ = null;
+    // clear the pending dependencies just in case - though it should be empty, since there are no
+    // transactions
+    pendingDeps_.clear();
   }
 
   private static <E,F> void copyMap(Map<E,F> from, Map<E,F> to)
   {
     to.clear();
     to.putAll(from);
+  }
+
+  /**
+   * Copies a map, which contains value sets. The sets are also cloned - so updating sets in the
+   * original map will not affect the result map.
+   * 
+   * @param from
+   * @param to
+   */
+  private static <E,F> void copyMapSets(Map<? extends E,? extends Set<F>> from, Map<E, Set<F>> to)
+  {
+    to.clear();
+    for (Entry<? extends E,? extends Set<F>> entry : from.entrySet()) {
+      to.put(entry.getKey(), entry.getValue() != null ? new HashSet<F>(entry.getValue()) : null);
+    }
   }
 
   /**
@@ -500,7 +533,7 @@ public class SectionManager
 
   /**
    * <p>Sets a whole bunch of properties to the given values.
-   * This sets all the properties defined by <code>props</code>
+   * This sets all the properties defined by {@code props}
    * including its default properties (if it has any).</p>
    *
    * <p>Properties are used to store global settings
@@ -569,7 +602,7 @@ public class SectionManager
    * Loads a collection of commands from the given properties file/url.
    * See session/src/main/resources for example *.commands XML files.
    * @param url location where to looc for XML-formated list of commands.
-   * @throws NullPointerException if url is <code>null</code>.
+   * @throws NullPointerException if url is {@code null}.
    */
   public void putCommands(URL url)
   {
@@ -722,34 +755,30 @@ public class SectionManager
   }
 
   /**
-   * checks transaction stack elements
-   * @param expected might be null
-   * @throws SectionInfoException if empty
-   */
-  protected void assertTransactionStackNotEmpty(Key<?> expected) throws SectionInfoException
-  {
-    if (!hasTransaction())
-    {
-      throw new SectionInfoException(new LogBuilder(
-          "Transaction stack is empty").key(expected).exStr());
-    }
-  }
-
-  /**
-   * checks transaction stack elements
+   * Checks that there are no transactions at all - throws an exception otherwise.
+   * 
    * @param expected
-   * @throws SectionInfoException if not empty
+   * @throws SectionInfoException
+   *           if transaction stack is not empty
    */
-  protected void assertTransactionStackEmpty(Key<?> expected) throws SectionInfoException
+  protected void assertNoTransactions(Key<?> expected) throws SectionInfoException
   {
     if (hasTransaction())
     {
       throw new SectionInfoException(new LogBuilder(
-          "Transaction stack is not empty").key(expected).transactions().exStr());
+          "There are outstanding transactions").key(expected).transactions().exStr());
     }
   }
 
-  protected void assertKeyNotCached(Key<?> key) throws SectionInfoException
+  /**
+   * Checks that the given {@code key} is not cached in the section manager - throws an exception
+   * otherwise.
+   * 
+   * @param key
+   * @throws SectionInfoException
+   *           if the {@code key} is cached.
+   */
+  protected void assertNotCached(Key<?> key) throws SectionInfoException
   {
     if (isCached(key))
     {
@@ -759,128 +788,51 @@ public class SectionManager
   }
 
   /**
-   * checks if any of the expected transactions is found. if so raises exception
-   * @param expected
-   * @throws SectionInfoException if any of the expected transaction keys is found in the transaction stack
+   * Checks that there are no existing transaction for the given {@code key} (thus the transaction
+   * is new) - throws and exception otherwise.
+   * 
+   * @param key
+   * @throws SectionInfoException
+   *           if a transaction exists for the {@code key}
    */
-  protected void assertNoOngoingTransactionFor(Key<?>... expected) throws SectionInfoException
+  protected void assertNewTransaction(Key<?> key) throws SectionInfoException
   {
-    Key<?> found = foundTransactionFor(expected);
-    if (found != null)
+    if (hasTransaction(key))
     {
       throw new SectionInfoException(new LogBuilder(
-          "There is an ongoing transaction for given key").key(found).transactions().exStr());
+          "There is an ongoing transaction for the given key").key(key).transactions().exStr());
     }
   }
 
   /**
-   * checks if the transaction stack top is the one expected
+   * Checks that the top of transaction stack (the current transaction) is the given {@code key} -
+   * throws an exception otherwise.
+   * 
    * @param expected
-   * @throws SectionInfoException if top is not equals to expected.
+   * @throws SectionInfoException
+   *           if there are not transactions at all, or the top of transaction stack is not the
+   *           {@code key}.
    */
-  protected void assertTransactionStackTopIs(Key<?> expected) throws SectionInfoException
+  protected void assertCurrentTransaction(Key<?> expected) throws SectionInfoException
   {
-    Key<?> found = currentTransactionKey();
-    boolean result = found.equals(expected);
-    if (!result)
+    Key<?> currentTrans = getCurrentTransaction();
+    if (currentTrans == null) {
+      throw new SectionInfoException(new LogBuilder(
+          "Transaction stack is empty")
+         .expected(expected).transactions().exStr());
+    }
+    
+    if (!expected.equals(currentTrans))
     {
       throw new SectionInfoException(new LogBuilder(
           "Transaction stack top is not the one expected")
-         .expected(expected).key(found).transactions().exStr());
-    }
-  }
-
-  protected void assertExpectedTransaction(Key<?> key) throws SectionInfoException
-  {
-    assert expectedPostponeTransaction_ != null;
-    if (!expectedPostponeTransaction_.equals(key)) {
-      throw new SectionInfoException(new LogBuilder(
-          "Expected key after a postponed transaction does not match")
-         .expected(expectedPostponeTransaction_).key(key).transactions().exStr());
-    }
-  }
-
-  /**
-   * Checks that the dependency list size is within bound with the given index.
-   * @param expected
-   * @param idx
-   * @throws SectionInfoException if top of the stack
-   */
-  protected void assertTransDepIndexRange(Key<?> expected, Integer idx) throws SectionInfoException
-  {
-    assertTransactionStackTopIs(expected);
-    assert hasTransaction() && currentTransactionKey().equals(expected);
-    if (idx > pendingDeps_.size())
-    {
-      throw new SectionInfoException(new LogBuilder(
-          "Dependencies index (" + idx + ") out of bounds for transaction.")
-         .key(expected).transactions(true).pendingDeps().exStr());
-    }
-  }
-
-  /**
-   * throws an exception saying the expected key is not the one found - there is a mismatch in the transaction start/end calls.
-   * this could also happen if there are no transaction at all.
-   *
-   * @param expected
-   * @param found
-   * @return
-   * @throws SectionInfoException
-   */
-  protected SectionInfoException transactionMismatch(Key<?> expected, Key<?> found) throws SectionInfoException
-  {
-    assertTransactionStackNotEmpty(expected);
-    return new SectionInfoException(new LogBuilder(
-        "Unmatching transaction")
-       .expected(expected).key(found).transactions().exStr());
-  }
-
-  protected void assertNoExpectedTransaction(Key<?> key) throws SectionInfoException
-  {
-    if (expectedPostponeTransaction_ != null)
-    {
-      throw new SectionInfoException(new LogBuilder(
-          "There already is an expected transaction - cannot postpone again")
-         .key(key).expected(expectedPostponeTransaction_).transactions().exStr());
+         .expected(expected).key(currentTrans).transactions().exStr());
     }
   }
 
   protected boolean hasTransaction()
   {
     return !transactionStack_.isEmpty();
-  }
-
-  /**
-   * search through the transaction stack for each of the expected given keys.
-   * it returns the first one found or null if none is found.
-   * @param expected
-   * @return first key found on the transaction stack from the array of keys passed
-   */
-  protected Key<?> foundTransactionFor(Key<?>... expected)
-  {
-    Key<?> result = null;
-    if (expected != null)
-    {
-      for(Pair<? extends Key<?>, Integer> p : transactionStack_)
-      {
-        // TODO: if there is a list "k1, null, k2" will this give a null e or throw a NPE?
-        for(Key<?> e : expected)
-        {
-          if (p.getFirst().equals(e))
-          {
-            result = e;
-            break;
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  protected Key<?> currentTransactionKey() 
-  {
-    assertTransactionStackNotEmpty(null);
-    return transactionStack_.peek().getFirst();
   }
 
   @Override
@@ -944,7 +896,7 @@ public class SectionManager
       if (nextValue.equals(value))
       {
         /*
-         * The #addKeyMapping contract ensures that content_ maps Key<T> keys to T values. Since 
+         * The #addToCache() contract ensures that content_ maps Key<T> keys to T values. Since 
          * the value can actually be a subclass of T, when doing a backwards search here, we use 
          * Key<? super T> to indicate a correct type cast.
          */
@@ -969,8 +921,19 @@ public class SectionManager
 
   private boolean hasTransaction(Key<?> key)
   {
-    Key<?> result = foundTransactionFor(key);
-    return result != null;
+    return hasTransaction(Collections.singleton(key));
+  }
+  
+  private boolean hasTransaction(Collection<? extends Key<?>> keys)
+  {
+    for(Pair<? extends Key<?>, Integer> p : transactionStack_)
+    {
+      if (keys.contains(p.getFirst())) {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
   /*
@@ -1025,7 +988,7 @@ public class SectionManager
     {
       startTransaction(key);
     } else {
-      assertTransactionStackTopIs(key);
+      assertCurrentTransaction(key);
     }
   }
 
@@ -1042,14 +1005,17 @@ public class SectionManager
     }
 
     // check for key duplication
-    assertNoOngoingTransactionFor(key);
-
-    assertKeyNotCached(key);
+    assertNewTransaction(key);
+    assertNotCached(key);
 
     // if there is an expected transaction (via postpone), check it matches the start key
     if (expectedPostponeTransaction_ != null)
     {
-      assertExpectedTransaction(key);
+      if (!expectedPostponeTransaction_.equals(key)) {
+        throw new SectionInfoException(new LogBuilder(
+            "Expected key after a postponed transaction does not match")
+           .expected(expectedPostponeTransaction_).key(key).transactions().exStr());
+      }
       // reset the expected key - the postpone is fulfilled
       expectedPostponeTransaction_ = null;
     }
@@ -1086,7 +1052,36 @@ public class SectionManager
           "Cannot end transaction with null value or explicit dependencies for key").key(key).exStr());
     }
     
-    endTransaction0(key, value, explicitDependencies);
+    if (isTracing_)
+    {
+      new LogBuilder("").transTrace("END-ENTRY").key(key).caller().fine();
+    }
+
+    // check that the current transaction is being ended
+    assertCurrentTransaction(key);
+    
+    // add explicit dependencies to the pending list
+    pendingDeps_.addAll(explicitDependencies);
+    
+    // remove the transaction from the stack - it is being ended
+    Pair<? extends Key<?>, Integer> currentTrans = transactionStack_.pop();
+    assert key.equals(currentTrans.getFirst());
+    
+    // get the pending dependency keys (implicit and explicit) for this transaction
+    Set<Key<?>> keyPendingDeps = getPendingDeps(key, currentTrans.getSecond());
+
+    // add the mapping to the cache, as well as create the dependency maps
+    addToCache(key, value);
+    addDependencies(key, keyPendingDeps);
+    
+    // if this is the last transaction clear the dependencies list
+    clearPendingIfNoTransactions();
+
+    if (isTracing_)
+    {
+      new LogBuilder("").transTrace((value == null ? "CANCEL": "END") + "-EXIT")
+        .key(key).pendingDeps().transactions(true).caller().fine();
+    }
   }
 
   /*
@@ -1101,8 +1096,70 @@ public class SectionManager
           "Cannot cancel transaction with null key").exStr());
     }
     
-    assertTransactionStackTopIs(key);
-    return endTransaction0(key, null, null);
+    // check that the current transaction is being cancelled
+    assertCurrentTransaction(key);
+    
+    if (isTracing_)
+    {
+      new LogBuilder("").transTrace("CANCEL-ENTRY").key(key).caller().fine();
+    }
+    
+    // check the given transaction is the current one
+    assertCurrentTransaction(key);
+
+    // remove the transaction from the stack - it is being cancelled
+    Pair<? extends Key<?>, Integer> currentTrans = transactionStack_.pop();
+    assert key.equals(currentTrans.getFirst());
+    
+    // get the implicit pending dependency keys for this transaction
+    Set<Key<?>> keyPendingDeps = getPendingDeps(key, currentTrans.getSecond());
+
+    /*
+     * Previously we removed the pending keys as well, when cancelling the transaction. However,
+     * cancellation just means that something could not be calculated. Now upon this case, the
+     * parent transactions may choose to continue. So we still want to keep these dependencies (even
+     * though there is a "gap" now), that if something changes in the "cancelled" part - the
+     * dependants would be remove and would have to recompute, possibly succeeding in the
+     * "cancelled" part now.
+     */
+    // keyPendingDepsSubList.clear();
+
+    // Only remove keys when non-permanents are cancelled
+    // TODO is this correct? If "Prelude" fails and cancels (or is being postponed - thus in the
+    // middle of calculation), we would remove its dependants.
+    if (!isPermanentKey(key))
+    {
+      // Chase explicit dependencies that might be added for the cancelling key.
+      // For example, LMF depends on ZSect explicitly. So if parsing fails, and ZSect is cancelled,
+      // the already-calculated LMF will be removed as well.
+      //
+      // Note that this will not remove the finished transactions that do not depend on the current
+      // one, e.g. parents. So even if we cancel parsing a ZSect, its parents (successfully parsed
+      // ZSects) are not removed.
+      removeKey(key);
+    }
+    
+    // if this is the last transaction clear the dependencies list
+    clearPendingIfNoTransactions();
+
+    if (isTracing_)
+    {
+      new LogBuilder("").transTrace("CANCEL-EXIT")
+        .key(key).pendingDeps().transactions(true).caller().fine();
+    }
+    
+    return keyPendingDeps;
+  }
+  
+  private void cancelUpToTransaction(Key<?> key) throws SectionInfoException
+  {
+    // Go backwards and cancel all transactions up to the key
+    while (hasTransaction(key))
+    {
+      // while the transaction exists, cancel the current transaction
+      Key<?> currentTrans = getCurrentTransaction();
+      cancelTransaction(currentTrans);
+    }
   }
 
   /*
@@ -1124,10 +1181,17 @@ public class SectionManager
       new LogBuilder("").transTrace("POSTPONE").key(nextKey).caller().fine();
     }
 
-    // next key cannot have already been cached or put for pending
-    assertKeyNotCached(nextKey);
-    assertNoOngoingTransactionFor(nextKey);
-    assertNoExpectedTransaction(nextKey);
+    // next key cannot have already been cached
+    assertNewTransaction(nextKey);
+    assertNotCached(nextKey);
+    
+    if (expectedPostponeTransaction_ != null)
+    {
+      // we do not allow postponing after a postponed transaction
+      throw new SectionInfoException(new LogBuilder(
+          "There already is an expected transaction - cannot postpone again")
+         .key(nextKey).expected(expectedPostponeTransaction_).transactions().exStr());
+    }
 
     Set<Key<?>> cancelledDeps = cancelTransaction(postponeKey);
     if (!cancelledDeps.isEmpty()) {
@@ -1143,102 +1207,21 @@ public class SectionManager
     expectedPostponeTransaction_ = nextKey;
   }
 
-  private <T> Set<Key<?>> endTransaction0(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) throws SectionInfoException
+  /**
+   * Adds a (key, value) mapping to the section manager cache.
+   * 
+   * @param <T>
+   *          Resource key type
+   * @param key
+   *          Resource key
+   * @param value
+   *          Value (resource) to associate with given key
+   * @throws SectionInfoException
+   */
+  private <T> void addToCache(Key<T> key, T value) throws SectionInfoException
   {
     assert key != null;
-
-    if (isTracing_)
-    {
-      new LogBuilder("").transTrace((value == null ? "CANCEL": "END") + "-ENTRY").key(key).caller().fine();
-    }
-
-    // checks there is a trnasaction
-    assertTransactionStackNotEmpty(key);
-
-    Set<Key<?>> result;// = Collections.<Key<?>>emptySet();
-    Pair<? extends Key<?>, Integer> trans = transactionStack_.peek();
-
-    // check the trasnaction keys match
-    if (trans.getFirst().equals(key))
-    {
-      // check the transaction dependencies index is within range
-      assertTransDepIndexRange(key, trans.getSecond());
-
-      // add explicit dependencies to the list
-      if (explicitDependencies != null)
-      {
-        pendingDeps_.addAll(explicitDependencies);
-      }
-
-      // the keys involved in the dependency on the key
-      List<Key<?>> depOfKey = pendingDeps_.subList(trans.getSecond(), pendingDeps_.size());
-      result = new HashSet<Key<?>>(depOfKey);
-
-      // add the mapping and create dependant/dependencies maps
-      // non null value = end transaction
-      if (value != null)
-      {
-        // only map the dependencies from the pointer in the transitive dependencies list / set
-        addKeyMapping(key, value, result);
-      }
-      // null value = cancel transaction - return the dependencies to the point.
-      else
-      {
-        // remove the dependencies from list to the point.
-        // this does not affect the result returned
-        depOfKey.clear();
-
-        // result contains the outermost dependencies that are being cancelled
-        // innermost transactions that finished successfully are not cancelled.
-      }
-      
-      // pops the stack to end the transaction
-      Pair<? extends Key<?>, Integer> top = transactionStack_.pop();
-      assert trans.equals(top);
-
-      // for cancelling transactions wait until the transaction is popped to remove key, if not a permanent one
-      if (value == null && !isPermanentKey(key))
-      {
-        // chase explicit dependencies that might be added for the cancelling key
-        removeKey(key);
-      }
-    }
-    else
-    {
-      // raise the mismatch
-      throw transactionMismatch(key, trans.getFirst());
-    }
-    
-    // if this is the last transaction clear the dependencies list
-    if (!hasTransaction())
-    {
-      pendingDeps_.clear();
-    }
-
-    if (isTracing_)
-    {
-      new LogBuilder("").transTrace((value == null ? "CANCEL": "END") + "-EXIT")
-        .key(key).pendingDeps().transactions(true).caller().fine();
-    }
-    return result;
-  }
-
-  /**
-   * Adds a (key, value) mapping to the section manager, where given dependencies (implicit + explicit)
-   * are iterated to create the two maps of dependants (downwards) and dependencies (upwards). It also
-   * contains a call depth mechanism in order to enable call-stack-based tracing.
-   *
-   * @param <T> resource key type
-   * @param key resource key
-   * @param value value to associate with given key
-   * @param dependencies ignored for now
-   * @throws SectionInfoException 
-   */
-  private <T> void addKeyMapping(Key<T> key, T value, Collection<Key<?>> dependencies) throws SectionInfoException
-  {
-    assert key != null && value != null && dependencies != null;
-
-    assert hasTransaction() && currentTransactionKey().equals(key);
+    assert value != null;
 
     // check key / value pairs are consistent
     if (!key.getType().isInstance(value))
@@ -1254,66 +1237,100 @@ public class SectionManager
           "Adding a duplicate key - value for this key is already cached").key(key).exStr());
     }
 
+    // put to the cache
     content_.put(key, value);
+    
     if (isTracing_ && !isPermanentKey(key))
     {
       new LogBuilder("").transTrace("UPDATE").key(key).caller().fine();
     }
-
-    HashSet<Key<?>> depSet = new HashSet<Key<?>>(dependencies);
+  }
+  
+  /**
+   * Adds the dependencies (implicit + explicit) for the key to the section manager. The
+   * dependencies are iterated to create the two maps of dependants (what depends on the key) and
+   * dependencies (what the key depends on).
+   * 
+   * @param key
+   *          resource key
+   * @param deps
+   * @throws SectionInfoException
+   */
+  private void addDependencies(Key<?> key, Set<Key<?>> deps) throws SectionInfoException
+  {
+    assert key != null && deps != null;
 
     if (isTracing_)
     {
-      // check whether duplicate dependencies arise and why /when
       new LogBuilder("SM-GIVEN-DEPENDENCIES_"+callCnt_)
-            .key(key).col("Dep list", dependencies).col("Dep set", depSet).caller().fine();
+            .key(key).col("Pending deps", deps).caller().fine();
     }
 
-    // upward dependencies
-    //
-    // key          = C
-    // dependencies = B, A
-    // build        = A -> { C }; B -> { C }
-    for(Key<?> dk : depSet)
+    /*
+     * For each key in the dependency set, mark the given key as a dependant. We mark that the key
+     * depends on each key in the {@code deps} set
+     */
+    // key   = C
+    // deps  = A, B
+    // build = A -> { C }; B -> { C }
+    for(Key<?> dk : deps)
     {
-      Set<Key<?>> depOfK = dependants_.get(dk);
-      if (depOfK == null)
+      Set<Key<?>> keyDependants = dependants_.get(dk);
+      if (keyDependants == null)
       {
-        depOfK = new HashSet<Key<?>>();
-        dependants_.put(dk, depOfK);
+        keyDependants = new HashSet<Key<?>>();
+        dependants_.put(dk, keyDependants);
       }
-      assert depOfK != null;
-      depOfK.add(key);
+      keyDependants.add(key);
     }
 
-    // @czt.todo is this necessary in the end? say for source locator?
-    //
-    // downward dependencies
-    //
-    // key          = C
-    // dependencies = B, A
-    // build        = C -> { A, B }
+    /*
+     * Mark the given dependencies for the key.
+     */
+    // key   = C
+    // deps  = A, B
+    // build = C -> { A, B }
+    // There can be no dependencies for a new key. If there are, they are not correctly cleaned up
+    // from previous runs.
     Set<Key<?>> depKeys = dependencies_.get(key);
-    if (depKeys == null)
-    {
-      depKeys = new HashSet<Key<?>>();
-      dependencies_.put(key, depKeys);
-    }
-    depKeys.addAll(dependencies);
+    assert depKeys == null || depKeys.isEmpty() : 
+       new LogBuilder("Dependencies not empty").key(key).col("Deps", depKeys).toString();
+    
+    dependencies_.put(key, new HashSet<Key<?>>(deps));
 
     if (isTracing_)
     {
-      // check whether duplicate dependencies arise and why /when
       new LogBuilder("SM-CALC-DEPENDENCIES_"+callCnt_)
             .key(key).dependants().dependencies().caller().fine();
     }
   }
-
-  // TODO: all these methods ought to be transaction aware. that is, they should raise exceptions
-  //       in case one wants to remove or query dependencies on ongoing transactions.
-
+  
+  private Set<Key<?>> getPendingDeps(Key<?> key, Integer pendingIndex) {
+    
+    // check the pending dependencies index is within range
+    if (pendingIndex > pendingDeps_.size())
+    {
+      throw new SectionInfoException(new LogBuilder(
+          "Dependencies index (" + pendingIndex + ") out of bounds for transaction.")
+         .key(key).transactions(true).pendingDeps().exStr());
+    }
+    
+    // the keys involved in the dependency on the key
+    return new HashSet<Key<?>>(pendingDeps_.subList(pendingIndex, pendingDeps_.size()));
+  }
+  
+  private void clearPendingIfNoTransactions() {
+    if (!hasTransaction()) {
+      pendingDeps_.clear();
+    }
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#removeKey(net.sourceforge.czt.session.Key)
+   */
   @Override
-  public boolean removeKey(Key<?> key)  throws SectionInfoException
+  public boolean removeKey(Key<?> key) throws SectionInfoException
   {
     if (isTracing_)
     {
@@ -1321,8 +1338,13 @@ public class SectionManager
             .key(key).dependants().dependencies().caller().fine();
     }
 
-    // if there are any transactions on key, raise exception
-//    assertNoOngoingTransactionFor(key);
+    /*
+     * Removal of existing transaction keys is not allowed - check that the given key is not in a
+     * transaction. If this assertion fails, it may signal bad transactional structure, or that the
+     * dependencies were not properly cleaned up (e.g. there are some old dependants on the removed
+     * key, which in turn triggered removal of existing transaction.
+     */
+    assertNewTransaction(key);
 
     // remove dependants / dependencies
     removeDependants(key);
@@ -1333,31 +1355,54 @@ public class SectionManager
     return old != null;
   }
 
+  /**
+   * Transitively removes the key dependants. For each key that depends on the given {@code key},
+   * remove it from the section manager - it will trigger removal of its dependants transitively.
+   * 
+   * @param key
+   * @throws SectionInfoException
+   */
   private void removeDependants(Key<?> key) throws SectionInfoException
   {
-    // if there are any transaction on any dependant, raise exception
-    // that can only happen if the user mistakenly start a transaction
-    // of something that is already cached.
-//    assertNoOngoingTransactionFor(dependants_.keySet().toArray(new Key<?>[0]));
-
-    // clear the dependency list - otherwise recursive removal
-    // may loop if there are cyclic dependencies
-    Set<Key<?>> depKeys = dependants_.remove(key);
-    if (depKeys != null)
+    // When removing dependants, first remove the mapping, otherwise the recursive removal may loop
+    // if there are cyclic dependencies
+    Set<Key<?>> keyDependants = dependants_.remove(key);
+    if (keyDependants != null)
     {
-      for(Key<?> dkey : depKeys)
+      for(Key<?> dkey : keyDependants)
       {
         removeKey(dkey);
       }
     }
   }
 
+  /**
+   * Removes dependencies mapping of the key - what the key depends on. It does not remove the
+   * dependency values from section manager, just the dependency mapping. Furthermore, in each of
+   * the dependencies, the method makes sure that the given {@code key} is no longer among their
+   * <em>dependants</em>.
+   * 
+   * @param key
+   * @throws SectionInfoException
+   */
   private void removeDependencies(Key<?> key) throws SectionInfoException
   {
-    // if there are any transaction on any dependencies, raise exception
-//    assertNoOngoingTransactionFor(key);
-
-    dependencies_.remove(key);
+    // remove the dependency mapping
+    Set<Key<?>> keyDependencies = dependencies_.remove(key);
+    // go through each dependency, and remove this key from their dependants list
+    // this is required, because dependencies may change between computations, so we need
+    // a full cleanup, otherwise the next computation may not depend on the depcy, but
+    // removal of depcy will trigger removal of the key.
+    if (keyDependencies != null) {
+      for (Key<?> depcy : keyDependencies) {
+        
+        Set<Key<?>> keyDependants = dependants_.get(depcy);
+        if (keyDependants != null)
+        {
+          keyDependants.remove(key);
+        }
+      }
+    }
   }
 
   
@@ -1642,7 +1687,7 @@ public class SectionManager
     final String name = key.getName();
     boolean cached = true;
     
-    // the #addKeyMapping method ensures that content_ maps Key<T> keys to T values
+    // the #addToCache() method ensures that content_ maps Key<T> keys to T values
     @SuppressWarnings("unchecked")
     T result = (T) content_.get(key);
     if (result == null)
@@ -1665,25 +1710,36 @@ public class SectionManager
       }
       catch (CommandException e)
       {
-        // if the command computation throws an exception
-        // cancel the transaction that has just been started
-        // unless the user has already canceled herself
-        // (e.x., LMF or any other situation needing reordering
-        //  of the transaction protocol) - we have here a linient
-        // cancellation process where the default cancellation can
-        // be overriden
-        if (hasTransaction(key))
-        {
-          // if there is a transaction for the key, we cancel it.
-          // however, if the key is not on the top of the stack,
-          // the user-command/manual-cancellation has made a mistake
-          // somewhere and cancelling will throw an exception.
-          cancelTransaction(key);
-        }
+        /**
+         * If the command computation throws an exception, cancel the transaction that has been
+         * started before the computation. This is the default case, when the command only handles
+         * the ending of transaction.
+         * <p>
+         * For complex cases, e.g. when postponing is involved, the command may have cancelled the
+         * started transaction manually. In that case, we need to check whether the transaction
+         * still exists - and cancel it only then.
+         * </p>
+         * <p>
+         * This implementation is also very conservative, and catches all exceptions (see below).
+         * Even more, it tries to cancel the transaction even if it is not the current one. For
+         * example, if there is an error in the command implementation, and it manually starts
+         * additional transactions, exceptions for which are not handled properly. Then when an
+         * exception is thrown, there may be more than one outstanding transaction since starting it
+         * before the computation above. The handler will cancel all transactions from the top up to
+         * the {@code key}.
+         * </p>
+         */
+        cancelUpToTransaction(key);
         throw e;
       }
+      catch (RuntimeException re)
+      {
+        // be conservative and catch runtime exceptions as well to cleanup the transactions
+        cancelUpToTransaction(key);
+        throw re;
+      }
       
-      // the #addKeyMapping method ensures that content_ maps Key<T> keys to T values
+      // the #addToCache() method ensures that content_ maps Key<T> keys to T values
       @SuppressWarnings("unchecked")
       T commandResult = (T) content_.get(key);
       
@@ -1901,13 +1957,17 @@ public class SectionManager
 
     public LogBuilder key(Key<?> key)
     {
-      tabbedLine("Key", keyStr(key));
+      if (key != null) {
+        tabbedLine("Key", keyStr(key));
+      }
       return this;
     }
     
     public LogBuilder expected(Key<?> key)
     {
-      tabbedLine("Key expected", keyStr(key));
+      if (key != null) {
+        tabbedLine("Key expected", keyStr(key));
+      }
       return this;
     }
 
