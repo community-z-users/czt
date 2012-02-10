@@ -543,7 +543,22 @@ public interface SectionInfo
   <T> Set<Key<? extends T>> keysOf(Class<T> clsName);
 
 
-  void reset();
+  /**
+   * Resets the section manager. Resetting removes all cache and dependencies, except for the
+   * "system" entries. The "system" entries include core CZT toolkits, e.g. "prelude" and
+   * "*_toolkit".
+   * <p>
+   * Thus after resetting, there is no need to redo the work on CZT core toolkits.
+   * </p>
+   * <p>
+   * The section manager cannot be reset if there are any ongoing transactions, because it will
+   * destroy the transactional integrity.
+   * </p>
+   * 
+   * @throws SectionInfoException
+   *           Unchecked exception if there are ongoing transactions.
+   */
+  void reset() throws SectionInfoException;
   
   //SectInfo clone();
 
@@ -564,19 +579,22 @@ public interface SectionInfo
   <T> Key<? super T> retrieveKey(T value);
 
   /**
+   * Removes the key and its value from the section manager cache. All of key's dependants (other
+   * keys that depended on it) are removed transitively as well.
    * <p>
-   * Remove a given key and all its dependants. That is, if A parents B
-   * B parents C and we remove B, it also removes C but not A. That is,
-   * it removes all dependants of the given key.
-   * </p>
-   * <p>
-   * An exception is thrown if the key being removed is part of any ongoing transaction.
-   * In this case, nothing changes and the key and its dependants/dependencies is not removed.
+   * For example, let {@code A parents B, B parents C}. Now if we remove {@code B} from the section
+   * manager, it will also remove {@code A}, which depends on it, but not {@code C}. So now if we
+   * want to recompute {@code B}, we no longer need to recompute {@code C}.
    * </p>
    * 
    * @param key
-   * @return if anything changed as a result of this call.
+   *          The key to be removed, including all of its dependants. It cannot be part of an
+   *          ongoing transaction.
+   * @return {@code true} if the removal was successful, {@code false} if there was no cached value
+   *         for the given {@code key}.
    * @throws SectionInfoException
+   *           Unchecked exception if the {@code key} or any of its dependent keys are current in a
+   *           transaction.
    */
   boolean removeKey(Key<?> key) throws SectionInfoException;
 
