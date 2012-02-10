@@ -581,35 +581,38 @@ public interface SectionInfo
   boolean removeKey(Key<?> key) throws SectionInfoException;
 
   /**
+   * Retrieves keys of all elements that depend on the given {@code key}.
    * <p>
-   * Return all the elements that depend on the given key. That is,
-   * A parents B, B parents C and the given key is for A, then the result
-   * is B and C. This is the inverse (transitive) relation as parents.
-   *</p>
-   * <p>
-   * An exception is thrown if the key being queried is part of any ongoing transaction.
+   * For example, let {@code A parents B}, {@code B parents C}. Then if {@code key} is for {@code C},
+   * the result is {@code A} and {@code B}, because they depend on {@code C}.
    * </p>
-
+   * <p>
+   * Note that the relationship can be transitive, i.e. not all keys are returned would need to be
+   * followed transitively to collect everything.
+   * </p>
+   * 
    * @param key
-   * @return
-   * @throws SectionInfoException
+   *          The key, which dependants are requested.
+   * @return Set of keys that depend on the given {@code key}.
    */
-  Set<Key<?>> getDependants(Key<?> key) throws SectionInfoException;
+  Set<Key<?>> getDependants(Key<?> key);
 
   /**
+   * Retrieves keys of all elements, that the given {@code key} depends on.
    * <p>
-   * Return all the elements that the given key depend on. That is,
-   * A parents B, B parents C and the given key is for C, then the result
-   * is A and B. This is the (transitive) relation of parents.
-   *</p>
-   * <p>
-   * An exception is thrown if the key being queried is part of any ongoing transaction.
+   * For example, let {@code A parents B}, {@code B parents C}. Then if {@code key} is for {@code A},
+   * the result is {@code B} and {@code C}, because {@code A} depends on them.
    * </p>
+   * <p>
+   * Note that the relationship can be transitive, i.e. not all keys are returned would need to be
+   * followed transitively to collect everything.
+   * </p>
+   * 
    * @param key
-   * @return
-   * @throws SectionInfoException
+   *          The key, which dependencies are requested.
+   * @return Set of keys, on which the given {@code key} depends.
    */  
-  Set<Key<?>> getDependencies(Key<?> key) throws SectionInfoException;
+  Set<Key<?>> getDependencies(Key<?> key);
 
   /**
    * Set section management tracing on/off. Tracing information is useful for

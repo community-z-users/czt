@@ -1321,22 +1321,32 @@ public class SectionManager
     dependencies_.remove(key);
   }
 
+  
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#getDependants(net.sourceforge.czt.session.Key)
+   */
   @Override
-  public Set<Key<?>> getDependants(Key<?> key)  throws SectionInfoException
+  public Set<Key<?>> getDependants(Key<?> key)
   {
-    // if there are any transaction on given dependants, raise exception
-    assertNoOngoingTransactionFor(key);
-    // TODO: is this a unnecessary restriction? SEE CHECK???
-
+    // TODO add pending dependants if the key is in transaction stack?
+    // This would be useful if the method is queried during a transaction.
+    
     Set<Key<?>> result = dependants_.get(key);
     return result == null ? Collections.<Key<?>>emptySet() : Collections.unmodifiableSet(result);
   }
 
+  
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#getDependencies(net.sourceforge.czt.session.Key)
+   */
   @Override
-  public Set<Key<?>> getDependencies(Key<?> key)  throws SectionInfoException
+  public Set<Key<?>> getDependencies(Key<?> key)
   {
-    // if there are any transaction on any dependencies, raise exception
-    assertNoOngoingTransactionFor(key);
+    // TODO add pending dependencies if the key is in transaction stack?
+    // This would be useful if the method is queried during a transaction.
+    
     Set<Key<?>> result = dependencies_.get(key);
     return result == null ? Collections.<Key<?>>emptySet() : Collections.unmodifiableSet(result);
   }
