@@ -967,17 +967,25 @@ public class SectionManager
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * @see net.sourceforge.czt.session.SectionInfo#hasTransaction(net.sourceforge.czt.session.Key)
-   */
-  @Override
-  public boolean hasTransaction(Key<?> key)
+  private boolean hasTransaction(Key<?> key)
   {
     Key<?> result = foundTransactionFor(key);
     return result != null;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see net.sourceforge.czt.session.SectionInfo#getCurrentTransaction()
+   */
+  @Override
+  public Key<?> getCurrentTransaction()
+  {
+    if (!transactionStack_.isEmpty()) {
+      return transactionStack_.peek().getFirst(); 
+    } else {
+      return null;
+    }
+  }
 
   /*
    * (non-Javadoc)

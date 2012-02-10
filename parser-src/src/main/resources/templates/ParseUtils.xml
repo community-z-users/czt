@@ -469,11 +469,14 @@ public class <class/> extends AbstractCommand
     
     // Postpone the ZSect transaction started by the SectionInfo.get(ZSect).
     // Note that it may not be started, if ParseUtils is called for SectionInfo.get(Spec).
-    Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(name, ZSect.class);
-    if (manager.hasTransaction(zsKey))
+    Key&lt;?&gt; currentTrans = manager.getCurrentTransaction();
+    if (currentTrans.getType() == ZSect.class)
     {
-      manager.postponeTransaction(zsKey, specKey);
+      manager.postponeTransaction(currentTrans, specKey);
     }
+
+    // TODO now that we have the current transaction - can we do something about ZML Terms?
+    // E.g. check if a non-Spec is requested, and do a special case for ZML terms?
 
     // Unless a SectionInfo.get(Spec) was performed, we need to have its transaction explicitly
     // started here.

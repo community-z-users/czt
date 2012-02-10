@@ -458,13 +458,13 @@ public interface SectionInfo
    */
   void postponeTransaction(Key<?> postponedKey, Key<?> nextKey) 
       throws SectionInfoException;
-
+  
   /**
-   * checks whether there is any ongoing transaction for the given key
-   * @param key
-   * @return true if there is a transaction for key, false otherwise
+   * Retrieves the currently active transaction.
+   * 
+   * @return The key for the currently active transaction, {@code null} otherwise.
    */
-  boolean hasTransaction(Key<?> key);
+  Key<?> getCurrentTransaction();
 
   
   /**
