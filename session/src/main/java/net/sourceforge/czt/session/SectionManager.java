@@ -20,6 +20,8 @@
 package net.sourceforge.czt.session;
 
 import net.sourceforge.czt.util.Section;
+import net.sourceforge.czt.util.SimpleFormatter;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,8 +39,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -284,7 +285,7 @@ public class SectionManager
 
   public SectionManager(String extension, boolean doTrace, Level logLevel, Level tracingLevel)
   {
-    // create a console handler for tracig with simple formatting (see Formatter below).
+    // create a console handler for tracing with simple formatting
     consoleHandler_.setLevel(tracingLevel);
     consoleHandler_.setFormatter(new SimpleFormatter(false, true, false, true));
 
@@ -344,7 +345,7 @@ public class SectionManager
   @Override
   public String toString()
   {
-    return "SectionManager contains " + mapToString(content_);
+    return new LogBuilder("Section manager contains:").content().toString();
   }
 
   protected final void registerDefaultPermanentKeys()
@@ -407,8 +408,7 @@ public class SectionManager
     }
     if (isTracing_)
     {
-      final String msg = "Remaining resources = " + content_.keySet();
-      getLogger().fine(msg);
+      new LogBuilder("Remaining resources").contentKeys().fine();
     }
     
     // reset the expected transaction
@@ -420,24 +420,6 @@ public class SectionManager
     to.clear();
     to.putAll(from);
   }
-
-  private String collectionsToString(Collection<?> c)
-  {
-    StringBuilder str = new StringBuilder("[\n\t\t");
-    for (Object o : c)
-    {
-      str.append(o.toString());
-      str.append("\n\t\t");
-    }
-    str.append("]");
-    return str.toString(); //c.toString().replaceAll("\\),", "\\)\n\t\t");
-  }
-
-  private String mapToString(Map<?, ?> m)
-  {
-    return m.toString().replaceAll("\\),", "\\)\n\t\t");
-  }
-
 
   /**
    * <p>Returns a property.</p>
@@ -718,9 +700,8 @@ public class SectionManager
   {
     if (!hasTransaction())
     {
-      final String msg = "Transaction stack is empty" +
-              "\n\tKey.....: " + String.valueOf(expected);
-      throw new SectionInfoException(msg, new IllegalArgumentException());
+      throw new SectionInfoException(new LogBuilder(
+          "Transaction stack is empty").key(expected).exStr());
     }
   }
 
@@ -733,10 +714,8 @@ public class SectionManager
   {
     if (hasTransaction())
     {
-      final String msg = "Transaction stack is not empty" +
-              "\n\tKey.....: " + String.valueOf(expected) +
-              "\n\tStack...: " + collectionsToString(transactionStack_);
-      throw new SectionInfoException(msg, new IllegalArgumentException());
+      throw new SectionInfoException(new LogBuilder(
+          "Transaction stack is not empty").key(expected).transactions().exStr());
     }
   }
 
@@ -744,9 +723,8 @@ public class SectionManager
   {
     if (isCached(key))
     {
-      final String message = "Key " + key + " has already been calculated and cached.";
-      getLogger().warning(message);
-      throw new SectionInfoException(message);
+      throw new SectionInfoException(new LogBuilder(
+          "Key has already been calculated and cached").key(key).exStr());
     }
   }
 
@@ -760,10 +738,8 @@ public class SectionManager
     Key<?> found = foundTransactionFor(expected);
     if (found != null)
     {
-      final String msg = "There is an ongoing transaction for given key" +
-            "\n\tKey.....: " + found +
-            "\n\tStack...: " + collectionsToString(transactionStack_);
-      throw new SectionInfoException(msg, new IllegalArgumentException());
+      throw new SectionInfoException(new LogBuilder(
+          "There is an ongoing transaction for given key").key(found).transactions().exStr());
     }
   }
 
@@ -778,11 +754,9 @@ public class SectionManager
     boolean result = found.equals(expected);
     if (!result)
     {
-      final String msg = "Transaction stack top is not the one expected" +
-            "\n\tKey expected..: " + String.valueOf(expected) +
-            "\n\tKey found.....: " + found +
-            "\n\tStack.........: " + collectionsToString(transactionStack_);
-      throw new SectionInfoException(msg, new IllegalArgumentException());
+      throw new SectionInfoException(new LogBuilder(
+          "Transaction stack top is not the one expected")
+         .expected(expected).key(found).transactions().exStr());
     }
   }
 
@@ -790,10 +764,9 @@ public class SectionManager
   {
     assert expectedPostponeTransaction_ != null;
     if (!expectedPostponeTransaction_.equals(key)) {
-      final String msg = "Expected key after a postponed transaction does not match" +
-            "\n\tKey ..........: " + key +
-            "\n\tKey expected..: " + String.valueOf(expectedPostponeTransaction_);
-      throw new SectionInfoException(msg, new IllegalArgumentException());
+      throw new SectionInfoException(new LogBuilder(
+          "Expected key after a postponed transaction does not match")
+         .expected(expectedPostponeTransaction_).key(key).transactions().exStr());
     }
   }
 
@@ -809,10 +782,9 @@ public class SectionManager
     assert hasTransaction() && currentTransactionKey().equals(expected);
     if (idx > dependenciesList_.size())
     {
-      final String msg = "Dependencies index (" + idx + ") out of bounds for transaction." +
-              "\n\tKey.....: " + String.valueOf(expected) +
-              "\n\tStack...: " + collectionsToString(transactionStack_);
-      throw new SectionInfoException(msg, new IndexOutOfBoundsException());
+      throw new SectionInfoException(new LogBuilder(
+          "Dependencies index (" + idx + ") out of bounds for transaction.")
+         .key(expected).transactions(true).pendingDeps().exStr());
     }
   }
 
@@ -828,22 +800,18 @@ public class SectionManager
   protected SectionInfoException transactionMismatch(Key<?> expected, Key<?> found) throws SectionInfoException
   {
     assertTransactionStackNotEmpty(expected);
-    final String msg = "Unmatching transaction." +
-              "\n\tKey expected..: " + String.valueOf(expected) +
-              "\n\tKey found.....: " + String.valueOf(found)+
-              "\n\tStack...: " + collectionsToString(transactionStack_);
-    return new SectionInfoException(msg);
+    return new SectionInfoException(new LogBuilder(
+        "Unmatching transaction")
+       .expected(expected).key(found).transactions().exStr());
   }
 
   protected void assertNoExpectedTransaction(Key<?> key) throws SectionInfoException
   {
     if (expectedPostponeTransaction_ != null)
     {
-      final String msg = "There already is an expected transaction - cannot postpone again." +
-              "\n\tKey....................: " + String.valueOf(key) +
-              "\n\tExisting expected key..: " + expectedPostponeTransaction_ +
-              "\n\tStack..................: " + collectionsToString(transactionStack_);
-      throw new SectionInfoException(msg);
+      throw new SectionInfoException(new LogBuilder(
+          "There already is an expected transaction - cannot postpone again")
+         .key(key).expected(expectedPostponeTransaction_).transactions().exStr());
     }
   }
 
@@ -1023,11 +991,7 @@ public class SectionManager
   {
     if (isTracing_)
     {
-      final String msg = "SM-ENSURE-TRANSACTION-T"+ (transactionStack_.size()+1)
-              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t caller = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace("ENSURE").key(key).caller().fine();
     }
     if (!hasTransaction(key))
     {
@@ -1046,11 +1010,7 @@ public class SectionManager
   {
     if (isTracing_)
     {
-      final String msg = "SM-START-TRANSACTION-T"+ (transactionStack_.size()+1)
-              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t caller = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace("START").key(key).caller().fine();
     }
 
     // check for key duplication
@@ -1093,8 +1053,11 @@ public class SectionManager
   public <T> void endTransaction(Key<T> key, T value, Collection<? extends Key<?>> explicitDependencies) 
       throws SectionInfoException
   {
-    if (key == null || value == null || explicitDependencies == null)
-      throw new SectionInfoException("Cannot end transaction with null value or explicit dependencies for key " + key);
+    if (key == null || value == null || explicitDependencies == null) {
+      throw new SectionInfoException(new LogBuilder(
+          "Cannot end transaction with null value or explicit dependencies for key").key(key).exStr());
+    }
+    
     endTransaction0(key, value, explicitDependencies);
   }
 
@@ -1105,8 +1068,11 @@ public class SectionManager
   @Override
   public Set<Key<?>> cancelTransaction(Key<?> key) throws SectionInfoException
   {
-    if (key == null)
-      throw new SectionInfoException("Cannot cancel transaction with null key");
+    if (key == null) {
+      throw new SectionInfoException(new LogBuilder(
+          "Cannot cancel transaction with null key").exStr());
+    }
+    
     assertTransactionStackTopIs(key);
     return endTransaction0(key, null, null);
   }
@@ -1121,16 +1087,13 @@ public class SectionManager
       throws SectionInfoException
   {
     if (nextKey == null) {
-      throw new SectionInfoException("Key expected for the next transaction cannot be null.");
+      throw new SectionInfoException(new LogBuilder(
+          "Key expected for the next transaction cannot be null").exStr());
     }
 
     if (isTracing_)
     {
-      final String msg = "SM-POSTPONE-TRANSACTION-T"+ (transactionStack_.size()+1)
-              +"\n\t post key = (" + nextKey.getType().getSimpleName() + ", " + nextKey.getName() + ")"
-              +"\n\t caller   = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace("POSTPONE").key(nextKey).caller().fine();
     }
 
     // next key cannot have already been cached or put for pending
@@ -1140,16 +1103,13 @@ public class SectionManager
 
     Set<Key<?>> cancelledDeps = cancelTransaction(postponeKey);
     if (!cancelledDeps.isEmpty()) {
-    	// There are keys already marked as transaction's dependencies.
-    	// The postpone should only happen as the immediate action in the command,
-    	// thus no keys can be marked as dependencies for this transaction.
-        final String msg = "Postponing a transaction with dependencies - only " +
-        		"fresh transactions (no dependencies) can be postponed." +
-                "\n\tKey...........: " + String.valueOf(postponeKey) +
-                "\n\tNextKey.......: " + String.valueOf(nextKey) +
-                "\n\tDependencies..: " + collectionsToString(cancelledDeps) +
-                "\n\tStack.........: " + collectionsToString(transactionStack_);
-        throw new SectionInfoException(msg);
+      // There are keys already marked as transaction's dependencies.
+      // The postpone should only happen as the immediate action in the command,
+      // thus no keys can be marked as dependencies for this transaction.
+      throw new SectionInfoException(new LogBuilder(
+          "Postponing a transaction with dependencies - only " +
+          "fresh transactions (no dependencies) can be postponed")
+         .key(postponeKey).expected(nextKey).col("Dependencies", cancelledDeps).transactions().exStr());
     }
 
     expectedPostponeTransaction_ = nextKey;
@@ -1161,11 +1121,7 @@ public class SectionManager
 
     if (isTracing_)
     {
-      final String msg = "SM-" + (value == null ? "CANCEL": "END") + "-TRANSACTION-ENTRY-T"+transactionStack_.size()
-              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t caller = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace((value == null ? "CANCEL": "END") + "-ENTRY").key(key).caller().fine();
     }
 
     // checks there is a trnasaction
@@ -1233,13 +1189,8 @@ public class SectionManager
 
     if (isTracing_)
     {
-      final String msg = "SM-" + (value == null ? "CANCEL": "END") +"-TRANSACTION-EXIT-T"+(transactionStack_.size()+1)
-              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t Dep L  = " + collectionsToString(dependenciesList_)
-              +"\n\t Stack  = " + collectionsToString(transactionStack_)
-              +"\n\t caller = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace((value == null ? "CANCEL": "END") + "-EXIT")
+        .key(key).pendingDeps().transactions(true).caller().fine();
     }
     return result;
   }
@@ -1264,43 +1215,30 @@ public class SectionManager
     // check key / value pairs are consistent
     if (!key.getType().isInstance(value))
     {
-      final String message = "Section manager inconsistency: "
-              + "given value type is not an instance of the associated key"
-              + "\n\tKey type....: " + key.getType().getName()
-              + "\n\tValue type..: " + value.getClass().getName();
-      throw new SectionInfoException(message);
+      throw new SectionInfoException(new LogBuilder(
+          "Section manager inconsistency: given value type is not an instance of the associated key")
+         .str("Key type", key.getType().getName()).str("Value type", value.getClass().getName()).exStr());
     }
 
     if (content_.containsKey(key))
     {
-      final String message = "Attempt to add duplicate key: " + key;
-      getLogger().warning(message);
-      // TODO: maybe remove and keep as just a warning?
-      throw new SectionInfoException(message);
+      throw new SectionInfoException(new LogBuilder(
+          "Adding a duplicate key - value for this key is already cached").key(key).exStr());
     }
 
     content_.put(key, value);
     if (isTracing_ && !isPermanentKey(key))
     {
-      final String msg = "SM-UPDATE-"+callCnt_
-              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t caller = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace("UPDATE").key(key).caller().fine();
     }
 
     HashSet<Key<?>> depSet = new HashSet<Key<?>>(dependencies);
 
     if (isTracing_)
     {
-      // check whether duplicate dependencies arrise and why /when
-      final String msg = "SM-GIVEN-DEPENDENCIES_"+callCnt_
-              +"\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t dep L  = " + collectionsToString(dependencies)
-              +"\n\t dep S  = " + collectionsToString(depSet)
-              +"\n\t caller = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      // check whether duplicate dependencies arise and why /when
+      new LogBuilder("SM-GIVEN-DEPENDENCIES_"+callCnt_)
+            .key(key).col("Dep list", dependencies).col("Dep set", depSet).caller().fine();
     }
 
     // upward dependencies
@@ -1337,14 +1275,9 @@ public class SectionManager
 
     if (isTracing_)
     {
-      // check whether duplicate dependencies arrise and why /when
-      final String msg = "SM-CALC-DEPENDENCIES_"+callCnt_
-              +"\n\t key          = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t dependants   = " + mapToString(dependants_)
-              +"\n\t dependencies = " + mapToString(dependencies_)
-              +"\n\t caller       = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      // check whether duplicate dependencies arise and why /when
+      new LogBuilder("SM-CALC-DEPENDENCIES_"+callCnt_)
+            .key(key).dependants().dependencies().caller().fine();
     }
   }
 
@@ -1356,14 +1289,8 @@ public class SectionManager
   {
     if (isTracing_)
     {
-      // check whether duplicate dependencies arrise and why /when
-      final String msg = "SM-REMOVE-KEY-T"+transactionStack_.size()
-              +"\n\t key          = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              +"\n\t dependants   = " + mapToString(dependants_)
-              +"\n\t dependencies = " + mapToString(dependencies_)
-              +"\n\t caller       = " + whoWasCalling(1)
-              + "\n";
-      getLogger().fine(msg);
+      new LogBuilder("").transTrace("REMOVE-KEY")
+            .key(key).dependants().dependencies().caller().fine();
     }
 
     // if there are any transactions on key, raise exception
@@ -1661,12 +1588,7 @@ public class SectionManager
   {
     if (isTracing_ && !isPermanentKey(key))
     {
-      // log the SM query
-      final String msg0 = "SM-QUERY -ENTRY-"+callCnt_
-              + "\n\t key    = (" + key.getType().getSimpleName() + ", " + key.getName() + ")"
-              + "\n\t caller = " + whoWasCalling(0)
-              + "\n";
-      getLogger().finer(msg0);
+      new LogBuilder("SM-QUERY -ENTRY-"+callCnt_).key(key).caller().finer();
       // enter a request context
       callCnt_++;
     }
@@ -1742,12 +1664,8 @@ public class SectionManager
       // close the context
       callCnt_--;
       // log SM query results
-      final String msg1 = "SM-QUERY -EXIT-"+callCnt_
-              + "\n\t result = " + result.getClass().getName()
-              + "\n\t dep L  = " + collectionsToString(dependenciesList_)
-              + "\n\t cached = " + cached
-              + "\n";
-      getLogger().finer(msg1);
+      new LogBuilder("SM-QUERY -EXIT-"+callCnt_).key(key).str("Result", result.getClass().getName())
+            .pendingDeps().str("Cached", String.valueOf(cached)).finer();
     }
     return result;
   }
@@ -1828,101 +1746,6 @@ public class SectionManager
     return result;
   }
 
-  class SimpleFormatter extends Formatter
-  {
-
-    private Date dat = new Date();
-    private final static String format = "{0,date} {0,time}";
-    private java.text.MessageFormat formatter;
-    private Object args[] = new Object[1];
-    private boolean fShowTimeStamp = true;
-    private boolean fShowRecordedMessage = true;
-    private boolean fShowSourceMethod = true;
-    private boolean fShowStackTrace = true;
-    // Line separator string.  This is the value of the line.separator
-    // property at the moment that the SimpleFormatter was created.
-    //private String lineSeparator = (String) java.security.AccessController.doPrivileged(
-    //        new sun.security.action.GetPropertyAction("line.separator"));
-    private String lineSeparator = "\r\n";//System.getProperty("line.separator");
-    public SimpleFormatter(boolean showTimeStamp, boolean showRecordedMessage,
-      boolean showSourceMethod, boolean showStackTrace)
-    {
-      fShowTimeStamp = showTimeStamp;
-      fShowRecordedMessage = showRecordedMessage;
-      fShowSourceMethod = showSourceMethod;
-      fShowStackTrace = showStackTrace;
-    }
-
-    /**
-     * Format the given LogRecord.
-     * @param record the log record to be formatted.
-     * @return a formatted log record
-     */
-    @Override
-    public synchronized String format(java.util.logging.LogRecord record)
-    {
-      StringBuilder sb = new StringBuilder();
-      if (fShowTimeStamp)
-      {
-        // Minimize memory allocations here.
-        dat.setTime(record.getMillis());
-        args[0] = dat;
-        StringBuffer text = new StringBuffer();
-        if (formatter == null)
-        {
-          formatter = new java.text.MessageFormat(format);
-        }
-        formatter.format(args, text, null);
-        sb.append(text);
-        sb.append(" ");
-        sb.append(lineSeparator);
-      }
-      if (fShowSourceMethod)
-      {
-        if (record.getSourceClassName() != null)
-        {
-          sb.append(record.getSourceClassName());
-        }
-        else
-        {
-          sb.append(record.getLoggerName());
-        }
-        if (record.getSourceMethodName() != null)
-        {
-          sb.append(" ");
-          sb.append(record.getSourceMethodName());
-        }
-        sb.append(lineSeparator);
-      }
-      if (fShowRecordedMessage)
-      {
-        String message = formatMessage(record);
-        sb.append(record.getLevel().getLocalizedName());
-        sb.append(": ");
-        sb.append(message);
-        sb.append(lineSeparator);
-      }
-      if (fShowStackTrace)
-      {
-        if (record.getThrown() != null)
-        {
-          try
-          {
-            java.io.StringWriter sw = new java.io.StringWriter();
-            java.io.PrintWriter pw = new java.io.PrintWriter(sw);
-            record.getThrown().printStackTrace(pw);
-            pw.close();
-            sb.append(sw.toString());
-          }
-          catch (Exception ex)
-          {
-          }
-        }
-      }
-      return sb.toString();
-    }
-  }
-
   public static void traceLog(String msg)
   {
     Logger.getLogger(SectionManager.class.getName()).finest(msg);
@@ -1941,5 +1764,213 @@ public class SectionManager
   public static void traceInfo(String msg)
   {
     Logger.getLogger(SectionManager.class.getName()).info(msg);
+  }
+  
+
+  /**
+   * A log builder class, which can construct nicely formatted information output about the section
+   * manager. Allows to simplify collecting output text for tracing/exception handling.
+   * 
+   * @author Andrius Velykis
+   */
+  private class LogBuilder
+  {
+
+    private int valIdent = 15;
+
+    private StringBuilder out = new StringBuilder();
+
+    public LogBuilder(String title)
+    {
+      out.append(title);
+    }
+    
+    public LogBuilder transTrace(String transactionPhase) {
+      out.append("SM-" + transactionPhase + "-TRANSACTION-T"+ (transactionStack_.size()+1));
+      return this;
+    }
+
+    private void tabbedLine(String label, String value, int tabCount)
+    {
+      out.append("\n");
+      for (int index = 0; index < tabCount; index++) {
+        out.append("\t");
+      }
+
+      out.append(label);
+
+      for (int index = label.length(); index < valIdent; index++) {
+        // add dots to the ident
+        out.append(".");
+      }
+
+      out.append(":");
+      out.append(value);
+    }
+
+    private void tabbedLine(String label, String value)
+    {
+      tabbedLine(label, value, 1);
+    }
+    
+    private String newLineCollection(Collection<?> col, int tabIdent)
+    {
+      StringBuilder colOut = new StringBuilder();
+      
+      StringBuilder tabIdentBuilder = new StringBuilder("\n");
+      for (int index = 0; index < tabIdent; index++) {
+        tabIdentBuilder.append("\t");
+      }
+      String tabIdentStr = tabIdentBuilder.toString();
+
+      String delim = "";
+      for (Object val : col) {
+        colOut.append(delim);
+        
+        String valStr;
+        if (col instanceof Key<?>) {
+          valStr = keyStr((Key<?>) col);
+        } else {
+          valStr = String.valueOf(val);
+        }
+        
+        colOut.append(valStr);
+        // ident to differentiate from tabbedLine
+        delim = tabIdentStr;
+      }
+
+      return colOut.toString();
+    }
+
+    private String newLineCollection(Collection<?> col)
+    {
+      return newLineCollection(col, 2);
+    }
+    
+    private String newLineMap(Map<Key<?>, Set<Key<?>>> map) {
+      List<String> entries = new ArrayList<String>();
+      for (Entry<Key<?>, Set<Key<?>>> entry : map.entrySet()) {
+        entries.add(keyStr(entry.getKey()) + "=" + newLineCollection(entry.getValue(), 3));
+      }
+      
+      return newLineCollection(entries);
+    }
+
+    private String keyStr(Key<?> key)
+    {
+      return "(" + key.getName() + "," + key.getType().getSimpleName() + ")";
+    }
+
+    public LogBuilder key(Key<?> key)
+    {
+      tabbedLine("Key", keyStr(key));
+      return this;
+    }
+    
+    public LogBuilder expected(Key<?> key)
+    {
+      tabbedLine("Key expected", keyStr(key));
+      return this;
+    }
+
+    public LogBuilder transactions(boolean withNums)
+    {
+
+      List<String> trStrings = new ArrayList<String>(transactionStack_.size());
+      for (Pair<? extends Key<?>, Integer> entry : transactionStack_) {
+        String str = keyStr(entry.getFirst());
+        if (withNums) {
+          str = String.valueOf(entry.getSecond()) + ": " + str;
+        }
+        trStrings.add(str);
+      }
+
+      tabbedLine("Transactions", newLineCollection(trStrings));
+      return this;
+    }
+
+    public LogBuilder transactions()
+    {
+      return transactions(false);
+    }
+    
+    public LogBuilder pendingDeps()
+    {
+      tabbedLine("Pending deps", newLineCollection(dependenciesList_));
+      return this;
+    }
+    
+    public LogBuilder contentKeys()
+    {
+      tabbedLine("Cached", newLineCollection(content_.keySet()));
+      return this;
+    }
+    
+    public LogBuilder content()
+    {
+      
+      List<String> entries = new ArrayList<String>();
+      for (Entry<Key<?>, Object> entry : content_.entrySet()) {
+        entries.add(keyStr(entry.getKey()) + "=" + String.valueOf(entry.getValue()));
+      }
+      
+      tabbedLine("Cached", newLineCollection(entries));
+      return this;
+    }
+    
+    public LogBuilder dependants()
+    {
+      tabbedLine("Dependants", newLineMap(dependants_));
+      return this;
+    }
+    
+    public LogBuilder dependencies()
+    {
+      tabbedLine("Dependencies", newLineMap(dependencies_));
+      return this;
+    }
+    
+    public LogBuilder col(String label, Collection<?> col)
+    {
+      tabbedLine(label, newLineCollection(col));
+      return this;
+    }
+    
+    public LogBuilder str(String label, String val)
+    {
+      tabbedLine(label, val);
+      return this;
+    }
+    
+    public LogBuilder caller() {
+      tabbedLine("Caller", whoWasCalling(2));
+      return this;
+    }
+    
+    @Override
+    public String toString()
+    {
+      return out.toString();
+    }
+
+    public String exStr()
+    {
+      // first print as warning, and then return the "exception string"
+      warning();
+      return toString();
+    }
+    
+    public void warning() {
+      getLogger().warning(toString());
+    }
+    
+    public void fine() {
+      getLogger().fine(toString() + "\n");
+    }
+    
+    public void finer() {
+      getLogger().finer(toString() + "\n");
+    }
+    
   }
 }
