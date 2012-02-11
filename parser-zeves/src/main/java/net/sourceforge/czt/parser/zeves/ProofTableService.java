@@ -77,10 +77,8 @@ public class ProofTableService
     if (zsect != null) {
       ProofTable proofTable = visitor.run(zsect);
       if (proofTable != null) {
+        // the dependencies will be captured implicitly
         manager.endTransaction(new Key<ProofTable>(name, ProofTable.class), proofTable);
-            // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
-            //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
-
         return true;
       }
     }

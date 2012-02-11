@@ -74,9 +74,8 @@ public class OpTableService
     if (zsect != null) {
       OpTable opTable = visitor.run(zsect);
       if (opTable != null) {
+        // the dependencies will be captured implicitly
         manager.endTransaction(new Key<OpTable>(name, OpTable.class), opTable);
-                // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
-                //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
         return true;
       }
     }

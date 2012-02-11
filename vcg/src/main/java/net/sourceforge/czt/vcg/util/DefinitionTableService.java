@@ -121,22 +121,14 @@ public class DefinitionTableService
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(name, DefinitionTable.class);
     DefinitionTable table;
     
-    // it cannot be cached - parsing does not calculate the definition table
-    // don't calculate if cached
-//    if (manager.isCached(defTblKey))
-//    {
-//      table = manager.get(defTblKey);
-//      return table != null;
-//    }
-//    else
-//    {
+    // the definition table cannot be cached - parsing does not calculate the definition table
     
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     // calculate table
     try
     {
       table = visitor.run(zsect);
-      updateManager(manager, sectKey, defTblKey, table);//, visitor.getDependencies());
+      updateManager(manager, sectKey, defTblKey, table);
       return table != null;
     }
     catch(CommandException f)
@@ -146,7 +138,7 @@ public class DefinitionTableService
       // the error. It is up to the caller to fix the manager.
       if (f instanceof DefinitionException)
       {
-        updateManager(manager, sectKey, defTblKey, visitor.getDefinitionTable());//, visitor.getDependencies());
+        updateManager(manager, sectKey, defTblKey, visitor.getDefinitionTable());
       }
       // then throw it
       throw f;
@@ -158,7 +150,6 @@ public class DefinitionTableService
         "\n\t with message " + e.getMessage() +
         (e.getCause() != null ? ("\n\t and cause " + e.getCause().getMessage()) : "") + ".", e);
     }
-//    }
   }
 
   public static Command getCommand()

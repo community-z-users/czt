@@ -72,10 +72,8 @@ public class ThmTableService implements Command
     if (zsect != null) {
       ThmTable thmTable = visitor.run(zsect);
       if (thmTable != null) {
+        // the dependencies will be captured implicitly
         manager.endTransaction(new Key<ThmTable>(name, ThmTable.class), thmTable);
-                // depend on all parent tables dependencies (e.g., visitor.getDependencies) plus the ZSect
-                //new DependenciesBuilder().add(visitor.getDependencies()).add(key).build());
-
         return true;
       }
     }

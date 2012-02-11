@@ -24,7 +24,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -47,7 +46,6 @@ public class XmlPrinterCommand
       writer.close();
       manager.endTransaction(new Key<XmlString>(name, XmlString.class),
                   new XmlString(writer.toString()));
-                  //new DependenciesBuilder().add(key).build());
       return true;
     }
     catch (IOException e) {
