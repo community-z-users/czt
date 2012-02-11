@@ -124,8 +124,9 @@ public class ProofTableVisitor
       ProofTable parentTable = get(parent.getWord(), ProofTable.class);
       parentTables.add(parentTable);
     }
+    table_ = new ProofTable(name);
     try {
-      table_ = new ProofTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (InfoTable.InfoTableException e)
     {

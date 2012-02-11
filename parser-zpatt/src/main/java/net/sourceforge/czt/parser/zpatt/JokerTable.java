@@ -47,17 +47,23 @@ public class JokerTable
   private Map<String, Jokers> jokers_ = new HashMap<String, Jokers>();
 
   /**
-   * Constructs a joker table for a new section, checking for duplicates.
-   *
-   * @param parents Joker tables of all direct parents of the new section.
+   * Constructs a joker table for a new section. The parent joker tables
+   * need to be added via {@link #addParents(Collection)} method, which
+   * will check for duplicates.
+   * 
+   * @param section 
    */
-  public JokerTable(String section, Collection<JokerTable> parents)
-    throws JokerException
+  public JokerTable(String section)
   {
     section_ = section;
+  }
+  
+  public final void addParents(Collection<? extends JokerTable> parents)
+    throws JokerException
+  {
     if (parents != null) {
       for (JokerTable table : parents) {
-        addJokerTable(table);
+    	  addJokerTable(table);
       }
     }
   }

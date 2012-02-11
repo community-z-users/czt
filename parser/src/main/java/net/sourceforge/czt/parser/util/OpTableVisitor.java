@@ -111,8 +111,9 @@ public class OpTableVisitor
         get(parent.getWord(), OpTable.class);
       parentTables.add(parentTable);
     }
+    table_ = new OpTable(name);
     try {
-      table_ = new OpTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (InfoTable.InfoTableException e)
     {

@@ -86,23 +86,18 @@ public class OpTable extends InfoTable
    */
   private Map<BigInteger,Assoc> assoc_ =
     new HashMap<BigInteger,Assoc>();
-
+  
   /**
-   * Constructs an operator table for a new section.
-   * It checks that the operators defined in the parents are
-   * consistent, according to the 3 rules in the Z standard.
-   *
+   * Constructs an operator table for the given section. The table needs to be initialized using
+   * {@link #addParents(Collection)} method, passing in operator tables of all direct parents. The
+   * method checks that the operators defined in the parents are consistent, according to the 3
+   * rules in the Z standard.
+   * 
    * @param sectionName
-   * @param parents Operator tables of all direct parents of the new section.
-   * @throws net.sourceforge.czt.parser.util.InfoTable.InfoTableException
-   * @czt.todo we could take a set/map of Sections here?
-   *           Or the section manager plus a set of parent names?
    */
-  public OpTable(String sectionName, Collection<OpTable> parents)
-    throws InfoTable.InfoTableException
+  public OpTable(String sectionName)
   {
     super(sectionName);
-    addParents(parents);
   }
   
   /**

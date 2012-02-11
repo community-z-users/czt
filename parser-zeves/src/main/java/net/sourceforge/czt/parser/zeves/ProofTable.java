@@ -42,11 +42,9 @@ public class ProofTable  extends InfoTable
   private SortedMap<ZName, ProofInfo> proofTable_ = new TreeMap<ZName, ProofInfo>(ZUtils.ZNAME_COMPARATOR);
   private WarningManager wm_ = new WarningManager();
 
-  public ProofTable(String section, Collection<ProofTable> parents)
-    throws InfoTable.InfoTableException
+  public ProofTable(String section)
   {
     super(section);
-    addParents(parents);
   }
 
   /**

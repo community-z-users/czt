@@ -54,7 +54,7 @@ public abstract class InfoTable {
     sectionName_ = sectionName;
   }
   
-  protected final void addParents(Collection<? extends InfoTable> parents)
+  public final void addParents(Collection<? extends InfoTable> parents)
     throws InfoTableException
   {
     if (parents != null) {

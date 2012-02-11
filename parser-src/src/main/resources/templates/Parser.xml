@@ -995,121 +995,164 @@ action code
       }
     }
     
-    private OpTable getOperatorTable(String section, int line, int column)
+    /**
+     * Starts a transaction for the info table. Also calculates parent info tables and returns
+     * them. This means that parent info tables become implicit dependencies for this info table.
+     * 
+     * @param section
+     * @param parents
+     * @param line
+     * @param column
+     * @param tableKey
+     * @param tableLabel
+     * @return
+     */
+    private &lt;T&gt; List&lt;T&gt; startInfoTableTransaction(String section, List&lt;Parent&gt; parents, 
+        int line, int column, Key&lt;T&gt; tableKey, String tableLabel)
     {
-      try 
-      {
-        // will have a transaction on the inner/parent table
-        return sectInfo_.get(new Key&lt;OpTable&gt;(section, OpTable.class));
-      }
-      catch (CommandException e) {
-        Object [] args = { "Operator table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
-      }
-    }
-
-    private void resetOpTable(String section, List&lt;Parent&gt; parents,
-                              int line, int column)
-    {
-      // starts a transaction for the top-level optable. parents will have
-      // their own transaction through the SectInfo.get() (see getOperatorTable).
-      // we assume/know here that parent cycles have been resolved.
-      Key&lt;OpTable&gt; optKey = new Key&lt;OpTable&gt;(section, OpTable.class);
-      sectInfo_.startTransaction(optKey);
-
-      List&lt;OpTable&gt; parentOpTables = factory_.list();
+      /*
+       * Start the transaction for the info table. Parent calculations later will start their own
+       * transactions (via {@code SectionInfo.get()}), thus nesting transactions and dependencies.
+       * We assume here, that the parent cycles have been resolved.
+       */
+      sectInfo_.startTransaction(tableKey);
+  
+      List&lt;T&gt; parentInfoTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.isEmpty();
       }
       else {
         for (Parent parent : parents) {
-          OpTable parentOp = getOperatorTable(parent.getWord(), line, column);
-          if (parentOp != null) {
-            parentOpTables.add(parentOp);
+          
+          // For each parent, resolve their info table and use it to create the current one.
+          // Note that if problems occur in parents, the error is reported, but parsing continues.
+          try 
+          {
+            // will have a transaction on the inner/parent table
+            T parentInfoTable = sectInfo_.get(new Key&lt;T&gt;(parent.getWord(), tableKey.getType()));
+            parentInfoTables.add(parentInfoTable);
           }
-          // TODO: should we cancel the outermost transaction here? No??
+          catch (CommandException e) {
+            Object [] args = { tableLabel, section, e.getMessage() };
+            parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
+                                args, new LocInfoImpl(getLoc(), line, column));
+          }
         }
       }
-      try {
-        opTable_ = new OpTable(section, parentOpTables);
-      }
-      catch (InfoTable.InfoTableException e) {
-        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_OPTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
-     }
-     // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
-     // in that way, if during parsing some exception is thrown (e.g., ScanException, ParseException, etc)
-     // then upon cancellation of that transaction (e.g., over its get(ZSect) method), the OpTable will be removed.
-     // this is an example of a important explicit dependency (e.g., not implicitly known?)
-     sectInfo_.endTransaction(optKey, opTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
-
-     try
-     {
-       // get the OpTable just added by the end transaction above in order to (implicitly) include
-       // it as a dependency of the ZSect sect (e.g., ZSect depends on OpTable). That is needed here
-       // because ZSect(S) depend on OpTable(S) that depend on ZSect(S).
-       //
-       // this is needed for any table with such circular dependency (e.g., joker table yes; thm/proof table no).
-       opTable_ = sectInfo_.get(optKey);
-     }
-     catch (CommandException e)
-     {
-       // SHOULD NEVER HAPPEN!!!!
-       final String message = "Couldn't retrieve OpTable for " + section + " that has just been calculated?!";
-       throw new CztException(message, e);
-     }
-
-     opScanner_.setOperatorTable(opTable_);
+      
+      return parentInfoTables;
     }
     
-    private ThmTable getThmTable(String section, int line, int column)
+    /**
+     * End the transaction for the info table calculation in the Section Manager. The transaction is
+     * ended immediately after calculation of the info table. It is then populated with contents
+     * during the actual parsing. This means that the info table can be empty when first put in the
+     * section manager, and filled with content later. Such approach is necessary to ensure correct
+     * transactions in the section manager. Otherwise, parsing of different info tables can overlap,
+     * and transactions would fail.
+     * &lt;p&gt;
+     * To accommodate for the short-circuiting of the info table transactions, we add an explicit
+     * dependency on the ZSect for the info table. This is to signal that the ZSect may contain
+     * contents for the info table, e.g. operator definitions.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The same approach (end transaction after initial resolution of an object) is used for
+     * LatexMarkupFunction computation. This is necessary because of a complicated parsing protocol,
+     * and is a compromise to achieve transactional structure to some level. Otherwise the
+     * transactions would overlap. To achieve better confidence in the dependencies, some
+     * dependencies are added explicitly (e.g. that info table depends on its ZSect).
+     * &lt;/p&gt;
+     * 
+     * @param section
+     * @param tableKey
+     * @param infoTable
+     */
+    private &lt;T&gt; void endInfoTableTransaction(String section, Key&lt;T&gt; tableKey, T infoTable)
     {
+      sectInfo_.endTransaction(tableKey, infoTable,
+          Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
+    }
+    
+    /**
+     * Marks the given key of the info table computation as a dependency for the parsed section. 
+     * This is used to implicitly include the dependency on an info table, e.g. if it is used to
+     * interpret/generate the subsequent contents of the Z section. For example, OpTable is used
+     * in the operator scanner, so we mark this dependency. This should be done for all info
+     * tables that have bi-directional dependency with the ZSect, e.g. OpTable, JokerTable. The
+     * ThmTable, though, is not used by the parser, so it should not be a dependency for the ZSect.
+     * 
+     * @param section 
+     * @param tableKey
+     * @return 
+     */
+    private &lt;T&gt; T markInfoTableDependency(String section, Key&lt;T&gt; tableKey) {
+      try
+      {
+        // mark the implicit dependency via SectionInfo.get(), 
+        // because we are inside a ZSect transaction
+        return sectInfo_.get(tableKey);
+      }
+      catch (CommandException e)
+      {
+        // should never happen - we have just put the table into the manager
+        final String message = "Could not retrieve " + tableKey.getType().getSimpleName() 
+            + " for " + section + " that has just been calculated?!";
+        throw new CztException(message, e);
+      }
+    }
+    
+    private void resetOpTable(String section, List&lt;Parent&gt; parents,
+                              int line, int column)
+    {
+      Key&lt;OpTable&gt; optKey = new Key&lt;OpTable&gt;(section, OpTable.class);
+      
+      // start the transaction and collect parent tables
+      List&lt;OpTable&gt; parentOpTables = startInfoTableTransaction(
+          section, parents, line, column, optKey, "Operator table");
+      
+      OpTable opTable = new OpTable(section);
       try {
-        return sectInfo_.get(new Key&lt;ThmTable&gt;(section, ThmTable.class));
+        opTable.addParents(parentOpTables);
       }
-      catch (CommandException e) {
-        Object [] args = { "Named conjectures table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
+      catch (InfoTable.InfoTableException e) {
+        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_OPTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
       }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, optKey, opTable);
+      
+      opTable_ = opTable;
+      
+      // mark the OpTable dependency for the ZSect, because it is used in the operator scanner 
+      markInfoTableDependency(section, optKey);
+      opScanner_.setOperatorTable(opTable_);
     }
     
     private void resetThmTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
     {
-
       Key&lt;ThmTable&gt; thmKey = new Key&lt;ThmTable&gt;(section, ThmTable.class);
-      sectInfo_.startTransaction(thmKey);
-
-      List&lt;ThmTable&gt; parentThmTables = factory_.list();
-      if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.isEmpty();
-      }
-      else {
-        for (Parent parent : parents) {
-          ThmTable parentThms = getThmTable(parent.getWord(), line, column);
-          if (parentThms != null) {
-            parentThmTables.add(parentThms);
-          }
-        }
-      }
+      
+      // start the transaction and collect parent tables
+      List&lt;ThmTable&gt; parentThmTables = startInfoTableTransaction(
+          section, parents, line, column, thmKey, "Named conjectures table");
+      
+      ThmTable thmTable = new ThmTable(section);
       try {
-        thmTable_ = new ThmTable(section, parentThmTables);
+        thmTable.addParents(parentThmTables);
       }
       catch (InfoTable.InfoTableException e) {
-        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_THMTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
-     }
-
-     sectInfo_.endTransaction(thmKey, thmTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
-
+        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_THMTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
+      }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, thmKey, thmTable);
+      
+      thmTable_ = thmTable;
     }
 
 <add:zeves>
@@ -1127,114 +1170,61 @@ action code
                                getLocation(nleft, nright));
        }
     }
-
-    private ProofTable getProofTable(String section, int line, int column)
-    {
-      try {
-        return sectInfo_.get(new Key&lt;ProofTable&gt;(section, ProofTable.class));
-      }
-      catch (CommandException e) {
-        Object [] args = { "Named proof scripts table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
-      }
-    }
-
+    
     private void resetProofTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
     {
       Key&lt;ProofTable&gt; proofKey = new Key&lt;ProofTable&gt;(section, ProofTable.class);
-      sectInfo_.startTransaction(proofKey);
-
-      List&lt;ProofTable&gt; parentProofTables = factory_.list();
-      if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.size() == 0;
-      }
-      else {
-        for (Parent parent : parents) {
-          ProofTable parentProofs = getProofTable(parent.getWord(), line, column);
-          if (parentProofs != null) {
-            parentProofTables.add(parentProofs);
-          }
-        }
-      }
+      
+      // start the transaction and collect parent tables
+      List&lt;ProofTable&gt; parentProofTables = startInfoTableTransaction(
+          section, parents, line, column, proofKey, "Named proof scripts table");
+      
+      ProofTable proofTable = new ProofTable(section);
       try {
-        proofTable_ = new ProofTable(section, parentProofTables);
+        proofTable.addParents(parentProofTables);
       }
       catch (InfoTable.InfoTableException e) {
-        parser.report_error(ZEvesParseMessage.MSG_CANNOT_MERGE_PROOFTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
-     }
-
-     sectInfo_.endTransaction(proofKey, proofTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
-
+        parser.report_error(ZEvesParseMessage.MSG_CANNOT_MERGE_PROOFTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
+      }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, proofKey, proofTable);
+      
+      proofTable_ = proofTable;
     }
 </add:zeves>
 
 <add:pattern>
-    private JokerTable getJokerTable(String section, int line, int column)
-       throws CommandException
-    {
-      try {
-        return sectInfo_.get(new Key&lt;JokerTable&gt;(section, JokerTable.class));
-      }
-      catch (CommandException e) {
-        Object [] args = { "Joker table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
-      }
-    }
-
     private void resetJokerTable(String section, List&lt;Parent&gt; parents,
-                                 int line, int column)
-      throws CommandException
+                              int line, int column)
     {
       Key&lt;JokerTable&gt; jokerKey = new Key&lt;JokerTable&gt;(section, JokerTable.class);
-      sectInfo_.startTransaction(jokerKey);
-
-
-      List&lt;JokerTable&gt; parentJokerTables = factory_.list();
-      if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.size() == 0;
-      }
-      else {
-        for (Parent parent : parents) {
-          JokerTable parentJoker =
-            getJokerTable(parent.getWord(), line, column);
-          if (parentJoker != null) {
-            parentJokerTables.add(parentJoker);
-          }
-        }
-      }
+      
+      // start the transaction and collect parent tables
+      List&lt;JokerTable&gt; parentJokerTables = startInfoTableTransaction(
+          section, parents, line, column, jokerKey, "Joker table");
+      
+      JokerTable jokerTable = new JokerTable(section);
       try {
-        jokerTable_ = new JokerTable(section, parentJokerTables);
+        jokerTable.addParents(parentJokerTables);
       }
       catch (JokerTable.JokerException e) {
-        parser.report_error(ZpattParseMessage.MSG_CANNOT_MERGE_JOKERTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
+        parser.report_error(ZpattParseMessage.MSG_CANNOT_MERGE_JOKERTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
       }
-
-      sectInfo_.endTransaction(jokerKey, jokerTable_, Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
-
-      try
-       {
-         jokerTable_ = sectInfo_.get(jokerKey);
-       }
-       catch (CommandException e)
-       {
-         // SHOULD NEVER HAPPEN!!!!
-         final String message = "Couldn't retrieve JokerTable for " + section + " that has just been calculated?!";
-         throw new CztException(message, e);
-       }
-
-      jokerScanner_.setJokerTable(jokerTable_);
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, jokerKey, jokerTable);
       
+      jokerTable_ = jokerTable;
+      
+      // mark the JokerTable dependency for the ZSect, because it is used in the joker scanner 
+      markInfoTableDependency(section, jokerKey);
+      jokerScanner_.setJokerTable(jokerTable_);
     }
 </add:pattern>
 

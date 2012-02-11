@@ -110,8 +110,9 @@ public class JokerTableVisitor
         parentTables.add(parentTable);
       }
     }
+    table_ = new JokerTable(name);
     try {
-      table_ = new JokerTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (JokerTable.JokerException e)
     {
