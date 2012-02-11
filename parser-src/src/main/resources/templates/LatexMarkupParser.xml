@@ -258,7 +258,7 @@ public class <class/>
    * components in the parser as well, e.g. OpTable, JokerTable, etc. This is necessary because of a
    * complicated parsing protocol, and is a compromise to achieve transactional structure to some
    * level. Otherwise the transactions would overlap. To achieve better confidence in the
-   * dependencies, some dependencies are added explictly (e.g. that LMF depends on its ZSect).
+   * dependencies, some dependencies are added explicitly (e.g. that LMF depends on its ZSect).
    * &lt;/p&gt;
    * &lt;p&gt;
    * With LMF (also with other Parser objects, e.g. OpTable, JokerTable), we have a bi-directional

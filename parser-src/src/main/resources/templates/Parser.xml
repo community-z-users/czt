@@ -163,6 +163,11 @@ action code
     /**
      * Create an function application with the SchExpr formed from
      * 'st' and any additional renaming/strokes etc in 'al'.
+     * 
+     * @param e 
+     * @param st 
+     * @param al 
+     * @return
      */
     private ApplExpr createSchApplExpr(Expr e, SchText st,
                                        List &lt; Object &gt; al)
@@ -476,14 +481,13 @@ action code
       return createOperator(decorword.getName(), decorword.getLocation());
     }
 
-    @SuppressWarnings("unchecked")
     private Operator createOperator(String name, LocInfo locInfo)
     {
       final ZName dn = factory_.createZName(name);
       final StrokeList sl = dn.getStrokeList();
-      if (sl instanceof List &amp;&amp; ((List) sl).size() != 0) {
+      if (sl instanceof List &amp;&amp; ((List&lt;?&gt;) sl).size() != 0) {
         final Object[] params = { name };
-  	parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
+        parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
                             params, locInfo);
       }
       Operator result = factory_.createOperator(dn.getWord());
@@ -558,6 +562,10 @@ action code
 
     /**
      * Converts a list of String objects to a Name object.
+     * 
+     * @param list 
+     * @param location 
+     * @return
      */
     protected ZName strListToZName(List&lt;String&gt; list,
                                    LocInfo location)
@@ -588,6 +596,9 @@ action code
 
     /**
      * Converts a Term to a Pred.
+     * 
+     * @param t 
+     * @return
      */
     protected Pred pred(Term t)
     {
@@ -616,6 +627,9 @@ action code
 
     /**
      * Converts an Term to an Expr.
+     * 
+     * @param t 
+     * @return
      */
     protected Expr expr(Term t)
     {
@@ -690,6 +704,9 @@ action code
 
     /**
      * Converts a Term to a Name.
+     * 
+     * @param t 
+     * @return 
      */
     protected Name name(Term t)
     {
@@ -709,6 +726,11 @@ action code
 
     /**
      * Creates a member predicate from a string list and an expression list.
+     * 
+     * @param name 
+     * @param exprs 
+     * @param loc 
+     * @return
      */
     protected MemPred createMemPred(List&lt;String&gt; name,
                                     ZExprList exprs,
@@ -727,6 +749,11 @@ action code
      * from a string list and an expression list.
      * The line,column pair are the position of the start of
      * the whole mixfix expression.
+     * 
+     * @param name 
+     * @param exprs 
+     * @param loc 
+     * @return
      */
     protected Expr createMixfixExpr(List&lt;String&gt; name,
                                     ZExprList exprs,
@@ -762,6 +789,9 @@ action code
      * If the list contains just one expression, the expression is
      * returned.  If there is more than one expression in the list, a
      * tuple expression is created and returned.
+     * 
+     * @param exprs 
+     * @return
      */
     private Expr createTupleExpr(ZExprList exprs)
     {
@@ -771,6 +801,9 @@ action code
 
     /**
      * Returns the right hand side of the previous infix relation.
+     * 
+     * @param pred 
+     * @return
      */
     protected Expr getPreviousRhsExpr(Pred pred)
     {
@@ -806,6 +839,12 @@ action code
     /**
      * Convert a chain relation into a series of and predicates
      * (transformation rule 12.2.10.3).
+     * 
+     * @param chain 
+     * @param sym 
+     * @param rhs 
+     * @param loc 
+     * @return
      */
     protected Pred transformChainRel(Pred chain, int sym, Expr rhs,
                                      LocInfo loc)
@@ -854,6 +893,9 @@ action code
      * Creates a list of strings for a list returned by expSep.
      * This list will represent the name of the operator to which
      * the expressions were applied.
+     * 
+     * @param opName 
+     * @param es
      */
     protected void addExpSepName(List&lt;String&gt; opName, List es)
     {
@@ -872,6 +914,9 @@ action code
 
     /**
      * Returns the list of expressions returned by expSep.
+     * 
+     * @param expList 
+     * @param es 
      */
     protected void addExpSepExp(List expList, List es)
     {
@@ -2145,7 +2190,6 @@ parser code
         throw e;
       }
       
-      //if (error_) throw new ParseException(errorList_);
       if (hasErrors())
       {
         raiseErrors();
