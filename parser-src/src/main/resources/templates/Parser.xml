@@ -1193,32 +1193,71 @@ action code
     }
 </add:pattern>
 
-    private void ensureSectInfoStateForSpec(String sectName, int left, int right)
+  /**
+   * Starts the Z section computation transaction in the Section Manager. The transaction allows to
+   * capture the dependencies of the ZSect - e.g. that it depends on its OpTable, and transitively
+   * on parent OpTables and ZSects.
+   * &lt;p&gt;
+   * The ZSect transaction must be started manually, because the parsing is done for the whole
+   * specification. So the section manager can start a transaction on the Spec, however inside the
+   * specification, there can be multiple Z sections. Thus transactions for each ZSect are started
+   * and ended manually, during the parse process.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The start of transaction handles issues with redeclared sections as well. See
+   * {@link #endZSectTransaction(ZSect, OpTable)} for more details about the ZSect transaction and
+   * explicit dependencies.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * When the manual transaction starts, we need to ensure that any exceptions until the end of
+   * transaction are caught and handled. If an exception is encountered, the ZSect transaction must
+   * be cancelled. This is done in {@link Parser#parse()} method, which is the single entry point to
+   * parsing.
+   * &lt;/p&gt;
+   * 
+   * @param sectName
+   * @see #endZSectTransaction(ZSect, OpTable)
+   */
+    private void startZSectTransaction(String sectName)
     {
-       Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
-
-       // start transaction right when creating the first ZSect since it is not
-       // started via sectInfo_ get. We use ensure transaction instead because
-       // it might come from either get(ZSect) - which starts transaction - or
-       // get(Term/Spec) - which doesnt - for ZSect.
-       //sectInfo_.startTransaction(zsKey);
-       //sectInfo_.ensureTransaction(zsKey);
-       //
-       // Ensure isn't good because we might have get(ZSect) -> get(Spec) -> ensureT(ZSect)
-       // which if finished will not be the top of the stack ! It must be cancelled elsewhere.
-       //sectInfo_.startTransaction(zsKey);
-
-       if (sectInfo_.isCached(zsKey))
-       {
-         sectInfo_.removeKey(zsKey);
-         //parser.report_error(ZParseMessage.MSG_ERROR_REDECLARED_ZSECT, new Object[] { sectName }, getLocation(left, right));
-         // unrecoverable
-         //parser.done_parsing();
-       }
-       //else
-       //{
-         sectInfo_.startTransaction(zsKey);
-       //}
+      Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
+       
+      /*
+       * There may be cases when the Z section is calculated already at the start of transaction.
+       * Sometimes it can be because of the pollution of section manager (SM) from previous runs -
+       * this should have been removed before running the parsing again. Polluted section managers
+       * should generally be caught by other transactions, so it is not that important to be strict
+       * about existing objects in SM cache here.
+       *
+       * However, there are cases when we can encounter this case in a single specification
+       * (RedeclaredSection). The parser is required to parse such specification without errors, and
+       * leave the check for the typechecker. Thus there is parsing of two identical section names
+       * (and therefore keys). For this case - when we encounter the second (redeclared) section, we
+       * remove the ZSect from SM if it is already cached, and start a new transaction for its
+       * calculation. We will have a case when the second ZSect "overwrites" the first ZSect via
+       * remove-endTransaction.
+       * 
+       * If we do not do such "overwriting", we would have needed to make the RedeclaredSection a
+       * parsing error and stop parsing altogether (e.g. via Exception). Current solution allows us to
+       * finish parsing and postpone the check to typechecker.
+       */
+      if (sectInfo_.isCached(zsKey))
+      {
+        sectInfo_.removeKey(zsKey);
+      }
+       
+      /*
+       * Force start the transaction - we cannot have it started already. The parsing could not have
+       * started with a ZSect transaction, because parsing encompasses the whole Spec (even if it has
+       * a single ZSect). So the outer transaction must be that of a Spec, and we should not have an
+       * existing transaction on ZSect. Therefore do a strict startTransaction(), instead of
+       * ensureTransaction().
+       * 
+       * Note if parsing is started using SectionInfo#get(ZSect), the original ZSect transaction is
+       * postponed in favor of the Spec transaction (see ParseUtils for details).
+       */
+       
+      sectInfo_.startTransaction(zsKey);
     }
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
@@ -1228,29 +1267,28 @@ action code
       ZSect result = factory_.createZSect(name, parents, paraList);
       return result;
     }
-
-    private ZSect updateZSect(ZSect zSect, OpTable opTable, ThmTable thmTable
-      <add:pattern>, JokerTable jokerTable </add:pattern>
-      <add:zeves>, ProofTable proofTable</add:zeves>)
+    
+    /**
+     * Ends the transaction for Z section calculation in the Section Manager. The computed ZSect
+     * receives final adjustments - its operators are reordered according to their precedence, and the
+     * LatexMarkupFunction is added as a LatexMarkupPara to the section. The Z section transaction is
+     * ended, and the section is added to the section manager.
+     * 
+     * @param zSect
+     *          The Z section to end transaction
+     * @param opTable 
+     *          The operator table to determine operator precedences
+     * @return The updated Z section (may be the same object)
+     * @see #startZSectTransaction(String)
+     */
+    private ZSect endZSectTransaction(ZSect zSect, OpTable opTable)
     {
       final boolean parseError = parser.hasErrors();
       final String sectName = zSect.getName();
-      final PrecedenceHandlingVisitor visitor =
-        new PrecedenceHandlingVisitor(opTable);
+  
+      // reorder the Z section in correct operator precedence
+      final PrecedenceHandlingVisitor visitor = new PrecedenceHandlingVisitor(opTable);
       final ZSect sect = (ZSect) zSect.accept(visitor);
-      LatexMarkupFunction latexMarkupFunction = null;
-      final Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
-      if (sectInfo_.isCached(key)) {
-        try {
-          latexMarkupFunction = sectInfo_.get(key);
-        }
-        catch (CommandException exception) {
-          String message =
-            "Error retrieving LatexMarkupFunction for " + sectName;
-          CztLogger.getLogger(<class/>.class).warning(message);
-        }
-      }
-
 <add:zeves>
       if (sectName.equals("zeves_toolkit"))
       {
@@ -1258,17 +1296,11 @@ action code
         parserState_.updateZSectWithAddedPara(sect);
       }
 </add:zeves>
-
-      // Retrieves the markup directives through the markup function
-      // from the section manager. The markup function calculates the
-      // LaTeX markup directives within a section. When no directives
-      // are added, this paragraph is added to the front of the paragraph
-      // list of the section with an empty list of  directives.
-      if (latexMarkupFunction != null) {
-        final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
-        ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
-      }
+      // Add the LatexMarkupFunction as a LatexMarkupPara to the ZSect.
+      // Note, that this will add implicit dependency on LMF, if it is available
+      addLatexMarkupPara(sect, sectName);
 <add:circus>
+      
       // Add implicit process paragraphs to the ZSect term.
       ZUtils.assertZParaList(sect.getParaList()).addAll(parserState_.getImplicitlyDeclProcPara());
 //      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " +
@@ -1277,61 +1309,81 @@ action code
 //        System.out.println("\t" + para.toString());
 //      }
 //      System.out.println();
-
 </add:circus>
+      
       Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
-
-      if (!parseError)
-      {
-        // the table updates into the section manager take place at the point of creation rather than at the end.
-        // the main motivation for this is to avoid nested transaction for the tables - in particular OpTable -
-        // which might have explicit (and circular) dependencies like OpTable and its ZSect. See resetInfoTables comment/note
-
-        // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
-        //sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable,
-        // new DependenciesBuilder().self(sect, ZSect.class).parents(sect, OpTable.class).build());
-
-        // ThmTables of this section depend on its own ZSect and on the theorem tables of its parents.
-        //sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable,
-        //  new DependenciesBuilder().self(sect, ZSect.class).parents(sect, ThmTable.class).build());
-
-  <add:pattern>
-        // JokerTables of this section depend on its own ZSect and on the joker tables of its parents.
-        //sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable,
-        //  new DependenciesBuilder().self(sect, ZSect.class).parents(sect, JokerTable.class).build());
-  </add:pattern>
-  <add:zeves>
-        // ProofTables of this section depend on its own ZSect and on the proofs tables of its parents and on its own ThmTable (??? CHECK TODO ???).
-        //sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable,
-        //  new DependenciesBuilder().self(sect, ZSect.class).self(sect, ThmTable.class).parents(sect, ProofTable.class).build());
-
-        proofTable.checkAgainst(thmTable); // just warning in case of inconsistency (e.g., more proofs than conj para).
-        //proofTable.verifyConsistency(thmTable); -- for error
-  </add:zeves>
-
-        // To parse a ZSect we depend on our own operator table and latex markup function only.
-        // These tables, depend on this section parents, but that's an indirect dependency.
-        // Notice that the OpTable dependency has a dual link with its own ZSect
-        <add:pattern>// For the ZPatt parser, we also depend on the JokerTable, just like  the OpTable.</add:pattern>
-
-        // TODO talk about explicit deps
-        // whoever is using LatexMarkupParser and it is in a transaction will depend on it, even though might not be using it
-        //       however, this isn't in itself a problem, given that LatexMarkupParsers are only used by Latex markup itself, which
-        //       even if an empty latex markup is in place, it's okay to have an extra dependency. Trouble would be to have missed it.
-        //       given the intertwined nature of parsing / lexing and LMF, we antecipate there isn't much we can do here.
-
-
-        // TODO: check if dep builder is needed - we removed OpTable/JokerTable becuase we do an explicit extra get for it at resetXXXTable.
-        sectInfo_.endTransaction(zsKey, sect,
-                      new DependenciesBuilder().self(sect, LatexMarkupFunction.class).add(parser.getExplicitDeps()).build());
+  
+      if (!parseError) {
+<add:zeves>
+        
+        // check proof-thm table consistency
+        checkProofTables();
+        
+</add:zeves>
+        /*
+         * End the ZSect transaction. The parser may carry explicit dependencies to add for the ZSect.
+         * This allows indicating some dependencies that could have been missed since ZSect
+         * transaction is started later in the parsing, e.g. that ZSect depends on its Source, or has
+         * a bi-directional dependency with its Spec.
+         * 
+         * ZSect also depends on its LatexMarkupFunction, OpTable and JokerTable. Actually, dependencies 
+         * with these objects are bi-directional (they also depend on the ZSect). These dependencies are
+         * implicitly captured (see #resetOpTable(), addLatexMarkupPara(), etc.), so there is no need to
+         * add them explicitly.
+         */
+        sectInfo_.endTransaction(zsKey, sect, parser.getExplicitDeps());
       }
-      else
-      {
+      else {
         // in case of parsing errors, cancel the transaction
         sectInfo_.cancelTransaction(zsKey);
       }
       return sect;
     }
+
+    /**
+     * Adds the computed LatexMarkupFunction for the Z section, if available, as a LatexMarkupPara to
+     * the section.
+     * 
+     * @param sect
+     * @param sectName
+     */
+    private void addLatexMarkupPara(ZSect sect, String sectName)
+    {
+      Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
+      if (sectInfo_.isCached(key)) {
+        try {
+  
+          /*
+           * Note that this SectionInfo#get(LMF) call will add dependency on the LMF to the ZSect.
+           * This is good, because it indicates the dependency implicitly, which may have been missed
+           * since LatexMarkupParser executes before Parsing (and ZSect transaction) even starts.
+           */
+          LatexMarkupFunction latexMarkupFunction = sectInfo_.get(key);
+  
+          /*
+           * During lexing, the LatexMarkupFunction for this ZSect may have been calculated, which
+           * contains LaTeX markup directives within the section. These directives are added to the
+           * front of the Z section as a LatexMarkupPara. If no directives exist, a LatexMarkupPara
+           * with empty directives list is added.
+           */
+          LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
+          ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
+  
+        }
+        catch (CommandException exception) {
+          String message = "Error retrieving LatexMarkupFunction for " + sectName;
+          CztLogger.getLogger(Parser.class).warning(message);
+        }
+      }
+    }
+<add:zeves>
+
+    private void checkProofTables()
+    {
+        proofTable_.checkAgainst(thmTable_); // just warning in case of inconsistency (e.g., more proofs than conj para).
+        //proofTable_.verifyConsistency(thmTable_); -- for error
+    } 
+</add:zeves>
 
     protected String getLoc()
     {
@@ -3295,9 +3347,7 @@ specification ::=
         emptySectionHeader:header paragraphList:pl
         {:
            header.setParaList(pl);
-           ZSect zSect = updateZSect(header, opTable_, thmTable_
-             <add:pattern>, jokerTable_ </add:pattern>
-             <add:zeves>, proofTable_ </add:zeves>);
+           ZSect zSect = endZSectTransaction(header, opTable_);
            RESULT = createSpec(factory_.list(zSect));
            <add:circus>
                //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
@@ -3326,7 +3376,7 @@ emptySectionHeader ::=
            final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
 
-           ensureSectInfoStateForSpec(name, eleft, eright);
+           startZSectTransaction(name);
            
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetInfoTables(name, parents, eleft, eright);
@@ -3363,9 +3413,7 @@ section ::=
                //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", pl.isEmpty() ? null : getLocation(pl.get(0)));
            </add:circus>
            header.setParaList(pl);
-           RESULT = updateZSect(header, opTable_, thmTable_
-             <add:pattern>, jokerTable_ </add:pattern>
-             <add:zeves>, proofTable_ </add:zeves>);
+           RESULT = endZSectTransaction(header, opTable_);
            if (pl.size() > 0) {
              Para plPara = pl.get(pl.size()-1);
              //logProductionResult(plPara, "PARAGRAPH LOCATION AT SECTION", getLocation(plPara));
@@ -3416,7 +3464,7 @@ sectionHeader ::=
              p.add(circusParent);
            }
 </add:circus>
-           ensureSectInfoStateForSpec(name, pleft, pright);
+           startZSectTransaction(name);
            
            resetInfoTables(name, p, pleft, pright);
            

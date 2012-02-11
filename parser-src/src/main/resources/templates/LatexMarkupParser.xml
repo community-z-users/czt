@@ -208,7 +208,7 @@ public class <class/>
      * section managers would generally be caught by other transactions (e.g. ZSect parsing), so it
      * is not that important to be strict about existing objects in SM cache here. 
      * 
-     * However, there are cases when we can encounter this case in one specification (RedeclaredSection). 
+     * However, there are cases when we can encounter this case in a single specification (RedeclaredSection). 
      * The parser is required to lex/parse such specification without errors, and leave the check for
      * the typechecker. Thus there is lexing/parsing of two identical section names (and therefore keys).
      * For this case - when we encounter the second (redeclared) section, we remove the LMF from SM if 
@@ -232,8 +232,8 @@ public class <class/>
      * 
      * If the ZSect is Unicode, or has been parsed before, this parser will never be used - the 
      * LatexMarkupCommand will be used instead, which handles its own LMF transactions. If parsing 
-     * is started from within the LatexMarkupCommand, the original LMF transaction is cancelled 
-     * (see LatexMarkupCommand for details). 
+     * is started from within the LatexMarkupCommand, the original LMF transaction is postponed 
+     * in favor of ZSect transaction (see LatexMarkupCommand for details). 
      */
     sectInfo_.startTransaction(lmfKey);
     
@@ -518,7 +518,7 @@ public class <class/>
     }
   }
 
-  /**
+  /*
    * Removes spaces and newlines before and after.
    */
   private String trim(String string)
