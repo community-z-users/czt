@@ -18,8 +18,9 @@ Compiling CZT
 
   You also need to increase the Java heap size to at least 256Mb,
   which is done by setting the <<<MAVEN_OPTS>>> environment variable
-  to <<<-Xmx256m>>>.  Then change into the <<<CZT_HOME>>> directory,
-  and call
+  to at least <<<-Xmx256m>>>.  Recommended settings are 
+  <<<-Xmx1024m -XX:MaxPermSize=256m>>>.  Then change into the 
+  <<<CZT_HOME>>> directory, and call
 
 +---------------------+
   mvn clean install
