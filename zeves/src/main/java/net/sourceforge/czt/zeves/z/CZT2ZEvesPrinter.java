@@ -1744,7 +1744,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         }
         else
         {
-          refName = on.isPostfix() ? format(REF_EXPR_PATTERN, lhs, refName) : format(REF_EXPR_PATTERN, refName, lhs);
+          refName = on.isPostfix() ? format(POSTFIX_REF_EXPR_PATTERN, lhs, refName) : format(PREFIX_REF_EXPR_PATTERN, refName, lhs);
         }
         break;
       // for reference expression, e.g., \emptyset or \emptyset[X] or (\#~\_)[X],

@@ -1470,6 +1470,7 @@ zeves/src/test/resources/tests/mondex.tex -text
 zeves/src/test/resources/tests/negate.tex -text
 zeves/src/test/resources/tests/opnames.tex -text
 zeves/src/test/resources/tests/proofCmds.tex -text
+zeves/src/test/resources/tests/refexpr_test.tex -text
 zeves/src/test/resources/tests/schemaCalculus.tex -text
 zeves/src/test/resources/tests/simple.tex -text
 zeves/src/test/resources/tests/simpleUnicode.zed8 -text
