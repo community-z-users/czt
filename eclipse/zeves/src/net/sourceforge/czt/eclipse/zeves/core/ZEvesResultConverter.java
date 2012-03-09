@@ -1,14 +1,11 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
-import net.sourceforge.czt.parser.util.CztError;
-import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
@@ -26,36 +23,21 @@ public class ZEvesResultConverter {
 			throws IOException, CommandException {
 
 		Source source = createParseSource(zEvesPredStr);
-
-		try {
-			return ParseUtils.parsePred(source, sectName, sectInfo);
-		} catch (CommandException e) {
-			throw handleCommandException(e);
-		}
+		return ParseUtils.parsePred(source, sectName, sectInfo);
 	}
 	
 	public static Expr parseZEvesExpr(SectionManager sectInfo, String sectName, String zEvesExprStr)
 			throws IOException, CommandException {
 		
 		Source source = createParseSource(zEvesExprStr);
-
-		try {
-			return ParseUtils.parseExpr(source, sectName, sectInfo);
-		} catch (CommandException e) {
-			throw handleCommandException(e);
-		}
+		return ParseUtils.parseExpr(source, sectName, sectInfo);
 	}
 	
 	public static List<Para> parseZEvesParas(SectionManager sectInfo, String sectName, String zEvesExprStr)
 			throws IOException, CommandException {
 		
 		Source source = createParseSource(zEvesExprStr);
-
-		try {
-			return ParseUtils.parseParas(source, sectName, sectInfo);
-		} catch (CommandException e) {
-			throw handleCommandException(e);
-		}
+		return ParseUtils.parseParas(source, sectName, sectInfo);
 	}
 	
 	/**
@@ -79,25 +61,6 @@ public class ZEvesResultConverter {
 		}
 	}
 	
-	private static CommandException handleCommandException(CommandException e) {
-		Throwable cause = e.getCause();
-		
-		if (cause instanceof ParseException) {
-			ParseException pe = (ParseException) cause;
-			cause = new ParseException(new ArrayList<CztError>(pe.getErrorList()));
-			cause.setStackTrace(pe.getStackTrace());
-			
-			// clear previous errors - they are accumulating somehow
-			pe.getErrorList().clear();
-			
-			CommandException ce = new CommandException(e.getMessage(), cause);
-			ce.setStackTrace(e.getStackTrace());
-			return ce;
-		}
-		
-		return e;
-	}
-
 	private static Source createParseSource(String zEvesResultStr) {
 		Source source = new StringSource(zEvesResultStr, "zevesResult");
 		source.setMarkup(Markup.UNICODE);
