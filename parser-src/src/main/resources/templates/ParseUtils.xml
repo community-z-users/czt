@@ -225,7 +225,7 @@ public class <class/> extends AbstractCommand
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = sectman.clone();
-    Source input = new StringSource(buf.toString());
+    Source input = new StringSource(buf.toString(), name);
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
@@ -309,7 +309,7 @@ public class <class/> extends AbstractCommand
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = sectman.clone();
-    Source input = new StringSource(buf.toString());
+    Source input = new StringSource(buf.toString(), name);
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
@@ -373,7 +373,7 @@ public class <class/> extends AbstractCommand
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = sectman.clone();
-    Source input = new StringSource(buf.toString());
+    Source input = new StringSource(buf.toString(), name);
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
