@@ -53,7 +53,11 @@ public class PlatformUtil
     for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
         for (IWorkbenchPage page : window.getPages()) {
             for (IEditorReference editor : page.getEditorReferences()) {
-                editors.add(editor.getEditor(false));
+                IEditorPart editorPart = editor.getEditor(false);
+                if (editorPart != null) {
+                  // editors can be null if there are problems instantiating them
+                  editors.add(editorPart);
+                }
             }
         }
     }
