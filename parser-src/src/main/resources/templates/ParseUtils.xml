@@ -640,7 +640,13 @@ public class <class/> extends AbstractCommand
       
       // add the rest of the sections in individual transactions, with dependency on Spec
       for (Map.Entry&lt;Key&lt;ZSect&gt;, ZSect&gt; entry : specSections.entrySet()) {
-        manager.put(entry.getKey(), entry.getValue(), specDep);
+      
+        // Entries with "other" section keys could already be in the section manager.
+        // Since they are added on top of the requested ZSect, only add if they are not
+        // in the section manager.
+        if (!manager.isCached(entry.getKey())) {
+          manager.put(entry.getKey(), entry.getValue(), specDep);
+        }
       }
       
       final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
