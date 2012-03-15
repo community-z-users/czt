@@ -2181,19 +2181,37 @@ parser code
          * SectionInfo.get(). So upon exception, find out the current ZSect, and cancel
          * its transaction, then re-throw the exception.
          */
-        String currentSect = action_obj.parserState_.getCurrentSectName();
-        if (currentSect != null) {
-          sectInfo_.cancelTransaction(new Key&lt;ZSect&gt;(currentSect, ZSect.class));
-        }
+        cleanupZSectTransaction();
         
         throw e;
       }
       
       if (hasErrors())
       {
+        // need to cleanup, e.g. if scanning error happens. It would be reported, but
+        // parsing stops and section transaction is not closed.
+        cleanupZSectTransaction();
         raiseErrors();
       }
       return symbol;
+    }
+    
+    /**
+     * Finds the current section, and cancels its transaction, if one is still active.
+     * This is necessary because section transactions are started manually, and we need
+     * to cleanup if unexpected error (e.g. underlying scanning error) happens. 
+     */
+    private void cleanupZSectTransaction() {
+      String currentSect = action_obj.parserState_.getCurrentSectName();
+      if (currentSect != null) {
+        Key&lt;ZSect&gt; sectKey = new Key&lt;ZSect&gt;(currentSect, ZSect.class);
+        // Check whether the current section transaction is still active.
+        // This is needed, because sometimes the transaction has finished
+        // and we are just reporting errors (and cleaning up)
+        if (sectKey.equals(sectInfo_.getCurrentTransaction())) {
+          sectInfo_.cancelTransaction(sectKey);
+        }
+      }
     }
 
     /** The file being parsed. */
