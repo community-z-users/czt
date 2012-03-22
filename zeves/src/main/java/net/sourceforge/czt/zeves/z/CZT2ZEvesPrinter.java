@@ -3250,7 +3250,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
       // We check whether the expression is schema-based to determine if we need the &eqhat; symbol.
       // First we check whether RHS is schema expression, otherwise ask for type information
-      boolean isSchExpr = !isOp &&
+      boolean isSchExpr = !isOp && !(expr instanceof SetExpr || expr instanceof SetCompExpr) &&
                           (expr instanceof SchExpr || expr instanceof SchExpr2
                                                    || isSchemaTyped(fSectionName, hdefName));
       fKeepOpArgs.push(keepOpArgs);
