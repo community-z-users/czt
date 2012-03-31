@@ -88,6 +88,7 @@ public class JaxbXmlReader
    * @param stream  the stream to be unmarshalled.
    * @return the root element of the unmarshalled file.
    */
+  @Override
   public Term read(InputStream stream)
     throws UnmarshalException
   {
@@ -107,6 +108,7 @@ public class JaxbXmlReader
    * @param input  the source to be unmarshalled.
    * @return the root element of the unmarshalled file.
    */
+  @Override
   public Term read(InputSource input)
     throws UnmarshalException
   {
@@ -127,6 +129,7 @@ public class JaxbXmlReader
    * @param file  the file to be unmarshalled.
    * @return the root element of the unmarshalled file.
    */
+  @Override
   public Term read(File file)
     throws UnmarshalException
   {
