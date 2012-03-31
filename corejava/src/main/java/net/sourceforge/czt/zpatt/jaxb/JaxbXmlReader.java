@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.zpatt.jaxb;
 
+import javax.xml.bind.JAXBContext;
+
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 
@@ -32,11 +34,16 @@ public class JaxbXmlReader
 {
   public JaxbXmlReader(ZFactory zFactory, ZpattFactory zpattFactory)
   {
-    super(new JaxbToAst(zFactory, zpattFactory), JaxbContext.PATH);
+    super(new JaxbToAst(zFactory, zpattFactory));
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst(), JaxbContext.PATH);
+    super(new JaxbToAst());
+  }
+  
+  @Override
+  protected JAXBContext getContext() {
+    return JaxbXmlWriter.JAXB_CONTEXT;
   }
 }

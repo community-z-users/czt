@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.circus.jaxb;
 
+import javax.xml.bind.JAXBContext;
+
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 import net.sourceforge.czt.circus.ast.CircusFactory;
@@ -35,12 +37,16 @@ public class JaxbXmlReader
                        ZpattFactory zpattFactory,
                        CircusFactory circusFactory)
   {
-    super(new JaxbToAst(zFactory, zpattFactory, circusFactory),
-          JaxbContext.PATH);
+    super(new JaxbToAst(zFactory, zpattFactory, circusFactory));
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst(), JaxbContext.PATH);
+    super(new JaxbToAst());
+  }
+  
+  @Override
+  protected JAXBContext getContext() {
+    return JaxbXmlWriter.JAXB_CONTEXT;
   }
 }

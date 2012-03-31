@@ -35,37 +35,26 @@ import net.sourceforge.czt.z.util.Version;
  *
  * @author Petra Malik
  */
-public class JaxbXmlWriter
+public abstract class JaxbXmlWriter
   extends AbstractXmlWriter
   implements Version
 {
   private Visitor<?> visitor_;
-  private String jaxbContextPath_;
 
-  public JaxbXmlWriter(Visitor<?> visitor, String jaxbContextPath)
+  public JaxbXmlWriter(Visitor<?> visitor)
   {
     visitor_ = visitor;
-    jaxbContextPath_ = jaxbContextPath;
   }
+  
+  protected abstract JAXBContext getContext();
 
-  private Marshaller createMarshaller()
+  private Marshaller createMarshaller() throws JAXBException
   {
-    Marshaller result = null;
-    try {
-      JAXBContext jc =
-        JAXBContext.newInstance(jaxbContextPath_,
-                                this.getClass().getClassLoader());
-      result = jc.createMarshaller();
-      result.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-      result.setProperty(Marshaller.JAXB_ENCODING, getEncoding());
-      final String location =
-        "http://czt.sourceforge.net/zml " + Z_SCHEMA_LOCATION;
-      result.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, location);
-    }
-    catch (Exception e) {
-      // TODO
-      e.printStackTrace();
-    }
+    Marshaller result = getContext().createMarshaller();
+    result.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    result.setProperty(Marshaller.JAXB_ENCODING, getEncoding());
+    String location = "http://czt.sourceforge.net/zml " + Z_SCHEMA_LOCATION;
+    result.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, location);
     return result;
   }
 
@@ -78,8 +67,8 @@ public class JaxbXmlWriter
   @Override
   public void write(Term term, Writer writer)
   {
-    Marshaller m = createMarshaller();
     try {
+      Marshaller m = createMarshaller();
       Object obj = toJaxb(term);
       m.marshal(obj, writer);
     }

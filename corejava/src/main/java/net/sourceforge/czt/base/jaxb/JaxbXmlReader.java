@@ -40,7 +40,7 @@ import net.sourceforge.czt.util.ReflectiveVisitor;
  *
  * @author Petra Malik
  */
-public class JaxbXmlReader
+public abstract class JaxbXmlReader
   implements XmlReader
 {
   /**
@@ -49,26 +49,20 @@ public class JaxbXmlReader
   private ReflectiveVisitor visitor_;
 
   /**
-   * The JAXB context path used for unmarshalling data.
-   */
-  private String jaxbContextPath_;
-
-  /**
    * Returns a new JaxbXmlReader.
    * @param visitor
-   * @param jaxbContextPath
    */
-  public JaxbXmlReader(ReflectiveVisitor visitor, String jaxbContextPath)
+  public JaxbXmlReader(ReflectiveVisitor visitor)
   {
     visitor_ = visitor;
-    jaxbContextPath_ = jaxbContextPath;
   }
+  
+  protected abstract JAXBContext getContext();
 
   private Unmarshaller createUnmarshaller()
     throws JAXBException, SAXException
   {
-    JAXBContext jaxcontext = JAXBContext.newInstance(jaxbContextPath_);
-    Unmarshaller unmarshaller = jaxcontext.createUnmarshaller();
+    Unmarshaller unmarshaller = getContext().createUnmarshaller();
     SchemaFactory schemaFactory = SchemaFactory.newInstance(
       javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
     Schema schema = getSchema() == null ? null :
