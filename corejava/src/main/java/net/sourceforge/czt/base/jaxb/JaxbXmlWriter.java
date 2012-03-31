@@ -39,10 +39,10 @@ public class JaxbXmlWriter
   extends AbstractXmlWriter
   implements Version
 {
-  private Visitor visitor_;
+  private Visitor<?> visitor_;
   private String jaxbContextPath_;
 
-  public JaxbXmlWriter(Visitor visitor, String jaxbContextPath)
+  public JaxbXmlWriter(Visitor<?> visitor, String jaxbContextPath)
   {
     visitor_ = visitor;
     jaxbContextPath_ = jaxbContextPath;
@@ -75,11 +75,13 @@ public class JaxbXmlWriter
     return erg;
   }
 
+  @Override
   public void write(Term term, Writer writer)
   {
     Marshaller m = createMarshaller();
     try {
-      m.marshal(toJaxb(term), writer);
+      Object obj = toJaxb(term);
+      m.marshal(obj, writer);
     }
     catch (JAXBException e) {
       // TODO
