@@ -58,8 +58,8 @@ import net.sourceforge.czt.z.ast.Parent;
  */
 public class CyclicParseManager {
   
-  private static final Key<CyclicParseManager> CYCLIC_MANAGER_KEY = 
-      new Key<CyclicParseManager>("cyclic-parse-manager", CyclicParseManager.class);
+  private static final Key<CyclicManagerSingleton> CYCLIC_MANAGER_KEY = 
+      new Key<CyclicManagerSingleton>("cyclic-parse-manager", CyclicManagerSingleton.class);
   
   /**
    * Retrieves the instance of {@link CyclicParseManager} for the given sectInfo. 
@@ -70,18 +70,26 @@ public class CyclicParseManager {
    */
   public static CyclicParseManager getManager(SectionInfo sectInfo)
   {
+    CyclicManagerSingleton sectSingleton;
     if (sectInfo.isCached(CYCLIC_MANAGER_KEY)) {
       try {
-        return sectInfo.get(CYCLIC_MANAGER_KEY);
+        sectSingleton = sectInfo.get(CYCLIC_MANAGER_KEY);
       }
       catch (CommandException e) {
         // should not happen
         throw new CztException(e);
       }
+    } else {
+      sectSingleton = new CyclicManagerSingleton();
+      sectInfo.put(CYCLIC_MANAGER_KEY, sectSingleton, Collections.<Key<?>>emptySet());
     }
-
-    CyclicParseManager manager = new CyclicParseManager();
-    sectInfo.put(CYCLIC_MANAGER_KEY, manager, Collections.<Key<?>>emptySet());
+    
+    CyclicParseManager manager = sectSingleton.manager.get();
+    if (manager == null) {
+      // new thread
+      manager = new CyclicParseManager();
+      sectSingleton.manager.set(manager);
+    }
 
     return manager;
   }
@@ -274,7 +282,6 @@ public class CyclicParseManager {
    * and the cycle rendered based on the parent as root.
    * 
    * @param cycle
-   * @param locProvider
    * @return Pair of <parentName, cycleString>
    */
   public static Pair<String, String> renderParseParentCycle(List<String> cycle)
@@ -313,6 +320,28 @@ public class CyclicParseManager {
     }
     
     return new Pair<String, String>(cycleParent, parentLoop.toString());
+  }
+  
+  /**
+   * A workaround for to address multi-thread problems of using singleton {@link CyclicParseManager}.
+   * <p>
+   * The issues arise when the section manager is cloned to be used in a different thread (e.g. for
+   * parsing/printing some term). The CyclicParseManager is used in a singleton manner within the
+   * section manager, and the shallow cloning keeps the same cyclic manager for the cloned section
+   * manager. So if the parsing is done in multiple threads, the same cyclic manager is utilised and
+   * runs into problems.
+   * </p>
+   * <p>
+   * By using thread-local values we can address the multi-threading to some extent. The parsing is
+   * usually done by a single thread. However, the whole "singleton in section manager" approach
+   * should be reviewed.
+   * </p>
+   * TODO review singleton approach for CyclicParseManager
+   * 
+   * @author Andrius Velykis
+   */
+  private static class CyclicManagerSingleton {
+    private ThreadLocal<CyclicParseManager> manager = new ThreadLocal<CyclicParseManager>();
   }
   
 }
