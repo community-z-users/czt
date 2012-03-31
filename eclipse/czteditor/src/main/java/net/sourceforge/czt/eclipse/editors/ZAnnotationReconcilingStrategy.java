@@ -181,8 +181,8 @@ public class ZAnnotationReconcilingStrategy
     fFoldingPositions.clear();
     fSchemaPositions.clear();
 
-    ITypedRegion[] partitions = null;
     try {
+      ITypedRegion[] partitions;
       if (this.fDocument instanceof IDocumentExtension3) {
         IDocumentExtension3 extension3 = (IDocumentExtension3) this.fDocument;
         partitions = extension3.computePartitioning(
@@ -192,11 +192,7 @@ public class ZAnnotationReconcilingStrategy
         partitions = this.fDocument.computePartitioning(0, this.fDocument
             .getLength());
       }
-    } catch (BadLocationException ble) {
-    } catch (BadPartitioningException bpe) {
-    }
-
-    try {
+      
       for (int i = 0; i < partitions.length; i++) {
         ITypedRegion partition = partitions[i];
         int offset = partition.getOffset();
@@ -216,10 +212,11 @@ public class ZAnnotationReconcilingStrategy
           length--;
         }
         if (length > 0)
-          fFoldingPositions.put(new Position(offset, length), partition
-              .getType());
+          fFoldingPositions.put(new Position(offset, length), partition.getType());
       }
-    } catch (BadLocationException e) {
+      
+    } catch (BadLocationException ble) {
+    } catch (BadPartitioningException bpe) {
     }
 
     Display.getDefault().asyncExec(new Runnable()
