@@ -1,6 +1,8 @@
 package net.sourceforge.czt.gnast.maven;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import net.sourceforge.czt.gnast.Gnast;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -25,11 +27,15 @@ public class Main
    */
   private String gnastdir = "gnast";
   
-  // false by default? yes
   /**
    * @parameter
    */
   private boolean addAstFinaliser;
+  
+  /**
+   * @parameter
+   */
+  private boolean gnastVerbose;
 
   /**
    * @parameter expression="${project}"
@@ -53,18 +59,19 @@ public class Main
         "GnAST parameters = " + 
                         "\n\t-d " + outputDirectory +
                         "\n\t-b " + gnastdir +
+                        (gnastVerbose ? "\n\t-vvv" : "") +
                         (addAstFinaliser ? "\n\t-f" : "") + "\n";
       getLog().info(message);
+      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-b", gnastdir));
       if (addAstFinaliser)
       {
-        String[] args = { "-d", outputDirectory, "-b", gnastdir, "-f" };
-        Gnast.main(args);
-      } 
-      else
-      {
-        String[] args = { "-d", outputDirectory, "-b", gnastdir };
-        Gnast.main(args);
+        args.add("-f");
       }
+      if (gnastVerbose)
+      {
+        args.add("-vvv");
+      }
+      Gnast.main(args.toArray(new String[0]));
     }
     if (project != null )
     {
