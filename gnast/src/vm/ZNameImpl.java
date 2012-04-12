@@ -44,7 +44,7 @@
      return Collections.unmodifiableMap(nameIdPool_);
    }
 
-  private void internalSetWord(String word)
+  private void setWordInternal(String word)
   {
     word_ = word;
     if (!nameIdPool_.containsKey(word))
@@ -63,7 +63,7 @@
     TermInstanceCountManager.log(this, result.toString());
   }
   
-  private void internalSetId(String id)
+  private void setIdInternal(String id)
   {
     id_ = id;
     assert idPool_ != null && word_ != null;

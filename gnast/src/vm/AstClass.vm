@@ -28,7 +28,7 @@ Variables and methods used:
              in javadoc in order to link from the constructor to the
              object factory.
              
-  addAstFiniliser: if true, adds a finaliser to the instance counting process
+  addAstFiniliser: if ==1, adds a finaliser to the instance counting process
   			 see variables.vm - perhaps change it to come from gnast.properties?
   			 or even GnAST Maven Plugin?
 *#
@@ -107,8 +107,10 @@ public class ${class.ImplName}
    {
      return instanceCount_;
    }
-  
-   #if($addAstFinaliser == 1)
+   
+   // addAstFinaliser = $addAstFinaliser
+   // #if ($addAstFinaliser > 0) add finaliser #else dont add finaliser #end
+   #if($addAstFinaliser > 0)
 	  private static long instancesFinalised_ = 0;
 
     /** if GnAST properties contain addAstFiniliser, we add it here 
@@ -394,7 +396,9 @@ public#abstract($class) class ${class.ImplName}
     */
    protected static long startLoggingFrom_ = Long.MAX_VALUE;
    
-   #if($addAstFinaliser == 1)
+   // addAstFinaliser = $addAstFinaliser
+   // #if ($addAstFinaliser > 0) add finaliser #else dont add finaliser #end
+   #if($addAstFinaliser > 0)
 	  private static long instancesFinalised_ = 0;
 
     /** if GnAST properties contain addAstFiniliser, we add it here 
@@ -570,7 +574,15 @@ public#abstract($class) class ${class.ImplName}
 
   public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName})
   {
-    ${prop.MemVarName} = ${prop.VarName};
+  	##// ${class.ImplName}
+  	##// ${prop.MemVarName}
+  	##// ${prop.SetterName}
+  	##// $znameImpl
+  	#if(${class.ImplName} == $znameImpl && (${prop.SetterName} == $znameImplSetWord || ${prop.SetterName} == $znameImplSetId))
+  		${prop.SetterName}Internal(${prop.VarName});
+  	#else
+	    ${prop.MemVarName} = ${prop.VarName};
+	#end
   }
 #if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'NameList' || ${prop.Type.Name} == 'DeclList')
 #if(${prop.GetterName} == "get${prop.Type.Name}")

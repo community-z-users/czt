@@ -203,8 +203,9 @@ public class Gnast implements GlobalProperties
     }
     if (addAstFinaliser_)
     {
-      defaultContext_.setProperty("addAstFinaliser", String.valueOf(addAstFinaliser_));
+      defaultContext_.setProperty("addAstFinaliser", String.valueOf("1"));
     }
+    verbosity_ = Level.ALL;
     if (verbosity_.intValue() < Level.INFO.intValue())
     {
       getLogger().log(Level.INFO, "GnAST context = {0}", defaultContext_.toString());
