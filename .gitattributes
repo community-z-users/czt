@@ -1275,6 +1275,8 @@ vcg/src/test/resources/tests/z/quantifiedSchemas.tex -text
 vcg/src/test/resources/tests/z/refRulesEquiv.tex -text
 vcg/src/test/resources/tests/z/refRulesEquiv_ref.tex -text
 vcg/src/test/resources/tests/z/renaming.tex -text
+vcg/src/test/resources/tests/z/schemabinds.tex -text
+vcg/src/test/resources/tests/z/schemacomp.tex -text
 vcg/src/test/resources/tests/z/schemas.tex -text
 vcg/src/test/resources/tests/z/sets.tex -text
 vcg/src/test/resources/tests/z/simpleMondexCh4.tex -text

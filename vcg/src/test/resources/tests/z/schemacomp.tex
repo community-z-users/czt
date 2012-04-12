@@ -1,0 +1,53 @@
+\begin{zsection}
+\SECTION schemacomp \parents function\_toolkit
+\end{zsection}
+
+\begin{zed}
+    [Data, Service]
+\\
+    W == [~ readBy: Data \rel Service; writes: Service \rel Data ~]
+\end{zed}
+
+\begin{schema}{WFOp}
+	\Delta W; d?: Data; s?: Service 
+\where
+  true
+\end{schema}%
+%
+\begin{schema}{AddReadBy}
+   WFOp
+\where
+   (d?, s?) \in readBy \land writes' = writes 
+   \\
+   readBy' = readBy \cup \{ (d?, s?) \} 
+\end{schema}%
+%
+\begin{schema}{AddWrites}
+   WFOp 
+\where
+   (s?, d?) \in writes
+   \\
+   writes' = writes \cup \{ (s?, d?) \}  
+\end{schema}%
+%
+The invariant in $AddWrites$ from $WFSymCon~'$ on the after state ensures that the theorem \textsf{lAllDataAccountedFor} 
+is an equality for the complete $AddAccess$ schema below given by composing the read/write operations above. 
+%
+begin{zed}
+   AddReadByR ~~\defs~~ AddReadBy[dr?/d?]
+   \\
+   AddWritesR ~~\defs~~ AddWrites[dw?/d?]
+   \\
+   AddAccessC ~~\defs~~ AddReadByR \semi AddWritesR
+   %\\
+   %AddAccess ~~\defs~~ AddReadBy[dr?/d?] \semi AddWrites[dw?/d?]
+end{zed}%%
+
+begin{axdef}
+   d0, d1, d2, d3, d4: Data; s1, s2, s3: Service
+end{axdef}
+
+begin{zed}
+	ExampleWF0 ~~\defs~~ AddAccess[d0/dr?, s1/s?, d2/dw?] \semi \\
+               		\t4 AddAccess[d2/dr?, s3/s?, d4/dw?]
+end{zed}
