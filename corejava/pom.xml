@@ -35,6 +35,7 @@
             <phase>generate-sources</phase>
             <configuration>
               <gnastdir>${basedir}/../gnast</gnastdir>
+              <!-- <addAstFinaliser>true</addAstFinaliser> -->
             </configuration>
             <goals>
               <goal>generate</goal>
