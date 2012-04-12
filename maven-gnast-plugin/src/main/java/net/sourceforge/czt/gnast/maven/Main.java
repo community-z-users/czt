@@ -1,12 +1,10 @@
 package net.sourceforge.czt.gnast.maven;
 
 import java.io.File;
-
+import net.sourceforge.czt.gnast.Gnast;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-
-import net.sourceforge.czt.gnast.Gnast;
 
 /**
  * @goal generate
@@ -26,6 +24,12 @@ public class Main
    * @parameter expression="gnastdir"
    */
   private String gnastdir = "gnast";
+  
+  // false by default? yes
+  /**
+   * @parameter
+   */
+  private boolean addAstFinialiser;
 
   /**
    * @parameter expression="${project}"
@@ -33,6 +37,7 @@ public class Main
    */
   private MavenProject project;
 
+  @Override
   public void execute()
     throws MojoExecutionException 
   {
@@ -46,8 +51,16 @@ public class Main
         "NOTE: This may take some time " +
         "(about 5 minutes on a 2GHz Pentium).";
       getLog().info(message);
-      String[] args = { "-d", outputDirectory, "-b", gnastdir };
-      Gnast.main(args);
+      if (addAstFinialiser)
+      {
+        String[] args = { "-d", outputDirectory, "-b", gnastdir, "-f" };
+        Gnast.main(args);
+      } 
+      else
+      {
+        String[] args = { "-d", outputDirectory, "-b", gnastdir };
+        Gnast.main(args);
+      }
     }
     if (project != null )
     {
