@@ -27,6 +27,7 @@ import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.MarshalException;
+import net.sourceforge.czt.base.util.TermInstanceCountManager;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.z.ParseUtils;
@@ -1040,25 +1041,25 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
           System.out.println("\t\tprint zml......." + benchmarks.get(6) + "ms");
         }
         System.out.println("\n\t\tAST instances..." + BaseFactory.howManyInstancesCreated());
-        System.out.println  ("\t\tZStrokeL count.." + ZStrokeListImpl.instanceCount());
+        System.out.println  ("\t\tZStrokeL count.." + TermInstanceCountManager.instancesCount(ZStrokeListImpl.class, false));
         // or System.out.println  ("\t\tZStrokeL count.." + BaseUtils.instaceCount(ZStrokeListImpl.class));
-        System.out.println  ("\t\tNTPair count...." + NameTypePairImpl.instanceCount());
+        System.out.println  ("\t\tNTPair count...." + TermInstanceCountManager.instancesCount(NameTypePairImpl.class, false));
 
-        System.out.println("\n\t\tZName count....." + ZNameImpl.instanceCount());
+        System.out.println("\n\t\tZName count....." + TermInstanceCountManager.instancesCount(ZNameImpl.class, false));
 //        System.out.println  ("\t\tZName live......" + (ZNameImpl.instancesFinalised()));
-        System.out.println  ("\t\tZName live......" + (ZNameImpl.instanceCount() - (ZNameImpl.countingFinaliser() ? ZNameImpl.instancesFinalised() : 0)));
-
+        System.out.println  ("\t\tZName live......" + TermInstanceCountManager.instancesCount(ZNameImpl.class, true));
+        
         System.out.println("\n\tForce GC");
         System.gc();
 
         System.out.println("\n\t\tAST instances..." + BaseFactory.howManyInstancesCreated());
-        System.out.println  ("\t\tZStrokeL count.." + ZStrokeListImpl.instanceCount());
+        System.out.println  ("\t\tZStrokeL count.." + TermInstanceCountManager.instancesCount(ZStrokeListImpl.class, false));
         // or System.out.println  ("\t\tZStrokeL count.." + BaseUtils.instaceCount(ZStrokeListImpl.class));
-        System.out.println  ("\t\tNTPair count...." + NameTypePairImpl.instanceCount());
+        System.out.println  ("\t\tNTPair count...." + TermInstanceCountManager.instancesCount(NameTypePairImpl.class, false));
 
-        System.out.println("\n\t\tZName count....." + ZNameImpl.instanceCount());
+        System.out.println("\n\t\tZName count....." + TermInstanceCountManager.instancesCount(ZNameImpl.class, false));
 //        System.out.println  ("\t\tZName live......" + (ZNameImpl.instancesFinalised()));
-        System.out.println  ("\t\tZName live......" + (ZNameImpl.instanceCount() - (ZNameImpl.countingFinaliser() ? ZNameImpl.instancesFinalised() : 0)));
+        System.out.println  ("\t\tZName live......" + TermInstanceCountManager.instancesCount(ZNameImpl.class, true));
 
         System.out.println("  \t\tName pool size.." + ZNameImpl.nameIdPool().size());
         System.out.println("\n\t\tName-Id map....." + ZNameImpl.nameIdPool());
