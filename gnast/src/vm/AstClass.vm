@@ -122,11 +122,13 @@ public class ${class.ImplName}
 		instancesFinalised_++;
 		super.finalize();
 	}
-    public final static long instancesFinalised() { return instancesFinalised_;}
-    public final static boolean countingFinaliser() { return true; }
+	// cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
+    public /*final*/ static boolean countingFinaliser() { return true; }
    #else
-    public final static boolean countingFinaliser() { return false; }
-    public final static long instancesFinalised() 
+    // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static boolean countingFinaliser() { return false; }
+    public /*final*/ static long instancesFinalised() 
     { 
       throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
     }
@@ -406,11 +408,13 @@ public#abstract($class) class ${class.ImplName}
 		instancesFinalised_++;
 		super.finalize();
 	}
-    public final static long instancesFinalised() { return instancesFinalised_;}
-    public final static boolean countingFinaliser() { return true; }
+	// cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
+    public /*final*/ static boolean countingFinaliser() { return true; }
   #else
-    public final static boolean countingFinaliser() { return false; }
-    public final static long instancesFinalised() 
+    // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static boolean countingFinaliser() { return false; }
+    public /*final*/ static long instancesFinalised() 
     { 
       throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
     }
