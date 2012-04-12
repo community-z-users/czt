@@ -29,7 +29,7 @@ public class Main
   /**
    * @parameter
    */
-  private boolean addAstFinialiser;
+  private boolean addAstFinaliser;
 
   /**
    * @parameter expression="${project}"
@@ -49,9 +49,13 @@ public class Main
     else {
       final String message = "Generating AST ...\n" +
         "NOTE: This may take some time " +
-        "(about 5 minutes on a 2GHz Pentium).";
+        "(about 5 minutes on a 2GHz Pentium).\n" +
+        "GnAST parameters = " + 
+                        "\n\t-d " + outputDirectory +
+                        "\n\t-b " + gnastdir +
+                        (addAstFinaliser ? "\n\t-f" : "") + "\n";
       getLog().info(message);
-      if (addAstFinialiser)
+      if (addAstFinaliser)
       {
         String[] args = { "-d", outputDirectory, "-b", gnastdir, "-f" };
         Gnast.main(args);
