@@ -108,7 +108,7 @@ public class ${class.ImplName}
      return instanceCount_;
    }
   
-   #if($addAstFinaliser)
+   #if($addAstFinaliser == 1)
 	  private static long instancesFinalised_ = 0;
 
     /** if GnAST properties contain addAstFiniliser, we add it here 
@@ -126,7 +126,7 @@ public class ${class.ImplName}
 	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
     public /*final*/ static boolean countingFinaliser() { return true; }
    #else
-    // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+    // cannot be final because Jo	kerCommunicationImpl extends CommunicationImpl
 	public /*final*/ static boolean countingFinaliser() { return false; }
     public /*final*/ static long instancesFinalised() 
     { 
@@ -394,7 +394,7 @@ public#abstract($class) class ${class.ImplName}
     */
    protected static long startLoggingFrom_ = Long.MAX_VALUE;
    
-   #if($addAstFinaliser)
+   #if($addAstFinaliser == 1)
 	  private static long instancesFinalised_ = 0;
 
     /** if GnAST properties contain addAstFiniliser, we add it here 
