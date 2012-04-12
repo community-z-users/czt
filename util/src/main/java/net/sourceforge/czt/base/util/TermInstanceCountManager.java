@@ -20,9 +20,12 @@
 package net.sourceforge.czt.base.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.impl.TermImpl;
 
 /**
@@ -132,6 +135,63 @@ public class TermInstanceCountManager
       }
     }
     return result;
+  }
+  
+  public static long instancesCount(Term term, boolean live)
+  {
+    return instancesCount(term.getClass(), live);
+  }
+  
+  public static long instancesCount(Class<? extends Term> termCls, boolean live)
+  {
+    try
+    {
+      Method mic = termCls.getDeclaredMethod("instanceCount", (Class<?>[]) null);
+      long instancesCount = (Long)mic.invoke(null, (Object[]) null);
+
+      long instancesFinalised = 0;
+      if (live)
+      {
+        Method mcf = termCls.getDeclaredMethod("countingFinaliser", (Class<?>[]) null);
+        boolean countingFinaliser = (Boolean)mcf.invoke(null, (Object[]) null);
+
+        if (countingFinaliser)
+        {
+          Method mif = termCls.getDeclaredMethod("instancesFinalised", (Class<?>[]) null);
+          instancesFinalised = (Long)mif.invoke(null, (Object[]) null);
+        }
+        else
+        {
+           Logger.getLogger(termCls.getName()).log(Level.WARNING, "Could not count finalised objects for {0}. It does not have a finalize method", termCls.getName());
+        }
+      }
+      return instancesCount - instancesFinalised;
+    }
+    catch (IllegalAccessException ex)
+    {
+       Logger.getLogger(termCls.getName()).log(Level.WARNING, "Security exception when trying to get instance field for {0}", termCls.getName());
+    }
+    catch (IllegalArgumentException ex)
+    {
+       Logger.getLogger(termCls.getName()).log(Level.WARNING, "Illegal argument exception when trying to get instance field for {0}", termCls.getName());
+    }
+    catch (InvocationTargetException ex)
+    {
+       Logger.getLogger(termCls.getName()).log(Level.WARNING, "Invocation target argument exception when trying to get instance field for {0}", termCls.getName());
+    }
+    catch (NoSuchMethodException ex)
+    {
+       Logger.getLogger(termCls.getName()).log(Level.WARNING, "No such method exception when trying to get instance field for {0}", termCls.getName());
+    }
+    catch (SecurityException ex)
+    {
+       Logger.getLogger(termCls.getName()).log(Level.WARNING, "Security exception when trying to get instance field for {0}", termCls.getName());
+    }
+    catch (ClassCastException ex)
+    {
+       Logger.getLogger(termCls.getName()).log(Level.WARNING, "Class cast exception when trying to get instance field for {0}", termCls.getName());
+    }
+    throw new IllegalArgumentException("Could not retrieve instances count for " + termCls.getName());
   }
 
   private TermInstanceCountManager()
