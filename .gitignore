@@ -2468,6 +2468,7 @@ gnast/doc/.classpath
 gnast/doc/.project
 gnast/doc/.settings
 gnast/doc/target
+gnast/nbactions.xml
 gnast/src/*.aux
 gnast/src/*.blg
 gnast/src/*.log

@@ -27,6 +27,10 @@ Variables and methods used:
              The name of the AST object factory.  This is used
              in javadoc in order to link from the constructor to the
              object factory.
+             
+  addAstFiniliser: if true, adds a finaliser to the instance counting process
+  			 see variables.vm - perhaps change it to come from gnast.properties?
+  			 or even GnAST Maven Plugin?
 *#
 #parse("src/vm/variables.vm")
 /******************************************************************************
@@ -47,6 +51,7 @@ import java.util.logging.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.base.util.TermInstanceCountManager;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.util.Visitor;
 #foreach($p in $projects)
@@ -78,14 +83,55 @@ public class ${class.ImplName}
    * The list containing the data.
    */
   /*@ non_null @*/
-  private final List<${type}> list_;
+  private List<${type}> list_;
 
   /**
    * A list of annotations.
    */
   private List<Object> anns_;
   
-  private static long instanceCount_ = 0;
+  #if(! ${class.Abstract})
+	/**
+	 * static instance count for ${class.ImplName}
+	 */
+   private static long instanceCount_ = 0;
+   
+   /**
+    * public attribute determining whether to log to the 
+    * standard output information about who is creating 
+    * this instance of ${class.ImplName} (e.g., ic >= sl)
+    */
+   protected static long startLoggingFrom_ = Long.MAX_VALUE;
+  
+   public static final long instanceCount()
+   {
+     return instanceCount_;
+   }
+  
+   #if($addAstFinaliser)
+	  private static long instancesFinalised_ = 0;
+
+    /** if GnAST properties contain addAstFiniliser, we add it here 
+      * note this will decrease AST performance as finalisers aggregate
+      * quite some memory footprint!!!!
+      */ 
+	@Override
+	@SuppressWarnings("FinalizeDeclaration")
+	protected void finalize() throws Throwable
+	{
+		instancesFinalised_++;
+		super.finalize();
+	}
+    public final static long instancesFinalised() { return instancesFinalised_;}
+    public final static boolean countingFinaliser() { return true; }
+   #else
+    public final static boolean countingFinaliser() { return false; }
+    public final static long instancesFinalised() 
+    { 
+      throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
+    }
+   #end
+  #end
 
   /**
    * The default constructor.
@@ -96,11 +142,7 @@ public class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
-  	super();
-    factory_ = null;
-    anns_ = null;
-    list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
-    instanceCount_++;
+  	this(null);
   }
 
   protected ${class.ImplName}(BaseFactory factory)
@@ -108,13 +150,16 @@ public class ${class.ImplName}
     super();
     factory_ = factory;
     anns_ = null;
-    list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
-    instanceCount_++;
+    list_ = null;//new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    #if(! ${class.Abstract})
+	    instanceCount_++;
+	#end
   }
   
-  public static final long instanceCount()
+  protected List<${type}> getList()
   {
-  	return instanceCount_;
+    if (list_ == null) list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    return list_;
   }
 
   @Override
@@ -239,7 +284,7 @@ public class ${class.ImplName}
   @Override
   public void add(int index, ${type} element)
   {
-    list_.add(index, element);
+    getList().add(index, element);
   }
 
   /**
@@ -253,7 +298,7 @@ public class ${class.ImplName}
   @Override
   public ${type} get(int index)
   {
-    return list_.get(index);
+    return getList().get(index);
   }
 
   /**
@@ -270,7 +315,7 @@ public class ${class.ImplName}
   @Override
   public ${type} remove(int index)
   {
-    return list_.remove(index);
+    return getList().remove(index);
   }
 
   /**
@@ -286,7 +331,7 @@ public class ${class.ImplName}
   @Override
   public ${type} set(int index, ${type} element)
   {
-    return list_.set(index, element);
+    return getList().set(index, element);
   }
 
   /**
@@ -295,7 +340,7 @@ public class ${class.ImplName}
   @Override
   public int size()
   {
-    return list_.size();
+    return getList().size();
   }
 
   @Override
@@ -315,7 +360,7 @@ public class ${class.ImplName}
   @Override
   public Object[] getChildren()
   {
-    return list_.isEmpty() ? new Object[0] : list_.toArray();
+    return getList().isEmpty() ? new Object[0] : getList().toArray();
   }
 
   @Override
@@ -334,8 +379,44 @@ public#abstract($class) class ${class.ImplName}
   implements ${class.Name}
 {
 
+#if(! ${class.Abstract})
+	/**
+	 * static instance count for ${class.ImplName}
+	 */
    private static long instanceCount_ = 0;
    
+   /**
+    * public attribute determining whether to log to the 
+    * standard output information about who is creating 
+    * this instance of ${class.ImplName} (e.g., ic >= sl)
+    */
+   protected static long startLoggingFrom_ = Long.MAX_VALUE;
+   
+   #if($addAstFinaliser)
+	  private static long instancesFinalised_ = 0;
+
+    /** if GnAST properties contain addAstFiniliser, we add it here 
+      * note this will decrease AST performance as finalisers aggregate
+      * quite some memory footprint!!!!
+      */ 
+	@Override
+	@SuppressWarnings("FinalizeDeclaration")
+	protected void finalize() throws Throwable
+	{
+		instancesFinalised_++;
+		super.finalize();
+	}
+    public final static long instancesFinalised() { return instancesFinalised_;}
+    public final static boolean countingFinaliser() { return true; }
+  #else
+    public final static boolean countingFinaliser() { return false; }
+    public final static long instancesFinalised() 
+    { 
+      throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
+    }
+  #end
+#end
+
   /**
    * The default constructor.
    *
@@ -345,13 +426,15 @@ public#abstract($class) class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
-  	instanceCount_++;
+  	this(null);
   }
 
   protected ${class.ImplName}(BaseFactory factory)
   {
     super(factory);
+#if(! ${class.Abstract})
     instanceCount_++;
+#end
   }
   
   /**
