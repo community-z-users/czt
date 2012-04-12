@@ -19,15 +19,11 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
-import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.MarshalException;
@@ -35,23 +31,16 @@ import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.Command;
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.SpecSource;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
+import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.NameSectTypeTriple;
-import net.sourceforge.czt.z.ast.Sect;
-import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
-import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.NameTypePairImpl;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.impl.ZNameImpl;
+import net.sourceforge.czt.z.impl.ZStrokeListImpl;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**
@@ -520,7 +509,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   
   protected void printTypes(SectTypeEnvAnn sectTypeEnvAnn, SectionManager sectInfo, Markup markup)
   {
-    List<NameSectTypeTriple> triples = sectTypeEnvAnn.getNameSectTypeTriple();
+    ListTerm<NameSectTypeTriple> triples = sectTypeEnvAnn.getNameSectTypeTriple();
     String prevSect = "";    
     for (NameSectTypeTriple triple : triples) {
       String currSect = triple.getSect();
@@ -1050,10 +1039,33 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         if (printZml) {
           System.out.println("\t\tprint zml......." + benchmarks.get(6) + "ms");
         }
-        System.out.println("\n\t\tAST instance...." + BaseFactory.howManyInstancesCreated());
-      }             
-    }
+        System.out.println("\n\t\tAST instances..." + BaseFactory.howManyInstancesCreated());
+        System.out.println  ("\t\tZStrokeL count.." + ZStrokeListImpl.instanceCount());
+        // or System.out.println  ("\t\tZStrokeL count.." + BaseUtils.instaceCount(ZStrokeListImpl.class));
+        System.out.println  ("\t\tNTPair count...." + NameTypePairImpl.instanceCount());
 
+        System.out.println("\n\t\tZName count....." + ZNameImpl.instanceCount());
+//        System.out.println  ("\t\tZName live......" + (ZNameImpl.instancesFinalised()));
+        System.out.println  ("\t\tZName live......" + (ZNameImpl.instanceCount() - (ZNameImpl.countingFinaliser() ? ZNameImpl.instancesFinalised() : 0)));
+
+        System.out.println("\n\tForce GC");
+        System.gc();
+
+        System.out.println("\n\t\tAST instances..." + BaseFactory.howManyInstancesCreated());
+        System.out.println  ("\t\tZStrokeL count.." + ZStrokeListImpl.instanceCount());
+        // or System.out.println  ("\t\tZStrokeL count.." + BaseUtils.instaceCount(ZStrokeListImpl.class));
+        System.out.println  ("\t\tNTPair count...." + NameTypePairImpl.instanceCount());
+
+        System.out.println("\n\t\tZName count....." + ZNameImpl.instanceCount());
+//        System.out.println  ("\t\tZName live......" + (ZNameImpl.instancesFinalised()));
+        System.out.println  ("\t\tZName live......" + (ZNameImpl.instanceCount() - (ZNameImpl.countingFinaliser() ? ZNameImpl.instancesFinalised() : 0)));
+
+        System.out.println("  \t\tName pool size.." + ZNameImpl.nameIdPool().size());
+        System.out.println("\n\t\tName-Id map....." + ZNameImpl.nameIdPool());
+
+      }            
+    }
+        
     if (printDepsOf)
     {
       System.out.println("\n\n=========================================================================");
