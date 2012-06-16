@@ -1,0 +1,5 @@
+# Allow Eclipse-specific files in this subdirectory.
+# These files are ignored for the whole repository in the root .gitignore
+!.classpath
+!.project
+!.settings
