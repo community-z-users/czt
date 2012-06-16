@@ -114,7 +114,7 @@ public class DocumentEditTracker
    */
   public void init()
   {
-    Display.getDefault().syncExec(new Runnable()
+    Display.getDefault().asyncExec(new Runnable()
     {
 
       @Override
