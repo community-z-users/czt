@@ -2097,9 +2097,9 @@ public abstract class Checker<R>
   }
   
   @Override
-  protected void clearErrors()
+  protected void clearErrors(int fromIndex)
   {
-    super.clearErrors();
+    super.clearErrors(fromIndex);
     pendingCallErrors().clear();
   }
   

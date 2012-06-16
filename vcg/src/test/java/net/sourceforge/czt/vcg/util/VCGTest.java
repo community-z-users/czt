@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
@@ -133,7 +134,12 @@ public abstract class VCGTest extends CztManagedTest
         if (sect instanceof ZSect)
         {
           ZSect zSect = (ZSect)sect;
+          Key<VCEnvAnn<R>> vcKey = new Key(zSect.getName(), vcgu_.getVCG().getVCEnvAnnClass());
+          SectionManager manager = vcgu_.getVCG().config();
+          manager.startTransaction(vcKey);
           VCEnvAnn<R> zSectVCEnvAnn = vcgu_.calculateZSectVCEnv(zSect);
+          manager.endTransaction(vcKey, zSectVCEnvAnn);
+          
           vcgu_.printToFile(zSectVCEnvAnn, getTestsPath(), getMarkup());
           vcEnvCnt++;
         }

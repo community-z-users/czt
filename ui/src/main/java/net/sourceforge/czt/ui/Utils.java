@@ -35,4 +35,8 @@ public class Utils {
         }
         return ext;
     }
+
+  private Utils()
+  {
+  }
 }

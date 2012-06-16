@@ -384,7 +384,7 @@ action code
         final String unicode = directive.getUnicode();
         <add:z>
         // For Std Z printing, we should not consider FUZZ_TOOLKIT symbols!
-        if (!directive.getSection().equals(net.sourceforge.czt.z.util.Section.FUZZ_TOOLKIT.getName()))
+        if (!directive.getSection().equals(net.sourceforge.czt.util.Section.FUZZ_TOOLKIT.getName()))
         </add:z>
            unicode2latexMap_.put(unicode, directive);
       }

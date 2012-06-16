@@ -22,7 +22,7 @@ package net.sourceforge.czt.vcg.z.refinement;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.ZRefKind;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  *
@@ -56,7 +56,7 @@ public interface RefinementPropertyKeys extends VCGPropertyKeys
 
 
   // Refinement toolkit name
-  String VCG_REFINEMENT_TOOLKIT_NAME = Section.FUNCTION_TOOLKIT.getName(); //"ref_toolkit";
+  String VCG_REFINEMENT_TOOLKIT_NAME = Section.REF_TOOLKIT.getName();//Section.FUNCTION_TOOLKIT.getName(); //"ref_toolkit";
 
 
   // default values from properties in VCGPropertyKeys

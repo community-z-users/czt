@@ -19,27 +19,40 @@
 
 package net.sourceforge.czt.parser.util;
 
-import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
-public class LatexMarkupCommand
-  implements Command
+/**
+ * <p>
+ * A command to compute the latex markup function (class LatexMarkupFunction) of a Z section. Since
+ * the LatexMarkupFunction can be calculated during the ZSect parse, a special handling is required
+ * to get correct transaction sequence. The command allows the LatexMarkupFunction to be calculated
+ * during the parse, or via a {@link LatexMarkupFunctionVisitor} otherwise (e.g. for a Unicode
+ * ZSect, or for an already-parsed ZSect), on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
+ */
+public class LatexMarkupCommand extends SectParsableCommand<LatexMarkupFunction>
 {
-  public boolean compute(String name, SectionManager manager)
+  
+  @Override
+  protected Key<LatexMarkupFunction> getKey(String name)
+  {
+    return new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
+  }
+
+  @Override
+  protected LatexMarkupFunction calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    final Key<LatexMarkupFunction> key = new Key<LatexMarkupFunction>(name, LatexMarkupFunction.class);
-    if ( !manager.isCached(key)) {
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      if ( !manager.isCached(key)) {
-        LatexMarkupFunctionVisitor visitor = new LatexMarkupFunctionVisitor(manager);
-        LatexMarkupFunction markup = visitor.run(zSect); 
-        manager.put(key, markup);
-      }
-    }
-    return true;
+    LatexMarkupFunctionVisitor visitor = new LatexMarkupFunctionVisitor(manager);
+    return visitor.run(sect);
   }
 }

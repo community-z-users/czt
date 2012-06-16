@@ -4,9 +4,13 @@
 package net.sourceforge.czt.eclipse.editors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
@@ -40,6 +44,16 @@ public class ZAnnotationReconcilingStrategy
       IReconcilingStrategy,
       IReconcilingStrategyExtension
 {
+  
+  private static final Set<String> SCHEMA_PARTITIONS = 
+      Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
+          IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
+          IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,
+          IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
+          IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_OLD,
+          IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_OLD,
+          IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA_OLD)));
+  
   private ITextEditor fEditor;
   
   private String fPartitioning;
@@ -167,8 +181,8 @@ public class ZAnnotationReconcilingStrategy
     fFoldingPositions.clear();
     fSchemaPositions.clear();
 
-    ITypedRegion[] partitions = null;
     try {
+      ITypedRegion[] partitions;
       if (this.fDocument instanceof IDocumentExtension3) {
         IDocumentExtension3 extension3 = (IDocumentExtension3) this.fDocument;
         partitions = extension3.computePartitioning(
@@ -178,30 +192,15 @@ public class ZAnnotationReconcilingStrategy
         partitions = this.fDocument.computePartitioning(0, this.fDocument
             .getLength());
       }
-    } catch (BadLocationException ble) {
-    } catch (BadPartitioningException bpe) {
-    }
-
-    try {
+      
       for (int i = 0; i < partitions.length; i++) {
         ITypedRegion partition = partitions[i];
         int offset = partition.getOffset();
         int length = partition.getLength();
-        if (IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF.equalsIgnoreCase(partition
-            .getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
-                .equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
-                .equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_OLD
-                .equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_OLD
-                .equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA_OLD
-                .equalsIgnoreCase(partition.getType())) {
+        if (SCHEMA_PARTITIONS.contains(partition.getType())) {
           /*
            * The length of the position for a schema annotation is always 1. Then the drawing strategy
-           * will use the fEditor document to access to the correcponding partition area.
+           * will use the fEditor document to access to the corresponding partition area.
            * This may be not a good solution, but a working one.
            */
           fSchemaPositions.add(new Position(offset, length));
@@ -213,10 +212,11 @@ public class ZAnnotationReconcilingStrategy
           length--;
         }
         if (length > 0)
-          fFoldingPositions.put(new Position(offset, length), partition
-              .getType());
+          fFoldingPositions.put(new Position(offset, length), partition.getType());
       }
-    } catch (BadLocationException e) {
+      
+    } catch (BadLocationException ble) {
+    } catch (BadPartitioningException bpe) {
     }
 
     Display.getDefault().asyncExec(new Runnable()

@@ -22,8 +22,7 @@ package net.sourceforge.czt.base.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.Visitor;
@@ -47,8 +46,7 @@ public abstract class TermImpl implements Term
 
   protected TermImpl()
   {
-    factory_ = null;
-    anns_ = null;
+    this(null);
   }
 
   protected TermImpl(BaseFactory factory)

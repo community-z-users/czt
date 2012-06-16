@@ -26,7 +26,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.vcg.util.BindingFilter;
 import net.sourceforge.czt.vcg.util.BindingUtils;
@@ -298,7 +297,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
             + getState(STATE) + "') and concrete ('"
             + getState(CSTATE)
             + "') states generic parameters put together.";
-        CztLogger.getLogger(getClass()).warning(message);
+        getLogger().warning(message);
       }
     }
   }
@@ -329,7 +328,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
                 " depend on generic parameters not given to concrete operation " + ZUtils.toStringZName(schName) +
                 "\n\tGiven.....: " + genParams.toString() +
                 "\n\tExpected..: " + concreteStateGenParams_.toString();
-          CztLogger.getLogger(getClass()).warning(message);
+          getLogger().warning(message);
         }
 
         checkInclBindingsWithinGivenSchBindings(concreteState_, schName, relevantBindings);
@@ -358,7 +357,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
           // tell the user about it.
           final String message = "An exception occurred while trying to create operation signature schema for '" + schName +
                   "'. Trying to use concrete state instead. Original message....: " + e.getCause().getMessage();
-          CztLogger.getLogger(getClass()).warning(message);
+          getLogger().warning(message);
           checkInclBindingsWithinGivenSchBindings(concreteState_, schName, relevantBindings);
 
           Expr schExpr;
@@ -439,7 +438,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       assert !okay;
       final String message = "Could not find state initialisations for neither abstract nor concrete state";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
 
     // Don't use as variable as the method might change its values
@@ -464,7 +463,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       assert !okay;
       final String message = "Could not find state finalisations for neither abstract nor concrete state";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
 
     okay = checkNeedsComplementarySchema(AINITIN, CINITIN, ZRefVCKind.INIT_IN);
@@ -477,7 +476,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       if (getState(RETRIEVEIN) == null)
       {
         final String message = "Could not find retrieve input schema. Adding a default one";
-        CztLogger.getLogger(getClass()).warning(message);
+        getLogger().warning(message);
       }
       if (getState(STINIT) == null)
       {
@@ -506,7 +505,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       assert !okay;
       final String message = "Could not find initialisation schemas for neither abstract and concrete inputs";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
 
     okay = checkNeedsComplementarySchema(AFINOUT, CFINOUT, ZRefVCKind.FIN_OUT);
@@ -518,7 +517,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       if (getState(RETRIEVEOUT) == null)
       {
         final String message = "Could not find retrieve input schema. Adding a default one";
-        CztLogger.getLogger(getClass()).warning(message);
+        getLogger().warning(message);
       }
       if (getState(STFIN) == null)
       {
@@ -547,7 +546,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       assert !okay;
       final String message = "Could not find finalisation schemas for neither abstract and concrete outputs";
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
     }
 
   }
@@ -620,7 +619,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       
       addedSigSchemas_.put(con, axPara);
       final String message = "Could not find concrete schema for VC " + vckind.toString() + " generation. Creating a default one as " + con;
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
       result = true;
     }
     else if (con != null && abs == null)
@@ -674,7 +673,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       
       addedSigSchemas_.put(abs, axPara);
       final String message = "Could not find abstract schema for VC " + vckind.toString() + " generation. Creating a default one as " + abs;
-      CztLogger.getLogger(getClass()).warning(message);
+      getLogger().warning(message);
       result = true;
     }
     return result;

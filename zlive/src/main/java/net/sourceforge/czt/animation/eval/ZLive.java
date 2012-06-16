@@ -189,7 +189,17 @@ public class ZLive
     // now load the ZLive preprocessing rules.
     try {
       Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
-      sectman_.put(new Key<Source>("unfold", Source.class), unfoldSource);
+      Key<Source> unfoldKey = new Key<Source>("unfold", Source.class);
+      if (sectman_.isCached(unfoldKey))
+      {
+        if (sectman_.isPermanentKey(unfoldKey))
+        {
+          System.err.print("Removing permanent key - " + unfoldKey);
+          System.err.println(". This will enforce reprocessing.");
+        }
+        sectman_.removeKey(unfoldKey);
+      }
+      sectman_.put(unfoldKey, unfoldSource);
       preprocess_ = new Preprocess(sectman_);
       preprocess_.setRules("/preprocess.tex");
     } catch (Exception e) {
@@ -640,4 +650,19 @@ public class ZLive
   }
 
   public net.sourceforge.czt.z.ast.Expr evalSchema(java.lang.String string ,net.sourceforge.czt.z.ast.BindExpr expr) throws net.sourceforge.czt.session.CommandException { return null; }
+
+  // An example on keeping permanent keys - perhaps the method should be made public or indeed something like loading from a file?
+  //class ZLiveSectMan extends SectionManager
+  //{
+  //  ZLiveSectMan()
+  //  {
+  //    super();
+  //    registerPermanentKey("expansion_rules");
+  //    registerPermanentKey("normalization_rules");
+  //    registerPermanentKey("predicate_normalization_rules");
+  //   registerPermanentKey("simplification_rules");
+  //    registerPermanentKey("unfold");
+  //  }
+  //}
+  // All default keys as in util.Section.java
 }

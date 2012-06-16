@@ -1,11 +1,8 @@
 
 package net.sourceforge.czt.zeves;
 
+import java.io.*;
 import net.sourceforge.czt.util.CztLogger;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.text.MessageFormat;
@@ -15,6 +12,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -79,6 +78,10 @@ public class ZEvesApi
   private PrintWriter zEvesOut = null;
 
   private BufferedReader zEvesIn = null;
+  
+  private BufferedWriter debugLog_ = null;
+  
+  private int commandsSent_ = 0;
 
   /**
    * Per-thread storage for response XML reader, which is not thread-safe
@@ -91,6 +94,7 @@ public class ZEvesApi
 
     this.zEvesServerAddress = zEvesServerAddress;
     this.port = port;
+    commandsSent_ = 0;
   }
 
   public String getServerAddress()
@@ -113,11 +117,14 @@ public class ZEvesApi
     try {
       zEvesOut = new PrintWriter(zEvesSocket.getOutputStream(), true);
       zEvesIn = new BufferedReader(new InputStreamReader(zEvesSocket.getInputStream()));
+      File file = new File("./zevesapi-debug.log");
+      debugLog_ = new BufferedWriter(new FileWriter(file));
     }
     catch (IOException e) {
       close();
       throw e;
     }
+    commandsSent_ = 0;
   }
 
   public void disconnect() throws IOException
@@ -128,6 +135,7 @@ public class ZEvesApi
           // quit command does not produce output, so just send it
           zEvesOut.println(MessageFormat.format(ZEVES_COMMAND, "quit", ""));
           zEvesOut.flush();
+          debugLog_.flush();
         }
       }
       catch (Exception ex) {
@@ -191,6 +199,12 @@ public class ZEvesApi
       zEvesSocket.close();
       zEvesSocket = null;
     }
+    
+    if (debugLog_ != null)
+    {
+      debugLog_.close();
+      debugLog_ = null;
+    }
   }
 
   public boolean isConnected()
@@ -222,6 +236,7 @@ public class ZEvesApi
     }
 
     try {
+      debugLog_.flush();
       return readZEvesResponse();
     }
     catch (IOException e) {
@@ -257,7 +272,7 @@ public class ZEvesApi
       throw new ZEvesException("Z/Eves theorem prover is not connected.");
     }
   }
-
+  
   /**
    * Sends a command to the server, formatted as specified in Z/Eves XML API
    * requirements.
@@ -274,10 +289,12 @@ public class ZEvesApi
     // escape custom unicode characters in the command
     command = ZEvesResponseReader.escapeUnicode(command);
 
+    long startTime = System.currentTimeMillis();
     debug("Sending to Z/Eves: " + command);
 
     String resultStr = processCommand(command);
 
+    long zevesTime = (System.currentTimeMillis() - startTime); 
     debug("Received result: " + resultStr);
 
     if (resultStr.isEmpty()) {
@@ -303,6 +320,13 @@ public class ZEvesApi
     }
 
     ZEvesOutput output = checkError(result, command);
+    //debug("Processed result: " + output.toString());
+
+    commandsSent_++;
+    long proofProcessing = ((System.currentTimeMillis() - startTime) - zevesTime); 
+    debug("Proof execution  time (" + commandsSent_ + ") = " + zevesTime + "; " + (zevesTime/1000) + "ms");
+    debug("Proof processing time (" + commandsSent_ + ") = " + proofProcessing + "; " + (proofProcessing/1000) + "ms");
+
     return output;
   }
 
@@ -645,5 +669,16 @@ public class ZEvesApi
   private void debug(String msg)
   {
     System.out.println(msg);
+    if (debugLog_ != null)
+    {
+      try
+      {
+        debugLog_.write(msg);
+      }
+      catch (IOException ex)
+      {
+        System.err.println("Could not log last msg due to an I/O error");
+      }
+    }
   }
 }

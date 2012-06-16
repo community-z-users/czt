@@ -82,6 +82,7 @@ public class ProofTableVisitor
     return table_;
   }
 
+  @Override
   public ProofTable visitTerm(Term term)
   {
     final String message = "ProofTables can only be build for ZSects; " +
@@ -89,12 +90,14 @@ public class ProofTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
+  @Override
   public ProofTable visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
+  @Override
   public ProofTable visitProofScript(ProofScript term)
   {
     try {
@@ -106,11 +109,13 @@ public class ProofTableVisitor
     return null;
   }
 
+  @Override
   public ProofTable visitPara(Para para)
   {
     return null;
   }
 
+  @Override
   public ProofTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
@@ -119,8 +124,9 @@ public class ProofTableVisitor
       ProofTable parentTable = get(parent.getWord(), ProofTable.class);
       parentTables.add(parentTable);
     }
+    table_ = new ProofTable(name);
     try {
-      table_ = new ProofTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (InfoTable.InfoTableException e)
     {

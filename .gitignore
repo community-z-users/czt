@@ -1588,6 +1588,9 @@ doc/papers/sectman/*.tmp
 doc/papers/sectman/.classpath
 doc/papers/sectman/.project
 doc/papers/sectman/.settings
+doc/papers/sectman/master.bbl
+doc/papers/sectman/master.pdf
+doc/papers/sectman/master.synctex.gz
 doc/papers/sectman/target
 doc/papers/target
 doc/papers/zml/*.aux
@@ -2468,6 +2471,7 @@ gnast/doc/.classpath
 gnast/doc/.project
 gnast/doc/.settings
 gnast/doc/target
+gnast/nbactions.xml
 gnast/src/*.aux
 gnast/src/*.blg
 gnast/src/*.log

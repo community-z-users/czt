@@ -24,7 +24,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  * Utilities for printing Circus specifications given as an AST.

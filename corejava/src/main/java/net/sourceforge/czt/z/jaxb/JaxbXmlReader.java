@@ -19,10 +19,9 @@
 
 package net.sourceforge.czt.z.jaxb;
 
-import java.net.URL;
+import javax.xml.bind.JAXBContext;
 
 import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.zml.Resources;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -34,11 +33,16 @@ public class JaxbXmlReader
 {
   public JaxbXmlReader(ZFactory zFactory)
   {
-    super(new JaxbToAst(zFactory), JaxbContext.PATH);
+    super(new JaxbToAst(zFactory));
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst(), JaxbContext.PATH);
+    super(new JaxbToAst());
+  }
+  
+  @Override
+  protected JAXBContext getContext() {
+    return JaxbXmlWriter.JAXB_CONTEXT;
   }
 }

@@ -27,6 +27,10 @@ Variables and methods used:
              The name of the AST object factory.  This is used
              in javadoc in order to link from the constructor to the
              object factory.
+             
+  addAstFiniliser: if ==1, adds a finaliser to the instance counting process
+  			 see variables.vm - perhaps change it to come from gnast.properties?
+  			 or even GnAST Maven Plugin?
 *#
 #parse("src/vm/variables.vm")
 /******************************************************************************
@@ -47,6 +51,7 @@ import java.util.logging.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.base.util.TermInstanceCountManager;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.util.Visitor;
 #foreach($p in $projects)
@@ -78,12 +83,59 @@ public class ${class.ImplName}
    * The list containing the data.
    */
   /*@ non_null @*/
-  private final List<${type}> list_;
+  private List<${type}> list_;
 
   /**
    * A list of annotations.
    */
   private List<Object> anns_;
+  
+  #if(! ${class.Abstract})
+	/**
+	 * static instance count for ${class.ImplName}
+	 */
+   private static long instanceCount_ = 0;
+   
+   /**
+    * public attribute determining whether to log to the 
+    * standard output information about who is creating 
+    * this instance of ${class.ImplName} (e.g., ic >= sl)
+    */
+   protected static long startLoggingFrom_ = Long.MAX_VALUE;
+  
+   public static final long instanceCount()
+   {
+     return instanceCount_;
+   }
+   
+   // addAstFinaliser = $addAstFinaliser
+   // #if ($addAstFinaliser > 0) add finaliser #else dont add finaliser #end
+   #if($addAstFinaliser > 0)
+	  private static long instancesFinalised_ = 0;
+
+    /** if GnAST properties contain addAstFiniliser, we add it here 
+      * note this will decrease AST performance as finalisers aggregate
+      * quite some memory footprint!!!!
+      */ 
+	@Override
+	@SuppressWarnings("FinalizeDeclaration")
+	protected void finalize() throws Throwable
+	{
+		instancesFinalised_++;
+		super.finalize();
+	}
+	// cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
+    public /*final*/ static boolean countingFinaliser() { return true; }
+   #else
+    // cannot be final because Jo	kerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static boolean countingFinaliser() { return false; }
+    public /*final*/ static long instancesFinalised() 
+    { 
+      throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
+    }
+   #end
+  #end
 
   /**
    * The default constructor.
@@ -94,10 +146,7 @@ public class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
-  	super();
-    factory_ = null;
-    anns_ = null;
-    list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  	this(null);
   }
 
   protected ${class.ImplName}(BaseFactory factory)
@@ -105,7 +154,16 @@ public class ${class.ImplName}
     super();
     factory_ = factory;
     anns_ = null;
-    list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    list_ = null;//new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    #if(! ${class.Abstract})
+	    instanceCount_++;
+	#end
+  }
+  
+  protected List<${type}> getList()
+  {
+    if (list_ == null) list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    return list_;
   }
 
   @Override
@@ -230,7 +288,7 @@ public class ${class.ImplName}
   @Override
   public void add(int index, ${type} element)
   {
-    list_.add(index, element);
+    getList().add(index, element);
   }
 
   /**
@@ -244,7 +302,7 @@ public class ${class.ImplName}
   @Override
   public ${type} get(int index)
   {
-    return list_.get(index);
+    return getList().get(index);
   }
 
   /**
@@ -261,7 +319,7 @@ public class ${class.ImplName}
   @Override
   public ${type} remove(int index)
   {
-    return list_.remove(index);
+    return getList().remove(index);
   }
 
   /**
@@ -277,7 +335,7 @@ public class ${class.ImplName}
   @Override
   public ${type} set(int index, ${type} element)
   {
-    return list_.set(index, element);
+    return getList().set(index, element);
   }
 
   /**
@@ -286,7 +344,7 @@ public class ${class.ImplName}
   @Override
   public int size()
   {
-    return list_.size();
+    return getList().size();
   }
 
   @Override
@@ -306,7 +364,7 @@ public class ${class.ImplName}
   @Override
   public Object[] getChildren()
   {
-    return list_.isEmpty() ? new Object[0] : list_.toArray();
+    return getList().isEmpty() ? new Object[0] : getList().toArray();
   }
 
   @Override
@@ -324,6 +382,49 @@ public#abstract($class) class ${class.ImplName}
 #if($class.Extends)  extends ${class.ImplExtends} #end
   implements ${class.Name}
 {
+
+#if(! ${class.Abstract})
+	/**
+	 * static instance count for ${class.ImplName}
+	 */
+   private static long instanceCount_ = 0;
+   
+   /**
+    * public attribute determining whether to log to the 
+    * standard output information about who is creating 
+    * this instance of ${class.ImplName} (e.g., ic >= sl)
+    */
+   protected static long startLoggingFrom_ = Long.MAX_VALUE;
+   
+   // addAstFinaliser = $addAstFinaliser
+   // #if ($addAstFinaliser > 0) add finaliser #else dont add finaliser #end
+   #if($addAstFinaliser > 0)
+	  private static long instancesFinalised_ = 0;
+
+    /** if GnAST properties contain addAstFiniliser, we add it here 
+      * note this will decrease AST performance as finalisers aggregate
+      * quite some memory footprint!!!!
+      */ 
+	@Override
+	@SuppressWarnings("FinalizeDeclaration")
+	protected void finalize() throws Throwable
+	{
+		instancesFinalised_++;
+		super.finalize();
+	}
+	// cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
+    public /*final*/ static boolean countingFinaliser() { return true; }
+  #else
+    // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+	public /*final*/ static boolean countingFinaliser() { return false; }
+    public /*final*/ static long instancesFinalised() 
+    { 
+      throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
+    }
+  #end
+#end
+
   /**
    * The default constructor.
    *
@@ -333,13 +434,17 @@ public#abstract($class) class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
+  	this(null);
   }
 
   protected ${class.ImplName}(BaseFactory factory)
   {
     super(factory);
+#if(! ${class.Abstract})
+    instanceCount_++;
+#end
   }
-
+  
   /**
    * Compares the specified object with this ${class.ImplName}
    * for equality.  Returns true if and only if the specified object is
@@ -440,6 +545,13 @@ public#abstract($class) class ${class.ImplName}
     Object[] erg = { #getterList(${class.AllProperties}) };
     return erg;
   }
+  
+  /** Only concrete classes get the instance count method visible */
+  // JokerCommunication in circuspatt extends CommunicationImpl which is not abstract? weird...
+  public static /*final*/ long instanceCount()
+  {
+  	return instanceCount_;
+  }
 #end##end if not abstract
 #foreach($prop in $class.Properties)
 
@@ -462,7 +574,15 @@ public#abstract($class) class ${class.ImplName}
 
   public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName})
   {
-    ${prop.MemVarName} = ${prop.VarName};
+  	##// ${class.ImplName}
+  	##// ${prop.MemVarName}
+  	##// ${prop.SetterName}
+  	##// $znameImpl
+  	#if(${class.ImplName} == $znameImpl && (${prop.SetterName} == $znameImplSetWord || ${prop.SetterName} == $znameImplSetId))
+  		${prop.SetterName}Internal(${prop.VarName});
+  	#else
+	    ${prop.MemVarName} = ${prop.VarName};
+	#end
   }
 #if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'NameList' || ${prop.Type.Name} == 'DeclList')
 #if(${prop.GetterName} == "get${prop.Type.Name}")

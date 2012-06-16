@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z.util;
 
-import java.io.*;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
@@ -27,11 +26,9 @@ import java.util.Iterator;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
@@ -108,7 +105,7 @@ public class SectTypeEnv
     Set<String> parents = getTransitiveParents(section);
     visibleSections_.addAll(parents);
     visibleSections_.add(section);
-    if (!checkedSections_.contains(section)) checkedSections_.add(section);
+    checkedSections_.add(section);
     section_ = section;
   }
 

@@ -19,19 +19,10 @@
 
 package net.sourceforge.czt.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.z.visitor.*;
 
 public class ToATermVisitor
   implements TermVisitor<Object>
@@ -48,6 +39,7 @@ public class ToATermVisitor
     return result.toString();
   }
  
+  @Override
   public Object visitTerm(Term term) {
     if (term instanceof List){
       write("[");
@@ -67,7 +59,7 @@ public class ToATermVisitor
         write(")");
       }
     }
-    if (term.getAnns().size() != 0) {
+    if (!term.getAnns().isEmpty()) {
       write("{");
       handleChildren(term.getAnns().toArray());
       write("}");

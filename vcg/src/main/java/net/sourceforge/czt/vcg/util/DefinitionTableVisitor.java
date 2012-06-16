@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
@@ -760,9 +758,11 @@ public class DefinitionTableVisitor
     }
   }
 
-  private void modifyLocalBindings(Expr expr, Stack<Stroke> strokes)
+  private void modifyLocalBindings(Definition defToModify, Expr expr, Stack<Stroke> strokes)
   {
-    assert currentGlobalDef_ != null : "cannot modify bindings of null global def";
+    assert defToModify != null : "cannot modify bindings of null global def";
+    assert defToModify.getDefinitionKind().isGlobal() : "cannot modify bindings of local definitions (yet)";
+    
     List<NewOldPair> bindings = factory_.list();
     if (expr instanceof HideExpr)
     {
@@ -801,7 +801,7 @@ public class DefinitionTableVisitor
 //        }
 //      }
       else
-        raiseUnsupportedCase("Unknown type of rename list " + rl.getClass().getSimpleName(), currentGlobalDef_.getDefinitionKind(), expr);
+        raiseUnsupportedCase("Unknown type of rename list " + rl.getClass().getSimpleName(), defToModify.getDefinitionKind(), expr);
     }
     else if (expr instanceof Qnt1Expr)
     {
@@ -840,32 +840,32 @@ public class DefinitionTableVisitor
               catch (DefinitionException ex)
               {
                 errors_.add(ex);
-                debug("definition exception error whilst modifying local bindings \t\t with stack = " + currentName_ + ": \n\"" + ex.getMessage(true) + "\"\n");
+                debug("definition exception error whilst modifying local bindings \t\t with stack = " + defToModify.getDefName() + ": \n\"" + ex.getMessage(true) + "\"\n");
               }
             }
             else
-              raiseUnsupportedCase("Cannot handle InclDecl in Qnt1Expr that is not RefExpr", currentGlobalDef_.getDefinitionKind(), id);
+              raiseUnsupportedCase("Cannot handle InclDecl in Qnt1Expr that is not RefExpr", defToModify.getDefinitionKind(), id);
           }
           else
-            raiseUnsupportedCase("Cannot handle ConstDecl in Qnt1Expr", currentGlobalDef_.getDefinitionKind(), d);
+            raiseUnsupportedCase("Cannot handle ConstDecl in Qnt1Expr", defToModify.getDefinitionKind(), d);
         }
       }
       // letexpr, lambdaexpr, are defined in terms of sets and definite description...
       else
-        raiseUnsupportedCase("Cannot yet handle bindings of quantified expression", currentGlobalDef_.getDefinitionKind(), qe);
+        raiseUnsupportedCase("Cannot yet handle bindings of quantified expression", defToModify.getDefinitionKind(), qe);
     }
     else
-      raiseUnsupportedCase("Unknown type of expression to modify local bindings", currentGlobalDef_.getDefinitionKind(), expr);
+      raiseUnsupportedCase("Unknown type of expression to modify local bindings", defToModify.getDefinitionKind(), expr);
     // assert expr instanceof HideExpr || expr instanceof RenameExpr;
     // otherwise bindings will be empty, which will raise an exception
     try
     {
-      currentGlobalDef_.updateSpecialBindings(bindings);
+      defToModify.updateSpecialBindings(bindings);
     }
     catch (DefinitionException e)
     {
       errors_.add(e);
-      debug("error whilst modifying local bindinds \t\t with stack = " + currentName_ + ": \n\"" + e.getMessage(true) + "\"\n");
+      debug("error whilst modifying local bindinds \t\t with stack = " + defToModify.getDefName() + ": \n\"" + e.getMessage(true) + "\"\n");
     }
   }
 
@@ -1377,6 +1377,38 @@ public class DefinitionTableVisitor
 //      raiseUnsupportedCase("complex schema expression inclusion", DefinitionKind.getSchExpr(currentName_.peek()), decl);
 //    }
   }
+  
+  private ZName decideNameToUse(Expr expr, ZName default_)
+  {
+    ZName result = default_;
+    if (expr instanceof RefExpr)
+    {
+      result = ((RefExpr)expr).getZName();
+    }
+    else if (expr instanceof RenameExpr)
+    {
+      result = decideNameToUse(((RenameExpr)expr).getExpr(), default_);
+    }
+    return result;
+  }
+  
+  private Definition decideDefinitionToUse(ZName refName, Expr expr, DefinitionKind currentDefKind)
+  {
+    // use the current global one if the same as refName
+    Definition def = currentGlobalDef_;
+//    if (!def.getDefName().equals(refName)) 
+//    {
+//      // otherwise, look it up
+//      def = table_.lookupDeclName(refName);
+//      if (def == null)
+//      {
+//        // raise an error if cannot be found
+//        raiseUnsupportedCase("Implicit definition not found for " + refName, currentDefKind, expr);
+//      }
+//    }
+    return def;
+  }
+  
 
   /**
    * Declares all the declared elements within a schema as its bindings, providing
@@ -1457,10 +1489,19 @@ public class DefinitionTableVisitor
       if (expr instanceof SchExpr2)
       {
         SchExpr2 sexpr = (SchExpr2)expr;
-
+        
+        // if these are ref names, we can give then to the inner call
+        // e.g., R == S[x1/x] \semi S[x2/x]
+        Expr lhs = sexpr.getLeftExpr();
+        Expr rhs = sexpr.getRightExpr();
+        ZName nameToUse ;
+        
         // these are not being globally defined, hence we can ignore the result.
-        processSchExpr(genFormals, refName, sexpr.getLeftExpr(), defKinds, strokes);
-        processSchExpr(genFormals, refName, sexpr.getRightExpr(), defKinds, strokes);
+        nameToUse = decideNameToUse(lhs, refName);
+        processSchExpr(genFormals, nameToUse, sexpr.getLeftExpr(), defKinds, strokes);
+        
+        nameToUse = decideNameToUse(rhs, refName);
+        processSchExpr(genFormals, nameToUse, sexpr.getRightExpr(), defKinds, strokes);
       }
       // for PreExpr, just analyse the inner expression
       else if (expr instanceof PreExpr)
@@ -1481,10 +1522,12 @@ public class DefinitionTableVisitor
           // these are not being globally defined, hence we can ignore the result.
           processSchExpr(genFormals, refName, ((Expr1)expr).getExpr(), defKinds, strokes);
 
+          // if current global def isn't the one being renamed/hidden, adjust the local bindings to modify
+          Definition def = decideDefinitionToUse(refName, ((Expr1)expr).getExpr(), currentDefKind);
           // Hide, Rename
           if (!(expr instanceof NegExpr))
           {
-            modifyLocalBindings((Expr1)expr, strokes);
+            modifyLocalBindings(def, (Expr1)expr, strokes);
           }
         }
       }
@@ -1495,7 +1538,8 @@ public class DefinitionTableVisitor
         // process the body
         processSchExpr(genFormals, refName, qe.getExpr(), defKinds, strokes);
         // filter quantified bindings
-        modifyLocalBindings(qe, strokes);
+        Definition def = decideDefinitionToUse(refName, qe, currentDefKind);
+        modifyLocalBindings(def, qe, strokes);
       }
       else
       {

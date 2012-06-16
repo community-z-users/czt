@@ -1,5 +1,5 @@
 
-─ section bbook parents standard_toolkit
+─ section bbookUtf parents standard_toolkit
 └
 
 ─ [ NAME , DATE ]
@@ -12,7 +12,7 @@ birthday : NAME ⇸ DATE
  known = dom birthday
 └
 
-─ theorem BirthdayBookPredicate ⊢?
+─ theorem BirthdayBookPredicate 
 ∀ BirthdayBook ⦁ known = dom birthday
 └
 
@@ -26,7 +26,7 @@ BirthdayBook ′
 known′ = ∅
 └
 
-─ theorem InitIsOK ⊢?
+─ theorem InitIsOK 
 ∃ BirthdayBook ′ ⦁ InitBirthdayBook
 └
 
@@ -42,13 +42,13 @@ date? : DATE
 birthday′ = birthday ∪ { ( name? ↦ date? ) }
 └
 
-─ theorem AddBirthdayIsHonest ⊢? ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ name? ∉ known ⇒ pre AddBirthday
+─ theorem AddBirthdayIsHonest  ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ name? ∉ known ⇒ pre AddBirthday
 └
 
 ├ AddBirthdayIsHonest prove by reduce;
 └
 
-─ theorem knownAddBirthday ⊢? ∀ AddBirthday ⦁ known′ = known ∪ { name? }
+─ theorem knownAddBirthday  ∀ AddBirthday ⦁ known′ = known ∪ { name? }
 └
 
 ├ knownAddBirthday prove by reduce;
@@ -69,7 +69,7 @@ date! = birthday ( name? )
 ─ AddThenFind == AddBirthday ⨟ FindBirthday
 └
 
-─ theorem AddFind ⊢? ∀ AddThenFind ⦁ date! = date?
+─ theorem AddFind  ∀ AddThenFind ⦁ date! = date?
 └
 
 ├ AddFind prove by reduce;
@@ -118,7 +118,7 @@ result! = already_known
 ─ RAddBirthday == AddBirthday ∧ Success ∨ AlreadyKnown
 └
 
-─ theorem RAddBirthdayIsTotal ⊢? ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ pre RAddBirthday
+─ theorem RAddBirthdayIsTotal  ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ pre RAddBirthday
 └
 
 ├ RAddBirthdayIsTotal
@@ -133,7 +133,7 @@ VALUE : ℕ
  VALUE > 0
 └
 
-─ theorem tAddBirthdayPRE ⊢? ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ pre AddBirthday
+─ theorem tAddBirthdayPRE  ∀ BirthdayBook ; name? : NAME ; date? : DATE ⦁ pre AddBirthday
 └
 
 ├ tAddBirthdayPRE
@@ -162,10 +162,10 @@ equality substitute dom birthday;
 └
 
 
-─ theorem myThm ⊢? ∀ x : ℕ ⦁ x ≥ 0
+─ theorem myThm  ∀ x : ℕ ⦁ x ≥ 0
 └
 
-─ theorem test ⊢? ∀ BirthdayBook ⦁ true
+─ theorem test ∀ BirthdayBook ⦁ true
 └
 
 ├ test

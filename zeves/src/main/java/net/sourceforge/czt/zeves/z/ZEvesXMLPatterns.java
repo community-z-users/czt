@@ -352,8 +352,8 @@ public interface ZEvesXMLPatterns {
      * {0} rel          => getName(term.getZName()); 
      * {1} expression   => getExpr(term.getZExprList().get(0));
      */
-    public static final String REF_EXPR_PATTERN = "{0} {1}";
-
+    public static final String PREFIX_REF_EXPR_PATTERN = "{0} ({1})";
+    public static final String POSTFIX_REF_EXPR_PATTERN = "({0}) {1}";
 
     /**
      * {0} semi-colon sep list of bindings as  NAME : EXPR ; NAME : EXPR ...

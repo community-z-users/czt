@@ -19,18 +19,21 @@
 
 package net.sourceforge.czt.session;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class SectionManagerTest
-  extends TestCase
+  extends TestCase  implements Command
 {
   protected SectionManager manager_;
 
+  @Override
   protected void setUp()
   {
     manager_ = new SectionManager();
+    manager_.putCommand(String.class, this);
   }
 
+  @Override
   protected void tearDown()
   {
     manager_ = null;
@@ -60,18 +63,17 @@ public class SectionManagerTest
     manager_.put(key1, "bar");
     manager_.put(key2, "foo");
     manager_.put(key3, "barfoot");
-    assertNotNull(manager_.get(key1));
+    String value = manager_.get(key1);
+    assertNotNull(value);
     assertNotNull(manager_.get(key2));
     assertNotNull(manager_.get(key3));
     manager_.reset();
-    assertNotNull(manager_.get(key2));
+    value = manager_.get(key2);
+    assertNotNull(value);
     assertNotNull(manager_.get(key3));
-    try {
-      manager_.get(key1);
+    //manager_.get(key1);
+    if (manager_.isCached(key1) || !manager_.isCached(key2))
       fail("Should throw Exception");
-    }
-    catch (CommandException e) {
-    }
   }
   
   public void testCachedAndRetrieveKey()
@@ -87,13 +89,20 @@ public class SectionManagerTest
     assertTrue(manager_.isCached(key1));
     assertTrue(manager_.isCached(key2));    
     assertFalse(manager_.isCached(key3));
-    Key<String> key1_ = manager_.retrieveKey(value1);
-    Key<String> key2_ = manager_.retrieveKey(value2);    
-    Key<String> key3_ = manager_.retrieveKey(value3);
+    Key<?> key1_ = manager_.retrieveKey(value1);
+    Key<?> key2_ = manager_.retrieveKey(value2);    
+    Key<?> key3_ = manager_.retrieveKey(value3);
     assertNotNull(key1_);
     assertNotNull(key2_);
     assertNull(key3_);
     assertEquals(key1, key1_);
     assertEquals(key2, key2_);        
+  }
+
+  @Override
+  public boolean compute(String name, SectionManager manager) throws CommandException
+  {
+    manager.endTransaction(new Key<String>(name, String.class), name);
+    return true;
   }
 }

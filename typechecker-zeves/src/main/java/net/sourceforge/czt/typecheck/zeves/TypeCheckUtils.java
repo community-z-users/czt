@@ -29,7 +29,6 @@ import net.sourceforge.czt.zeves.ast.ZEvesFactory;
 import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
 import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
@@ -449,11 +448,8 @@ public class TypeCheckUtils
   protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager("zeves");
-    sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
-    sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
-    sectionManager.putCommand(LatexMarkupFunction.class,
-            ParseUtils.getCommand());
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
+    sectionManager.setProperties(System.getProperties());
     return sectionManager;
   }
 

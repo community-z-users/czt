@@ -6,6 +6,8 @@ Compiling CZT
 
   You need at least the following:
 
+  * SVN installed (e.g., Windows has Tortoise; others it's native)
+
   * {{{http://java.sun.com/javase/downloads/} J2SE Development Kit >= 6}}
 
   * {{{http://maven.apache.org/} Maven version >= 2.0.4}}
@@ -21,6 +23,22 @@ Compiling CZT
   to at least <<<-Xmx256m>>>.  Recommended settings are 
   <<<-Xmx1024m -XX:MaxPermSize=256m>>>.  Then change into the 
   <<<CZT_HOME>>> directory, and call
+  
+  i.e., export these variables to your environment (e.g., Unix format)
+  
+		MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=512m
+      	JAVA_HOME=$HOME/java  			[don't include the /bin directory!]
+      	PATH=$PATH:$HOME/maven/bin		[include the /bin directory!]
+  
+  i.e., acquire the sources from svn
+  		svn checkout https://czt.svn.sourceforge.net/svnroot/czt/trunk
+
+
+  i.e., cd to the place where the svn repository 
+  		mvn clean install
+  		
+  i.e., partial builds (e.g., builds from PROJECT-NAME onwards)
+  		mvn -rf PROJECT-NAME clean install
 
 +---------------------+
   mvn clean install
@@ -41,9 +59,45 @@ Compiling CZT
   running the unit tests call
 
 +------------------------------------------+
-  mvn -Dmaven.test.skip=true clean install
+  mvn clean install -Dmaven.test.skip=true 
 +------------------------------------------+
 
   instead.
 
   See README.txt for information on how to use CZT.
+
+
+--- Step by step 
+
+====================== On Windows 7 (Feb 2012) =====================
+
+a) installed tortoise svn - http://tortoisesvn.net/downloads.html
+b) installed java jdk     - http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-windows-i586.exe
+c) installed maven 		  - http://www.apache.org/dyn/closer.cgi/maven/binaries/apache-maven-3.0.4-bin.zip\
+d) added environment variables above on the user vars (not system-wide)
+	MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=512m
+    JAVA_HOME="C:\Program Files\Java\jdk1.7" 		[add the quotes!!! program files name is long]
+    PATH=%PATH%;c:\maven\bin
+f) started cmd.exe (command) prompt: 
+	cd \
+	mkdir czt
+	cd czt 
+	svn checkout https://czt.svn.sourceforge.net/svnroot/czt/trunk
+	mvn clean install
+g) done
+
+====================== On Mac OS X (Lion) (Feb 2012) =====================
+
+a) svn is native
+b) hit java on prompt it installs Java for Mac for you
+c) maven was already on as well - or just install as above
+d) added environment variables above on the user vars (not system-wide) (e.g., used export VAR=VALUE)
+	MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=512m
+e) started terminal
+	cd $HOME
+	mkdir czt
+	cd czt
+	svn checkout https://czt.svn.sourceforge.net/svnroot/czt/trunk
+	mvn clean install
+g) done
+ 

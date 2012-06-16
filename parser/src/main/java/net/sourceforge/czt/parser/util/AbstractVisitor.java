@@ -19,9 +19,6 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
@@ -31,7 +28,6 @@ public class AbstractVisitor<R>
   implements Visitor<R>
 {
   private SectionInfo sectInfo_;
-  private  Set<Key<?>> dependencies_ = new HashSet<Key<?>>();
 
   public AbstractVisitor(SectionInfo sectInfo)
   {
@@ -53,11 +49,6 @@ public class AbstractVisitor<R>
     }
   }
 
-  public Set<Key<?>> getDependencies()
-  {
-    return dependencies_;
-  }
-
   /**
    * <p>Asks the section manager to provide the requested info.</p>
    *
@@ -72,7 +63,6 @@ public class AbstractVisitor<R>
   protected <T> T get(String name, Class<T> type)
   {
     Key<T> key = new Key<T>(name, type);
-    dependencies_.add(key);
     try {
       return sectInfo_.get(key);
     }

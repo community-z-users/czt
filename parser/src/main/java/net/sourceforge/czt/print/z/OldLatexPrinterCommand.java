@@ -30,7 +30,7 @@ import net.sourceforge.czt.print.util.OldLatexString;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 public class OldLatexPrinterCommand
   extends AbstractLatexPrinterCommand
@@ -46,7 +46,7 @@ public class OldLatexPrinterCommand
       final Term term =  manager.get(key);
       printOldLatex(term, writer, manager);
       writer.close();
-      manager.put(new Key<OldLatexString>(name, OldLatexString.class),
+      manager.endTransaction(new Key<OldLatexString>(name, OldLatexString.class),
                   new OldLatexString(writer.toString()));
       return true;
     }

@@ -1,37 +1,74 @@
 package net.sourceforge.czt.ui;
 
-import javax.swing.*;
-import javax.swing.text.*;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.event.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.basic.BasicHTML;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.BadLocationException;
+import net.sourceforge.czt.animation.eval.TextUI;
+import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.base.impl.BaseFactory;
 
 import net.sourceforge.czt.base.util.TermTreeNode;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
-import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor;
 
-import net.sourceforge.czt.animation.eval.*;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.UnicodeString;
+import net.sourceforge.czt.print.util.XmlString;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSect;
 
-import java.net.URI;
 
 /**
  *  Description of the Class
@@ -73,7 +110,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
   private JPanel languagePanel = new JPanel();
   private JLabel languageLabel = new JLabel("Language: ");
-  private String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules"};
+  private String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules", "Z-Eves"};
   private JComboBox languageCombo = new JComboBox(languageOptions);
 
   private JPanel markupPanel = new JPanel();
@@ -454,8 +491,12 @@ public class CZTGui implements ActionListener,HyperlinkListener
         else
           if(((String)languageCombo.getSelectedItem()).equals("Z Rules"))
             selectedLanguage = "zpatt";
+          else
+            if(((String)languageCombo.getSelectedItem()).equals("Z-Eves"))
+              selectedLanguage = "zeves";
 
     manager = new SectionManager(selectedLanguage);
+    BaseFactory.resetInstanceCounter();
     loadSource = new FileSource(file);
 
     String cztpath = manager.getProperty("czt.path");
@@ -552,7 +593,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
         resultConsole.append(msg);
       }
       //only if no errors
-      statusBar.setText("Finished parsing "+file.getName());
+      statusBar.setText("Finished parsing "+file.getName() + "; AST instance count = " + BaseFactory.howManyInstancesCreated());
 
       saveas.setEnabled(true);
     }
@@ -714,7 +755,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
       /*int n = 0;**/
       //display the spec dialog
       if (event.getSource() == open) {
-        if (!(statusBar.equals("status"))) {
+        if (!(statusBar.getText().equals("status"))) {
           statusBar.setText("status");
         }
         specDialog.setVisible(true);
@@ -773,6 +814,10 @@ public class CZTGui implements ActionListener,HyperlinkListener
           if (extension.endsWith("zedpatt16")) {
             languageCombo.setSelectedItem("Z Rules");
             markupCombo.setSelectedItem("UTF16");
+          }
+          if (extension.endsWith("zev")) {
+            languageCombo.setSelectedItem("Z-Eves");
+            markupCombo.setSelectedItem("Latex");
           }
           if (extension.endsWith("utf8")) {
             markupCombo.setSelectedItem("UTF8");

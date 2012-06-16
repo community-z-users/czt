@@ -42,6 +42,7 @@ public class OpTableVisitor
    * Creates a new operator table visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * @param sectInfo
    */
   public OpTableVisitor(SectionInfo sectInfo)
   {
@@ -53,6 +54,7 @@ public class OpTableVisitor
     return OpTable.class;
   }
 
+  @Override
   public OpTable run(Term term)
     throws CommandException
   {
@@ -65,6 +67,7 @@ public class OpTableVisitor
     return table_;
   }
 
+  @Override
   public OpTable visitTerm(Term term)
   {
     final String message = "OpTables can only be build for ZSects; " +
@@ -72,12 +75,14 @@ public class OpTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
+  @Override
   public OpTable visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
+  @Override
   public OpTable visitOptempPara(OptempPara optempPara)
   {
     try {
@@ -89,22 +94,26 @@ public class OpTableVisitor
     return null;
   }
 
+  @Override
   public OpTable visitPara(Para para)
   {
     return null;
   }
 
+  @Override
   public OpTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
+    // TODO check for cyclic relationships?
     List<OpTable> parentTables = new ArrayList<OpTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       OpTable parentTable =
-        (OpTable) get(parent.getWord(), OpTable.class);
+        get(parent.getWord(), OpTable.class);
       parentTables.add(parentTable);
     }
+    table_ = new OpTable(name);
     try {
-      table_ = new OpTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (InfoTable.InfoTableException e)
     {

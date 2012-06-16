@@ -19,43 +19,42 @@
 
 package net.sourceforge.czt.parser.zpatt;
 
-import java.util.*;
+import net.sourceforge.czt.parser.util.SectParsableCommand;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ZSect;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.visitor.*;
 
-public class JokerTableCommand
-  implements Command
+/**
+ * <p>
+ * A command to compute the joker table (class JokerTable) of a Z section. Since the JokerTable can be
+ * calculated during the ZSect parse, a special handling is required to get correct transaction
+ * sequence. The command allows the JokerTable to be calculated during the parse, or via a
+ * {@link JokerTableVisitor} otherwise, on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
+ */
+public class JokerTableCommand extends SectParsableCommand<JokerTable>
 {
-  /**
-   * Creates a new joker table command.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.JokerTable.class</code>.
-   */
-  public JokerTableCommand()
+  
+  @Override
+  protected Key<JokerTable> getKey(String name)
   {
+    return new Key<JokerTable>(name, JokerTable.class);
   }
 
-  public boolean compute(String name,
-                         SectionManager manager)
+  @Override
+  protected JokerTable calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
     JokerTableVisitor visitor = new JokerTableVisitor(manager);
-    Key<ZSect> key = new Key<ZSect>(name, ZSect.class);
-    ZSect zsect = manager.get(key);
-    JokerTable jokerTable = (JokerTable) visitor.run(zsect);
-    if (jokerTable != null) {
-      Set dep = visitor.getDependencies();
-      dep.add(key);
-      manager.put(new Key<JokerTable>(name, JokerTable.class), jokerTable, dep);
-      return true;
-    }
-    return false;
+    return visitor.run(sect);
   }
 }
+

@@ -20,7 +20,7 @@
 package net.sourceforge.czt.parser.util;
 
 import java.util.Properties;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  *

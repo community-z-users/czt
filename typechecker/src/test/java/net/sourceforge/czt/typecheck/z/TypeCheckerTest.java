@@ -19,7 +19,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 
 import junit.framework.Test;
@@ -152,9 +151,11 @@ public class TypeCheckerTest
 
     TestNormal(URL url)
     {
+      super("Test normal: " + String.valueOf(url));
       url_ = url;
     }
 
+    @Override
     public void runTest()
     {
       SectionManager manager = getManager();
@@ -202,10 +203,12 @@ public class TypeCheckerTest
 
     TestError(URL url, String exception)
     {
+      super("Test error - " + exception + ": " + String.valueOf(url));
       url_ = url;
       exception_ = exception;
     }
 
+    @Override
     public void runTest()
     {
       SectionManager manager = getManager();

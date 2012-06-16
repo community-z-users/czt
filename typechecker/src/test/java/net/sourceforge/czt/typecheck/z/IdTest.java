@@ -18,26 +18,18 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.parser.z.ParseUtils;
-
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
-
-import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -67,11 +59,13 @@ public class IdTest
     return suite;
   }
 
+  @Override
   protected void setUp()
   {
     manager_ = new SectionManager();
   }
 
+  @Override
   protected void tearDown()
   {
     //do nothing?
@@ -252,6 +246,7 @@ public class IdTest
       return list_;
     }
 
+    @Override
     public Object visitTerm(Term term)
     {
       if (term instanceof AxPara) {
@@ -261,6 +256,7 @@ public class IdTest
       return null;
     }
 
+    @Override
     public Object visitZName(ZName zName)
     {
       if (zName.getWord().equals(name_)) list_.add(zName.getId());

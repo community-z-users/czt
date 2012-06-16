@@ -25,15 +25,18 @@ import java.io.Writer;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.print.z.UnicodePrinter;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 
 public class UnicodePrinterCommand
   implements Command
 {
+  @Override
   public boolean compute(String name, SectionManager manager)
     throws CommandException
   {
@@ -42,7 +45,7 @@ public class UnicodePrinterCommand
       final Key<Term> key = new Key<Term>(name, Term.class);
       final Term term =  manager.get(key);
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
-      Term tree = (Term) term.accept(toPrintTree);
+      Term tree = term.accept(toPrintTree);
       PrecedenceParenAnnVisitor precVisitor =
         new PrecedenceParenAnnVisitor();
       tree.accept(precVisitor);
@@ -51,7 +54,7 @@ public class UnicodePrinterCommand
       ZpattPrintVisitor visitor = new ZpattPrintVisitor(printer, props);
       tree.accept(visitor);
       writer.close();
-      manager.put(new Key(name, UnicodeString.class),
+      manager.endTransaction(new Key<UnicodeString>(name, UnicodeString.class),
                   new UnicodeString(writer.toString()));
       return true;
     }

@@ -49,10 +49,13 @@ public class ZEvesSubmitCommand extends AbstractSubmitCommand {
 
 		// wrap into try-finally, because OperationCanceledExpression
 		// may be thrown from inside
+		long time = System.currentTimeMillis();
 		try {
 			zEvesExec.execSpec(specification);
 		} finally {
 			zEvesExec.finish();
+			time = (System.currentTimeMillis() - time) / 1000;
+			System.out.println("Proof execution time = " + time);
 		}
 
 		return Status.OK_STATUS;

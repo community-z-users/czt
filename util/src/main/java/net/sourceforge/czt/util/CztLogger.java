@@ -45,7 +45,7 @@ public final class CztLogger
    * @param aClass the class that needs to log something.
    * @return a suitable Logger.
    */
-  public static Logger getLogger(Class aClass)
+  public static Logger getLogger(Class<?> aClass)
   {
     return Logger.getLogger(aClass.getName());
   }

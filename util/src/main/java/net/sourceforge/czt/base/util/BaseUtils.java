@@ -19,10 +19,12 @@
 
 package net.sourceforge.czt.base.util;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-
-import net.sourceforge.czt.base.ast.*;
+import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
 
 /**
  * Utilities for Terms.
@@ -63,6 +65,8 @@ public final class BaseUtils
 
   /**
    * Returns the maximal depth of the given term tree.
+   * @param term
+   * @return  
    */
   public static int depth(Term term)
   {
@@ -74,5 +78,44 @@ public final class BaseUtils
       }
     }
     return depth + 1;
+  }
+  
+  public static long instaceCount(Class<? extends Term> term)
+  {
+    if (Modifier.isAbstract(term.getModifiers()))
+      throw new IllegalArgumentException("Cannot count instances of abstract term " + term.getSimpleName());
+    final String msg1 = "Term " + term.getSimpleName() + " doesn't have a method 'public static long instanceCount()'!";
+    final String msg2= "Could not acquire permission to invoke 'instanceCount()' method of " + term.getSimpleName();
+    try
+    {
+      Method method = term.getMethod("instanceCount", (Class<?>[]) null);
+      try
+      {
+        Object result = method.invoke(null, (Object[]) null);
+        if (!(result instanceof Long))
+          throw new IllegalArgumentException(msg1);
+        return (Long)result;
+      }
+      catch (IllegalAccessException ex)
+      {
+        throw new IllegalArgumentException(msg2, ex);
+      }
+      catch (IllegalArgumentException ex)
+      {
+        throw ex;
+      }
+      catch (InvocationTargetException ex)
+      {
+        throw new IllegalArgumentException(msg1, ex);
+      }
+    }
+    catch (NoSuchMethodException ex)
+    {
+      throw new IllegalArgumentException(msg1, ex);
+    }
+    catch (SecurityException ex)
+    {
+      throw new IllegalArgumentException(msg2, ex);
+    }
   }
 }

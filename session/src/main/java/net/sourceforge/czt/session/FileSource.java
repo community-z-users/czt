@@ -33,6 +33,7 @@ public class FileSource
   private File file_;
 
   /**
+   * @param filename
    * @throws NullPointerException if filename is <code>null</code>.
    */
   public FileSource(String filename)
@@ -41,6 +42,7 @@ public class FileSource
   }
 
   /**
+   * @param file
    * @throws NullPointerException if file is <code>null</code>.
    */
   public FileSource(File file)
@@ -51,11 +53,13 @@ public class FileSource
     guessSettings(file_.getAbsolutePath());
   }
 
+  @Override
   public String toString()
   {
     return file_.toString();
   }
 
+  @Override
   protected InputStream getStream()
     throws IOException
   {

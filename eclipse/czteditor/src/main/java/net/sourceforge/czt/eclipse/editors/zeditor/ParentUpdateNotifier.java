@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.DocumentEvent;
@@ -278,9 +279,13 @@ public class ParentUpdateNotifier
               return true;
             }
             
-            if (editListeners.containsKey(res.getLocation().toOSString())) {
+            IPath resPath = res.getLocation();
+            if (resPath == null) {
+              return true;
+            }
+            
+            if (editListeners.containsKey(resPath.toOSString())) {
               // interested
-              System.out.println("Resource change " + res.getLocation().toOSString());
               parentChanged();
               // one change is enough, since it will require full reparse
               // throw an exception to stop the visit

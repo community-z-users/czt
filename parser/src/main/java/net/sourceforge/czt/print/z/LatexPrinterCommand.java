@@ -24,6 +24,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.text.MessageFormat;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import net.sourceforge.czt.base.ast.Term;
@@ -64,7 +66,7 @@ public class LatexPrinterCommand
         // in case of spec (e.g., multiple  or anonymous sections; or on-the-fly, don't give sectionName)
         printLatex(term, writer, manager, onTheFlySectName_);
       writer.close();
-      manager.put(new Key<LatexString>(name, LatexString.class),
+      manager.endTransaction(new Key<LatexString>(name, LatexString.class),
                   new LatexString(writer.toString()));
       return true;
     }

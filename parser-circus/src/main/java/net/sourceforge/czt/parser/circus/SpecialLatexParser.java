@@ -11,6 +11,7 @@ package net.sourceforge.czt.parser.circus;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
@@ -24,8 +25,6 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.circus.LatexScanner;
-import net.sourceforge.czt.parser.circus.Sym;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.Markup;
@@ -41,9 +40,9 @@ import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
-import net.sourceforge.czt.circus.ast.*;
 
 import net.sourceforge.czt.print.circus.PrintUtils;
+import net.sourceforge.czt.session.Key;
 
 /**
  * A parser for LaTeX mark-up.  This is a convenience class that
@@ -121,7 +120,7 @@ public class SpecialLatexParser {
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
         throws IOException {
         scanner_ = new LatexScanner(s, sectInfo, properties);
-        parser_ = new Parser(scanner_, s, sectInfo, properties);
+        parser_ = new Parser(scanner_, s, sectInfo, properties, Collections.<Key<?>>emptySet());
     }    
     
     public Term parse()

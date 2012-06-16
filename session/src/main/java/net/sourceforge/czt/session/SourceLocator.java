@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -41,9 +40,22 @@ public class SourceLocator extends AbstractCommand
 
   public static final String PROP_CZT_PATH = "czt.path";
 
+
+  /**
+   * Locates the given name as a toolkit within CZT.jar /lib/name.tex
+   * @param name
+   * @return  URL for name
+   */
+  protected URL locateToolkit(String name)
+  {
+    // see if "name" is a toolkit (i.e., czt.jar/lib/name.tex)
+    String filename = "/lib/" + name + ".tex";
+    return SourceLocator.class.getResource(filename);
+  }
+  
   /**
    * Tries to locate the resource named for the given section manager.
-   * The lookup algorithm for name as follows:
+   * The lookup algorithm for name as follows :
    * 
    * <ol>
    *   <li> checks if is a toolkit within czt.jar!/lib/name.tex
@@ -75,30 +87,26 @@ public class SourceLocator extends AbstractCommand
     throws CommandException
   {
     traceLog("SL-locate       = " + name);
-    // see if "name" is a toolkit (i.e., czt.jar/lib/name.tex)
-    String filename = "/lib/" + name + ".tex";
-    URL url = getClass().getResource(filename);
+    URL url = locateToolkit(name);
     if (url != null) {
-      traceLog("SL-TK-found     = "+filename);
+      traceLog("SL-TK-found     = "+url.toString());
       // source locators have no key dependency
-      manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
+      manager.endTransaction(new Key<Source>(name, Source.class), new UrlSource(url));
       return true;
     }
     traceLog("SL-NO-TK        = try current directory.");
     // see if "name" is within the current directory 
     // with all possible sufixes (i.e., ./name.suffix)
     for (int i = 0; i < suffix_.length; i++) {
-      filename = name + suffix_[i];
+      final String filename = name + suffix_[i];
       File file = new File(filename);
       if (file.exists() && ! file.isDirectory()) {
         traceLog("SL-CURDIR-FOUND = "+filename);
-        manager.put(new Key<Source>(name, Source.class), new FileSource(file));
+        manager.endTransaction(new Key<Source>(name, Source.class), new FileSource(file));
         return true;
       }
     }
     traceLog("SL-NO-CURDIR    = try czt.path");
-    // try to retrieve czt.path
-    List<String> cztpaths = new ArrayList<String>(2);
     String path = manager.getProperty(PROP_CZT_PATH);
     traceLog("SL-SM-czt.path  = " + path);
     // if empty or null, try czt.properties
@@ -117,18 +125,19 @@ public class SourceLocator extends AbstractCommand
     }
     if (path != null && !path.isEmpty())
     {
+      // try to retrieve czt.path
+      List<String> cztpaths = processCZTPaths(path);   
       // split the paths nicely
-      cztpaths = processCZTPaths(path);    
       for (String cztpath : cztpaths)
       {     
         traceLog("SL-SM-cztpath[i] = " + cztpath);
         // check czt.path/name with all possible sufixes as last resort
         for (int i = 0; i < suffix_.length; i++) {
-          filename = cztpath + "/" + name + suffix_[i];
+          final String filename = cztpath + "/" + name + suffix_[i];
           File file = new File(filename);
           if (file.exists()) {
             traceLog("SL-CZTP-found   = "+filename);
-            manager.put(new Key<Source>(name, Source.class), new FileSource(file));
+            manager.endTransaction(new Key<Source>(name, Source.class), new FileSource(file));
             return true;
           }
         }

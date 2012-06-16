@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Stack;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -57,6 +58,7 @@ public class DefinitionTableVisitor
    * Creates a new definition table visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.DefinitionTable.class</code>.
+   * @param sectInfo
    */
   public DefinitionTableVisitor(SectionInfo sectInfo)
   {
@@ -64,6 +66,7 @@ public class DefinitionTableVisitor
     printVisitor_ = new PrintVisitor();
   }
 
+  @Override
   public Object run(Term term)
     throws CommandException
   {
@@ -76,6 +79,7 @@ public class DefinitionTableVisitor
     return table_;
   }
 
+  @Override
   public Object visitTerm(Term term)
   {
     final String message = "DefinitionTables can only be build for ZSects; " +
@@ -83,12 +87,14 @@ public class DefinitionTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
+  @Override
   public Object visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
+  @Override
   public Object visitAxPara(AxPara axPara)
   {
     // gets the generic names
@@ -104,11 +110,13 @@ public class DefinitionTableVisitor
     return null;
   }
 
+  @Override
   public Object visitPara(Para para)
   {
     return null;
   }
 
+  @Override
   public Object visitZSect(ZSect zSect)
   {
 	sectName_ = zSect.getName();
@@ -116,7 +124,7 @@ public class DefinitionTableVisitor
       new ArrayList<DefinitionTable>(zSect.getParent().size());
     for (Parent parent : zSect.getParent()) {
       DefinitionTable parentTable =
-        (DefinitionTable) get(parent.getWord(), DefinitionTable.class);
+        get(parent.getWord(), DefinitionTable.class);
       parentTables.add(parentTable);
     }
     try {
@@ -181,7 +189,7 @@ public class DefinitionTableVisitor
     //  "definition table for inner element names. Adding it as schema " +
     //  "inclusion that is not a reference name. Adding it with name " + bcomplexName
     //  + " as INCLDECL. Other tools might want to try and process it further.");
-    logger_.warning("DEFTBL-VISITOR-COMPLEX-SCHEMA-INCL = " + bcomplexName);
+    logger_.log(Level.WARNING, "DEFTBL-VISITOR-COMPLEX-SCHEMA-INCL = {0}", bcomplexName);
     addDefinition(genFormals, bcomplexName, expr, DefinitionType.INCLDECL);
   }
 
@@ -209,7 +217,7 @@ public class DefinitionTableVisitor
       //logger_.info("Found a reference to a complex (schema) expression inclusion found while building definition table. " +
       //  "These are usually Delta, Xi, or simple decorated schema inclusion expressions. Added " + bname +
       //  " as INCLDECL. Other tools might want to try and process it further.");
-      logger_.warning("DEFTBL-VISITOR-DELTAXI-SCHEMA-INCL = " + bname);
+      logger_.log(Level.WARNING, "DEFTBL-VISITOR-DELTAXI-SCHEMA-INCL = {0}", bname);
       addDefinition(genFormals, bname, refExpr, DefinitionType.INCLDECL);
     }
   }

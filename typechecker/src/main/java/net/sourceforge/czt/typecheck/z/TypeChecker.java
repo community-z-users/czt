@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -241,8 +242,7 @@ public class TypeChecker
                                                                SectTypeEnvAnn.class));
       }
       catch (CommandException e) {
-        logger_.warning("Could not parse and typecheck parent section " + getSectName().toString() +
-          " because a command exception was thrown: " + e);
+        logger_.log(Level.WARNING, "Could not parse and typecheck parent section {0} because a command exception was thrown: {1}", new Object[]{getSectName().toString(), e});
       }
       if (sectTypeEnvAnn != null) {
         //add the parent's global decls to this section's global type environment

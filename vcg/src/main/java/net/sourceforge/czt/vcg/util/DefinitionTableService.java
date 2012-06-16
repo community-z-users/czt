@@ -31,7 +31,6 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -88,13 +87,15 @@ public class DefinitionTableService
   }
 
   protected void updateManager(SectionManager manager,
-          Key<ZSect> sectKey, Key<DefinitionTable> defTblKey,
-          DefinitionTable table, Set<Key<?>> dependencies)
+          Key<ZSect> sectKey, Key<DefinitionTable> defTblKey, DefinitionTable table)
   {
     if (table != null)
     {
-      dependencies.add(sectKey);
-      manager.put(defTblKey, table, dependencies);
+      // table calculated successfully - end transaction to capture the dependencies implicitly
+      manager.endTransaction(defTblKey, table);
+    } else {
+      // could not calculate - cancel the transaction
+      manager.cancelTransaction(defTblKey);
     }
   }
 
@@ -115,45 +116,39 @@ public class DefinitionTableService
                          SectionManager manager)
     throws CommandException
   {
-    DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     Key<ZSect> sectKey = new Key<ZSect>(name, ZSect.class);
     ZSect zsect = manager.get(sectKey);
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(name, DefinitionTable.class);
     DefinitionTable table;
-    // don't calculate if cached
-    if (manager.isCached(defTblKey))
+    
+    // the definition table cannot be cached - parsing does not calculate the definition table
+    
+    DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
+    // calculate table
+    try
     {
-      table = manager.get(defTblKey);
+      table = visitor.run(zsect);
+      updateManager(manager, sectKey, defTblKey, table);
       return table != null;
     }
-    else
+    catch(CommandException f)
     {
-      // calculate table
-      try
+      // in case of raised definition exception, still update the manager
+      // with calculated results, if they are available, before raising
+      // the error. It is up to the caller to fix the manager.
+      if (f instanceof DefinitionException)
       {
-        table = visitor.run(zsect);
-        updateManager(manager, sectKey, defTblKey, table, visitor.getDependencies());
-        return table != null;
+        updateManager(manager, sectKey, defTblKey, visitor.getDefinitionTable());
       }
-      catch(CommandException f)
-      {
-        // in case of raised definition exception, still update the manager
-        // with calculated results, if they are available, before raising
-        // the error. It is up to the caller to fix the manager.
-        if (f instanceof DefinitionException)
-        {
-          updateManager(manager, sectKey, defTblKey, visitor.getDefinitionTable(), visitor.getDependencies());
-        }
-        // then throw it
-        throw f;
-      }
-      catch(CztException e)
-      {
-        // catch visiting related exceptions. cmd exceptions must be handled by caller
-        throw new CommandException("Could not calculate definition table for " + name +
-          "\n\t with message " + e.getMessage() +
-          (e.getCause() != null ? ("\n\t and cause " + e.getCause().getMessage()) : "") + ".", e);
-      }
+      // then throw it
+      throw f;
+    }
+    catch(CztException e)
+    {
+      // catch visiting related exceptions. cmd exceptions must be handled by caller
+      throw new CommandException("Could not calculate definition table for " + name +
+        "\n\t with message " + e.getMessage() +
+        (e.getCause() != null ? ("\n\t and cause " + e.getCause().getMessage()) : "") + ".", e);
     }
   }
 

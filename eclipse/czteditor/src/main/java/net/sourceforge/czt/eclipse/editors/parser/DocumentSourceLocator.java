@@ -59,6 +59,8 @@ public class DocumentSourceLocator extends SourceLocator
             IDocument document = ZEditorUtil.getDocument((ITextEditor) editor);
             if (document != null) {
               // use the document for the source
+              // replace the source - so remove the previous one
+              manager.removeKey(key);
               manager.put(key, createFileSource(path, document.get(), source));
               return true;
             }

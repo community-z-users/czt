@@ -19,41 +19,39 @@
 
 package net.sourceforge.czt.parser.util;
 
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
- * A command to compute the operator table (class OpTable) of a Z section.
+ * <p>
+ * A command to compute the operator table (class OpTable) of a Z section. Since the OpTable can be
+ * calculated during the ZSect parse, a special handling is required to get correct transaction
+ * sequence. The command allows the OpTable to be calculated during the parse, or via a
+ * {@link OpTableVisitor} otherwise, on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
  */
-public class OpTableCommand
-  implements Command
+public class OpTableCommand extends SectParsableCommand<OpTable>
 {
-  /**
-   * Computes operator table for a given ZSection name. It first checks whether
-   * there is an OpTable cached. If there isn't, it retrieves the ZSect for name.
-   * This will either parse it or retrieve from the manager (e.g., manually
-   * created ZSect). Parsing already updates OpTable, so it will be cached and found.
-   * Finally, for manually added ZSect (e.g., when OpTable still not cached),
-   * it calculates the OpTable using the visitor.
-   *
-   * @param name
-   * @param manager
-   * @return
-   * @throws CommandException
-   */
-  // TODO: why not use the visitor's dependencies as well, like in OpTableService? (Leo)
-  public boolean compute(String name, SectionManager manager)
+  
+  @Override
+  protected Key<OpTable> getKey(String name)
+  {
+    return new Key<OpTable>(name, OpTable.class);
+  }
+
+  @Override
+  protected OpTable calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    final Key<OpTable> key = new Key<OpTable>(name, OpTable.class);
-    if ( !manager.isCached(key)) {
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      if ( !manager.isCached(key)) {
-        OpTableVisitor visitor = new OpTableVisitor(manager);
-        OpTable opTable = visitor.run(zSect);
-        manager.put(key, opTable);
-      }
-    }
-    return true;
+    OpTableVisitor visitor = new OpTableVisitor(manager);
+    return visitor.run(sect);
   }
 }

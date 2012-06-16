@@ -45,13 +45,15 @@ public class JokerTableVisitor
    * Creates a new joker table visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.JokerTable.class</code>.
+   * @param sectInfo
    */
   public JokerTableVisitor(SectionInfo sectInfo)
   {
     super(sectInfo);
   }
 
-  public Object run(Term term)
+  @Override
+  public JokerTable run(Term term)
     throws CommandException
   {
     super.run(term);
@@ -63,6 +65,7 @@ public class JokerTableVisitor
     return table_;
   }
 
+  @Override
   public Object visitTerm(Term term)
   {
     final String message = "JokerTables can only be build for ZSects; " +
@@ -70,12 +73,14 @@ public class JokerTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
+  @Override
   public Object visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
+  @Override
   public Object visitJokers(Jokers jokers)
   {
     try {
@@ -87,24 +92,27 @@ public class JokerTableVisitor
     return null;
   }
 
+  @Override
   public Object visitPara(Para para)
   {
     return null;
   }
 
+  @Override
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
     List<JokerTable> parentTables = new ArrayList<JokerTable>();
     for (Parent parent : zSect.getParent()) {
       JokerTable parentTable =
-        (JokerTable) get(parent.getWord(), JokerTable.class);
+        get(parent.getWord(), JokerTable.class);
       if (parentTable != null) {
         parentTables.add(parentTable);
       }
     }
+    table_ = new JokerTable(name);
     try {
-      table_ = new JokerTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (JokerTable.JokerException e)
     {

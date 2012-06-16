@@ -78,6 +78,7 @@ public class ${class.Name}
   ${head}()
   {
     ${c.Name} zedObject = new ${c.ImplName}(this);
+    countInstance();
     return zedObject;
   }
 

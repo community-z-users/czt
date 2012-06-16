@@ -80,6 +80,7 @@ public class SpecChecker extends Checker<Object>
     return term.accept(zSpecChecker_);
   }
   
+  @Override
   public Object visitZSect(ZSect zSect)
   {    
     //reuse the general Checker protocol - needed to do it this way

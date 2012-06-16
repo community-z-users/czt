@@ -32,8 +32,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Properties;
+import java.util.Collection;
+import java.util.Collections;
 
 
+import net.sourceforge.czt.util.CztException;
+
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 <add:circus>
@@ -158,6 +163,11 @@ action code
     /**
      * Create an function application with the SchExpr formed from
      * 'st' and any additional renaming/strokes etc in 'al'.
+     * 
+     * @param e 
+     * @param st 
+     * @param al 
+     * @return
      */
     private ApplExpr createSchApplExpr(Expr e, SchText st,
                                        List &lt; Object &gt; al)
@@ -467,20 +477,17 @@ action code
 </add:circus>
 
     private Operator createOperator(Decorword decorword)
-      throws ParseException
     {
       return createOperator(decorword.getName(), decorword.getLocation());
     }
 
-    @SuppressWarnings("unchecked")
     private Operator createOperator(String name, LocInfo locInfo)
-      throws ParseException
     {
       final ZName dn = factory_.createZName(name);
       final StrokeList sl = dn.getStrokeList();
-      if (sl instanceof List &amp;&amp; ((List) sl).size() != 0) {
+      if (sl instanceof List &amp;&amp; ((List&lt;?&gt;) sl).size() != 0) {
         final Object[] params = { name };
-  	parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
+        parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
                             params, locInfo);
       }
       Operator result = factory_.createOperator(dn.getWord());
@@ -555,10 +562,13 @@ action code
 
     /**
      * Converts a list of String objects to a Name object.
+     * 
+     * @param list 
+     * @param location 
+     * @return
      */
     protected ZName strListToZName(List&lt;String&gt; list,
                                    LocInfo location)
-      throws ParseException
     {
       try {
         OperatorName opName = createOperatorName(list);
@@ -586,9 +596,11 @@ action code
 
     /**
      * Converts a Term to a Pred.
+     * 
+     * @param t 
+     * @return
      */
     protected Pred pred(Term t)
-      throws ParseException
     {
       Pred result = null;
 
@@ -615,9 +627,11 @@ action code
 
     /**
      * Converts an Term to an Expr.
+     * 
+     * @param t 
+     * @return
      */
     protected Expr expr(Term t)
-      throws ParseException
     {
       Expr result = null;
 
@@ -673,7 +687,6 @@ action code
      * Converts a Term to an OpExpr.
      */
     protected OpExpr opExpr(Term t)
-      throws ParseException
     {
       if (t instanceof OpExpr) return (OpExpr) t;
       if (t instanceof RefExpr) {
@@ -691,6 +704,9 @@ action code
 
     /**
      * Converts a Term to a Name.
+     * 
+     * @param t 
+     * @return 
      */
     protected Name name(Term t)
     {
@@ -710,11 +726,15 @@ action code
 
     /**
      * Creates a member predicate from a string list and an expression list.
+     * 
+     * @param name 
+     * @param exprs 
+     * @param loc 
+     * @return
      */
     protected MemPred createMemPred(List&lt;String&gt; name,
                                     ZExprList exprs,
                                     LocInfo loc)
-      throws ParseException
     {
       Expr e = createTupleExpr(exprs);
       Name rn = strListToZName(name, loc);
@@ -729,11 +749,15 @@ action code
      * from a string list and an expression list.
      * The line,column pair are the position of the start of
      * the whole mixfix expression.
+     * 
+     * @param name 
+     * @param exprs 
+     * @param loc 
+     * @return
      */
     protected Expr createMixfixExpr(List&lt;String&gt; name,
                                     ZExprList exprs,
                                     LocInfo loc)
-      throws ParseException
     {
       final Name rn = strListToZName(name, loc);
       Expr result = null;
@@ -765,6 +789,9 @@ action code
      * If the list contains just one expression, the expression is
      * returned.  If there is more than one expression in the list, a
      * tuple expression is created and returned.
+     * 
+     * @param exprs 
+     * @return
      */
     private Expr createTupleExpr(ZExprList exprs)
     {
@@ -774,6 +801,9 @@ action code
 
     /**
      * Returns the right hand side of the previous infix relation.
+     * 
+     * @param pred 
+     * @return
      */
     protected Expr getPreviousRhsExpr(Pred pred)
     {
@@ -809,6 +839,12 @@ action code
     /**
      * Convert a chain relation into a series of and predicates
      * (transformation rule 12.2.10.3).
+     * 
+     * @param chain 
+     * @param sym 
+     * @param rhs 
+     * @param loc 
+     * @return
      */
     protected Pred transformChainRel(Pred chain, int sym, Expr rhs,
                                      LocInfo loc)
@@ -835,7 +871,6 @@ action code
 
     protected Pred transformChainRelInfix(Pred chain, Expr rhs, String ip,
                                           LocInfo loc)
-      throws ParseException
     {
       Pred result = null;
 
@@ -858,6 +893,9 @@ action code
      * Creates a list of strings for a list returned by expSep.
      * This list will represent the name of the operator to which
      * the expressions were applied.
+     * 
+     * @param opName 
+     * @param es
      */
     protected void addExpSepName(List&lt;String&gt; opName, List es)
     {
@@ -876,6 +914,9 @@ action code
 
     /**
      * Returns the list of expressions returned by expSep.
+     * 
+     * @param expList 
+     * @param es 
      */
     protected void addExpSepExp(List expList, List es)
     {
@@ -892,8 +933,23 @@ action code
       // use the cyclic manager to get valid parents avoiding cyclic recursion
       CyclicParseManager cyclicMan = CyclicParseManager.getManager(sectInfo_);
       List&lt;Parent&gt; validParents = cyclicMan.getValidParents(section, parents); 
-      try {
-        
+      try
+      {
+        // to enable proper transaction scopes within the section manager,
+        // we MUST adhere to the most natural dependency ordering between
+        // any info table involved. 
+        // the one we choose was: 
+        //  [ProofTable] dependsOn ThmTble dependsOn [JokerTble] dependsOn OpTable
+        //
+        //
+        // ahhh, but there is the possibility of unrecovered errors or syntax errors
+        // or indeed scanning errors. In that case, we would need a catch for closing/cancelling
+        // the transactions. Instead then, we decided to end the transaction with a empty
+        // info table that gets filled along the way during parsing. If such errors occur,
+        // then upon removing the ZSect involved, we know that the dependant tables get
+        // removed as well becuase they explicitly depend on the ZSect.
+        // So order here of resetXXXTable doesn't matter.
+
         resetOpTable(section, validParents, line, column);
         resetThmTable(section, validParents, line, column);
 <add:pattern>
@@ -939,87 +995,164 @@ action code
       }
     }
     
-    private OpTable getOperatorTable(String section, int line, int column)
-      throws ParseException
+    /**
+     * Starts a transaction for the info table. Also calculates parent info tables and returns
+     * them. This means that parent info tables become implicit dependencies for this info table.
+     * 
+     * @param section
+     * @param parents
+     * @param line
+     * @param column
+     * @param tableKey
+     * @param tableLabel
+     * @return
+     */
+    private &lt;T&gt; List&lt;T&gt; startInfoTableTransaction(String section, List&lt;Parent&gt; parents, 
+        int line, int column, Key&lt;T&gt; tableKey, String tableLabel)
     {
-      try {
-        return sectInfo_.get(new Key&lt;OpTable&gt;(section, OpTable.class));
-      }
-      catch (CommandException e) {
-        Object [] args = { "Operator table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
-      }
-    }
-
-    private void resetOpTable(String section, List&lt;Parent&gt; parents,
-                              int line, int column)
-      throws ParseException
-    {
-      List&lt;OpTable&gt; parentOpTables = factory_.list();
+      /*
+       * Start the transaction for the info table. Parent calculations later will start their own
+       * transactions (via {@code SectionInfo.get()}), thus nesting transactions and dependencies.
+       * We assume here, that the parent cycles have been resolved.
+       */
+      sectInfo_.startTransaction(tableKey);
+  
+      List&lt;T&gt; parentInfoTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.isEmpty();
       }
       else {
         for (Parent parent : parents) {
-          OpTable parentOp = getOperatorTable(parent.getWord(), line, column);
-          if (parentOp != null) {
-            parentOpTables.add(parentOp);
+          
+          // For each parent, resolve their info table and use it to create the current one.
+          // Note that if problems occur in parents, the error is reported, but parsing continues.
+          try 
+          {
+            // will have a transaction on the inner/parent table
+            T parentInfoTable = sectInfo_.get(new Key&lt;T&gt;(parent.getWord(), tableKey.getType()));
+            parentInfoTables.add(parentInfoTable);
+          }
+          catch (CommandException e) {
+            Object [] args = { tableLabel, section, e.getMessage() };
+            parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
+                                args, new LocInfoImpl(getLoc(), line, column));
           }
         }
       }
-      try {
-        opTable_ = new OpTable(section, parentOpTables);
-      }
-      catch (InfoTable.InfoTableException e) {
-        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_OPTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
-     }
-     opScanner_.setOperatorTable(opTable_);
+      
+      return parentInfoTables;
     }
     
-    private ThmTable getThmTable(String section, int line, int column)
-      throws ParseException
+    /**
+     * End the transaction for the info table calculation in the Section Manager. The transaction is
+     * ended immediately after calculation of the info table. It is then populated with contents
+     * during the actual parsing. This means that the info table can be empty when first put in the
+     * section manager, and filled with content later. Such approach is necessary to ensure correct
+     * transactions in the section manager. Otherwise, parsing of different info tables can overlap,
+     * and transactions would fail.
+     * &lt;p&gt;
+     * To accommodate for the short-circuiting of the info table transactions, we add an explicit
+     * dependency on the ZSect for the info table. This is to signal that the ZSect may contain
+     * contents for the info table, e.g. operator definitions.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The same approach (end transaction after initial resolution of an object) is used for
+     * LatexMarkupFunction computation. This is necessary because of a complicated parsing protocol,
+     * and is a compromise to achieve transactional structure to some level. Otherwise the
+     * transactions would overlap. To achieve better confidence in the dependencies, some
+     * dependencies are added explicitly (e.g. that info table depends on its ZSect).
+     * &lt;/p&gt;
+     * 
+     * @param section
+     * @param tableKey
+     * @param infoTable
+     */
+    private &lt;T&gt; void endInfoTableTransaction(String section, Key&lt;T&gt; tableKey, T infoTable)
     {
+      sectInfo_.endTransaction(tableKey, infoTable,
+          Collections.singleton(new Key&lt;ZSect&gt;(section, ZSect.class)));
+    }
+    
+    /**
+     * Marks the given key of the info table computation as a dependency for the parsed section. 
+     * This is used to implicitly include the dependency on an info table, e.g. if it is used to
+     * interpret/generate the subsequent contents of the Z section. For example, OpTable is used
+     * in the operator scanner, so we mark this dependency. This should be done for all info
+     * tables that have bi-directional dependency with the ZSect, e.g. OpTable, JokerTable. The
+     * ThmTable, though, is not used by the parser, so it should not be a dependency for the ZSect.
+     * 
+     * @param section 
+     * @param tableKey
+     * @return 
+     */
+    private &lt;T&gt; T markInfoTableDependency(String section, Key&lt;T&gt; tableKey) {
+      try
+      {
+        // mark the implicit dependency via SectionInfo.get(), 
+        // because we are inside a ZSect transaction
+        return sectInfo_.get(tableKey);
+      }
+      catch (CommandException e)
+      {
+        // should never happen - we have just put the table into the manager
+        final String message = "Could not retrieve " + tableKey.getType().getSimpleName() 
+            + " for " + section + " that has just been calculated?!";
+        throw new CztException(message, e);
+      }
+    }
+    
+    private void resetOpTable(String section, List&lt;Parent&gt; parents,
+                              int line, int column)
+    {
+      Key&lt;OpTable&gt; optKey = new Key&lt;OpTable&gt;(section, OpTable.class);
+      
+      // start the transaction and collect parent tables
+      List&lt;OpTable&gt; parentOpTables = startInfoTableTransaction(
+          section, parents, line, column, optKey, "Operator table");
+      
+      OpTable opTable = new OpTable(section);
       try {
-        return sectInfo_.get(new Key&lt;ThmTable&gt;(section, ThmTable.class));
+        opTable.addParents(parentOpTables);
       }
-      catch (CommandException e) {
-        Object [] args = { "Named conjectures table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
+      catch (InfoTable.InfoTableException e) {
+        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_OPTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
       }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, optKey, opTable);
+      
+      opTable_ = opTable;
+      
+      // mark the OpTable dependency for the ZSect, because it is used in the operator scanner 
+      markInfoTableDependency(section, optKey);
+      opScanner_.setOperatorTable(opTable_);
     }
     
     private void resetThmTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
-      throws ParseException
     {
-      List&lt;ThmTable&gt; parentThmTables = factory_.list();
-      if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.isEmpty();
-      }
-      else {
-        for (Parent parent : parents) {
-          ThmTable parentThms = getThmTable(parent.getWord(), line, column);
-          if (parentThms != null) {
-            parentThmTables.add(parentThms);
-          }
-        }
-      }
+      Key&lt;ThmTable&gt; thmKey = new Key&lt;ThmTable&gt;(section, ThmTable.class);
+      
+      // start the transaction and collect parent tables
+      List&lt;ThmTable&gt; parentThmTables = startInfoTableTransaction(
+          section, parents, line, column, thmKey, "Named conjectures table");
+      
+      ThmTable thmTable = new ThmTable(section);
       try {
-        thmTable_ = new ThmTable(section, parentThmTables);
+        thmTable.addParents(parentThmTables);
       }
       catch (InfoTable.InfoTableException e) {
-        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_THMTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
-     }     
+        parser.report_error(ZParseMessage.MSG_CANNOT_MERGE_THMTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
+      }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, thmKey, thmTable);
+      
+      thmTable_ = thmTable;
     }
 
 <add:zeves>
@@ -1037,93 +1170,130 @@ action code
                                getLocation(nleft, nright));
        }
     }
-
-    private ProofTable getProofTable(String section, int line, int column)
-      throws ParseException
-    {
-      try {
-        return sectInfo_.get(new Key&lt;ProofTable&gt;(section, ProofTable.class));
-      }
-      catch (CommandException e) {
-        Object [] args = { "Named proof scripts table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
-      }
-    }
-
+    
     private void resetProofTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
-      throws ParseException
     {
-      List parentProofTables = factory_.list();
-      if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.size() == 0;
-      }
-      else {
-        for (Parent parent : parents) {
-          ProofTable parentProofs = getProofTable(parent.getWord(), line, column);
-          if (parentProofs != null) {
-            parentProofTables.add(parentProofs);
-          }
-        }
-      }
+      Key&lt;ProofTable&gt; proofKey = new Key&lt;ProofTable&gt;(section, ProofTable.class);
+      
+      // start the transaction and collect parent tables
+      List&lt;ProofTable&gt; parentProofTables = startInfoTableTransaction(
+          section, parents, line, column, proofKey, "Named proof scripts table");
+      
+      ProofTable proofTable = new ProofTable(section);
       try {
-        proofTable_ = new ProofTable(section, parentProofTables);
+        proofTable.addParents(parentProofTables);
       }
       catch (InfoTable.InfoTableException e) {
-        parser.report_error(ZEvesParseMessage.MSG_CANNOT_MERGE_PROOFTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
-     }
+        parser.report_error(ZEvesParseMessage.MSG_CANNOT_MERGE_PROOFTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
+      }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, proofKey, proofTable);
+      
+      proofTable_ = proofTable;
     }
 </add:zeves>
 
 <add:pattern>
-    private JokerTable getJokerTable(String section, int line, int column)
-       throws CommandException
-    {
-      try {
-        return sectInfo_.get(new Key&lt;JokerTable&gt;(section, JokerTable.class));
-      }
-      catch (CommandException e) {
-        Object [] args = { "Joker table",
-                           section, e.getMessage() };
-        parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(getLoc(), line, column));
-        return null;
-      }
-    }
-
     private void resetJokerTable(String section, List&lt;Parent&gt; parents,
-                                 int line, int column)
-      throws CommandException
+                              int line, int column)
     {
-      List parentJokerTables = factory_.list();
-      if (Section.PRELUDE.getName().equals(section)) {
-        assert parents.size() == 0;
-      }
-      else {
-        for (Parent parent : parents) {
-          JokerTable parentJoker =
-            getJokerTable(parent.getWord(), line, column);
-          if (parentJoker != null) {
-            parentJokerTables.add(parentJoker);
-          }
-        }
-      }
+      Key&lt;JokerTable&gt; jokerKey = new Key&lt;JokerTable&gt;(section, JokerTable.class);
+      
+      // start the transaction and collect parent tables
+      List&lt;JokerTable&gt; parentJokerTables = startInfoTableTransaction(
+          section, parents, line, column, jokerKey, "Joker table");
+      
+      JokerTable jokerTable = new JokerTable(section);
       try {
-        jokerTable_ = new JokerTable(section, parentJokerTables);
+        jokerTable.addParents(parentJokerTables);
       }
       catch (JokerTable.JokerException e) {
-        parser.report_error(ZpattParseMessage.MSG_CANNOT_MERGE_JOKERTABLES,
-                            new Object[] { e.getMessage() },
-                            getLocation(line, column));
+        parser.report_error(ZpattParseMessage.MSG_CANNOT_MERGE_JOKERTABLES, 
+            new Object[]{e.getMessage()},
+            getLocation(line, column));
       }
+  
+      // end the transaction with the non-null value
+      endInfoTableTransaction(section, jokerKey, jokerTable);
+      
+      jokerTable_ = jokerTable;
+      
+      // mark the JokerTable dependency for the ZSect, because it is used in the joker scanner 
+      markInfoTableDependency(section, jokerKey);
       jokerScanner_.setJokerTable(jokerTable_);
     }
 </add:pattern>
+
+    /**
+     * Starts the Z section computation transaction in the Section Manager. The transaction allows to
+     * capture the dependencies of the ZSect - e.g. that it depends on its OpTable, and transitively
+     * on parent OpTables and ZSects.
+     * &lt;p&gt;
+     * The ZSect transaction must be started manually, because the parsing is done for the whole
+     * specification. So the section manager can start a transaction on the Spec, however inside the
+     * specification, there can be multiple Z sections. Thus transactions for each ZSect are started
+     * and ended manually, during the parse process.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The start of transaction handles issues with redeclared sections as well. See
+     * {@link #endZSectTransaction(ZSect, OpTable)} for more details about the ZSect transaction and
+     * explicit dependencies.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * When the manual transaction starts, we need to ensure that any exceptions until the end of
+     * transaction are caught and handled. If an exception is encountered, the ZSect transaction must
+     * be cancelled. This is done in {@link Parser#parse()} method, which is the single entry point to
+     * parsing.
+     * &lt;/p&gt;
+     * 
+     * @param sectName
+     * @see #endZSectTransaction(ZSect, OpTable)
+     */
+    private void startZSectTransaction(String sectName)
+    {
+      Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
+       
+      /*
+       * There may be cases when the Z section is calculated already at the start of transaction.
+       * Sometimes it can be because of the pollution of section manager (SM) from previous runs -
+       * this should have been removed before running the parsing again. Polluted section managers
+       * should generally be caught by other transactions, so it is not that important to be strict
+       * about existing objects in SM cache here.
+       *
+       * However, there are cases when we can encounter this case in a single specification
+       * (RedeclaredSection). The parser is required to parse such specification without errors, and
+       * leave the check for the typechecker. Thus there is parsing of two identical section names
+       * (and therefore keys). For this case - when we encounter the second (redeclared) section, we
+       * remove the ZSect from SM if it is already cached, and start a new transaction for its
+       * calculation. We will have a case when the second ZSect "overwrites" the first ZSect via
+       * remove-endTransaction.
+       * 
+       * If we do not do such "overwriting", we would have needed to make the RedeclaredSection a
+       * parsing error and stop parsing altogether (e.g. via Exception). Current solution allows us to
+       * finish parsing and postpone the check to typechecker.
+       */
+      if (sectInfo_.isCached(zsKey))
+      {
+        sectInfo_.removeKey(zsKey);
+      }
+       
+      /*
+       * Force start the transaction - we cannot have it started already. The parsing could not have
+       * started with a ZSect transaction, because parsing encompasses the whole Spec (even if it has
+       * a single ZSect). So the outer transaction must be that of a Spec, and we should not have an
+       * existing transaction on ZSect. Therefore do a strict startTransaction(), instead of
+       * ensureTransaction().
+       * 
+       * Note if parsing is started using SectionInfo#get(ZSect), the original ZSect transaction is
+       * postponed in favor of the Spec transaction (see ParseUtils for details).
+       */
+       
+      sectInfo_.startTransaction(zsKey);
+    }
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
     {
@@ -1132,29 +1302,28 @@ action code
       ZSect result = factory_.createZSect(name, parents, paraList);
       return result;
     }
-
-    private ZSect updateZSect(ZSect zSect, OpTable opTable, ThmTable thmTable
-      <add:pattern>, JokerTable jokerTable </add:pattern>
-      <add:zeves>, ProofTable proofTable</add:zeves>)
+    
+    /**
+     * Ends the transaction for Z section calculation in the Section Manager. The computed ZSect
+     * receives final adjustments - its operators are reordered according to their precedence, and the
+     * LatexMarkupFunction is added as a LatexMarkupPara to the section. The Z section transaction is
+     * ended, and the section is added to the section manager.
+     * 
+     * @param zSect
+     *          The Z section to end transaction
+     * @param opTable 
+     *          The operator table to determine operator precedences
+     * @return The updated Z section (may be the same object)
+     * @see #startZSectTransaction(String)
+     */
+    private ZSect endZSectTransaction(ZSect zSect, OpTable opTable)
     {
       final boolean parseError = parser.hasErrors();
       final String sectName = zSect.getName();
-      final PrecedenceHandlingVisitor visitor =
-        new PrecedenceHandlingVisitor(opTable);
+  
+      // reorder the Z section in correct operator precedence
+      final PrecedenceHandlingVisitor visitor = new PrecedenceHandlingVisitor(opTable);
       final ZSect sect = (ZSect) zSect.accept(visitor);
-      LatexMarkupFunction latexMarkupFunction = null;
-      final Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
-      if (sectInfo_.isCached(key)) {
-        try {
-          latexMarkupFunction = sectInfo_.get(key);
-        }
-        catch (CommandException exception) {
-          String message =
-            "Error retrieving LatexMarkupFunction for " + sectName;
-          CztLogger.getLogger(<class/>.class).warning(message);
-        }
-      }
-
 <add:zeves>
       if (sectName.equals("zeves_toolkit"))
       {
@@ -1162,17 +1331,11 @@ action code
         parserState_.updateZSectWithAddedPara(sect);
       }
 </add:zeves>
-
-      // Retrieves the markup directives through the markup function
-      // from the section manager. The markup function calculates the
-      // LaTeX markup directives within a section. When no directives
-      // are added, this paragraph is added to the front of the paragraph
-      // list of the section with an empty list of  directives.
-      if (latexMarkupFunction != null) {
-        final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
-        ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
-      }
+      // Add the LatexMarkupFunction as a LatexMarkupPara to the ZSect.
+      // Note, that this will add implicit dependency on LMF, if it is available
+      addLatexMarkupPara(sect, sectName);
 <add:circus>
+      
       // Add implicit process paragraphs to the ZSect term.
       ZUtils.assertZParaList(sect.getParaList()).addAll(parserState_.getImplicitlyDeclProcPara());
 //      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " +
@@ -1181,42 +1344,81 @@ action code
 //        System.out.println("\t" + para.toString());
 //      }
 //      System.out.println();
-
 </add:circus>
-
-      if (parseError) return sect;
-
-      // OpTables of this section depend on its own ZSect and on the operator tables of its parents.
-      sectInfo_.put(new Key&lt;OpTable&gt;(sectName, OpTable.class), opTable, 
-        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, OpTable.class).build());
-
-      // ThmTables of this section depend on its own ZSect and on the theorem tables of its parents.
-      sectInfo_.put(new Key&lt;ThmTable&gt;(sectName, ThmTable.class), thmTable,
-        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, ThmTable.class).build());
-
-<add:pattern>
-      // JokerTables of this section depend on its own ZSect and on the joker tables of its parents.
-      sectInfo_.put(new Key&lt;JokerTable&gt;(sectName, JokerTable.class), jokerTable,
-        new DependenciesBuilder().self(sect, ZSect.class).parents(sect, JokerTable.class).build());
-</add:pattern>
+      
+      Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(sectName, ZSect.class);
+  
+      if (!parseError) {
 <add:zeves>
-      // ProofTables of this section depend on its own ZSect and on the proofs tables of its parents and on its own ThmTable (??? CHECK TODO ???).
-      sectInfo_.put(new Key&lt;ProofTable&gt;(sectName, ProofTable.class), proofTable,
-        new DependenciesBuilder().self(sect, ZSect.class).self(sect, ThmTable.class).parents(sect, ProofTable.class).build());
-
-      proofTable.checkAgainst(thmTable); // just warning in case of inconsistency (e.g., more proofs than conj para).
-      //proofTable.verifyConsistency(thmTable); -- for error
+        
+        // check proof-thm table consistency
+        checkProofTables();
+        
 </add:zeves>
-
-      // To parse a ZSect we depend on our own operator table and latex markup function only.
-      // These tables, depend on this section parents, but that's an indirect dependency.
-      // Notice that the OpTable dependency has a dual link with its own ZSect
-      <add:pattern>// For the ZPatt parser, we also depend on the JokerTable, just like  the OpTable.</add:pattern>
-      sectInfo_.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), sect,
-                    new DependenciesBuilder().self(sect, OpTable.class).self(sect, LatexMarkupFunction.class).
-                      <add:pattern>self(sect, JokerTable.class).</add:pattern>build());
+        /*
+         * End the ZSect transaction. The parser may carry explicit dependencies to add for the ZSect.
+         * This allows indicating some dependencies that could have been missed since ZSect
+         * transaction is started later in the parsing, e.g. that ZSect depends on its Source, or has
+         * a bi-directional dependency with its Spec.
+         * 
+         * ZSect also depends on its LatexMarkupFunction, OpTable and JokerTable. Actually, dependencies 
+         * with these objects are bi-directional (they also depend on the ZSect). These dependencies are
+         * implicitly captured (see #resetOpTable(), addLatexMarkupPara(), etc.), so there is no need to
+         * add them explicitly.
+         */
+        sectInfo_.endTransaction(zsKey, sect, parser.getExplicitDeps());
+      }
+      else {
+        // in case of parsing errors, cancel the transaction
+        sectInfo_.cancelTransaction(zsKey);
+      }
       return sect;
     }
+
+    /**
+     * Adds the computed LatexMarkupFunction for the Z section, if available, as a LatexMarkupPara to
+     * the section.
+     * 
+     * @param sect
+     * @param sectName
+     */
+    private void addLatexMarkupPara(ZSect sect, String sectName)
+    {
+      Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(sectName, LatexMarkupFunction.class);
+      if (sectInfo_.isCached(key)) {
+        try {
+  
+          /*
+           * Note that this SectionInfo#get(LMF) call will add dependency on the LMF to the ZSect.
+           * This is good, because it indicates the dependency implicitly, which may have been missed
+           * since LatexMarkupParser executes before Parsing (and ZSect transaction) even starts.
+           */
+          LatexMarkupFunction latexMarkupFunction = sectInfo_.get(key);
+  
+          /*
+           * During lexing, the LatexMarkupFunction for this ZSect may have been calculated, which
+           * contains LaTeX markup directives within the section. These directives are added to the
+           * front of the Z section as a LatexMarkupPara. If no directives exist, a LatexMarkupPara
+           * with empty directives list is added.
+           */
+          LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
+          ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
+  
+        }
+        catch (CommandException exception) {
+          String message = "Error retrieving LatexMarkupFunction for " + sectName;
+          CztLogger.getLogger(Parser.class).warning(message);
+        }
+      }
+    }
+<add:zeves>
+
+    private void checkProofTables()
+    {
+        proofTable_.checkAgainst(thmTable_); // just warning in case of inconsistency (e.g., more proofs than conj para).
+        //proofTable_.verifyConsistency(thmTable_); -- for error
+    } 
+</add:zeves>
 
     protected String getLoc()
     {
@@ -1947,7 +2149,7 @@ action code
 
 parser code
 {:
-    private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+    private static final Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
     <add:circus>
     //static {
@@ -1961,15 +2163,55 @@ parser code
     //}
     </add:circus>
 
+    @Override
     public Symbol parse() throws java.lang.Exception
     {
-      Symbol symbol = super.parse();
-      //if (error_) throw new ParseException(errorList_);
+      // perform the parsing, but wrap into a try-catch, to react when problems
+      // occur - we need to update the transactions in the section manager
+      Symbol symbol;
+      try {
+      
+        symbol = super.parse();
+        
+      } catch (Exception e) {
+        /*
+         * If fatal exception occurred during the parsing (usually problems are reported
+         * but the parsing continues), we need to cancel the current transaction. This is 
+         * required, because ZSect transactions are started manually, instead of via 
+         * SectionInfo.get(). So upon exception, find out the current ZSect, and cancel
+         * its transaction, then re-throw the exception.
+         */
+        cleanupZSectTransaction();
+        
+        throw e;
+      }
+      
       if (hasErrors())
       {
+        // need to cleanup, e.g. if scanning error happens. It would be reported, but
+        // parsing stops and section transaction is not closed.
+        cleanupZSectTransaction();
         raiseErrors();
       }
       return symbol;
+    }
+    
+    /**
+     * Finds the current section, and cancels its transaction, if one is still active.
+     * This is necessary because section transactions are started manually, and we need
+     * to cleanup if unexpected error (e.g. underlying scanning error) happens. 
+     */
+    private void cleanupZSectTransaction() {
+      String currentSect = action_obj.parserState_.getCurrentSectName();
+      if (currentSect != null) {
+        Key&lt;ZSect&gt; sectKey = new Key&lt;ZSect&gt;(currentSect, ZSect.class);
+        // Check whether the current section transaction is still active.
+        // This is needed, because sometimes the transaction has finished
+        // and we are just reporting errors (and cleaning up)
+        if (sectKey.equals(sectInfo_.getCurrentTransaction())) {
+          sectInfo_.cancelTransaction(sectKey);
+        }
+      }
     }
 
     /** The file being parsed. */
@@ -2040,6 +2282,13 @@ parser code
       }
     }
 
+    // there are more constructors created by java cup, don't put it final!
+    private Set&lt;Key&lt;?&gt;&gt; explicitDeps_ = Collections.emptySet();
+
+    Set&lt;Key&lt;?&gt;&gt; getExplicitDeps()
+    {
+      return Collections.unmodifiableSet(explicitDeps_);
+    }
 
     /**
      * Creates a new parser with the given scanner, source information,
@@ -2051,12 +2300,14 @@ parser code
     public <class/>(Scanner scanner,
                     Source source,
                     SectionInfo sectInfo,
-                    Properties properties)
+                    Properties properties,
+                    Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
     {
       super(scanner);
       source_ = source;
       sectInfo_ = sectInfo;
       errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
       parseException_ = null;
       if (source != null) {
         try {
@@ -2165,7 +2416,6 @@ parser code
     }
 
     public void unrecovered_syntax_error(Symbol token)
-      throws ParseException
     {
       report_error("Syntax error", createSyntaxError(token));
       done_parsing();
@@ -3158,9 +3408,7 @@ specification ::=
         emptySectionHeader:header paragraphList:pl
         {:
            header.setParaList(pl);
-           ZSect zSect = updateZSect(header, opTable_, thmTable_
-             <add:pattern>, jokerTable_ </add:pattern>
-             <add:zeves>, proofTable_ </add:zeves>);
+           ZSect zSect = endZSectTransaction(header, opTable_);
            RESULT = createSpec(factory_.list(zSect));
            <add:circus>
                //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
@@ -3188,6 +3436,9 @@ emptySectionHeader ::=
 <add:circus>
            final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
+
+           startZSectTransaction(name);
+           
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetInfoTables(name, parents, eleft, eright);
            
@@ -3223,9 +3474,7 @@ section ::=
                //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", pl.isEmpty() ? null : getLocation(pl.get(0)));
            </add:circus>
            header.setParaList(pl);
-           RESULT = updateZSect(header, opTable_, thmTable_
-             <add:pattern>, jokerTable_ </add:pattern>
-             <add:zeves>, proofTable_ </add:zeves>);
+           RESULT = endZSectTransaction(header, opTable_);
            if (pl.size() > 0) {
              Para plPara = pl.get(pl.size()-1);
              //logProductionResult(plPara, "PARAGRAPH LOCATION AT SECTION", getLocation(plPara));
@@ -3276,6 +3525,8 @@ sectionHeader ::=
              p.add(circusParent);
            }
 </add:circus>
+           startZSectTransaction(name);
+           
            resetInfoTables(name, p, pleft, pright);
            
            RESULT = createZSect(name, p);

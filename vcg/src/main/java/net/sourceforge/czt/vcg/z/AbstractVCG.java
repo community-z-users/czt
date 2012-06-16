@@ -36,12 +36,9 @@ import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ThmTable;
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
@@ -66,7 +63,7 @@ import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
@@ -98,25 +95,25 @@ public abstract class AbstractVCG<R>
 
 
   /**
-   * Usual toolkits to ignore whilst generating VCs
+   * Usual toolkits to ignore whilst generating VCs - use Section.java instead
    */
-  protected static final String[] EXTENDED_TOOLKIT_NAMES =
-  {
-    "whitespace",
-    "fuzz_toolkit",
-    "zstate_toolkit"
-  };
-
-  protected static final String[] STANDARD_TOOLKIT_NAMES =
-  {
-      "prelude",
-      "number_toolkit",
-      "set_toolkit",
-      "relation_toolkit",
-      "function_toolkit",
-      "sequence_toolkit",
-      "standard_toolkit"
-  };
+//  protected static final String[] EXTENDED_TOOLKIT_NAMES =
+//  {
+//    "whitespace",
+//    "fuzz_toolkit",
+//    "zstate_toolkit"
+//  };
+//
+//  protected static final String[] STANDARD_TOOLKIT_NAMES =
+//  {
+//      "prelude",
+//      "number_toolkit",
+//      "set_toolkit",
+//      "relation_toolkit",
+//      "function_toolkit",
+//      "sequence_toolkit",
+//      "standard_toolkit"
+//  };
 
   private boolean addTrivialVC_;
   private boolean logTypeWarnings_;
@@ -242,8 +239,8 @@ public abstract class AbstractVCG<R>
    */
   protected SortedSet<String> defaultParentsToIgnore()
   {
-    SortedSet<String> result = new TreeSet<String>(Arrays.asList(STANDARD_TOOLKIT_NAMES));
-    result.addAll(Arrays.asList(EXTENDED_TOOLKIT_NAMES));
+    SortedSet<String> result = new TreeSet<String>(Section.standardSections());//Arrays.asList(STANDARD_TOOLKIT_NAMES));
+    //result.addAll(Arrays.asList(EXTENDED_TOOLKIT_NAMES));
     return result;
   }
 
@@ -467,7 +464,7 @@ public abstract class AbstractVCG<R>
       String prop = "";
       for (String path : defaultParentsToIgnore())
       {
-        prop = path + File.pathSeparator;
+        prop += path + File.pathSeparator;
       }
       if (!prop.isEmpty())
       {
@@ -554,8 +551,8 @@ public abstract class AbstractVCG<R>
         if (e.getCause() instanceof TypeErrorException)
         {
           TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
-          final int i = printTypeErrors(typeErrorException.getErrors());
-          //getLogger().warning("VCG-TYPECHK-ZSECT-ERROR = (" + sectName + ", " + i + ")");
+          //final int i = printTypeErrors(typeErrorException.getErrors());
+          //getLogger().log(Level.WARNING, "VCG-TYPECHK-ZSECT-ERROR = ({0}, {1})", new Object[]{sectName, i});
         }
       }
       throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
@@ -590,6 +587,18 @@ public abstract class AbstractVCG<R>
     return result;
   }
 
+  protected List<String> printTypeErrors(TypeErrorException tee)
+  {
+    List<String> result = new ArrayList<String>();
+    //print any errors
+    for (ErrorAnn next : tee.getErrors())
+    {
+      //if (next.getErrorType().equals(ErrorType.ERROR))
+      result.add(next.toString());
+    }
+    return result;
+  }
+
   /**
    * Calculate ThmTable for the VC ZSectName create on the fly
    * @param sectNameVC
@@ -608,32 +617,6 @@ public abstract class AbstractVCG<R>
     catch (CommandException ex)
     {
       throw new VCGException("VCG-CREATE-ZSectDC = could not create ThmTable for ", sectNameVC, ex);
-    }
-  }
-
-  /**
-   * Like in Parser.xml, we need to add OpTable and ThmTable (and other tables)
-   * for ZSections created on-the-fly (e.g., DC ZSect).
-   *
-   * To be called only by methods creating ZSects on the fly.
-   *
-   * @param zSect DC ZSect (or on the fly ones)
-   * @throws VCGException
-   */
-  protected void updateManager(ZSect zSect) throws VCGException
-  {
-    assert sectManager_ != null;
-    try
-    {
-      ParseUtils.updateSectManager(sectManager_, zSect);
-      final String sectName = zSect.getName();
-     // sectManager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
-    }
-    catch (CommandException e)
-    {
-      final String msg = "VCG-CMDEXP-TBL = " + (e.getCause() == null ? e : e.getCause());
-      getLogger().warning(msg);
-      throw new VCGException(msg, e);
     }
   }
 
@@ -917,17 +900,16 @@ public abstract class AbstractVCG<R>
   }
 
   @Override
-  @SuppressWarnings(value = "unchecked")
   public List<VC<R>> visitZSect(ZSect term)
   {
     String sectName = term.getName();
     
-    retrieveTables(sectName);
-
     List<VC<R>> result = factory_.list();
     
     // process section parents, if needed
     result.addAll(collect(term.getParent().toArray(new Parent[0])));
+    
+    retrieveTables(sectName);
     
     // collect all VCs from the declared paragraphs
     result.addAll(collect(term.getZParaList().toArray(new Para[0])));
@@ -1253,7 +1235,6 @@ public abstract class AbstractVCG<R>
    * @return VC Z section as a list of VC conjectures
    * @throws VCGException
    */
-  @SuppressWarnings("unchecked")
   public VCEnvAnn<R> createVCEnvAnn(Term term, List<? extends Parent> parents) throws VCGException
   {
     assert term != null : "invalid term for VCG";
@@ -1304,8 +1285,11 @@ public abstract class AbstractVCG<R>
     zsect.getZParaList().add(para);
 
     // add the temporary section to the manager. Do I need the source? No?
-    getManager().put(new Key<Source>(zsect.getName(), Source.class), new StringSource(zsect.toString()), ParseUtils.calculateDependencies(zsect, Source.class));
-    getManager().put(new Key<ZSect>(zsect.getName(), ZSect.class), zsect, ParseUtils.calculateDependencies(zsect, ZSect.class));
+    // since these were generated on the fly and do not depend on existing elements in the section manager,
+    // just add them without dependencies
+    // we don't even need the source, since the ZSect will be in the section manager
+//    getManager().put(new Key<Source>(zsect.getName(), Source.class), new StringSource(zsect.toString()));
+    getManager().put(new Key<ZSect>(zsect.getName(), ZSect.class), zsect);
 
     // VC on-the-fly Z section with std_toolkit as parent
     VCEnvAnn<R> result = createVCEnvAnn(zsect);
@@ -1347,24 +1331,50 @@ public abstract class AbstractVCG<R>
     // where ??=DC,AX,PRE,etc for each kind of VC generation
     ZSect zsectVC = createVCZSectHeader(sectName);
     String sectNameVC = zsectVC.getName();
+    
+    // ensure all parents of zsectVC are parsed - new parents 
+    // can be introduced by the VC generator, e.g. function_toolkit
+    for (Parent parent : zsectVC.getParent()) {
+      try {
+        sectManager_.get(new Key<ZSect>(parent.getWord(), ZSect.class));
+      }
+      catch (CommandException e) {
+        // TODO add additional info?
+        throw new VCGException(e);
+      }
+    }
+    
+    Key<ZSect> vcSectKey = new Key<ZSect>(sectNameVC, ZSect.class);
+    sectManager_.startTransaction(vcSectKey);
 
-    // get the VCs from term sectName
-    List<VC<R>> vcList = calculateVCS(term);
+    List<VC<R>> vcList;
+    try {
+      // get the VCs from term sectName
+      vcList = calculateVCS(term);
+  
+      // update t he VC ZSect and add it to the SectionManager
+      // it is accessible as manager.get(new Key<ZSect>(sectName + VCG_GENERAL_NAME_SUFFIX, ZSect.class));
+      populateResultsToVCZSect(zsectVC, vcList);
+    
+    } catch (VCGException e) {
+      // exception happened in the middle of transaction - cancel it
+      sectManager_.cancelTransaction(vcSectKey);
+      // rethrow the exception
+      throw e;
+    }
 
-    // update t he VC ZSect and add it to the SectionManager
-    // it is accessible as manager.get(new Key<ZSect>(sectName + VCG_GENERAL_NAME_SUFFIX, ZSect.class));
-    populateResultsToVCZSect(zsectVC, vcList);
-
-    // update section manager with calculated results: 
-    // (e.g., put VC ZSect as well as Op/Thm tables
-    updateManager(zsectVC);
+    // end the transaction for the generated section - make it explicitly dependent
+    // on the source section
+    sectManager_.endTransaction(vcSectKey, zsectVC, 
+        Collections.singleton(new Key<ZSect>(sectName, ZSect.class)));
     
     // type check generated VC Z section just created
     // on the fly - it ought to succeed
     typeCheck(sectNameVC, false);
 
     // calculate ThmTable for new VC ZSect
-    calculateThmTable(sectNameVC);
+    // TODO: why calculate? if someone needs them, will calculate themselves
+    // calculateThmTable(sectNameVC);
 
     // create the result environment - only the original name is needed, but we also given the created name
     VCEnvAnn<R> result = newVCEnvAnn(sectNameVC, sectName, vcList);

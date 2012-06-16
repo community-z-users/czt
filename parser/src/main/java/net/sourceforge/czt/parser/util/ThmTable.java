@@ -33,11 +33,9 @@ public class ThmTable extends InfoTable
   
   private SortedMap<String, ThmInfo> thmTable_ = new TreeMap<String, ThmInfo>();
 
-  public ThmTable(String section, Collection<ThmTable> parents)
-    throws InfoTable.InfoTableException
+  public ThmTable(String section)
   {
     super(section);
-    addParents(parents);
   }
   
   /**

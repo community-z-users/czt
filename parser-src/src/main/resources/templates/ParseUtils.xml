@@ -25,21 +25,24 @@ package <package/>;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
 import org.xml.sax.InputSource;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnmarshalException;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.z.util.Version;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 
-import java.util.Set;
-import java.util.HashSet;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.OpTable;
-import net.sourceforge.czt.parser.util.ThmTable;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
@@ -49,11 +52,11 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
@@ -87,45 +90,71 @@ import net.sourceforge.czt.zeves.jaxb.JaxbXmlReader;
 /**
  * Utilities for parsing specifications.
  *
- * @author Petra Malik, Tim Miller, Leo Freitas
+ * @author Petra Malik, Tim Miller, Leo Freitas, Andrius Velykis
  */
 public class <class/> extends AbstractCommand
 {
+
+  public static Term parse(Source source, SectionInfo sectInfo)
+    throws ParseException, IOException, UnmarshalException
+  {
+    return parse(source, sectInfo, new Properties());
+  }
 
   public static Term parse(Source source,
                            SectionInfo sectInfo,
                            Properties properties)
     throws ParseException, IOException, UnmarshalException
   {
+    return parse0(source, sectInfo, properties, Collections.&lt;Key&lt;?&gt;&gt;emptySet());
+  }
+
+
+  private static Term parse0(Source source,
+                           SectionInfo sectInfo,
+                           Properties properties,
+                           Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
+    throws ParseException, IOException, UnmarshalException
+  {
     traceLog("PU-parse-source = " + source);
     Term result = null;
     if (source.getMarkup() == Markup.LATEX) {
-      LatexParser parser = new LatexParser(source, sectInfo, properties);
+      LatexParser parser = new LatexParser(source, sectInfo, properties, explicitDeps);
       result = parser.parse();
       parser = null;
     }
     else if (source.getMarkup() == Markup.UNICODE) {
-      UnicodeParser parser = new UnicodeParser(source, sectInfo, properties);
+      UnicodeParser parser = new UnicodeParser(source, sectInfo, properties, explicitDeps);
       result = parser.parse();
       parser = null;
     }
-    else if (source.getMarkup() == Markup.ZML) {
+    else if (source.getMarkup() == Markup.ZML)
+    {
       JaxbXmlReader reader = new JaxbXmlReader();
       result = reader.read(new InputSource(source.getReader()));
       if (result instanceof Spec) {
         Spec spec = (Spec) result;
         for (Sect sect : spec.getSect()) {
-          if (sect instanceof ZSect) {
+          if (sect instanceof ZSect)
+          {
             ZSect zSect = (ZSect) sect;
-            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), 
-              zSect, calculateDependencies(zSect));
+
+            // Latex and unicode parsers put ZSect into SectMan themselves. Here we put the
+            // parsed ZSect as well for a uniform solution.
+            //
+            // No need for section manager transaction since section management is not used here.
+            // However, we need to add explicit dependencies such as source and spec.
+            //
+            // The InfoTables or LMF won't be needed: if they are requested, their respective commands
+            // will calculate them for the user.
+            sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, explicitDeps);
           }
         }
       }
       else if (result instanceof ZSect) {
         ZSect zSect =  (ZSect) result;
-        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect,
-          calculateDependencies(zSect));
+        // add the section directly to the manager --- same as above
+        sectInfo.put(new Key&lt;ZSect&gt;(zSect.getName(), ZSect.class), zSect, explicitDeps);
       }
       reader = null;
     }
@@ -135,12 +164,6 @@ public class <class/> extends AbstractCommand
     assert result != null;
     traceLog("PU-parse-result = " + result.getClass().getSimpleName());
     return result;
-  }
-
-  public static Term parse(Source source, SectionInfo sectInfo)
-    throws ParseException, IOException, UnmarshalException
-  {
-    return parse(source, sectInfo, new Properties());
   }
 
   /** Parse a Source string/file as a Z Predicate.
@@ -202,7 +225,7 @@ public class <class/> extends AbstractCommand
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = sectman.clone();
-    Source input = new StringSource(buf.toString());
+    Source input = new StringSource(buf.toString(), name);
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
@@ -286,7 +309,7 @@ public class <class/> extends AbstractCommand
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = sectman.clone();
-    Source input = new StringSource(buf.toString());
+    Source input = new StringSource(buf.toString(), name);
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
@@ -350,7 +373,7 @@ public class <class/> extends AbstractCommand
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = sectman.clone();
-    Source input = new StringSource(buf.toString());
+    Source input = new StringSource(buf.toString(), name);
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
     tmpsectman.put(new Key&lt;Source&gt;(name, Source.class), input);
@@ -394,118 +417,6 @@ public class <class/> extends AbstractCommand
     return new ParseUtils();
   }
 
-  // SECTION MANAGEMENT METHODS
-
-  public static Class&lt;?&gt;[] dependencyClassesOfInterest()
-  {
-    return new Class&lt;?&gt;[] {
-      // source locator
-      Source.class,
-      // latex markup function
-      LatexMarkupFunction.class,
-      // section parents
-      ZSect.class,
-      // thm tables
-      ThmTable.class,
-      // opt template tables
-      OpTable.class
-      <add:pattern>
-      // joker tables
-      , JokerTable.class
-      </add:pattern>
-      <add:zeves>
-      // proof script tables
-      , ProofTable.class 
-      </add:zeves>
-     };
-  }
-
-  /**
-   * Calculate the dependencies as all dependencies of all ZSect of the given spec
-   *
-   * @param term spec
-   * @return complete set of depenendcy keys
-   */
-  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(Spec term)
-  {
-    Set&lt;Key&lt;?&gt;&gt; dependencies = new HashSet&lt;Key&lt;?&gt;&gt;();
-    for (Sect s : term.getSect())
-    {
-      if (s instanceof ZSect)
-      {
-        dependencies.addAll(calculateDependencies((ZSect)s));
-      }
-    }
-    return dependencies;
-  }
-
-  /**
-   * Calculates the dependency keys for all dependencyClassesOfInterest().
-   */
-  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(ZSect term)
-  {
-    return calculateDependencies(term, dependencyClassesOfInterest());
-  }
-
-  /**
-   * Given a ZSection, it calculates the dependency keys from all parents, for
-   * the given Key information type T
-   * @param term the ZSection to calculate parents from
-   * @param types
-   * @return set of keys with given type
-   */
-  @SuppressWarnings("unchecked")
-  public static Set&lt;Key&lt;?&gt;&gt; calculateDependencies(ZSect term, Class&lt;?&gt;... types)
-  {
-    Set&lt;Key&lt;?&gt;&gt; dependencies = new HashSet&lt;Key&lt;?&gt;&gt;();
-    for (Parent parent : term.getParent())
-    {
-      for (Class&lt;?&gt; type : types)
-      {
-        // adds dependencies for all parents on all class types of interest
-        dependencies.add(new Key(parent.getWord(), type));
-      }
-    }
-    // adds a final dependency on the source for this given section
-    dependencies.add(new Key&lt;Source&gt;(term.getName(), Source.class));
-    return dependencies;
-  }
-
-  /**
-   * For non-parsed ZSect (e.g., created on-the-fly by tools), one needs to update
-   * a given section manager in a particular order. This method produces a similar
-   * effect as does the parser when processing Source(s). see DomainChecker for use.
-   * @param sectInfo section manager to update
-   * @param nonParsedZSect on-the-fly ZSect to add
-   * @throws CommandException in case some command fails
-   */
-  public static void updateSectManager(net.sourceforge.czt.session.SectionInfo sectInfo, ZSect nonParsedZSect) throws CommandException
-  {
-    assert sectInfo != null &amp;&amp; nonParsedZSect != null;
-
-    // get info + log data
-    final String sectName = nonParsedZSect.getName();
-    traceLog("PU-SMUPD-ZSECT = " + sectName);
-
-    // tell the section manager about the presence of this new Z section
-    // no need to parse, we know it is okay - it's been constructed.
-    sectInfo.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), nonParsedZSect,
-            calculateDependencies(nonParsedZSect));
-
-    // ONLY AFTER ADDING ZSect: calculate a OpTable for it (see Op/ThmTableCommand protocols).
-    try
-    {
-      sectInfo.get(new Key&lt;OpTable&gt;(sectName, OpTable.class));
-      sectInfo.get(new Key&lt;ThmTable&gt;(sectName, ThmTable.class));
-    }
-    catch (CommandException e)
-    {
-      final String msg = "PU-CMDEXP-TBL = " + e.getCause();
-      traceLog(msg);
-      throw e;
-    }
-  }
-
   // Command METHODS
 
   /**
@@ -536,58 +447,231 @@ public class <class/> extends AbstractCommand
   protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
-    // create a Spec key for the given name and check if it's cached,
-    // in which case, all of its ZSect are put to the manager. This
-    // happens when a Spec is created manually (e.g., does not come
-    // from parsing). Parsed ZSects are added by Parser.xml@updateZSect
     traceLog("PU-compute-name = " + name);
-    Key&lt;Spec&gt; key = new Key&lt;Spec&gt;(name, Spec.class);
-    if (manager.isCached(key)) {
-      Spec spec = manager.get(key);
-      for (Sect sect : spec.getSect()) {
-        if (sect instanceof ZSect) {
-          ZSect zsect = (ZSect) sect;
-          // if an annonymous ZSect, also add the file name for/to it?
-          if (zsect.getName().equals(net.sourceforge.czt.z.util.Section.ANONYMOUS.getName()))
-          {
-            manager.put(new Key&lt;ZSect&gt;(name, ZSect.class), zsect, calculateDependencies(zsect));
-          }
-          manager.put(new Key&lt;ZSect&gt;(zsect.getName(), ZSect.class),
-                      zsect, calculateDependencies(zsect));
-
-        }
-      }
-      final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
-      traceLog(msg);
+    
+    // First try a special case - if there is a Spec with the same name (e.g. added on the fly).
+    // In that case, resolve the sections from the Spec. Otherwise, continue with full parse.
+    boolean computedFromSect = computeSpecSections(name, manager);
+    if (computedFromSect) {
       return true;
     }
-    try {
-      // the usual case, Spec comes from some Source and is parsed.
-      boolean result = false;
-      Source source = manager.get(new Key&lt;Source&gt;(name, Source.class));
-      // If we find the source, parse it and add Spec to the manager
-      // The Parser.xml adds all ZSects (e.g., see updateZSect).
-      if (source != null) {
-        Term term = ParseUtils.parse(source, manager, manager.getProperties());
-        if (term instanceof Spec) {
-          manager.put(new Key&lt;Spec&gt;(name, Spec.class), (Spec) term, calculateDependencies((Spec)term));
-        }
-        result = term != null;
-        final String msg = "PU-PARSED = parse " + (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
-        traceLog(msg);
-      }
-      // What if result is false? The SM protocol does not use this flag! Why keep it? [Leo]
-      return result;
+    
+    /*
+     * The ParseUtils command is usually used to resolve both ZSect and Spec keys. However, even
+     * during resolve of ZSect, the whole Spec is parsed - so other ZSects from the same Spec are
+     * also added, and we need to track them in dependencies.
+     * 
+     * To achieve a uniform solution, we reorder the transactions so that the outer one is always
+     * the Spec, since ZSect transactions are handled in the Parser. This is done by postponing
+     * the ZSect transaction, if one exists and ensuring that a Spec transaction has started.
+     */
+    Key&lt;Spec&gt; specKey = new Key&lt;Spec&gt;(name, Spec.class);
+    
+    // Postpone the ZSect transaction started by the SectionInfo.get(ZSect).
+    // Note that it may not be started, if ParseUtils is called for SectionInfo.get(Spec).
+    Key&lt;?&gt; currentTrans = manager.getCurrentTransaction();
+    if (currentTrans.getType() == ZSect.class)
+    {
+      manager.postponeTransaction(currentTrans, specKey);
     }
-    catch (ParseException exception) {
-      throw new CommandException(exception);
+
+    // TODO now that we have the current transaction - can we do something about ZML Terms?
+    // E.g. check if a non-Spec is requested, and do a special case for ZML terms?
+
+    // Unless a SectionInfo.get(Spec) was performed, we need to have its transaction explicitly
+    // started here.
+    manager.ensureTransaction(specKey);
+    
+    
+    /*
+     * The usual parse case is when a Spec comes from a named Source, and is parsed from the file.
+     * The Latex and Unicode parsers would produce a Spec, however ZML sources may give any term. In
+     * these cases, Spec would be obtained - however at the moment we do not support these cases via
+     * the command approach. Only the case of a singleton ZSect is supported by wrapping it into a
+     * ZSect.
+     */
+    
+    Term term;
+    try {
+    
+      // Retrieve the Spec source
+      Key&lt;Source&gt; sourceKey = new Key&lt;Source&gt;(name, Source.class);
+      Source source = manager.get(sourceKey);
+      
+      // After we have the source, parse it and add the result Spec to the manager. The individual 
+      // ZSects will be added to the section manager during the parsing (see Parser#updateZSect).
+      // Indicate the explicit dependencies on the Source and the current Spec for the
+      // ZSects created during parsing.
+    
+      term = ParseUtils.parse0(source, manager, manager.getProperties(),
+        Arrays.asList(new Key&lt;?&gt;[] { sourceKey, specKey }));
+            
+    }
+    catch (CommandException exception) {
+      // in case of exceptions during parsing (or source resolution), 
+      // cancel the manually started Spec transaction
+      // (same for other exceptions)
+      manager.cancelTransaction(specKey);
+      throw exception;
     }
     catch (IOException exception) {
+      manager.cancelTransaction(specKey);
       throw new CommandException(exception);
     }
     catch (UnmarshalException exception) {
+      manager.cancelTransaction(specKey);
       throw new CommandException(exception);
-    }    
+    }
+    
+    if (term instanceof ZSect) {
+      // only parsed the ZSect, so wrap it into a Spec to be consistent
+      // the ZSect should have been added to the section manager during the parsing
+      term = ZUtils.FACTORY.createSpec(
+          Collections.singletonList((ZSect) term), Version.ZML_VERSION);
+    }
+            
+    if (term instanceof Spec) {
+      // add explicit dependencies on its sections (which may have not been caught via 
+      // SectionInfo.get()). The source is caught by the get() above.
+      manager.endTransaction(specKey, (Spec) term, getSectionKeys((Spec) term));
+    }
+    else {
+      // If we are parsing ZML files, we can get any term via parsing. However, we do not add it
+      // to the section manager at the moment - this is likely to be caught by the command
+      // checks later.
+      // Cancel the Spec transaction, since we do not know how the term relates to the Spec
+      manager.cancelTransaction(specKey);
+    }
+
+
+	boolean result = term != null;
+    final String msg = "PU-PARSED = parse " + 
+          (result ? "okay. Put " + term.getClass().getSimpleName() + " to SM." : "failed!");
+    traceLog(msg);
+    
+    // What if result is false? The SM protocol does not use this flag! Why keep it? [Leo]
+    return result;
   }
+  
+  /**
+   * Checks whether there is a Spec available in the section manager under the given name. This is a
+   * special case, e.g. when the Spec is added directly to the manager, instead of via the parsing.
+   * This method adds the ZSects in the found spec, if available, to the section manager. Then they
+   * can be resolved by section manager methods.
+   * 
+   * @param name
+   *          name of the requested ZSect
+   * @param manager
+   *          section manager database
+   * @return if the Sect was available and its sections resolved, false otherwise - meaning a full
+   *         parse is needed
+   * @throws CommandException
+   *           if retrieving the Spec fails, though this should never happen
+   */
+  private static boolean computeSpecSections(String name, SectionInfo manager)
+    throws CommandException
+  {
+    // check whether a Spec under the requested name is cached, then add its ZSects
+    // to the section manager
+    Key&lt;Spec&gt; specKey = new Key&lt;Spec&gt;(name, Spec.class);
+    if (manager.isCached(specKey)) {
+      Spec spec = manager.get(specKey);
+      
+      /*
+       * If the Spec is cached, that means the incoming transaction is that of a ZSect, started via
+       * SectionInfo.get(ZSect). We will add the sections of the given Spec to the section manager,
+       * first - the requested one (ending the transaction), then the rest, each with its own 
+       * immediate transaction (via SectionInfo.put()).
+       */
+      Key&lt;ZSect&gt; zsKey = new Key&lt;ZSect&gt;(name, ZSect.class);
+      
+      /*
+       * Add all ZSects of the Spec to the section manager.
+       * 
+       * First of all, collect all ZSects in a map, and put them into the section manager afterwards.
+       * This is needed for several reasons. First, we may have sections with duplicate names,
+       * and putting such sections without removing the first would cause transaction problems. The
+       * map will allow us to put the last section for each name only.
+       * 
+       * Second, by querying the map, we can control the transactions appropriately. For example, the
+       * Spec may not contain the ZSect with a requested name - in that case, we need to cancel the 
+       * transaction.
+       */
+      Map&lt;Key&lt;ZSect&gt;, ZSect&gt; specSections = new LinkedHashMap&lt;Key&lt;ZSect&gt;, ZSect&gt;();
+      for (Sect sect : spec.getSect()) {
+        if (sect instanceof ZSect) {
+          ZSect zsect = (ZSect) sect;
+          
+          String sectName = zsect.getName();
+          if (Section.ANONYMOUS.getName().equals(sectName)) {
+            /*
+             * If the Spec contains only an anonymous ZSect, by default it will be added under the
+             * anonymous name to the section manager. Therefore, the section manager will not be
+             * able to locate it. In addition to the default name, we add the anonymous section
+             * under the requested key name as well, to complete successful command resolution.
+             */
+            specSections.put(zsKey, zsect);
+          }
+          
+          // put it under the original ZSect name into the section manager
+          specSections.put(new Key&lt;ZSect&gt;(sectName, ZSect.class), zsect);
+          
+          /*
+           * Note that we would have a problem if the Spec would not have any sections at all, or no
+           * section would be of the required name. After the command is executed, the section
+           * manager would not be able to find a correct result for the requested ZSect key. But
+           * this would be handled there, and would allow the user to correct the specifications.
+           */
+        }
+      }
+      
+      // for all added sections, indicate an explicit dependency on the Spec they originated
+      Set&lt;Key&lt;Spec&gt;&gt; specDep = Collections.singleton(specKey);
+      
+      // check whether the requested ZSect was located
+      ZSect requestedSect = specSections.remove(zsKey);
+      if (requestedSect == null) {
+        // cannot locate the requested section - it may be the case that the Spec was empty, 
+        // or had no ZSects with the correct name. In this case - cancel the transaction.
+        manager.cancelTransaction(zsKey);
+      } else {
+        manager.endTransaction(zsKey, requestedSect, specDep);
+      }
+      
+      // add the rest of the sections in individual transactions, with dependency on Spec
+      for (Map.Entry&lt;Key&lt;ZSect&gt;, ZSect&gt; entry : specSections.entrySet()) {
+      
+        // Entries with "other" section keys could already be in the section manager.
+        // Since they are added on top of the requested ZSect, only add if they are not
+        // in the section manager.
+        if (!manager.isCached(entry.getKey())) {
+          manager.put(entry.getKey(), entry.getValue(), specDep);
+        }
+      }
+      
+      final String msg = "PU-SPEC-ONFLY-ZSECT = put ZSect for on-the-fly Spec " + name;
+      traceLog(msg);
+      // return true for resolving the cached Spec sections, 
+      // even though they do not match the requested
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  
+  private static Set&lt;Key&lt;ZSect&gt;&gt; getSectionKeys(Spec spec) {
+    
+    Set&lt;Key&lt;ZSect&gt;&gt; sectKeys = new HashSet&lt;Key&lt;ZSect&gt;&gt;();
+    
+    for (Sect sect : spec.getSect()) {
+      if (sect instanceof ZSect) {
+        sectKeys.add(new Key&lt;ZSect&gt;(((ZSect) sect).getName(), ZSect.class));
+      }
+    }
+    
+    return sectKeys;
+  }
+  
 }
 </utils>

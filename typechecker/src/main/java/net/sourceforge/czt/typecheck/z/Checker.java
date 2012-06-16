@@ -20,10 +20,14 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.Writer;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -31,7 +35,6 @@ import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.parser.util.DependenciesBuilder;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -40,7 +43,6 @@ import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsExceptio
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -65,6 +67,7 @@ abstract public class Checker<R>
    * Double check that this visitor is not being asked to visit a
    * non-Decl object.
    */
+  @Override
   public R visitTerm(Term term)
   {
     String position = position(term);
@@ -530,187 +533,155 @@ abstract public class Checker<R>
     // do nothing for Z
   }
   
-  /** 
+  /**
    * <p>
-   * General type checking method for ZSect terms.
-   * Refactored from z.SpecChecker.visitZSect into a separate method.
-   * This enables reuse of functionality for other extensions, say
-   * when overriding the setSectName method to be properly implemented.
-   * For instance, Circus has a warning manager that needs to know when
-   * the current section being typechecked so that the pretty printing of
-   * the warning message arguments can be done.
+   * Performs typechecking of Z sections, and adds the result SectTypeEnvAnn annotation to the
+   * section manager upon completion.
    * </p>
-   * @param zSect the Z section term to typecheck
+   * <p>
+   * For a ZSect, various type checks are performed. First of all, the check verifies whether the
+   * section is not redeclared (e.g. such section has already been checked). Next, all parents of
+   * the section are typechecked, since the section's type information relies on parent types.
+   * Finally, the section contents (paragraphs) are typechecked for type errors.
+   * </p>
+   * <p>
+   * If "use before declaration" or "recursive types" options are used, typechecking is a 2-pass
+   * process. The "header" typechecking (redeclared section, parents) is done only once, but the
+   * section's paragraphs are checked twice to with specific algorithms:
+   * <ul>
+   * <li>"Use before declaration" reorders the paragraphs within the section according to a
+   * calculated dependency graph, to ensure a correct declare-use order for the second pass.</li>
+   * <li>"Recursive types" performs a two-pass typechecking, keeping the original type information
+   * from the first pass to use in the second pass.</li>
+   * </ul>
+   * </p>
+   * <p>
+   * Refactored from z.SpecChecker.visitZSect into a separate method. This enables reuse of
+   * functionality for other extensions, say when overriding the setSectName method to be properly
+   * implemented. For instance, Circus has a warning manager that needs to know when the current
+   * section being typechecked so that the pretty printing of the warning message arguments can be
+   * done.
+   * </p>
+   * 
+   * @param zSect
+   *          the Z section term to typecheck
    * @return the types declared by the given zSect parameter
    */
   protected List<NameSectTypeTriple> checkZSect(ZSect zSect)
   {
+    
+    assert !sectTypeEnv().getSecondTime() : 
+      "The second pass must be performed on the ZSect paragraphs, not on the section itself.";
+    
     final String prevSectName = sectName();
 
     //set the section name
     setSectName(zSect.getName());
+    
+    Key<SectTypeEnvAnn> typeKey = new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class);
 
     //set the markup for this section
     setMarkup(zSect);
 
-    //if this section has already been declared, raise an error
-    if (sectTypeEnv().isChecked(sectName()) &&
-        !sectTypeEnv().getUseNameIds()) {
-      Object [] params = {zSect.getName()};
-      error(zSect, ErrorMessage.REDECLARED_SECTION, params);
+    // check if the section has already been checked (i.e. is redeclared)
+    // note this does not apply for when Name IDs are used
+    if (sectTypeEnv().isChecked(sectName()) && !sectTypeEnv().getUseNameIds()) {
+      
+      error(zSect, ErrorMessage.REDECLARED_SECTION, new Object[] {zSect.getName()});
+      // sync the parent errors from paraErrors to errors
+      postCheck();
+      
+      // continuing the typecheck will add a duplicate type environment,
+      // so we remove the old one first from the section manager
+      sectInfo().removeKey(typeKey);
     }
-
-    //set this as the new section in SectTypeEnv
+    
+    // Ensure that a typecheck transaction is started - if commands were used to do the
+    // typechecking, it may have already been started. Otherwise, start the transaction.
+    //
+    // Note that there may be unchecked exceptions between start of transaction, and ending it.
+    // However, we do not add additional try-catch for Throwable, because we consider unchecked
+    // exceptions to be unrecoverable bugs. Since there are no checked exceptions, we avoid
+    // wrapping the typecheck process into try-catch-cancelTransaction.
+    sectInfo().ensureTransaction(typeKey);
+    
+    // set this as the new section in SectTypeEnv
     sectTypeEnv().setSection(sectName());
+
+    // typecheck the parents of the Z section
+    checkZSectParents(zSect.getParent());
+    // sync the parent errors from paraErrors to errors
+    postCheck();
+    
+    // Mark the error count after typechecking section "header".
+    // We need this to avoid removing parent/redeclared errors when we do the second pass.
+    int prevErrorCount = errors().size();
+
+    // reset paragraph IDs
     sectTypeEnv().resetParaID();
+    
+    // get and visit the paragraphs of the current section
+    
+    // FIRST PASS of typechecking - we will need a 2-pass approach
+    // for "use before declaration" or "recursive types"
+    ZParaList paraList = zSect.getZParaList();
+    paraList.accept(this);
 
-    //get and visit the parent sections of the current section
-    List<Parent> parents = zSect.getParent();
-    List<String> names = factory().list();
-    for (Parent parent : parents) {
-      if (names.contains(parent.getWord())) {
-        Object [] params = {parent.getWord(), sectName()};
-        error(parent, ErrorMessage.REDECLARED_PARENT, params);
+    // back up the original type environment - required for the "recursive types" case
+    SectTypeEnvAnn firstPassTypeEnv = sectTypeEnv().getSectTypeEnvAnn();
+    
+    // if "recursive types" or "use before declaration" is allowed, 
+    // perform the second pass on the paragraphs
+    if (recursiveTypes() || useBeforeDecl()) {
+      
+      // For the "use before declarations" case, we need to reorder the paragraphs to achieve the
+      // correct declaration-use order. We will typecheck this reordered list during the 
+      // second pass.
+      if (useBeforeDecl() && !recursiveTypes()) {
+
+        paraList = reorderParaList(paraList);
+
+        // remove all declaration information from the global type environment, as we are
+        // re-typechecking the specification from its starting state
+        sectTypeEnv().clearSectionInformation(zSect.getName());
       }
-      else if (parent.getWord().equals(sectName())) {
-        Object [] params = {parent.getWord()};
-        error(parent, ErrorMessage.SELF_PARENT, params);
-        // do not continue checking, because it gets into a loop
-        continue;
-      }
-      else {
-        
-        try {
-          SectParentResolver.checkCyclicParents(parent.getWord(), sectInfo());
-          
-        } catch (CyclicSectionsException cse) {
-          
-          for (List<String> cycle : cse.getAllCycles()) {
-            
-            StringBuilder cycleStr = new StringBuilder();
-            String delim = "";
-            for (String pName : cycle) {
-              cycleStr.append(delim).append(pName);
-              delim = " > ";
-            }
-            
-            error(parent, ErrorMessage.CYCLIC_PARENT, new Object[]{cycleStr.toString()} );
-          }
-          
-          // do not continue checking, because it gets into a loop
-          continue;
-          
-        } catch (CommandException ce) {
-          
-          String msg = "Problems resolving the parent relationships: " + ce.getMessage();
-          throw new CztException(msg, ce);
-        }
-        
-        names.add(parent.getWord());
-      }
-      parent.accept(specChecker());
-    }
-
-    //get and visit the paragraphs of the current section
-    zSect.getParaList().accept(this);
-
-    //if use before declaration is enabled and this is the first visit
-    //reorder the paragraphs and re-typecheck
-    ZParaList orderedParaList = zSect.getZParaList();
-    ZSect orderedZSect = zSect;
-    if (useBeforeDecl() && 
-	!recursiveTypes() && 
-	!sectTypeEnv().getSecondTime()) {
-
-      //for all of the undeclared names, check if they are declared
-      //after they are used, and add the dependency
-      for (ZName zName : undeclaredNames()) {
-	UndeclaredAnn uAnn = 
-	  (UndeclaredAnn) zName.getAnn(UndeclaredAnn.class);
-	removeAnn(zName, uAnn);
-	
-	int paraID = sectTypeEnv().getParaID(zName);
-	if (paraID >= 0) {
-	  dependencies().add(paraID, uAnn.getParaID());
-	}
-      }
-
-      //get a reordered list that takes into account variable dependencies
-      List<Integer> reordered = dependencies().bfs();
-      ZParaList paraList = factory().createZParaList(orderedParaList);
-
-      ZParaList reorderedParas = factory().createZParaList();
-      for (Integer nextParaID : reordered) {
-	//the paragraph with ID 0 refers to all parent paragraph NOT
-	//declared in this section
-	if (nextParaID > 0) {
-	  reorderedParas.add(paraList.getPara().get(nextParaID - 1));
-	}
-      }
-
-      //add the remaining paragraphs to the end
-      for (int i = 1; i < paraList.getPara().size(); i++) {
-	if (!reordered.contains(i)) {
-	  reorderedParas.add(paraList.getPara().get(i - 1));
-	}
-      }
-
-      //create a new para list with the reordered paras
-      zSect = factory().createZSect(zSect.getName(),
-				    zSect.getParent(),
-				    reorderedParas);
-
-      //remove all declaration information from the global type
-      //environment, as we are re-typechecking the specification from
-      //its starting state
-      sectTypeEnv().clearSectionInformation(zSect.getName());
-    }
-
-
-    //if recursive types are permitted and this is the second pass,
-    //copy the new type information into the SectTypeEnvAnn annotation
-    if ((recursiveTypes() && sectTypeEnv().getSecondTime()) ||
-        sectTypeEnv().getUseNameIds()) {
-      try {
-        SectTypeEnvAnn sectTypeEnvAnn =
-          sectInfo().get(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class));
-        assert sectTypeEnvAnn != null;
-        sectTypeEnv().overwriteTriples(sectTypeEnvAnn.getNameSectTypeTriple());
-      }
-      catch (CommandException e) {
-        assert false : "No SectTypeEnvAnn for " + sectName();
-      }
-    }
-    else if (!(useBeforeDecl() && !sectTypeEnv().getSecondTime())) {
-      SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
-      sectInfo().put(new Key<SectTypeEnvAnn>(sectName(), SectTypeEnvAnn.class),
-                     sectTypeEnvAnn, 
-                     new DependenciesBuilder().self(zSect, ZSect.class).parents(zSect, SectTypeEnvAnn.class).build());
-    }
-
-
-    //if recursive types or use before declaration are permitted and
-    //this is the first pass, clear the errors and typecheck again.
-    if ((recursiveTypes() || useBeforeDecl()) 
-	&&
-	!sectTypeEnv().getSecondTime()) {
-      clearErrors();
-      removeErrorAndTypeAnns(zSect);
+      
+      // before running the second pass, clear the errors from the section contents (para list)
+      clearErrors(prevErrorCount);
+      removeErrorAndTypeAnns(paraList);
       sectTypeEnv().setSecondTime(true);
-      zSect.accept(specChecker());
-
-      //put the originally ordered paragraphs back in place
-      zSect = orderedZSect;
-    }
-    else {
+      
+      // reset paragraph IDs
+      sectTypeEnv().resetParaID();
+      
+      // SECOND PASS of typechecking
+      paraList.accept(this);
+      
       sectTypeEnv().setSecondTime(false);
+
+      // If recursive types are permitted and this is the second pass, restore the original type
+      // information - this will keep the newly calculated type information for previously erroneous
+      // terms (? AV: previous comment was misleading ?)
+      if (recursiveTypes() || sectTypeEnv().getUseNameIds()) {
+        sectTypeEnv().overwriteTriples(firstPassTypeEnv.getNameSectTypeTriple());
+      }
     }
 
-    //annotate this section with the type info from this section
-    //and its parents
+    // annotate this section with the type info from this section and its parents
     SectTypeEnvAnn sectTypeEnvAnn = sectTypeEnv().getSectTypeEnvAnn();
     addAnn(zSect, sectTypeEnvAnn);
+    
+    // Put the typecheck environment into the section manager
+    // AV: even if it has errors? TODO: review what is actually expected from the calculation/commands
+    assert sectName().equals(zSect.getName());
+    
+    // We put this Sect type environment in the manager with an explicit dependency on its ZSect.
+    // This is needed only for the case when typechecking is not done through the section manager.
+    // For the case where it is, this will be a duplicate dependency, which is no problem.
+    sectInfo().endTransaction(typeKey, sectTypeEnvAnn, 
+        Collections.singleton(new Key<ZSect>(sectName(), ZSect.class)));
 
+    // restore previous section name
     setSectName(prevSectName);
     sectTypeEnv().setSection(sectName());
 
@@ -727,10 +698,130 @@ abstract public class Checker<R>
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
     return result;
   }
-  
-  protected void clearErrors()
+
+  /**
+   * Typechecks parents of a Z section. While the actual typechecking of parent section is performed
+   * in {@link #checkParent(Parent)}, this method checks for cyclic/redeclared parents, and prevents
+   * recursive cyclic typecheck calls.
+   * 
+   * @param parents
+   *          the parents to typecheck
+   */
+  private void checkZSectParents(List<Parent> parents)
   {
-    errors().clear();
+    
+    Set<String> visitedParentNames = new HashSet<String>();
+    for (Parent parent : parents) {
+      
+      // first of all, check whether the parent is redeclared/cyclic
+      // avoid typechecking parents that could cause cyclic calls
+      boolean canTypecheck;
+      
+      if (visitedParentNames.contains(parent.getWord())) {
+        Object [] params = {parent.getWord(), sectName()};
+        error(parent, ErrorMessage.REDECLARED_PARENT, params);
+        // redeclared parent, so typecheck will be performed twice - no need for that  
+        canTypecheck = false;
+      }
+      else if (parent.getWord().equals(sectName())) {
+        Object [] params = {parent.getWord()};
+        error(parent, ErrorMessage.SELF_PARENT, params);
+        // do not continue checking, because it gets into a loop
+        // this case is also checked below, but used here for a more specific error message
+        canTypecheck = false;
+      }
+      else {
+        
+        try {
+          SectParentResolver.checkCyclicParents(parent.getWord(), sectInfo());
+          // no cyclic parents - allow typecheck
+          canTypecheck = true;
+          
+        } catch (CyclicSectionsException cse) {
+          
+          for (List<String> cycle : cse.getAllCycles()) {
+            
+            StringBuilder cycleStr = new StringBuilder();
+            String delim = "";
+            for (String pName : cycle) {
+              cycleStr.append(delim).append(pName);
+              delim = " > ";
+            }
+            
+            error(parent, ErrorMessage.CYCLIC_PARENT, new Object[]{cycleStr.toString()} );
+          }
+          
+          // do not continue checking, because it gets into a loop
+          canTypecheck = false;
+          
+        } catch (CommandException ce) {
+          
+          logger().log(Level.WARNING,
+              "Problems resolving the parent relationships: " + ce.getMessage(), ce);
+          
+          error(parent, ErrorMessage.CYCLIC_PARENT_CHECK_FAIL, new Object[]{ce.getMessage()} );
+          
+          // ignore the parent checking due to the encountered problem
+          canTypecheck = false;
+        }
+        
+      }
+      
+      visitedParentNames.add(parent.getWord());
+      
+      if (canTypecheck) {
+        // typecheck the parent
+        parent.accept(specChecker());
+      }
+    }
+  }
+
+  /**
+   * Reorders the given paragraph list according to the dependency graph in the typechecker.
+   * 
+   * @param originalParaList
+   *          original paragraph list
+   * @return reordered paragraph list
+   */
+  private ZParaList reorderParaList(ZParaList originalParaList)
+  {
+    // for all of the undeclared names, check if they are declared
+    // after they are used, and add the dependency
+    for (ZName zName : undeclaredNames()) {
+      UndeclaredAnn uAnn = zName.getAnn(UndeclaredAnn.class);
+      removeAnn(zName, uAnn);
+
+      int paraID = sectTypeEnv().getParaID(zName);
+      if (paraID >= 0) {
+        dependencies().add(paraID, uAnn.getParaID());
+      }
+    }
+
+    // get a reordered list that takes into account variable dependencies
+    List<Integer> reordered = dependencies().bfs();
+    ZParaList paraList = factory().createZParaList(originalParaList);
+
+    ZParaList reorderedParas = factory().createZParaList();
+    for (Integer nextParaID : reordered) {
+      // the paragraph with ID 0 refers to all parent paragraph NOT
+      // declared in this section
+      if (nextParaID > 0) {
+        reorderedParas.add(paraList.getPara().get(nextParaID - 1));
+      }
+    }
+
+    // add the remaining paragraphs to the end
+    for (int i = 1; i < paraList.getPara().size(); i++) {
+      if (!reordered.contains(i)) {
+        reorderedParas.add(paraList.getPara().get(i - 1));
+      }
+    }
+    return reorderedParas;
+  }
+  
+  protected void clearErrors(int fromIndex)
+  {
+    errors().subList(fromIndex, errors().size()).clear();
     paraErrors().clear(); 
     undeclaredNames().clear();
   }
@@ -950,7 +1041,7 @@ abstract public class Checker<R>
       sectTypeEnvAnn = sectInfo().get(new Key<SectTypeEnvAnn>(parentName, SectTypeEnvAnn.class));
     }
     catch (CommandException e) {
-      sectTypeEnvAnn = handleParentErrors(parentName, e);
+      sectTypeEnvAnn = handleParentErrors(parent, e);
     }
 
     //add the parent's global decls to this section's global type environment
@@ -967,10 +1058,19 @@ abstract public class Checker<R>
     }
   }
 
-  protected SectTypeEnvAnn handleParentErrors(String parentName, CommandException e) throws CztException
+  protected SectTypeEnvAnn handleParentErrors(Parent parent, CommandException e)
   {
-    final String msg = "No type information for section " + parentName;
-    throw new CztException(msg, e);
+    String parentName = parent.getWord();
+    
+    logger().log(Level.WARNING,
+        "Problems typechecking the parent section " + parentName + ": " + e.getMessage(), e);
+    
+    // try to unwrap the command exception for a specific message, if available
+    String causeMsg = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+    error(parent, ErrorMessage.PARENT_TYPECHECK_FAIL, new Object[] {parentName, causeMsg});
+    
+    // create an empty type env
+    return factory().createSectTypeEnvAnn(factory().<NameSectTypeTriple>list());
   }
   
   protected void insertUnsort(List<NameTypePair> pairsA,
@@ -1187,7 +1287,7 @@ abstract public class Checker<R>
       //remove name from b4
       ZStrokeList strokes = factory().getZFactory().createZStrokeList();
       strokes.addAll(rName.getZStrokeList());
-      int size = strokes.size();
+      //int size = strokes.size();
       strokes.add(factory().createNextStroke());
       ZName sName = factory().createZDeclName(rName.getWord(), strokes);
       NameTypePair foundPair = findNameTypePair(sName, lSig);
@@ -1917,7 +2017,7 @@ abstract public class Checker<R>
         Signature signature = schemaType(result).getSignature();
         List<NewOldPair> pairs = uType.getPairs();
         Signature newSig = createRenameSig(signature,
-          uType.getPairs(),
+          pairs,
           null, null);
         result = factory().createSchemaType(newSig);
       }
@@ -2104,12 +2204,12 @@ abstract public class Checker<R>
   //print debuging info
   protected boolean debug()
   {
-    return typeChecker_.debug_;
+    return TypeChecker.debug_;
   }
   
   protected void setDebug(boolean b)
   {
-    typeChecker_.debug_ = b;
+    TypeChecker.debug_ = b;
   }
   
   protected void debug(String message)

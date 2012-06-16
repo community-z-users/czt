@@ -1,12 +1,12 @@
 package net.sourceforge.czt.gnast.maven;
 
 import java.io.File;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import net.sourceforge.czt.gnast.Gnast;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-
-import net.sourceforge.czt.gnast.Gnast;
 
 /**
  * @goal generate
@@ -26,6 +26,16 @@ public class Main
    * @parameter expression="gnastdir"
    */
   private String gnastdir = "gnast";
+  
+  /**
+   * @parameter
+   */
+  private boolean addAstFinaliser;
+  
+  /**
+   * @parameter
+   */
+  private boolean gnastVerbose;
 
   /**
    * @parameter expression="${project}"
@@ -33,6 +43,7 @@ public class Main
    */
   private MavenProject project;
 
+  @Override
   public void execute()
     throws MojoExecutionException 
   {
@@ -44,10 +55,23 @@ public class Main
     else {
       final String message = "Generating AST ...\n" +
         "NOTE: This may take some time " +
-        "(about 5 minutes on a 2GHz Pentium).";
+        "(about 5 minutes on a 2GHz Pentium).\n" +
+        "GnAST parameters = " + 
+                        "\n\t-d " + outputDirectory +
+                        "\n\t-b " + gnastdir +
+                        (gnastVerbose ? "\n\t-vvv" : "") +
+                        (addAstFinaliser ? "\n\t-f" : "") + "\n";
       getLog().info(message);
-      String[] args = { "-d", outputDirectory, "-b", gnastdir };
-      Gnast.main(args);
+      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-b", gnastdir));
+      if (addAstFinaliser)
+      {
+        args.add("-f");
+      }
+      if (gnastVerbose)
+      {
+        args.add("-vvv");
+      }
+      Gnast.main(args.toArray(new String[0]));
     }
     if (project != null )
     {

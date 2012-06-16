@@ -19,8 +19,8 @@
 
 package net.sourceforge.czt.circuspatt.jaxb;
 
-import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.circuspatt.ast.CircusPatternFactory;
+import javax.xml.bind.JAXBContext;
+
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -32,6 +32,11 @@ public class JaxbXmlReader
 {
   public JaxbXmlReader()
   {
-    super(new JaxbToAst(), JaxbContext.PATH);
+    super(new JaxbToAst());
+  }
+  
+  @Override
+  protected JAXBContext getContext() {
+    return JaxbXmlWriter.JAXB_CONTEXT;
   }
 }

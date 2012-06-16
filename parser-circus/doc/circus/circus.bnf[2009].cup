@@ -1,0 +1,2079 @@
+terminal LocInfo
+    // Std. Z terminals
+    PARA, EXPR, PRED,
+    THETA, MU, LAMBDA,
+    NEXTSTROKE, OUTSTROKE, INSTROKE,
+    LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
+    LDATA, RDATA, LBRACE, RBRACE,
+    BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT,
+    ALL, EXI, CROSS, POWER,
+    SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE,
+    ZPROJ, ZCOMP, ZPIPE, NL,
+    SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
+    RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
+    DEFFREE, DEFEQUAL, EXIONE,
+    END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
+
+    // Circus terminals
+
+    // Environment chars
+    CIRCUS, CIRCUSACTION,
+
+    /**
+     * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.
+     */
+
+    // Keychars
+    CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCSPOT, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN,
+    PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING,
+    EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN, CIRCSIMULATES,
+    CHANNELIN, CHANNELOUT, CHANNELDOT, _CIRCGUARD, _REPSEQ,
+
+    /* Note:
+     *
+     * CIRCGUARD => As there are no similar UNICODE char for &, I am just
+     *              using ANDALSO (from free type definition) directly.
+     *              In circus_prelude, \circguard is then mapped to the same
+     *              UNICODE as ANDALSO, which is 0026, and CircChar has no
+     *              entry for this token!
+     *              Nevertheless, I still nedd the CIRCGUARD token for
+     *              handling precedences apropriately, hence _CIRCGUARD!
+     *
+     * REPSEQ    => Similarly, as all the UNICODE chars for big ";" I could find
+     *              (relational composition COMP = U2A3E, and
+     *              schema composition ZCOMP = U2A1F) are taken, we use the
+     *              ZCOMP keyword. It must not be COMP, because it is just a
+     *              toolkit symbol (i.e. scanned as DECORWORD), rather than a
+     *              proper keyword (i.e. scanned as ZCOMP).
+     *              The same idea of precedence applies, hence _REPSEQ.
+     *
+     *              TODO:CHECK whether REPSEQ needs precedence or not. At the moment
+     *                         it is just taking the same as CIRCSEQ.
+     */
+
+    // Keywords
+    CIRCFI, CIRCDO, CIRCOD, CIRCVAR, CIRCVAL,
+    CIRCRES, CIRCVRES, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
+    CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
+    CIRCSKIP, CIRCSTOP, CIRCCHAOS, _CIRCIF, CIRCASSERTREF,
+
+    /* Note:
+     *
+     * CIRCIF => As I couldn't make CIRCIF different from IF by
+     *           using "ifg" or "IF", I am just reusing it here
+     *           like before, with the same adjustment on precedences.
+     */
+
+    // Brackets
+    LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+    LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
+    LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
+
+    // Special bracket terminals to overhide precedence of process renaming
+    // acording to how it is expected to be in CSP_M.
+    // USE _RENAME :)
+
+
+    //identifiers starting with a '_' are used only to force precedence
+    _APPLICATION, _RENAME;
+
+// Terminals for location strings / value within an input stream
+terminal LocString
+    TEXT, PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
+    SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
+
+terminal LocInt 
+    NUMERAL, NUMSTROKE;
+
+// Various Z and Circus names
+terminal Decorword
+    CHANNELNAME, FIELDNAME, CHANNELERROR, DECORWORD, DECLWORD;
+
+non terminal Term
+    input, term, septerm, func_appl, inner_term;
+
+non terminal Spec
+    specification;
+
+non terminal NarrSect
+    narrSect;
+
+non terminal ZSect
+    section, emptySectionHeader, empty, sectionHeader;
+
+non terminal List<Sect>
+    sectionList;
+
+non terminal List<Parent>
+    parentList, parents;
+
+non terminal ZParaList
+    paragraphList;
+
+non terminal List<Para>
+    unboxedParagraphList, unboxedParagraphItemList;
+
+non terminal Para
+    boxedParagraph, unboxedParagraphItem, narrParagraph;
+
+non terminal AxPara
+    axiomaticDefinition, genericAxDefinition, abbreviationDefinition, schema;
+
+non terminal ConstDecl
+    letDefinition;
+
+non terminal ZFreetypeList 
+    freeTypeList;
+non terminal Freetype 
+    freeTypeDefinition;
+
+non terminal List<LocString>
+    narrWordList;
+
+non terminal OptempPara 
+    operatorTemplate;
+non terminal List /*StringAndOperand?*/
+    template,
+    prefixTemplate,
+    postfixTemplate,
+    infixTemplate,
+    nofixTemplate,
+    optWordOperandList;
+
+non terminal Operand
+    varg,
+    templateTag;
+    
+non terminal Assoc 
+    assoc;
+    
+non terminal OptempPara 
+    catTemplate;
+
+non terminal SchText
+    schemaTextNoExpression,
+    schemaText;
+
+non terminal ZDeclList 
+    letDefinitionList;
+
+non terminal ZBranchList 
+    branchList;
+    
+non terminal Branch     
+    branch; 
+
+non terminal ZNameList
+    nameList,
+    declWordList;
+
+non terminal Name
+    name, declName;
+
+non terminal ZName
+    refName;
+
+non terminal List<ZName> 
+    refNameList;
+
+non terminal RenameList 
+    renameList;
+    
+non terminal ZRenameList 
+    zRenameList;
+    
+non terminal NewOldPair 
+    rename;
+
+non terminal ZDeclList
+    zDeclList;
+
+non terminal DeclList
+    optDeclPart, declPart;
+
+non terminal VarDecl
+    varDecl;
+    
+non terminal ConstDecl
+    constDecl;
+    
+non terminal Decl
+    basicDeclaration, declaration;
+
+non terminal GivenPara 
+    basicTypeDefinition;
+    
+non terminal ZNameList
+    formalParameters, optFormalParameters;
+
+non terminal Stroke 
+    stroke;
+
+non terminal And
+    sep;
+
+non terminal List <Object>
+    optAppendageList, appendageList;
+
+non terminal Object
+    appendage;
+
+non terminal Pred
+    predicate, relation, infixRel, infixChainRel;
+
+non terminal MemPred
+    prefixRel, postfixRel, nofixRel; 
+
+non terminal Expr
+    expression;
+
+non terminal ZDeclList
+    constDeclList, optConstDeclList;
+
+non terminal ZExprList
+    prodExpressionList, optExpressionList, expressionList;
+
+non terminal List<String>
+    opName, prefixName, postfixName, infixName, nofixName;
+
+non terminal Pair<Name,ZNameList>
+    genName, prefixGenName, postfixGenName, infixGenName, nofixGenName;
+
+non terminal List<String>
+    optVargEsSsList;
+
+non terminal Pair<ZNameList,ZNameList>
+    optNameEsSsList;
+
+non terminal Expr
+    application, prefixApp, postfixApp, infixApp, nofixApp;
+
+non terminal List<Object>
+    expSep;
+
+non terminal List<String>
+    argErepOrSrep, argEreOrSre, argErOrSr, argEsOrSs, argErpOrSrp;
+
+non terminal LocString
+    misusedOpName, ereOrSre, erOrSr, esOrSs;
+
+non terminal And
+    optNL;
+
+
+/// Circus paragraphs ///////////////////////////////////////////////
+non terminal Para
+    channelPara, channelSetPara, processRefPara, actionRefPara,
+    namesetPara, circusProcessState, singleCircusParagraphItem,
+    circusInnerProcPara;
+
+non terminal ProcessPara
+    processPara;
+
+non terminal ActionPara
+    actionPara;
+
+non terminal List<Para>
+    singleCircusParagraphItemList,
+    circusMultiEnvParagraphList,
+    circusInnerProcParaList;
+
+non terminal ZExprList
+    genericActuals, actualParameters, actualIndexes;
+
+/// Circus channel definition ////////////////////////////////////////////////
+non terminal List<ChannelDecl>
+    channelFromDeclList, channelDeclList;
+
+non terminal ChannelDecl
+    channelDecl, channelFromDecl;
+
+non terminal ChannelSet
+    channelSet;
+
+/// Circus channel set expression definition ////////////////////////////////
+
+//non terminal Expr
+//    cs_expression;
+//
+//non terminal ZDeclList
+//    cs_letDefinitionList;
+//
+//non terminal ConstDecl
+//    cs_letDefinition;
+//
+//non terminal Expr
+//    cs_func_appl,
+//    cs_inner_expression,
+//    cs_nofixApp,
+//    cs_application,
+//    cs_prefixApp,
+//    cs_postfixApp,
+//    cs_infixApp;
+//
+//non terminal List<Object>
+//    cs_expSep;
+//
+//non terminal ZExprList
+//    cs_optExpressionList,
+//    cs_expressionList;
+
+/// Circus process definition ///////////////////////////////////////////////
+non terminal CircusProcess
+    processDesc, paramProcess, indexedProcess, processCall, 
+    parenthesisedProcess, process;
+
+non terminal BasicProcess
+    circusBasicProcess;
+
+non terminal RenameList
+    nameSubstitution;
+
+non terminal AssignmentPairs
+    channelRenaming;
+
+/// Circus parameters definition /////////////////////////////////////////////
+
+non terminal DeclList
+  circusParamDeclList, circusParamCommandDeclList;
+
+non terminal ZDeclList
+    circusParamZDeclList, circusParamCommandZDeclList;
+
+non terminal ZNameList
+    circusDeclWordList;
+
+non terminal Decl
+  circusCommandDecl;
+
+non terminal QualifiedDecl
+  qualifiedDecl;
+
+non terminal ParamQualifier
+  circusQualifier;
+
+non terminal Transformation
+  refines;
+
+/// Circus action definition ///////////////////////////////////////////////
+non terminal CircusAction
+    actionDesc, paramAction, circusAction, actionCall, parenthesisedAction,
+    circusBasicProcessMainAction, cspAction;
+
+/// Circus guard //////////////////////////////////////////////////////////
+non terminal Pred
+    guard;
+
+/// Circus communication /////////////////////////////////////////////////
+//non terminal LocString 
+    anyCircusSymbol;
+
+non terminal Communication
+    chanSetComm, communication;
+
+non terminal List<Field>
+    optCommFields, commFields;
+
+non terminal List<Communication>
+    optCommunicationList, communicationList;
+
+non terminal Field
+    commField;
+
+/// Circus guarded commands /////////////////////////////////////////////////
+non terminal CircusCommand
+    command;
+
+non terminal List<GuardedAction>
+    guardedCommands;
+
+non terminal GuardedAction
+    guardedCommand;
+
+/// Circus name set definition /////////////////////////////////////////////
+non terminal NameSet
+    nameSet;
+
+
+
+// These are ordered from loosest first to tightest last.
+precedence right        BAR;
+precedence left         TEXT;
+precedence left          RPAREN;
+precedence left         NL, SEMICOLON;
+precedence nonassoc     DEFEQUAL , CIRCDEF;
+precedence left         ALL, EXI, EXIONE, SPOT , CIRCSPOT, CIRCINDEX ;
+
+/* From Z-Std(p.36): default is prefix op=rightassoc, postfix op=leftassoc */
+
+precedence right        CIRCMU;
+precedence right        CIRCVAR;
+precedence nonassoc     CIRCDO, CIRCOD;
+precedence nonassoc     _CIRCIF, CIRCFI, CIRCTHEN, CIRCELSE;
+precedence left         CIRCHIDING;
+precedence left         INTERLEAVE;
+precedence nonassoc     LINTER, RINTER;
+precedence nonassoc     LPAR, RPAR;
+precedence left         INTCHOICE;
+precedence left         EXTCHOICE;
+precedence left         CIRCSEQ, _REPSEQ; 
+precedence nonassoc     _CIRCGUARD;
+precedence right        PREFIXTHEN;
+
+
+precedence left         IFF;
+precedence right        IMP;
+precedence left         OR;
+precedence left         AND;
+precedence right        NOT;
+precedence left         MEM, EQUALS, PREP, LP, IP, EREP, SREP,
+                        POSTP, ELP, ERP, SRP;
+precedence right        LAMBDA;
+precedence right        MU;
+precedence right        LET;
+
+precedence right        ELSE;
+precedence left         ZCOMP;
+precedence left         ZPIPE;
+precedence left         ZHIDE;
+precedence left         ZPROJ;
+precedence right        ZPRE;
+precedence left         EL, ERE, SRE, I, CROSS;
+precedence right        POWER, PRE, L;
+
+precedence left         POST, ER, SR;
+
+precedence left         _APPLICATION;
+precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
+
+// Just like FDR, we make ?/!/. fields right associative. Since the
+// smart scanner renames these tokens accordingly, we can now do it.
+// So far, it seems irrelevant --- couldn't find a example where it
+// made a difference yet. This is harmless.
+precedence right        CHANNELIN, CHANNELOUT, CHANNELDOT;
+
+precedence left         _RENAME;
+
+precedence left         DOT;
+precedence right        THETA;
+precedence left         LSQUARE, RSQUARE;
+
+precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
+precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
+precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
+precedence nonassoc     CIRCLINST, CIRCRINST;
+precedence nonassoc     CIRCASSIGN;
+
+precedence left         DECORWORD
+                          // Do we need to add these precedences for Circus?
+                          // adding just for consistency wrt DECORWORD
+                          , CHANNELNAME, FIELDNAME, CHANNELERROR
+                        ;
+
+
+/// specifications /////////////////////////////////////////////////////////
+
+input ::=
+        narrSect:narr specification:s
+        PARA boxedParagraph:p
+        EXPR expression:e
+        PRED predicate:p
+        ;
+
+narrSect ::=
+        //empty
+    	narrWordList:nwl
+        ;
+
+specification ::=
+        // anonymous specification
+        emptySectionHeader:header paragraphList:pl
+        // sectioned specification
+        sectionList:sl
+        ;
+
+emptySectionHeader ::=
+        empty:e
+        ;
+
+empty ::=
+        //empty
+        ;
+
+sectionList ::=
+        sectionList:sl section:s
+        section:s
+        ;
+
+section ::=
+        sectionHeader:header paragraphList:pl
+        ;
+
+sectionHeader ::=
+        //ZED token at the start of sections is ignored by
+        //the OperatorScanner to avoid a few problems
+        SECTION:s DECORWORD:dw parents:p END
+        ;
+
+parents ::=
+        //empty
+        PARENTS
+        PARENTS parentList:pl
+        ;
+
+parentList ::=
+        parentList:pl COMMA DECORWORD:dw
+        DECORWORD:dw
+        ;
+
+
+//paragraphs are divided into boxed and unboxed paragraphs.
+//Unboxed paragraphs must have a newline after their definition,
+//unless they are the final paragraph within ZED ... END tokens
+paragraphList ::=
+        paragraphList:pl boxedParagraph:p
+        paragraphList:pl unboxedParagraphList:upl
+        paragraphList:pl circusMultiEnvParagraphList:ucpl
+        paragraphList:pl narrParagraph:np
+        //empty  %prec NL
+        ;
+
+
+// 6.2 Global Paragraphs //////////////////////////////////////////////////////
+
+boxedParagraph ::=
+        axiomaticDefinition:ad
+        schema:s
+        genericAxDefinition:gd
+        error:e END:ed
+        ;
+
+narrParagraph ::=
+        narrWordList:nwl
+        ;
+
+unboxedParagraphList ::=
+        ZED:zed unboxedParagraphItemList:uil END:end
+        ZED:zed singleCircusParagraphItemList:ppl END:end
+        ZED:zed circusBasicProcessMainAction:cbpma END:end
+        ZED:z error:e END
+        ;
+
+unboxedParagraphItemList ::=
+        unboxedParagraphItemList:uil NL unboxedParagraphItem:ui
+        unboxedParagraphItem:ui
+        ;
+
+unboxedParagraphItem ::=
+        basicTypeDefinition:btd
+        abbreviationDefinition:ad
+        freeTypeList:ftl
+        THEOREM name:n optNL optFormalParameters:ofp CONJECTURE predicate:p
+        optFormalParameters:ofp CONJECTURE:c predicate:p
+        operatorTemplate:ot
+        ;
+
+basicTypeDefinition ::=
+        LSQUARE:lsq nameList:nl RSQUARE
+        ;
+
+schema ::=
+        SCH:sch name:n optNL schemaText:st END:end
+        GENSCH:gensch name:n optNL formalParameters:fp schemaText:st END:end
+        ;
+
+genericAxDefinition ::=
+        GENAX:genax formalParameters:fp schemaText:st END:end
+        ;
+
+optFormalParameters ::=
+        formalParameters:fp
+        //empty
+        ;
+
+formalParameters ::=
+        LSQUARE nameList:nl RSQUARE optNL
+        ;
+
+axiomaticDefinition ::=
+        AX:ax schemaText:st END:end
+        ;
+
+//according to the Z ISO standard, an abbreviation definition is to be
+//treated as an axiomatic definition, with ConstDecl(dn,e)
+abbreviationDefinition ::=
+        declName:dn DEFEQUAL:equal expression:e
+        //TODO: check this. Should be name:n, but the toolkit won't parse
+        //"\langle \listarg \rangle [X] == .... without this
+        declName:dn formalParameters:fp DEFEQUAL:equal expression:e
+        genName:gn DEFEQUAL:equal expression:e
+        ;
+
+
+freeTypeList ::=
+        freeTypeList:ftl ANDALSO freeTypeDefinition:ftd
+        freeTypeDefinition:ftd
+        ;
+
+freeTypeDefinition ::=
+        name:n DEFFREE:deffree branchList:bl
+        ;
+
+branchList ::=
+        branchList:bl BAR branch:b
+        branch:b
+        ;
+
+branch ::=
+        declName:dn
+        declName:dn LDATA expression:e RDATA:rdata
+        ;
+
+narrWordList ::=
+        narrWordList:nwl TEXT:t
+        TEXT:t
+        ;
+
+// operator templates  /////////////////////////////////////////////////////
+
+operatorTemplate ::=
+        RELATION:rel template:t
+        FUNCTION:fun catTemplate:ct
+        GENERIC:g catTemplate:ct
+        ;
+
+template ::=
+        prefixTemplate:pt
+        postfixTemplate:pt
+        infixTemplate:it
+        nofixTemplate:nt
+        ;
+
+
+catTemplate ::=
+        prefixTemplate:pt
+        postfixTemplate:pt
+        NUMERAL:pr assoc:a infixTemplate:it
+        nofixTemplate:nt
+        ;
+
+assoc ::=
+        LEFTASSOC
+        RIGHTASSOC
+        ;
+
+
+prefixTemplate ::=
+        LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
+    	LPAREN POWER:p varg:v RPAREN
+        ;
+
+
+postfixTemplate ::=
+        LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
+        ;
+
+
+infixTemplate ::=
+        LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
+        ;
+
+
+nofixTemplate ::=
+        LPAREN DECORWORD:n optWordOperandList:ol RPAREN:rp        
+        ;
+
+
+optWordOperandList ::=
+        //empty
+        optWordOperandList:wl templateTag:t DECORWORD:n
+        ;
+
+templateTag ::=
+        varg:v
+        LISTARG:listarg
+        ;
+
+varg ::=
+        ARG:arg
+        ;
+
+
+
+// Main entry as a Circus unboxed paragraph ////////////////////////////////
+
+/**
+ * These paragraphs encompass all Circus paragraphs across multiple
+ * Circus environments, except BasicProcess.
+ */
+circusMultiEnvParagraphList ::=
+        CIRCUS:circ singleCircusParagraphItemList:ppl END:end        
+        CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
+        CIRCUSACTION:circ circusBasicProcessMainAction:cbpma END:end        
+        ;
+
+singleCircusParagraphItemList ::=
+        singleCircusParagraphItemList:cpl NL singleCircusParagraphItem:cpi        
+        singleCircusParagraphItem:cpi        
+        ;
+
+/**
+ * These items represent global paragraphs (possibly within a single circus environment).
+ * They are process, refinement, channel, and chennel set declarations.
+ */
+singleCircusParagraphItem ::=
+        channelPara:cp        
+        channelSetPara:csp
+        processPara:pp
+        processRefPara:rp
+        ;
+
+/**
+ * List of inner process paragraphs for Circus.
+ * As we could muliple items, NL is always needed between paragraphs.
+ * For now, this excludes Z boxed paragraphs (AXDEF, GAXDEF, SCH, and GSCH).
+ * That is because we need to fiddle with the Latex2Unicode scanner for that effect.
+ */
+circusInnerProcParaList ::=
+        circusInnerProcParaList:ipl NL circusInnerProcPara:ip
+        circusInnerProcPara:ip
+        ;
+
+/**
+ * These are all the productions that can occur within a BasicProcess scope.
+ *
+ */
+circusInnerProcPara ::=
+        /* Allow these repeated unboxedParagrahItem productions here so
+         * that singled circus-environment basic-processes can be defined.
+         * Note that there is no room for boxedParagraph (which is fine).
+         */
+        basicTypeDefinition:gtd        
+        freeTypeList:ftl        
+        abbreviationDefinition:ad
+        THEOREM name:n optNL optFormalParameters:ofp CONJECTURE:c predicate:p        
+        optFormalParameters:ofp CONJECTURE:c predicate:p
+                
+        /*| DO NOT ALLOW LOCAL OPERATOR TEMPLATES? UNRESOLVED ISSUE IN Circus GRAMMAR
+        // TODO:DESIGN: come back here and include appropriate code for ProcessTable
+        operatorTemplate:ot
+        */
+        
+        circusProcessState:cps        
+        namesetPara:np        
+        actionPara:ap        
+        actionRefPara:rp       
+        /*        
+        // This production seems to never occur since paragraphList at the
+        // section level always captures it first. Anyway, both places are
+        // covered. Perhaps we could remove this production later.
+        narrParagraph:np        
+        */
+        ;
+
+/// Circus declaration list (no opName) ////////////////////////////////
+
+/*
+ * Used where declWordList should be used, but no operator templates are allowed,
+ * such as channelDecl, circus qualified parameters, or variable declarations.
+ * Also, to avoid confusion and problems with communication fields, we also do not
+ * allow circusDeclWordList
+ */
+circusDeclWordList ::=
+    circusDeclWordList:cdwl COMMA DECLWORD:dw    
+    DECLWORD:dw    
+    ;
+
+/// Channel Paragraph ////////////////////////////////
+
+channelPara ::=
+        CIRCCHAN:chan channelDeclList:cdl        
+        CIRCCHANFROM:chanf channelFromDeclList:cfdl       
+        CIRCCHAN:chan error:e END        
+        CIRCCHANFROM:chanf error:e END        
+        ;
+
+channelDeclList ::=
+        channelDeclList:cdl SEMICOLON channelDecl:cd        
+        channelDecl:cd        
+        ;
+
+channelFromDeclList ::=
+        channelFromDeclList:cfdl SEMICOLON channelFromDecl:cfd       
+        channelFromDecl:cfd        
+        ;
+
+/* Removed declWordList and use circusDeclWordList instead as we do not need
+ * operator templates for channel declaration names. We cannot use nameList
+ * everywhere because words in typed channel declarations are parsed as DECLWORD
+ * rather than DECORWORD
+ */
+channelDecl ::=
+        /* Generically defined typed channels */
+        formalParameters:fp circusDeclWordList:cdwl COLON expression:e
+        /* Typed channels */
+        circusDeclWordList:cdwl COLON expression:e
+        /* Synchronisation channels */
+        /*
+         * The typechecker include a type annotation but MUST NOT change
+         * the expression value from null, as this information is used for
+         * AST printing.
+         */
+        nameList:nl
+        /* Generically defined typed channels with type error */
+        formalParameters:fp circusDeclWordList:cdwl COLON:c error:e END
+        formalParameters:fp circusDeclWordList:cdwl error:e END
+        /* Typec channels with type error */
+        circusDeclWordList:cdwl COLON:c error:e END
+        /* This production covers just name lists, see channel-errors.tex*/
+        circusDeclWordList:cdwl error:e END
+        ;
+
+/* Channel declaration from schema inclusion MUST have the Name list EMPTY
+ * and the expression MUST not be NULL, it contains the schema name (possibly
+ * with generic actuals). (see Circus.xsd comments).
+ */
+channelFromDecl ::=
+        /* Generic channels declared through generic Z schemas with generic actuals */
+        optFormalParameters:ofp DECORWORD:dw genericActuals:ga
+        /* Channels declared through Z schemas */
+        optFormalParameters:ofp DECORWORD:dw
+        ;
+
+/// Channel Set Paragraph ////////////////////////////
+
+channelSetPara ::=
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal channelSet:cs
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e END
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e END
+        CIRCCHANSET:ccs optFormalParameters:ofp error:e END
+        /* TODO: maybe add this error production later (i.e. it raises a Shift/Reduce error).
+                 todo that, just duplicate the productions by avoiding optFormalParameters
+                 and using formalParameters instead. That is one with formalParameters and
+                 one without it.        
+        CIRCCHANSET:ccs error:e END       
+        */
+        ;
+
+channelSet ::=
+        // NOTE: The validation below makes sure that if this is a channel set extension,
+        //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.
+        expression:e
+        ;
+
+/// Process Paragraphs ////////////////////////////////
+
+processPara ::=
+        /* Process declaration */
+        CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
+        /**
+         * This production terminates the scope of a basic process declared
+         * across multiple circusaction environments. It needs to be here,
+         * rather than on "circusBasicProcess" production, to avoid confusion
+         * between indexed processes (i.e. an indexed process could also be
+         * a basic process, but it would be terminating one, which is strange,
+         * as in "CIRCPROC CIRCEND").
+         */
+        CIRCEND:end
+
+        // NOTE: If no processDesc catches the error, this production covers it */
+
+        /*
+        THESE ERROR PRODUCTIONS TURN OUT TO BE NOT HELPFUL        
+            CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error:e END        
+            CIRCPROC:cp optFormalParameters:ofp name:n error:e END        
+            CIRCPROC:cp optFormalParameters:ofp error:e END
+        */
+
+        /* TODO: maybe add this error production later (i.e. it raises a Shift/Reduce error).
+                 todo that, just duplicate the productions by avoiding optFormalParameters
+                 and using formalParameters instead. That is one with formalParameters and
+                 one without it.
+        
+            CIRCPROC:cp error:e END
+        */
+        ;
+
+processDesc ::=
+        DECORWORD:dw channelRenaming:cr %prec _RENAME        
+        DECORWORD:dw genericActuals:ga channelRenaming:cr %prec _RENAME
+        paramProcess:pp        
+        indexedProcess:ip
+        process:p
+        ;
+
+// DESIGN:
+/* Moved replicated productions out of process because they are not
+ * compatible with parenthesised processes. That is, we cannot have
+ * "\circprocess P \circdef (\Interleave i: \nat @ B)", because it would
+ * make no sense in "(\Interleave i: \nat @ B) \extchoice C". This also
+ * normalises on-the-fly replicated/parameterised process calls, which gets
+ * quite confusing if replicated processes were to be in process.
+ */
+//DESIGN: We MUST NOT allow processDesc here in the place of process
+//        that is to avoid actions like P \circdef (i: \power \nat @ (i: \nat @ Q)),
+//        which would have a funny signature of (non-unifiable yet valid(?)) formal
+//        parameters. Note that on-the-fly nested parameters are fine, as in
+//        P \circdef (i: \power~\nat @ (i: \nat @ Q)(0)), because the process of P
+//        is just a call, hence the formal parameters signature of P is i: \power~\arithmos.
+//
+//        One consequence of this is that one cannot have explicit nesting parameterised process
+//        declarations, or in fact any explicit nesting among parameterised, replicated and indexed
+//        processes.
+//
+// The SVN revision prior to this change is 6684 - channel renaming for non-parenthesised calls
+paramProcess ::=
+        /* Parameterised process */
+        circusParamDeclList:dp CIRCSPOT:sp processDesc:p        
+        /* Replicated processes productions in precedence order */
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p        
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp processDesc:p        
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp processDesc:p        
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp processDesc:p        
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp processDesc:p %prec _REPSEQ
+        /*
+         * Error productions for processDesc in paramProcess.
+         * These are productions for topmost errors. That is, if no
+         * other more detailed inner production matches (or if the
+         * error_count threshold).
+         */
+        circusParamDeclList:dp CIRCSPOT:sp error:e END
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp error:e END
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCSPOT:sp error:e END
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp error:e END
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp error:e END
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp error:e END %prec _REPSEQ
+        /* Note: Add further error productions here if needed. */
+        ;
+
+/* Moved replicated indexed productions out of process because they are not
+ * compatible with parenthesised processes. That is, we cannot have
+ * "\circprocess P \circdef (\Interleave i: \nat \circindex B)", because it would
+ * make no sense in "(\Interleave i: \nat \circindex B) \extchoice C". This also
+ * normalises on-the-fly (replicated) indexed process calls, which gets quite
+ * confusing if replicated indexed processes were to be in process.
+ */
+indexedProcess ::=
+        circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        /* Indexed processes productions in precedence order */
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci processDesc:p
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci processDesc:p
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci processDesc:p %prec _REPSEQ
+
+        /*
+         * Error productions for processDesc in indexedProcess.
+         * These are productions for topmost errors. That is, if no
+         * other more detailed inner production matches (or if the
+         * error_count threshold).
+         */
+        circusParamDeclList:dp CIRCINDEX:ci error:e END
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci error:e END
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci error:e END
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci error:e END
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci error:e END
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci error:e END %prec _REPSEQ
+        /* Note: Add further error productions here if needed. */
+        ;
+
+process ::=
+        circusBasicProcess:bp
+        /* Processes operator productions in precedence order */
+        process:p CIRCHIDING:h channelSet:cs
+        process:pl INTERLEAVE:in process:pr
+        process:pl LPAR:lp channelSet:cs RPAR:rp process:pr
+        process:pl INTCHOICE:ic process:pr
+        process:pl EXTCHOICE:cs process:pr
+        process:pl CIRCSEQ:cs process:pr
+        /* Process calls */
+        processCall:pc
+        /* Parenthesised processes */
+        parenthesisedProcess:pp
+        ;
+
+processCall ::=
+        /* Nongenertic parameterised process call with instantiations */
+        DECORWORD:dw actualParameters:ap
+        /* Genertic parameterised process call with instantiations */
+        DECORWORD:dw genericActuals:ga actualParameters:ap        
+        /* Nongeneric indexed process call with instantiations */
+        DECORWORD:dw actualIndexes:ai
+        /* Generic indexed process call with instantiations */
+        DECORWORD:dw genericActuals:ga actualIndexes:ai       
+         
+        /**
+        If we try renaming of calls without parenthesis, the other parenthesisedProcess:pp
+        production is always given preference, regardless of our careful choice of precedences :-((
+
+        So, instead, I added the production to the root of processDesc, which gives the  intended result.
+        Nevertheless, there still some unwanted glitches - see test/circus/process_renaming.tex
+        
+            DECORWORD:dw channelRenaming:cr %prec _RENAME        
+            DECORWORD:dw genericActuals:ga channelRenaming:cr %prec _RENAME
+        */
+
+        /* Generic parameterless process call with instantiation */
+        DECORWORD:dw genericActuals:ga
+        /* Nongeneric parameterless process call */
+        DECORWORD:dw
+        ;
+
+/* Parenthesised processes represent on-the-fly process calls and
+ * normal processes between parenthesis. This production is symetric
+ * to processCall, apart from P[X,Y], which is uncessary because (P)[X,Y]
+ * is implicitly because process can be a processCall ;)
+ *
+ * Ideally, we should just use processDesc, but it is not the case due
+ * to the structural differences between the possibilities, hence we
+ * define each case individually.
+ */
+parenthesisedProcess ::=
+        /* Parenthesised processes */
+        LPAREN:lp process:p RPAREN:rp
+        LPAREN:lp paramProcess:pp RPAREN:rp
+        /* Non-generic on-the-fly parameterised process call */
+        LPAREN:lp1 paramProcess:pp RPAREN:rp1 actualParameters:ap
+        /* Generic on-the-fly parematerised process call */
+        formalParameters:fp LPAREN:lp1 paramProcess:pp RPAREN:rp1 genericActuals:ga actualParameters:ap
+        LPAREN:lp indexedProcess:ip RPAREN:rp
+        /* Non-generic on-the-fly indexed process call */
+        LPAREN:lp indexedProcess:ip RPAREN:rp actualIndexes:ai
+        /* Generic on-the-fly indexed process call */
+        formalParameters:fp LPAREN:lp indexedProcess:ip RPAREN:rp genericActuals:ga actualIndexes:ai
+
+        /* NOTE:
+         * The reason why we have introduced the special renaming bracket is because it makes
+         * debugging the parsing trees easier, as LSQUARE or RSQUARE appears in many places in
+         * the Z and Circus grammar. Anyway, it is nice to give them a distinctive bracket to
+         * avoid confusion.
+         * Note that for parameterised and indexed processes, we enforce the parenthesis around.
+         */
+        /* Process channel renaming */
+        LPAREN:lp process:pp RPAREN:rp channelRenaming:cr %prec _RENAME
+        /* Parameterised process channel renaming */
+        LPAREN:lp paramProcess:pp RPAREN:rp channelRenaming:cr %prec _RENAME
+        /* Indexed process channel renaming */
+        LPAREN:lp indexedProcess:ip RPAREN:rp channelRenaming:cr %prec _RENAME
+        ;
+
+/* This production leads to a loop in the grammar
+ * if directly put on parenthesisedProces :-(
+renamingProcesses ::=
+        process:p
+        paramProcess:pp
+        indexedProcess:idx
+        ;
+*/
+
+/// Circus parameters declaration ////////////////////////////////
+
+/* Just follows the rules for declPart but restricted to VarDecl */
+circusParamDeclList ::=
+        circusParamZDeclList:zdl
+        ;
+
+circusParamZDeclList ::=
+        varDecl:vd
+        circusParamZDeclList:zdl sep varDecl:vd
+        ;
+
+/* Just follows the rules for circusParamDeclList but extended to QualifiedDecl */
+circusCommandDecl ::=
+        varDecl:vd
+        qualifiedDecl:cd
+        ;
+
+circusParamCommandDeclList ::=
+        circusParamCommandZDeclList:cdl
+        ;
+
+circusParamCommandZDeclList ::=
+        circusCommandDecl:cd
+        circusParamCommandZDeclList:cdl SEMICOLON circusCommandDecl:cd
+        ;
+
+/* We cannot use nameList here because of the COLON.
+ * The smart scanner will interpret the names as DECLNAME,
+ * but nameList produces DECORWORD. We don't want declWordList
+ * either because formal parameters cannot be operators.
+ */
+qualifiedDecl ::=
+        circusQualifier:cq circusDeclWordList:cdwl COLON:colon expression:e
+        ;
+
+circusQualifier ::=
+        CIRCVAL
+        CIRCRES
+        CIRCVRES
+        ;
+
+/// Circus BasicProcess paragraphs ////////////////////////////////
+
+circusBasicProcess ::=
+        /* Represents basic circus processes across multiple circus environments.
+         * That means, we REQUIRE that "\circprocess P \circdef \circbegin"
+         * After this lonely begin, the parser will match the enclosing \end{circus}
+         *
+         * Then, after that, the user MUST switch to \begin{circusaction} \end{circusaction}
+         * environment in order to allow next paragraphs to be add.
+         */
+        CIRCBEGIN:begin
+
+        /* Represents basic processes without paragraphs, but just the main action
+         * declared within a single \begin{circus} \end{circus}.
+         */
+        CIRCBEGIN:cb circusBasicProcessMainAction:ca CIRCEND:ce
+        CIRCBEGIN:cb circusInnerProcParaList:ipl circusBasicProcessMainAction:ca CIRCEND:ce
+        ;
+
+circusBasicProcessMainAction ::=
+        CIRCSPOT:s circusAction:ca
+        ;
+
+/* Circus basic processes state can only be an expression or
+ * an abbreviation (without generic parameters). Thus, we have copied
+ * the appropriate production from abbreviationDefinition terminal.
+ * For a schema we need a boxed basic process paragraph.
+ */
+circusProcessState ::=
+        /* explicit schema definition is a horizontal box */
+        CIRCSTATE:cs name:n DEFEQUAL:equal expression:e
+
+        /* On-the-fly state schema is a horizontal box with special name */
+        CIRCSTATE:cs expression:e
+        ;
+
+/// Special productions for process paragraphs ////////////////////////////////
+
+genericActuals ::=
+        LSQUARE:ls expressionList:el RSQUARE:rs
+        ;
+
+actualParameters ::=
+        LPAREN:lp expressionList:el RPAREN:rp
+        ;
+
+actualIndexes ::=
+        CIRCLINST:cli expressionList:idx CIRCRINST:cri        
+        ;
+
+channelRenaming ::=
+        LCIRCRENAME:lsq refNameList:rnl CIRCASSIGN expressionList:el RCIRCRENAME:rsq        
+        ;
+
+/// Nameset paragraphs withing Process paragraphs ////////////////////////////////
+
+namesetPara ::=
+        CIRCNAMESET:cns name:n DEFEQUAL:equal nameSet:ns        
+        ;
+
+nameSet ::=
+        expression:e       
+        ;
+
+
+/// Action paragraphs withing Process paragraphs ////////////////////////////////
+
+actionPara ::=
+        name:n CIRCDEF actionDesc:pa        
+        ;
+
+/* Normalisation of productions to be similar to processDesc.
+ * That is, as we do not have indexed actions, we could have
+ * left the last two productions inside of paraAction directly,
+ * but we have chosen to be similar to processDesc.
+ */
+actionDesc ::=
+        DECORWORD:dw channelRenaming:cr %prec _RENAME        
+        paramAction:pa
+        circusAction:ca
+        ;
+
+// DESIGN:
+/* Moved replicated productions out of cspAction because they are not
+ * compatible with parenthesised actions. That is, we cannot have
+ * "A \circdef (i: \nat @ B)", because it would make no sense in
+ * "(i: \nat @ B) \extchoice C". This also normalises on-the-fly
+ * (replicated) parameterised action calls, which gets quite confusing if
+ * replicated actions were to be a cspAction.
+ */
+//DESIGN: We MUST NOT allow actionDesc here in the place of circusAction.
+//        that is to avoid actions like A \circdef (i: \power \nat @ (i: \nat @ B)),
+//        which would have a funny signature of (non-unifiable yet valid(?)) formal
+//        parameters. Note that on-the-fly nested parameters are fine, as in
+//        A \circdef (i: \power~\nat @ (i: \nat @ B)(0)), because the action of A
+//        is just a call, hence the formal parameters signature of A is i: \power~\arithmos.
+//
+//        One consequence of this is that one cannot have explicit nesting parameterised action
+//        declarations, or in fact any explicit nesting among parameterised or replicated actions,
+//        or parameterised commands.
+//
+// The SVN revision prior to this (6694) change is 6684 - channel renaming for non-parenthesised calls
+//
+//DESIGN: There are some tricky linguistic issues with this decision
+//        that we are leaving for the Typechecker. Originally, we were
+//        not supporting nested parameters to avoid higher order calls.
+//        On the other hand, there is the case between process parameters
+//        and indexes to decide. Leave it open in the parser. i.e., go back to actionDesc.
+paramAction ::=
+        /* Parameterised actions and commands */
+            // NOTE: ParamAction covers both parameterised actions and commands
+            //       the parser allows both here, whereas the type checker
+            //       guarantees the consistency among declarations and inner action/command.
+        circusParamCommandDeclList:cp CIRCSPOT:sp circusAction:ca
+        /* Replicated action productions in precedence order */
+        REPINTERLEAVE:ri circusParamDeclList:dp LINTER nameSet:ns RINTER CIRCSPOT:sp circusAction:ca
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
+
+            // NOTE: conflict on paramAction:ca; ok with circusAction:ca. Shouldn't allow nested (highorder?) anyway.
+        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp CIRCSPOT:sp LPAR nameSet:ns RPAR circusAction:ca
+        LPAR:lp channelSet:cs RPAR:rp circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCSPOT:sp circusAction:ca
+        ZCOMP:rs circusParamDeclList:dp CIRCSPOT:sp circusAction:ca %prec _REPSEQ
+
+        /* nested paramAction is not allowed */
+            // REMOVED FOR NOW FROM PARSER - leave it for typechecker
+        circusParamCommandDeclList:cp CIRCSPOT:sp circusParamCommandDeclList:cp2 CIRCSPOT:sp2 circusAction:pa        
+        ;
+
+circusAction ::=
+        /* CSP related actions */
+        cspAction:ca
+        
+        /* Circus guarded commands */
+        command:c
+        
+        /* Schema expression action */
+        LSCHEXPRACT:la expression:e RSCHEXPRACT:ra
+        
+        /* Parenthesised actions */
+        parenthesisedAction:pa        
+        ;
+
+cspAction ::=
+        CIRCSKIP:sk        
+        CIRCSTOP:sp        
+        CIRCCHAOS:cc        
+        CIRCMU:cm name:n CIRCSPOT circusAction:ca
+        
+        /* Action operator productions in precedence order */
+        circusAction:ca CIRCHIDING:h channelSet:cs                
+        circusAction:cal LINTER:li nameSet:nsl BAR nameSet:nsr RINTER:ri circusAction:car        
+        circusAction:cal INTERLEAVE:il circusAction:car        
+        circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car        
+        circusAction:cal LPAR:lp BAR:bl channelSet:cs BAR:br RPAR:rp circusAction:car        
+        circusAction:cal LSQUARE:lp nameSet:nsl BAR channelSet:csl BAR BAR channelSet:csr BAR nameSet:nsr RSQUARE:rp circusAction:car       
+        circusAction:cal LSQUARE:lp BAR:bl channelSet:csl BAR BAR channelSet:csr BAR:br RSQUARE:rp circusAction:car        
+        circusAction:cal INTCHOICE:ic circusAction:car       
+        circusAction:cal EXTCHOICE:cs circusAction:car        
+        circusAction:cal CIRCSEQ:cs circusAction:car
+        
+        /* Due to a series of reasonable conflicts (listed below), we see that
+         * the best choice is to introduce suitable notation (guard brackets,
+         * AKA toirtoise angle brackets) for guarded actions.
+         *
+         * The alternative without the guard brackets would be to perform
+         * smart scanning (i.e. look --- far --- ahead) on a series of
+         * tokens (i.e. DECORWORD, LPAREN, RPAREN, etc.) in order to
+         * disambiguate the grammar.
+         *
+         * Ambiguities:
+         *      -> Name: action call, communication fields, input field restriction, predicate
+         *                  refNameList from Assignment, Spec. Stmt., Schema hiding
+         *      -> LPAREN : on-the-fly action call, parenthesised action, input field restriction, predicate
+         * These unfolded even more problems with the expression and predicate
+         * productions. In total, without the guard brackets, we had 34 conflicts
+         * of which 10 were Reduce/Reduce and 24 were Shift/Reduce, for states
+         * #606, #677, and #728 of Parser.xml version 1.263 (on commit; 1.262 before commit).
+         * (see file transition.table.before.guardbrackets.txt on CZT_HOME/parser/tests/circus).
+         */        
+        LCIRCGUARD:lg guard:g RCIRCGUARD:rg ANDALSO:cg circusAction:ca        
+        communication:comm PREFIXTHEN:pt circusAction:ca       
+        actionCall:ac        
+        circusAction:ca nameSubstitution:ns %prec _RENAME
+
+        /* tHIS ERROR production is innocous :-( = It would be nice to find one for comm. specific errors
+            communication:comm error:e END
+        */
+        ;
+
+actionCall ::=
+        /* Parameterised action call */
+        DECORWORD:dw actualParameters:ap        
+        
+        /* Action call */
+            // NOTE: Typechecker will be considerate for wrong calls, so long as the names
+            //       are of declared schema reference expressions, here used as SchExprAction.
+            //       Note that AST-type promotion, from Z Expr to Circus Action, is needed.
+            //       In other words, the typechecker effectively "bypass" the parser structuring
+            //       of the AST. This is the only place where it happens, and a warning is generated.
+        DECORWORD:dw        
+        ;
+
+parenthesisedAction ::=
+        /* Parenthesised action */
+        LPAREN:lp circusAction:ca RPAREN:rp       
+        
+        /* Parenthesised parameterised action or command */
+        LPAREN:lp paramAction:pa RPAREN:rp
+       
+        /* On-the-fly parameterised action/command call */
+        LPAREN:lp1 paramAction:pa RPAREN:rp1 actualParameters:el
+        
+        /* On-the-fly parameterised mu action call */
+        LPAREN:lp1 CIRCMU:cm name:n CIRCSPOT paramAction:pa RPAREN:rp1 actualParameters:el
+        
+        /* Action channel renaming */
+        LPAREN:lp circusAction:ca RPAREN:rp channelRenaming:cr %prec _RENAME
+        ;
+
+guard ::=
+       predicate:p
+       ;
+
+communication ::=
+        /* Synchronisation or communication without generic parameters */
+        CHANNELNAME:dw optCommFields:ocf
+        
+        /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
+        CHANNELNAME:dw LSQUARE expressionList:el RSQUARE commFields:cf
+        
+        /*
+         * The channel error token is converted from DECORWORD by the smart scanner.
+         * And that happens only when a PREFIXTHEN has been found ahead, but the field
+         * names does not match the number of strokes. So, we can rely on PREFIXTHEN
+         * appearing after the error token. This is different from most places where
+         * error appear, in which case NL is mostly used as the lookahead token.
+         */
+        CHANNELERROR:ce error:e PREFIXTHEN
+        
+        /*
+         * This error production, with anyCircusSymbol or END, does not work as
+         * expected. Instead, the CUP lr_parser keeps looking ahead until EOF.
+         * So, remove it for now, and fix it latter.
+            
+            DECORWORD:dw error:e anyCircusSymbol
+         */
+        ;
+
+//anyCircusSymbol ::=
+//        CIRCTHEN | CIRCSKIP | CIRCSTOP | CIRCSTATE | END | NL | PREFIXTHEN
+//        ;
+
+optCommFields ::=
+        /* Synchronisation has empty communication fields */
+        commFields:cf        
+        ;
+
+commFields ::=
+        commFields:cfs commField:cf       
+        commField:cf        
+        ;
+
+// Strangelly enough, this productions for FDR allows quite funny
+// rules, such as c?expr, or lamda and if terms within a communication pattern.
+// We decided to leave then out as they seem to be uncessary - they fall into an
+// ambigous part of the grammar that is allowed by the parser but catched by the
+// CSP_m compiler.
+//
+// With further analysis, and the FM08 paper of M.Leushel, it became clearer
+// that the FDR way of handling CSP_m is very tricky indeed. There are many
+// irregular and awkward cases. We have normalise them here.
+commField ::=
+        /**
+         * We perform smart scanning on communication (i.e., lookahead for
+         * PREFIXTHEN and PREFIXCOLON) to see how to treat the DECORWORDs.
+         * If they have strokes, we add the strokes to the token stack, then
+         * clear the strokes from the DECORWORD. The parser will then tokenise
+         * the token stream and raise the right errors, it any.
+         *
+         * That means, CHANNELNAME and FIELDNAME (the lookahead DECORWORDs)
+         * DO NOT HAVE any strokes. This solution is needed to cope with
+         * awkward cases in the combination of Z and CSP.
+         * ex: c??x!!.y!?z  --- (c?) ? (x!!) . (y!) ? (z)
+         *
+         * The initial solution was to keep it as close to CSP and Z as possible
+         * and we needed to have special hard spaces at various places. But this
+         * did not solved the problem that output/dot fields were being confused
+         * with binding/tuple selection expressions, and only the type checker
+         * could distinguish what is what. That lead to the more sophisticated
+         * solution with no stroked names and smart scanning.
+        /* Input communicatio as in: c?x */
+        CHANNELIN:in FIELDNAME:dw
+        
+        /* Input communicatio as in: c?x : P */
+        CHANNELIN:in FIELDNAME:dw PREFIXCOLON LPAREN predicate:p RPAREN
+        
+        /* Output communicatio as in: c!e */
+        CHANNELOUT:out expression:e
+        
+        // Differently from FDR, we allow expressions to appear at dot fields as well.
+        /* Output communicaion as in: c.e */
+        CHANNELDOT:dt expression:e
+        
+        /*
+         * This production catches the case where parenthesis around the predicate
+         * were missing. The same is not possible for OUTSTROKE/CHANNELDOT because
+         * there isn't any special symbol before the production - and we don't want
+         * to mess around with the very complex 'expression' production.
+         *
+         * See the SmartScanner.pushCommPatternList for more details on this.
+         */
+        CHANNELIN:in FIELDNAME:dw PREFIXCOLON error:e END        
+        CHANNELIN:in DECORWORD:dw error:e END        
+        CHANNELDOT:in DECORWORD:dw error:e END        
+        CHANNELOUT:in DECORWORD:dw error:e END        
+        ;
+
+/// Command (Action) paragraphs (as part of Process paragraph) ////////////////////////////////
+
+command ::=
+        /* Assignment */
+        refNameList:rnl CIRCASSIGN:ca expressionList:el
+        
+        /* Alternative */
+        IF:cif guardedCommands:gcs CIRCFI:cfi %prec _CIRCIF
+        
+        /* Iteration */
+        CIRCDO:cdo guardedCommands:gcs CIRCOD:cod
+        
+        /* Variable declaration */
+        CIRCVAR:cv circusParamZDeclList:dp CIRCSPOT circusAction:ca
+        
+        /* Specification statement */
+        refNameList:rnl PREFIXCOLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
+        
+        /* Specification statement with empty frame*/
+        PREFIXCOLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
+        
+        /* Assumption */        
+        LBRACE:lb predicate:pre RBRACE:rb
+        
+        /* Coercion */        
+        LSQUARE:ls predicate:post RSQUARE:rs        
+        ;
+
+guardedCommands ::=
+        guardedCommands:gcs CIRCELSE guardedCommand:g        
+        guardedCommand:g        
+        ;
+
+guardedCommand ::=
+        guard:g CIRCTHEN circusAction:ca        
+        ;
+
+nameSubstitution ::=
+        LSQUARE:ls renameList:rnl RSQUARE:rs       
+        ;
+
+// TODO: CHECK Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc"
+//       and this production should then go to processDesc? (Seems ok - 07/Mar/2008).
+processRefPara ::=
+        name:n CIRCASSERTREF process:spec refines:r process:impl        
+        ;
+
+actionRefPara ::=
+        name:n CIRCASSERTREF circusAction:spec refines:r circusAction:impl        
+        ;
+
+refines ::=
+        CIRCSIMULATES        
+        EQUALS        
+        CIRCREFINES        
+        CIRCREFINES DECORWORD:dw       
+        ;
+
+
+/// schema text ///////////////////////////////////////////
+
+schemaText ::=
+        optDeclPart:odp BAR predicate:p        
+        optDeclPart:odp       
+        ;
+
+optDeclPart ::=
+        //empty        
+        declPart:dp        
+        ;
+
+declPart ::=
+        zDeclList:zdl
+        ;
+
+zDeclList ::=
+        declaration:d        
+        zDeclList:zdl sep declaration:d        
+        ;
+
+declaration ::=
+        basicDeclaration:bd        
+        expression:e
+        ;
+
+schemaTextNoExpression ::=
+        optDeclPart:dp BAR predicate:p        
+        zDeclList:zdl sep declaration:d
+    	basicDeclaration:bd
+        ;
+
+basicDeclaration ::=
+        varDecl:vd
+        constDecl:cd
+        ;
+
+varDecl ::=
+        declWordList:dwl COLON:colon expression:e
+        declWordList:dwl COLON:colon error:e
+        ;
+
+constDecl ::=
+        declName:dn DEFEQUAL:defequal expression:e
+        ;
+
+sep ::=
+        SEMICOLON
+        NL
+        ;
+
+/// word, declName, and refName lists ////////////////////////////////////
+
+nameList ::=
+        nameList:nl COMMA DECORWORD:dw
+        DECORWORD:dw
+        ;
+
+name ::=
+        DECORWORD:dw
+        ;
+
+declWordList ::=
+        declWordList:dwl COMMA DECLWORD:dw
+        declWordList:dwl COMMA opName:on
+        declWordList:dwl COMMA misusedOpName:mon
+        opName:on
+        DECLWORD:dw
+        misusedOpName:mon // fallback error case
+        ;
+
+misusedOpName ::=
+        PREP:p
+        PRE:p
+        POSTP:p
+        POST:p
+        IP:ip
+        I:i
+        LP:lp
+        L:l
+        ELP:elp
+        EL:el
+        ERP:erp
+        ER:er
+        SRP:srp
+        SR:sr
+        EREP:erep
+        ERE:ere
+        SREP:srep
+        SRE:sre
+        ES:es
+        SS:ss
+        ;
+
+declName ::=
+        name:n
+        opName:on
+        ;
+
+refNameList ::=
+        refNameList:rnl COMMA DECORWORD:dw
+        DECORWORD:dw
+        ;
+
+refName ::=
+        DECORWORD:dw
+
+        /* a field name can be an expression */
+        FIELDNAME:dw
+
+        LPAREN:lparen opName:on RPAREN:rparen
+        ;
+
+
+opName ::=
+        prefixName:pn
+        postfixName:pn
+        infixName:in
+        nofixName:nn
+        ;
+
+prefixName ::=
+        PRE:p varg
+        PREP:p varg
+        L:l optVargEsSsList:ouesl argEreOrSre:aeos varg
+        LP:lp optVargEsSsList:ouesl argErepOrSrep:aeos varg
+        ;
+
+postfixName ::=
+        varg POST:p
+        varg POSTP:p
+        varg EL:el optVargEsSsList:ouesl argErOrSr:aeos
+        varg ELP:elp optVargEsSsList:ouesl argErpOrSrp:aeos
+        ;
+
+infixName ::=
+        varg I:i varg
+        varg IP:ip varg
+        varg EL:el optVargEsSsList:ouesl argEreOrSre:aeos varg
+        varg ELP:elp optVargEsSsList:ouesl argErepOrSrep:aeos varg
+        ;
+
+nofixName ::=
+        L:l optVargEsSsList:ouesl argErOrSr:aeos
+        LP:lp optVargEsSsList:ouesl argErpOrSrp:aeos
+        ;
+
+optVargEsSsList ::=
+        //empty
+        optVargEsSsList:ouesl argEsOrSs:aeos
+        ;
+
+argEsOrSs ::=
+        ARG ES:es
+        LISTARG SS:ss
+        ;
+
+argEreOrSre ::=
+        ARG ERE:ere
+        LISTARG SRE:sre
+        ;
+
+argErepOrSrep ::=
+        ARG EREP:erep
+        LISTARG SREP:srep
+        ;
+
+argErOrSr ::=
+        ARG ER:er
+        LISTARG SR:sr
+        ;
+
+argErpOrSrp ::=
+        ARG ERP:erp
+        LISTARG SRP:srp
+        ;
+
+//a genName is returned as a pair, with the first item being the name,
+//and the second being a list of generic parameters
+genName ::=
+        prefixGenName:pgn
+        postfixGenName:pgn
+        infixGenName:ign
+        nofixGenName:ngn
+        ;
+
+prefixGenName ::=
+        PRE:pre name:formalParameter
+        L:l optNameEsSsList:onesl name:fpn1
+        ;
+
+postfixGenName ::=
+        name:fpn POST:p
+        name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 erOrSr:eos
+        ;
+
+infixGenName ::=
+        name:fpn1 I:i name:fpn2
+        name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 ereOrSre:eos name:fpn3
+        ;
+
+nofixGenName ::=
+        L:l optNameEsSsList:onesl name:fpn erOrSr:eos
+        ;
+
+//an optNameEsSsList is returned as a pair, with the first item
+//being a list comprising generic parameters, and the second being a
+//list comprising the name
+optNameEsSsList ::=
+        //empty
+
+        optNameEsSsList:ouesl name:fpn esOrSs:eos
+        ;
+
+esOrSs ::=
+        ES:es
+        SS:ss
+        ;
+
+ereOrSre ::=
+        ERE:ere
+        SRE:sre
+        ;
+
+erOrSr ::=
+        ER:er
+        SR:sr
+        ;
+
+/// predicates and expressions ///////////////////////////////////////////////
+
+// This is for terms which MUST be predicates, so MIGHT contain NL/SEMI.
+predicate ::=
+        predicate:lhs sep:s term:rhs
+        // NOTE: parser ensures that "term" is a valid predicate.
+        //       it could be "confused" as an expression when schemas
+        //       are used as predicates. So, all checks go to the term:p production
+        term:p
+        ;
+
+expression ::=
+        // NOTE: parser ensures that "term" is a valid expression.
+        //       it could be "confused" as a predicate when schemas
+        //       are used as expressions. So, all checks go to the term:p production
+        term:t
+        ;
+
+// This is for terms (which may be expr or pred) which MIGHT contain
+// NL/SEMI.  If they do contain NL/SEMI, they must be predicates!
+septerm ::=
+        septerm:lhs sep:s term:rhs        
+    	term:t
+    	;
+
+term ::=
+        /* conditional */
+        IF:i predicate:p THEN term:te ELSE term:fe
+    
+        /* (schema) universal quantification */
+        ALL:all schemaText:st SPOT term:t
+
+        /* (schema) existential quantification */
+        EXI:exi schemaText:st SPOT term:t
+
+        /* (schema) unique existential quantification */
+        EXIONE:exione schemaText:st SPOT term:t
+
+        /* function construction */
+        LAMBDA:lambda schemaText:st SPOT term:t %prec LAMBDA
+        
+        /* definite description */
+        MU:mu schemaText:st SPOT term:t %prec MU
+        
+        /* substitution expression */
+        LET:let letDefinitionList:ldl SPOT term:t %prec LET
+        
+        /* (schema) equivalence */
+        term:lhs IFF:iff term:rhs
+        
+        /* (schema) implication */
+        term:lhs IMP:imp term:rhs
+        
+        /* (schema) disjunction */
+        term:lhs OR:or term:rhs
+        
+        /* (schema) conjunction */
+        term:lhs AND:and term:rhs
+        
+        /* (schema) negation */
+        NOT:not term:t
+        
+        /* schema composition */
+        term:lhs ZCOMP:comp term:rhs
+        
+        /* schema piping */
+        term:lhs ZPIPE:pipe term:rhs
+        
+        /* schema hiding */
+        term:t ZHIDE:hide LPAREN refNameList:rnl RPAREN:rparen
+        
+        /* schema projection */
+        term:lhs ZPROJ:proj term:rhs
+        
+        /* schema precondition */
+        ZPRE:pre term:t
+        
+        /* powerset */
+        POWER:power term:t
+        
+        /* Cartesian product */
+        prodExpressionList:pel
+        
+        /* relation operator application */
+        relation:rel
+        
+        /* application of operator function */
+        application:a
+        
+        /* application of non-operator function */
+        func_appl:fa
+        
+        /* channel set extension */
+        // NOTE: It must be an optExpressionList because of generic actuals on channel names.
+        LCIRCCHANSET:lc optCommunicationList:ocl RCIRCCHANSET:rc        
+        ;
+
+
+optCommunicationList ::=
+        //empty        
+        communicationList:el        
+        ;
+
+communicationList ::=
+        communicationList:cl COMMA chanSetComm:c       
+        chanSetComm:c        
+        ;
+
+chanSetComm ::=
+        DECORWORD:dw LSQUARE expressionList:el RSQUARE        
+        DECORWORD:dw        
+        ;
+
+
+func_appl ::=
+        func_appl:fa inner_term:it %prec _APPLICATION        
+        inner_term:it %prec _APPLICATION
+        ;
+
+// Predicate / Expression that may appear in function application-like productions
+inner_term ::=
+        /* set extension */
+        LBRACE:lbrace optExpressionList:oel RBRACE:rbrace
+        
+        /* set comprehension */
+        LBRACE:lbrace schemaText:st SPOT expression:e RBRACE:rbrace
+        
+        /*  characteristic set comprehension */
+        LBRACE:lbrace schemaTextNoExpression:stne RBRACE:rbrace
+        
+        /* tuple extension */
+        LPAREN:lparen expressionList:el COMMA expression:e RPAREN:rparen
+        
+        /* characteristic definite description */
+        LPAREN:lparen MU:mu schemaText:st RPAREN:rparen
+        
+        nofixRel:nfr %prec ERP
+        nofixApp:nfa %prec _APPLICATION
+        
+        /* binding extension */
+        LBIND:lbind optConstDeclList:cdl RBIND:rbind
+        
+        /* empty schema construction */
+        LSQUARE:lsq RSQUARE:rsq
+        
+        /* schema construction */
+        /* push 'false' onto the isOpExpr stack, because both schema
+         * exprs and operations contain only expressions
+         */
+        /* pop the stack now the expr has been parsed */
+        LSQUARE:lsq schemaTextNoExpression:stne RSQUARE:rsq
+        
+        /* binding selection */
+        inner_term:it DOT:dot refName:rn
+        
+        /* tuple selection */
+        inner_term:it DOT:dot NUMERAL:n
+        
+        /* schema decoration */
+        inner_term:it stroke:s
+        
+        /* binding construction */
+        THETA:theta inner_term:it
+        
+        /* function application with schema expr as argument */
+        inner_term:it LSQUARE schemaTextNoExpression:st RSQUARE:rsquare
+           optAppendageList:oal
+        
+        /* generic instantiation */
+        /* If inner_term is changed to refName
+           (as in the grammar given in the Z Standard),
+           rename expressions fail to parse. */
+        inner_term:it LSQUARE expressionList:el RSQUARE:rsquare
+        
+        /* schema renaming */
+        inner_term:it LSQUARE renameList:rnl RSQUARE:rsquare %prec _RENAME
+        
+        /* number literal */
+        NUMERAL:n
+        
+        /* parenthesized expression/predicate */
+        LPAREN:lparen septerm:t RPAREN:rparen
+        
+        /* reference */
+        refName:rn
+        
+        /* truth */
+        TRUE:t
+        
+        /* falsity */
+        FALSE:f       
+
+        ;
+
+optAppendageList ::=
+       appendageList:al
+       
+       //empty       
+       ;
+
+//a list of possible constructs that come after inner_term LSQUARE
+//schemaTextNoExpression RSQUARE
+appendageList ::=
+       appendageList:al appendage:a       
+       appendage:a       
+       ;
+
+appendage ::=
+        stroke:s        
+        LSQUARE:lsq renameList:rnl RSQUARE        
+        DOT refName:rn        
+        DOT NUMERAL:n        
+        ;
+
+prodExpressionList ::=
+        term:t1 CROSS term:t2
+        prodExpressionList:pel CROSS term:t        
+        ;
+
+optExpressionList ::=
+        //empty        
+        expressionList:el        
+        ;
+
+expressionList ::=
+        expressionList:el COMMA expression:e        
+        expression:e        
+        ;
+
+
+optConstDeclList ::=
+        //empty
+        
+        constDeclList:cdl        
+        ;
+
+constDeclList ::=
+        constDeclList:cdl COMMA constDecl:cd        
+        constDecl:cd       
+        ;
+
+letDefinitionList ::=
+        letDefinitionList:ldl SEMICOLON letDefinition:ld
+        letDefinition:ld
+        ;
+
+letDefinition ::=
+        declName:n DEFEQUAL:defequal expression:e
+        ;
+
+stroke ::=
+        INSTROKE:is
+        OUTSTROKE:os
+        NEXTSTROKE:ns
+        NUMSTROKE:ns
+        ;
+
+renameList ::=
+        zRenameList:zrnl
+        ;
+
+zRenameList ::=
+        zRenameList:rnl COMMA rename:rn
+        rename:rn
+        ;
+
+rename ::=
+        declName:lhs SLASH refName:rhs
+        ;
+
+
+//nofix relation is not included here because it has a different precedence
+//than the other types of relation
+relation ::=
+        prefixRel:pr
+        postfixRel:pr
+        infixRel:ir
+        ;
+
+//according to the ISO standard, op e1 is equivalent to
+//e mem op
+prefixRel ::=
+        PREP:p term:t
+        LP:lp expSep:es term:t1 EREP:erep term:t2
+        LP:lp expSep:es optExpressionList:oel SREP:srep term:t
+        ;
+
+postfixRel ::=
+        term:t POSTP:p
+        term:t1 ELP:elp expSep:es term:t2 ERP:erp
+        term:t ELP:elp expSep:es optExpressionList:oel SRP:srp
+        ;
+
+infixRel ::=
+        infixChainRel:icr
+        term:t1 ELP:elp expSep:es term:t2 EREP:erep term:t3
+        term:t1 ELP:elp expSep:es optExpressionList:oel SREP:erep term:t2
+        ;
+
+infixChainRel ::=
+        term:lhs MEM:m term:rhs
+        term:lhs EQUALS:equals term:rhs
+        term:lhs IP:ip term:rhs
+
+        //apply syntactic transformation rule 12.2.10.3
+        infixChainRel:icr MEM term:rhs
+
+        //apply syntactic transformation rule 12.2.10.3
+        infixChainRel:icr EQUALS term:rhs
+
+        //apply syntactic transformation rule 12.2.10.3
+        infixChainRel:icr IP:ip term:rhs
+        ;
+
+nofixRel ::=
+        LP:lp expSep:es term:t ERP:erp
+        LP:lp expSep:es optExpressionList:oel SRP:srp
+        ;
+
+
+//nofix application is not included here because it has a different
+//precedence to the other types of application
+application ::=
+        prefixApp:pa
+        postfixApp:pa
+        infixApp:ia
+        ;
+
+prefixApp ::=
+        PRE:pre term:t
+        L:l expSep:es term:t1 ERE:ere term:t2
+        L:l expSep:es optExpressionList:oel SRE:sre term:t
+        ;
+
+postfixApp ::=
+        term:t POST:post
+        term:t1 EL:el expSep:es term:t2 ER:er
+        term:t EL:el expSep:es optExpressionList:oel SR:sr
+        ;
+
+infixApp ::=
+        term:lhs I:i term:rhs
+        term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
+        term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
+        ;
+
+nofixApp ::=
+        L:l expSep:es term:t ER:er
+        L:l expSep:es optExpressionList:oel SR:sr
+        ;
+
+expSep ::=
+        //empty %prec I
+        expSep:exs term:t ES:es       
+        expSep:exs expressionList:exprList SS:ss        
+        ;
+
+optNL ::=
+        //empty
+        NL
+        ;
+

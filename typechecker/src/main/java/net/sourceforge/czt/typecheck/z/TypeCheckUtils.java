@@ -19,25 +19,29 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
-import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
-import java.io.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.*;
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.MarshalException;
+import net.sourceforge.czt.base.util.TermInstanceCountManager;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
+import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.Pair;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.NameTypePairImpl;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.impl.ZNameImpl;
+import net.sourceforge.czt.z.impl.ZStrokeListImpl;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**
@@ -107,8 +111,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                    boolean recursiveTypes,
                                                    String sectName)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
+    return typecheck(term, sectInfo, useBeforeDecl, recursiveTypes, PROP_TYPECHECK_USE_NAMEIDS_DEFAULT, sectName);
   }
 
   /**
@@ -126,9 +129,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                                                    boolean recursiveTypes,
                                                    boolean useNameIds)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, 
-			    recursiveTypes, useNameIds, null);
+    return typecheck(term, sectInfo, useBeforeDecl, recursiveTypes, useNameIds, null);
   }
 
 
@@ -203,9 +204,17 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
 
+    // see Checker.checkZSect for initial transaction setup
+
     return guardedTypeCheck(typeChecker, term);
   }
 
+  /**
+   *
+   * @param typeChecker
+   * @param term
+   * @return
+   */
   @SuppressWarnings("CallToThreadDumpStack")
   protected List<? extends ErrorAnn> guardedTypeCheck(TypeChecker typeChecker, Term term)
   {
@@ -348,6 +357,11 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   }
 
   protected boolean printBenchmarkTimesDefault()
+  {
+    return false;
+  }
+
+  protected boolean printDepsOfDefault()
   {
     return false;
   }
@@ -496,7 +510,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   
   protected void printTypes(SectTypeEnvAnn sectTypeEnvAnn, SectionManager sectInfo, Markup markup)
   {
-    List<NameSectTypeTriple> triples = sectTypeEnvAnn.getNameSectTypeTriple();
+    ListTerm<NameSectTypeTriple> triples = sectTypeEnvAnn.getNameSectTypeTriple();
     String prevSect = "";    
     for (NameSectTypeTriple triple : triples) {
       String currSect = triple.getSect();
@@ -533,6 +547,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager();
+    // do not reuse the method: getCommand is static
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     sectionManager.setProperties(System.getProperties());
     return sectionManager;
@@ -573,8 +588,10 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     Boolean isBufferingWanted = null;
     Boolean isNarrativeWanted = null;
     String cztpath = null;
+    Boolean printDepsOf = null;
 
-    SectionManager manager = getSectionManager();    
+    BaseFactory.resetInstanceCounter();
+    SectionManager manager = getSectionManager(); 
       
     for (int i = 0; i < args.length; i++) 
     {
@@ -634,7 +651,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         if (warningOutput == null || !warningOutput.equals(WarningManager.WarningOutput.RAISE))
         {
           defaultFlags = false;
-          warningOutput = warningOutput.HIDE;
+          warningOutput = WarningManager.WarningOutput.HIDE;
           manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
         }
       }
@@ -657,6 +674,10 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
           isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
           isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;          
           manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
+      }
+      else if (args[i].startsWith("-deps"))
+      {
+        printDepsOf = true;
       }
       else if (args[i].startsWith("-")) 
       {
@@ -720,7 +741,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 if (warningOutput == null || (!warningOutput.equals(WarningManager.WarningOutput.RAISE) && args[i].indexOf('w') == -1))
                 {
                   defaultFlags = false;
-                  warningOutput = warningOutput.HIDE;
+                  warningOutput = WarningManager.WarningOutput.HIDE;
                   manager.setProperty(PROP_TYPECHECK_WARNINGS_OUTPUT, String.valueOf(warningOutput));
                 }
                 break;
@@ -760,6 +781,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       isBufferingWanted = isSpecReaderBufferingWantedDefault();
       isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
       cztpath           = cztPathDefault();
+      printDepsOf       = printDepsOfDefault();
     }
     // otherwise, we set all unset flags (e.g., null values) to false
     else
@@ -776,12 +798,14 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       isBufferingWanted = isBufferingWanted != null ? isBufferingWanted : false;
       isNarrativeWanted = isNarrativeWanted != null ? isNarrativeWanted : false;
       //cztpath           = cztpath != null ? cztpath : null;
+      printDepsOf       = printDepsOf != null ? printDepsOf : false;
     }  
     assert syntaxOnly != null && useBeforeDecl != null &&
       recursiveTypes != null && printTypes != null &&
       printZml != null && printBenchmark != null && useNameIds != null &&
       warningOutput != null && useSpecReader != null &&
-      isBufferingWanted != null && isNarrativeWanted != null : "Invalid flags!";
+      isBufferingWanted != null && isNarrativeWanted != null &&
+      printDepsOf != null : "Invalid flags!";
     
     // add a potentially old czt path (? TODO: decide to add this or not ?)
     String localcztpath = "";
@@ -1016,9 +1040,98 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         if (printZml) {
           System.out.println("\t\tprint zml......." + benchmarks.get(6) + "ms");
         }
-      }             
-    }        
+        System.out.println("\n\t\tAST instances..." + BaseFactory.howManyInstancesCreated());
+        System.out.println  ("\t\tZStrokeL count.." + TermInstanceCountManager.instancesCount(ZStrokeListImpl.class, false));
+        // or System.out.println  ("\t\tZStrokeL count.." + BaseUtils.instaceCount(ZStrokeListImpl.class));
+        System.out.println  ("\t\tNTPair count...." + TermInstanceCountManager.instancesCount(NameTypePairImpl.class, false));
+
+        System.out.println("\n\t\tZName count....." + TermInstanceCountManager.instancesCount(ZNameImpl.class, false));
+//        System.out.println  ("\t\tZName live......" + (ZNameImpl.instancesFinalised()));
+        System.out.println  ("\t\tZName live......" + TermInstanceCountManager.instancesCount(ZNameImpl.class, true));
+        
+        System.out.println("\n\tForce GC");
+        System.gc();
+
+        System.out.println("\n\t\tAST instances..." + BaseFactory.howManyInstancesCreated());
+        System.out.println  ("\t\tZStrokeL count.." + TermInstanceCountManager.instancesCount(ZStrokeListImpl.class, false));
+        // or System.out.println  ("\t\tZStrokeL count.." + BaseUtils.instaceCount(ZStrokeListImpl.class));
+        System.out.println  ("\t\tNTPair count...." + TermInstanceCountManager.instancesCount(NameTypePairImpl.class, false));
+
+        System.out.println("\n\t\tZName count....." + TermInstanceCountManager.instancesCount(ZNameImpl.class, false));
+//        System.out.println  ("\t\tZName live......" + (ZNameImpl.instancesFinalised()));
+        System.out.println  ("\t\tZName live......" + TermInstanceCountManager.instancesCount(ZNameImpl.class, true));
+
+        System.out.println("  \t\tName pool size.." + ZNameImpl.nameIdPool().size());
+        System.out.println("\n\t\tName-Id map....." + ZNameImpl.nameIdPool());
+
+      }            
+    }
+        
+    if (printDepsOf)
+    {
+      System.out.println("\n\n=========================================================================");
+      for (Key<?> sk : manager.keysOf(Source.class))
+      {
+        if (!manager.isPermanentKey(sk))
+        {
+          printSet("All keys that depend on " + sk.toString(), manager.getDependants(sk));
+          printSet("All keys that " + sk.toString() + " depends on", manager.getDependencies(sk));
+        }
+      }
+
+      for(Key<?> zsk : manager.keysOf(ZSect.class))
+      {
+        if (!manager.isPermanentKey(zsk))
+        {
+          printSet("All keys that depend on " + zsk.toString(), manager.getDependants(zsk));
+          printSet("All keys that " + zsk.toString() + " depends on", manager.getDependencies(zsk));
+        }
+      }
+
+      for(Key<?> lmfk : manager.keysOf(LatexMarkupFunction.class))
+      {
+        if (!manager.isPermanentKey(lmfk))
+        {
+          printSet("All keys that depend on " + lmfk.toString(), manager.getDependants(lmfk));
+          printSet("All keys that " + lmfk.toString() + " depends on", manager.getDependencies(lmfk));
+        }
+      }
+
+      System.out.println("\n=========================================================================");
+      
+
+//      Set<Key<Source>> sourceKeys = manager.keysOf(Source.class);
+//      Iterator<Key<Source>> it = sourceKeys.iterator();
+//      while (it.hasNext())
+//      {
+//        Key<Source> sk = it.next();
+//        if (manager.isPermanentKey(sk))
+//          it.remove();
+//      }
+//
+//      Set<Key<ZSect>> zsectKeys = manager.keysOf(ZSect.class);
+//      Iterator<Key<ZSect>> it2 = zsectKeys.iterator();
+//      while (it2.hasNext())
+//      {
+//        Key<ZSect> sk = it2.next();
+//        if (manager.isPermanentKey(sk))
+//          it2.remove();
+//      }
+
+    }
     System.exit(result);
+  }
+
+  private static void printSet(String extra, Set<Key<?>> keys)
+  {
+    System.out.print(extra);
+    System.out.print("\n\t\t");
+    for (Key<?> k : keys)
+    {
+      System.out.print(k.toString());
+      System.out.print("\n\t\t");
+    }
+    System.out.println();
   }
 
   public static void main(String[] args)

@@ -19,7 +19,9 @@
 
 package net.sourceforge.czt.gnast;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -27,9 +29,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.logging.LogRecord;
-
+import java.util.logging.Logger;
 import net.sourceforge.czt.zml.Resources;
 
 /**
@@ -110,6 +111,8 @@ public class Gnast implements GlobalProperties
    * The verbosity used for logging to stdout.
    */
   private Level verbosity_ = Level.SEVERE;
+  
+  private boolean addAstFinaliser_ = false;
 
 
   // ############################################################
@@ -143,7 +146,10 @@ public class Gnast implements GlobalProperties
     System.out.println("class options (all arguments are optional):\n"
       + "  -d <dir>  Generated files go into this directory\n"
       + "  -p <name> The name of the project to be generated\n"
-      + "  -v        Verbose; display verbose debugging messages\n");
+      + "  -f        Add AST finalisers. WARNING: ASTs will consume more memory!\n"
+      + "  -v        Verbose; display verbose debugging messages\n"
+      + "  -vv       Very verbose; more verbose debugging messages\n"
+      + "  -vvv      Very very verbose; even more verbose debugging messages\n");
   }
 
   /**
@@ -171,6 +177,7 @@ public class Gnast implements GlobalProperties
       if (arg.equals("-v")) verbosity_ = Level.INFO;
       else if (arg.equals("-vv")) verbosity_ = Level.FINE;
       else if (arg.equals("-vvv")) verbosity_ = Level.FINER;
+      else if (arg.equals("-f")) addAstFinaliser_ = true;
       else if (arg.equals("-d")) {
         if (i < args.length) {
           destDir_ = args[i++];
@@ -194,6 +201,15 @@ public class Gnast implements GlobalProperties
       printUsageMessage("Parse error at " + args[i]);
       return false;
     }
+    if (addAstFinaliser_)
+    {
+      defaultContext_.setProperty("addAstFinaliser", String.valueOf("1"));
+    }
+    verbosity_ = Level.ALL;
+    if (verbosity_.intValue() < Level.INFO.intValue())
+    {
+      getLogger().log(Level.INFO, "GnAST context = {0}", defaultContext_.toString());
+    }
     return true;
   }
 
@@ -201,6 +217,7 @@ public class Gnast implements GlobalProperties
 
   /**
    * The main code generator method.
+   * @param args 
    */
   public void generate(String[] args)
   {
@@ -223,10 +240,9 @@ public class Gnast implements GlobalProperties
       Throwable t = e;
       while (t != null) {
         if (t == e) getLogger().severe(t.getMessage());
-        else getLogger().severe("Caused by: " + t.getMessage());
+        else getLogger().log(Level.SEVERE, "Caused by: {0}", t.getMessage());
         t = t.getCause();
       }
-      return;
     }
   }
 
@@ -240,6 +256,7 @@ public class Gnast implements GlobalProperties
 
   // ################ INTERFACE GlobalProperties ####################
 
+  @Override
   public Project getProjectName(String namespace)
   {
     return namespaces_.get(namespace);
@@ -248,7 +265,7 @@ public class Gnast implements GlobalProperties
   public Project getProject(URL url)
   {
     String name = url.toString();
-    Project result = (Project) projects_.get(name);
+    Project result = projects_.get(name);
     if (result == null) {
       result = new Project(url, this);
       projects_.put(name, result);
@@ -256,11 +273,13 @@ public class Gnast implements GlobalProperties
     return result;
   }
 
+  @Override
   public Properties getDefaultContext()
   {
     return defaultContext_;
   }
 
+  @Override
   public String toDirectoryName(String packageName)
   {
     return destDir_
@@ -269,6 +288,7 @@ public class Gnast implements GlobalProperties
       + File.separatorChar;
   }
 
+  @Override
   public String toFileName(String packageName, String className)
   {
     return toDirectoryName(packageName)
@@ -276,6 +296,7 @@ public class Gnast implements GlobalProperties
       + ".java";
   }
 
+  @Override
   public String getBaseDir()
   {
     return baseDir_;
@@ -315,7 +336,7 @@ public class Gnast implements GlobalProperties
    * whether an attempt to read a file was unseccessful or
    * the file did not contain properties.
    *
-   * @param filename the file to be read.
+   * @param name the file to be read.
    * @return the properties contained in the file or the
    *         empty property mapping (should never be
    *         <code>null</code>).
@@ -336,15 +357,15 @@ public class Gnast implements GlobalProperties
             erg.load(url.openStream());
           }
           catch (java.io.IOException ioe) {
-            getLogger().warning("Cannot read property resource " + name);
+            getLogger().log(Level.WARNING, "Cannot read property resource {0}", name);
           }
         }
         else {
-          getLogger().warning("Cannot find property file " + name);
+          getLogger().log(Level.WARNING, "Cannot find property file {0}", name);
         }
       }
       catch (java.io.IOException ioe) {
-        getLogger().warning("Cannot read property file " + name);
+        getLogger().log(Level.WARNING, "Cannot read property file {0}", name);
       }
     }
     if (name != null) {
@@ -361,6 +382,8 @@ public class Gnast implements GlobalProperties
    * with Foo is contained in <code>props</code>. Furthermore, the values
    * of both properties are equal.
    *
+   * @param prefix 
+   * @param props 
    * @return should never be <code>null</code>.
    */
   public static Properties removePrefix(String prefix, Properties props)
@@ -380,6 +403,8 @@ public class Gnast implements GlobalProperties
    * that start with the given <code>prefix</code>.
    * Furthermore, the values of both properties are equal.
    *
+   * @param prefix 
+   * @param props 
    * @return should never be <code>null</code>.
    */
   public static Properties withPrefix(String prefix, Properties props)
@@ -397,6 +422,7 @@ public class Gnast implements GlobalProperties
   /**
    * The main method.  See #printUsage to see
    * how to use this method.
+   * @param args 
    */
   public static void main (String[] args)
   {
@@ -414,6 +440,7 @@ public class Gnast implements GlobalProperties
    */
   class OutputFormatter extends  Formatter
   {
+    @Override
     public String format(LogRecord record)
     {
       return record.getLevel().toString()

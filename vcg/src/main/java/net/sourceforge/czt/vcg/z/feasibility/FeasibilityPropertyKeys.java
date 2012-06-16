@@ -20,7 +20,7 @@ package net.sourceforge.czt.vcg.z.feasibility;
 
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
-import net.sourceforge.czt.z.util.Section;
+import net.sourceforge.czt.util.Section;
 
 /**
  * <P>Contains String constants for the keys used in VCG properties.</P>
@@ -69,7 +69,7 @@ public interface FeasibilityPropertyKeys extends VCGPropertyKeys {
   boolean PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT       = false;
 
   // Feasibility toolkit name
-  String VCG_FEASIBILITY_TOOLKIT_NAME = Section.FUNCTION_TOOLKIT.getName();//"fsb_toolkit";
+  String VCG_FEASIBILITY_TOOLKIT_NAME = Section.FSB_TOOLKIT.getName();//Section.FUNCTION_TOOLKIT.getName();//"fsb_toolkit";
 
   // Pre ZSection suffix (e.g., ZSect foo -> ZSect foo_pre)
   // Pre ZSection conjecture names N_vc_pre

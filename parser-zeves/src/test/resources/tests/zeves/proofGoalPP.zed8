@@ -1,4 +1,4 @@
-─ section proofGoalPP parents standard_toolkit └
+─ section proofGoalPPUtf parents standard_toolkit └
 
 ─ theorem Test ∀ WFBellLapadula
     ⦁

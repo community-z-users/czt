@@ -30,7 +30,7 @@ import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 
-public abstract class AbstractPrinterCommand extends AbstractCommand implements PrintPropertiesKeys
+  public abstract class AbstractPrinterCommand extends AbstractCommand implements PrintPropertiesKeys
 {
 
   protected Integer printTextWidth_ = null;

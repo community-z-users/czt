@@ -184,7 +184,11 @@ public abstract class CztManagedTest extends TestCase
     }
     Source source = new FileSource(sourceData);
     source.setMarkup(Markup.getMarkup(sourceData)); // extract the right markup
-    getManager().put(new Key<Source>(sourceName, Source.class), source);
+    
+    // for some nested tests, the source persists - so remove it before putting
+    Key<Source> sourceKey = new Key<Source>(sourceName, Source.class);
+    getManager().removeKey(sourceKey);
+    getManager().put(sourceKey, source);
   }
 
   /**
@@ -361,8 +365,9 @@ public abstract class CztManagedTest extends TestCase
 
     protected final URL url_;
 
-    protected AbstractManagedTest(URL url)
+    protected AbstractManagedTest(URL url, String name)
     {
+      super(name);
       url_ = url;
     }
 
@@ -460,7 +465,7 @@ public abstract class CztManagedTest extends TestCase
   {
     public TestNormal(URL url)
     {
-      super(url);
+      super(url, "Test normal: " + String.valueOf(url));
     }
 
     /**
@@ -514,7 +519,7 @@ public abstract class CztManagedTest extends TestCase
 
     protected TestError(URL url, Class<T> eClass, String exception)
     {
-      super(url);
+      super(url, "Test error - " + exception + ": " + String.valueOf(url));
       errorsFound_ = false;
       exception_ = exception;
       excetptionClass_ = eClass;

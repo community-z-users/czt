@@ -19,47 +19,40 @@
 
 package net.sourceforge.czt.parser.zeves;
 
-import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.parser.util.SectParsableCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
- *
- * @author Leo Freitas
- * @date Jul 13, 2011
+ * <p>
+ * A command to compute the proof table (class ProofTable) of a Z section. Since the ProofTable can be
+ * calculated during the ZSect parse, a special handling is required to get correct transaction
+ * sequence. The command allows the ProofTable to be calculated during the parse, or via a
+ * {@link ProofTableVisitor} otherwise, on a parsed ZSect.
+ * </p>
+ * <p>
+ * Refer to {@link SectParsableCommand} for the algorithm, transaction management and contracts.
+ * </p>
+ * 
+ * @see SectParsableCommand
+ * @author Andrius Velykis
  */
-public class ProofTableCommand
-  implements Command
+public class ProofTableCommand extends SectParsableCommand<ProofTable>
 {
-  /**
-   * Computes conjectures table for a given ZSection name. It first checks whether
-   * there is a ThmTable cached. If there isn't, it retrieves the ZSect for name.
-   * This will either parse it or retrieve from the manager (e.g., manually
-   * created ZSect). Parsing already updates ThmTable, so it will be cached and found.
-   * Finally, for manually added ZSect (e.g., when ThmTable still not cached),
-   * it calculates the ThmTable using the visitor.
-   *
-   * @param name
-   * @param manager
-   * @return
-   * @throws CommandException
-   */
-  // TODO: why not use the visitor's dependencies as well, like in ThmTableService? (Leo)
+  
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected Key<ProofTable> getKey(String name)
+  {
+    return new Key<ProofTable>(name, ProofTable.class);
+  }
+
+  @Override
+  protected ProofTable calculateFromSect(ZSect sect, SectionManager manager)
     throws CommandException
   {
-    final Key<ProofTable> key = new Key<ProofTable>(name, ProofTable.class);
-    if ( ! manager.isCached(key)) {
-      ZSect zSect = manager.get(new Key<ZSect>(name, ZSect.class));
-      if ( ! manager.isCached(key)) {
-        ProofTableVisitor visitor = new ProofTableVisitor(manager);
-        ProofTable proofTable = visitor.run(zSect);
-        manager.put(key, proofTable, ParseUtils.calculateDependencies(zSect, ProofTable.class));
-      }
-    }
-    return true;
+    ProofTableVisitor visitor = new ProofTableVisitor(manager);
+    return visitor.run(sect);
   }
 }

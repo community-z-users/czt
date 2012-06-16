@@ -271,7 +271,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     super.beforeCalculateVC(term, tables);
     if (getDefTable() == null)
     {
-      throw new VCCollectionException("VCG-FSB-NO-DEFTBL: cannot calulate fsb vcs without DefTbl");
+      throw new VCCollectionException("VCG-FSB-NO-DEFTBL: cannot calculate fsb vcs without DefTbl");
     }
   }
 
@@ -860,7 +860,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           old = addedSigSchemas_.put(schSigName, schNameSigSchema);
           cnt++;
           message.append(". There is a problem in the name factory; retrying with name ").append(schSigName);
-          CztLogger.getLogger(getClass()).warning(message.toString());
+          getLogger().warning(message.toString());
         }
         //assert addedSigSchemasList_.size() == addedSigSchemas_.size();
       }
@@ -937,7 +937,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         // ignore and make it just true
         final String message = "Definition exception raised whilst trying to collect user defined preconditions for schema " + ZUtils.toStringZName(schName) +
                 "\n---------------------------------------" + e.toString() + "\n---------------------------------------\n";
-        CztLogger.getLogger(getClass()).warning(message);
+        getLogger().warning(message);
       }
     }
     // just true for now.
@@ -958,7 +958,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
                 " depends on generic parameters not given to schema " + ZUtils.toStringZName(schName) +
                 "\n\tGiven.....: " + genParams.toString() +
                 "\n\tExpected..: " + stateSchemaGenParams.toString();
-        CztLogger.getLogger(getClass()).warning(message);
+        getLogger().warning(message);
       }
 
       // if state schema is not null but init schema is okay, then check it against the state init schema
@@ -1048,7 +1048,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected void handleInclBindingsMismatch(String errorMsg)
   {
     final String message = errorMsg + "\n\n\tThis might be caused by inconsistent state. Ignoring for " + getClass().getSimpleName();
-    CztLogger.getLogger(getClass()).warning(message);
+    getLogger().warning(message);
   }
 
   protected void createStateVCS(List<VC<Pred>> vcList) throws VCCollectionException
@@ -1102,7 +1102,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
 
   protected boolean bindingsSubsetEq(SortedSet<Definition> LHS, SortedSet<Definition> RHS, boolean dashed)
   {
-    if (!dashed)
+    if (LHS.isEmpty())
+      return true;
+    else if (RHS.isEmpty())
+      return false;
+    else if (!dashed)
       return LHS.containsAll(RHS);
     else
     {
@@ -1149,7 +1153,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     if (bindings.isEmpty())
     { 
       //throw new CztException(new FeasibilityException("Invalid (empty) bindings to populate ZDeclList of current name " + currentName_));
-      CztLogger.getLogger(getClass()).log(Level.WARNING, "Empty bindings to populate ZDeclList of current name {0}", currentName_);
+      getLogger().log(Level.WARNING, "Empty bindings to populate ZDeclList of current name {0}", currentName_);
       return;
     }
     assert !bindings.isEmpty();
@@ -1171,6 +1175,53 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           // TODO: generic params properly - for now consider only abstract state ones.
           // "properly means going through all the generic params in the bindings given
           // to see whether they are contained within the state or concrete state ones.
+
+          // NOTE: for knownBindings that are already all dashed, and if dashed is true, then no point in adding refExpr dashed.
+          //       will force not adding SInit~' inclusion, where SInit already has all dashed that is necessary in the case where 
+          //       the user didn't provide a state schema to guide the population of declarations.
+          //
+          //       that is, if all bindings are accounted for by the known bindings, then we need to add a ref to its key
+          //       if all known bindings are dashed, then no need to add the InclDecl with dash again. Otherwise, we do...
+          if (dashed && bindings.isEmpty())
+          {
+            SortedSet<Definition> state  = BindingUtils.stateBindingsOf(knownBindings);
+
+            // if all known bindings are state bindings (no after, no input, no output), then add the dash
+            // otherwise, the inclusion isn't right with dashes
+            dashed = state.equals(knownBindings);
+
+            if (!dashed)
+            {
+              // if state bindings aren't all known ones, check dashed bindings.
+              SortedSet<Definition> dashedBindings = BindingUtils.dashedBindingsOf(knownBindings);
+
+              // if dashed=known, then all is okay and no need for extra dash on inclusion
+              dashed = !dashedBindings.equals(knownBindings);
+              
+              // otherwise, there are mixed bindings around or I/O...
+              if (dashed)
+              {
+                SortedSet<Definition> io  = BindingUtils.inputBindingsOf(knownBindings);
+                io.addAll(BindingUtils.outputBindingsOf(knownBindings));
+
+                // if just IO then no need for dash
+                dashed = !io.equals(knownBindings);
+
+                // there are mixed bindings
+                if (dashed)
+                {
+  //              SortedSet<Definition> after  = BindingUtils.afterBindingsOf(knownBindings);
+  //              SortedSet<Definition> before = BindingUtils.beforeBindingsOf(knownBindings);
+  //
+  //              boolean initWithInput = !after.isEmpty() && !input.isEmpty() && input.equals(before);
+  //              boolean finWithOutput = !before.isEmpty() && !output.isEmpty() && output.equals(after);
+                  final String message = "Could not completely infer the (mixed) inclusion bindings for " + entry.getKey() + "; adding dashed inclusion...";
+                  CztLogger.getLogger(getClass()).warning(message);
+                }
+              }
+            }
+          }
+
           Expr schExpr = dashed ? predTransformer_.createDashedSchRef(entry.getKey(), getStateGenParams(STATE)) :
                                         predTransformer_.createSchRef(entry.getKey(), getStateGenParams(STATE));
           InclDecl id = factory_.createInclDecl(schExpr);

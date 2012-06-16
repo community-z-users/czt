@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.Set;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -75,9 +74,8 @@ public class OpTableService
     if (zsect != null) {
       OpTable opTable = visitor.run(zsect);
       if (opTable != null) {
-        Set<Key<?>> dep = visitor.getDependencies();
-        dep.add(key);
-        manager.put(new Key<OpTable>(name, OpTable.class), opTable, dep);
+        // the dependencies will be captured implicitly
+        manager.endTransaction(new Key<OpTable>(name, OpTable.class), opTable);
         return true;
       }
     }

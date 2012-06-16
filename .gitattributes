@@ -1,4 +1,5 @@
 * text=auto !eol
+/README-SVN-BRANCHING.txt -text
 attic/bsh/parseCircus.bsh -text
 attic/domainchecker/src/main/resources/lib/AppliesToDefTest.zcs -text
 attic/domainchecker/src/main/resources/lib/AppliesToDefTest.zev -text
@@ -573,6 +574,7 @@ jedit/zeves/src/main/resources/zeves.props -text
 jedit/zlive/src/main/resources/zlive.html -text
 jedit/zsidekick/src/main/java/zsidekick/CztPath.form -text
 parser-circus/doc/circus/circus.bnf.syntax.sty -text
+parser-circus/doc/circus/circus.bnf\[2009\].cup -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_mc_toolkit.tex -text
 parser-circus/src/main/resources/lib/circus_prelude.tex -text
@@ -727,8 +729,8 @@ parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
 parser/src/main/java/net/sourceforge/czt/parser/util/CyclicParseManager.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/CztLexerImpl.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/CztScannerImpl.java -text
-parser/src/main/java/net/sourceforge/czt/parser/util/DependenciesBuilder.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/SectParentResolver.java -text
+parser/src/main/java/net/sourceforge/czt/parser/util/SectParsableCommand.java -text
 parser/src/main/java/net/sourceforge/czt/parser/util/TokeniserDebugger.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/CyclicParentError.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
@@ -742,6 +744,7 @@ parser/src/test/java/net/sourceforge/czt/parser/util/AbstractCyclicParentTest.ja
 parser/src/test/java/net/sourceforge/czt/parser/util/CyclicParserManagerTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/util/CztManagedTest.java -text
 parser/src/test/java/net/sourceforge/czt/parser/z/CyclicParentParserTest.java -text
+parser/src/test/java/net/sourceforge/czt/parser/z/SectFromSpecParserTest.java -text
 parser/src/test/resources/tests/cyclic/lcycle1.zed -text
 parser/src/test/resources/tests/cyclic/lcycle2.zed -text
 parser/src/test/resources/tests/cyclic/lcycle3.zed -text
@@ -775,6 +778,7 @@ rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/src/main/java/net/sourceforge/czt/session/AbstractCommand.java -text
 session/src/main/java/net/sourceforge/czt/session/KnownExtensions.java -text
+session/src/main/java/net/sourceforge/czt/session/SectionInfoException.java -text
 session/src/main/java/net/sourceforge/czt/session/SpecSource.java -text
 session/src/main/java/net/sourceforge/czt/session/UnknownCommandException.java -text
 session/src/main/resources/circus.commands -text
@@ -1081,6 +1085,7 @@ ui/src/main/resources/net/sourceforge/czt/ui/czt_about.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/czt_license.html -text
 ui/src/main/resources/net/sourceforge/czt/ui/images/CZTicon.png -text svneol=unset#image/png
 util/src/main/java/net/sourceforge/czt/base/util/PerformanceSettings.java -text
+util/src/main/java/net/sourceforge/czt/base/util/TermInstanceCountManager.java -text
 util/src/test/java/net/sourceforge/czt/util/TermAnnTest.java -text
 vcg/pom.xml -text
 vcg/src/main/java/net/sourceforge/czt/vcg/util/AbstractBindingFilter.java -text
@@ -1184,10 +1189,14 @@ vcg/src/main/resources/lib/standard_toolkit_dc.tex -text
 vcg/src/main/resources/lib/standard_toolkit_fsb.tex -text
 vcg/src/main/resources/lib/whitespace_dc.tex -text
 vcg/src/main/resources/lib/whitespace_fsb.tex -text
+vcg/src/test/java/net/sourceforge/czt/vcg/util/DefinitionTableMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/util/DefinitionTableTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/util/VCGTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/dc/DomainCheckerTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/feasibility/FeasibilityTest.java -text
+vcg/src/test/java/net/sourceforge/czt/vcg/z/refinement/RefinementMondexTest.java -text
 vcg/src/test/java/net/sourceforge/czt/vcg/z/refinement/RefinementTest.java -text
 vcg/src/test/resources/tests/mondex/apC.tex -text
 vcg/src/test/resources/tests/mondex/apD.tex -text
@@ -1267,6 +1276,8 @@ vcg/src/test/resources/tests/z/quantifiedSchemas.tex -text
 vcg/src/test/resources/tests/z/refRulesEquiv.tex -text
 vcg/src/test/resources/tests/z/refRulesEquiv_ref.tex -text
 vcg/src/test/resources/tests/z/renaming.tex -text
+vcg/src/test/resources/tests/z/schemabinds.tex -text
+vcg/src/test/resources/tests/z/schemacomp.tex -text
 vcg/src/test/resources/tests/z/schemas.tex -text
 vcg/src/test/resources/tests/z/sets.tex -text
 vcg/src/test/resources/tests/z/simpleMondexCh4.tex -text
@@ -1463,7 +1474,9 @@ zeves/src/test/resources/tests/mondex.tex -text
 zeves/src/test/resources/tests/negate.tex -text
 zeves/src/test/resources/tests/opnames.tex -text
 zeves/src/test/resources/tests/proofCmds.tex -text
+zeves/src/test/resources/tests/refexpr_test.tex -text
 zeves/src/test/resources/tests/schemaCalculus.tex -text
+zeves/src/test/resources/tests/schemaSet.tex -text
 zeves/src/test/resources/tests/simple.tex -text
 zeves/src/test/resources/tests/simpleUnicode.zed8 -text
 zeves/src/test/resources/tests/smalltest.tex -text

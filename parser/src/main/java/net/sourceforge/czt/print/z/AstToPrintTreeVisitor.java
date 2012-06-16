@@ -685,8 +685,9 @@ public class AstToPrintTreeVisitor
         }
       }
       if (parentOpTables.size() > 0) {
+        opTable_ = new OpTable(zSect.getName());
         try {
-          opTable_ = new OpTable(zSect.getName(), parentOpTables);
+          opTable_.addParents(parentOpTables);
         }
         catch (InfoTable.InfoTableException e) {
           throw new CannotPrintAstException(e);

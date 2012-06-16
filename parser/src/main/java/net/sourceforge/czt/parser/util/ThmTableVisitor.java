@@ -39,9 +39,10 @@ public class ThmTableVisitor
   private ThmTable table_;
 
   /**
-   * Creates a new named conjecrure table visitor.
+   * Creates a new named conjecture table visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.ThmTable.class</code>.
+   * @param sectInfo
    */
   public ThmTableVisitor(SectionInfo sectInfo)
   {
@@ -66,6 +67,7 @@ public class ThmTableVisitor
     return table_;
   }
 
+  @Override
   public ThmTable visitTerm(Term term)
   {
     final String message = "ThmTables can only be build for ZSects; " +
@@ -73,12 +75,14 @@ public class ThmTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
+  @Override
   public ThmTable visitZParaList(ZParaList list)
   {
     for (Para p : list) visit(p);
     return null;
   }
 
+  @Override
   public ThmTable visitConjPara(ConjPara conjPara)
   {
     try {
@@ -90,11 +94,13 @@ public class ThmTableVisitor
     return null;
   }
 
+  @Override
   public ThmTable visitPara(Para para)
   {
     return null;
   }
 
+  @Override
   public ThmTable visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
@@ -103,8 +109,9 @@ public class ThmTableVisitor
       ThmTable parentTable = get(parent.getWord(), ThmTable.class);
       parentTables.add(parentTable);
     }
+    table_ = new ThmTable(name);
     try {
-      table_ = new ThmTable(name, parentTables);
+      table_.addParents(parentTables);
     }
     catch (InfoTable.InfoTableException e)
     {

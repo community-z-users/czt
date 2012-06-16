@@ -1034,20 +1034,20 @@
 % skip and side bar is added. if within z paragraph mode \zt@p = false
 \def\@znoskip{\offinterlineskip
   \everycr={\noalign{%
-    \ifzt@p
-      \global\zt@pfalse
-      \ifdim\prevdepth>-1000pt
-        \skip0=\normalbaselineskip
-        \advance\skip0by-\prevdepth
-        \advance\skip0by-\ht\strutbox
-        \ifdim\skip0<\normallineskiplimit
-            \vskip\normallineskip
-        \else
-            \vskip\skip0
-        \fi
-      \fi
-    \else
-      \penalty\interzedlinepenalty
+    \ifzt@p%
+      \global\zt@pfalse%
+      \ifdim\prevdepth>-1000pt%
+        \skip0=\normalbaselineskip%
+        \advance\skip0by-\prevdepth%
+        \advance\skip0by-\ht\strutbox%
+        \ifdim\skip0<\normallineskiplimit%
+            \vskip\normallineskip%
+        \else%
+            \vskip\skip0%
+        \fi%
+      \fi%
+    \else%
+      \penalty\interzedlinepenalty%
     \fi}}}
 
 % a relative bit of \zedskip
@@ -1160,12 +1160,15 @@
 %\def\@theorem#1[#2]{\@@theorem{#1 $[#2]$}}
 %
 % 2) just puts the theorem in a bold name
-\def\theorem#1{\@@theorem{#1}}
+\def\@ability{\relax}
+
+\def\theorem#1{\@ifnextchar[{\@theorem{#1}}{\@@theorem{#1}}}
+\def\@theorem#1[#2]{\@@theorem{#1 $[#2]$}}
 \def\@@theorem#1{%
   \@zcountingwhat=0    % sets the kind of counter to addto, 0=unboxed para
   \@@zed\@znoskip\halign to\linewidth\bgroup%
   {\strut$\color{ZedColor}\@zlign\hskip\zedleftsep##$}\hfil \tabskip=0pt plus1fil\crcr
-\hskip -\zedleftsep\hbox{\bf theorem \rm {\color{ZedColor}#1}}\crcr}
+\hskip -\zedleftsep\hbox{\bf theorem \rm \@ability {\color{ZedColor}#1}}\cr}
 %\def\@ability{\relax} % don't follow why z-eves needed this command here. = no need.
 
 % synonym for \endzed - could not add colour to the theorem's body :-(
@@ -1735,35 +1738,6 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 
 \PackageInfo{czt}{\space\space Loading standard toolkit symbols completed}
 
-%%%%%%%%%%%%%%%%% extension zstate toolkit                        %
-
-\def \zstate  {\zordop{\zkeyword{zstate}}}
-\def \zstinit  {\zordop{\zkeyword{zstinit}}}
-
-\def  \zstfin {\zordop{\zkeyword{zstfin}}}
-
-\def  \zastate {\zordop{\zkeyword{zastate}}}
-\def  \zastinit {\zordop{\zkeyword{zastinit}}}
-\def  \zastfin {\zordop{\zkeyword{zastfin}}}
-
-\def  \zcstate {\zordop{\zkeyword{zcstate}}}
-\def  \zcstinit {\zordop{\zkeyword{zcstinit}}}
-\def  \zcstfin {\zordop{\zkeyword{zcstfin}}}
-
-\def  \zretrieve {\zordop{\zkeyword{zretrieve}}}
-\def  \zretrievein {\zordop{\zkeyword{zretrievein}}}
-\def  \zretrieveout {\zordop{\zkeyword{zretrieveout}}}
-
-\def  \zainitin {\zordop{\zkeyword{zainitin}}}
-\def  \zafinout {\zordop{\zkeyword{zafinout}}}
-\def  \zcinitin {\zordop{\zkeyword{zcinitin}}}
-\def  \zcfinout {\zordop{\zkeyword{zcfinout}}}
-
-\def  \zfsrefines {\zordop{\zkeyword{zfsrefines}}}
-\def  \zbsrefines {\zordop{\zkeyword{zbsrefines}}}
-
-\PackageInfo{czt}{\space\space Loading zstate toolkit symbols completed}
-
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1782,6 +1756,46 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 
 %                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifshowLabels
+\showLabelstrue
+
+\def\Label#1{\ifshowLabels \mbox{$\ldata$\,#1\,$\rdata$} \\ \fi}
+
+\newif\ifshowzproofs
+\showzproofstrue
+%%
+%% the showzproofsfalse code is mostly copied from Latex's verbatim
+%% the \let\0... stuff is needed to put the ignore macro after the \fi
+%% -- otherwise the \fi gets ignored!
+%%
+\def\zproof{\ifshowzproofs\@@zed\@znoskip\let\par=\cr\obeylines\@vobeyspaces\halign to\linewidth\bgroup
+\strut$\@zlign##$\hfil \tabskip=0pt plus1fil\crcr
+\hskip -\zedleftsep\hbox{\bf proof} \let\0\relax
+\else \let\do\@makeother \dospecials \let\0\ignore@zproof \fi \0}
+\def\endzproof{\ifshowzproofs\crcr\vrule width.6em height.6em depth.1em\crcr\egroup$$\global\@ignoretrue\par\fi}
+
+\begingroup \catcode `|=0 \catcode `[= 1
+\catcode`]=2 \catcode `\{=12 \catcode `\}=12
+\catcode`\\=12 |long|gdef|ignore@zproof#1\end{zproof}[|end[zproof]]
+|endgroup
+
+%\def\[{\begingroup\zed}
+%\def\]{\crcr\egroup$$\endgroup\ignorespaces}
+
+\def\proof{\crcr \hskip -\zedleftsep\mbox{\bf proof} \crcr }
+
+\let\latexbegin\begin
+\def\begin{\long\def\@ability{\relax}\@ifnextchar[{\x@begin}{\latexbegin}} % ]
+\def\x@begin[#1]{\long\def\@ability{#1\ }\latexbegin}
+
+
+\def \defs {\mathrel{\widehat=}}
+\def \bind      {\mathrel{\leadsto}}
+\def \bindsto   {\mathrel{\leadsto}}
+\let\lbind=\lblot
+\let\rbind=\rblot
+
 
 \endinput
 %%

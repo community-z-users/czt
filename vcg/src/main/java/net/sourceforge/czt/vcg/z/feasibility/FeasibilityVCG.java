@@ -274,8 +274,8 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
           e.getCause().getCause() != null && (e.getCause().getCause() instanceof TypeErrorException) &&
           sectName != null)
       {
-        final String msg = getVCGCreatedZSectTypeErrorWarningMessage(sectName);
-        logger_.info(msg);
+        final String msg = getVCGCreatedZSectTypeErrorWarningMessage(sectName, (TypeErrorException)e.getCause().getCause());
+        getLogger().severe(msg);
       }
       else
       {
@@ -291,10 +291,10 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
     getFSBVCCollector().createStateVCS(vcList);
   }
 
-  protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName)
+  protected String getVCGCreatedZSectTypeErrorWarningMessage(String sectName, TypeErrorException tee)
   {
-    return "\nType errors on " + getClass().getSimpleName() + " for Z section " +
-          sectName +
+    return "\nType errors on " + getClass().getSimpleName() + " for Z section " + sectName +
+          ".\n\t" + printTypeErrors(tee).toString() +
           ".\nThis may happen if complex gneric types are involved" +
           (isCreatingZSchemas() ? " or the state schema (i.e., '"
           + getFSBVCCollector().getState(ZStateInfo.STATE)  + "') is not properly set.": ".");

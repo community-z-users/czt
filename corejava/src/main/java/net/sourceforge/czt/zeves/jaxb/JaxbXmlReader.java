@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.zeves.jaxb;
 
+import javax.xml.bind.JAXBContext;
+
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 import net.sourceforge.czt.zeves.ast.ZEvesFactory;
@@ -35,12 +37,16 @@ public class JaxbXmlReader
                        ZpattFactory zpattFactory,
                        ZEvesFactory zevesFactory)
   {
-    super(new JaxbToAst(zFactory, zpattFactory, zevesFactory),
-          JaxbContext.PATH);
+    super(new JaxbToAst(zFactory, zpattFactory, zevesFactory));
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst(), JaxbContext.PATH);
+    super(new JaxbToAst());
+  }
+  
+  @Override
+  protected JAXBContext getContext() {
+    return JaxbXmlWriter.JAXB_CONTEXT;
   }
 }

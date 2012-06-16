@@ -28,8 +28,10 @@ import net.sourceforge.czt.base.visitor.*;
  * @author Petra Malik
  */
 public class DeleteAnnVisitor
-  implements TermVisitor
+  implements TermVisitor<Object>
 {
+  
+  @Override
   public Object visitTerm(Term term)
   {
     VisitorUtils.visitTerm(this, term);

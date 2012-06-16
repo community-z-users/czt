@@ -38,19 +38,23 @@ public abstract class AbstractXmlWriter
 {
   private String encoding_ = "UTF-8";
 
+  @Override
   public String getEncoding()
   {
     return encoding_;
   }
 
+  @Override
   public void setEncoding(String encoding)
   {
     encoding_ = encoding;
   }
 
+  @Override
   public abstract void write(Term term, Writer writer)
     throws MarshalException;
 
+  @Override
   public void write(Term term, OutputStream stream)
     throws MarshalException
   {
