@@ -11,6 +11,6 @@
   <packaging>eclipse-plugin</packaging>
   <version>1.0.0-SNAPSHOT</version>
 
-  <name>Z/Eves Prover Integration for CZT</name>
+  <name>Z/Eves Eclipse</name>
   
 </project>

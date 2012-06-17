@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.sourceforge.czt.eclipse-feature"
-      label="CZT Eclipse Feature"
+      label="CZT for Eclipse"
       version="1.6.0.qualifier"
-      provider-name="Community Z Tools Project">
+      provider-name="Community Z Tools">
 
    <description url="http://czt.sourceforge.net">
       This Eclipse plugin provides support for editing formal specifications in the Z specification language.  It supports the ISO Z standard LaTeX and Unicode markups, and the Unicode markup can be used to give a WYSIWYG editor for Z.  The plugin provides syntax colouring, outline mode, cross-referencing of variables, constant background typechecking and many more features.
