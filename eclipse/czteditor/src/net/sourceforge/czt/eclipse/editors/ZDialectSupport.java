@@ -30,10 +30,10 @@ public enum ZDialectSupport {
   INSTANCE;
 
   public enum ZDialect {
-    Z("z", "Z", "lib/ZTable.xml"), 
-    OBJECT_Z("oz", "Object Z", "lib/ObjectZTable.xml"), 
-    CIRCUS("circus", "Circus", "lib/CircusTable.xml"), 
-    ZEVES("zeves", "Z/Eves", "lib/ZEvesTable.xml");
+    Z("z", "Z", "etc/ZTable.xml"), 
+    OBJECT_Z("oz", "Object Z", "etc/ObjectZTable.xml"), 
+    CIRCUS("circus", "Circus", "etc/CircusTable.xml"), 
+    ZEVES("zeves", "Z/Eves", "etc/ZEvesTable.xml");
 
     private final String dialect;
     private final String label;
