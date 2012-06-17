@@ -27,6 +27,8 @@
   <modules>
     <module>net.sourceforge.czt.library</module>
     <module>net.sourceforge.czt.eclipse</module>
+    <module>net.sourceforge.czt.eclipse.doc</module>
+    <module>net.sourceforge.czt.eclipse.vcg</module>
   </modules>
   
   <repositories>
