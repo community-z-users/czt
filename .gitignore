@@ -25,11 +25,11 @@ nb-configuration.xml
 /attic/z2svg/target
 /attic/zml2xhtml/target
 /corejava/target
-/eclipse/czteditor/eclipse_build
-/eclipse/cztlib/eclipse_build
+/eclipse/czteditor/bin
+/eclipse/cztlib/bin
 /eclipse/cztlib/lib/czt.jar
-/eclipse/vcg/eclipse_build
-/eclipse/zeves/eclipse_build
+/eclipse/vcg/bin
+/eclipse/zeves/bin
 /gaffe/target
 /gaffe2/target
 /gnast/target
