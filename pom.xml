@@ -101,6 +101,7 @@
     <module>zml</module>
     <module>parser-zeves</module>
     <module>typechecker-zeves</module>
+    <module>eclipse</module>
   </modules>
   <dependencies>
     <!-- JUnit -->
