@@ -23,6 +23,11 @@
       <artifactId>zml</artifactId>
     </dependency>
   </dependencies>
+  <properties>
+    <build.xml.dir>${basedir}/target/generated-sources/gnast</build.xml.dir>
+    <xml.dir>${basedir}/src/main/resources/xml</xml.dir>
+    <xsl.dir>${basedir}/src/main/resources/xsl</xsl.dir>
+  </properties>
   <build>
     <plugins>
       <!-- Put GnAST plugin first since xml generation ought to generate to ./gnast as well -->
@@ -45,68 +50,148 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-trax</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-        </dependencies>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>1.0</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <tasks>
-                <!-- Change the dirs for XXXChar/String to make it easier for IDEs to find classes -->
-                <property name="build.xml.dir" location="target/generated-sources/gnast"/>
-                <property name="xml.dir" location="src/main/resources/xml"/>
-                <property name="xsl.dir" location="src/main/resources/xsl"/>
-                <property name="build.compiler" value="extJavac"/>
-                <xslt
-                  in="${xml.dir}/zchar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/z/util/ZChar.java"
-                  style="${xsl.dir}/zchar2class.xsl"/>
-                <xslt
-                  in="${xml.dir}/zchar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/z/util/ZString.java"
-                  style="${xsl.dir}/zchar2stringclass.xsl"/>
-                <xslt
-                  in="${xml.dir}/ozchar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/oz/util/OzChar.java"
-                  style="${xsl.dir}/ozchar2class.xsl"/>
-                <xslt
-                  in="${xml.dir}/ozchar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/oz/util/OzString.java"
-                  style="${xsl.dir}/ozchar2stringclass.xsl"/>
-                <xslt
-                  in="${xml.dir}/circuschar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/circus/util/CircusChar.java"
-                  style="${xsl.dir}/circuschar2class.xsl"/>
-                <xslt
-                  in="${xml.dir}/circuschar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/circus/util/CircusString.java"
-                  style="${xsl.dir}/circuschar2stringclass.xsl"/>
-                <xslt
-                  in="${xml.dir}/zpattchar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/zpatt/util/ZPattChar.java"
-                  style="${xsl.dir}/zpattchar2class.xsl"/>
-                <xslt
-                  in="${xml.dir}/zpattchar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/zpatt/util/ZPattString.java"
-                  style="${xsl.dir}/zpattchar2stringclass.xsl"/>
-                <xslt
-                  in="${xml.dir}/zeveschar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/zeves/util/ZEvesChar.java"
-                  style="${xsl.dir}/zeveschar2class.xsl"/>
-                <xslt
-                  in="${xml.dir}/zeveschar.xml"
-                  out="${build.xml.dir}/net/sourceforge/czt/zeves/util/ZEvesString.java"
-                  style="${xsl.dir}/zeveschar2stringclass.xsl"/>
-              </tasks>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zchar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/z/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>ZChar.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zchar2class.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zchar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/z/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>ZString.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zchar2stringclass.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>ozchar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/oz/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>OzChar.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/ozchar2class.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>ozchar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/oz/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>OzString.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/ozchar2stringclass.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>circuschar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/circus/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>CircusChar.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/circuschar2class.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>circuschar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/circus/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>CircusString.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/circuschar2stringclass.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zpattchar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/zpatt/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>ZPattChar.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zpattchar2class.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zpattchar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/zpatt/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>ZPattString.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zpattchar2stringclass.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zeveschar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/zeves/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>ZEvesChar.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zeveschar2class.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zeveschar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/net/sourceforge/czt/zeves/util/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>ZEvesString.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zeveschar2stringclass.xsl</stylesheet>
+                </transformationSet>
+              </transformationSets>
             </configuration>
             <goals>
-              <goal>run</goal>
+              <goal>transform</goal>
             </goals>
           </execution>
         </executions>
