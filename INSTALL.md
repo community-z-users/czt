@@ -10,7 +10,7 @@ You need at least the following to build CZT:
      
 *    [Java Development Kit][jdk] version 6 or newer
 
-*    [Maven][mvn] version 2.0.4 or newer
+*    [Maven][mvn] version 2.0.5 or newer
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads
 [mvn]: http://maven.apache.org/

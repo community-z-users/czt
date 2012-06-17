@@ -32,43 +32,45 @@
 -->
     <plugins>
       <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-trax</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-          <dependency>
-            <groupId>${czt.groupId}</groupId>
-            <artifactId>util</artifactId>
-            <version>${czt.version}</version>
-          </dependency>
-        </dependencies>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>1.0</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <tasks>
-                <property name="build.compiler" value="extJavac"/>
-                 <xslt
-                  basedir="../zml/src/main/resources/net/sourceforge/czt/zml/xsd"
-                  destdir="${build.xsd}"
-                    style="../gnast/src/xsl/annotateJaxbBindings.xsl">
-                  <mapper type="glob" from="*.xsd" to="*.xsd"/>
-                </xslt>
-                <mkdir dir="${build.src}"/>
-                <exec executable="${JAVA_HOME}/bin/xjc">
-                  <arg value="-d"/>
-                  <arg value="${build.src}"/>
-                  <arg value="${build.xsd}"/>
-                </exec>
-              </tasks>
-              <sourceRoot>${build.src}</sourceRoot>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${basedir}/../zml/src/main/resources/net/sourceforge/czt/zml/xsd</dir>
+                  <includes>
+                    <include>*.xsd</include>
+                  </includes>
+                  <outputDir>${build.xsd}</outputDir>
+                  <stylesheet>${basedir}/../gnast/src/xsl/annotateJaxbBindings.xsl</stylesheet>
+                </transformationSet>
+              </transformationSets>
             </configuration>
             <goals>
-              <goal>run</goal>
+              <goal>transform</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <version>0.8.1</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <schemaDirectory>${build.xsd}</schemaDirectory>
+              <generateDirectory>${build.src}</generateDirectory>
+              <episode>false</episode>
+            </configuration>
           </execution>
         </executions>
       </plugin>
