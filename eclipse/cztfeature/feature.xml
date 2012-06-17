@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="CZTFeature"
+      id="net.sourceforge.czt.eclipse-feature"
       label="CZT Feature"
-      version="1.5.0"
+      version="1.6.0.qualifier"
       provider-name="Community Z Tools Project">
 
    <description url="http://czt.sourceforge.net">
