@@ -9,7 +9,7 @@
    <feature url="features/net.sourceforge.czt.eclipse.zeves-feature_1.0.0.qualifier.jar" id="net.sourceforge.czt.eclipse.zeves-feature" version="1.0.0.qualifier">
       <category name="net.sourceforge.czt.eclipse.category"/>
    </feature>
-   <category-def name="net.sourceforge.czt.eclipse.category" label="CZT Eclipse">
+   <category-def name="net.sourceforge.czt.eclipse.category" label="Community Z Tools">
       <description>
          Community Z Tools Eclipse Plugins for editing Z Specifications
       </description>
