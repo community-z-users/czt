@@ -19,8 +19,8 @@
   </properties>
   
   <modules>
-    <module>cztlib</module>
-    <module>czteditor</module>
+    <module>net.sourceforge.czt.library</module>
+    <module>net.sourceforge.czt.eclipse</module>
   </modules>
   
   <repositories>
