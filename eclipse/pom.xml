@@ -33,6 +33,7 @@
     <module>net.sourceforge.czt.eclipse-feature</module>
     
     <module>net.sourceforge.czt.eclipse.zeves</module>
+    <module>net.sourceforge.czt.eclipse.zeves-feature</module>
     
     <module>net.sourceforge.czt.eclipse.repository</module>
   </modules>
