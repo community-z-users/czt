@@ -27,8 +27,10 @@ nb-configuration.xml
 /corejava/target
 /eclipse/target
 /eclipse/net.sourceforge.czt.eclipse/target
+/eclipse/net.sourceforge.czt.eclipse-feature/target
 /eclipse/net.sourceforge.czt.library/target
 /eclipse/net.sourceforge.czt.library/lib
+/eclipse/net.sourceforge.czt.eclipse.repository/target
 /eclipse/net.sourceforge.czt.eclipse.doc/target
 /eclipse/net.sourceforge.czt.eclipse.vcg/target
 /eclipse/net.sourceforge.czt.eclipse.zeves/bin

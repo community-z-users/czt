@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.sourceforge.czt.eclipse-feature"
-      label="CZT Feature"
+      label="CZT Eclipse Feature"
       version="1.6.0.qualifier"
       provider-name="Community Z Tools Project">
 
