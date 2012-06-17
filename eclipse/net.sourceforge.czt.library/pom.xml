@@ -11,4 +11,86 @@
   <packaging>eclipse-plugin</packaging>
 
   <name>CZT Library for Eclipse</name>
+  
+  <properties>
+    <deps.lib>lib</deps.lib>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zeves</artifactId>
+      <version>1.6-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zlive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker-oz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <version>1.6-SNAPSHOT</version>
+      <artifactId>typechecker-circus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-ozpatt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>specreader</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>vcg</artifactId>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <!-- Clean /lib folder explicitly, this is where the dependencies are copied in other phase -->
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${deps.lib}</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${deps.lib}</outputDirectory>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <stripVersion>true</stripVersion>
+              <includeGroupIds>${czt.groupId}</includeGroupIds>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
 </project>
