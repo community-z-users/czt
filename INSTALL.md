@@ -73,7 +73,6 @@ To set Maven environment variables in Windows command prompt (`cmd.exe`),
 use the following commands:
 
     set MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=512m"
-    set JAVA_HOME="C:\Program Files\Java\jdk1.7"
     set PATH=%PATH%;c:\maven\bin
 
 Adjust the paths to match your Java & Maven installation directories.
