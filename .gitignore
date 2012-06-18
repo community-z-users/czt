@@ -25,6 +25,7 @@ nb-configuration.xml
 /attic/z2svg/target
 /attic/zml2xhtml/target
 /corejava/target
+/checkstyle/target
 /eclipse/target
 /eclipse/net.sourceforge.czt.eclipse/target
 /eclipse/net.sourceforge.czt.eclipse-feature/target
