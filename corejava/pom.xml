@@ -24,7 +24,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <build.xml.dir>${basedir}/target/generated-sources/gnast</build.xml.dir>
+    <build.xml.dir>${basedir}/target/generated-sources/xml/xslt</build.xml.dir>
     <xml.dir>${basedir}/src/main/resources/xml</xml.dir>
     <xsl.dir>${basedir}/src/main/resources/xsl</xsl.dir>
   </properties>
@@ -193,6 +193,24 @@
             <goals>
               <goal>transform</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${build.xml.dir}</source>
+              </sources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
