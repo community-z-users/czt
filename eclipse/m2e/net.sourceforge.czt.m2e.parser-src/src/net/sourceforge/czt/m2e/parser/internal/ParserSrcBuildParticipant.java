@@ -36,7 +36,7 @@ public class ParserSrcBuildParticipant extends MojoExecutionBuildParticipant
     IMaven maven = MavenPlugin.getMaven();
     BuildContext buildContext = getBuildContext();
 
-    // check if any of the gnast source files changed
+    // check if any of the parser template source files changed
     File source = maven.getMojoParameterValue(getSession(), getMojoExecution(), TEMPLATE_DIR_PROP,
         File.class);
     Scanner ds = buildContext.newScanner(source); // delta or full scanner
