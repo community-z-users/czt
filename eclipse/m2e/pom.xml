@@ -19,6 +19,7 @@
   <name>CZT m2e Support Parent</name>
   
   <modules>
+    <module>net.sourceforge.czt.m2e.cup</module>
     <module>net.sourceforge.czt.m2e.gnast</module>
     <module>net.sourceforge.czt.m2e.parser-src</module>
     
