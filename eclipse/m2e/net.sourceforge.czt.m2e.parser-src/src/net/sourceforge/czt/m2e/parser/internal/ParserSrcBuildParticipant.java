@@ -36,13 +36,7 @@ public class ParserSrcBuildParticipant extends MojoExecutionBuildParticipant
     IMaven maven = MavenPlugin.getMaven();
     BuildContext buildContext = getBuildContext();
 
-    // check if any of the parser template source files changed
-    File source = maven.getMojoParameterValue(getSession(), getMojoExecution(), TEMPLATE_DIR_PROP,
-        File.class);
-    Scanner ds = buildContext.newScanner(source); // delta or full scanner
-    ds.scan();
-    String[] includedFiles = ds.getIncludedFiles();
-    if (includedFiles == null || includedFiles.length <= 0) {
+    if (!canRunBuild(maven, buildContext)) {
       return null;
     }
 
@@ -56,6 +50,25 @@ public class ParserSrcBuildParticipant extends MojoExecutionBuildParticipant
 
     return result;
 
+  }
+  
+  private boolean canRunBuild(IMaven maven, BuildContext buildContext) throws CoreException {
+    // check if any of the parser template source files changed
+    File source = maven.getMojoParameterValue(getSession(), getMojoExecution(), TEMPLATE_DIR_PROP,
+        File.class);
+    
+    if (source.exists()) {
+      // source exists - scan it for changes
+      Scanner ds = buildContext.newScanner(source); // delta or full scanner
+      ds.scan();
+      String[] includedFiles = ds.getIncludedFiles();
+      // check if there are changed files
+      return includedFiles != null && includedFiles.length > 0;
+    } else {
+      // plugin templates will be used (packed). Since they will never change, we allow this build
+      // through for non-incremental builds
+      return !buildContext.isIncremental();
+    }
   }
 
   private void refreshDir(IMaven maven, BuildContext buildContext, String dirProp)
