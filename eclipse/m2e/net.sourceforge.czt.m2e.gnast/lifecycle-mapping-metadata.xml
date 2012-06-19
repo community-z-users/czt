@@ -5,9 +5,10 @@
       <pluginExecutionFilter>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>maven-gnast-plugin</artifactId>
-        <versionRange>[1.6-SNAPSHOT,)</versionRange>
+        <versionRange>[1.5,)</versionRange>
         <goals>
           <goal>generate</goal>
+          <goal>rulecodegen</goal>
         </goals>
       </pluginExecutionFilter>
       <action>
