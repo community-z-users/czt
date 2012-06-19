@@ -44,6 +44,7 @@ nb-configuration.xml
 /gaffe/target
 /gaffe2/target
 /gnast/target
+/gnast-maven-plugin/target
 /java_cup/target
 /jaxb/target
 /jedit/target
@@ -53,7 +54,6 @@ nb-configuration.xml
 /jedit/zsidekick/target
 /lib
 /maven-cup-plugin/target
-/maven-gnast-plugin/target
 /doc/papers/sectman/master.pdf
 /parser/target
 /parser-circus/target

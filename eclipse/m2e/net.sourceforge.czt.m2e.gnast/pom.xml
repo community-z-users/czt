@@ -10,6 +10,6 @@
   <artifactId>net.sourceforge.czt.m2e.gnast</artifactId>
   <packaging>eclipse-plugin</packaging>
 
-  <name>m2e connector for CZT maven-gnast-plugin</name>
+  <name>m2e connector for CZT gnast-maven-plugin</name>
   
 </project>

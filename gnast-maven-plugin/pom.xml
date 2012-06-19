@@ -6,7 +6,7 @@
     <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
-  <artifactId>gnast-plugin</artifactId>
+  <artifactId>gnast-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>CZT GnAST Maven Plugin</name>
 

@@ -32,7 +32,7 @@
     <plugins>
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
-        <artifactId>maven-gnast-plugin</artifactId>
+        <artifactId>gnast-maven-plugin</artifactId>
         <version>1.6-SNAPSHOT</version>
         <executions>
           <execution>

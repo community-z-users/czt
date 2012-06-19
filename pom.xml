@@ -79,7 +79,7 @@
     <module>jaxb</module>
     <module>jedit</module>
     <module>maven-cup-plugin</module>
-    <module>maven-gnast-plugin</module>
+    <module>gnast-maven-plugin</module>
     <module>parser</module>
     <module>parser-circus</module>
     <module>parser-oz</module>
