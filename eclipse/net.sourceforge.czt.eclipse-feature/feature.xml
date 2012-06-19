@@ -8,6 +8,18 @@
    <description url="http://czt.sourceforge.net">
       This Eclipse plugin provides support for editing formal specifications in the Z specification language.  It supports the ISO Z standard LaTeX and Unicode markups, and the Unicode markup can be used to give a WYSIWYG editor for Z.  The plugin provides syntax colouring, outline mode, cross-referencing of variables, constant background typechecking and many more features.
    </description>
+   
+   <copyright url="http://czt.sourceforge.net/license.html">
+      Copyright (C) 2008, 2012 Mark Utting, Andrius Velykis
+
+This file is part of the CZT project.
+
+The CZT project contains free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+The CZT project is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public Licensealong with CZT; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA, 02111-1307, USA
+   </copyright>
 
    <license url="http://czt.sourceforge.net/license.html">
       GNU GENERAL PUBLIC LICENSE
