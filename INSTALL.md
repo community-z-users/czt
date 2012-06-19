@@ -102,6 +102,10 @@ a Maven mirror.
 These instructions outline steps how to develop CZT source code using
 [Eclipse IDE][eclipse]. Information is based on Eclipse Juno (4.2).
 
+The instructions are for generating Eclipse projects using `mvn eclipse:eclipse`.
+Alternatively, experimental support for [Eclipse m2e][m2e] is described
+afterwards.
+
 [eclipse]: http://www.eclipse.org
 
 
@@ -248,19 +252,86 @@ Java > Code Style > Formatter tab.
 [czt-style]: doc/eclipse-code-format-style.xml
 
 
-### Issues with m2eclipse
+### m2e support
 
 The [Maven integration with Eclipse (m2e)][m2e] project aims to provide
 first-class Apache Maven support in Eclipse IDE. However, it also aims to
 participate in Eclipse automatic builds, which causes problems with certain
 Maven plugins. See [M2E wiki][m2e-cover] for more details on that.
 
-If m2e is used to import CZT Maven projects, it displays a number of errors
-where it cannot resolve correct "lifecycle mapping" for certain Maven
-executions. There was no attempt yet to resolve them manually and the process
-is a bit of a mess. Because of that,
-**m2e is not recommended to use with CZT projects** until this is resolved, or
-CZT Maven builds are updated to support m2e execution.
+We provide experimental support for m2e when building CZT source code.
+
+
+#### m2e connectors for CZT build plugins
+
+Basic m2e connectors are available to handle "lifecycle mapping" for CZT Maven
+plugins (i.e. `gnast-maven-plugin`, `cup-maven-plugin` and `parser-src`).
+They are not available in the official m2e marketplace and should be installed
+from CZT update site. Install the connectors before importing CZT Maven projects.
+
+Several other Maven plugins have m2e connectors available in m2e marketplace.
+Install them when asked during CZT project import. For other m2e 'incompatible'
+plugins, we provide some default lifecycle mapping. However, it raises some
+issues with the workspace not being refreshed properly. For better support,
+try installing the following additional external m2e connectors (for m2e 1.0):
+
+-    [`maven-jflex-plugin`][jflex-connector]
+-    [`xml-maven-plugin`][xml-connector]
+
+[jflex-connector]: https://github.com/objectledge/maven-extensions/
+[xml-connector]: http://code.google.com/p/nl-mwensveen-m2e-extras/
+
+At the time of writing, however, they are not available for m2e 1.1.
+
+
+#### Import CZT Maven projects into workspace
+
+Importing CZT projects using m2e requires a bit of fiddling at the moment.
+The following steps give rough outline of the process - try adding performing
+additional rebuilds/refreshes/update project to get everything built.
+
+For best results, build everything from command-line: `mvn clean install` and
+only then import the projects. The following steps are for unbuilt projects
+and may help with troubleshooting.
+
+1.  Select File > Import > Existing Maven Projects
+2.  Select root CZT directory and import all necessary projects
+3.  If asked to get m2e connectors from the marketplace, allow that
+    (restart Eclipse if needed)
+4.  After import, wait until _Building workspace_ job finishes
+    (can take long!)
+5.  If there are build errors, select all projects and refresh them.
+    This should trigger another build. It is because some plugins do not have
+    correct m2e connectors available
+6.  This should get core CZT projects built successfully. There may still be
+    errors with CZT Eclipse plug-ins
+7.  CZT Eclipse plug-ins are built upon `installed` CZT core JARs, so
+    run `mvn clean install` on the root CZT directory.
+    
+    This can be done by selecting `czt` project and then Run As > Maven build...
+    Enter `clean install` in _goals_ field. Furthermore, in _JRE_ tab increase
+    the allowed memory: add `-Xmx1024m -XX:MaxPermSize=512m` to _VM arguments_
+    
+8.  After everything is built successfully, refresh `net.sourceforge.czt.library`
+    project
+9.  Select Maven > Update Project... in the context menu of
+    `net.sourceforge.czt.library` project. This should build the CZT Eclipse
+    plug-ins successfully in the IDE
+
+Note that these steps are rough guidelines - we may try to streamline the
+m2e support in the future.
+
+
+#### Building CZT m2e connectors
+
+The m2e connectors for CZT Maven plugins are also available as Eclipse plug-ins
+in CZT repository: `<CZT_HOME>/eclipse/m2e`. When the full CZT build is
+performed, e.g. via `mvn clean install`, the plug-ins are built and packaged
+into CZT p2 repository. To install them from your local source code, add it
+as Eclipse update site with the following address:
+	
+	file:<CZT_HOME>/eclipse/net.sourceforge.czt.eclipse.repository/target/repository/
+
 
 [m2e]: http://www.eclipse.org/m2e/
 [m2e-cover]: http://wiki.eclipse.org/M2E_plugin_execution_not_covered
