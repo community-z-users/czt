@@ -37,6 +37,7 @@ nb-configuration.xml
 /eclipse/net.sourceforge.czt.eclipse.zeves/target
 /eclipse/net.sourceforge.czt.eclipse.zeves-feature/target
 /eclipse/m2e/target
+/eclipse/m2e/net.sourceforge.czt.m2e-feature/target
 /eclipse/m2e/net.sourceforge.czt.m2e.gnast/target
 /gaffe/target
 /gaffe2/target

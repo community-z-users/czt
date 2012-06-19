@@ -25,6 +25,8 @@
   </properties>
   
   <modules>
+    <module>m2e</module>
+  
     <module>net.sourceforge.czt.library</module>
     <module>net.sourceforge.czt.eclipse</module>
     <module>net.sourceforge.czt.eclipse.doc</module>
