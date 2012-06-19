@@ -422,19 +422,6 @@
     					<pluginExecutions>
     						<pluginExecution>
     							<pluginExecutionFilter>
-    								<groupId>net.sourceforge.czt</groupId>
-    								<artifactId>parser-src</artifactId>
-    								<versionRange>[1.6-SNAPSHOT,)</versionRange>
-    								<goals>
-    									<goal>generate</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore/>
-    							</action>
-    						</pluginExecution>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
     								<groupId>de.jflex</groupId>
     								<artifactId>maven-jflex-plugin</artifactId>
     								<versionRange>[1.4.3,)</versionRange>
