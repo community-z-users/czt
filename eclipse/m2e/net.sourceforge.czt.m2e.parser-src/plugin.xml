@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.m2e.core.projectConfigurators">
+      <configurator
+            class="net.sourceforge.czt.m2e.parser.internal.ParserSrcProjectConfigurator"
+            id="net.sourceforge.czt.m2e.parser-src.parserConfigurator"
+            name="CZT Parser Source Project Configurator">
+      </configurator>
+   </extension>
+   <extension
+         point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
+   </extension>
+</plugin>

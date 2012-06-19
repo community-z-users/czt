@@ -39,6 +39,7 @@ nb-configuration.xml
 /eclipse/m2e/target
 /eclipse/m2e/net.sourceforge.czt.m2e-feature/target
 /eclipse/m2e/net.sourceforge.czt.m2e.gnast/target
+/eclipse/m2e/net.sourceforge.czt.m2e.parser-src/target
 /gaffe/target
 /gaffe2/target
 /gnast/target
