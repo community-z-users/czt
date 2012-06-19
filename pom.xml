@@ -461,20 +461,6 @@
     						</pluginExecution>
     						<pluginExecution>
     							<pluginExecutionFilter>
-    								<groupId>net.sourceforge.czt</groupId>
-    								<artifactId>maven-gnast-plugin</artifactId>
-    								<versionRange>[1.6-SNAPSHOT,)</versionRange>
-    								<goals>
-    									<goal>generate</goal>
-    									<goal>rulecodegen</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore/>
-    							</action>
-    						</pluginExecution>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
     								<groupId>org.codehaus.mojo</groupId>
     								<artifactId>xml-maven-plugin</artifactId>
     								<versionRange>[1.0,)</versionRange>
