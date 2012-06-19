@@ -5,7 +5,7 @@
       <pluginExecutionFilter>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>maven-gnast-plugin</artifactId>
-        <versionRange>[2.1,)</versionRange>
+        <versionRange>[1.6-SNAPSHOT,)</versionRange>
         <goals>
           <goal>generate</goal>
         </goals>
