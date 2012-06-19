@@ -6,7 +6,7 @@
     <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
-  <artifactId>maven-cup-plugin</artifactId>
+  <artifactId>cup-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>CZT Cup Maven Plugin</name>
 

@@ -72,7 +72,7 @@
       </plugin>
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
-        <artifactId>maven-cup-plugin</artifactId>
+        <artifactId>cup-maven-plugin</artifactId>
         <version>1.6-SNAPSHOT</version>
         <executions>
           <execution>

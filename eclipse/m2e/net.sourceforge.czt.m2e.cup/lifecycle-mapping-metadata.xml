@@ -4,7 +4,7 @@
     <pluginExecution>
       <pluginExecutionFilter>
         <groupId>net.sourceforge.czt</groupId>
-        <artifactId>maven-cup-plugin</artifactId>
+        <artifactId>cup-maven-plugin</artifactId>
         <versionRange>[1.5,)</versionRange>
         <goals>
           <goal>generate</goal>

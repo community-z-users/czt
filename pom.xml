@@ -78,7 +78,7 @@
     <module>java_cup</module>
     <module>jaxb</module>
     <module>jedit</module>
-    <module>maven-cup-plugin</module>
+    <module>cup-maven-plugin</module>
     <module>gnast-maven-plugin</module>
     <module>parser</module>
     <module>parser-circus</module>

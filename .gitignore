@@ -26,6 +26,7 @@ nb-configuration.xml
 /attic/zml2xhtml/target
 /corejava/target
 /checkstyle/target
+/cup-maven-plugin/target
 /eclipse/target
 /eclipse/net.sourceforge.czt.eclipse/target
 /eclipse/net.sourceforge.czt.eclipse-feature/target
@@ -53,7 +54,6 @@ nb-configuration.xml
 /jedit/zlive/target
 /jedit/zsidekick/target
 /lib
-/maven-cup-plugin/target
 /doc/papers/sectman/master.pdf
 /parser/target
 /parser-circus/target
