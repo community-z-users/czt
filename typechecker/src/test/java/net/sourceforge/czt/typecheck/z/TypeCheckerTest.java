@@ -17,6 +17,7 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -95,7 +96,7 @@ public class TypeCheckerTest
       if (! "file".equals(protocol)) {
 	throw new IllegalArgumentException("Unsupported Protocol");
       }
-      final File dir = new File(url.getFile());
+      final File dir = new File(URLDecoder.decode(url.getFile(), "UTF-8"));
       String[] content = dir.list();
       for (String name : content) {
 	//if the file name ends with error, then we have a case with

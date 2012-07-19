@@ -12,8 +12,10 @@ package net.sourceforge.czt.parser.circus;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -194,8 +196,13 @@ public abstract class AbstractParserTest extends TestCase
     {
       URL url = getClass().getResource("/");
       if (url != null) {
-        if (VERBOSE) { System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName); }
-        directory = new File(url.getFile() + fullDirectoryName);        
+        try {
+          String urlPath = URLDecoder.decode(url.getFile(), "UTF-8");
+          if (VERBOSE) { System.out.println("Looking for tests under: " + urlPath + fullDirectoryName); }
+          directory = new File(urlPath + fullDirectoryName);
+        } catch (UnsupportedEncodingException e) {
+          throw new RuntimeException(e);
+        }
         if (! directory.isDirectory()) {
           System.out.println("No tests to perform on " + directory.getAbsolutePath());            
         } else {

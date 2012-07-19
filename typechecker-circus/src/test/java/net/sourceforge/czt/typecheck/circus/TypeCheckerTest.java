@@ -16,7 +16,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.circus;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -140,8 +142,13 @@ public class TypeCheckerTest
         URL url = getClass().getResource("/");
         if (url != null)
         {
-          if (VERBOSE) { System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName); }
-          directory = new File(url.getFile() + fullDirectoryName);
+          try {
+            String urlPath = URLDecoder.decode(url.getFile(), "UTF-8");
+            if (VERBOSE) { System.out.println("Looking for tests under: " + urlPath + fullDirectoryName); }
+            directory = new File(urlPath + fullDirectoryName);
+          } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+          }
           if (!directory.isDirectory())
           {
             if (VERBOSE) { System.out.println("No tests to perform on " + directory.getAbsolutePath()); }

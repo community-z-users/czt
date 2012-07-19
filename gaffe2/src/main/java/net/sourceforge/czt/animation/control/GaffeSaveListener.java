@@ -11,6 +11,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.swing.JFileChooser;
 import javax.swing.JTree;
@@ -59,7 +60,7 @@ public class GaffeSaveListener implements ActionListener
       XMLEncoder e = new XMLEncoder(new BufferedOutputStream(
           new FileOutputStream(file)));
       //Save specURL
-      e.writeObject(GaffeFactory.getAnalyzer().getSpecURL().getFile());
+      e.writeObject(URLDecoder.decode(GaffeFactory.getAnalyzer().getSpecURL().getFile(), "UTF-8"));
       //Save stateSchemaName
       e.writeObject(target_stepTree.getStateSchemaName());
       //Save initSchemaName

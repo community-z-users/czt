@@ -3,6 +3,8 @@ package net.sourceforge.czt.animation.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -72,8 +74,13 @@ public class InitializeListener implements ActionListener
   {
     OperationPane operationPane = GaffeUI.getOperationPane();
     String schemaName = "";
-    DefaultMutableTreeNode root = new DefaultMutableTreeNode(analyzer
-        .getSpecURL().getFile());
+    DefaultMutableTreeNode root;
+    try {
+      root = new DefaultMutableTreeNode(
+        URLDecoder.decode(analyzer.getSpecURL().getFile(), "UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
     DefaultMutableTreeNode state = new DefaultMutableTreeNode("State");
     DefaultMutableTreeNode initial = new DefaultMutableTreeNode("Initial");
     DefaultMutableTreeNode operation = new DefaultMutableTreeNode("Operation");

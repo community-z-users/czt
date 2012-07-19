@@ -3,7 +3,10 @@ package net.sourceforge.czt.parser.zeves;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -52,7 +55,12 @@ public class ScanningTest
       {
         throw new IllegalArgumentException("Unsupported Protocol");
       }
-      final File dir = new File(url.getFile());
+      File dir;
+      try {
+        dir = new File(URLDecoder.decode(url.getFile(), "UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException(e);
+      }
       String[] content = dir.list();
       String path = dir.getPath() + "/";
       //System.out.println("AHHHHH = " + dir.getAbsolutePath());

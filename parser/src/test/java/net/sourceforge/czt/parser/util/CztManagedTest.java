@@ -6,7 +6,10 @@ package net.sourceforge.czt.parser.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -171,7 +174,11 @@ public abstract class CztManagedTest extends TestCase
 
   protected void createSource(URL url)
   {
-    createSource(url.getFile());
+    try {
+      createSource(URLDecoder.decode(url.getFile(), "UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected void createSource(String fileName)
@@ -200,7 +207,11 @@ public abstract class CztManagedTest extends TestCase
    */
   protected Spec parse(URL url) throws CommandException
   {
-    return parse(url.getFile());
+    try {
+      return parse(URLDecoder.decode(url.getFile(), "UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected Spec parse(String fileName) throws CommandException
@@ -227,7 +238,11 @@ public abstract class CztManagedTest extends TestCase
 
   protected String getSourceName(URL url)
   {
-    return getSourceName(url.getFile());
+    try {
+      return getSourceName(URLDecoder.decode(url.getFile(), "UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected String getSourceName(String fileName)
@@ -288,7 +303,7 @@ public abstract class CztManagedTest extends TestCase
     {
       throw new IllegalArgumentException("Unsupported Protocol");
     }
-    final File dir = new File(url.getFile());
+    final File dir = new File(URLDecoder.decode(url.getFile(), "UTF-8"));
     if (isDebugging())
     {
       manager_.getLogger().info("Looking for test files under " + dir);
