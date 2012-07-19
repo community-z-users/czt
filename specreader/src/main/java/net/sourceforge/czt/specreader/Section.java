@@ -71,7 +71,7 @@ public abstract class Section
    */
   private String getFileDir()
   {
-    return "%%Zfile " + pathname_.toString() + "\n";
+    return "%%Zfile " + pathname_.toString() + ZFileReader.NL;
   }
 
   /**
@@ -142,8 +142,8 @@ public abstract class Section
         throw new RuntimeException("Unexpected SectionNotFoundException in blockAppend");
       }
     }
-    if (stringBuilder.charAt(stringBuilder.length()-1) != '\n') {
-      stringBuilder.append("\n");
+    if (!stringBuilder.substring(stringBuilder.length() - ZFileReader.NL.length()).equals(ZFileReader.NL)) {
+      stringBuilder.append(ZFileReader.NL);
     }
   }
 }

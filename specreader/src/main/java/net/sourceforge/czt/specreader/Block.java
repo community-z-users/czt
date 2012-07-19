@@ -87,7 +87,7 @@ public abstract class Block
    */
   public String getLocDir()
   {
-    return "%%Zloc "+lineNo_+"#"+columnNo_+"@"+charNo_+"\n";
+    return "%%Zloc "+lineNo_+"#"+columnNo_+"@"+charNo_+ZFileReader.NL;
   }
 
   /**

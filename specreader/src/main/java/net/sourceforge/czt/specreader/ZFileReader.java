@@ -39,6 +39,9 @@ import java.util.List;
  */
 public final class ZFileReader
 {
+  /** System-specific newline separator (e.g. "\n" for Unix, "\r\n" for Windows.  */
+  public static final String NL = System.getProperty("line.separator");
+
   /** Name of section being read */
   private String basename_;
 
@@ -554,7 +557,7 @@ public final class ZFileReader
         consumeText();
         consumeMarkupBlock();
       } else if (line_.length() == 0) {
-        text_.append("\n");
+        text_.append(NL);
       } else {
         return;
       }
@@ -621,7 +624,7 @@ public final class ZFileReader
       text_.append(line_.substring(consumedPosition_, peekedPosition_));
       consumedPosition_ = peekedPosition_;
       if (peekedPosition_ == line_.length()) {
-        text_.append("\n");
+        text_.append(NL);
       }
     }
   }
