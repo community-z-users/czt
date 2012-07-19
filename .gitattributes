@@ -1,0 +1,82 @@
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
+* text=auto
+
+# custom handling for UTF-16 files, which need to preserve line endings
+[attr]utf16 diff merge -text
+
+#
+# The above will handle all files NOT found below
+#
+# These files are text and should be normalized (Convert crlf => lf)
+*.java text
+*.xml text
+*.xsl text
+*.xsd text
+*.exsd text
+*.dtd text
+*.txt text
+*.html text
+*.css text
+*.js text
+*.es text
+*.bat text
+*.csv text
+*.md text
+MANIFEST.MF text
+*.properties text
+*.props text
+*.form text
+*.vm text
+*.cup text
+*.apt text
+*.gaffe text
+*.commands text
+*.header text
+
+COPYING text
+LICENSE text
+README text
+Makefile text
+.gitignore text
+.gitattributes text
+
+# LaTeX/Z and similar files
+*.tex text
+*.error text
+*.zml text
+*.zed text
+*.zed8 text
+*.zed16 utf16
+*.czt text
+*.zev text
+*.zcs text
+*.utf8 text
+*.utf16 utf16
+*.als text
+*.fig text
+*.sty text
+*.bib text
+
+# These files are binary and should be left untouched
+# (binary is a macro for -text -diff)
+*.jar binary
+*.gif binary
+*.jpg binary
+*.png binary
+*.svg binary
+*.sxd binary
+*.xcf binary
+*.ttf binary
+*.pdf binary
+*.eps binary
+*.ps binary
+*.dvi binary
+*.ppt binary
+*.pptx binary
+*.xls binary
+*.vsd binary
+*.doc binary
+
+*.latb binary
+*.zuml binary

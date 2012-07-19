@@ -42,7 +42,14 @@ public class SpecReaderTester
       }
       final String string_expected = new String(cbuf_expected, 0, count_expected);
       try {
-        SpecReader specReader = new SpecReader(basename + SpecReader.SUFFICES[0], false, false);
+        // Set 'isBufferingWanted' to true, because the non-buffered implementation
+        // has problems with Windows (CR+LF line endings).
+        // See bug #3545808 for details.
+        // 
+        // The buffering prevents re-reading source file, which was causing problems due
+        // to bad calculations of character positions involving different line endings.
+        // (see net.sourceforge.czt.specreader.Section:116-136)
+        SpecReader specReader = new SpecReader(basename + SpecReader.SUFFICES[0], true, false);
         count_actual = specReader.read(cbuf_actual, 0, len);
         if (count_actual < 1) {
           fail("read actual failed as if EOF");
