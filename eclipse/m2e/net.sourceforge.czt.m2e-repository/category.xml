@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://czt.sourceforge.net/eclipse">
+      Eclipse update site for the Community Z Tools (CZT) developer support - Eclipse m2e connectors.
+   </description>
+   <feature url="features/net.sourceforge.czt.m2e-feature_1.0.0.qualifier.jar" id="net.sourceforge.czt.m2e-feature" version="1.0.0.qualifier">
+      <category name="net.sourceforge.czt.m2e.category"/>
+   </feature>
+   <category-def name="net.sourceforge.czt.m2e.category" label="CZT m2e Support">
+      <description>
+         Tools to support building CZT.
+      </description>
+   </category-def>
+</site>
