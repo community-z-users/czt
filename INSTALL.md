@@ -286,21 +286,26 @@ We provide experimental support for m2e when building CZT source code.
 Basic m2e connectors are available to handle "lifecycle mapping" for CZT Maven
 plugins (i.e. `gnast-maven-plugin`, `cup-maven-plugin` and `parser-src`).
 They are not available in the official m2e marketplace and should be installed
-from CZT update site. Install the connectors before importing CZT Maven projects.
+from [CZT developer update site][czt-dev-p2]:
+
+    http://czt.sourceforge.net/dev/eclipse/updates/latest
+
+Install the connectors (_m2e support for building CZT_) before importing
+CZT Maven projects. Also install other related plug-ins from the update site:
+
+-    _m2e connector for `maven-jflex-plugin`_
+-    _m2e Connector for XML Transform_ (`xml-maven-plugin`)
+
+Note that at the time of writing, connector for XML Transform is not available
+for m2e 1.1 and would not allow to install because of lacking dependencies.
+The connectors are available for m2e 1.0.
 
 Several other Maven plugins have m2e connectors available in m2e marketplace.
 Install them when asked during CZT project import. For other m2e 'incompatible'
 plugins, we provide some default lifecycle mapping. However, it raises some
-issues with the workspace not being refreshed properly. For better support,
-try installing the following additional external m2e connectors (for m2e 1.0):
+issues with the workspace not being refreshed properly.
 
--    [`maven-jflex-plugin`][jflex-connector]
--    [`xml-maven-plugin`][xml-connector]
-
-[jflex-connector]: https://github.com/objectledge/maven-extensions/
-[xml-connector]: http://code.google.com/p/nl-mwensveen-m2e-extras/
-
-At the time of writing, however, they are not available for m2e 1.1.
+[czt-dev-p2]: http://czt.sourceforge.net/dev/eclipse/updates/latest
 
 
 #### Import CZT Maven projects into workspace

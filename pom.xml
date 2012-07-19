@@ -422,22 +422,6 @@
     					<pluginExecutions>
     						<pluginExecution>
     							<pluginExecutionFilter>
-    								<groupId>de.jflex</groupId>
-    								<artifactId>maven-jflex-plugin</artifactId>
-    								<versionRange>[1.4.3,)</versionRange>
-    								<goals>
-    									<goal>generate</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    							  <execute>
-    							    <runOnIncremental>false</runOnIncremental>
-    							    <runOnConfiguration>true</runOnConfiguration>
-    							  </execute>
-    							</action>
-    						</pluginExecution>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
     								<groupId>org.codehaus.mojo</groupId>
     								<artifactId>xml-maven-plugin</artifactId>
     								<versionRange>[1.0,)</versionRange>
