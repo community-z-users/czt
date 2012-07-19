@@ -47,7 +47,7 @@ the Windows line breaks using the following Git command in your repository:
 
 Then reset your Git repository to checkout correct line breaks:
 
-    del .git\index
+    git rm --cached -r .
     git reset --hard
 
 
