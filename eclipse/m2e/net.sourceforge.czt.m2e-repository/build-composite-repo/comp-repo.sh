@@ -1,6 +1,9 @@
 #!/bin/bash
 #
 # Tool to maintain p2 composite repositories
+# http://eclipsesource.com/blogs/2012/06/11/creating-p2-composite-repositories-on-the-command-line/
+#
+# Andrius Velykis: adapted slightly to work on Mac OS X (Lion)
 
 USAGE="Usage:
   `basename "$0"` <repo-dir> [options] operation, operation ...
@@ -37,7 +40,7 @@ if [ "$#" -lt 1 ]; then
   fail "Missing parameter <repo-dir>"
 fi
 
-repoDir=`readlink -nm "$1"`
+repoDir="$1"
 shift
 if [ ! -d "$repoDir" ]; then
   fail "Directory does not exist: $repoDir"
@@ -91,7 +94,7 @@ fi
 launcher=$ECLIPSE_DIR/plugins/`ls -1 $ECLIPSE_DIR/plugins 2> /dev/null | grep launcher_ | tail -n 1`
 echo "Using Equinox launcher: $launcher"
 
-tmpfile=`mktemp`
+tmpfile=`mktemp /tmp/tmp.XXXXXXXXXX`
 cat > "$tmpfile" <<EOM
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="p2 composite repository">
