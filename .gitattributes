@@ -2,6 +2,9 @@
 # and leave all files detected as binary untouched.
 * text=auto
 
+# custom handling for UTF-16 files, which need to preserve line endings
+[attr]utf16 diff merge -text
+
 #
 # The above will handle all files NOT found below
 #
@@ -44,11 +47,12 @@ Makefile text
 *.zml text
 *.zed text
 *.zed8 text
+*.zed16 utf16
 *.czt text
 *.zev text
 *.zcs text
 *.utf8 text
-*.utf16 text
+*.utf16 utf16
 *.als text
 *.fig text
 *.sty text
