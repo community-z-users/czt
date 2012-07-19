@@ -35,6 +35,21 @@ This will clone the read-only CZT repository. Refer to
 
 [czt-dev]: http://sourceforge.net/projects/czt/develop
 
+### Line breaks (Windows only)
+
+On Windows, CZT expects Windows-style line breaks (CR+LF). The conversion is
+usually set by default (e.g. using `msysgit`) and nothing else is necessary.
+
+If, however, you encounter build problems with some CZT modules, try forcing
+the Windows line breaks using the following Git command in your repository:
+
+    git config core.autocrlf true
+
+Then reset your Git repository to checkout correct line breaks:
+
+    del .git\index
+    git reset --hard
+
 
 ## Build CZT
 
@@ -95,6 +110,10 @@ a Maven mirror.
 
 [mvn-mirrors]: http://maven.apache.org/guides/mini/guide-mirror-settings.html
 
+### Troubleshooting: tests failing due to line breaks (Windows only)
+
+Tests can fail because of Unix-style line breaks used in Windows builds.
+Ensure correct line breaks when checking out from Git (see above).
 
 
 ## Using Eclipse IDE
