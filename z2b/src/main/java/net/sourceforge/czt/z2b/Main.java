@@ -23,6 +23,7 @@ import java.io.*;
 import java.util.logging.*;
 import java.util.*;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -116,7 +117,7 @@ public class Main
     throws IOException
   {
     // create output file (*.mch)
-    String outName = inName.getPath();
+    String outName = URLDecoder.decode(inName.getPath(), "UTF-8");
     if ( ! inName.getProtocol().equals("file")) {
       // put the output in the current directory
       int slash = outName.lastIndexOf('/');

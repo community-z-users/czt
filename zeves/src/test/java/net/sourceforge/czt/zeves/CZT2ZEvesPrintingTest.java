@@ -20,6 +20,7 @@
 package net.sourceforge.czt.zeves;
 
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.Test;
@@ -49,7 +50,7 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   @Override
   protected void testing(URL resource, Spec term) throws Exception
   {
-    String fileName = resource.getPath(); //getFile() returns the protocol as well
+    String fileName = URLDecoder.decode(resource.getPath(), "UTF-8"); //getFile() returns the protocol as well
     List<String> result = new ArrayList<String>();
     result = CZT2ZEves.runPrinter(fileName, true, DEBUG_TESTING);
     if (DEBUG_TESTING) { System.out.println(result.size() + " Z/Eves command(s) created:\n"); }

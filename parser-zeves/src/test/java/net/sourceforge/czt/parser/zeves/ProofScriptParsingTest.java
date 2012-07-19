@@ -20,6 +20,7 @@
 package net.sourceforge.czt.parser.zeves;
 
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +78,7 @@ public class ProofScriptParsingTest
   protected void testing(URL resource, Spec term) throws Exception
   {
     if (printer_ != null) ZUtils.setToStringVisitor(term, printer_);
-    String fileName = resource.getPath();
+    String fileName = URLDecoder.decode(resource.getPath(), "UTF-8");
     if (isDebugging())
     {
       System.out.println("Parsing successful, start printing of " + resource);
