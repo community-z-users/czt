@@ -102,6 +102,7 @@
     <module>parser-zeves</module>
     <module>typechecker-zeves</module>
     <module>eclipse</module>
+    <module>modelinfo</module>
   </modules>
   <dependencies>
     <!-- JUnit -->
