@@ -38,7 +38,7 @@ which CZT fails to parser because of the explicit generics in the wrong place :-
 \end{zproof}
 
 ***
-Cannot parse Z/Eves result:
+Cannot parse Z/EVES result:
 line 1 column 27: Syntax error in variable declaration at token RSQUARE; an expression is expected after token COLON
 line 1 column 70: Syntax error at symbol RSQUARE
 ***
@@ -54,7 +54,7 @@ line 1 column 70: Syntax error at symbol RSQUARE
 \begin{theorem}{postfixGen2}[X,Y]
     q = (\_~\inv)[X,Y] f
 \end{theorem}
-Translation for \inv actually is accepted by Z/Eves with varargs and parentheses:
+Translation for \inv actually is accepted by Z/EVES with varargs and parentheses:
 <cmd name="add-paragraph"><theorem-def location="L19;C0;S607;E680;G73;Rbb1.zed"   >postfixGen
 [X, Y]
 
@@ -63,7 +63,7 @@ Translation for \inv actually is accepted by Z/Eves with varargs and parentheses
 </theorem-def></cmd>
 
 
- A version without varargs that is supported by Z/Eves looks like the following:
+ A version without varargs that is supported by Z/EVES looks like the following:
 <cmd name="add-paragraph"><theorem-def location="L19;C0;S607;E680;G73;Rbb1.zed"   >postfixGen
 [X, Y]
 
@@ -107,7 +107,7 @@ use functionFinite[X, Y]
 
 The proof also returns
 **
-Cannot parse Z/Eves result:
+Cannot parse Z/EVES result:
 line 1 column 88: Syntax error at symbol LSQUARE
 ***
 
@@ -132,7 +132,7 @@ This problem is fixed by the same solution to the postfix genactuals on \inv abo
 \begin{theorem}{cupGen}[X]
     (\_ \cup \_)[X] (A, B) = \emptyset
 \end{theorem}
- The above is also accepted nicely by Z/Eves and gets translated into infix relation:
+ The above is also accepted nicely by Z/EVES and gets translated into infix relation:
   A \cup[X] B = \emptyset
  Which is, of course, unparseable in proof by CZT
 
@@ -152,7 +152,7 @@ FIX: zeves doesn't like this case and needs it to be
    apply extensionality;
 \end{zproof}
 ***
-Cannot parse Z/Eves result:
+Cannot parse Z/EVES result:
 line 1 column 5: Syntax error at symbol RSQUARE
 ***
 

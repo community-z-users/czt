@@ -55,7 +55,7 @@ public class CZT2ZEves {
         if (args.length >= 1) {
             if (args.length > 1 && args[0].startsWith("-print")) {
                 List<String> result = runPrinter(args[1], args[0].equals("-printAll"), DEBUG);
-                if (DEBUG) { System.out.println(result.size() + " Z/Eves command(s) created:\n"); }
+                if (DEBUG) { System.out.println(result.size() + " Z/EVES command(s) created:\n"); }
                 for(String s : result) {
                     System.out.println(s);
                 }
@@ -133,7 +133,7 @@ public class CZT2ZEves {
         } else {
             result = new ArrayList<String>(errors.size()+1);
             result.add("ERRORS");
-            System.out.println("We expect a well-typed specification for Z/Eves translation.");
+            System.out.println("We expect a well-typed specification for Z/EVES translation.");
             System.out.println(errors.size() + " error(s) found:");
             for(ErrorAnn ea : errors) 
             {
@@ -200,19 +200,19 @@ public class CZT2ZEves {
     private static final CZT2ZEvesPrinter sZEvesPrinter = new CZT2ZEvesPrinter(null/*...*/);
     
     /**
-     * Prints the given term in Z/Eves XML format, provided it is a paragraph, predicate, declaration, or expression.
+     * Prints the given term in Z/EVES XML format, provided it is a paragraph, predicate, declaration, or expression.
      * Although typeannotations are not needed for translation, we assume the given terms are well-typed.
-     * This assumption can be weakened provided one implements a Z/Eves XML output to CZT AST parser.
+     * This assumption can be weakened provided one implements a Z/EVES XML output to CZT AST parser.
      */
     public static String termToZEvesXML(Term term, SectionInfo si, boolean printNarrParaAsComment) {
         return sZEvesPrinter.print(term, si, printNarrParaAsComment);
     }
     
     /**
-     * Prints all the contenmts of the given specification and its sections a list of Z/Eves
-     * strings to be sent through the Z/Eves server one by one.
+     * Prints all the contenmts of the given specification and its sections a list of Z/EVES
+     * strings to be sent through the Z/EVES server one by one.
      * Although typeannotations are not needed for translation, we assume the given terms are well-typed.
-     * This assumption can be weakened provided one implements a Z/Eves XML output to CZT AST parser.
+     * This assumption can be weakened provided one implements a Z/EVES XML output to CZT AST parser.
      */
     public static List<String> specToZEvesXML(Spec term, SectionInfo si, boolean printNarrParaAsComment) {
         return sZEvesPrinter.printSpec(term, si, printNarrParaAsComment);

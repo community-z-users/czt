@@ -42,7 +42,7 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		try {
 			server.start();
 		} catch (IOException e) {
-			abort("Problems starting Z/Eves application: " + e.getMessage(), e, 0);
+			abort("Problems starting Z/EVES application: " + e.getMessage(), e, 0);
 			return;
 		}
 		
@@ -70,18 +70,18 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		String location = getLocationConfig(configuration);
 		
 		if (location == null || location.isEmpty()) {
-			abort("Z/Eves executable is not specified");
+			abort("Z/EVES executable is not specified");
 		}
 		
 		// sometimes it is not a file, e.g. "wine zeves.exe"
 //		File file = new File(location);
 //		if (!file.exists()) {
-//			abort("Z/Eves executable does not exist");
+//			abort("Z/EVES executable does not exist");
 //		}
 //		
 //		// must be a file
 //		if (!file.isFile()) {
-//			abort("Z/Eves executable location is not a file");
+//			abort("Z/EVES executable location is not a file");
 //		}
 //		
 //		return file;

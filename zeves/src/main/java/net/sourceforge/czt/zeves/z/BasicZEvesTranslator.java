@@ -19,7 +19,7 @@ import java.text.MessageFormat;
 public abstract class BasicZEvesTranslator implements ZEvesXMLPatterns {
     
     /**
-     * General message format used for various Z/Eves "XML" formatting.
+     * General message format used for various Z/EVES "XML" formatting.
      */
     private final MessageFormat fZEvesXMLFmt;    
     

@@ -33,7 +33,7 @@ public enum ZDialectSupport {
     Z("z", "Z", "etc/ZTable.xml"), 
     OBJECT_Z("oz", "Object Z", "etc/ObjectZTable.xml"), 
     CIRCUS("circus", "Circus", "etc/CircusTable.xml"), 
-    ZEVES("zeves", "Z/Eves", "etc/ZEvesTable.xml");
+    ZEVES("zeves", "Z/EVES", "etc/ZEvesTable.xml");
 
     private final String dialect;
     private final String label;

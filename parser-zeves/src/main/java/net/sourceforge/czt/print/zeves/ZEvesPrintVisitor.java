@@ -168,7 +168,7 @@ public class ZEvesPrintVisitor
     print(ZToken.ZED);
     String name = conjPara.getName();
     if (name == null || name.isEmpty())
-      throw new PrintException("Z/Eves theorems must have names");
+      throw new PrintException("Z/EVES theorems must have names");
 
     ZEvesLabel label = ZEvesUtils.getLabel(conjPara);
     if (label != null && label.getAbility().equals(LabelAbility.disabled))

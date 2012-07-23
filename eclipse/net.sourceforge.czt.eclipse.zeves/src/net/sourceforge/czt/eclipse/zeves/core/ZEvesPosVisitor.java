@@ -80,7 +80,7 @@ public class ZEvesPosVisitor implements
     
     @Override
 	public Object visitNarrSect(NarrSect term) {
-		// ignore - comments, do not send to Z/Eves
+		// ignore - comments, do not send to Z/EVES
 		return null;
 	}
 
@@ -213,19 +213,19 @@ public class ZEvesPosVisitor implements
     
 	@Override
 	public Object visitUnparsedPara(UnparsedPara term) {
-		// ignore - comments, do not send to Z/Eves
+		// ignore - comments, do not send to Z/EVES
 		return null;
 	}
 
 	@Override
 	public Object visitLatexMarkupPara(LatexMarkupPara term) {
-		// ignore - comments, do not send to Z/Eves
+		// ignore - comments, do not send to Z/EVES
 		return null;
 	}
 
 	@Override
 	public Object visitNarrPara(NarrPara term) {
-		// ignore - comments, do not send to Z/Eves
+		// ignore - comments, do not send to Z/EVES
 		return null;
 	}
 	

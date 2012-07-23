@@ -101,7 +101,7 @@ use name[x:= 10];
 use name[X, \power \nat][x:= 10,
   y := \{ a: \nat; b: \nat \}];
 
-% Funny case: Z/Eves doesn't like this newline between gen actuals and repl.
+% Funny case: Z/EVES doesn't like this newline between gen actuals and repl.
 % and the trouble is that the ContextFreeScanner "eats" new lines here, so they
 % don't appear in the token stream. This is necessary to avoid problem when
 % tokenising things like "prove NL by NL rewrite" and "by NL" isn't a keyword.

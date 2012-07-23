@@ -135,7 +135,7 @@ public class ZEvesTheoremView extends ViewPart {
 			if (user) {
 				MessageDialog.openError(getSite().getShell(), 
 						"Prover Not Connected",
-						"The Z/Eves prover is not connected.");
+						"The Z/EVES prover is not connected.");
 			}
 			return;
 		}
@@ -151,7 +151,7 @@ public class ZEvesTheoremView extends ViewPart {
 		private final ZEvesApi api;
 		
 		public TheoremRefreshJob(ZEvesApi api) {
-			super("Refreshing Z/Eves theorems");
+			super("Refreshing Z/EVES theorems");
 			this.api = api;
 		}
 

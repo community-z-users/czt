@@ -24,7 +24,7 @@ public class ZEvesName
 {
 
   /**
-   * A list of prefix functions, which are specified here because Z/Eves does not report PREFUN class 
+   * A list of prefix functions, which are specified here because Z/EVES does not report PREFUN class 
    */
   private static final List<String> PREFUNS = Collections.unmodifiableList(Arrays.asList(
       "#"));
@@ -133,11 +133,11 @@ public class ZEvesName
 
     if (ident != null) {
       if (ident.endsWith("'")) {
-        // Z/Eves outputs a simple ' instead of Prime, and it is not separated as a decorator,
+        // Z/EVES outputs a simple ' instead of Prime, and it is not separated as a decorator,
         // so instead just check and replace
         ident = ident.substring(0, ident.length() - 1) + ZString.PRIME;
       } else if (ident.equals("\\")) {
-        // Z/Eves outputs a simple backslash instead of setminus, so check and replace
+        // Z/EVES outputs a simple backslash instead of setminus, so check and replace
         ident = ZString.SETMINUS;
       }
     }
@@ -160,7 +160,7 @@ public class ZEvesName
     String ident = getIdent();
     String genActs = getGenActInfo(getGenActuals());
     
-    // for genactuals, there are several cases, where Z/Eves uses them
+    // for genactuals, there are several cases, where Z/EVES uses them
     // differently than CZT, so we need to take into account the operators with genacts
     
     String open = ZString.LPAREN;

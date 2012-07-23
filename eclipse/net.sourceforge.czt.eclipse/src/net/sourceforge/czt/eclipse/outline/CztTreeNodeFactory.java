@@ -125,7 +125,7 @@ public class CztTreeNodeFactory
         VarDeclVisitor<Position>,
         // Object-Z
         ClassParaVisitor<Position>,
-        // Z-Eves
+        // Z/EVES
         ProofScriptVisitor<Position>
   {
     

@@ -19,7 +19,7 @@ public class ZEvesRename {
 	@Override
 	public String toString() {
 	        /*
-	         * For now use Replace instead of rename. This is because Z/Eves CZT parser
+	         * For now use Replace instead of rename. This is because Z/EVES CZT parser
 	         * does not support mixed cases of rename/replace. Since we cannot escape
 	         * replace, and renaming can be substituted by one, we use replace everywhere
 	         * for successful parsing.

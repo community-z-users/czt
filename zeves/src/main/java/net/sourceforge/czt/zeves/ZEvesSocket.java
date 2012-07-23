@@ -24,12 +24,12 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 import net.sourceforge.czt.zeves.ZEvesServerConnectionException;
 
 /**
- * This class encapsulates a Java Socket that connects with the underlying Z/Eves server.
+ * This class encapsulates a Java Socket that connects with the underlying Z/EVES server.
  * It allows one to connect to the server and perform specific command or run proof scripts.
  * The usage is as follows:
  * <ul>
  *       <li>1 Create a ZEvesSocket</li>
- *       <li>2 Set the address and port if the Z/Eves server is not on localhost:6789</li> 
+ *       <li>2 Set the address and port if the Z/EVES server is not on localhost:6789</li> 
  *       <li>3 Set the context as the section info and the section to load or the standard_toolkit by default</li>
  *       <li>4 Now it is possible to connect to the server and load the default context.</li>
  * </ul>
@@ -114,17 +114,17 @@ public class ZEvesSocket {
     
     public ZEvesResponse processCommand(String cmd) throws ZEvesServerConnectionException {
         if (!isConnected())
-            throw new ZEvesServerConnectionException("Cannot process a Z/Eves command. Connect to the Z/Eves server first.");
+            throw new ZEvesServerConnectionException("Cannot process a Z/EVES command. Connect to the Z/EVES server first.");
         fZEvesOut.println(cmd);        
         ZEvesResponse result;
-        // Z/Eves does return </zoutput> rather than <zouput/> upon quitting!
+        // Z/EVES does return </zoutput> rather than <zouput/> upon quitting!
         if (!isQuitCommand(cmd)) {
             StringBuilder response = new StringBuilder("");
             try {
                 String zevesIn = fZEvesIn.readLine();                
                 response.append(zevesIn);            
             } catch(IOException e) {
-                throw new ZEvesServerConnectionException("An I/O exception happened while trying to read the output from the Z/Eves server. See cause for details.", e);
+                throw new ZEvesServerConnectionException("An I/O exception happened while trying to read the output from the Z/EVES server. See cause for details.", e);
             }
             result = new ZEvesResponse(response.toString());
         } else {
@@ -177,13 +177,13 @@ public class ZEvesSocket {
     
     public SectionInfo getContext() throws ZEvesServerConnectionException {
         if (fSectInfo != null)            
-            throw new ZEvesServerConnectionException("Invalid section context for Z/Eves socket");
+            throw new ZEvesServerConnectionException("Invalid section context for Z/EVES socket");
         return fSectInfo;
     }
     
     public ZSect getZSect() throws ZEvesServerConnectionException {
         if (!hasContext())
-            throw new ZEvesServerConnectionException("Cannot retrieve Z section due to an invalid section context for Z/Eves socket");
+            throw new ZEvesServerConnectionException("Cannot retrieve Z section due to an invalid section context for Z/EVES socket");
         return fZSect;
     }
     
@@ -222,7 +222,7 @@ public class ZEvesSocket {
     
     public void close() throws ZEvesServerConnectionException {
         if (!isConnected())
-            throw new ZEvesServerConnectionException("Connection with Z/Eves server has not yet been established.",
+            throw new ZEvesServerConnectionException("Connection with Z/EVES server has not yet been established.",
                     new IllegalStateException("Cannot close a connection that has not yet been openned. Try to connect first."));        
         try {
             // try closing nicely...
@@ -238,42 +238,42 @@ public class ZEvesSocket {
             clearReferences();
         } catch (IOException e) {
             clearReferences();
-            throw new ZEvesServerConnectionException("An I/O error occurred while trying to close the Z/Eves server socket " +
+            throw new ZEvesServerConnectionException("An I/O error occurred while trying to close the Z/EVES server socket " +
                     "connection and underlying buffers to host \"" + String.valueOf(fHost) + "\" at port " + fPort + ".", e);
         }        
     }
     
     public void connect() throws ZEvesServerConnectionException {        
         if (isConnected())
-            throw new ZEvesServerConnectionException("Evaluator already connected with Z/Eves server.", 
+            throw new ZEvesServerConnectionException("Evaluator already connected with Z/EVES server.", 
                     new IllegalStateException("Evaluator already connected. Try closing and reconnecting instead."));
         try {
             fZEvesServer = new Socket(fHost, fPort);            
         } catch (UnknownHostException e) {
             throw new ZEvesServerConnectionException("Unknown host " + String.valueOf(fHost) + 
-                    " while trying to connect to the Z/Eves server.", e);            
+                    " while trying to connect to the Z/EVES server.", e);            
         } catch (IOException f) {
-            throw new ZEvesServerConnectionException("Could not connect to the Z/Eves server socket for host " + 
-                    String.valueOf(fHost) + " at port " + fPort + ". Please check whether the Z/Eves server is" +
-                    "on-line (i.e. Z/Eves started with the \"-api\" command line switch).", f);                        
+            throw new ZEvesServerConnectionException("Could not connect to the Z/EVES server socket for host " + 
+                    String.valueOf(fHost) + " at port " + fPort + ". Please check whether the Z/EVES server is" +
+                    "on-line (i.e. Z/EVES started with the \"-api\" command line switch).", f);                        
         }
         try {
             try {
                 fZEvesOut = new PrintWriter(fZEvesServer.getOutputStream(), fAutoFlushZEvesOut);            
             } catch (IOException e) {
                 fZEvesServer.close();
-                throw new ZEvesServerConnectionException("Could not open the output stream of the Z/Eves server " +
+                throw new ZEvesServerConnectionException("Could not open the output stream of the Z/EVES server " +
                         "socket connection to host " + getHostInfo(), e);                        
             }
             try {
                 fZEvesIn = new BufferedReader(new InputStreamReader(fZEvesServer.getInputStream()));
             } catch (IOException e) {
                 fZEvesServer.close();
-                throw new ZEvesServerConnectionException("Could not open the input stream of the Z/Eves server " +
+                throw new ZEvesServerConnectionException("Could not open the input stream of the Z/EVES server " +
                         "socket connection to host " + getHostInfo(), e);                        
             }                    
         } catch (IOException f) {
-            throw new ZEvesServerConnectionException("Could not close the Z/Eves server socket connection after failure " +
+            throw new ZEvesServerConnectionException("Could not close the Z/EVES server socket connection after failure " +
                     "to acquire its I/O stream to host " + getHostInfo(), f);                        
         }
 	fStdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -287,7 +287,7 @@ public class ZEvesSocket {
     }
     
     public String toString() {        
-        return "Z/Eves server " + (isConnected() ? "connected" : "disconnected") + "(" + getHostInfo() + ").";
+        return "Z/EVES server " + (isConnected() ? "connected" : "disconnected") + "(" + getHostInfo() + ").";
     }
     
     public List<String> translate(Term term) throws ZEvesIncompatibleASTException {

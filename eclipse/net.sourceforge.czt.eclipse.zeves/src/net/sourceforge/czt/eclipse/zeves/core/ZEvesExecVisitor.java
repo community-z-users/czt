@@ -55,7 +55,7 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 /**
  * Special visitor class to translate top-level Z terms. 
- * Each element in the returned list must be transmitted to the Z/Eves
+ * Each element in the returned list must be transmitted to the Z/EVES
  * server separately, in the given order.
  */
 public class ZEvesExecVisitor extends ZEvesPosVisitor {
@@ -149,7 +149,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			
 			checkCancelled();
 			
-			// Currently commented, because begin-section is unimplemented in Z/Eves
+			// Currently commented, because begin-section is unimplemented in Z/EVES
 //    		String sectionBeginXml = MessageFormat.format(ZSECTION_BEGIN_PATTERN, term.getName(), getParents(term.getParent()));
 //    		api.send(sectionBeginXml);
 //    		checkCancelled();
@@ -180,7 +180,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			handleResult(position, null);
 			checkCancelled();
 			
-			// Currently commented, because end-section is unimplemented in Z/Eves
+			// Currently commented, because end-section is unimplemented in Z/EVES
 //    		api.send(ZSECTION_END_PATTERN);
 //    		checkCancelled();
 //    	} catch (ZEvesException e) {
@@ -201,7 +201,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		}
     		
     		if (systemSection.getName().equals(parentSectName)) {
-    			// system section - do not submit to Z/Eves
+    			// system section - do not submit to Z/EVES
     			return null;
     		}
     	}
@@ -268,7 +268,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		/*
 				 * This can happen if the parsed data is not synced between
 				 * different sections. For example, if a parent changes (and
-				 * submits to Z/Eves) but the section does not reparse - it
+				 * submits to Z/EVES) but the section does not reparse - it
 				 * still has old parsed info about the parent
 				 */
 				ZEvesException parentSyncEx = new ZEvesException(
@@ -672,7 +672,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     private boolean logDebug(ZEvesException e) {
     	// if there was an underlying cause, log it.
 		return e.getCause() != null
-				// log Z/Eves parser, scanner errors at the moment
+				// log Z/EVES parser, scanner errors at the moment
 				|| (e.getDebugInfo() != null && logZEvesError(e.getZEvesError()));
     }
     
@@ -778,20 +778,20 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			return ZEvesResultConverter.convertPred(sectInfo, sectName, resultZEves, Markup.UNICODE, 80, true);
 		} catch (IOException e) {
 			ZEvesPlugin.getDefault().log(e);
-			throw handleParseException("I/O problems parsing Z/Eves result: " + e.getMessage(), e, resultZEves);
+			throw handleParseException("I/O problems parsing Z/EVES result: " + e.getMessage(), e, resultZEves);
 		} catch (CommandException e) {
 			// TODO log this exception as well?
 			Throwable cause = e.getCause();
 			if (cause == null) {
 				cause = e;
 			}
-			throw handleParseException("Cannot parse Z/Eves result: " + StringUtils.strip(cause.getMessage()), 
+			throw handleParseException("Cannot parse Z/EVES result: " + StringUtils.strip(cause.getMessage()), 
 					cause, resultZEves);
 		}
 	}
 	
 	private ZEvesException handleParseException(String message, Throwable ex, String unparsedResult) {
-		return new ZEvesException(message + "\nZ/Eves result:\n" + unparsedResult, ex);
+		return new ZEvesException(message + "\nZ/EVES result:\n" + unparsedResult, ex);
 	}
 
     private void updateUnprocessed(int newOffset) {

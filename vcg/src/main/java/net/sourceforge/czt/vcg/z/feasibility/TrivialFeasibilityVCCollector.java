@@ -127,7 +127,7 @@ public abstract class TrivialFeasibilityVCCollector extends TrivialVCCollector i
    * TruePred : true
    * FalsePred: false
    *
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(true)  \iff true
    * DC(false) \iff true
@@ -193,7 +193,7 @@ public abstract class TrivialFeasibilityVCCollector extends TrivialVCCollector i
   }
 
   /**
-   * for numbers is just true, despite Z/Eves not mentioning them.
+   * for numbers is just true, despite Z/EVES not mentioning them.
    */
   @Override
   public Pred visitZNumeral(ZNumeral term)

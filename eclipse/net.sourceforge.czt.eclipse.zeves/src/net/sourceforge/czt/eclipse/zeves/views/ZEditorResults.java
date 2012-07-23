@@ -294,7 +294,7 @@ public class ZEditorResults {
 
 			// add case information if within the proof
 			if (source instanceof ProofCommand) {
-				// check if it was a Z/Eves error - then add the previous goal case ID
+				// check if it was a Z/EVES error - then add the previous goal case ID
 				ZEvesException error = (ZEvesException) getSnapshotEntry().getData().getResult();
 				if (error.getZEvesError() != null) {
 					ISnapshotEntry proofEntry = getPreviousProofEntry();
@@ -306,7 +306,7 @@ public class ZEditorResults {
 			
 			String descStart = caseText != null ? caseText + ", " : "";
 			
-			return descStart + "Z/Eves error for: "
+			return descStart + "Z/EVES error for: "
 					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
 		}
 
@@ -319,7 +319,7 @@ public class ZEditorResults {
 			ZEvesException error = (ZEvesException) getSnapshotEntry().getData().getResult();
 			output.addAll(convertError(error));
 
-			// check if it was a Z/Eves error - then add the previous goal state
+			// check if it was a Z/EVES error - then add the previous goal state
 			if (error.getZEvesError() != null) {
 				output(output, "\n");
 				
@@ -418,7 +418,7 @@ public class ZEditorResults {
 				return null;
 			}
 			
-			return "Z/Eves paragraph result for: "
+			return "Z/EVES paragraph result for: "
 					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
 		}
 	}
@@ -642,7 +642,7 @@ public class ZEditorResults {
 			}
 		}
 		
-		// The code below prints trace contents as they are output from Z/Eves
+		// The code below prints trace contents as they are output from Z/EVES
 //		for (Entry<String, List<Object>> traceContent : trace.getTraceContents().entrySet()) {
 //			
 //			output(output, traceContent.getKey());
@@ -888,14 +888,14 @@ public class ZEditorResults {
 			
 		} catch (IOException e) {
 			ZEvesPlugin.getDefault().log(e);
-			return withWarning("I/O problems parsing Z/Eves result: " + e.getMessage().trim(), str);
+			return withWarning("I/O problems parsing Z/EVES result: " + e.getMessage().trim(), str);
 		} catch (CommandException e) {
 			Throwable cause = e.getCause();
 			if (cause == null) {
 				cause = e;
 			}
 			
-			String msg = "Cannot parse Z/Eves result: " + ZEditorUtil.clean(cause.getMessage()).trim();
+			String msg = "Cannot parse Z/EVES result: " + ZEditorUtil.clean(cause.getMessage()).trim();
 			ZEvesPlugin.getDefault().log(msg, cause);
 			return withWarning(msg, str);
 		}

@@ -75,7 +75,7 @@ public class ExprChecker
         }
         //if the expr is a schema reference, perform the renaming
         else {
-          //raise a warning for now: let Z/Eves do it.
+          //raise a warning for now: let Z/EVES do it.
           getTypeChecker().getWarningManager().warn(term,
                   WarningMessage.IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK,
                   term.getExpr());

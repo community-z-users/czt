@@ -27,7 +27,7 @@ public class EditorSubmitNextCommand extends AbstractHandler {
 		final ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
-					"The Z/Eves prover is not running.");
+					"The Z/EVES prover is not running.");
 			return null;
 		}
 		

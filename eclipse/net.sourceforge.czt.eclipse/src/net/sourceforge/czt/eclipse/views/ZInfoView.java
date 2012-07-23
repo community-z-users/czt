@@ -376,9 +376,9 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   }
 
   /**
-   * Finds and returns the Z/Eves element selected in the given part.
+   * Finds and returns the Z/EVES element selected in the given part.
    *
-   * @param part the workbench part for which to find the selected Z/Eves element
+   * @param part the workbench part for which to find the selected Z/EVES element
    * @param selection the selection
    * @return the selected Java element
    */
@@ -446,7 +446,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
    * a background thread. One of part or element must be non-null.
    *
    * @param part the workbench part, or <code>null</code> if <code>element</code> not <code>null</code>
-   * @param element the Z/Eves element, or <code>null</code> if <code>part</code> not <code>null</code>
+   * @param element the Z/EVES element, or <code>null</code> if <code>part</code> not <code>null</code>
    */
   private void computeAndDoSetInput(final IWorkbenchPart part, final IZInfoObject element)
   {

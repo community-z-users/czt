@@ -216,22 +216,22 @@ Typechecking related changes summarised below. There were $85$ type errors.
 
 %%%%% Z/EVES-RELATED CHANGES LOG %%%%%%%%%%%%
 
-For processing this file both with CZT and Z/Eves, we changed a few \LaTeX\ typesetting points as follows.
+For processing this file both with CZT and Z/EVES, we changed a few \LaTeX\ typesetting points as follows.
 \begin{itemize}
-  \item made $\Optional$ definition a operator in Z/Eves, and added \verb+\also+ instead of \verb+\\+ to its zed box
-  \item changed \verb+theorem+ environments to have the name as \verb'begin{theorem}{Name}' for Z/Eves
-  \item for Z/Eves processing, just substitute $\vdash?$ for $\\vdash?$ everywhere.
+  \item made $\Optional$ definition a operator in Z/EVES, and added \verb+\also+ instead of \verb+\\+ to its zed box
+  \item changed \verb+theorem+ environments to have the name as \verb'begin{theorem}{Name}' for Z/EVES
+  \item for Z/EVES processing, just substitute $\vdash?$ for $\\vdash?$ everywhere.
   \item changed \verb+==+ of schemas for \verb+\defs+ ($\defs$).
   \item added \verb+fuzz_toolkit+ as a parent to enable use of \verb+\defs+
 \end{itemize}
 Everything else is just the same.
 
-From Z/Eves processing, there are 233 paragraphs (excluding the \vdash? theorems).
+From Z/EVES processing, there are 233 paragraphs (excluding the \vdash? theorems).
 It has 42 domain checks. Our Z VCG generates 68VCs, where the extra 26 come from free-type, givenset, and axioms.
 
-From Z/Eves processing, there are 257 paragraphs (minus 11 schemas above and 12 theorems here),
-which leads to 257-23 = 234 paragraphs, and 54 VCs from Z/Eves. Without the theorems,
-that is 42 Domain check vcs from Z/Eves. 
+From Z/EVES processing, there are 257 paragraphs (minus 11 schemas above and 12 theorems here),
+which leads to 257-23 = 234 paragraphs, and 54 VCs from Z/EVES. Without the theorems,
+that is 42 Domain check vcs from Z/EVES. 
 
 Our Z VCG generates 68VCs, where the extra 26 come from free-type, givenset, and axioms.
 Actual numbers were bigger;
@@ -240,7 +240,7 @@ $68$ interesting VCs (Total = 485; Simplified to $true$ = 417).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We use $\also$ to make it Z/Eves compatible as well
+We use $\also$ to make it Z/EVES compatible as well
 
 \syndef{Optional}{pregen}{Optional}
 %%pregen \Optional
@@ -5470,7 +5470,7 @@ We claim the following important properties of the whole system:
 
 There is an initial state:
 
-% Keep it OLD-Z style theorems for Z/Eves, please
+% Keep it OLD-Z style theorems for Z/EVES, please
 \begin{Zpobtrace}{FS.TIS.State.InitPOB}
 \begin{theorem}{InitPOB} \vdash? 
     \exists InitIDStation @ true

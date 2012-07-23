@@ -162,7 +162,7 @@ public class ZEvesOp
     
     String minus = "-";
     if (name.contains(minus)) {
-      // Z/Eves for both unary negation and binary minus returns the same character
+      // Z/EVES for both unary negation and binary minus returns the same character
       // so check and use an appropriate one
       if (type == OpType.PREOP) {
         // unary negation

@@ -85,7 +85,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 	 */
 	private void createLocationComponent(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
-		group.setText("Z/Eves executable:");
+		group.setText("Z/EVES executable:");
 		group.setLayout(GridLayoutFactory.swtDefaults().create());
 		group.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 		
@@ -106,7 +106,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 	}
 	
 	/**
-	 * Creates the controls needed to edit the port attribute of Z/Eves server
+	 * Creates the controls needed to edit the port attribute of Z/EVES server
 	 * 
 	 * @param parent the composite to create the controls in
 	 */
@@ -127,7 +127,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		addControlAccessibleListener(portField, group.getText());
 		
 		Label portInfoLabel = new Label(group, SWT.WRAP);
-		portInfoLabel.setText("Note: Z/Eves prover communication is done via a TCP port.");
+		portInfoLabel.setText("Note: Z/EVES prover communication is done via a TCP port.");
 		portInfoLabel.setLayoutData(GridDataFactory.fillDefaults().span(2, 1).create());
 		
 	}
@@ -166,9 +166,9 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		if (location.length() < 1) {
 			if (newConfig) {
 				setErrorMessage(null);
-				setMessage("Please specify the executable of Z/Eves theorem prover");
+				setMessage("Please specify the executable of Z/EVES theorem prover");
 			} else {
-				setErrorMessage("Z/Eves executable cannot be empty");
+				setErrorMessage("Z/EVES executable cannot be empty");
 				setMessage(null);
 			}
 			return false;
@@ -179,7 +179,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 //		File file = new File(location);
 //		if (!file.exists()) { // The file does not exist.
 //			if (!newConfig) {
-//				setErrorMessage("Z/Eves executable does not exist");
+//				setErrorMessage("Z/EVES executable does not exist");
 //			}
 //			return false;
 //		}
@@ -191,7 +191,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 //		// must be a file
 //		if (!file.isFile()) {
 //			if (!newConfig) {
-//				setErrorMessage("Z/Eves executable specified is not a file");
+//				setErrorMessage("Z/EVES executable specified is not a file");
 //			}
 //			return false;
 //		}
@@ -205,7 +205,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 	 */
 	private void handleFileLocationButtonSelected() {
 		FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-		dialog.setText("Select Z/Eves Executable");
+		dialog.setText("Select Z/EVES Executable");
 		dialog.setFilterPath(locationField.getText());
 		String text= dialog.open();
 		if (text != null) {

@@ -110,7 +110,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
   private JPanel languagePanel = new JPanel();
   private JLabel languageLabel = new JLabel("Language: ");
-  private String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules", "Z-Eves"};
+  private String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules", "Z/EVES"};
   private JComboBox languageCombo = new JComboBox(languageOptions);
 
   private JPanel markupPanel = new JPanel();
@@ -492,7 +492,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
           if(((String)languageCombo.getSelectedItem()).equals("Z Rules"))
             selectedLanguage = "zpatt";
           else
-            if(((String)languageCombo.getSelectedItem()).equals("Z-Eves"))
+            if(((String)languageCombo.getSelectedItem()).equals("Z/EVES"))
               selectedLanguage = "zeves";
 
     manager = new SectionManager(selectedLanguage);
@@ -816,7 +816,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
             markupCombo.setSelectedItem("UTF16");
           }
           if (extension.endsWith("zev")) {
-            languageCombo.setSelectedItem("Z-Eves");
+            languageCombo.setSelectedItem("Z/EVES");
             markupCombo.setSelectedItem("Latex");
           }
           if (extension.endsWith("utf8")) {

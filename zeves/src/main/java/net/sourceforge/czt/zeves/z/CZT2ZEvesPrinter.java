@@ -223,19 +223,19 @@ import net.sourceforge.czt.zeves.visitor.WithCommandVisitor;
 
 /**
  * <p>
- * This class converts CZT terms, more precisely Para, Expr, or Pred, to Z/Eves
+ * This class converts CZT terms, more precisely Para, Expr, or Pred, to Z/EVES
  * socket server XML API. Every visiting method returns a string with the corresponding
  * production.
  * </p>
  * <p>
- * As Z/Eves is not compliant with the Z standard, we needed to adapt and adjust
+ * As Z/EVES is not compliant with the Z standard, we needed to adapt and adjust
  * the parts where incompatibilities arise. For instante, for the labelled-predicate
  * or schema-ref instead of schema-expression in schema inclusions.
  * Whenever such incompatibility occurs, a ZEvesIncompatibleASTException is thrown
  * with detailed information and additional throwable cause for the problem.
  * </p>
  * <p>
- * On the other hand, Z/Eves Z also includes additional information, such as labels and
+ * On the other hand, Z/EVES Z also includes additional information, such as labels and
  * proof script for conjectures, ability and usage for automation pursposes, and so on.
  * In this situations where there is no Z standard correspondent from the CZT AST, we
  * provided annotations with the necessary information. We expect these annotations to
@@ -423,7 +423,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private void emptyDeclPartException()
   {
-    throw new ZEvesIncompatibleASTException("Z/Eves does not accept empty declarations on paragraph boxes or binding expressions");
+    throw new ZEvesIncompatibleASTException("Z/EVES does not accept empty declarations on paragraph boxes or binding expressions");
   }
 
   /**
@@ -459,7 +459,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
   /**
-   * Wraps-up a translated zevesPara within a Z/Eves XML command name "add-paragraph".
+   * Wraps-up a translated zevesPara within a Z/EVES XML command name "add-paragraph".
    */
   private String wrapPara(String zevesPara)
   {
@@ -682,7 +682,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     result.append(getVarName(term.getZName(), true));
     result.append(k.equals(InstantiationKind.Quantifier) ? " == " : " := ");
     // instantiations *must* also allow for opArgs because of potential need of
-    // explicit generics. Z/Eves accepts "\#[X]~A", whereas CZT insists on "(\#~\_)[X]~A"
+    // explicit generics. Z/EVES accepts "\#[X]~A", whereas CZT insists on "(\#~\_)[X]~A"
     // so we almost always need to add the full (no-fix) version of op-temp names in inst.
     result.append(getExpr(term.getExpr(), true));
     return result.toString();
@@ -721,7 +721,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             return "prove by reduce";
           case Trivial:
             throw new ZEvesIncompatibleASTException(
-                    "Trivial reduce is not supported by Z/Eves");
+                    "Trivial reduce is not supported by Z/EVES");
           default:
             throw new ZEvesIncompatibleASTException(
                     "Unsupported simplification command power: " + term.getPower());
@@ -747,7 +747,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             return "simplify";
           case Prove:
             throw new ZEvesIncompatibleASTException(
-                    "Prove by simplify is not supported by Z/Eves");
+                    "Prove by simplify is not supported by Z/EVES");
           case Trivial:
             return "trivial simplify";
           default:
@@ -898,7 +898,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   /**
-   * Methods which implements Section 7 Entities, of the Z/Eves Core API
+   * Methods which implements Section 7 Entities, of the Z/EVES Core API
    */
   private String translateWord(String word)
   {
@@ -1182,7 +1182,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       result = "&Fopf;";
     }
     // for MINUS and NEG, just translate into normal minus
-    // Note: from short testing using &neg; crashes Z/Eves sometimes
+    // Note: from short testing using &neg; crashes Z/EVES sometimes
     else if (word.equals(ZString.MINUS))
     {
       result = "-";
@@ -1291,7 +1291,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     // since we are ignoring ARGs. On ocassional special cases (e.g., LANGLE, LIMG, LBLOT, user defined
     // \\listarg op temp), we need to treat it specially, hence we send the whole load of symbols involved.
     //
-    // Z/Eves does not accept \\listarg definition by the user.
+    // Z/EVES does not accept \\listarg definition by the user.
     String result = "";
 
 
@@ -1460,7 +1460,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   /* NOTE:
    *
-   * Z/Eves strokes are just plain text. They do not have the special
+   * Z/EVES strokes are just plain text. They do not have the special
    * Z Standard symbols such as ZString.SE + ZString.NW.
    *
    */
@@ -1470,7 +1470,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     Integer i = term.getDigit().getValue();
     if (i < 0 || i > 9)
     {
-      throw new ZEvesIncompatibleASTException("Z/Eves only accepts number strokes from 0 up to 9 (inclusive)");
+      throw new ZEvesIncompatibleASTException("Z/EVES only accepts number strokes from 0 up to 9 (inclusive)");
     }
     return format(NUM_STROKE_PATTERN, i.toString());
   }
@@ -1557,7 +1557,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
   /**
-   * Represents the gen-actuals Z/Eves XML production. It calls ExprList visitor and
+   * Represents the gen-actuals Z/EVES XML production. It calls ExprList visitor and
    * puts its result within square brackets.
    */
   private String getGenActuals(ZExprList term)
@@ -1660,15 +1660,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     /* NOTE:
      *
      * This case is very, very tricky. Its precision will come with
-     * time and testing. I am not sure about the way CZT and Z/Eves
+     * time and testing. I am not sure about the way CZT and Z/EVES
      * generic actuals are allowed around.
-     * Anyway, this seldom happens in most of Z/Eves proofs and
+     * Anyway, this seldom happens in most of Z/EVES proofs and
      * definitions one usually needs to deal with as proofs with
      * generic actuals around is bloody hard to do.
      * Another important point is about Generic (inferred) instantiations,
      * where the type [T] is inferred somewhere. I am assuming that,
      * if we omit then (because they were not present in the first place),
-     * then Z/Eves will sort itself out, as in \\emptyset. Ok let's go!
+     * then Z/EVES will sort itself out, as in \\emptyset. Ok let's go!
      */
   @Override
   public String visitRefExpr(RefExpr term)
@@ -1959,11 +1959,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     else
     {
       throw new ZEvesIncompatibleASTException("Found " + bse.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
-//      throw new ZEvesIncompatibleASTException("Z/Eves only allows bind selection for schema references, "
+//      throw new ZEvesIncompatibleASTException("Z/EVES only allows bind selection for schema references, "
 //                                        + "rather than schema expressions, or application expressions returning a schema type. See throwable cause for details.",
-//        new IllegalArgumentException("Invalid schema expression binding selection for Z/Eves XML translation. CZT and"
+//        new IllegalArgumentException("Invalid schema expression binding selection for Z/EVES XML translation. CZT and"
 //                                     + "the Z Standard allow bind selection upon schema expressions, such as (S \\land T).x or (\\theta S).x."
-//                                     + "On the other hand, Z/Eves only accepts bind selection upon schema-ref, which must be a reference name to a "
+//                                     + "On the other hand, Z/EVES only accepts bind selection upon schema-ref, which must be a reference name to a "
 //                                     + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
 //                                     + "do not appear. TODO: In a later version, we plan to automatically include such declarations implicitly, while "
 //                                     + "translating the binding selection itself. Check whether a new version with such feature is available."));
@@ -1977,11 +1977,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     if (!(e instanceof RefExpr || e instanceof DecorExpr || e instanceof RenameExpr))
     {
       throw new ZEvesIncompatibleASTException("Found " + e.getClass().getSimpleName() + " in " + term.getClass().getSimpleName());
-//      throw new ZEvesIncompatibleASTException("Z/Eves only allows theta expressions to schema references, "
+//      throw new ZEvesIncompatibleASTException("Z/EVES only allows theta expressions to schema references, "
 //                                              + "rather than schema expressions. See throwable cause for details.",
-//              new IllegalArgumentException("Invalid theta expression for Z/Eves XML translation. CZT and"
+//              new IllegalArgumentException("Invalid theta expression for Z/EVES XML translation. CZT and"
 //                                           + "the Z Standard allow theta expressions of schema expressions, such as \\theta(S \\land T)."
-//                                           + "On the other hand, Z/Eves only accepts theta expressions of schema-ref, which must be a reference name to a "
+//                                           + "On the other hand, Z/EVES only accepts theta expressions of schema-ref, which must be a reference name to a "
 //                                           + "previously declared schema. The solution for this is simple: rewrite the specification so that these references "
 //                                           + "do not appear. Some examples where there dependencies on the values (e.g. Circcus Operational Semantics) this is "
 //                                           + "not possible to naively translate and need to be rewritten, tough. TODO: In a later version, we plan to automatically "
@@ -2069,7 +2069,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       int arity = ZUtils.applExprArity(term);
       ZExprList args = ZUtils.getApplExprArguments(term);
 
-      // Handling special cases known to Z/Eves
+      // Handling special cases known to Z/EVES
 
       // LANGLE / RANGLE
       if (op.startsWith("&lang;&rang;") || op.startsWith("&lbag;&rbag;"))
@@ -2220,10 +2220,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         assert k.equals(InstantiationKind.ThmReplacement);
       }
       else
-        throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
+        throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/EVES. Not supported");
     }
     else
-      throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/Eves. Not supported");
+      throw new ZEvesIncompatibleASTException("Rename expression might contains mixed instantiations and renamings from Z/EVES. Not supported");
     return format(RENAME_EXPR_PATTERN, getExpr(term.getExpr(), true), renamings);
   }
 
@@ -2273,7 +2273,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   /**
-   * Retrieve the Z/Eves XML for the given non-null predicate, something the calling
+   * Retrieve the Z/EVES XML for the given non-null predicate, something the calling
    * method must ensure, otherwise a NullPointerException (or indeed an
    * AssertionError) is thrown. Therefore, it always return some non-empty string.
    */
@@ -2281,7 +2281,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     /* NOTE:
      *
-     * As Z/Eves allows AndPred to be split across multiple lines
+     * As Z/EVES allows AndPred to be split across multiple lines
      * rather than a single predicate, we need to take into account
      * AndPred as a list of Pred. This is taken into consideration at
      * getPred0. This is implemented with a descendent recursive procedure
@@ -2312,7 +2312,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     /* NOTE:
      *
      * Some predicates can have a label annotation.
-     * CZT predicates does not have labels, as this is a Z/Eves feature.
+     * CZT predicates does not have labels, as this is a Z/EVES feature.
      * The top-level interface should allow some sort of naming for
      * available CZT predicates so that we can provide a more compliant
      * translation.
@@ -2332,7 +2332,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
     /**
-   * Returns the internal Z/Eves quantifier name according to the corresponding CZT QntPred subclass.
+   * Returns the internal Z/EVES quantifier name according to the corresponding CZT QntPred subclass.
    */
   private String getQntName(QntPred term)
   {
@@ -2355,7 +2355,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
   /**
-   * Returns the internal Z/Eves quantifier name according to the corresponding CZT QntExpr subclass.
+   * Returns the internal Z/EVES quantifier name according to the corresponding CZT QntExpr subclass.
    */
   private String getQntName(QntExpr term)
   {
@@ -2378,7 +2378,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
   /**
-   * Returns the internal Z/Eves predicate name according to the corresponding CZT Pred2 subclass.
+   * Returns the internal Z/EVES predicate name according to the corresponding CZT Pred2 subclass.
    */
   private String getBinPredName(Pred2 term)
   {
@@ -2514,7 +2514,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       else
       {
         throw new ZEvesIncompatibleASTException("Invalid relational operator application, while trying to convert"
-                                                + "CZT membership predicate to Z/Eves XML API. See throwable cause for details.",
+                                                + "CZT membership predicate to Z/EVES XML API. See throwable cause for details.",
                 new IllegalArgumentException("In CZT (and Z standard) relational operators can appear as predicates. "
                                              + "There are two cases to consider: n-ary, and unary relational operators. For n-ary operators, the "
                                              + "left expression must be a TupleExpr containing all the arguments for the relational operator. For "
@@ -2698,7 +2698,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
     /* NOTE:
      *
-     * Z/Eves does not accept empty declarations, as allowed by the Z standard.
+     * Z/EVES does not accept empty declarations, as allowed by the Z standard.
      * Therefore, we do need to restrict the CZT here with and additional check.
      */
     if (decls.isEmpty())
@@ -2711,7 +2711,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     result.append(d.accept(this));
     while (it.hasNext())
     {
-      // Using semicolon for all declaration lists, because Z/Eves expects
+      // Using semicolon for all declaration lists, because Z/EVES expects
       // semicolons in horizontal definitions, theorems, etc.
       result.append(SC_SEP);
       d = it.next();
@@ -2725,15 +2725,15 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     /* NOTE:
      *
-     * Z/Eves only allows inclusion of schema-ref, rather than the general
+     * Z/EVES only allows inclusion of schema-ref, rather than the general
      * schema-expr allowed by the Z Standard (and CZT).
      * Therefore, we can only accept here RefExpr, which represent schema
      * references, including Delta and Xi schemas. We must also accept
-     * DecorExpr, as Z/Eves considers this to be schema-ref as well.
+     * DecorExpr, as Z/EVES considers this to be schema-ref as well.
      *
-     * A tricky issue is that Z/Eves allows schema replacements or CZT
+     * A tricky issue is that Z/EVES allows schema replacements or CZT
      * RenameExpr as an additional kind of schema-ref. This case must also
-     * be dealt with here. Furthermore, Z/Eves also allows nonstandard
+     * be dealt with here. Furthermore, Z/EVES also allows nonstandard
      * schema updates with a kind of assignment operation. This needs to
      * be taken into account, perhaps separetely as term annotations.
      *
@@ -2749,7 +2749,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     Throwable cause = isValidZEvesInclDecl(term.getExpr());
     if (cause != null)
     {
-      throw new ZEvesIncompatibleASTException("Z/Eves restricts the kinds of expressions that can be used "
+      throw new ZEvesIncompatibleASTException("Z/EVES restricts the kinds of expressions that can be used "
                                               + "in inclusion declarations. The expression present on the current inclusion could not be "
                                               + "translated. Please look at the throwable cause for further details.", cause);
     }
@@ -2759,7 +2759,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   /* NOTE:
    *
-   * CZT ConstDecl cannot appear for Z/Eves.
+   * CZT ConstDecl cannot appear for Z/EVES.
    * In CZT It only appears during definition of paragraphs, which are
    * treated specially and separetely without visiting ConstDecl.
    * Therefore, we leave it to be caught by the generic Decl as an error.
@@ -3032,7 +3032,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   /**
    * Represents the decl-part production. It prefixes the result of visiting the DeclList
-   * with the additional XML tag needed by Z/Eves.
+   * with the additional XML tag needed by Z/EVES.
    */
   private String getDeclPart(ZDeclList decls)
   {
@@ -3044,7 +3044,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   /**
    * Retrives the axiomatic part of schemas, axiomatic and generic boxes.
    * If the predicate is null, it simply returns the empty string.
-   * Otherwise, appropriate Z/Eves XML tags are added.
+   * Otherwise, appropriate Z/EVES XML tags are added.
    */
   private String getAxiomPart(Pred pred)
   {
@@ -3065,7 +3065,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   private String getProofPart(ConjPara term)
   {
 	  // We do not support inline proof commands at the moment, so proof script
-	  // is a separate AST element and is sent to Z/Eves separately
+	  // is a separate AST element and is sent to Z/EVES separately
 	  return "";
   }
 
@@ -3163,7 +3163,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
       /* NOTE:
        *
-       * Z/Eves does not have a uniform pattern for SchText.
+       * Z/EVES does not have a uniform pattern for SchText.
        * In schema-box is appears divided with additional tags as in
        * "<decl-part/> decls and <ax-part/> preds", whereas in a predicates
        * it appears directly as "decls | preds".
@@ -3187,7 +3187,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       {
         if (preds == null || preds.equals(""))
         {
-          throw new ZEvesIncompatibleASTException("Schema boxes without declaration must have the predicate part to be considered a Z/Eves predicate paragraph.");
+          throw new ZEvesIncompatibleASTException("Schema boxes without declaration must have the predicate part to be considered a Z/EVES predicate paragraph.");
         }
         result = format(PREDICATE_PARA_PATTERN, getLocation(term), getAbility(term), preds);
       }
@@ -3226,7 +3226,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       {
         if (preds == null || preds.equals(""))
         {
-          throw new ZEvesIncompatibleASTException("Axiomatic boxes without declaration must have the predicate part to be considered a Z/Eves predicate paragraph.");
+          throw new ZEvesIncompatibleASTException("Axiomatic boxes without declaration must have the predicate part to be considered a Z/EVES predicate paragraph.");
         }
         result = format(PREDICATE_PARA_PATTERN, getLocation(term), getAbility(term), preds);
       }
@@ -3339,10 +3339,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     /* NOTE 1:
      *
-     * Z/Eves does not have free-type paragraphs with more than one freetype
+     * Z/EVES does not have free-type paragraphs with more than one freetype
      * declaration, as allowed by the Z Standard with the & character.
      * To allow compliance with CZT parsed elements, we just accept it by
-     * expanding then into individual FreeType definitions in Z/Eves.
+     * expanding then into individual FreeType definitions in Z/EVES.
      *
      * TODO: Ask Mark Utting/Ian Toyn if this creates a problem. For instance,
      *       can one make reference to previous free types in such in-line
@@ -3367,7 +3367,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     String axiomPart = getAxiomPart(term.getPred());
     if (axiomPart.equals(""))
     {
-      throw new ZEvesIncompatibleASTException("Z/Eves conjectures must not have an empty predicate part.");
+      throw new ZEvesIncompatibleASTException("Z/EVES conjectures must not have an empty predicate part.");
     }
 
     ZEvesLabel l = ZEvesUtils.getLabel(term);
@@ -3461,8 +3461,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   }
 
   /**
-   * Top-level method which translates the given CZT term to a corresponding Z/Eves
-   * server XML API. It only accepts Para, Pred, or Expr because Z/Eves adds sections
+   * Top-level method which translates the given CZT term to a corresponding Z/EVES
+   * server XML API. It only accepts Para, Pred, or Expr because Z/EVES adds sections
    * via a set of commands rather than a simple command.
    * @param term
    * @return
@@ -3471,14 +3471,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     if (term == null)
     {
-      throw new NullPointerException("Cannot convert a null term to Z/Eves XML");
+      throw new NullPointerException("Cannot convert a null term to Z/EVES XML");
     }
     if (!(term instanceof Para || term instanceof Pred || term instanceof Expr
           || term instanceof ZName))
     {
       throw new ZEvesIncompatibleASTException("This class can only print Names, Para, Pred, and Expr terms. For other "
                                               + "terms such as Spec and ZSection, one should use the ZEvesEvaluator class, as it allows appropriate "
-                                              + "handling of Z sections through special commands needed by the Z/Eves server.");
+                                              + "handling of Z sections through special commands needed by the Z/EVES server.");
     }
     reset();
     return term.accept(this);
@@ -3543,11 +3543,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   /**
    * Returns a comma-separated list of toolkit names, where standard Z toolkit names are not
-   * included as they are loaded in Z/Eves by default. Moreover, user sections must NOT be
-   * named "toolkit" as this is a reserved name for Z/Eves.
+   * included as they are loaded in Z/EVES by default. Moreover, user sections must NOT be
+   * named "toolkit" as this is a reserved name for Z/EVES.
    * <p>
-   * We are not yet processing parents outside the standard toolkit, as surprisingly the Z/Eves
-   * does not yet implement sectioning. That means the available Z/Eves GUI's include this
+   * We are not yet processing parents outside the standard toolkit, as surprisingly the Z/EVES
+   * does not yet implement sectioning. That means the available Z/EVES GUI's include this
    * separately.
    * </p>
    * @param parents
@@ -3563,12 +3563,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       String sect = p.getWord();
       if (sect.equals(ZEVES_TOOLKIT_NAME))
       {
-        throw new ZEvesIncompatibleASTException("\"toolkit\" is a reserved section name for Z/Eves use only.");
+        throw new ZEvesIncompatibleASTException("\"toolkit\" is a reserved section name for Z/EVES use only.");
       }
       // Include only user defined toolkits, rather than the standard ones.
       if (!Z_TOOLKIT_NAMES.contains(sect))
       {
-        // AV: Z/Eves actually does not support commas here, and names should be space-separated
+        // AV: Z/EVES actually does not support commas here, and names should be space-separated
         sb.append(" ");
 //                sb.append(", ");
         sb.append(p.getWord());
@@ -3579,7 +3579,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
   /**
    * Special visitor class to translate top-level Z terms.
-   * Each element in the returned list must be transmitted to the Z/Eves
+   * Each element in the returned list must be transmitted to the Z/EVES
    * server separately, in the given order.
    */
   private class SpecPrinter implements
@@ -3615,17 +3615,17 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
 
     /**
      * <p>
-     * Returns a list of strings containing Z/Eves XML commands.
+     * Returns a list of strings containing Z/EVES XML commands.
      * The first and last commands in the list are always those for
      * beginning and ending a Z section.
      * </p>
      * <p>
      * The paragraphs of the section are inserted between those two in
      * the order they have been declared. Each of these strings must be
-     * sent to Z/Eves separately.
+     * sent to Z/EVES separately.
      * </p>
      * <p>
-     * As we assume well-type Z sections, Z/Eves ought always to return
+     * As we assume well-type Z sections, Z/EVES ought always to return
      * a "zoutput" tag indicating sucessful command execution.
      * In the case a "zerror" is returned, an exception should be thrown
      * and the translation algorithm revised for bugs.

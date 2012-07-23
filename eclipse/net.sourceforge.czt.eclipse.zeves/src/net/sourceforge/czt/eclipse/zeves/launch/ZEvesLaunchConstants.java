@@ -5,13 +5,13 @@ import static net.sourceforge.czt.eclipse.zeves.ZEvesPlugin.PLUGIN_ID;
 public interface ZEvesLaunchConstants {
 
 	/**
-	 * String attribute identifying the location of the Z/Eves executable. Default value
+	 * String attribute identifying the location of the Z/EVES executable. Default value
 	 * is <code>null</code>. 
 	 */
 	public static final String ATTR_LOCATION = PLUGIN_ID + ".ATTR_LOCATION"; //$NON-NLS-1$
 	
 	/**
-	 * String attribute identifying Z/Eves server address for remote socket connection.
+	 * String attribute identifying Z/EVES server address for remote socket connection.
 	 * Default value is <code>null</code>.
 	 */
 	public static final String ATTR_SERVER_ADDR = PLUGIN_ID + ".ATTR_SERVER_ADDR"; //$NON-NLS-1$

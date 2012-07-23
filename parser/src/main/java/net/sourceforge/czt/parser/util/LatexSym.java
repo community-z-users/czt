@@ -97,12 +97,12 @@ public enum LatexSym
   PARENTS,
 
   /**
-   * Part of a (Z/Eves) proof keyword
+   * Part of a (Z/EVES) proof keyword
    */
   PROOFWORD,
 
   /**
-   * Part of a (Z/Eves) predicate label
+   * Part of a (Z/EVES) predicate label
    */
   ZEVESLABEL;
 

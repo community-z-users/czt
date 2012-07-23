@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * The class for Z/Eves server process management. It launches the given Z/Eves
+ * The class for Z/EVES server process management. It launches the given Z/EVES
  * executable in an API mode. The class is aware of when the process is closed
  * externally.
  * 
@@ -39,7 +39,7 @@ public class ZEvesServer
 
     String fullZEvesCommand = zEvesExecCommand + " -- -api -port " + String.valueOf(port);
 
-    System.out.println("Starting Z/Eves server with command: " + fullZEvesCommand);
+    System.out.println("Starting Z/EVES server with command: " + fullZEvesCommand);
 
     userStop = false;
     process = Runtime.getRuntime().exec(fullZEvesCommand);
@@ -96,7 +96,7 @@ public class ZEvesServer
   }
 
   /**
-   * Waits for the Z/Eves server process to terminate.
+   * Waits for the Z/EVES server process to terminate.
    * 
    * @author Andrius Velykis
    */
@@ -111,7 +111,7 @@ public class ZEvesServer
           process.waitFor();
           process = null;
 
-          System.out.println("Z/Eves server process has terminated.");
+          System.out.println("Z/EVES server process has terminated.");
           
           if (!userStop) {
             // server died - not stopped by the user, thus report

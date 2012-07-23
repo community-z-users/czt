@@ -12,7 +12,7 @@
   version="1.0">
   <xs:annotation>
     <xs:documentation>
-      This XML schema defines proof support for parsing/manipulating Z/Eves
+      This XML schema defines proof support for parsing/manipulating Z/EVES
       proof scripts and provers result/output, which is itself in XML.
 
       $Id: ZEves.xsd leouk $
@@ -80,7 +80,7 @@
   <!-- NOTE: GnAST considers the first import only in the SchemaProject build phase,
              so always put ZPattern.xsd first for Circus.xsd (i.e. innermost parent).
 
-       TODO: or should we just import from Z.xsd? Maybe not as Z/Eves allows for jokers as well
+       TODO: or should we just import from Z.xsd? Maybe not as Z/EVES allows for jokers as well
    -->
   <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
@@ -128,7 +128,7 @@
     <xs:documentation>
        Abstract proof command that wraps up another proof command within it.
        This is like a tactical, yet not all "tactical"-like commands are Wrapped.
-       Bare in mind Z/Eves is not a tactical theorem prover, and command combination
+       Bare in mind Z/EVES is not a tactical theorem prover, and command combination
        is limited to general "waterfall"-like inferences. This is similar to ACL-2.
     </xs:documentation>
   </xs:annotation>

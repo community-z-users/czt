@@ -5,7 +5,7 @@
          point="org.eclipse.ui.commands">
       <category
             id="net.sourceforge.czt.eclipse.zeves"
-            name="CZT - Z/Eves">
+            name="CZT - Z/EVES">
       </category>
       <command
             categoryId="net.sourceforge.czt.eclipse.zeves"
@@ -510,14 +510,14 @@
             delegate="net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunch"
             id="net.sourceforge.czt.eclipse.zeves.app"
             modes="run"
-            name="Z/Eves">
+            name="Z/EVES">
       </launchConfigurationType>
       <launchConfigurationType
             category="org.eclipse.ui.externaltools"
             delegate="net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunch"
             id="net.sourceforge.czt.eclipse.zeves.remote"
             modes="run"
-            name="Z/Eves Remote">
+            name="Z/EVES Remote">
       </launchConfigurationType>
    </extension>
    <extension
@@ -537,13 +537,13 @@
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
       <launchConfigurationTabGroup
             class="net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunchTabGroup"
-            description="Run Z/Eves theorem prover"
+            description="Run Z/EVES theorem prover"
             id="net.sourceforge.czt.eclipse.zeves.app"
             type="net.sourceforge.czt.eclipse.zeves.app">
       </launchConfigurationTabGroup>
       <launchConfigurationTabGroup
             class="net.sourceforge.czt.eclipse.zeves.launch.ZEvesAppLaunchTabGroup"
-            description="Connect to a Z/Eves theorem prover server"
+            description="Connect to a Z/EVES theorem prover server"
             id="net.sourceforge.czt.eclipse.zeves.remote"
             type="net.sourceforge.czt.eclipse.zeves.remote">
       </launchConfigurationTabGroup>
@@ -556,12 +556,12 @@
             class="net.sourceforge.czt.eclipse.zeves.views.ZEvesStateView"
             icon="icons/z-eves.png"
             id="net.sourceforge.czt.eclipse.zeves.view.ZEvesState"
-            name="Z/Eves"
+            name="Z/EVES"
             restorable="true">
       </view>
       <category
             id="net.sourceforge.czt.eclipse.zeves.view"
-            name="Z/Eves">
+            name="Z/EVES">
       </category>
       <view
             allowMultiple="true"
@@ -578,7 +578,7 @@
             class="net.sourceforge.czt.eclipse.zeves.views.ZEvesOutputView"
             icon="icons/z-eves.png"
             id="net.sourceforge.czt.eclipse.zeves.view.Output"
-            name="Z/Eves Output"
+            name="Z/EVES Output"
             restorable="true">
       </view>
    </extension>
@@ -613,7 +613,7 @@
    </extension>
    <extension
          id="errorMarker"
-         name="Z/Eves Error"
+         name="Z/EVES Error"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.problemmarker">
@@ -624,7 +624,7 @@
    </extension>
    <extension
          id="resultMarker"
-         name="Z/Eves Result"
+         name="Z/EVES Result"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.textmarker">
@@ -632,7 +632,7 @@
    </extension>
    <extension
          id="resultTrueMarker"
-         name="Z/Eves Result: True"
+         name="Z/EVES Result: True"
          point="org.eclipse.core.resources.markers">
       <super
             type="net.sourceforge.czt.eclipse.zeves.resultMarker">
@@ -640,7 +640,7 @@
    </extension>
    <extension
          id="commandStatusMarker"
-         name="Z/Eves Command Status"
+         name="Z/EVES Command Status"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.textmarker">
@@ -648,7 +648,7 @@
    </extension>
    <extension
          id="processMarker"
-         name="Z/Eves Process Status"
+         name="Z/EVES Process Status"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.textmarker">
@@ -656,7 +656,7 @@
    </extension>
    <extension
          id="outputSelectionMarker"
-         name="Z/Eves Output View Item"
+         name="Z/EVES Output View Item"
          point="org.eclipse.core.resources.markers">
       <super
             type="org.eclipse.core.resources.textmarker">
@@ -714,7 +714,7 @@
             highlightPreferenceKey="commandUnfinishedHighlighting"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Z/Eves Unfinished Command"
+            label="Z/EVES Unfinished Command"
             overviewRulerPreferenceKey="commandUnfinishedInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="0"
@@ -732,7 +732,7 @@
             highlightPreferenceKey="commandUnprocessedHighlighting"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Z/Eves Unprocessed Command"
+            label="Z/EVES Unprocessed Command"
             overviewRulerPreferenceKey="commandUnprocessedInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="0"
@@ -750,7 +750,7 @@
             highlightPreferenceKey="commandFailedHighlighting"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Z/Eves Failed Command"
+            label="Z/EVES Failed Command"
             overviewRulerPreferenceKey="commandFailedInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="1"
@@ -768,7 +768,7 @@
             highlightPreferenceKey="commandFinishedHighlighting"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Z/Eves Finished Command"
+            label="Z/EVES Finished Command"
             overviewRulerPreferenceKey="commandFinishedInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="0"
@@ -787,7 +787,7 @@
             highlightPreferenceKey="proofResultHighlighting"
             highlightPreferenceValue="false"
             includeOnPreferencePage="true"
-            label="Z/Eves Proof Result"
+            label="Z/EVES Proof Result"
             overviewRulerPreferenceKey="proofResultInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="2"
@@ -806,7 +806,7 @@
             highlightPreferenceKey="proofResultTrueHighlighting"
             highlightPreferenceValue="false"
             includeOnPreferencePage="true"
-            label="Z/Eves Proof Result: True"
+            label="Z/EVES Proof Result: True"
             overviewRulerPreferenceKey="proofResultTrueInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="2"
@@ -825,7 +825,7 @@
             highlightPreferenceValue="true"
             icon="icons/output_selection.gif"
             includeOnPreferencePage="true"
-            label="Z/Eves Output View Item"
+            label="Z/EVES Output View Item"
             overviewRulerPreferenceKey="outputSelectionInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="7"
@@ -843,7 +843,7 @@
             highlightPreferenceKey="outputErrorHighlighting"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Z/Eves Output View Error Message"
+            label="Z/EVES Output View Error Message"
             overviewRulerPreferenceKey="outputErrorInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="1"
@@ -861,7 +861,7 @@
             highlightPreferenceKey="outputWarningHighlighting"
             highlightPreferenceValue="true"
             includeOnPreferencePage="true"
-            label="Z/Eves Output View Warning Message"
+            label="Z/EVES Output View Warning Message"
             overviewRulerPreferenceKey="outputWarningInOverviewRuler"
             overviewRulerPreferenceValue="true"
             presentationLayer="1"
@@ -975,7 +975,7 @@
             category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
             class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
             id="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
-            name="Z/Eves">
+            name="Z/EVES">
       </page>
       <page
             category="net.sourceforge.czt.eclipse.preferences.CompilerPreferencePage"

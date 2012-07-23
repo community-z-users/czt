@@ -73,7 +73,7 @@ public class ParaChecker
     ((PredChecker)predChecker()).clearLabelledPredList();
 
     // check it using the zParaChecker. This will eventually get to PredChecker
-    // within Z/Eves, which will collect potential ZLabel names
+    // within Z/EVES, which will collect potential ZLabel names
     Signature result = term.accept(zParaChecker_);
     if (term.getBox().equals(Box.AxBox))
     {
@@ -128,7 +128,7 @@ public class ParaChecker
   }
 
   /**
-   * ConjPara typechecking is slightly different from Z. That's because Z/Eves allows
+   * ConjPara typechecking is slightly different from Z. That's because Z/EVES allows
    * name jokers within predicate part of the theorem. So, we want to switch "undeclarare-name"
    * errors off in that case. To do that, we tag the *terms within the Pred part only*, and
    * during post checking, tagged terms that flag "undeclared-name" errors after post checking,

@@ -80,8 +80,8 @@ public class ZEvesProcessSupport {
 			@Override
 			public void run() {
 				
-				MessageDialog dialog = new MessageDialog(getShell(), "Z/Eves Prover Terminated", null, 
-						"The Z/Eves prover process has been terminated. Do you want to restart the prover?",
+				MessageDialog dialog = new MessageDialog(getShell(), "Z/EVES Prover Terminated", null, 
+						"The Z/EVES prover process has been terminated. Do you want to restart the prover?",
 						MessageDialog.ERROR, new String[] {"Restart Prover", "Terminate Prover"}, 0) {
 					
 					@Override

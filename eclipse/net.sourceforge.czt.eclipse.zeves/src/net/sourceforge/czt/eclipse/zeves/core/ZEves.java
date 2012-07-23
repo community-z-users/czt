@@ -25,7 +25,7 @@ public class ZEves {
 				api.disconnect();
 			} catch (IOException e) {
 				// TODO ignore?
-				ZEvesPlugin.getDefault().log("Problems disconnecting Z/Eves API: " + e.getMessage(), e);
+				ZEvesPlugin.getDefault().log("Problems disconnecting Z/EVES API: " + e.getMessage(), e);
 			}
 		}
 		
@@ -92,7 +92,7 @@ public class ZEves {
 //		if (!api.isConnected()) {
 //			if (!connectRetry(api)) {
 //				// cannot connect
-//				throw new ExecutionException("Unable to connect to Z/Eves server.");
+//				throw new ExecutionException("Unable to connect to Z/EVES server.");
 //			}
 //		}
 //	}

@@ -46,7 +46,7 @@ public class ZEvesResultConverter {
 	}
 	
 	/**
-	 * Parses given Z/Eves result string first as Expr and if that fails, tries
+	 * Parses given Z/EVES result string first as Expr and if that fails, tries
 	 * parsing it as Pred
 	 * 
 	 * @param sectInfo

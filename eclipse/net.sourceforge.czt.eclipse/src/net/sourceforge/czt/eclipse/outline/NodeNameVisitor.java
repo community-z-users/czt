@@ -102,8 +102,8 @@ public class NodeNameVisitor
       ZFreetypeListVisitor<String>,
       FreetypeVisitor<String>,
       ClassParaVisitor<String>,  // For Object-Z
-      ProofScriptVisitor<String>, // For Z-Eves
-      ProofCommandVisitor<String> // For Z-Eves
+      ProofScriptVisitor<String>, // For Z/EVES
+      ProofCommandVisitor<String> // For Z/EVES
 {
   
   /**
@@ -122,7 +122,7 @@ public class NodeNameVisitor
   };
   
   /**
-   * An extension of Z/Eves PrintVisitor, which supports proof commands. For unsupported
+   * An extension of Z/EVES PrintVisitor, which supports proof commands. For unsupported
    * terms in the proof commands, uses "&lt;..&gt;" to avoid complex expressions.
    * @author Andrius Velykis
    */

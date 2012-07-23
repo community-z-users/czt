@@ -307,7 +307,7 @@ action code
      * GivenPara will have 3 labels, and each name will have its own. For FreePara, each FreeType and Branch have a label, as well
      * as the top-level para, where the names are free-type names. For AxPara, it depends: if it's an abbreviation or horizontal
      * schema (e.g., OmitBox), the name is obvious; other AxPara kinds are not allowed within unboxed-para lists. For ConjPara,
-     * an error is raised, since Z/Eves does not allow theorems in zed environments. OptempPara is also funny, but necessary.
+     * an error is raised, since Z/EVES does not allow theorems in zed environments. OptempPara is also funny, but necessary.
      */
     private void addZEvesLabel(List&lt;Para&gt; unboxedParaList, LabelAbility ability)
     {
@@ -389,7 +389,7 @@ action code
         }
         else if (p instanceof ConjPara)
         {
-          // if \vdash? is present, this is unlikely to be within Z/Eves,
+          // if \vdash? is present, this is unlikely to be within Z/EVES,
           // but rather as part of a unboxedPara within ZED rather than THEOREM
           // raise a warning? or error? ERROR?
           
@@ -3871,7 +3871,7 @@ unboxedParagraphItem ::=
            <add:zeves>
            if (c)
            {
-            // if \vdash? is present, this is unlikely to be within Z/Eves,
+            // if \vdash? is present, this is unlikely to be within Z/EVES,
             // but rather as part of a unboxedPara within ZED rather than THEOREM
             // raise a warning? or error? ERROR?
             CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
@@ -3933,7 +3933,7 @@ conjecture ::=
         :}
         <add:zeves>
         |
-        // empty is fine in Z/Eves
+        // empty is fine in Z/EVES
         {:
           RESULT = false;
         :}
@@ -4693,7 +4693,7 @@ simplificationCommand ::=
           //proofScripts_.countStep(RESULT, ProofStep.SIMPLE, ProofScope.GLOBAL);
         :}
         |  
-        // unqualified "prove" command is "by rewrite" in Z/Eves
+        // unqualified "prove" command is "by rewrite" in Z/EVES
         PROVE:cmd
         {:
           RESULT = factory_.getZEvesFactory().createProveByRewriteCommand();

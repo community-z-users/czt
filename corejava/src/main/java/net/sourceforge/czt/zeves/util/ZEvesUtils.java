@@ -96,7 +96,7 @@ public final class ZEvesUtils
     {
       return (InstantiationList) result;
     }
-    final String message = "Expected the Z/Eves instantiation list implementation of RenameList "
+    final String message = "Expected the Z/EVES instantiation list implementation of RenameList "
                            + " but found " + String.valueOf(result);
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
@@ -149,7 +149,7 @@ public final class ZEvesUtils
     String fromClsStr = term.getClass().getName();
     fromClsStr = fromClsStr.substring(fromClsStr.lastIndexOf(".")+1);
     // String thmName = fromClsStr + term.hashCode();
-    // using just term.hashCode() sometimes gives a negative number, which Z/Eves does not accept
+    // using just term.hashCode() sometimes gives a negative number, which Z/EVES does not accept
     // instead, go to unsigned Hex (as in Object.toString())
     String thmName = fromClsStr + Integer.toHexString(term.hashCode());
     ZEvesLabel label = FACTORY.createZEvesLabel(FACTORY.createZName(thmName), getDefaultAbility(), getDefaultUsage());

@@ -11,11 +11,11 @@ import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesUndoCommand;
 
 /**
- * A document edit listener that undoes Z/Eves Snapshot according to recent
+ * A document edit listener that undoes Z/EVES Snapshot according to recent
  * document edit. This is necessary, because updates in Z specifications can be
- * changed, and thus things submitted to Z/Eves are no longer valid. The
+ * changed, and thus things submitted to Z/EVES are no longer valid. The
  * listener keeps the synchronization together with the changes in
- * specification. The Z/Eves snapshot is undone up to the edit in the document.
+ * specification. The Z/EVES snapshot is undone up to the edit in the document.
  * 
  * @author Andrius Velykis
  */

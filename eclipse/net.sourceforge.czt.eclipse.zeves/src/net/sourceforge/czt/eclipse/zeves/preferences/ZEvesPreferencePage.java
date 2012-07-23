@@ -27,7 +27,7 @@ public class ZEvesPreferencePage extends PreferencePage implements IWorkbenchPre
 	public ZEvesPreferencePage() {
 	    super();
 	    setPreferenceStore(ZEvesPlugin.getDefault().getPreferenceStore());
-	    setDescription("Z/Eves theorem prover integration settings.");
+	    setDescription("Z/EVES theorem prover integration settings.");
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class ZEvesPreferencePage extends PreferencePage implements IWorkbenchPre
 //	    addCheckBox(
 //	        main,
 //	        "Generate feasibility VCs",
-//	        "Generate feasibility verification conditions when paragraphs are submitted to Z/Eves",
+//	        "Generate feasibility verification conditions when paragraphs are submitted to Z/EVES",
 //	        ZEvesPreferenceConstants.PROP_GENERATE_FEASIBILITY_VCS);
 
 	    Dialog.applyDialogFont(main);

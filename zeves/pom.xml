@@ -8,7 +8,7 @@
   </parent>
   <artifactId>zeves</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Z/Eves Integration</name>
+  <name>CZT Z/EVES Integration</name>
   <description>
     CZT integration with the ZEves theorem prover.
   </description>

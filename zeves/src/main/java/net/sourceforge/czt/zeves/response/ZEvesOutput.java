@@ -29,7 +29,7 @@ public class ZEvesOutput
   private ZEvesProverCmd command;
 
   @XmlElements({
-      // TODO proper classes - not used in Z/Eves at the moment?
+      // TODO proper classes - not used in Z/EVES at the moment?
       @XmlElement(name = "zsectionbegin"), @XmlElement(name = "zsectionend"),
       @XmlElement(name = "zsectionproofbegin"), @XmlElement(name = "zsectionproofend")})
   private Object sectionTag;

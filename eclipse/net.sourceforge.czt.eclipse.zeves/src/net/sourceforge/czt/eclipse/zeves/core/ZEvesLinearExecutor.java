@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 
 
 /**
- * An executor for Z/Eves commands. The linear executor maintains a queue of
- * commands that affect Z/Eves snapshot and the prover. The queue is executed
+ * An executor for Z/EVES commands. The linear executor maintains a queue of
+ * commands that affect Z/EVES snapshot and the prover. The queue is executed
  * sequentially by a single Job, so it is ensured that the snapshot or prover are
  * not accessed by several threads simultaneously.
  * 
@@ -26,7 +26,7 @@ public class ZEvesLinearExecutor {
 
 	private Queue<IZEvesExecCommand> commands = new ConcurrentLinkedQueue<IZEvesExecCommand>();
 	
-	private final Job execJob = new Job("Sending to Z/Eves") {
+	private final Job execJob = new Job("Sending to Z/EVES") {
 		
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {

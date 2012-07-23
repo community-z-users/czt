@@ -8,9 +8,9 @@
   </parent>
   <artifactId>ZEvesPlugin</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Z/Eves jEdit Plugin</name>
+  <name>CZT Z/EVES jEdit Plugin</name>
   <description>
-    jEdit Plugin that that embeddeds the Z/Eves theorem prover command line in a console window
+    jEdit Plugin that that embeddeds the Z/EVES theorem prover command line in a console window
   </description>
   <dependencies>
     <dependency>

@@ -87,7 +87,7 @@ public class ZEvesStateView extends ViewPart {
 	 */
 	private void createProverComponent(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
-		group.setText("Z/Eves prover");
+		group.setText("Z/EVES prover");
 		group.setLayout(GridLayoutFactory.swtDefaults().create());
 		group.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 		
@@ -117,7 +117,7 @@ public class ZEvesStateView extends ViewPart {
 	 */
 	private void createServerComponent(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
-		group.setText("Z/Eves executable");
+		group.setText("Z/EVES executable");
 		group.setLayout(GridLayoutFactory.swtDefaults().create());
 		group.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 		
@@ -335,7 +335,7 @@ public class ZEvesStateView extends ViewPart {
 			return;
 		}
 		
-		Job apiQueryJob = new Job("Querying Z/Eves state") {
+		Job apiQueryJob = new Job("Querying Z/EVES state") {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -429,7 +429,7 @@ public class ZEvesStateView extends ViewPart {
 
 		public RemoveSectionAction() {
 			super("Remove Section");
-			setToolTipText("Remove (Undo) Section in Z/Eves Prover");
+			setToolTipText("Remove (Undo) Section in Z/EVES Prover");
 
 			// setDescription("?");
 			setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()

@@ -117,7 +117,7 @@ import net.sourceforge.czt.z.visitor.ConjParaVisitor;
  * Top-level domain checking term. It calculates domain check predicates
  * for all Z terms, where those left out have trivial (true) domain checks.
  * The domain check rules added here are inspired / comes from those defined
- * in the Z/Eves theorem prover, which here have been expanded to Standard Z.
+ * in the Z/EVES theorem prover, which here have been expanded to Standard Z.
  * </p>
  * <p>
  * These predicates ensure that all functions are applied within their domains,
@@ -193,7 +193,7 @@ public class DCTerm extends TrivialDCTerm implements
 {
 
   /** 
-   * We follow Z/Eves' approach and use the appliesTo function for
+   * We follow Z/EVES' approach and use the appliesTo function for
    * domain checks over unresolved names. This function is defined 
    * under the dc\_toolkit.tex
    */
@@ -681,7 +681,7 @@ public class DCTerm extends TrivialDCTerm implements
    * 
    * as well as the general Para abstract class.
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(Para) \iff true
    *
@@ -709,7 +709,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements domain check for conjecture paragraphs:
    * ConjPara : [X] "theorem" N \vdash? Pred.
    *
-   * Z/Eves does not have DC for ConjPara, and this is missing.
+   * Z/EVES does not have DC for ConjPara, and this is missing.
    * We implement it as the domain check of the associated Pred.
    *
    * DC([X] "theorem" N \vdash? Pred) \iff DC(Pred)
@@ -727,14 +727,14 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements various free type paragraphs:
    * FreePara  : N ::= c | b \ldata E \rdata | ... &
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(N ::= c | b \ldata E \rdata) \iff DC(E)
    *
    * The RHS of this equivalence is the result this method returns.
    * As Standard Z allows mutually recursive free types with the "&"
    * keyword, we also handle the free type list, which essentially 
-   * is the same as Z/Eves': domain check all constructor's expression E.
+   * is the same as Z/EVES': domain check all constructor's expression E.
    */
   public Pred visitFreePara(FreePara term)
   {
@@ -781,7 +781,7 @@ public class DCTerm extends TrivialDCTerm implements
    * AxPara (from genschema): \begin{schema}[X] D \where P \end{schema}
    * AxPara (from abbrev.)  : \begin{zed} N[X] == E \end{zed}
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\begin{zed} N[X] == E \end{zed})     \iff DC(E)
    * DC(\begin{xxx}[X] D \where P \end{xxx}) \iff DC(D) \land DC(D) \land (\forall D @ DC(P))
@@ -866,8 +866,8 @@ public class DCTerm extends TrivialDCTerm implements
   
   /** 
    * For operator template paragraphs, we just return true.
-   * Z/Eves do not mention this, but they would be the "\syndef"
-   * Z/Eves operators. We also check that the precedences are 
+   * Z/EVES do not mention this, but they would be the "\syndef"
+   * Z/EVES operators. We also check that the precedences are 
    * non-negative (i.e. assert it).
    */
   public Pred visitOptempPara(OptempPara term)
@@ -882,7 +882,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements DC for a list of declarations
    * D1 ; D2 ...
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(D1 ; D2 ; ....) \iff DC(D1) \land DC(D2) ....
    *
@@ -897,7 +897,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements DC for variable declarations
    * VarDecl: x,...: E
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(x, ....: E) \iff DC(E)
    *
@@ -912,11 +912,11 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements DC for constant declarations
    * ConstDecl: n[X,...] == E
    *
-   * which in Z/Eves is considered as Standard Z
+   * which in Z/EVES is considered as Standard Z
    * axiomatic definition paragraph with OmitBox
    * (i.e. an horizontal definition or abbreviation).
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(n[X,...] == E) \iff DC(E)
    *
@@ -931,7 +931,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements DC for schema inclusion declarations
    * InclDecl: S[E1, ....] or S
    *
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(S[E1,...]) \iff DC(E) \land ....
    *
@@ -939,17 +939,17 @@ public class DCTerm extends TrivialDCTerm implements
    * All other Decl terms will fall into Term (as false), hence 
    * convering Standard Z declarations only (so far).
    *
-   * In Z/Eves this rule is given at the Declarations phrases
+   * In Z/EVES this rule is given at the Declarations phrases
    * table, but it should be at the SchExpr, since schema 
-   * expressions should also have such checks. In Z/Eves that
+   * expressions should also have such checks. In Z/EVES that
    * is fine because they use Spivey's Z, which only allow 
    * RefExpr as IncDecl, rather than any Expr.
    * 
    * For Standard Z in CZT we accept Expr, hence we just
    * forward DC of InclDecl to the expression it represents.
-   * In the case where it is a RefExpr, the Z/Eves DC is 
+   * In the case where it is a RefExpr, the Z/EVES DC is 
    * implemented. Otherwise, it is just a generalisation 
-   * of the Z/Eves rules. 
+   * of the Z/EVES rules. 
    */
   public Pred visitInclDecl(InclDecl term)
   {
@@ -977,7 +977,7 @@ public class DCTerm extends TrivialDCTerm implements
    * leaving only ApplExpr leaf class to be trated separately
    * within the Expr2 subtree.
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(S1 op S2) \iff DC(S1) \land DC(S2) 
    *
@@ -1061,7 +1061,7 @@ public class DCTerm extends TrivialDCTerm implements
    * leaving only ThetaExpr leaf class to be trated 
    * separately within the Expr1 subtree.
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(op S) \iff DC(S) 
    *
@@ -1080,7 +1080,7 @@ public class DCTerm extends TrivialDCTerm implements
    *
    * as well as the Expr2N abstract class.
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(E1 op E2 ...) \iff DC(E1) \land DC(E2) ...
    *
@@ -1097,13 +1097,13 @@ public class DCTerm extends TrivialDCTerm implements
    * Exists1Expr: \exists_1 D | P @ SE, where SE could also be a schema
    * ForallExpr : \forall   D | P @ SE, where SE could also be a schema
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(qnt D | P @ SE) \iff DC(D) \land (\forall D @ DC(P)) \land DC(SE)
    *
    * The RHS of this equivalence is the result this method returns.
    *
-   * The Z/Eves reference manual (Section 3.7.1, p.23) states that
+   * The Z/EVES reference manual (Section 3.7.1, p.23) states that
    * this DC for such schema quantifications is a weaker version 
    * which does not rely on P to prove DC(SE). Other similar quantified 
    * rules, such as those for predicates and other expressions, do rely
@@ -1128,7 +1128,7 @@ public class DCTerm extends TrivialDCTerm implements
    * since the other element, MuExpr, is dealt with separately.
    * SetCompExpr: \{ D | P @ E }
    *
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\{ D | P @ E \}) \iff DC(D) \land (\forall D @ DC(P) \land (P \implies DC(E)))
    *
@@ -1156,14 +1156,14 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for lambda expressions is as follows:
    * LambdaExpr : \lambda  D | P @ E
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\lambda  D | P @ E) \iff DC(D) \land (\forall D @ DC(P) \land (P \implies DC(E)))
    *
    * The RHS of this equivalence is the result this method returns.
    * Note that differently from the other quantified schema expression  
-   * rules, here Z/Eves prefers the stronger rule which requires P 
-   * implying DC(E) (see Z/Eves reference manual p.23, Section 3.7.1).
+   * rules, here Z/EVES prefers the stronger rule which requires P 
+   * implying DC(E) (see Z/EVES reference manual p.23, Section 3.7.1).
    * This is much like the rule for QntExpr.
    *
    * Although LambdaExpr and SetCompExpr have the same domain check,
@@ -1182,7 +1182,7 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for let expressions is as follows:
    * LetExpr : \LET x == E1; .... @ E
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\LET x == E1; .... @ E) \iff DC(E1) ... \land (\LET x == E1; .... @ DC(E))
    *
@@ -1200,16 +1200,16 @@ public class DCTerm extends TrivialDCTerm implements
    *
    * Note that the \LET expression in RHS must be transformed into a 
    * Predicate. This is done via the ExprPred production, which is
-   * not present in Z/Eves. As ExprPred should not be further analysed
+   * not present in Z/EVES. As ExprPred should not be further analysed
    * for DC, we implement it as itself (i.e. DC(ExprPred) = ExprPred).   
    * Nevertheless, Standard Z does not allow LetPred! So we need to
-   * transform DC(E) into an expression as in [ | DC(E)]. In Z/Eves
+   * transform DC(E) into an expression as in [ | DC(E)]. In Z/EVES
    * this is not necessary because a predicate is an expression already.
    * This double transformation (i.e. DC(E) into and expression and
    * the LET into a predicate) is unfortunate, yet unavoidable. 
    * 
    * TODO: Decide on this!
-   * As in Z/Eves a LetExpr is implicitly implemented, we thought to
+   * As in Z/EVES a LetExpr is implicitly implemented, we thought to
    * give the rule as they suggest, rather than reuse the one for MuExpr. 
    * The reason is that the DC for let expression is simpler than the 
    * one for MuExpr. By using MuExpr for Standard Z we could avoid the
@@ -1239,14 +1239,14 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for mu expressions is as follows:
    * MuExpr : \mu D | P @ E
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\mu D | P @ E) \iff DC(D) \land (\forall D @ DC(P) \land (P \implies DC(E))) \land (\exists_1 D @ P)
    *
    * The RHS of this equivalence is the result this method returns.
    * Note that differently from the other quantified schema expression  
-   * rules, here Z/Eves prefers the stronger rule which requires P 
-   * implying DC(E) (see Z/Eves reference manual p.23, Section 3.7.1).
+   * rules, here Z/EVES prefers the stronger rule which requires P 
+   * implying DC(E) (see Z/EVES reference manual p.23, Section 3.7.1).
    * This is much like the rule for QntExpr.
    *
    * As in ApplExpr checking for function application consistency,
@@ -1274,7 +1274,7 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for conditional schema expressions is as follows:
    * CondExpr : \IF P \THEN E1 \ELSE E2
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\IF P \THEN E1 \ELSE E2) \iff DC(P) \land (\IF P \THEN DC(E1) \ELSE DC(E2))
    *
@@ -1304,7 +1304,7 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for schema binding expressions is as follows:
    * BindExpr : \lblot x == E1; ... \rblot
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\lblot x == E1; ... \rblot) \iff DC(E1) \land ....
    *
@@ -1326,7 +1326,7 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for reference expressions is as follows:
    * RefExpr : S[E1, ...] or S
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(S[E1, ...]) \iff DC(E) \land ....
    *
@@ -1342,7 +1342,7 @@ public class DCTerm extends TrivialDCTerm implements
    * The production for schema expressions or schema constructions is as follows:
    * SchExpr: [ D | P ] or just S
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(S \defs SE) \iff DC(SE), which is just a SchText as below
    * DC([ D | P ])  \iff DC(D) \land (\forall D @ DC(P))
@@ -1356,7 +1356,7 @@ public class DCTerm extends TrivialDCTerm implements
   }
   
   /** 
-   * DC for NumExpr is just true, despite Z/Eves not mentioning them.
+   * DC for NumExpr is just true, despite Z/EVES not mentioning them.
    * Yet, the Standard Z BNF specifies that NumExpr are formed by 
    * numerals, which may be jokers. So, in here, we are only concerned
    * with ZNumeral, which is just true. In case of jokers, no visitor
@@ -1378,7 +1378,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements conjunction:
    * AndPred : P \land Q
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(P \land Q)  \iff DC(P) \land (P \implies DC(Q))
    *
@@ -1393,7 +1393,7 @@ public class DCTerm extends TrivialDCTerm implements
    * In practice, that means ordering your predicates may affect the
    * DC conditions to be better (if Q depends on P and P appears first) 
    * or to the worst (if Q depends on P and Q appears first). Although
-   * nothing is said about this in the Z/Eves manual, this can be easily
+   * nothing is said about this in the Z/EVES manual, this can be easily
    * observed if dependant conjunctions are constructed naively. This
    * approach is similarly observed within the remaining logical connectives.
    *
@@ -1407,7 +1407,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements implication:
    * ImpliesPred : P \implies Q
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(P \implies Q)  \iff DC(P) \land (P \implies DC(Q))
    *
@@ -1423,7 +1423,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements disjunction:
    * OrPred : P \lor Q
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(P \lor Q)  \iff DC(P) \land (P \lor DC(Q))
    *
@@ -1443,7 +1443,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements equivalence:
    * IffPred : P \iff Q
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(P \iff Q)  \iff DC(P) \land DC(Q)
    *
@@ -1466,7 +1466,7 @@ public class DCTerm extends TrivialDCTerm implements
    * Exists1Pred: \exists_1 D | P @ Q
    * ForallPred : \forall   D | P @ Q
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(qnt D | P @ Q) \iff DC(D) \land (\forall D @ DC(P) \land (P \implies DC(Q))) 
    *
@@ -1482,7 +1482,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements negation:
    * NegPred : \lnot P 
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\lnot P)  \iff DC(P)
    *
@@ -1498,7 +1498,7 @@ public class DCTerm extends TrivialDCTerm implements
    * This implements relational operators (i.e. prefix PR and infix IR):
    * MemPred: PR E, and E1 IR E2 ; where IR could be \in, =, or RelOp
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(E1 IR E2)  \iff DC(E1) \land DC(IR) \land DC(E2)
    * DC(PR E)      \iff DC(E) \land DC(PR)
@@ -1507,11 +1507,11 @@ public class DCTerm extends TrivialDCTerm implements
    *
    * In Standard Z, those relational operators are just represented
    * ad MemPred. For IR, MemPred could be either membership (\in),
-   * equality (=), or any relational operator (i.e. _ &lt; _, Z/Eves inrel). 
+   * equality (=), or any relational operator (i.e. _ &lt; _, Z/EVES inrel). 
    * The first two cases DC(IR) is just true, since this is just a name. The
    * last case, however, falls into the RefExpr prodcution, where
    * generic actual expressions must be checked. Similarly, PR can only
-   * be some generic prefix operator (i.e. id _, Z/Eves prerel).
+   * be some generic prefix operator (i.e. id _, Z/EVES prerel).
    *
    */
   public Pred visitMemPred(MemPred term)
@@ -1538,7 +1538,7 @@ public class DCTerm extends TrivialDCTerm implements
    * calculation, we need to encapsulate some expressions as predicates
    * since the the syntactic category where the DC falls expects a predicate
    * for what only an expression can be create (i.e. LetExpr, and CondExpr).
-   * For Z/Eves this is not a problem since the Expr and Pred subtree a 
+   * For Z/EVES this is not a problem since the Expr and Pred subtree a 
    * somewhat duplicated to cope with such cases. Therefore, the DC for 
    * ExprPred OUGHT NOT to perform any further calculation, but to return
    * the expression/predicate as it is (i.e. result is the term itself!).

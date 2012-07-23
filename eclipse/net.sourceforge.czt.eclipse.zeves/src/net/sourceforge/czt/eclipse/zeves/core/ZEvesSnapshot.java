@@ -25,15 +25,15 @@ import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 
 /**
- * This class represent a snapshot of Z/Eves submit state. When Z/Eves prover is
- * interacted with, the state and results are registered in Z/Eves snapshot,
+ * This class represent a snapshot of Z/EVES submit state. When Z/EVES prover is
+ * interacted with, the state and results are registered in Z/EVES snapshot,
  * e.g. when paragraphs/commands are submitted, their results and/or errors are
- * stored in the snapshot. Then, when commands are undone, Z/Eves snapshot is
+ * stored in the snapshot. Then, when commands are undone, Z/EVES snapshot is
  * updated accordingly.
  * 
  * The snapshot is based on a list of sections and result entries. The sections
  * must be submitted sequentially - if one requires to update a section that was
- * submitted earlier, Z/Eves must be undone until that point, only then adding
+ * submitted earlier, Z/EVES must be undone until that point, only then adding
  * new results is permitted.
  * 
  * The sections are identified by a pair of file path and section name. This in
@@ -42,8 +42,8 @@ import net.sourceforge.czt.zeves.ZEvesException;
  * The entries are identified by their {@link Position} in specification file.
  * Therefore, when term positions in specification change (e.g. due to editing),
  * the invalid entries must be removed from the snapshot and resubmitted to
- * Z/Eves afterwards. Use {@link #undoThrough(ZEvesApi, String, int)} to undo
- * the snapshot (and Z/Eves) until a certain offset in a specification file.
+ * Z/EVES afterwards. Use {@link #undoThrough(ZEvesApi, String, int)} to undo
+ * the snapshot (and Z/EVES) until a certain offset in a specification file.
  * 
  * Results are added to the snapshot with various add(Target)Result() methods.
  * However, before adding results for a particular section, it must be indicated
@@ -89,7 +89,7 @@ public class ZEvesSnapshot {
 	private final Set<FileSection> completedSections = new HashSet<FileSection>();
 	
 	/**
-	 * A sequential list of Z/Eves submit results per section. Each entry
+	 * A sequential list of Z/EVES submit results per section. Each entry
 	 * represents a single result for a certain section. It is ensured that
 	 * lists of section-entries are in the same sequence as in {@link #sections}
 	 * list, i.e. if {@link #sections} contains sections [A, B, C] in the
@@ -204,9 +204,9 @@ public class ZEvesSnapshot {
 	}
 
 	/**
-	 * Adds a Z/Eves result for a submitted paragraph (non-ProofScript) to the
-	 * snapshot. Each paragraph in Z/Eves is assigned a history index, which
-	 * must be indicated here. The history index is used to undo in Z/Eves
+	 * Adds a Z/EVES result for a submitted paragraph (non-ProofScript) to the
+	 * snapshot. Each paragraph in Z/EVES is assigned a history index, which
+	 * must be indicated here. The history index is used to undo in Z/EVES
 	 * afterwards.
 	 * 
 	 * Results must be added in increasing position order, as well as increasing
@@ -215,7 +215,7 @@ public class ZEvesSnapshot {
 	 * @param pos
 	 *            Position of paragraph in the specification file
 	 * @param historyIndex
-	 *            Z/Eves history index assigned for the submitted paragraph
+	 *            Z/EVES history index assigned for the submitted paragraph
 	 * @param data
 	 *            Data associated with this snapshot element
 	 */
@@ -285,13 +285,13 @@ public class ZEvesSnapshot {
 	}
 
 	/**
-	 * Adds an error result (a Z/Eves error) for a certain position to the
+	 * Adds an error result (a Z/EVES error) for a certain position to the
 	 * snapshot.
 	 * 
 	 * Results must be added in increasing position order.
 	 * 
 	 * @param pos
-	 *            Position of specification part that caused the Z/Eves error
+	 *            Position of specification part that caused the Z/EVES error
 	 * @param data
 	 *            Data associated with this snapshot element
 	 */
@@ -301,11 +301,11 @@ public class ZEvesSnapshot {
 	}
 	
 	/**
-	 * Adds a Z/Eves result for a proof script goal ("try-lemma") to the
+	 * Adds a Z/EVES result for a proof script goal ("try-lemma") to the
 	 * snapshot. This method differentiates from a general
 	 * {@link #addProofResult(Position, String, int, Map)} in
 	 * the way that it will not need to be "undone" during undo: this command
-	 * does not change Z/Eves state.
+	 * does not change Z/EVES state.
 	 * 
 	 * Results must be added in increasing position order.
 	 * 
@@ -324,8 +324,8 @@ public class ZEvesSnapshot {
 	}
 	
 	/**
-	 * Adds a Z/Eves result for a submitted proof command to the snapshot. Each
-	 * proof command in Z/Eves is assigned an index, which must be indicated
+	 * Adds a Z/EVES result for a submitted proof command to the snapshot. Each
+	 * proof command in Z/EVES is assigned an index, which must be indicated
 	 * here. Each submitted result is undone with a single "back" during undo
 	 * afterwards.
 	 * 
@@ -336,7 +336,7 @@ public class ZEvesSnapshot {
 	 * @param goalName
 	 *            The name of proof script
 	 * @param commandCount
-	 *            A number of Z/Eves proof commands that this result represents (e.g. in case of tacticals)
+	 *            A number of Z/EVES proof commands that this result represents (e.g. in case of tacticals)
 	 * @param data
 	 *            Data associated with this snapshot element
 	 */
@@ -393,7 +393,7 @@ public class ZEvesSnapshot {
 	 * @param offset
 	 *            Offset within the given file
 	 * @return true if undo is necessary before updating at the given offset
-	 *         (e.g. editing, or submitting to Z/Eves), false otherwise
+	 *         (e.g. editing, or submitting to Z/EVES), false otherwise
 	 */
 	public boolean needUndo(String filePath, int offset) {
 		int lastIndexBefore = getLastIndexBeforeOffset(filePath, offset);
@@ -482,7 +482,7 @@ public class ZEvesSnapshot {
 	}
 	
 	/**
-	 * Clears the data stored in Z/Eves snapshot (to be used with accompanying
+	 * Clears the data stored in Z/EVES snapshot (to be used with accompanying
 	 * {@link ZEvesApi#reset()}).
 	 * 
 	 * @return list of file paths that were cleared - to allow for removal of
@@ -511,9 +511,9 @@ public class ZEvesSnapshot {
 	}
 	
 	/**
-	 * Undoes Z/Eves commands up to (and including) the given offset. Calculates
+	 * Undoes Z/EVES commands up to (and including) the given offset. Calculates
 	 * paragraphs and proof commands that have been submitted after the given
-	 * offset, and undoes them in Z/Eves prover. The undone results are removed
+	 * offset, and undoes them in Z/EVES prover. The undone results are removed
 	 * from the snapshot as well, and the last affected section is marked
 	 * incomplete.
 	 * 
@@ -521,7 +521,7 @@ public class ZEvesSnapshot {
 	 * submitted after the offset.
 	 * 
 	 * @param zEvesApi
-	 *            Z/Eves API to perform undo calls
+	 *            Z/EVES API to perform undo calls
 	 * @param filePath
 	 *            Path of specification file
 	 * @param offset
@@ -529,7 +529,7 @@ public class ZEvesSnapshot {
 	 * @return Mapping from file paths to offsets from which commands were
 	 *         undone
 	 * @throws ZEvesException
-	 *             If errors occur during Z/Eves communication
+	 *             If errors occur during Z/EVES communication
 	 */
 	public Map<String, Integer> undoThrough(ZEvesApi zEvesApi, String filePath, int offset)
 			throws ZEvesException {
@@ -654,7 +654,7 @@ public class ZEvesSnapshot {
 			case PROOF: {
 				/*
 				 * For proofs, increment undo count for the given goal name -
-				 * each proof steps means one "back" sent to Z/Eves for that
+				 * each proof steps means one "back" sent to Z/EVES for that
 				 * particular goal
 				 */
 				ProofSnapshotEntry proofPos = (ProofSnapshotEntry) resultEntry;
@@ -670,7 +670,7 @@ public class ZEvesSnapshot {
 				/*
 				 * For the rest (goals and errors), do nothing special, they
 				 * will be just removed from the list, since we do not need to
-				 * undo them in Z/Eves. Errors are not sent to Z/Eves at all,
+				 * undo them in Z/EVES. Errors are not sent to Z/EVES at all,
 				 * while goals are attached to the theorem paragraphs.
 				 */
 			}
@@ -722,19 +722,19 @@ public class ZEvesSnapshot {
 	}
 	
 	/**
-	 * Undoes Z/Eves commands up to (and including) the given section.
+	 * Undoes Z/EVES commands up to (and including) the given section.
 	 * Calculates paragraphs and proof commands that have been submitted for the
-	 * given section, and all sections after it, and undoes them in Z/Eves
+	 * given section, and all sections after it, and undoes them in Z/EVES
 	 * prover. The undone results are removed from the snapshot as well.
 	 * 
 	 * @param zEvesApi
-	 *            Z/Eves API to perform undo calls
+	 *            Z/EVES API to perform undo calls
 	 * @param section
 	 *            section to undo (inclusive)
 	 * @return Mapping from file paths to offsets from which commands were
 	 *         undone
 	 * @throws ZEvesException
-	 *             If errors occur during Z/Eves communication
+	 *             If errors occur during Z/EVES communication
 	 */
 	public Map<String, Integer> undoThrough(ZEvesApi zEvesApi, FileSection section)
 			throws ZEvesException {
@@ -776,7 +776,7 @@ public class ZEvesSnapshot {
 	
 	/**
 	 * Checks if the given section is marked completed (i.e. submitted fully to
-	 * Z/Eves)
+	 * Z/EVES)
 	 * 
 	 * @param filePath
 	 *            Path of file containing the section

@@ -140,7 +140,7 @@ public class ProofScriptParsingTest
     Test result = test.suite(TEST_DIR, null);
     if (DEBUG_TESTING)
     {
-      System.out.println("Number of tests for Z/Eves proofs parsing: " + result.countTestCases());
+      System.out.println("Number of tests for Z/EVES proofs parsing: " + result.countTestCases());
       System.out.println();
     }
     return result;

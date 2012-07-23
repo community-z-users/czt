@@ -10,9 +10,9 @@
 
 \begin{document}
 
-This file contains the bag toolkit definitions as in the Z/Eves
+This file contains the bag toolkit definitions as in the Z/EVES
 theorem prover. It follows Spivey's definitions, yet with the
-right flavour for Z/Eves
+right flavour for Z/EVES
 
 </Content>
     </NarrSect>
@@ -2021,7 +2021,7 @@ right flavour for Z/Eves
 
 \subsection*{Bag union }
 
-Z/Eves' bag union is predefined, so we reuse CadiZ's
+Z/EVES' bag union is predefined, so we reuse CadiZ's
 </Content>
             </NarrPara>
             <AxPara Box="OmitBox">
@@ -2820,8 +2820,8 @@ Z/Eves' bag union is predefined, so we reuse CadiZ's
 
 \subsubsection*{Bag items}
 
-In Z/Eves, sequence-to-bag transformation is predefined, and a set
-of theorems hold for them. See the Z/Eves toolkit for details.
+In Z/EVES, sequence-to-bag transformation is predefined, and a set
+of theorems hold for them. See the Z/EVES toolkit for details.
 </Content>
             </NarrPara>
             <AxPara Box="AxBox">

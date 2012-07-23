@@ -61,7 +61,7 @@ public class ProblemSeveritiesPreferencePage extends PreferencePage implements
 	    section.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DIALOG_FONT));
 	    section.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
 	    
-	    section.setText("Z/Eves");
+	    section.setText("Z/EVES");
 	    
 	    Composite sectionGroup = new Composite(section, SWT.NONE);
 	    section.setClient(sectionGroup);

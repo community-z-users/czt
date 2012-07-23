@@ -19,8 +19,8 @@ import net.sourceforge.czt.zeves.util.Factory;
 import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
 
 /**
- * A support for Z/Eves tactic commands, which can be defined as a sequence (or loop)
- * of existing Z/Eves commands. Two such commands are encoded in Z/Eves, namely
+ * A support for Z/EVES tactic commands, which can be defined as a sequence (or loop)
+ * of existing Z/EVES commands. Two such commands are encoded in Z/EVES, namely
  * prove-by-rewrite and prove-by-reduce. The tactics allow sending the commands
  * from the tool and thus keeping full trace eventually.
  * 
@@ -29,7 +29,7 @@ import net.sourceforge.czt.zeves.visitor.ProofCommandVisitor;
 public class ZEvesTactics {
 	
 	/**
-	 * Z/Eves default loop count for prove by rewrite/prove by reduce commands.
+	 * Z/EVES default loop count for prove by rewrite/prove by reduce commands.
 	 */
 	private static final int PROVE_LOOP_COUNT = 11;
 
@@ -134,7 +134,7 @@ public class ZEvesTactics {
 	}
 	
 	/**
-	 * A wrapper for a sequence of Z/Eves proof commands. A flag whether the
+	 * A wrapper for a sequence of Z/EVES proof commands. A flag whether the
 	 * sequence should loop is also supported.
 	 * 
 	 * @author Andrius Velykis
@@ -191,7 +191,7 @@ public class ZEvesTactics {
 	}
 	
 	/**
-	 * A pair of Z/Eves command string (converted to XML representation)
+	 * A pair of Z/EVES command string (converted to XML representation)
 	 * and whether it should stop if not effective. 
 	 * 
 	 * @author Andrius Velykis

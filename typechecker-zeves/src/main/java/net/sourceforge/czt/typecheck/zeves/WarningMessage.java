@@ -16,7 +16,7 @@ public enum WarningMessage {
 //    "Empty instantiation list in use command." +
 //    "\n\tIn proof...........: {0}" +
 //    "\n\tTheorem reference..: {1}",
-//    "We are not checking if instantiated variables in use command have a matching bounded variable in {1}. We let Z/Eves do that."
+//    "We are not checking if instantiated variables in use command have a matching bounded variable in {1}. We let Z/EVES do that."
 //  ),
 
   SUBST_CMD_EXPR_EQS("Not checking equality substitute expression."
@@ -49,17 +49,17 @@ public enum WarningMessage {
   ZSECT_THMTBL_ERROR("Could not calculate conjecture table for Z section '{0}'", "An attempt to calculate Z section '{0}' conjecture table failed"),
   ZSECT_PROOFTBL_ERROR("Could not calculate proof script table for Z section '{0}'", "An attempt to calculate Z section '{0}' proof script table failed"),
 
-  IGNORE_PROOF_EXPR("Ignoring expression typechecking in the middle of a Z/Eves proof." +
+  IGNORE_PROOF_EXPR("Ignoring expression typechecking in the middle of a Z/EVES proof." +
           "\n\tIn proof...: {0}"
         + "\n\tat expr....: {1}",
-        "Because Z/Eves may create new variables and change variables in expressions, we are ignoring type checking for them. This is safe because, Z/Eves will do it anyway."),
+        "Because Z/EVES may create new variables and change variables in expressions, we are ignoring type checking for them. This is safe because, Z/EVES will do it anyway."),
 
-  IGNORE_PROOF_PRED("Ignoring predicate typechecking in the middle of a Z/Eves proof." +
+  IGNORE_PROOF_PRED("Ignoring predicate typechecking in the middle of a Z/EVES proof." +
           "\n\tIn proof...: {0}"
         + "\n\tat pred....: {1}",
-        "Because Z/Eves may create new variables and change variables in predicates, we are ignoring type checking for them. This is safe because, Z/Eves will do it anyway."),
+        "Because Z/EVES may create new variables and change variables in predicates, we are ignoring type checking for them. This is safe because, Z/EVES will do it anyway."),
 
-  IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK("Ignoring type checking instantiations within Z/Eves expression-based renaming. Leaving it to the prover." +
+  IGNORE_ZEVES_THMREPLACEMENT_TYPECHECK("Ignoring type checking instantiations within Z/EVES expression-based renaming. Leaving it to the prover." +
            "\n\tat expr...: {0}"),
 
   UNKNOWN_TERM("Typechecker is being asked to visit a unknown term" +

@@ -43,7 +43,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.ext.DefaultHandler2;
 
 /**
- * The reader parses Z/Eves response XML and produces appropriate Z/Eves Java
+ * The reader parses Z/EVES response XML and produces appropriate Z/EVES Java
  * objects with the data. It uses JAXB unmarshalling to perform the XML parsing.
  * 
  * This class is not thread safe.
@@ -56,7 +56,7 @@ public class ZEvesResponseReader
   private final static Pattern OP_DECL_XML_PATTERN = Pattern.compile("\\&[a-z]+\\$declaration");
 
   /** 
-   * A pattern to match entities without a semicolon, which get output by Z/Eves sometimes, e.g.
+   * A pattern to match entities without a semicolon, which get output by Z/EVES sometimes, e.g.
    * in a message "the next token, "&lvparen (left rel image bracket), is not ")"." We need
    * to capture this and fix by adding a semicolon. 
    */
@@ -123,11 +123,11 @@ public class ZEvesResponseReader
       ParserConfigurationException, SAXException
   {
 
-    // setup object mapper using the Z/Eves API context classes
+    // setup object mapper using the Z/EVES API context classes
     JAXBContext context = configZEvesApiContext();
     XMLReader xmlReader = configXmlReader();
 
-    // create the unmarshaller from XML to Z/Eves API POJOs
+    // create the unmarshaller from XML to Z/EVES API POJOs
     Unmarshaller unmarshaller = context.createUnmarshaller();
 
     return new ZEvesResponseReader(unmarshaller, xmlReader);
@@ -169,10 +169,10 @@ public class ZEvesResponseReader
   }
 
   /**
-   * The Z/Eves response XML is not well-formatted. This method adapts the XML
+   * The Z/EVES response XML is not well-formatted. This method adapts the XML
    * to fix that.
    * 
-   * One of the problems is theorem references to Z/Eves mathematical toolkit,
+   * One of the problems is theorem references to Z/EVES mathematical toolkit,
    * e.g. "&dom$declaration". This is invalid, because in XML, everything that
    * starts with "&" is an XML entity, and must finish with a semicolon.
    * However, it is not the case for these theorem references.

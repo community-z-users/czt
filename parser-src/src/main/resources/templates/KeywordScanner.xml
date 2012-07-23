@@ -114,7 +114,7 @@ public class KeywordScanner
 
 <add:zeves>
     /* Technically proof words are not keywords, since they can appear in the
-     * user specification, albeit that's rare. This is easily achieved in Z/Eves
+     * user specification, albeit that's rare. This is easily achieved in Z/EVES
      * because the underlying markup is XML and the parser separates the two kinds
      * when showing it to the user (and it appears in different fonts for that effect).
      * In CZT this is a bit of a problem given the premasy of UNICODE. We kept them

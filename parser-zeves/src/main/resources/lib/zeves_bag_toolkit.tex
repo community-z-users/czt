@@ -4,9 +4,9 @@
 
 \begin{document}
 
-This file contains the bag toolkit definitions as in the Z/Eves
+This file contains the bag toolkit definitions as in the Z/EVES
 theorem prover. It follows Spivey's definitions, yet with the
-right flavour for Z/Eves
+right flavour for Z/EVES
 
 \begin{zsection}
 \SECTION zeves\_bag\_toolkit \parents standard\_toolkit
@@ -81,7 +81,7 @@ right flavour for Z/Eves
 
 \subsection*{Bag union }
 
-Z/Eves' bag union is predefined, so we reuse CadiZ's
+Z/EVES' bag union is predefined, so we reuse CadiZ's
 \begin{zed}
 \_ \uplus \_ [X] == \lambda B, C: \bag X @ (\lambda x: X @ B \bcount x + C \bcount x) \nrres \{ 0 \}
 \end{zed}
@@ -97,8 +97,8 @@ Z/Eves' bag union is predefined, so we reuse CadiZ's
 
 \subsubsection*{Bag items}
 
-In Z/Eves, sequence-to-bag transformation is predefined, and a set
-of theorems hold for them. See the Z/Eves toolkit for details.
+In Z/EVES, sequence-to-bag transformation is predefined, and a set
+of theorems hold for them. See the Z/EVES toolkit for details.
 %
 \begin{gendef}[X]
   items: \seq X \fun \bag X

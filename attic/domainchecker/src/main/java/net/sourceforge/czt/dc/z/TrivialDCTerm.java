@@ -195,7 +195,7 @@ public abstract class TrivialDCTerm extends AbstractDCTerm<Pred> implements
     return truePred();
   }
   
-  /** DC for numbers is just true, despite Z/Eves not mentioning them. */
+  /** DC for numbers is just true, despite Z/EVES not mentioning them. */
   public Pred visitZNumeral(ZNumeral term) 
   {
     return truePred();
@@ -205,7 +205,7 @@ public abstract class TrivialDCTerm extends AbstractDCTerm<Pred> implements
    * This implements ThetaExpr for schemas:
    * ThetaExpr: \theta S
    * 
-   * which in Z/Eves is given as
+   * which in Z/EVES is given as
    * 
    * DC(\theta S) \iff true
    *
@@ -221,7 +221,7 @@ public abstract class TrivialDCTerm extends AbstractDCTerm<Pred> implements
    * TruePred : true  
    * FalsePred: false
    * 
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(true)  \iff true
    * DC(false) \iff true

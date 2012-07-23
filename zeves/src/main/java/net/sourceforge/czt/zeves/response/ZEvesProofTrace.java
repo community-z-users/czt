@@ -12,11 +12,11 @@ import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.zeves.response.form.ZEvesBlurb;
 
 /**
- * A utility class that parses Z/Eves response trace (given as ZEvesBlurb object),
+ * A utility class that parses Z/EVES response trace (given as ZEvesBlurb object),
  * and partitions the results according to trace type. The parsed result can be
  * retrieved via {@link #getTraceContents()}, which gives a map from String text,
  * representing the trace type, to the associated content elements 
- * (e.g. Z/Eves constructs). The map preserves the parsing order, thus can be
+ * (e.g. Z/EVES constructs). The map preserves the parsing order, thus can be
  * printed back to get the original message (with corrected spacing). 
  * 
  * The class also provides access methods for elements of specific trace types,
@@ -150,7 +150,7 @@ public class ZEvesProofTrace
         if (lastMatch == null && it.hasNext()) {
           // The text did not match, and is not the last 
           // element - thus it is unknown match
-          throw new IllegalStateException("Unknown trace type or invalid Z/Eves response: "
+          throw new IllegalStateException("Unknown trace type or invalid Z/EVES response: "
               + info.toString());
         }
         
@@ -159,7 +159,7 @@ public class ZEvesProofTrace
         addTraceElement(lastMatch, elem);
       } else {
         // adding elements even though no type has been matched!
-        throw new IllegalStateException("Unknown trace type or invalid Z/Eves response: " + info.toString());
+        throw new IllegalStateException("Unknown trace type or invalid Z/EVES response: " + info.toString());
       }
     }
   }
@@ -273,7 +273,7 @@ public class ZEvesProofTrace
     
     if (traceContents.containsKey(text)) {
       throw new IllegalStateException("A trace type text '" + text
-          + "' found multiple times in a Z/Eves response: " + info.toString());
+          + "' found multiple times in a Z/EVES response: " + info.toString());
     }
     
     // add an empty list for the text (either matched or the end)
@@ -286,7 +286,7 @@ public class ZEvesProofTrace
   }
   
   /**
-   * Retrieves Z/Eves trace elements for a particular trace type,
+   * Retrieves Z/EVES trace elements for a particular trace type,
    * e.g. instantiations for INSTANTIATE, used lemmas for REWRITE, etc.
    * 
    * @param type
@@ -308,7 +308,7 @@ public class ZEvesProofTrace
   /**
    * Retrieves trace contents - the parsed trace. The map preserves the order of original
    * text, and each pair represents a parse type (e.g. rewrite) and its associated
-   * Z/Eves elements. 
+   * Z/EVES elements. 
    * 
    * @return
    */

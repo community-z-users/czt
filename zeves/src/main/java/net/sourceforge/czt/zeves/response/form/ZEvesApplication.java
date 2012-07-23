@@ -47,7 +47,7 @@ public class ZEvesApplication
       /*
        * Need to handle a special case of "#" operator.
        * 
-       * It is not considered as such by Z/Eves, so when it appears in argument 
+       * It is not considered as such by Z/EVES, so when it appears in argument 
        * of function application, we need to add arguments to the name.
        */
       return ZString.LPAREN + val + ZString.ARG_TOK + ZString.RPAREN;

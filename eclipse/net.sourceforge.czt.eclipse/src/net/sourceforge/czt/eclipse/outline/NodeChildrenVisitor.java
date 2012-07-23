@@ -42,7 +42,7 @@ public class NodeChildrenVisitor
       AxParaVisitor<List<? extends Term>>,
       SchExprVisitor<List<? extends Term>>,
       ClassParaVisitor<List<? extends Term>>,   // for Object-Z
-      ProofScriptVisitor<List<? extends Term>> // for Z-Eves
+      ProofScriptVisitor<List<? extends Term>> // for Z/EVES
 {
   public List<? extends Term> visitTerm(Term term)
   {

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Z/Eves Prover Integration for CZT
+Bundle-Name: Z/EVES Prover Integration for CZT
 Bundle-SymbolicName: net.sourceforge.czt.eclipse.zeves;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: net.sourceforge.czt.eclipse.zeves.ZEvesPlugin

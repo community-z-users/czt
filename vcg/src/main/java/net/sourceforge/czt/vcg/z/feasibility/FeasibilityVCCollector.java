@@ -403,7 +403,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
    * AxPara (from genschema): \begin{schema}[X] D \where P \end{schema}
    * AxPara (from abbrev.)  : \begin{zed} N[X] == E \end{zed}
    *
-   * This covers the Z/Eves domain check rules for:
+   * This covers the Z/EVES domain check rules for:
    *
    * DC(\begin{zed} N[X] == E \end{zed})     \iff DC(E)
    * DC(\begin{xxx}[X] D \where P \end{xxx}) \iff DC(D) \land DC(D) \land (\forall D @ DC(P))

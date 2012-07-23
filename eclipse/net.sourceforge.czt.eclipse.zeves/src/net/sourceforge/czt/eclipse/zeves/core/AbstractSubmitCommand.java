@@ -43,7 +43,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 		
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (!prover.isRunning()) {
-			return ZEvesPlugin.newErrorStatus("Z/Eves prover is not running.", null);
+			return ZEvesPlugin.newErrorStatus("Z/EVES prover is not running.", null);
 		}
 		
 		final ZEvesApi zEvesApi = prover.getApi();
@@ -165,8 +165,8 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	private Timer initCancelMonitor(final ZEvesApi zEvesApi, final IProgressMonitor monitor) {
 		
 		// if user cancels the task, check that in a separate thread,
-		// because the main thread may be blocked by Z/Eves comms. Then
-		// send abort to abort long-running Z/Eves task probably.
+		// because the main thread may be blocked by Z/EVES comms. Then
+		// send abort to abort long-running Z/EVES task probably.
 		final Timer timer = new Timer(true);
 		TimerTask cancelMonitor = new TimerTask() {
 			
@@ -174,8 +174,8 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 			public void run() {
 				if (monitor.isCanceled()) {
 					// send abort
-					// Z/Eves abort crashes the prover if executed on proof tasks at the moment
-					// TODO investigate and reinstate Z/Eves abort
+					// Z/EVES abort crashes the prover if executed on proof tasks at the moment
+					// TODO investigate and reinstate Z/EVES abort
 //					zEvesApi.sendAbort();
 					timer.cancel();
 				}

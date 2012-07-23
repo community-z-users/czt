@@ -36,7 +36,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 		ZEves prover = ZEvesPlugin.getZEves();
 		if (prover.isLaunched()) {
         	// we only allow one prover instance
-        	abort("Only a single Z/Eves prover can be running at any time - stop the running prover before launching a new one");
+        	abort("Only a single Z/EVES prover can be running at any time - stop the running prover before launching a new one");
         	return;
         }
 		
@@ -102,7 +102,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 					}
 				}
 			} catch (IOException e) {
-				abort("Problems connecting to Z/Eves server: " + e.getMessage(), e, 0);
+				abort("Problems connecting to Z/EVES server: " + e.getMessage(), e, 0);
 				return false;
 			}
 		}
@@ -123,7 +123,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 			@Override
 			public void run() {
 				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-				MessageDialog dialog = new MessageDialog(shell, "Retry", null, "Cannot connect to Z/Eves server, retry?",
+				MessageDialog dialog = new MessageDialog(shell, "Retry", null, "Cannot connect to Z/EVES server, retry?",
 						MessageDialog.QUESTION, new String[] {"Retry", "Cancel"}, 0) {
 
 							@Override
@@ -179,7 +179,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
     	String address = getServerAddressConfig(configuration);
     	
     	if (address == null || address.isEmpty()) {
-			abort("Z/Eves server address is not specified");
+			abort("Z/EVES server address is not specified");
 		}
     	
     	return address;

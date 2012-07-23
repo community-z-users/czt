@@ -11,7 +11,7 @@ import net.sourceforge.czt.z.ast.LocAnn;
 
 /**
  * Exception thrown whenever the tool finds a Z Standard term that
- * cannot be converted to Z/Eves Z. For instance, schema boxes with 
+ * cannot be converted to Z/EVES Z. For instance, schema boxes with 
  * empty declarations, or declarations of schema-expressions.
  * @author leo
  */
@@ -39,7 +39,7 @@ public class ZEvesIncompatibleASTException extends net.sourceforge.czt.util.CztE
     }
     
     protected static String createZEvesIncompatibleExceptionMessage(String headline, Term term) {        
-        String message = "Unknown CZT " + headline + " for Z/Eves translation: " + term.getClass().getName();        
+        String message = "Unknown CZT " + headline + " for Z/EVES translation: " + term.getClass().getName();        
         LocAnn loc = (LocAnn)((Term)term).getAnn(LocAnn.class);
         if (loc != null) {
             message += " at " + loc.getLoc() + " (L:" + loc.getLine() + "; C:" + loc.getCol() + ")";

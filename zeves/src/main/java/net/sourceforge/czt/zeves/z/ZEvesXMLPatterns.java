@@ -28,7 +28,7 @@ public interface ZEvesXMLPatterns {
     public static final String NL_SEP = System.getProperty("line.separator");    
     
     /**
-     * Main XML API command for Z/Eves. DO NOT INCLUDE NL before/after {1}.
+     * Main XML API command for Z/EVES. DO NOT INCLUDE NL before/after {1}.
      */
     public static final String ZEVES_COMMAND = "<cmd name=\"{0}\">{1}</cmd>";
     
@@ -51,7 +51,7 @@ public interface ZEvesXMLPatterns {
     public static final String ZSECTION_BEGIN_PATTERN = "<cmd name=\"begin-section\"> {0} {1} </cmd>";
     public static final String ZSECTION_END_PATTERN = "<cmd name=\"end-section\"/></cmd>";
     /**
-     * Z/Eves toolkit overrides CZT toolkits.
+     * Z/EVES toolkit overrides CZT toolkits.
      */
     public static final String ZEVES_TOOLKIT_NAME = "toolkit";
     public static final List<String> Z_TOOLKIT_NAMES = Collections.unmodifiableList(Arrays.asList(
@@ -195,7 +195,7 @@ public interface ZEvesXMLPatterns {
      * {2} = predicate      => getPred(term.getRightPred());
      *
      * Note: "&wedge;" needs to be treated specially, as we want to consider
-     *       labelled-predicates (i.e. each element on an AndPred having a Z/Eves label).
+     *       labelled-predicates (i.e. each element on an AndPred having a Z/EVES label).
      *       For this case, we can only accept term.getOp() as And, Chain, or Semi,
      *       but not NL.
      */
@@ -228,9 +228,9 @@ public interface ZEvesXMLPatterns {
     /**
      * {0} expression       => getExpr(term.getExpr());
      *
-     * NOTE: For Z/Eves this is a schema-ref, which here is simply a RefExpr.
+     * NOTE: For Z/EVES this is a schema-ref, which here is simply a RefExpr.
      *       Nevertheless, care needs to be taken because in the translation of
-     *       RefExpr as Z/Eves does not allow all forms of schema-expression that CZT allows.
+     *       RefExpr as Z/EVES does not allow all forms of schema-expression that CZT allows.
      */
     public static final String PRE_EXPR_PATTERN = "<word style=\"roman\"/>pre<word/>{0}";
     
@@ -274,7 +274,7 @@ public interface ZEvesXMLPatterns {
     /**
      * {0} expression   => getExpr(term.getExpr());
      *
-     * NOTE: For Z/Eves XML, CZT PowerExpr is just a special kind of var-name
+     * NOTE: For Z/EVES XML, CZT PowerExpr is just a special kind of var-name
      *       within expression-3, as there is no specific production for it.
      */
     public static final String POWER_EXPR_PATTERN = "&Popf; ({0})";
@@ -311,7 +311,7 @@ public interface ZEvesXMLPatterns {
      * {1} expression       => getExpr(term.getRightExpr());
      * 
      * NOTE: No parenthesis for the postfix operator. For example, tilde symbol (inverse) 
-     * needs to be without parentheses, otherwise Z/Eves throws an error.
+     * needs to be without parentheses, otherwise Z/EVES throws an error.
      */
     public static final String POSTFIX_APPL_EXPR_PATTERN = "{1} {0}";
     

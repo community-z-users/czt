@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.sourceforge.czt.eclipse.zeves-feature"
-      label="Z/Eves Prover Integration for CZT"
+      label="Z/EVES Prover Integration for CZT"
       version="1.0.0.qualifier"
       provider-name="Community Z Tools">
 
    <description url="http://czt.sourceforge.net">
-      Provides Z/Eves theorem prover integration with CZT.
+      Provides Z/EVES theorem prover integration with CZT.
    </description>
 
    <copyright url="http://czt.sourceforge.net/license.html">
