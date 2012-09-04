@@ -47,6 +47,15 @@
   <build>
     <plugins>
       <plugin>
+        <!-- Disable GUI testing if AWT is running in headless mode (no GUI available, e.g. in CI builds) -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- Java headless mode is passed to Maven via -Djava.awt.headless=true option -->
+          <skipTests>${java.awt.headless}</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <executions>
