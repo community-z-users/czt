@@ -104,7 +104,6 @@
     <module>zml</module>
     <module>parser-zeves</module>
     <module>typechecker-zeves</module>
-    <module>eclipse</module>
   </modules>
   <dependencies>
     <!-- JUnit -->
@@ -463,6 +462,25 @@
     </plugins>
   </reporting>
   <profiles>
+
+    <!--
+      Special profile for Eclipse module, which builds CZT Eclipse plugins. They use Tycho to build
+      and require a 2nd reactor build (i.e. after the CZT core is built and OSGI-fied).
+      For this reason the `eclipse` module is separated to allow Eclipse-free core build.
+      
+      The module is included here so that m2e can discover it from the top level, even if
+      the Tycho build would be run on `eclipse/pom.xml` directly.
+     -->
+    <profile>
+      <id>eclipse</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>eclipse</module>
+      </modules>
+    </profile>
+
     <profile>
       <id>reports</id>
       <activation>
