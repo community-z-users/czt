@@ -10,6 +10,8 @@
 .classpath
 .project
 .settings
+# Manifests are created in m2e as a workaround for PDE (see pom.xml), ignore them
+META-INF/
 
 # NetBeans-specific files
 nbactions.xml
