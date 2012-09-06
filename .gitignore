@@ -30,6 +30,7 @@ nb-configuration.xml
 /checkstyle/target
 /cup-maven-plugin/target
 /eclipse/target
+/eclipse/net.sourceforge.czt.core-feature/target
 /eclipse/net.sourceforge.czt.eclipse/target
 /eclipse/net.sourceforge.czt.eclipse-feature/target
 /eclipse/net.sourceforge.czt.eclipse.repository/target
