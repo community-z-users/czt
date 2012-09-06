@@ -14,6 +14,10 @@
     <czt.groupId>net.sourceforge.czt</czt.groupId>
     <corejava.version>2.1.5-SNAPSHOT</corejava.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Use build timestamp as OSGI qualifier (e.g. 1.6.0.201209062207) -->
+    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    <osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
   </properties>
   <description>
     Set of libraries and tools for editing, typechecking and animating
@@ -416,6 +420,56 @@
       </plugin>
     </plugins>
     <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <!--
+              Indicate to use a custom manifest file if available in /META-INF/MANIFEST.MF.
+              The `maven-bundle-plugin` generates one for jars with OSGI information.
+              Where this is not generated, default is used (as opposed to explicit entry for manifest file, 
+              which crashes build for other project types, e.g. `maven-plugin`.
+            -->
+            <useDefaultManifestFile>true</useDefaultManifestFile>
+          </configuration>
+        </plugin>
+
+        <!-- Generate OSGI bundles for core CZT projects. This will add additional information to
+		     their manifest files, which indicate OSGI properties, e.g. name/version/packages/etc.
+			 This way the CZT core can be used in OSGI environment, e.g. Eclipse. -->
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.3.7</version>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <Embed-Transitive>true</Embed-Transitive>
+              <_failok>true</_failok>
+              <_nouses>true</_nouses>
+              <_nodefaultversion>true</_nodefaultversion>
+              <_snapshot>${osgi-version-qualifier}</_snapshot>
+
+              <Bundle-SymbolicName>${maven-symbolicname};singleton:=false</Bundle-SymbolicName>
+              <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+              <Bundle-ClassPath>{maven-dependencies}</Bundle-ClassPath>
+              <!-- Export packages with version, otherwise cannot use versioned package imports.
+                   See also http://fusesource.com/docs/esb/4.4/esb_deploy_osgi/BestPractices-BuildBundles.html -->
+              <Export-Package>*;version=${project.version};-noimport:=true</Export-Package>
+            </instructions>
+          </configuration>
+          <executions>
+            <execution>
+              <id>bundle-manifest</id>
+              <phase>process-classes</phase>
+              <goals>
+                <goal>manifest</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
     </pluginManagement>
   </build>
   <reporting>
