@@ -296,10 +296,6 @@ CZT Maven projects. Also install other related plug-ins from the update site:
 -    _m2e connector for `maven-jflex-plugin`_
 -    _m2e Connector for XML Transform_ (`xml-maven-plugin`)
 
-Note that at the time of writing, connector for XML Transform is not available
-for m2e 1.1 and would not allow to install because of lacking dependencies.
-The connectors are available for m2e 1.0.
-
 Several other Maven plugins have m2e connectors available in m2e marketplace.
 Install them when asked during CZT project import. For other m2e 'incompatible'
 plugins, we provide some default lifecycle mapping. However, it raises some
