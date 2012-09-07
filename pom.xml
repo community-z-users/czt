@@ -9,6 +9,7 @@
   <packaging>pom</packaging>
   <version>1.6-SNAPSHOT</version>
   <name>Community Z Tools</name>
+
   <properties>
     <czt.version>1.6-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
@@ -19,6 +20,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
   </properties>
+
   <description>
     Set of libraries and tools for editing, typechecking and animating
     formal specifications written in the Z specification language,
@@ -54,10 +56,12 @@
       <url>http://www.gnu.org/copyleft/gpl.txt</url>
     </license>
   </licenses>
+
   <scm>
-    <developerConnection>scm:svn:https://czt.svn.sourceforge.net/svnroot/czt/trunk</developerConnection>
-    <url>http://svn.sourceforge.net/viewcvs.cgi/czt/trunk</url>
+    <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
+    <url>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</url>
   </scm>
+
   <distributionManagement>
     <site>
       <id>czt</id>
@@ -77,6 +81,8 @@
       </snapshots>
     </repository>
   </repositories>
+
+
   <modules>
     <module>corejava</module>
     <module>gaffe</module>
@@ -109,6 +115,8 @@
     <module>parser-zeves</module>
     <module>typechecker-zeves</module>
   </modules>
+
+
   <dependencies>
     <!-- JUnit -->
     <dependency>
