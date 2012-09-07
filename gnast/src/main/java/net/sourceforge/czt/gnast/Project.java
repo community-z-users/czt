@@ -22,7 +22,6 @@ package net.sourceforge.czt.gnast;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import net.sourceforge.czt.gnast.schema.*;
@@ -229,7 +228,7 @@ public class Project
   public void generate()
     throws Exception
   {
-    Map classes = project_.getAstClasses();
+    Map<?, ?> classes = project_.getAstClasses();
     Properties initProps = new Properties();
     initProps.put("velocimacro.library",
                   "src/vm/macros.vm");
@@ -280,9 +279,8 @@ public class Project
     // ******************************
     String filename;
 
-    Map astClasses = project_.getAstClasses();
-    for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
-      JAstObject c = (JAstObject) iter.next();
+    Map<String, ? extends JAstObject> astClasses = project_.getAstClasses();
+    for (JAstObject c : astClasses.values()) {
       apgen_.addToContext("class", c);
 
       logFine("Generating class file for " + c.getName());
@@ -304,9 +302,8 @@ public class Project
       createFile(filename);
     }
 
-    Map enumClasses = project_.getEnumerations();
-    for (Iterator iter = enumClasses.keySet().iterator(); iter.hasNext();) {
-      String enumName = (String) iter.next();
+    Map<String, List<String>> enumClasses = project_.getEnumerations();
+    for (String enumName : enumClasses.keySet()) {
       apgen_.addToContext("Name", enumName);
       apgen_.addToContext("Values", enumClasses.get(enumName));
 
@@ -321,8 +318,8 @@ public class Project
 
   public JAstObject getAstObject(String objectName)
   {
-    Map mapping = project_.getAstClasses();
-    return (JAstObject) mapping.get(objectName);
+    Map<String, ? extends JAstObject> mapping = project_.getAstClasses();
+    return mapping.get(objectName);
   }
 
   public JObject getObject(String objectId)
@@ -393,6 +390,7 @@ public class Project
    * @return the AST interface package name
    *         (should never be <code>null</code>).
    */
+  @Override
   public String getAstPackage()
   {
     return project_.getAstPackage();
@@ -405,6 +403,7 @@ public class Project
    * @return the AST (implementation) class package name
    *         (should never be <code>null</code>).
    */
+  @Override
   public String getImplPackage()
   {
     return project_.getImplPackage();
@@ -448,6 +447,7 @@ public class Project
   /**
    * @return the AST package description (can be <code>null</code>).
    */
+  @Override
   public String getAstJavadoc()
   {
     return project_.getPackageDocumentation("ast");

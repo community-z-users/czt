@@ -328,11 +328,7 @@ public class SchemaProject
     }
     String packageName = getBasePackage() + "."
       + xPath_.getNodeValue(node, "../@name");
-    if (packageName == null) {
-      LOGGER.warning("The parent of the node with id " + id
-                     + "doesn't have a name");
-      return null;
-    }
+    
     return new JObjectImpl(objectName, packageName);
   }
 
@@ -401,7 +397,7 @@ public class SchemaProject
   /**
    * <p>Returns a mapping from class names to SchemaClass objects.</p>
    */
-  public Map<String,SchemaClass> getAstClasses()
+  public Map<String, ? extends JAstObject> getAstClasses()
   {
     return map_;
   }
@@ -610,10 +606,7 @@ public class SchemaProject
       }
 
       // parsing whether this class is abstract
-      String abstractAttribute = xPath_.getNodeValue(node, "@abstract");
-      if (new String("true").equals(xPath_.getNodeValue(node, "@abstract")))
-        abstract_ = true;
-      else abstract_ = false;
+      abstract_ = "true".equals(xPath_.getNodeValue(node, "@abstract"));
 
       // parsing the substitution group attribute
       extends_ =
@@ -750,27 +743,27 @@ public class SchemaProject
       return erg;
     }
 
-    /**
-     * Uses extends_ and name_ (in log messages and exceptions),
-     * so make sure these are set prior to calling this method.
-     *
-     * @throws NullPointerException if <code>node</code> is <code>null</code>.
-     */
-    private void parseProperties(Node node)
-      throws XSDException
-    {
-      String methodName = "parseProperties";
-      LOGGER.entering(CLASS_NAME, methodName, node);
-
-      if (node == null) {
-        NullPointerException e = new NullPointerException();
-        LOGGER.exiting(CLASS_NAME, methodName, e);
-        throw e;
-      }
-
-      LOGGER.fine("Properties for " + name_ + " are " + properties_);
-      LOGGER.exiting(CLASS_NAME, methodName);
-    }
+//    /**
+//     * Uses extends_ and name_ (in log messages and exceptions),
+//     * so make sure these are set prior to calling this method.
+//     *
+//     * @throws NullPointerException if <code>node</code> is <code>null</code>.
+//     */
+//    private void parseProperties(Node node)
+//      throws XSDException
+//    {
+//      String methodName = "parseProperties";
+//      LOGGER.entering(CLASS_NAME, methodName, node);
+//
+//      if (node == null) {
+//        NullPointerException e = new NullPointerException();
+//        LOGGER.exiting(CLASS_NAME, methodName, e);
+//        throw e;
+//      }
+//
+//      LOGGER.fine("Properties for " + name_ + " are " + properties_);
+//      LOGGER.exiting(CLASS_NAME, methodName);
+//    }
 
     /**
      * Identifies all properties that are children of that node.
@@ -983,7 +976,6 @@ public class SchemaProject
     public void parseType(Node node)
       throws XSDException
     {
-      String result = null;
       if (parseRefAttribute(node) || parseTypeAttribute(node)) {
         String maxOccurs = xPath_.getNodeValue(node, "@maxOccurs");
         if ("unbounded".equals(maxOccurs) ||

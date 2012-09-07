@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.gnast.gen;
 
-import net.sourceforge.czt.gnast.*;
-
 /**
  * <p>An abstract Java property.  This class provides a skeleton
  * implementation of the JProperty interface to minimize the effort
