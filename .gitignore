@@ -10,6 +10,8 @@
 .classpath
 .project
 .settings
+# Manifests are created in m2e as a workaround for PDE (see pom.xml), ignore them
+META-INF/
 
 # NetBeans-specific files
 nbactions.xml
@@ -28,10 +30,9 @@ nb-configuration.xml
 /checkstyle/target
 /cup-maven-plugin/target
 /eclipse/target
+/eclipse/net.sourceforge.czt.core-feature/target
 /eclipse/net.sourceforge.czt.eclipse/target
 /eclipse/net.sourceforge.czt.eclipse-feature/target
-/eclipse/net.sourceforge.czt.library/target
-/eclipse/net.sourceforge.czt.library/lib
 /eclipse/net.sourceforge.czt.eclipse.repository/target
 /eclipse/net.sourceforge.czt.eclipse.doc/target
 /eclipse/net.sourceforge.czt.eclipse.vcg/target

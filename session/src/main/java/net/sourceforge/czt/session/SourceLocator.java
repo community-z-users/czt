@@ -22,10 +22,16 @@ package net.sourceforge.czt.session;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A command to compute the URL for a Z section.
@@ -48,9 +54,35 @@ public class SourceLocator extends AbstractCommand
    */
   protected URL locateToolkit(String name)
   {
-    // see if "name" is a toolkit (i.e., czt.jar/lib/name.tex)
+    /*
+     * When CZT core is package in one JAR (czt.jar), the toolkits are all collected
+     * together during the build. In a modular approach (separate JARs), this does
+     * not work, because the toolkits need to be resolved for different classes.
+     * 
+     * Implemented a workaround at the moment, where all providers are registered
+     * in /toolkit.loc file as classes from different packages. Then we use
+     * Class.getResource() for each provider to resolve them. This allows to locate
+     * toolkits in different JARs and still works for a single JAR build.
+     * 
+     * TODO: Investigate a better resource sharing/registry approach.
+     */
+    for (Class<?> toolkitProvider : ToolkitProviders.INSTANCE.providers) {
+      URL toolkitUrl = locateToolkitForClass(toolkitProvider, name);
+      if (toolkitUrl != null) {
+        return toolkitUrl;
+      }
+    }
+    
+    return null;
+  }
+  
+  protected URL locateToolkitForClass(Class<?> sourceClass, String name)
+  {
+    // see if "name" is a toolkit in JAR of the specified class (i.e., parser-zeves.jar/lib/name.tex).
+    // This comes with assumptions that there can be several JARs containing toolkit files,
+    // each under *.jar/lib/name.tex
     String filename = "/lib/" + name + ".tex";
-    return SourceLocator.class.getResource(filename);
+    return sourceClass.getResource(filename);
   }
   
   /**
@@ -334,5 +366,99 @@ public class SourceLocator extends AbstractCommand
     {
       return path_;
     }
-  }  
+  }
+  
+  /** A singleton collection of Z toolkit provider classes */
+  private enum ToolkitProviders
+  {
+    INSTANCE;
+
+    // load toolkit providers into a singleton enum
+    private List<Class<?>> providers = Collections.unmodifiableList(loadToolkitProviders());
+  }
+  
+  /**
+   * Loads a collection of classes that represent Z toolkit providers. The toolkit files
+   * may be located in separate JARs, thus we read class names representing each JAR and
+   * try to resolve toolkit files from them.
+   */
+  private static List<Class<?>> loadToolkitProviders()
+  {
+    URL providersListUrl = SourceLocator.class.getResource("/toolkit.loc");
+    
+    getLogger().log(Level.FINEST, "Load commands from URL ''{0}''", providersListUrl);
+    final String errorMessage = "Error while loading toolkit locations " +
+      "for the section manager: Cannot open " + providersListUrl.toString();
+    try {
+      Properties props = new Properties();
+      InputStream is = providersListUrl.openStream();
+      if (is != null) {
+        props.loadFromXML(is);
+        
+        // get the keys (class names)
+        Set<String> classNames = props.stringPropertyNames();
+        List<Class<?>> toolkitProviders = new ArrayList<Class<?>>();
+        
+        // add current class as provider
+        toolkitProviders.add(SourceLocator.class);
+        
+        // resolve the class for each class name
+        for (String className : classNames) {
+          Class<?> aClass = toClass(className);
+          
+          // only use classes that are available (e.g. we may have a subset of CZT core)
+          if (aClass != null) {
+            toolkitProviders.add(aClass);
+          }
+        }
+        
+        return toolkitProviders;
+        
+      } else {
+        getLogger().warning(errorMessage);
+        throw new RuntimeException(errorMessage);
+      }
+    }
+    catch (IOException e) {
+      getLogger().warning(errorMessage);
+      throw new RuntimeException(errorMessage, e);
+    }
+  }
+  
+  private static final Logger getLogger()
+  {
+    return Logger.getLogger(SourceLocator.class.getName());
+  }
+  
+  /**
+   * Returns Class.forName(className) but does not throw exceptions.
+   * 
+   * Exception messages are sent to a logger, so will probably not
+   * be visible to users.
+   * @param name 
+   * 
+   * @return null if the requested class could not be loaded.
+   */
+  private static Class<?> toClass(String name)
+  {
+    try {
+      return Class.forName(name);
+    }
+    catch (ExceptionInInitializerError e) {
+      final String message = "Cannot get class " + name +
+        "; exception in initialzier";
+      getLogger().warning(message);
+    }
+    catch (LinkageError e) {
+      final String message = "Cannot get class " + name +
+        "; linkage error";
+      getLogger().warning(message);
+    }
+    catch (ClassNotFoundException e) {
+      final String message = "Cannot get class " + name +
+        "; class cannot be found";
+      getLogger().finest(message);
+    }
+    return null;
+  }
 }

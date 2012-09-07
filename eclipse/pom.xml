@@ -26,12 +26,12 @@
   
   <modules>
     <module>m2e</module>
-  
-    <module>net.sourceforge.czt.library</module>
+
     <module>net.sourceforge.czt.eclipse</module>
     <module>net.sourceforge.czt.eclipse.doc</module>
     <module>net.sourceforge.czt.eclipse.vcg</module>
     
+    <module>net.sourceforge.czt.core-feature</module>    
     <module>net.sourceforge.czt.eclipse-feature</module>
     
     <module>net.sourceforge.czt.eclipse.zeves</module>
@@ -48,6 +48,53 @@
     </repository>
   </repositories>
   
+  <dependencies>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>util</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-circus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-ozpatt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-zpatt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker-circus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker-oz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>vcg</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zeves</artifactId>
+    </dependency>
+  </dependencies>
+  
   <build>
     <plugins>
       <plugin>
@@ -62,6 +109,7 @@
         <artifactId>target-platform-configuration</artifactId>
         <version>${tycho-version}</version>
         <configuration>
+          <pomDependencies>consider</pomDependencies>
           <environments>
             <environment>
               <os>linux</os>

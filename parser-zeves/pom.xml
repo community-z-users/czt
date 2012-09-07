@@ -136,6 +136,10 @@
           <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 </project>

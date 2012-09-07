@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.sourceforge.czt.eclipse-feature"
-      label="CZT for Eclipse"
+      id="net.sourceforge.czt.core-feature"
+      label="CZT Core"
       version="1.6.0.qualifier"
       provider-name="Community Z Tools">
 
    <description url="http://czt.sourceforge.net">
-      This Eclipse plugin provides support for editing formal specifications in the Z specification language.  It supports the ISO Z standard LaTeX and Unicode markups, and the Unicode markup can be used to give a WYSIWYG editor for Z.  The plugin provides syntax colouring, outline mode, cross-referencing of variables, constant background typechecking and many more features.
+      Provides plug-ins for CZT core libraries, which provide tools for Z specification language. Can be consumed independently from Eclipse plug-ins, as OSGI plug-ins.
    </description>
 
    <copyright url="http://czt.sourceforge.net/license.html">
-      Copyright (C) 2008, 2012 Mark Utting, Andrius Velykis
+      Copyright (C) 2012 Andrius Velykis
 
 This file is part of the CZT project.
 
@@ -702,38 +702,127 @@ Public License instead of this License.  But first, please read
       <update label="See czt.sourceforge.net" url="http://czt.sourceforge.net"/>
    </url>
 
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.search"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.core.runtime" version="3.7.0" match="greaterOrEqual"/>
-      <import feature="net.sourceforge.czt.core-feature" version="1.6.0.qualifier"/>
-   </requires>
-
    <plugin
-         id="net.sourceforge.czt.eclipse"
+         id="net.sourceforge.czt.corejava"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="net.sourceforge.czt.eclipse.doc"
+         id="net.sourceforge.czt.java_cup"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="net.sourceforge.czt.eclipse.vcg"
+         id="net.sourceforge.czt.jaxb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser-circus"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser-oz"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser-ozpatt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser-zeves"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser-zpatt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.session"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.specreader"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.typechecker"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.typechecker-circus"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.typechecker-oz"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.typechecker-zeves"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.util"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.vcg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.zeves"
          download-size="0"
          install-size="0"
          version="0.0.0"

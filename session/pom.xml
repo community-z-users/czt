@@ -24,4 +24,23 @@
     </dependency>
   </dependencies>
   <url>http://czt.sourceforge.net/session/</url>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <!-- Instruction to make all exported packages from bundles in OSGI runtime available
+                 to this bundle. This is necessary (albeit a bit a hack) to allow SectionManager to
+                 resolve CZT command classes in other bundle.
+                 TODO: maybe implement something more OSGI-friendly? Investigate class-loading in CZT
+                 and services or similar approaches. -->
+            <DynamicImport-Package>*</DynamicImport-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
