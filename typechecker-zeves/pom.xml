@@ -13,7 +13,7 @@
   <dependencies>
      <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava</artifactId>      
+      <artifactId>corejava-zeves</artifactId>      
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>

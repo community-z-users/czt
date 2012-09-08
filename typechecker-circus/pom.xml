@@ -80,7 +80,7 @@
   <dependencies>
      <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava</artifactId>      
+      <artifactId>corejava-circus</artifactId>      
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>

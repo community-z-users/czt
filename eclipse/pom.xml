@@ -55,7 +55,23 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava</artifactId>
+      <artifactId>corejava-z</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-circus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-oz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-zeves</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-zpatt</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -63,23 +79,11 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-circus</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-ozpatt</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-zpatt</artifactId>
+      <artifactId>session</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker-circus</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
