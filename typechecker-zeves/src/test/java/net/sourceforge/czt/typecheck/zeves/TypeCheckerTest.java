@@ -36,7 +36,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.FileSource;
@@ -240,9 +239,9 @@ public class TypeCheckerTest
     Term term = manager.get(new Key<Spec>(fileName, Spec.class));
     if (/*DEBUG_TESTING &&*/ DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
-        PrintVisitor pv = new PrintVisitor();
-        System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + fileName);
-        System.out.println(pv.printProcessPara(term));
+//        PrintVisitor pv = new PrintVisitor();
+//        System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + fileName);
+//        System.out.println(pv.printProcessPara(term));
         System.out.println();
         System.out.println(term);
         System.out.flush();
