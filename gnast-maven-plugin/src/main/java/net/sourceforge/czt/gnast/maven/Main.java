@@ -36,6 +36,16 @@ public class Main
    * @parameter
    */
   private boolean gnastVerbose;
+  
+  /**
+   * @parameter
+   */
+  private String sourceDirectory;
+  
+  /**
+   * @parameter
+   */
+  private String namespace;
 
   /**
    * @parameter expression="${project}"
@@ -59,10 +69,13 @@ public class Main
         "GnAST parameters = " + 
                         "\n\t-d " + outputDirectory +
                         "\n\t-b " + gnastdir +
+                        "\n\t-s " + sourceDirectory +
+                        "\n\t-p " + namespace +
                         (gnastVerbose ? "\n\t-vvv" : "") +
                         (addAstFinaliser ? "\n\t-f" : "") + "\n";
       getLog().info(message);
-      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-b", gnastdir));
+      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-b", gnastdir,
+          "-s", sourceDirectory, "-p", namespace));
       if (addAstFinaliser)
       {
         args.add("-f");

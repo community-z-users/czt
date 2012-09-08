@@ -22,6 +22,7 @@ package net.sourceforge.czt.gnast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -31,7 +32,6 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import net.sourceforge.czt.zml.Resources;
 
 /**
  * <p>The GnAST command line user interface.</p>
@@ -96,6 +96,26 @@ public class Gnast implements GlobalProperties
    * <p>Should never be <code>null</code>.
    */
   private String baseDir_ = ".";
+  
+  /**
+   * The directory for ZML schema source files.
+   *
+   * <p>It can be set by using the command line option
+   * <code>-s</code>.
+   *
+   * <p>Should never be <code>null</code>.
+   */
+  private String sourceDir_ = ".";
+  
+  /**
+   * The generated project namespace.
+   *
+   * <p>It can be set by using the command line option
+   * <code>-p</code>.
+   *
+   * <p>Should never be <code>null</code>.
+   */
+  private String projectNamespace_ = "http://czt.sourceforge.net/zml";
 
   /**
    * <p>A mapping from project names to the actual projects.</p>
@@ -145,7 +165,9 @@ public class Gnast implements GlobalProperties
   {
     System.out.println("class options (all arguments are optional):\n"
       + "  -d <dir>  Generated files go into this directory\n"
-      + "  -p <name> The name of the project to be generated\n"
+      + "  -b <dir>  Gnast folder\n"
+      + "  -s <dir>  The directory with all ZML schema files. The requested project namespace must be present, as well as all its parents.\n"
+      + "  -p <name> The namespace of the project to be generated\n"
       + "  -f        Add AST finalisers. WARNING: ASTs will consume more memory!\n"
       + "  -v        Verbose; display verbose debugging messages\n"
       + "  -vv       Very verbose; more verbose debugging messages\n"
@@ -196,6 +218,24 @@ public class Gnast implements GlobalProperties
           return false;
         }
       }
+      else if (arg.equals("-s")) {
+        if (i < args.length) {
+          sourceDir_ = args[i++];
+        }
+        else {
+          printUsageMessage(arg + " requires a directory name");
+          return false;
+        }
+      }
+      else if (arg.equals("-p")) {
+        if (i < args.length) {
+          projectNamespace_ = args[i++];
+        }
+        else {
+          printUsageMessage(arg + " requires a project namespace");
+          return false;
+        }
+      }
     }
     if (i < args.length) {
       printUsageMessage("Parse error at " + args[i]);
@@ -225,13 +265,20 @@ public class Gnast implements GlobalProperties
     // handleLogging();
 
     try {
-      // The order here must respect dependencies!
-      generate(Resources.getZSchema());
-      generate(Resources.getZpattSchema());
-      generate(Resources.getOzSchema());
-      generate(Resources.getCircusSchema());
-      generate(Resources.getCircusPattSchema());
-      generate(Resources.getZEvesSchema());
+      
+      // first resolve all schema projects from the indicated source directory
+      // this is necessary to resolve transitive dependencies
+      resolveProjects(sourceDir_);
+      
+      // now locate the required target project schema by its namespace
+      Project targetProject = namespaces_.get(projectNamespace_);
+      if (targetProject == null) {
+        throw new GnastException("Cannot find schema with target namespace " + projectNamespace_
+            + " in source directory " + sourceDir_);
+      }
+      
+      // generate the ASTs
+      targetProject.generate();
     }
     catch (RuntimeException e) {
       throw e;
@@ -245,15 +292,24 @@ public class Gnast implements GlobalProperties
       }
     }
   }
-
-  private void generate(URL url)
-    throws Exception
+  
+  private void resolveProjects(String sourceDir)
   {
-    Project project = getProject(url);
-    namespaces_.put(project.getTargetNamespace(), project);
-    project.generate();
+    File sourceFile = new File(sourceDir);
+    if (sourceFile.isDirectory()) {
+      
+      for (File schemaFile : sourceFile.listFiles()) {
+        if (schemaFile.getName().endsWith(".xsd")) {
+          Project project = getProject(schemaFile);
+          namespaces_.put(project.getTargetNamespace(), project);
+        }
+      }
+      
+    } else {
+      throw new GnastException("Invalid source directory: " + sourceFile);
+    }
   }
-
+  
   // ################ INTERFACE GlobalProperties ####################
 
   @Override
@@ -271,6 +327,17 @@ public class Gnast implements GlobalProperties
       projects_.put(name, result);
     }
     return result;
+  }
+  
+  private Project getProject(File file)
+  {
+    try {
+      URL url = file.toURI().toURL();
+      return getProject(url);
+    }
+    catch (MalformedURLException e) {
+      throw new GnastException(e);
+    }
   }
 
   @Override
