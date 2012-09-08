@@ -86,6 +86,9 @@ public class SchemaProject
 
   private Document document_;
 
+  /** A flag for delayed initialisation of main values */
+  private boolean init = false;
+  
   /**
    * A mapping from class names to SchemaClass objects.
    * This map does only contain classes from this project.
@@ -156,6 +159,25 @@ public class SchemaProject
     Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
+    }
+  }
+  
+  private void ensureInit() {
+    if (!init) {
+      init = true;
+      try {
+        doInit();
+      }
+      catch (XSDException e) {
+        throw new GnastException(e);
+      }
+    }
+  }
+  
+  private void doInit() throws XSDException {
+    
+    Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
+    if (schemaNode != null) {
       String importNamespace =
         xPath_.getNodeValue(schemaNode, "xs:import/@namespace");      
       if (importNamespace != null) {
@@ -188,6 +210,7 @@ public class SchemaProject
         map_.put(c.getName(), c);
       }
     }
+    
   }
 
   // ############################################################
@@ -383,7 +406,7 @@ public class SchemaProject
 
     String[] blubb = className.split("\\.");
     String name = blubb[blubb.length - 1];
-    JAstObject result = map_.get(name);
+    JAstObject result = getAstClasses().get(name);
     if (result == null) {
       Project project = objectProjectProps_.get(name);
       if (project != null) {
@@ -399,6 +422,7 @@ public class SchemaProject
    */
   public Map<String, ? extends JAstObject> getAstClasses()
   {
+    ensureInit();
     return map_;
   }
 
@@ -408,6 +432,7 @@ public class SchemaProject
    */
   public Map<String,List<String>> getEnumerations()
   {
+    ensureInit();
     return enum_;
   }
 
@@ -416,6 +441,7 @@ public class SchemaProject
    */
   public Project getImportProject()
   {
+    ensureInit();
     return importProject_;
   }
 
@@ -697,7 +723,7 @@ public class SchemaProject
       String parent = getExtends();
       if (parent != null) {
         if (parent.equals(name)) return true;
-        JAstObject c = map_.get(parent);
+        JAstObject c = getAstClasses().get(parent);
         if (c != null) {
           result = c.isInstanceOf(name);
         }
