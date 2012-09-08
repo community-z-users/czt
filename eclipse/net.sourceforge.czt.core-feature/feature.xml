@@ -703,7 +703,42 @@ Public License instead of this License.  But first, please read
    </url>
 
    <plugin
-         id="net.sourceforge.czt.corejava"
+         id="net.sourceforge.czt.corejava-z"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="net.sourceforge.czt.corejava-zpatt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="net.sourceforge.czt.corejava-oz"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="net.sourceforge.czt.corejava-circus"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="net.sourceforge.czt.corejava-circuspatt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="net.sourceforge.czt.corejava-zeves"
          download-size="0"
          install-size="0"
          version="0.0.0"
