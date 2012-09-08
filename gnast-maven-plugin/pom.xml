@@ -25,8 +25,12 @@
       <artifactId>xercesImpl</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sourceforge.czt</groupId>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>gnast</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
     </dependency>
   </dependencies>
 </project>

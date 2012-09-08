@@ -17,9 +17,5 @@
       <groupId>velocity</groupId>
       <artifactId>velocity-dep</artifactId>
     </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>zml</artifactId>
-    </dependency>
   </dependencies>
 </project>
