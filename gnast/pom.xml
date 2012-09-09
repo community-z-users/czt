@@ -14,8 +14,8 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>velocity</groupId>
-      <artifactId>velocity-dep</artifactId>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
     </dependency>
   </dependencies>
 </project>

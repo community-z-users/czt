@@ -393,9 +393,9 @@
 
       <!-- Velocity -->
       <dependency>
-        <groupId>velocity</groupId>
-        <artifactId>velocity-dep</artifactId>
-        <version>1.4</version>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.7</version>
       </dependency>
 
       <!-- Xerces-->
