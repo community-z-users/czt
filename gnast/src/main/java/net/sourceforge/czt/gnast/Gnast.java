@@ -25,8 +25,6 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -123,7 +121,7 @@ public class Gnast implements GlobalProperties
 
     if (!config.destinationSet) {
       // try reading from the properties
-      config.destination = gnastProperties.getProperty("dest.dir", config.destination);
+      config.destination = new File(gnastProperties.getProperty("dest.dir", config.destination.getPath()));
     }
     defaultContext_ = removePrefix("vm.", gnastProperties);
     
@@ -232,14 +230,26 @@ public class Gnast implements GlobalProperties
                 : Level.OFF));
     
     String[] templates = line.getOptionValues("t");
+    List<File> templateDirs = new ArrayList<File>();
+    for (String path : templates) {
+      templateDirs.add(new File(path));
+    }
     
     return new GnastBuilder()
       .verbosity(verbosity)
       .finalizers(line.hasOption("f"))
-      .destination(line.getOptionValue("d"))
-      .templates(templates != null ? Arrays.asList(templates) : Collections.<String>emptyList())
-      .source(line.getOptionValue("s"))
+      .destination(toFile(line.getOptionValue("d")))
+      .templates(templateDirs)
+      .source(toFile(line.getOptionValue("s")))
       .namespace(line.getOptionValue("n"));
+  }
+  
+  private static File toFile(String path) {
+    if (path == null) {
+      return null;
+    } else {
+      return new File(path);
+    }
   }
 
   // ********************* OTHERS *************************
@@ -281,12 +291,11 @@ public class Gnast implements GlobalProperties
     }
   }
   
-  private void resolveProjects(String sourceDir)
+  private void resolveProjects(File sourceDir)
   {
-    File sourceFile = new File(sourceDir);
-    if (sourceFile.isDirectory()) {
+    if (sourceDir.isDirectory()) {
       
-      for (File schemaFile : sourceFile.listFiles()) {
+      for (File schemaFile : sourceDir.listFiles()) {
         if (schemaFile.getName().endsWith(".xsd")) {
           Project project = getProject(schemaFile);
           namespaces_.put(project.getTargetNamespace(), project);
@@ -294,7 +303,7 @@ public class Gnast implements GlobalProperties
       }
       
     } else {
-      throw new GnastException("Invalid source directory: " + sourceFile);
+      throw new GnastException("Invalid source directory: " + sourceDir);
     }
   }
   
@@ -337,7 +346,7 @@ public class Gnast implements GlobalProperties
   @Override
   public String toDirectoryName(String packageName)
   {
-    return config.destination
+    return config.destination.getPath()
       + File.separatorChar
       + packageName.replace('.', File.separatorChar)
       + File.separatorChar;
@@ -524,7 +533,7 @@ public class Gnast implements GlobalProperties
     /**
      * The destination directory where all the generated files go in.
      */
-    private String destination = ".";
+    private File destination = new File(".");
     private boolean destinationSet = false;
     
     /**
@@ -535,7 +544,7 @@ public class Gnast implements GlobalProperties
     /**
      * The directory for ZML schema source files.
      */
-    private String source = ".";
+    private File source = new File(".");
     
     /**
      * The generated project namespace.
@@ -548,7 +557,7 @@ public class Gnast implements GlobalProperties
       return this;
     }
     
-    public GnastBuilder destination(String destination) {
+    public GnastBuilder destination(File destination) {
       if (destination != null) {
         this.destination = destination;
         this.destinationSet = true;
@@ -556,14 +565,12 @@ public class Gnast implements GlobalProperties
       return this;
     }
     
-    public GnastBuilder templates(List<String> templatePaths) {
-      for (String path : templatePaths) {
-        this.templatePaths.add(new File(path));
-      }
+    public GnastBuilder templates(List<File> templatePaths) {
+      this.templatePaths.addAll(templatePaths);
       return this;
     }
     
-    public GnastBuilder source(String source) {
+    public GnastBuilder source(File source) {
       if (source != null) {
         this.source = source;
       }
