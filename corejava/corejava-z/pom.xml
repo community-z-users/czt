@@ -33,7 +33,7 @@
         <executions>
           <execution>
             <configuration>
-              <namespace>http://czt.sourceforge.net/zml</namespace>
+              <targetNamespace>http://czt.sourceforge.net/zml</targetNamespace>
             </configuration>
           </execution>
         </executions>

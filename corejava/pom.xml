@@ -51,10 +51,12 @@
             <phase>generate-sources</phase>
             <configuration>
               <!-- Additional project-specific GnAST templates in every project. -->
-              <gnastdir>${project.basedir}/src/main/resources/vm</gnastdir>
+              <additionalTemplates>
+                <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
+              </additionalTemplates>
               <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
               <addAstFinaliser>false</addAstFinaliser>
-              <gnastVerbose>true</gnastVerbose>
+              <verbose>true</verbose>
             </configuration>
             <goals>
               <goal>generate</goal>

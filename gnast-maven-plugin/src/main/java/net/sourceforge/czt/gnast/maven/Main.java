@@ -2,8 +2,12 @@ package net.sourceforge.czt.gnast.maven;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+
 import net.sourceforge.czt.gnast.Gnast;
+import net.sourceforge.czt.gnast.Gnast.GnastBuilder;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -12,40 +16,45 @@ import org.apache.maven.project.MavenProject;
  * @goal generate
  *
  * @author Petra Malik
+ * @author Andrius Velykis
  */
 public class Main
   extends AbstractMojo 
 {
   /**
    * @parameter expression="${project.build.directory}/generated-sources/gnast"
-   * @required
    */
-  private String outputDirectory;
+  private File outputDirectory;
 
   /**
-   * @parameter expression="gnastdir"
+   * @parameter alias="templateDirectory"
    */
-  private String gnastdir = "gnast";
+  private List<File> additionalTemplates = new ArrayList<File>();
   
   /**
    * @parameter
    */
-  private boolean addAstFinaliser;
+  private Boolean addAstFinaliser;
   
   /**
    * @parameter
    */
-  private boolean gnastVerbose;
+  private boolean verbose;
+  
+  /**
+   * The directory where all ZML schema files are located.
+   * TODO better resolution? E.g. something similar to resources plugin? 
+   * 
+   * @parameter
+   * @required
+   */
+  private File sourceDirectory;
   
   /**
    * @parameter
+   * @required
    */
-  private String sourceDirectory;
-  
-  /**
-   * @parameter
-   */
-  private String namespace;
+  private String targetNamespace;
 
   /**
    * @parameter expression="${project}"
@@ -54,41 +63,33 @@ public class Main
   private MavenProject project;
 
   @Override
-  public void execute()
-    throws MojoExecutionException 
+  public void execute() throws MojoExecutionException
   {
-    File outputDir = new File(outputDirectory);
-    if (outputDir.exists())
-    {
-      getLog().info( "AST has already been generated" );
+    getLog().info("Generating AST for " + targetNamespace + ". This may take some time.");
+
+    GnastBuilder config = new GnastBuilder()
+        .templates(additionalTemplates)
+        .source(sourceDirectory)
+        .namespace(targetNamespace);
+
+    if (outputDirectory != null) {
+      config = config.destination(outputDirectory);
     }
-    else {
-      final String message = "Generating AST ...\n" +
-        "NOTE: This may take some time " +
-        "(about 5 minutes on a 2GHz Pentium).\n" +
-        "GnAST parameters = " + 
-                        "\n\t-d " + outputDirectory +
-                        "\n\t-t " + gnastdir +
-                        "\n\t-s " + sourceDirectory +
-                        "\n\t-n " + namespace +
-                        (gnastVerbose ? "\n\t-vvv" : "") +
-                        (addAstFinaliser ? "\n\t-f" : "") + "\n";
-      getLog().info(message);
-      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-t", gnastdir,
-          "-s", sourceDirectory, "-n", namespace));
-      if (addAstFinaliser)
-      {
-        args.add("-f");
-      }
-      if (gnastVerbose)
-      {
-        args.add("-vvv");
-      }
-      Gnast.main(args.toArray(new String[0]));
+
+    if (addAstFinaliser != null) {
+      config = config.finalizers(addAstFinaliser.booleanValue());
     }
-    if (project != null )
-    {
-      project.addCompileSourceRoot(outputDirectory);
+
+    if (verbose) {
+      config = config.verbosity(Level.FINER);
+    }
+
+    // create the generator and launch it
+    Gnast gnast = config.create();
+    gnast.generate();
+
+    if (project != null) {
+      project.addCompileSourceRoot(outputDirectory.getPath());
     }
   }
 }
