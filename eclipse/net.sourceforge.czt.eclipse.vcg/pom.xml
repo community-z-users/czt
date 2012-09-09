@@ -11,6 +11,6 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
-  <name>CZT Eclipse Documentation</name>
+  <name>CZT Eclipse VCG</name>
   
 </project>

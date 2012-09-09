@@ -27,6 +27,12 @@ nb-configuration.xml
 /attic/z2svg/target
 /attic/zml2xhtml/target
 /corejava/target
+/corejava/corejava-circus/target
+/corejava/corejava-circuspatt/target
+/corejava/corejava-oz/target
+/corejava/corejava-z/target
+/corejava/corejava-zeves/target
+/corejava/corejava-zpatt/target
 /checkstyle/target
 /cup-maven-plugin/target
 /eclipse/target

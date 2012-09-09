@@ -24,6 +24,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-oz</artifactId>
+    </dependency>
+    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.1</version>

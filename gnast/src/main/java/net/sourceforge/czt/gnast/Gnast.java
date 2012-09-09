@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005, 2006, 2007 Petra Malik
+  Copyright 2003, 2005, 2006, 2007, 2012 Petra Malik, Andrius Velykis
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,16 +22,27 @@ package net.sourceforge.czt.gnast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import net.sourceforge.czt.zml.Resources;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.OptionGroup;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  * <p>The GnAST command line user interface.</p>
@@ -55,6 +66,8 @@ public class Gnast implements GlobalProperties
    * The location of the gnast properties file.
    */
   private static final String PROPERTY_FILE = "gnast.properties";
+  
+  private static final String AST_FINALISER_PROP = "addAstFinaliser";
 
   /**
    * <p>
@@ -65,7 +78,7 @@ public class Gnast implements GlobalProperties
    *
    * <p>Should never be <code>null</code>.
    */
-  private Properties defaultContext_;
+  private Map<String, Object> defaultContext_;
 
   /**
    * <p>A mapping from namespaces (used in schema files)
@@ -75,28 +88,11 @@ public class Gnast implements GlobalProperties
    */
   private Map<String,Project> namespaces_ = new HashMap<String,Project>();
 
-  /**
-   * <p>The destination directory
-   * where all the generated files go in.</p>
-   *
-   * <p>It can be set by setting property dest.dir in the
-   * gnast properties file or by using the command line option
-   * <code>-d</code>.
-   *
-   * <p>Should never be <code>null</code>.
-   */
-  private String destDir_ = ".";
 
-  /**
-   * <p>The base directory</p>
-   *
-   * <p>It can be set by using the command line option
-   * <code>-b</code>.
-   *
-   * <p>Should never be <code>null</code>.
-   */
-  private String baseDir_ = ".";
-
+  /** The base directory of GnAST templates in the plugin */
+  private static final String BASE_TEMPLATES_DIR = "/vm/";
+  
+  
   /**
    * <p>A mapping from project names to the actual projects.</p>
    *
@@ -106,13 +102,8 @@ public class Gnast implements GlobalProperties
    * </p>
    */
   private Map<String,Project> projects_ = new HashMap<String,Project>();
-
-  /**
-   * The verbosity used for logging to stdout.
-   */
-  private Level verbosity_ = Level.SEVERE;
   
-  private boolean addAstFinaliser_ = false;
+  private final GnastBuilder config;
 
 
   // ############################################################
@@ -124,93 +115,141 @@ public class Gnast implements GlobalProperties
    * member variables by reading the gnast properties file
    * named {@link #PROPERTY_FILE}.
    */
-  public Gnast()
+  private Gnast(GnastBuilder config)
   {
     Properties gnastProperties = loadProperties(PROPERTY_FILE);
 
-    destDir_ = gnastProperties.getProperty("dest.dir", destDir_);
+    if (!config.destinationSet) {
+      // try reading from the properties
+      config.destination = new File(gnastProperties.getProperty("dest.dir", config.destination.getPath()));
+    }
     defaultContext_ = removePrefix("vm.", gnastProperties);
+    
+    if (config.addAstFinalizer) {
+      defaultContext_.put(AST_FINALISER_PROP, Boolean.TRUE);
+    } else {
+      // check if there is a property set for the finaliser, then convert it to Boolean
+      // e.g. it may be "false" as a String
+      Object astFinaliserVal = defaultContext_.get(AST_FINALISER_PROP);
+      if (astFinaliserVal instanceof String) {
+        defaultContext_.put(AST_FINALISER_PROP, Boolean.parseBoolean((String) astFinaliserVal));
+      }
+    }
+    
+    if (config.verbosity.intValue() < Level.INFO.intValue())
+    {
+      getLogger().log(Level.INFO, "GnAST context = {0}", defaultContext_.toString());
+    }
+    
+    // TODO set verbosity?
+    
+    this.config = config;
   }
 
   // ############################################################
-  // ################### (NON-STATC) METHODS ####################
+  // ################### (NON-STATIC) METHODS ####################
   // ############################################################
 
   // ****************** ARGUMENT PARSING ************************
 
   /**
-   * Prints usage information to stdout.
-   */
-  private void printUsage()
-  {
-    System.out.println("class options (all arguments are optional):\n"
-      + "  -d <dir>  Generated files go into this directory\n"
-      + "  -p <name> The name of the project to be generated\n"
-      + "  -f        Add AST finalisers. WARNING: ASTs will consume more memory!\n"
-      + "  -v        Verbose; display verbose debugging messages\n"
-      + "  -vv       Very verbose; more verbose debugging messages\n"
-      + "  -vvv      Very very verbose; even more verbose debugging messages\n");
-  }
-
-  /**
-   * Prints the given message followed by usage information
-   * for the gnast code generator to stdout.
-   */
-  private void printUsageMessage(String message)
-  {
-    System.out.println(message);
-    printUsage();
-  }
-
-  /**
    * Parses the arguments from the command line.
    *
-   * @return <code>true</code> if parsing was successful;
-   *         <code>false</code> otherwise.
-   * @throws NullPointerException if <code>args</code> is <code>null</code>.
+   * @return a configured GnAST builder if parsing was successful;
+   *         {@code null} otherwise.
+   * @throws NullPointerException if {@code args} is {@code null}
    */
-  private boolean parseArguments(String[] args)
+  @SuppressWarnings("static-access")
+  private static GnastBuilder parseArguments(String[] args)
   {
-    int i = 0;
-    while (i < args.length && args[i].startsWith("-")) {
-      String arg = args[i++];
-      if (arg.equals("-v")) verbosity_ = Level.INFO;
-      else if (arg.equals("-vv")) verbosity_ = Level.FINE;
-      else if (arg.equals("-vvv")) verbosity_ = Level.FINER;
-      else if (arg.equals("-f")) addAstFinaliser_ = true;
-      else if (arg.equals("-d")) {
-        if (i < args.length) {
-          destDir_ = args[i++];
-        }
-        else {
-          printUsageMessage(arg + " requires a directory name");
-          return false;
-        }
-      }
-      else if (arg.equals("-b")) {
-        if (i < args.length) {
-          baseDir_ = args[i++];
-        }
-        else {
-          printUsageMessage(arg + " requires a directory name");
-          return false;
-        }
-      }
+    
+    Options argOptions = new Options();
+    
+    OptionGroup verboseOptions = new OptionGroup();
+    verboseOptions.addOption(OptionBuilder.withLongOpt("verbose")
+                                          .withDescription("Verbose; display verbose debugging messages")
+                                          .create("v"));
+    verboseOptions.addOption(OptionBuilder.withLongOpt("vverbose")
+                                          .withDescription("Very verbose; more verbose debugging messages")
+                                          .create("vv"));
+    verboseOptions.addOption(OptionBuilder.withLongOpt("vvverbose")
+                                          .withDescription("Very very verbose; even more verbose debugging messages")
+                                          .create("vvv"));
+    argOptions.addOptionGroup(verboseOptions);
+    
+    argOptions.addOption(OptionBuilder.withLongOpt("finalizers")
+                                      .withDescription("Add AST finalisers. WARNING: ASTs will consume more memory!")
+                                      .create("f"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("dir")
+                                      .hasArg()
+                                      .withLongOpt("destination")
+                                      .withDescription("Generated files go into this directory")
+                                      .create("d"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("dir1 dir2")
+                                      .hasArgs()
+                                      .withValueSeparator(',')
+                                      .withLongOpt("templates")
+                                      .withDescription("Additional template directories")
+                                      .create("t"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("dir")
+                                      .hasArg()
+                                      .withLongOpt("source")
+                                      .withDescription("The directory with all ZML schema files. The requested project namespace must be present, as well as all its parents.")
+                                      .create("s"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("url")
+                                      .hasArg()
+                                      .withLongOpt("namespace")
+                                      .withDescription("The namespace of the project to be generated.")
+                                      .create("n"));
+    
+    // use GNU parser that allows longer option name (e.g. `-vvv`)
+    CommandLineParser parser = new GnuParser();
+    CommandLine line;
+    try {
+      // parse the command line arguments
+      line = parser.parse(argOptions, args);
     }
-    if (i < args.length) {
-      printUsageMessage("Parse error at " + args[i]);
-      return false;
+    catch (ParseException exp) {
+      // oops, something went wrong
+      System.err.println(exp.getMessage());
+      
+      // automatically generate the help statement
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.printHelp("gnast", argOptions, true);
+      
+      return null;
     }
-    if (addAstFinaliser_)
-    {
-      defaultContext_.setProperty("addAstFinaliser", String.valueOf("1"));
+    
+    Level verbosity = line.hasOption("v") ? Level.INFO 
+        : (line.hasOption("vv") ? Level.FINE 
+            : (line.hasOption("vvv") ? Level.FINER 
+                : Level.OFF));
+    
+    String[] templates = line.getOptionValues("t");
+    List<File> templateDirs = new ArrayList<File>();
+    for (String path : templates) {
+      templateDirs.add(new File(path));
     }
-    verbosity_ = Level.ALL;
-    if (verbosity_.intValue() < Level.INFO.intValue())
-    {
-      getLogger().log(Level.INFO, "GnAST context = {0}", defaultContext_.toString());
+    
+    return new GnastBuilder()
+      .verbosity(verbosity)
+      .finalizers(line.hasOption("f"))
+      .destination(toFile(line.getOptionValue("d")))
+      .templates(templateDirs)
+      .source(toFile(line.getOptionValue("s")))
+      .namespace(line.getOptionValue("n"));
+  }
+  
+  private static File toFile(String path) {
+    if (path == null) {
+      return null;
+    } else {
+      return new File(path);
     }
-    return true;
   }
 
   // ********************* OTHERS *************************
@@ -219,19 +258,25 @@ public class Gnast implements GlobalProperties
    * The main code generator method.
    * @param args 
    */
-  public void generate(String[] args)
+  public void generate()
   {
-    parseArguments(args);
     // handleLogging();
 
     try {
-      // The order here must respect dependencies!
-      generate(Resources.getZSchema());
-      generate(Resources.getZpattSchema());
-      generate(Resources.getOzSchema());
-      generate(Resources.getCircusSchema());
-      generate(Resources.getCircusPattSchema());
-      generate(Resources.getZEvesSchema());
+      
+      // first resolve all schema projects from the indicated source directory
+      // this is necessary to resolve transitive dependencies
+      resolveProjects(config.source);
+      
+      // now locate the required target project schema by its namespace
+      Project targetProject = namespaces_.get(config.namespace);
+      if (targetProject == null) {
+        throw new GnastException("Cannot find schema with target namespace " + config.namespace
+            + " in source directory " + config.source);
+      }
+      
+      // generate the ASTs
+      targetProject.generate();
     }
     catch (RuntimeException e) {
       throw e;
@@ -245,15 +290,23 @@ public class Gnast implements GlobalProperties
       }
     }
   }
-
-  private void generate(URL url)
-    throws Exception
+  
+  private void resolveProjects(File sourceDir)
   {
-    Project project = getProject(url);
-    namespaces_.put(project.getTargetNamespace(), project);
-    project.generate();
+    if (sourceDir.isDirectory()) {
+      
+      for (File schemaFile : sourceDir.listFiles()) {
+        if (schemaFile.getName().endsWith(".xsd")) {
+          Project project = getProject(schemaFile);
+          namespaces_.put(project.getTargetNamespace(), project);
+        }
+      }
+      
+    } else {
+      throw new GnastException("Invalid source directory: " + sourceDir);
+    }
   }
-
+  
   // ################ INTERFACE GlobalProperties ####################
 
   @Override
@@ -272,9 +325,20 @@ public class Gnast implements GlobalProperties
     }
     return result;
   }
+  
+  private Project getProject(File file)
+  {
+    try {
+      URL url = file.toURI().toURL();
+      return getProject(url);
+    }
+    catch (MalformedURLException e) {
+      throw new GnastException(e);
+    }
+  }
 
   @Override
-  public Properties getDefaultContext()
+  public Map<String, ?> getDefaultContext()
   {
     return defaultContext_;
   }
@@ -282,7 +346,7 @@ public class Gnast implements GlobalProperties
   @Override
   public String toDirectoryName(String packageName)
   {
-    return destDir_
+    return config.destination.getPath()
       + File.separatorChar
       + packageName.replace('.', File.separatorChar)
       + File.separatorChar;
@@ -299,7 +363,13 @@ public class Gnast implements GlobalProperties
   @Override
   public String getBaseDir()
   {
-    return baseDir_;
+    return BASE_TEMPLATES_DIR;
+  }
+  
+  @Override
+  public List<File> getTemplatePaths()
+  {
+    return config.templatePaths;
   }
 
   // ############################################################
@@ -386,14 +456,13 @@ public class Gnast implements GlobalProperties
    * @param props 
    * @return should never be <code>null</code>.
    */
-  public static Properties removePrefix(String prefix, Properties props)
+  public static Map<String, Object> removePrefix(String prefix, Properties props)
   {
-    Properties result = new Properties();
-    for (Enumeration<?> e = props.propertyNames(); e.hasMoreElements();) {
-      String propertyName = (String) e.nextElement();
-      if (propertyName.startsWith(prefix))
-        result.setProperty(propertyName.substring(prefix.length()),
-                           props.getProperty(propertyName));
+    Map<String, Object> result = new HashMap<String, Object>();
+    for (String prop : props.stringPropertyNames()) {
+      if (prop.startsWith(prefix)) {
+        result.put(prop.substring(prefix.length()), props.getProperty(prop));
+      }
     }
     return result;
   }
@@ -426,8 +495,10 @@ public class Gnast implements GlobalProperties
    */
   public static void main (String[] args)
   {
-    Gnast gen = new Gnast();
-    gen.generate(args);
+    GnastBuilder config = parseArguments(args);
+    if (config != null) {
+      config.create().generate();
+    }
   }
 
   // ############################################################
@@ -448,5 +519,79 @@ public class Gnast implements GlobalProperties
         + record.getMessage()
         + "\n";
     }
+  }
+  
+  public static class GnastBuilder {
+    
+    /**
+     * The verbosity used for logging to stdout.
+     */
+    private Level verbosity = Level.SEVERE;
+    
+    private boolean addAstFinalizer = false;
+    
+    /**
+     * The destination directory where all the generated files go in.
+     */
+    private File destination = new File(".");
+    private boolean destinationSet = false;
+    
+    /**
+     * The list of additional template paths (e.g. for extending templates).
+     */
+    private List<File> templatePaths = new ArrayList<File>();
+    
+    /**
+     * The directory for ZML schema source files.
+     */
+    private File source = new File(".");
+    
+    /**
+     * The generated project namespace.
+     */
+    private String namespace = "http://czt.sourceforge.net/zml";
+    
+    
+    public GnastBuilder verbosity(Level verbosity) {
+      this.verbosity = verbosity;
+      return this;
+    }
+    
+    public GnastBuilder destination(File destination) {
+      if (destination != null) {
+        this.destination = destination;
+        this.destinationSet = true;
+      }
+      return this;
+    }
+    
+    public GnastBuilder templates(List<File> templatePaths) {
+      this.templatePaths.addAll(templatePaths);
+      return this;
+    }
+    
+    public GnastBuilder source(File source) {
+      if (source != null) {
+        this.source = source;
+      }
+      return this;
+    }
+    
+    public GnastBuilder namespace(String namespace) {
+      if (namespace != null) {
+        this.namespace = namespace;
+      }
+      return this;
+    }
+    
+    public GnastBuilder finalizers(boolean addAstFinalizer) {
+      this.addAstFinalizer = addAstFinalizer;
+      return this;
+    }
+    
+    public Gnast create() {
+      return new Gnast(this);
+    }
+    
   }
 }

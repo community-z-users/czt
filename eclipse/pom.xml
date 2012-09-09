@@ -55,7 +55,27 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava</artifactId>
+      <artifactId>corejava-z</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-circus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-circuspatt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-oz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-zeves</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-zpatt</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -72,6 +92,10 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-zpatt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>session</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>

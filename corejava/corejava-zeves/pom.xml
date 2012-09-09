@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>corejava</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>corejava-zeves</artifactId>
+  <packaging>jar</packaging>
+
+  <name>CZT Corejava Z/EVES</name>
+  <description>
+    Provides AST classes for Z/EVES extension.
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-zpatt</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>gnast-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <targetNamespace>http://czt.sourceforge.net/zeves</targetNamespace>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zeveschar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>net/sourceforge/czt/zeves/util/ZEvesChar.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zeveschar2class.xsl</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <includes>
+                    <include>zeveschar.xml</include>
+                  </includes>
+                  <outputDir>${build.xml.dir}/</outputDir>
+                    <fileMappers>
+                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                        <targetName>net/sourceforge/czt/zeves/util/ZEvesString.java</targetName>
+                      </fileMapper>
+                    </fileMappers>
+                  <stylesheet>${xsl.dir}/zeveschar2stringclass.xsl</stylesheet>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+	        <goals>
+	          <goal>transform</goal>
+	        </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>

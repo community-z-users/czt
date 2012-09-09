@@ -13,7 +13,6 @@
   <properties>
     <czt.version>1.6-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
-    <corejava.version>2.1.5-SNAPSHOT</corejava.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Use build timestamp as OSGI qualifier (e.g. 1.6.0.201209062207) -->
@@ -162,8 +161,40 @@
       <!-- CZT Corejava -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava</artifactId>
-        <version>${corejava.version}</version>
+        <artifactId>corejava-z</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-z</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-zpatt</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-oz</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-circus</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-circuspatt</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-zeves</artifactId>
+        <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Java_Cup -->
@@ -362,9 +393,9 @@
 
       <!-- Velocity -->
       <dependency>
-        <groupId>velocity</groupId>
-        <artifactId>velocity-dep</artifactId>
-        <version>1.4</version>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.7</version>
       </dependency>
 
       <!-- Xerces-->

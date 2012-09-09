@@ -43,6 +43,14 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>vcg</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-circuspatt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

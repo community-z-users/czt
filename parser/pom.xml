@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava</artifactId>
+      <artifactId>corejava-z</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -24,6 +24,11 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>java_cup</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
