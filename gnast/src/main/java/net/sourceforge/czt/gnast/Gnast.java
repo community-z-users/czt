@@ -68,6 +68,8 @@ public class Gnast implements GlobalProperties
    * The location of the gnast properties file.
    */
   private static final String PROPERTY_FILE = "gnast.properties";
+  
+  private static final String AST_FINALISER_PROP = "addAstFinaliser";
 
   /**
    * <p>
@@ -78,7 +80,7 @@ public class Gnast implements GlobalProperties
    *
    * <p>Should never be <code>null</code>.
    */
-  private Properties defaultContext_;
+  private Map<String, Object> defaultContext_;
 
   /**
    * <p>A mapping from namespaces (used in schema files)
@@ -126,7 +128,14 @@ public class Gnast implements GlobalProperties
     defaultContext_ = removePrefix("vm.", gnastProperties);
     
     if (config.addAstFinalizer) {
-      defaultContext_.setProperty("addAstFinaliser", String.valueOf("1"));
+      defaultContext_.put(AST_FINALISER_PROP, Boolean.TRUE);
+    } else {
+      // check if there is a property set for the finaliser, then convert it to Boolean
+      // e.g. it may be "false" as a String
+      Object astFinaliserVal = defaultContext_.get(AST_FINALISER_PROP);
+      if (astFinaliserVal instanceof String) {
+        defaultContext_.put(AST_FINALISER_PROP, Boolean.parseBoolean((String) astFinaliserVal));
+      }
     }
     
     if (config.verbosity.intValue() < Level.INFO.intValue())
@@ -320,7 +329,7 @@ public class Gnast implements GlobalProperties
   }
 
   @Override
-  public Properties getDefaultContext()
+  public Map<String, ?> getDefaultContext()
   {
     return defaultContext_;
   }
@@ -438,14 +447,13 @@ public class Gnast implements GlobalProperties
    * @param props 
    * @return should never be <code>null</code>.
    */
-  public static Properties removePrefix(String prefix, Properties props)
+  public static Map<String, Object> removePrefix(String prefix, Properties props)
   {
-    Properties result = new Properties();
-    for (Enumeration<?> e = props.propertyNames(); e.hasMoreElements();) {
-      String propertyName = (String) e.nextElement();
-      if (propertyName.startsWith(prefix))
-        result.setProperty(propertyName.substring(prefix.length()),
-                           props.getProperty(propertyName));
+    Map<String, Object> result = new HashMap<String, Object>();
+    for (String prop : props.stringPropertyNames()) {
+      if (prop.startsWith(prefix)) {
+        result.put(prop.substring(prefix.length()), props.getProperty(prop));
+      }
     }
     return result;
   }

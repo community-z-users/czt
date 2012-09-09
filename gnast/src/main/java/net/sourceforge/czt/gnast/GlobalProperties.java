@@ -21,7 +21,7 @@ package net.sourceforge.czt.gnast;
 
 import java.io.File;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * <p>Global GnAST properties for a code generation run.</p>
@@ -43,7 +43,7 @@ public interface GlobalProperties
    *
    * @return should never be <code>null</code>.
    */
-  Properties getDefaultContext();
+  Map<String, ?> getDefaultContext();
 
   /**
    * <p>Converts a package name into a directory name.</p>

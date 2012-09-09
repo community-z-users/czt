@@ -119,20 +119,20 @@ public class Apgen
     template_ = templateFile;
   }
 
-  public Apgen(String templateFile, Map<Object,Object> map)
+  public Apgen(String templateFile, Map<String, ?> map)
   {
     init();
     template_ = templateFile;
     addToContext(map);
   }
 
-  public Apgen(Map<Object,Object> map)
+  public Apgen(Map<String, ?> map)
   {
     init();
     addToContext(map);
   }
 
-  public Apgen(Map<Object,Object> map, Properties initProps)
+  public Apgen(Map<String, ?> map, Properties initProps)
   {
     init(initProps);
     addToContext(map);
@@ -238,14 +238,17 @@ public class Apgen
    * @czt.todo Insert strings containing a dot as a map into a
    *           velocity context?
    */
-  public void addToContext(Map<Object,Object> map)
+  public void addToContext(Map<String, ?> map)
   {
     final String methodName = "addToContext";
     LOGGER.entering(CLASS_NAME, methodName, map);
 
-    if (map == null || map.entrySet() == null) return;
-    for (Map.Entry<Object,Object> entry : map.entrySet()) {
-      String key = (String) entry.getKey();
+    if (map == null) {
+      return;
+    }
+    
+    for (Map.Entry<String, ?> entry : map.entrySet()) {
+      String key = entry.getKey();
       key = key.replace('.', '_');
       Object value = entry.getValue();
       addToContext(key, value);
@@ -485,12 +488,22 @@ public class Apgen
 
     Apgen gen;
     if (name == null) {
-      gen = new Apgen(templateFile, props);
+      gen = new Apgen(templateFile, toPropertyMap(props));
     }
     else {
       gen = new Apgen(templateFile);
       gen.addToContext("class", parseMap(props, name));
     }
     gen.generate(Level.SEVERE);
+  }
+  
+  public static Map<String, Object> toPropertyMap(Properties props) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    
+    for (String prop : props.stringPropertyNames()) {
+      map.put(prop, props.getProperty(prop));
+    }
+    
+    return map;
   }
 }
