@@ -19,11 +19,11 @@
 
 package net.sourceforge.czt.gnast.gen;
 
-import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.gnast.GlobalProperties;
+import net.sourceforge.czt.gnast.Project;
 
 /**
  * <p>An abstract AST object.  This class provides a skeleton
@@ -164,22 +164,12 @@ public abstract class JAstObjectImpl implements JAstObject
 
   public String getAdditionalCodeFilename()
   {
-    String filename = "src/vm/" + getName() + ".java";
-    File file = new File(global_.getBaseDir() + "/" + filename);
-    if (file.exists()) {
-      return filename;
-    }
-    return null;
+    return Project.resolvePath(global_, getName() + ".java");
   }
 
   public String getAdditionalImplCodeFilename()
   {
-    String filename = "src/vm/" + getImplName() + ".java";
-    File file = new File(global_.getBaseDir() + "/" + filename);
-    if (file.exists()) {
-      return filename;
-    }
-    return null;
+    return Project.resolvePath(global_, getImplName() + ".java");
   }
 
   public abstract String getNamespace();

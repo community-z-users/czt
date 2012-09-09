@@ -24,8 +24,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Formatter;
@@ -87,15 +89,14 @@ public class Gnast implements GlobalProperties
    */
   private String destDir_ = ".";
 
+  /** The base directory of GnAST templates in the plugin */
+  private static final String BASE_TEMPLATES_DIR = "/vm/";
+  
   /**
-   * <p>The base directory</p>
-   *
-   * <p>It can be set by using the command line option
-   * <code>-b</code>.
-   *
-   * <p>Should never be <code>null</code>.
+   * The list of additional template paths (e.g. for extending templates).
    */
-  private String baseDir_ = ".";
+  private List<File> templatePaths_ = new ArrayList<File>();
+  
   
   /**
    * The directory for ZML schema source files.
@@ -165,7 +166,7 @@ public class Gnast implements GlobalProperties
   {
     System.out.println("class options (all arguments are optional):\n"
       + "  -d <dir>  Generated files go into this directory\n"
-      + "  -b <dir>  Gnast folder\n"
+      + "  -b <dir>  Additional template directories, comma-separated list\n"
       + "  -s <dir>  The directory with all ZML schema files. The requested project namespace must be present, as well as all its parents.\n"
       + "  -p <name> The namespace of the project to be generated\n"
       + "  -f        Add AST finalisers. WARNING: ASTs will consume more memory!\n"
@@ -211,10 +212,15 @@ public class Gnast implements GlobalProperties
       }
       else if (arg.equals("-b")) {
         if (i < args.length) {
-          baseDir_ = args[i++];
+          // additional template paths are given as comma-separated list
+          String pathsStr = args[i++];
+          String[] pathStrs = pathsStr.split(",");
+          for (String path : pathStrs) {
+            templatePaths_.add(new File(path));
+          }
         }
         else {
-          printUsageMessage(arg + " requires a directory name");
+          printUsageMessage(arg + " requires a directory path");
           return false;
         }
       }
@@ -366,7 +372,13 @@ public class Gnast implements GlobalProperties
   @Override
   public String getBaseDir()
   {
-    return baseDir_;
+    return BASE_TEMPLATES_DIR;
+  }
+  
+  @Override
+  public List<File> getTemplatePaths()
+  {
+    return templatePaths_;
   }
 
   // ############################################################

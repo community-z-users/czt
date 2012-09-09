@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.gnast;
 
+import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -78,4 +80,6 @@ public interface GlobalProperties
   String toFileName(String packageName, String className);
 
   String getBaseDir();
+  
+  List<File> getTemplatePaths();
 }

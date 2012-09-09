@@ -20,6 +20,7 @@
 package net.sourceforge.czt.gnast;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
@@ -131,8 +132,7 @@ public class Project
     if (splitted.length > 0) {
       last = splitted[splitted.length - 1];
     }
-    apgen_.setTemplate("src/vm/"
-                       + StringUtils.capitalize(last)
+    apgen_.setTemplate(StringUtils.capitalize(last)
                        + "Package.vm");
     String filename =
       global_.toDirectoryName(name) + "package.html";
@@ -140,34 +140,62 @@ public class Project
 
     logExiting(methodName);
   }
+  
+  /**
+   * Resolves the given template file in the template directory (checks if it exists).
+   * First checks the GnAST plugin itself, then scans the additional template paths.
+   * 
+   * @param global
+   * @param fileName
+   * @return
+   */
+  public static String resolvePath(GlobalProperties global, String fileName)
+  {
+    // first check if the file name is within the JAR (core GnAST template)
+    String jarPath = global.getBaseDir() + fileName;
+    if (Project.class.getResource(jarPath) != null){
+      return fileName;
+    }
+    
+    // now check if file exists somewhere in additional template paths
+    for (File templatePath : global.getTemplatePaths()) {
+      String filePath = templatePath.getAbsolutePath() + "/" + fileName;
+      if (new File(filePath).exists()) {
+        return fileName;
+      }
+    }
+    
+    // not found
+    return null;
+  }
 
   protected void generate(String id)
   {
     String name = project_.getClassName(id);
     String template = project_.getTemplate(id);
     String packageName = project_.getPackage(id);
-    String addCodeFilename = "src/vm/"
-      + getBasePackage() + "." + packageName + "." + name + ".java";
-    File addCodeFile = new File(global_.getBaseDir() + "/" + addCodeFilename);
-    if (! addCodeFile.exists()) {
-      addCodeFilename = "src/vm/" + name + ".java";
-      addCodeFile = new File(global_.getBaseDir() + "/" + addCodeFilename);
-    }
-
+    
     if (name == null || template == null || packageName == null) {
       logSevere("Cannot generate class with id " + id +
                 " for project " + getName());
       return;
     }
+    
+    // check fully qualified name
+    String addCodeFilename = resolvePath(global_, getBasePackage() + "." + packageName + "." + name + ".java");
+    if (addCodeFilename == null) {
+      // check short name
+      addCodeFilename = resolvePath(global_, name + ".java");
+    }
 
     Map<String,Object> map = new HashMap<String,Object>();
     map.put("Name", name);
     map.put("Package", packageName);
-    if (addCodeFile.exists()) {
+    if (addCodeFilename != null) {
       map.put("AdditionalCodeFilename", addCodeFilename);
     }
     apgen_.addToContext("class", map);
-    apgen_.setTemplate("src/vm/" + template);
+    apgen_.setTemplate(template);
     String filename =
       global_.toFileName(getBasePackage() + "." + packageName,
                          name);
@@ -221,6 +249,47 @@ public class Project
   }
 
   /**
+   * Concatenates all template paths into one comma-separated string.
+   * 
+   * Uses the base template path (from this JAR) and all additionally
+   * indicated paths.
+   * @return
+   */
+  private String getTemplatePathURLs() {
+    
+    List<URL> templatePaths = new ArrayList<URL>();
+    
+    // first add the base path in GnAST JAR
+    URL baseUrl = Project.class.getResource(global_.getBaseDir());
+    if (baseUrl == null) {
+      throw new GnastException("Base template directory cannot be located at " + global_.getBaseDir());
+    } else {
+      templatePaths.add(baseUrl);
+    }
+    
+    // now add all additional paths
+    for (File templateFile : global_.getTemplatePaths()) {
+      try {
+        URL url = templateFile.toURI().toURL();
+        templatePaths.add(url);
+      }
+      catch (MalformedURLException e) {
+        throw new GnastException(e);
+      }
+    }
+    
+    StringBuilder concat = new StringBuilder();
+    String sep = "";
+    for (URL templatePath : templatePaths) {
+      concat.append(sep);
+      concat.append(templatePath);
+      sep = ",";
+    }
+    
+    return concat.toString();
+  }
+  
+  /**
    * Generates all classes for this project.
    *
    * @czt.todo Clean up the Exception mess.
@@ -230,10 +299,16 @@ public class Project
   {
     Map<?, ?> classes = project_.getAstClasses();
     Properties initProps = new Properties();
-    initProps.put("velocimacro.library",
-                  "src/vm/macros.vm");
-    initProps.put("file.resource.loader.path",
-                  global_.getBaseDir());
+    initProps.put("velocimacro.library", "macros.vm");
+    /*
+     * Use URL resource loader. This way we can indicate template roots both from the JAR files
+     * as well as from dependent project files. The templates are loaded either from GnAST JAR
+     * or from additional file locations indicated during runtime.
+     */
+    initProps.put("resource.loader", "url");
+    initProps.put("url.resource.loader.root", getTemplatePathURLs());
+    initProps.put("url.resource.loader.class", "org.apache.velocity.runtime.resource.loader.URLResourceLoader");
+    
     apgen_ = new Apgen(global_.getDefaultContext(), initProps);
     if (project_.getImportProject() != null) {
       Project blubb = project_.getImportProject();
@@ -286,19 +361,19 @@ public class Project
       logFine("Generating class file for " + c.getName());
       filename = global_.toFileName(c.getImplPackage(),
                                     c.getImplName());
-      apgen_.setTemplate("src/vm/AstClass.vm");
+      apgen_.setTemplate("AstClass.vm");
       createFile(filename);
 
       logFine("Generating interface file for " + c.getName());
       filename = global_.toFileName(c.getPackage(),
                                     c.getName());
-      apgen_.setTemplate("src/vm/AstInterface.vm");
+      apgen_.setTemplate("AstInterface.vm");
       createFile(filename);
 
       logFine("Generating visitor for " + c.getName());
       filename = global_.toFileName(getVisitorPackage(),
                                     c.getName() + "Visitor");
-      apgen_.setTemplate("src/vm/AstVisitorInterface.vm");
+      apgen_.setTemplate("AstVisitorInterface.vm");
       createFile(filename);
     }
 
@@ -309,7 +384,7 @@ public class Project
 
       filename = global_.toFileName(getAstPackage(),
                                     enumName);
-      apgen_.setTemplate("src/vm/Enum.vm");
+      apgen_.setTemplate("Enum.vm");
       createFile(filename);
     }
   }
