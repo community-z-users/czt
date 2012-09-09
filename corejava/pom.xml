@@ -53,7 +53,7 @@
               <!-- Additional project-specific GnAST templates in every project. -->
               <gnastdir>${project.basedir}/src/main/resources/vm</gnastdir>
               <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
-              <addAstFinaliser>true</addAstFinaliser>
+              <addAstFinaliser>false</addAstFinaliser>
               <gnastVerbose>true</gnastVerbose>
             </configuration>
             <goals>
