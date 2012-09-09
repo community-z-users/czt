@@ -291,7 +291,9 @@ public class Gnast implements GlobalProperties
    */
   public void generate(String[] args)
   {
-    parseArguments(args);
+    if (!parseArguments(args)) {
+      return;
+    }
     // handleLogging();
 
     try {
