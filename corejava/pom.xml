@@ -50,7 +50,8 @@
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <gnastdir>${basedir}/../../gnast</gnastdir>
+              <!-- Additional project-specific GnAST templates in every project. -->
+              <gnastdir>${project.basedir}/src/main/resources/vm</gnastdir>
               <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
               <addAstFinaliser>true</addAstFinaliser>
               <gnastVerbose>true</gnastVerbose>
