@@ -43,7 +43,7 @@
         <executions>
           <execution>
             <configuration>
-              <namespace>http://czt.sourceforge.net/circus</namespace>
+              <targetNamespace>http://czt.sourceforge.net/circus</targetNamespace>
             </configuration>
           </execution>
         </executions>

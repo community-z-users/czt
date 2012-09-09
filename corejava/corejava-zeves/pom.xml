@@ -32,7 +32,7 @@
         <executions>
           <execution>
             <configuration>
-              <namespace>http://czt.sourceforge.net/zeves</namespace>
+              <targetNamespace>http://czt.sourceforge.net/zeves</targetNamespace>
             </configuration>
           </execution>
         </executions>

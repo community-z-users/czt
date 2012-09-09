@@ -32,7 +32,7 @@
         <executions>
           <execution>
             <configuration>
-              <namespace>http://czt.sourceforge.net/object-z</namespace>
+              <targetNamespace>http://czt.sourceforge.net/object-z</targetNamespace>
             </configuration>
           </execution>
         </executions>

@@ -38,7 +38,7 @@
         <executions>
           <execution>
             <configuration>
-              <namespace>http://czt.sourceforge.net/circuspatt</namespace>
+              <targetNamespace>http://czt.sourceforge.net/circuspatt</targetNamespace>
             </configuration>
           </execution>
         </executions>
