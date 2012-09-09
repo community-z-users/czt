@@ -68,14 +68,14 @@ public class Main
         "(about 5 minutes on a 2GHz Pentium).\n" +
         "GnAST parameters = " + 
                         "\n\t-d " + outputDirectory +
-                        "\n\t-b " + gnastdir +
+                        "\n\t-t " + gnastdir +
                         "\n\t-s " + sourceDirectory +
-                        "\n\t-p " + namespace +
+                        "\n\t-n " + namespace +
                         (gnastVerbose ? "\n\t-vvv" : "") +
                         (addAstFinaliser ? "\n\t-f" : "") + "\n";
       getLog().info(message);
-      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-b", gnastdir,
-          "-s", sourceDirectory, "-p", namespace));
+      ArrayList<String> args = new ArrayList<String>(Arrays.asList("-d", outputDirectory, "-t", gnastdir,
+          "-s", sourceDirectory, "-n", namespace));
       if (addAstFinaliser)
       {
         args.add("-f");

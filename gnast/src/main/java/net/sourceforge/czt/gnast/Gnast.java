@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005, 2006, 2007 Petra Malik
+  Copyright 2003, 2005, 2006, 2007, 2012 Petra Malik, Andrius Velykis
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -34,6 +34,15 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.OptionGroup;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  * <p>The GnAST command line user interface.</p>
@@ -154,36 +163,10 @@ public class Gnast implements GlobalProperties
   }
 
   // ############################################################
-  // ################### (NON-STATC) METHODS ####################
+  // ################### (NON-STATIC) METHODS ####################
   // ############################################################
 
   // ****************** ARGUMENT PARSING ************************
-
-  /**
-   * Prints usage information to stdout.
-   */
-  private void printUsage()
-  {
-    System.out.println("class options (all arguments are optional):\n"
-      + "  -d <dir>  Generated files go into this directory\n"
-      + "  -b <dir>  Additional template directories, comma-separated list\n"
-      + "  -s <dir>  The directory with all ZML schema files. The requested project namespace must be present, as well as all its parents.\n"
-      + "  -p <name> The namespace of the project to be generated\n"
-      + "  -f        Add AST finalisers. WARNING: ASTs will consume more memory!\n"
-      + "  -v        Verbose; display verbose debugging messages\n"
-      + "  -vv       Very verbose; more verbose debugging messages\n"
-      + "  -vvv      Very very verbose; even more verbose debugging messages\n");
-  }
-
-  /**
-   * Prints the given message followed by usage information
-   * for the gnast code generator to stdout.
-   */
-  private void printUsageMessage(String message)
-  {
-    System.out.println(message);
-    printUsage();
-  }
 
   /**
    * Parses the arguments from the command line.
@@ -192,70 +175,111 @@ public class Gnast implements GlobalProperties
    *         <code>false</code> otherwise.
    * @throws NullPointerException if <code>args</code> is <code>null</code>.
    */
+  @SuppressWarnings("static-access")
   private boolean parseArguments(String[] args)
   {
-    int i = 0;
-    while (i < args.length && args[i].startsWith("-")) {
-      String arg = args[i++];
-      if (arg.equals("-v")) verbosity_ = Level.INFO;
-      else if (arg.equals("-vv")) verbosity_ = Level.FINE;
-      else if (arg.equals("-vvv")) verbosity_ = Level.FINER;
-      else if (arg.equals("-f")) addAstFinaliser_ = true;
-      else if (arg.equals("-d")) {
-        if (i < args.length) {
-          destDir_ = args[i++];
-        }
-        else {
-          printUsageMessage(arg + " requires a directory name");
-          return false;
-        }
-      }
-      else if (arg.equals("-b")) {
-        if (i < args.length) {
-          // additional template paths are given as comma-separated list
-          String pathsStr = args[i++];
-          String[] pathStrs = pathsStr.split(",");
-          for (String path : pathStrs) {
-            templatePaths_.add(new File(path));
-          }
-        }
-        else {
-          printUsageMessage(arg + " requires a directory path");
-          return false;
-        }
-      }
-      else if (arg.equals("-s")) {
-        if (i < args.length) {
-          sourceDir_ = args[i++];
-        }
-        else {
-          printUsageMessage(arg + " requires a directory name");
-          return false;
-        }
-      }
-      else if (arg.equals("-p")) {
-        if (i < args.length) {
-          projectNamespace_ = args[i++];
-        }
-        else {
-          printUsageMessage(arg + " requires a project namespace");
-          return false;
-        }
-      }
+    
+    Options argOptions = new Options();
+    
+    OptionGroup verboseOptions = new OptionGroup();
+    verboseOptions.addOption(OptionBuilder.withLongOpt("verbose")
+                                          .withDescription("Verbose; display verbose debugging messages")
+                                          .create("v"));
+    verboseOptions.addOption(OptionBuilder.withLongOpt("vverbose")
+                                          .withDescription("Very verbose; more verbose debugging messages")
+                                          .create("vv"));
+    verboseOptions.addOption(OptionBuilder.withLongOpt("vvverbose")
+                                          .withDescription("Very very verbose; even more verbose debugging messages")
+                                          .create("vvv"));
+    argOptions.addOptionGroup(verboseOptions);
+    
+    argOptions.addOption(OptionBuilder.withLongOpt("finalizers")
+                                      .withDescription("Add AST finalisers. WARNING: ASTs will consume more memory!")
+                                      .create("f"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("dir")
+                                      .hasArg()
+                                      .withLongOpt("destination")
+                                      .withDescription("Generated files go into this directory")
+                                      .create("d"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("dir1 dir2")
+                                      .hasArgs()
+                                      .withValueSeparator(',')
+                                      .withLongOpt("templates")
+                                      .withDescription("Additional template directories")
+                                      .create("t"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("dir")
+                                      .hasArg()
+                                      .withLongOpt("source")
+                                      .withDescription("The directory with all ZML schema files. The requested project namespace must be present, as well as all its parents.")
+                                      .create("s"));
+    
+    argOptions.addOption(OptionBuilder.withArgName("url")
+                                      .hasArg()
+                                      .withLongOpt("namespace")
+                                      .withDescription("The namespace of the project to be generated.")
+                                      .create("n"));
+    
+    // use GNU parser that allows longer option name (e.g. `-vvv`)
+    CommandLineParser parser = new GnuParser();
+    CommandLine line;
+    try {
+      // parse the command line arguments
+      line = parser.parse(argOptions, args);
     }
-    if (i < args.length) {
-      printUsageMessage("Parse error at " + args[i]);
+    catch (ParseException exp) {
+      // oops, something went wrong
+      System.err.println(exp.getMessage());
+      
+      // automatically generate the help statement
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.printHelp("gnast", argOptions, true);
+      
       return false;
     }
-    if (addAstFinaliser_)
-    {
+    
+    verbosity_ = line.hasOption("v") ? Level.INFO 
+        : (line.hasOption("vv") ? Level.FINE 
+            : (line.hasOption("vvv") ? Level.FINER 
+                : Level.OFF));
+    
+    addAstFinaliser_ = line.hasOption("f");
+    
+    String dest = line.getOptionValue("d");
+    if (dest != null) {
+      destDir_ = dest;
+    }
+    
+    String[] templates = line.getOptionValues("t");
+    if (templates != null) {
+      for (String path : templates) {
+        templatePaths_.add(new File(path));
+      }
+    }
+    
+    String source = line.getOptionValue("s");
+    if (source != null) {
+      sourceDir_ = source;
+    }
+    
+    String namespace = line.getOptionValue("n");
+    if (namespace != null) {
+      projectNamespace_ = namespace;
+    }
+    
+    if (addAstFinaliser_) {
       defaultContext_.setProperty("addAstFinaliser", String.valueOf("1"));
     }
-    verbosity_ = Level.ALL;
+    
     if (verbosity_.intValue() < Level.INFO.intValue())
     {
       getLogger().log(Level.INFO, "GnAST context = {0}", defaultContext_.toString());
     }
+    
+    // TODO set verbosity?
+    
     return true;
   }
 
