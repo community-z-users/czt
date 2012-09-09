@@ -28,9 +28,7 @@ Variables and methods used:
              in javadoc in order to link from the constructor to the
              object factory.
              
-  addAstFiniliser: if ==1, adds a finaliser to the instance counting process
-  			 see variables.vm - perhaps change it to come from gnast.properties?
-  			 or even GnAST Maven Plugin?
+  addAstFinaliser: if ==true, adds a finaliser to the instance counting process
 *#
 #parse("variables.vm")
 /******************************************************************************
@@ -91,48 +89,49 @@ public class ${class.ImplName}
   private List<Object> anns_;
   
   #if(! ${class.Abstract})
-	/**
-	 * static instance count for ${class.ImplName}
-	 */
-   private static long instanceCount_ = 0;
-   
-   /**
-    * public attribute determining whether to log to the 
-    * standard output information about who is creating 
-    * this instance of ${class.ImplName} (e.g., ic >= sl)
-    */
-   protected static long startLoggingFrom_ = Long.MAX_VALUE;
-  
-   public static final long instanceCount()
-   {
-     return instanceCount_;
-   }
-   
-   #if($addAstFinaliser)
-	  private static long instancesFinalised_ = 0;
+  /**
+   * static instance count for ${class.ImplName}
+   */
+  private static long instanceCount_ = 0;
 
-    /** if GnAST properties contain addAstFiniliser, we add it here 
-      * note this will decrease AST performance as finalisers aggregate
-      * quite some memory footprint!!!!
-      */ 
-	@Override
-	@SuppressWarnings("FinalizeDeclaration")
-	protected void finalize() throws Throwable
-	{
-		instancesFinalised_++;
-		super.finalize();
-	}
-	// cannot be final because JokerCommunicationImpl extends CommunicationImpl
-	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
-    public /*final*/ static boolean countingFinaliser() { return true; }
-   #else
-    // cannot be final because JokerCommunicationImpl extends CommunicationImpl
-	public /*final*/ static boolean countingFinaliser() { return false; }
-    public /*final*/ static long instancesFinalised() 
-    { 
-      throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
-    }
-   #end
+  /**
+   * public attribute determining whether to log to the 
+   * standard output information about who is creating 
+   * this instance of ${class.ImplName} (e.g., ic >= sl)
+   */
+  protected static long startLoggingFrom_ = Long.MAX_VALUE;
+
+  public static final long instanceCount()
+  {
+    return instanceCount_;
+  }
+   
+  #if($addAstFinaliser)
+  private static long instancesFinalised_ = 0;
+
+  /**
+   * if GnAST properties contain addAstFiniliser, we add it here 
+   * note this will decrease AST performance as finalisers aggregate
+   * quite some memory footprint!!!!
+   */ 
+  @Override
+  @SuppressWarnings("FinalizeDeclaration")
+  protected void finalize() throws Throwable
+  {
+    instancesFinalised_++;
+    super.finalize();
+  }
+  // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+  public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
+  public /*final*/ static boolean countingFinaliser() { return true; }
+  #else
+  // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+  public /*final*/ static boolean countingFinaliser() { return false; }
+  public /*final*/ static long instancesFinalised() 
+  { 
+    throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
+  }
+  #end
   #end
 
   /**
@@ -144,7 +143,7 @@ public class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
-  	this(null);
+    this(null);
   }
 
   protected ${class.ImplName}(BaseFactory factory)
@@ -154,8 +153,8 @@ public class ${class.ImplName}
     anns_ = null;
     list_ = null;//new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     #if(! ${class.Abstract})
-	    instanceCount_++;
-	#end
+    instanceCount_++;
+  #end
   }
   
   protected List<${type}> getList()
@@ -215,8 +214,7 @@ public class ${class.ImplName}
   @SuppressWarnings("unchecked")
   public <T> T getAnn(Class<T> aClass)
   {
-    if (hasAnn())
-    {
+    if (hasAnn()) {
       for (Object annotation : getAnns()) {
         if (aClass.isInstance(annotation)) {
           return (T)annotation;
@@ -235,40 +233,37 @@ public class ${class.ImplName}
   @Override
   public <T> void removeAnn(Class<T> aClass)
   {
-  	if (hasAnn())
-  	{
-		List<Object> anns = getAnns();
-		Iterator<Object> iter = anns.iterator();
-		while (iter.hasNext())
-		{
-		  Object ann = iter.next();
-		  if (aClass.isInstance(ann))
-		  {
-			iter.remove();
-		  }
-		}
-		iter = null;
-	}
+    if (hasAnn()) {
+      List<Object> anns = getAnns();
+      Iterator<Object> iter = anns.iterator();
+      
+      while (iter.hasNext()) {
+        Object ann = iter.next();
+        if (aClass.isInstance(ann)) {
+          iter.remove();
+        }
+      }
+      iter = null;
+    }
   }
 
   @Override
   public <T> boolean removeAnn(T annotation)
   {
     boolean result = false;
-    if (hasAnn()) 
-    {
-		List<Object> anns = getAnns();
-		Iterator<Object> iter = anns.iterator();
-		while (iter.hasNext() && !result)
-		{
-		  Object ann = iter.next();
-		  result = ann.equals(annotation);
-		}
-		if (result)
-		{
-		  iter.remove();
-		}
-		iter = null;
+    if (hasAnn()) {
+      List<Object> anns = getAnns();
+      Iterator<Object> iter = anns.iterator();
+      
+      while (iter.hasNext() && !result) {
+        Object ann = iter.next();
+        result = ann.equals(annotation);
+      }
+      
+      if (result) {
+        iter.remove();
+      }
+      iter = null;
     }
     return result;
   }
@@ -382,42 +377,43 @@ public#abstract($class) class ${class.ImplName}
 {
 
 #if(! ${class.Abstract})
-	/**
-	 * static instance count for ${class.ImplName}
-	 */
+  /**
+   * static instance count for ${class.ImplName}
+   */
    private static long instanceCount_ = 0;
    
-   /**
-    * public attribute determining whether to log to the 
-    * standard output information about who is creating 
-    * this instance of ${class.ImplName} (e.g., ic >= sl)
-    */
-   protected static long startLoggingFrom_ = Long.MAX_VALUE;
+  /**
+   * public attribute determining whether to log to the 
+   * standard output information about who is creating 
+   * this instance of ${class.ImplName} (e.g., ic >= sl)
+   */
+  protected static long startLoggingFrom_ = Long.MAX_VALUE;
    
-   #if($addAstFinaliser)
-	  private static long instancesFinalised_ = 0;
+  #if($addAstFinaliser)
+  private static long instancesFinalised_ = 0;
 
-    /** if GnAST properties contain addAstFiniliser, we add it here 
-      * note this will decrease AST performance as finalisers aggregate
-      * quite some memory footprint!!!!
-      */ 
-	@Override
-	@SuppressWarnings("FinalizeDeclaration")
-	protected void finalize() throws Throwable
-	{
-		instancesFinalised_++;
-		super.finalize();
-	}
-	// cannot be final because JokerCommunicationImpl extends CommunicationImpl
-	public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
-    public /*final*/ static boolean countingFinaliser() { return true; }
+  /** 
+   * if GnAST properties contain addAstFiniliser, we add it here 
+   * note this will decrease AST performance as finalisers aggregate
+   * quite some memory footprint!!!!
+   */ 
+  @Override
+  @SuppressWarnings("FinalizeDeclaration")
+  protected void finalize() throws Throwable
+  {
+    instancesFinalised_++;
+    super.finalize();
+  }
+  // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+  public /*final*/ static long instancesFinalised() { return instancesFinalised_;}
+  public /*final*/ static boolean countingFinaliser() { return true; }
   #else
-    // cannot be final because JokerCommunicationImpl extends CommunicationImpl
-	public /*final*/ static boolean countingFinaliser() { return false; }
-    public /*final*/ static long instancesFinalised() 
-    { 
-      throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
-    }
+  // cannot be final because JokerCommunicationImpl extends CommunicationImpl
+  public /*final*/ static boolean countingFinaliser() { return false; }
+  public /*final*/ static long instancesFinalised() 
+  { 
+    throw new UnsupportedOperationException("GnAST AST finalisers have not been set"); 
+  }
   #end
 #end
 
@@ -430,7 +426,7 @@ public#abstract($class) class ${class.ImplName}
    */
   protected ${class.ImplName}()
   {
-  	this(null);
+    this(null);
   }
 
   protected ${class.ImplName}(BaseFactory factory)
@@ -546,7 +542,7 @@ public#abstract($class) class ${class.ImplName}
   // JokerCommunication in circuspatt extends CommunicationImpl which is not abstract? weird...
   public static /*final*/ long instanceCount()
   {
-  	return instanceCount_;
+    return instanceCount_;
   }
 #end##end if not abstract
 #foreach($prop in $class.Properties)
@@ -570,15 +566,15 @@ public#abstract($class) class ${class.ImplName}
 
   public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName})
   {
-  	##// ${class.ImplName}
-  	##// ${prop.MemVarName}
-  	##// ${prop.SetterName}
-  	##// $znameImpl
-  	#if(${class.ImplName} == $znameImpl && (${prop.SetterName} == $znameImplSetWord || ${prop.SetterName} == $znameImplSetId))
-  		${prop.SetterName}Internal(${prop.VarName});
-  	#else
-	    ${prop.MemVarName} = ${prop.VarName};
-	#end
+    ##// ${class.ImplName}
+    ##// ${prop.MemVarName}
+    ##// ${prop.SetterName}
+    ##// $znameImpl
+    #if(${class.ImplName} == $znameImpl && (${prop.SetterName} == $znameImplSetWord || ${prop.SetterName} == $znameImplSetId))
+      ${prop.SetterName}Internal(${prop.VarName});
+    #else
+      ${prop.MemVarName} = ${prop.VarName};
+  #end
   }
 #if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'NameList' || ${prop.Type.Name} == 'DeclList')
 #if(${prop.GetterName} == "get${prop.Type.Name}")
