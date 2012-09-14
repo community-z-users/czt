@@ -1,5 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.launch;
 
+import java.io.File;
+
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jface.dialogs.Dialog;
@@ -11,8 +13,10 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -23,32 +27,21 @@ import org.eclipse.swt.widgets.Text;
 public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 
 	private Text locationField;
-	private Button fileLocationButton;
+	private Text workingDirField;
 	
 	private Spinner portField;
 
-	private WidgetListener fListener= new WidgetListener();
-	
-	/**
-	 * A listener to update for text modification and widget selection.
-	 */
-	private class WidgetListener extends SelectionAdapter implements ModifyListener {
-		
-		@Override
-		public void modifyText(ModifyEvent e) {
-			configModified();
-		}
-		
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			setDirty(true);
-			Object source= e.getSource();
-			if (source == fileLocationButton) {
-				handleFileLocationButtonSelected();
-			}
-		}
-		
-	}
+  /**
+   * A listener to update for text modification and widget selection.
+   */
+  private final ModifyListener modifyListener = new ModifyListener()
+  {
+    @Override
+    public void modifyText(ModifyEvent e)
+    {
+      configModified();
+    }
+  };
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#createControl(org.eclipse.swt.widgets.Composite)
@@ -62,36 +55,47 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		mainComposite.setLayout(GridLayoutFactory.swtDefaults().create());
 		mainComposite.setLayoutData(GridDataFactory.fillDefaults().grab(true, false));
 
-		createLocationComponent(mainComposite);
+    locationField = createLocationComponent(mainComposite, "Z/EVES executable:",
+        new SelectionAdapter()
+        {
+          @Override
+          public void widgetSelected(SelectionEvent e)
+          {
+            setDirty(true);
+            handleFileLocationButtonSelected();
+          }
+        });
+    locationField.addModifyListener(modifyListener);
+    workingDirField = createLocationComponent(mainComposite, "Working directory:",
+        new SelectionAdapter()
+        {
+          @Override
+          public void widgetSelected(SelectionEvent e)
+          {
+            setDirty(true);
+            handleWorkingDirButtonSelected();
+          }
+        });
+    workingDirField.addModifyListener(modifyListener);
 		createConfigComponent(mainComposite);
 		createVerticalSpacer(mainComposite, 1);
 		
 		Dialog.applyDialogFont(parent);
 	}
 
-//	protected String getExecutablePath() {
-//		
-//		if (locationField == null || locationField.isDisposed()) {
-//			return "";
-//		}
-//		
-//		return locationField.getText();
-//	}
-
 	/**
 	 * Creates the controls needed to edit the location attribute of an external tool
 	 * 
 	 * @param parent the composite to create the controls in
 	 */
-	private void createLocationComponent(Composite parent) {
+	private Text createLocationComponent(Composite parent, String label, SelectionListener buttonListener) {
 		Group group = new Group(parent, SWT.NONE);
-		group.setText("Z/EVES executable:");
+		group.setText(label);
 		group.setLayout(GridLayoutFactory.swtDefaults().create());
 		group.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
 		
-		locationField = new Text(group, SWT.BORDER);
+		Text locationField = new Text(group, SWT.BORDER);
 		locationField.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).hint(IDialogConstants.ENTRY_FIELD_WIDTH, SWT.DEFAULT).create());
-		locationField.addModifyListener(fListener);
 		addControlAccessibleListener(locationField, group.getText());
 		
 		Composite buttonComposite = new Composite(group, SWT.NONE);
@@ -99,10 +103,11 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		buttonComposite.setLayoutData(GridDataFactory.swtDefaults().align(SWT.END, SWT.FILL).create());
 		buttonComposite.setFont(parent.getFont());
 		
-		fileLocationButton= createPushButton(buttonComposite, "Browse File System...", null);
-		fileLocationButton.addSelectionListener(fListener);
+		Button fileLocationButton= createPushButton(buttonComposite, "Browse File System...", null);
+		fileLocationButton.addSelectionListener(buttonListener);
 		addControlAccessibleListener(fileLocationButton, group.getText() + " " + fileLocationButton.getText()); //$NON-NLS-1$
 		
+		return locationField;
 	}
 	
 	/**
@@ -123,7 +128,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		portField.setMaximum(65535);
 		portField.setPageIncrement(100);
 		portField.setLayoutData(GridDataFactory.fillDefaults().hint(IDialogConstants.ENTRY_FIELD_WIDTH, SWT.DEFAULT).create());
-		portField.addModifyListener(fListener);
+		portField.addModifyListener(modifyListener);
 		addControlAccessibleListener(portField, group.getText());
 		
 		Label portInfoLabel = new Label(group, SWT.WRAP);
@@ -141,6 +146,9 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		String location = ZEvesAppLaunch.getLocationConfig(configuration);
 		locationField.setText(location);
 		
+		String workingDir = ZEvesAppLaunch.getWorkingDirConfig(configuration);
+                workingDirField.setText(workingDir != null ? workingDir : "");
+		
 		int port = ZEvesRemoteLaunch.getPortConfig(configuration);
 		portField.setSelection(port);
 	}
@@ -153,6 +161,12 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 		}
 		configuration.setAttribute(ZEvesLaunchConstants.ATTR_LOCATION, location);
 		
+		String workingDir = workingDirField.getText().trim();
+                if (workingDir.length() == 0) {
+                  workingDir = null;
+                }
+                configuration.setAttribute(ZEvesLaunchConstants.ATTR_WORKING_DIR, workingDir);
+		
 		int port = portField.getSelection();
 		configuration.setAttribute(ZEvesLaunchConstants.ATTR_PORT, port);
 	}
@@ -163,7 +177,7 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 	@Override
 	protected boolean validateConfig(boolean newConfig) {
 		String location = locationField.getText().trim();
-		if (location.length() < 1) {
+		if (location.isEmpty()) {
 			if (newConfig) {
 				setErrorMessage(null);
 				setMessage("Please specify the executable of Z/EVES theorem prover");
@@ -174,30 +188,28 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 			return false;
 		}
 		
-		return true;
-		// sometimes it is not a file, e.g. "wine zeves.exe"
-//		File file = new File(location);
-//		if (!file.exists()) { // The file does not exist.
-//			if (!newConfig) {
-//				setErrorMessage("Z/EVES executable does not exist");
-//			}
-//			return false;
-//		}
-//		
-//		return validateFile(file, newConfig);
-	}
-	
-//	protected boolean validateFile(File file, boolean newConfig) {
-//		// must be a file
-//		if (!file.isFile()) {
-//			if (!newConfig) {
-//				setErrorMessage("Z/EVES executable specified is not a file");
-//			}
-//			return false;
-//		}
-//		
-//		return true;
-//	}
+    String workingDir = workingDirField.getText().trim();
+    if (workingDir != null && !workingDir.isEmpty()) {
+      // if working dir is specified, check it is an actual directory
+      File file = new File(workingDir);
+      if (!file.exists()) {
+        if (!newConfig) {
+          setErrorMessage("Z/EVES working directory does not exist");
+        }
+        return false;
+      }
+
+      // must be a directory
+      if (!file.isDirectory()) {
+        if (!newConfig) {
+          setErrorMessage("Z/EVES working directory is not a directory");
+        }
+        return false;
+      }
+    }
+
+    return true;
+  }
 	
 	/**
 	 * Prompts the user to choose a location from the filesystem and sets the
@@ -212,5 +224,21 @@ public class ZEvesAppLaunchTab extends ZEvesMainLaunchTab {
 			locationField.setText(text);
 		}
 	}
+	
+  /**
+   * Prompts the user to choose a location from the filesystem and sets the
+   * working dir as the full path of the selected directory.
+   */
+  private void handleWorkingDirButtonSelected()
+  {
+    DirectoryDialog dialog = new DirectoryDialog(getShell());
+    dialog.setText("Select Working Directory");
+    dialog.setMessage("Select working directory for Z/EVES executable.");
+    dialog.setFilterPath(workingDirField.getText());
+    String text = dialog.open();
+    if (text != null) {
+      workingDirField.setText(text);
+    }
+  }
 	
 }

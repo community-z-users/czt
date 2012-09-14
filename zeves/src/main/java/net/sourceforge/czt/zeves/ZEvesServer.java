@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.zeves;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -15,6 +16,7 @@ public class ZEvesServer
 {
 
   private final String zEvesExecCommand;
+  private final File workingDir;
 
   private final int port;
 
@@ -27,9 +29,15 @@ public class ZEvesServer
 
   public ZEvesServer(String zEvesExecCommand, int port)
   {
+    this(zEvesExecCommand, port, null);
+  }
+  
+  public ZEvesServer(String zEvesExecCommand, int port, File workingDir)
+  {
     super();
     this.zEvesExecCommand = zEvesExecCommand;
     this.port = port;
+    this.workingDir = workingDir;
   }
 
   public void start() throws IOException
@@ -42,7 +50,7 @@ public class ZEvesServer
     System.out.println("Starting Z/EVES server with command: " + fullZEvesCommand);
 
     userStop = false;
-    process = Runtime.getRuntime().exec(fullZEvesCommand);
+    process = Runtime.getRuntime().exec(fullZEvesCommand, null, workingDir);
 
     fireServerStarted();
     

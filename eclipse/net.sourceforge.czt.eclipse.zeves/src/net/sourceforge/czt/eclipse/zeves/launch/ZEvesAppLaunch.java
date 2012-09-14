@@ -1,5 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.launch;
 
+import java.io.File;
 import java.io.IOException;
 
 import net.sourceforge.czt.eclipse.zeves.ZEvesPlugin;
@@ -31,6 +32,7 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		}
 		
 		String zEvesExecutable = getVerifyLocation(configuration);
+		File workingDir = getVerifyWorkingDir(configuration);
 
 		if (monitor.isCanceled()) {
 			return;
@@ -38,7 +40,7 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		
 		monitor.beginTask("Launching " + configuration.getName() + "...", IProgressMonitor.UNKNOWN);
 
-		ZEvesServer server = new ZEvesServer(zEvesExecutable, port);
+		ZEvesServer server = new ZEvesServer(zEvesExecutable, port, workingDir);
 		try {
 			server.start();
 		} catch (IOException e) {
@@ -88,6 +90,32 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		return location;
 	}
 	
+  private File getVerifyWorkingDir(ILaunchConfiguration configuration) throws CoreException
+  {
+
+    String location = getWorkingDirConfig(configuration);
+
+    if (location != null && location.isEmpty()) {
+      location = null;
+    }
+
+    if (location == null) {
+      return null;
+    }
+
+    File file = new File(location);
+    if (!file.exists()) {
+      abort("Z/EVES working directory does not exist");
+    }
+
+    // must be a directory
+    if (!file.isDirectory()) {
+      abort("Z/EVES working directory is not a directory");
+    }
+
+    return file;
+  }
+	
 	public static String getLocationConfig(ILaunchConfiguration configuration) {
 		String location= ""; //$NON-NLS-1$
 		try {
@@ -97,5 +125,17 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		}
 		return location;
 	}
+	
+  public static String getWorkingDirConfig(ILaunchConfiguration configuration)
+  {
+    String location = null; //$NON-NLS-1$
+    try {
+      location = configuration.getAttribute(ZEvesLaunchConstants.ATTR_WORKING_DIR, (String) null); //$NON-NLS-1$
+    }
+    catch (CoreException ce) {
+      ZEvesPlugin.getDefault().log("Error reading configuration", ce);
+    }
+    return location;
+  }
 	
 }
