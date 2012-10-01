@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
-    <groupId>net.sourceforge.czt.eclipse</groupId>
-    <artifactId>czt-eclipse-parent</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <groupId>net.sourceforge.czt.m2e</groupId>
+    <artifactId>czt-m2e-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>net.sourceforge.czt.core-feature</artifactId>
+  <artifactId>net.sourceforge.czt.m2e.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
-  <name>CZT Core Feature</name>
+  <name>CZT m2e Support Feature</name>
   
 </project>

@@ -7,9 +7,9 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>net.sourceforge.czt.m2e-feature</artifactId>
-  <packaging>eclipse-feature</packaging>
+  <artifactId>net.sourceforge.czt.m2e.repository</artifactId>
+  <packaging>eclipse-repository</packaging>
 
-  <name>CZT m2e Support Feature</name>
+  <name>CZT m2e Support p2 Repository</name>
   
 </project>

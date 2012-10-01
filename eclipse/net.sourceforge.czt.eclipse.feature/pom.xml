@@ -7,10 +7,9 @@
     <version>1.6.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>net.sourceforge.czt.eclipse.zeves-feature</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>net.sourceforge.czt.eclipse.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
-  <name>Z/EVES Eclipse Feature</name>
+  <name>CZT Eclipse Feature</name>
   
 </project>

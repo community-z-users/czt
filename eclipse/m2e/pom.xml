@@ -23,8 +23,8 @@
     <module>net.sourceforge.czt.m2e.gnast</module>
     <module>net.sourceforge.czt.m2e.parser-src</module>
     
-    <module>net.sourceforge.czt.m2e-feature</module>
-    <module>net.sourceforge.czt.m2e-repository</module>
+    <module>net.sourceforge.czt.m2e.feature</module>
+    <module>net.sourceforge.czt.m2e.repository</module>
   </modules>
   
 </project>

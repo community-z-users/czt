@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.sourceforge.czt.eclipse.zeves-feature"
-      label="Z/EVES Prover Integration for CZT"
-      version="1.0.0.qualifier"
+      id="net.sourceforge.czt.eclipse.feature"
+      label="CZT for Eclipse"
+      version="1.6.0.qualifier"
       provider-name="Community Z Tools">
 
    <description url="http://czt.sourceforge.net">
-      Provides Z/EVES theorem prover integration with CZT.
+      This Eclipse plugin provides support for editing formal specifications in the Z specification language.  It supports the ISO Z standard LaTeX and Unicode markups, and the Unicode markup can be used to give a WYSIWYG editor for Z.  The plugin provides syntax colouring, outline mode, cross-referencing of variables, constant background typechecking and many more features.
    </description>
 
    <copyright url="http://czt.sourceforge.net/license.html">
-      Copyright (C) 2012 Andrius Velykis
+      Copyright (C) 2008, 2012 Mark Utting, Andrius Velykis
 
 This file is part of the CZT project.
 
@@ -703,29 +703,37 @@ Public License instead of this License.  But first, please read
    </url>
 
    <requires>
-      <import feature="net.sourceforge.czt.eclipse-feature" version="1.6.0.qualifier"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime" version="3.7.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.eclipse.jface.databinding"/>
-      <import plugin="org.eclipse.core.databinding"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.eclipse.core.filesystem"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.search"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.apache.commons.lang" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.7.0" match="greaterOrEqual"/>
+      <import feature="net.sourceforge.czt.core.feature" version="1.6.0.qualifier"/>
    </requires>
 
    <plugin
-         id="net.sourceforge.czt.eclipse.zeves"
+         id="net.sourceforge.czt.eclipse"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.lang"
+         id="net.sourceforge.czt.eclipse.doc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.eclipse.vcg"
          download-size="0"
          install-size="0"
          version="0.0.0"

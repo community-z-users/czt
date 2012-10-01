@@ -3,13 +3,13 @@
    <description url="http://czt.sourceforge.net/eclipse">
       Eclipse update site for the Community Z Tools (CZT) Eclipse plugin.  The CZT Eclipse plugin provides an IDE environment for editing Z specifications, in LaTeX or Unicode markup.  It provides syntax colouring, continuous background parsing and typechecking, template insertion, outline support and many other features.
    </description>
-   <feature url="features/net.sourceforge.czt.eclipse-feature_1.6.0.qualifier.jar" id="net.sourceforge.czt.eclipse-feature" version="1.6.0.qualifier">
+   <feature url="features/net.sourceforge.czt.eclipse.feature_1.6.0.qualifier.jar" id="net.sourceforge.czt.eclipse.feature" version="1.6.0.qualifier">
       <category name="net.sourceforge.czt.eclipse.category"/>
    </feature>
-   <feature url="features/net.sourceforge.czt.eclipse.zeves-feature_1.0.0.qualifier.jar" id="net.sourceforge.czt.eclipse.zeves-feature" version="1.0.0.qualifier">
+   <feature url="features/net.sourceforge.czt.eclipse.zeves.feature_1.0.0.qualifier.jar" id="net.sourceforge.czt.eclipse.zeves.feature" version="1.0.0.qualifier">
       <category name="net.sourceforge.czt.eclipse.category"/>
    </feature>
-   <feature url="features/net.sourceforge.czt.core-feature_1.6.0.qualifier.jar" id="net.sourceforge.czt.core-feature" version="1.6.0.qualifier">
+   <feature url="features/net.sourceforge.czt.core.feature_1.6.0.qualifier.jar" id="net.sourceforge.czt.core.feature" version="1.6.0.qualifier">
       <category name="net.sourceforge.czt.eclipse.category"/>
    </feature>
    <category-def name="net.sourceforge.czt.eclipse.category" label="Community Z Tools">
