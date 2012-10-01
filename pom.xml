@@ -28,9 +28,11 @@
   <url>http://czt.sourceforge.net</url>
   <organization>
     <name>Community Z Tools Project</name>
+    <url>http://czt.sourceforge.net</url>
   </organization>
   <inceptionYear>2003</inceptionYear>
   <issueManagement>
+    <system>SourceForge</system>
     <url>http://sourceforge.net/tracker/?group_id=86250</url>
   </issueManagement>
   <mailingLists>
