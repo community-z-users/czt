@@ -100,33 +100,33 @@
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             markerSeverity="2"
-            markerType="net.sourceforge.czt.eclipse.problemmarker"
+            markerType="net.sourceforge.czt.eclipse.ui.problemmarker"
             name="net.sourceforge.czt.eclipse.error"
             super="org.eclipse.ui.workbench.texteditor.error"/>
       <type
             markerSeverity="1"
-            markerType="net.sourceforge.czt.eclipse.problemmarker"
+            markerType="net.sourceforge.czt.eclipse.ui.problemmarker"
             name="net.sourceforge.czt.eclipse.warning"
             super="org.eclipse.ui.workbench.texteditor.warning"/>
       <type
             markerSeverity="0"
-            markerType="net.sourceforge.czt.eclipse.problemmarker"
+            markerType="net.sourceforge.czt.eclipse.ui.problemmarker"
             name="net.sourceforge.czt.eclipse.info"
             super="org.eclipse.ui.workbench.texteditor.info"/>
       <type
-            markerType="net.sourceforge.czt.eclipse.taskmarker"
+            markerType="net.sourceforge.czt.eclipse.ui.taskmarker"
             name="net.sourceforge.czt.eclipse.task"
             super="org.eclipse.ui.workbench.texteditor.task"/>
       <type
-            markerType="net.sourceforge.czt.eclipse.bookmarkmarker"
+            markerType="net.sourceforge.czt.eclipse.ui.bookmarkmarker"
             name="net.sourceforge.czt.eclipse.bookmark"
             super="org.eclipse.ui.workbench.texteditor.bookmark"/>
       <type
-            markerType="net.sourceforge.czt.eclipse.occurrencemarker"
+            markerType="net.sourceforge.czt.eclipse.ui.occurrencemarker"
             name="net.sourceforge.czt.eclipse.occurrence"
             super="org.eclipse.jdt.ui.occurrences"/>
       <type
-            markerType="net.sourceforge.czt.eclipse.termhighlightmarker"
+            markerType="net.sourceforge.czt.eclipse.ui.termhighlightmarker"
             name="net.sourceforge.czt.eclipse.termhighlight"/>
    </extension>
    <extension

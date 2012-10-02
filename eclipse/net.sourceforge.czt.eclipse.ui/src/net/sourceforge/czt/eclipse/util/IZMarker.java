@@ -16,28 +16,28 @@ public interface IZMarker extends IMarker
   /**
    * CZT problem marker type
    */
-  public final String PROBLEM = CztUI.ID_PLUGIN + ".problemmarker";
+  public final String PROBLEM = CztUI.ID_PLUGIN + ".ui.problemmarker";
 
   /**
    * CZT task marker type
    */
-  public final String TASK = CztUI.ID_PLUGIN + ".taskmarker";
+  public final String TASK = CztUI.ID_PLUGIN + ".ui.taskmarker";
 
   /**
    * CZT bookmark marker type
    */
-  public final String BOOKMARK = CztUI.ID_PLUGIN + ".bookmarkmarker";
+  public final String BOOKMARK = CztUI.ID_PLUGIN + ".ui.bookmarkmarker";
 
   /**
    * CZT occurrence marker type
    */
-  public final String OCCURRENCE = CztUI.ID_PLUGIN + ".occurrencemarker";
+  public final String OCCURRENCE = CztUI.ID_PLUGIN + ".ui.occurrencemarker";
 
   /**
    * CZT term highlight marker type
    */
   public final String TERMHIGHLIGHT = CztUI.ID_PLUGIN
-      + ".termhighlightmarker";
+      + ".ui.termhighlightmarker";
 
   /**
    * CZT marker attribute,

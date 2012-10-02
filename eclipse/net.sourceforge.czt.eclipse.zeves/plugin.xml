@@ -991,7 +991,7 @@
       </initializer>
    </extension>
    <extension
-         point="net.sourceforge.czt.eclipse.problemSeverityProviders">
+         point="net.sourceforge.czt.eclipse.ui.problemSeverityProviders">
       <provider
             class="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesProblemSeverityProvider">
       </provider>

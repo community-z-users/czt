@@ -44,7 +44,7 @@
          name="CZT VCG Problem"
          point="org.eclipse.core.resources.markers">
       <super
-            type="net.sourceforge.czt.eclipse.problemmarker">
+            type="net.sourceforge.czt.eclipse.ui.problemmarker">
       </super>
    </extension>
 

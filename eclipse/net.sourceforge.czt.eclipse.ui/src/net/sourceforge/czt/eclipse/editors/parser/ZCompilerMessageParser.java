@@ -34,7 +34,7 @@ public class ZCompilerMessageParser
 {
 
   // the ID of problem severity providers extension point
-  private static final String SEVERITY_PROVIDERS_ID = CZTPlugin.getPluginID() + ".problemSeverityProviders";
+  private static final String SEVERITY_PROVIDERS_ID = "net.sourceforge.czt.eclipse.ui.problemSeverityProviders";
   
   private final List<IZProblemSeverityProvider> providers = new ArrayList<IZProblemSeverityProvider>();
   

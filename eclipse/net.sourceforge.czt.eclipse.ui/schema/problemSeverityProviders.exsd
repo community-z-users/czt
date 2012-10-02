@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="net.sourceforge.czt.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="net.sourceforge.czt.eclipse.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="net.sourceforge.czt.eclipse" id="problemSeverityProviders" name="Z Compiler Problem Severity Providers"/>
+         <meta.schema plugin="net.sourceforge.czt.eclipse.ui" id="problemSeverityProviders" name="Z Compiler Problem Severity Providers"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
