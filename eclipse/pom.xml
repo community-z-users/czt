@@ -31,13 +31,9 @@
     <module>net.sourceforge.czt.eclipse.doc</module>
     <module>net.sourceforge.czt.eclipse.vcg</module>
     
-    <module>net.sourceforge.czt.core.feature</module>    
-    <module>net.sourceforge.czt.eclipse.feature</module>
-    
     <module>net.sourceforge.czt.eclipse.zeves</module>
-    <module>net.sourceforge.czt.eclipse.zeves.feature</module>
     
-    <module>net.sourceforge.czt.eclipse.repository</module>
+    <module>releng</module>
   </modules>
   
   <repositories>
