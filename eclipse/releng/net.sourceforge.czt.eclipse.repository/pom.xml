@@ -12,4 +12,17 @@
 
   <name>CZT Eclipse p2 Repository</name>
   
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-repository-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <repositoryName>CZT for Eclipse Updates</repositoryName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
 </project>
