@@ -3,7 +3,8 @@
       id="net.sourceforge.czt.eclipse.zeves.feature"
       label="%featureName"
       version="1.0.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="net.sourceforge.czt.eclipse.zeves.feature.branding">
 
    <description url="http://czt.sourceforge.net/eclipse">
       %description
@@ -45,6 +46,13 @@
 
    <plugin
          id="org.apache.commons.lang"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.eclipse.zeves.feature.branding"
          download-size="0"
          install-size="0"
          version="0.0.0"

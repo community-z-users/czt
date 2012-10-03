@@ -13,8 +13,11 @@
   <name>CZT Eclipse Release Parent</name>
     
   <modules>
+    <module>net.sourceforge.czt.core.feature.branding</module>
     <module>net.sourceforge.czt.core.feature</module>
+    <module>net.sourceforge.czt.eclipse.feature.branding</module>
     <module>net.sourceforge.czt.eclipse.feature</module>
+    <module>net.sourceforge.czt.eclipse.zeves.feature.branding</module>
     <module>net.sourceforge.czt.eclipse.zeves.feature</module>
     <module>net.sourceforge.czt.eclipse.repository</module>
   </modules>

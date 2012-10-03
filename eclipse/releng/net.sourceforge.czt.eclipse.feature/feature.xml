@@ -3,7 +3,8 @@
       id="net.sourceforge.czt.eclipse.feature"
       label="%featureName"
       version="1.6.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="net.sourceforge.czt.eclipse.feature.branding">
 
    <description url="http://czt.sourceforge.net/eclipse">
       %description
@@ -60,6 +61,13 @@
 
    <plugin
          id="net.sourceforge.czt.eclipse"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.eclipse.feature.branding"
          download-size="0"
          install-size="0"
          version="0.0.0"
