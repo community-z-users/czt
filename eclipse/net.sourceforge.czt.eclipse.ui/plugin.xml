@@ -249,7 +249,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="net.sourceforge.czt.eclipse.perspectives.ZPerspectiveFactory"
+            class="net.sourceforge.czt.eclipse.ui.perspective.ZPerspectiveFactory"
             icon="icons/CZTproject.png"
             id="net.sourceforge.czt.eclipse.ui.ZPerspective"
             name="Z"/>

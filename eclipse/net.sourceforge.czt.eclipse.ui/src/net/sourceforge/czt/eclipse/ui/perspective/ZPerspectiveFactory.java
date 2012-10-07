@@ -1,5 +1,5 @@
 
-package net.sourceforge.czt.eclipse.perspectives;
+package net.sourceforge.czt.eclipse.ui.perspective;
 
 import net.sourceforge.czt.eclipse.util.CztUI;
 
