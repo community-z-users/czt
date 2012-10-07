@@ -251,22 +251,22 @@
       <perspective
             class="net.sourceforge.czt.eclipse.perspectives.ZPerspectiveFactory"
             icon="icons/CZTproject.png"
-            id="net.sourceforge.czt.eclipse.perspectives"
-            name="CZT"/>
+            id="net.sourceforge.czt.eclipse.ui.ZPerspective"
+            name="Z"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
-         <perspectiveShortcut id="net.sourceforge.czt.eclipse.perspectives"/>
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
-         <perspectiveShortcut id="net.sourceforge.czt.eclipse.perspectives"/>
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
-         <perspectiveShortcut id="net.sourceforge.czt.eclipse.perspectives"/>
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaBrowsingPerspective">
-         <perspectiveShortcut id="net.sourceforge.czt.eclipse.perspectives"/>
+         <perspectiveShortcut id="net.sourceforge.czt.eclipse.ui.ZPerspective"/>
       </perspectiveExtension>
    </extension>
    <extension
@@ -346,20 +346,20 @@
       <wizard
             category="net.sourceforge.czt.eclipse.newwizard"
             class="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"
-            finalPerspective="net.sourceforge.czt.eclipse.perspectives"
+            finalPerspective="net.sourceforge.czt.eclipse.ui.ZPerspective"
             icon="icons/CZTproject.png"
             id="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"
             name="%NewCZTProjectWizard.label"
-            preferredPerspectives="net.sourceforge.czt.eclipse.perspectives"
+            preferredPerspectives="net.sourceforge.czt.eclipse.ui.ZPerspective"
             project="true"/>
       <wizard
             category="net.sourceforge.czt.eclipse.newwizard"
             class="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"
-            finalPerspective="net.sourceforge.czt.eclipse.perspectives"
+            finalPerspective="net.sourceforge.czt.eclipse.ui.ZPerspective"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"
             name="%NewZSpecificationWizard.label"
-            preferredPerspectives="net.sourceforge.czt.eclipse.perspectives"
+            preferredPerspectives="net.sourceforge.czt.eclipse.ui.ZPerspective"
             project="false"/>
    </extension>
    <extension

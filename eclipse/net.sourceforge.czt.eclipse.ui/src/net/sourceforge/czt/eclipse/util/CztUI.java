@@ -26,10 +26,10 @@ public final class CztUI
     public static final String ID_PLUGIN= "net.sourceforge.czt.eclipse"; //$NON-NLS-1$
     
     /**
-     * The id of the CZT perspective
-     * (value <code>"net.sourceforge.czt.eclipse.perspectives"</code>).
+     * The id of the Z perspective
+     * (value {@code net.sourceforge.czt.eclipse.ui.ZPerspective}).
      */ 
-    public static final String ID_PERSPECTIVE=      "net.sourceforge.czt.eclipse.perspectives"; //$NON-NLS-1$
+    public static final String ID_PERSPECTIVE = "net.sourceforge.czt.eclipse.ui.ZPerspective"; //$NON-NLS-1$
     
     
     /**
