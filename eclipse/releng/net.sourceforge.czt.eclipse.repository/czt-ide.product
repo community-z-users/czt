@@ -41,6 +41,7 @@
       <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</macos>
    </vm>
 
+
    <plugins>
    </plugins>
 
@@ -56,6 +57,7 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4" />
+      <property name="osgi.instance.area.default" value="@user.home/Documents/CZT/workspace" />
    </configurations>
 
 </product>
