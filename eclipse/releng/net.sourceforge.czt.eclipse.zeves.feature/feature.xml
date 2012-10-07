@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://czt.sourceforge.net"/>
+      <update label="%updateSiteName" url="http://czt.sourceforge.net/eclipse/updates/releases/"/>
    </url>
 
    <requires>

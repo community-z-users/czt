@@ -19,10 +19,19 @@
   <name>CZT Eclipse Parent</name>
   
   <properties>
-    <tycho-version>0.15.0</tycho-version>
+    <tycho-version>0.16.0-SNAPSHOT</tycho-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- The build ID - normally the qualifier, but can be e.g. "M2" for milestone builds -->
+    <czt.buildId>${buildQualifier}</czt.buildId>
   </properties>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>tycho-snapshots</id>
+      <url>https://oss.sonatype.org/content/groups/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
   
   <modules>
     <module>m2e</module>
