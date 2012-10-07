@@ -5,7 +5,7 @@
       version="1.0.0.qualifier"
       provider-name="%providerName">
 
-   <description url="http://czt.sourceforge.net/eclipse">
+   <description url="http://czt.sourceforge.net/eclipse/eclipse">
       %description
    </description>
 
@@ -18,7 +18,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://czt.sourceforge.net"/>
+      <update label="%updateSiteName" url="http://czt.sourceforge.net/eclipse/updates/releases/"/>
    </url>
 
    <requires>
