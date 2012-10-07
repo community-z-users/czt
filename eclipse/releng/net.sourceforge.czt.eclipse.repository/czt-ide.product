@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Community Z Tools IDE" uid="net.sourceforge.czt.eclipse.product" id="net.sourceforge.czt.eclipse.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/net.sourceforge.czt.eclipse/icons/czt-about.png"/>
+      <text>
+         %productAboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Xms40m -Xmx512m</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/net.sourceforge.czt.eclipse/icons/czt16.png" i32="/net.sourceforge.czt.eclipse/icons/czt32.png" i48="/net.sourceforge.czt.eclipse/icons/czt48.png" i64="/net.sourceforge.czt.eclipse/icons/czt64.png" i128="/net.sourceforge.czt.eclipse/icons/czt128.png"/>
+
+   <splash
+      location="net.sourceforge.czt.eclipse"
+      startupProgressRect="15,272,210,15"
+      startupMessageRect="17,242,208,20"
+      startupForegroundColor="000000" />
+   <launcher name="CZT">
+      <linux icon="/icons/icon.xpm"/>
+      <macosx icon="/icons/czt.icns"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="/icons/czt.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="org.eclipse.ui.intro.universal"/>
+
+   <vm>
+      <macos include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</macos>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="net.sourceforge.czt.eclipse.feature"/>
+      <feature id="net.sourceforge.czt.eclipse.zeves.feature"/>
+      <feature id="net.sourceforge.czt.eclipse.product.feature"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4" />
+   </configurations>
+
+</product>

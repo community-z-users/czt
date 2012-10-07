@@ -10,8 +10,17 @@
   <artifactId>net.sourceforge.czt.eclipse.repository</artifactId>
   <packaging>eclipse-repository</packaging>
 
-  <name>CZT Eclipse p2 Repository</name>
-  
+  <name>CZT Eclipse Product and p2 Repository</name>
+
+  <repositories>
+    <!-- Use Juno SR1 for product release -->
+    <repository>
+      <id>juno</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/juno</url>
+    </repository>
+  </repositories>
+
   <build>
     <plugins>
       <plugin>
@@ -20,6 +29,35 @@
         <version>${tycho-version}</version>
         <configuration>
           <repositoryName>CZT for Eclipse Updates</repositoryName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-director-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <id>materialize-products</id>
+            <goals>
+              <goal>materialize-products</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>archive-products</id>
+            <goals>
+              <goal>archive-products</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <products>
+            <product>
+              <id>net.sourceforge.czt.eclipse.product</id>
+              <archiveFileName>czt-ide-${unqualifiedVersion}.${buildQualifier}</archiveFileName>
+              <rootFolder>czt-ide</rootFolder>
+            </product>
+          </products>
+          <profile>SDKProfile</profile>
         </configuration>
       </plugin>
     </plugins>
