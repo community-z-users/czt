@@ -4,7 +4,7 @@
 # This file does not need to be translated.
 
 # the build ID of CZT product
-0=$eclipse.buildId$
+0=${czt.buildId}
 
 # the version number of CZT product
-1=2.0.0
+1=${unqualifiedVersion}.${buildQualifier}

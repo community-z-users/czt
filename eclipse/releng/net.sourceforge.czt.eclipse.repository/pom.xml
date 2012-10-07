@@ -55,7 +55,7 @@
           <products>
             <product>
               <id>net.sourceforge.czt.eclipse.product</id>
-              <archiveFileName>czt-ide-${unqualifiedVersion}.${buildQualifier}</archiveFileName>
+              <archiveFileName>czt-ide-${unqualifiedVersion}.${czt.buildId}</archiveFileName>
               <rootFolder>czt-ide</rootFolder>
             </product>
           </products>

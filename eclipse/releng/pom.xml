@@ -23,5 +23,19 @@
     <module>net.sourceforge.czt.eclipse.product.feature</module>
     <module>net.sourceforge.czt.eclipse.repository</module>
   </modules>
+  
+  <build>
+    <resources>
+      <resource>
+        <!-- Replace (filter) Maven variables in .mappings files
+             (e.g. build ID, version qualifiers, etc) -->
+        <directory>.</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.mappings</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 
 </project>
