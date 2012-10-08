@@ -41,7 +41,6 @@ import net.sourceforge.czt.eclipse.ui.editors.ZPairMatcher;
 import net.sourceforge.czt.eclipse.ui.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.ui.editors.ZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.ui.editors.ZSpecDecorationSupport;
-import net.sourceforge.czt.eclipse.ui.editors.actions.CZTActionConstants;
 import net.sourceforge.czt.eclipse.ui.editors.actions.ContractSelectionAction;
 import net.sourceforge.czt.eclipse.ui.editors.actions.Convert2LatexAction;
 import net.sourceforge.czt.eclipse.ui.editors.actions.Convert2OldLatexAction;
@@ -49,7 +48,6 @@ import net.sourceforge.czt.eclipse.ui.editors.actions.Convert2UnicodeAction;
 import net.sourceforge.czt.eclipse.ui.editors.actions.Convert2XMLAction;
 import net.sourceforge.czt.eclipse.ui.editors.actions.ExpandSelectionAction;
 import net.sourceforge.czt.eclipse.ui.editors.actions.GoToDeclarationAction;
-import net.sourceforge.czt.eclipse.ui.editors.actions.IZEditorActionDefinitionIds;
 import net.sourceforge.czt.eclipse.ui.editors.hover.SourceViewerInformationControl;
 import net.sourceforge.czt.eclipse.ui.editors.hover.UnicodeSourceViewerInformationControl;
 import net.sourceforge.czt.eclipse.ui.editors.latex.ZLatexPairMatcher;
@@ -137,6 +135,8 @@ import org.eclipse.ui.texteditor.IEditorStatusLine;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+
+import static net.sourceforge.czt.eclipse.ui.editors.actions.ICztActionConstants.*;
 
 /**
  * @author Chengdong Xu
@@ -505,42 +505,38 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
     IAction action = new GoToDeclarationAction(ZEditorMessages
         .getBundleForActionKeys(), "GotoDeclaration.", this); //$NON-NLS-1$
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
-    setAction(CZTActionConstants.GO_TO_DECLARATION, action);
+    action.setActionDefinitionId(GO_TO_DECLARATION);
+    setAction(GO_TO_DECLARATION, action);
 
     action = new ExpandSelectionAction(
         ZEditorMessages.getBundleForActionKeys(), "HighlightEnclosing.", this);;
-    action
-        .setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
-    setAction(CZTActionConstants.HIGHLIGHT_ENCLOSING, action);
+    action.setActionDefinitionId(HIGHLIGHT_ENCLOSING_ELEMENT);
+    setAction(HIGHLIGHT_ENCLOSING_ELEMENT, action);
 
     action = new ContractSelectionAction(ZEditorMessages
         .getBundleForActionKeys(), "RestoreLastHighlight.", this);
-    action
-        .setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
-    setAction(CZTActionConstants.RESTORE_LAST, action);
+    action.setActionDefinitionId(RESTORE_LAST_HIGHLIGHT);
+    setAction(RESTORE_LAST_HIGHLIGHT, action);
 
     action = new Convert2LatexAction(ZEditorMessages.getBundleForActionKeys(),
         "Convert2LaTeX.", this);
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
-    setAction(CZTActionConstants.CONVERT_TO_LATEX, action);
+    action.setActionDefinitionId(CONVERT_TO_LATEX);
+    setAction(CONVERT_TO_LATEX, action);
 
     action = new Convert2OldLatexAction(ZEditorMessages
         .getBundleForActionKeys(), "Convert2OldLaTeX.", this);
-    action
-        .setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
-    setAction(CZTActionConstants.CONVERT_TO_OLD_LATEX, action);
+    action.setActionDefinitionId(CONVERT_TO_OLD_LATEX);
+    setAction(CONVERT_TO_OLD_LATEX, action);
 
     action = new Convert2UnicodeAction(
         ZEditorMessages.getBundleForActionKeys(), "Convert2Unicode.", this);
-    action
-        .setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
-    setAction(CZTActionConstants.CONVERT_TO_UNICODE, action);
+    action.setActionDefinitionId(CONVERT_TO_UNICODE);
+    setAction(CONVERT_TO_UNICODE, action);
 
     action = new Convert2XMLAction(ZEditorMessages.getBundleForActionKeys(),
         "Convert2XML.", this);
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
-    setAction(CZTActionConstants.CONVERT_TO_XML, action);
+    action.setActionDefinitionId(CONVERT_TO_XML);
+    setAction(CONVERT_TO_XML, action);
 
     //    markAsStateDependentAction("HighlightEnclosing", true); //$NON-NLS-1$
     //    markAsSelectionDependentAction("HighlightEnclosing", true); //$NON-NLS-1$

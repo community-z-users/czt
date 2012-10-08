@@ -4,8 +4,6 @@ package net.sourceforge.czt.eclipse.ui.editors.zeditor;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.actions.CZTActionConstants;
-import net.sourceforge.czt.eclipse.ui.editors.actions.IZEditorActionDefinitionIds;
 import net.sourceforge.czt.eclipse.ui.util.CztUI;
 import net.sourceforge.czt.eclipse.ui.util.IZFileType;
 import net.sourceforge.czt.eclipse.ui.util.IZMode;
@@ -29,6 +27,8 @@ import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.RetargetTextEditorAction;
 import org.eclipse.ui.texteditor.StatusLineContributionItem;
+
+import static net.sourceforge.czt.eclipse.ui.editors.actions.ICztActionConstants.*;
 
 /**
  * @author Chengdong Xu
@@ -58,25 +58,25 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     ResourceBundle b= ZEditorMessages.getBundleForActionKeys();
     
     fGotoDeclarationAction = new RetargetTextEditorAction(b, "GotoDeclaration."); //$NON-NLS-1$
-    fGotoDeclarationAction.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
+    fGotoDeclarationAction.setActionDefinitionId(GO_TO_DECLARATION);
     
     fHighlightEnclosingTermAction = new RetargetTextEditorAction(b, "HighlightEnclosing."); //$NON-NLS-1$
-    fHighlightEnclosingTermAction.setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
+    fHighlightEnclosingTermAction.setActionDefinitionId(HIGHLIGHT_ENCLOSING_ELEMENT);
     
     fRestoreLastHighlightAction = new RetargetTextEditorAction(b, "RestoreLastHighlight."); //$NON-NLS-1$
-    fRestoreLastHighlightAction.setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
+    fRestoreLastHighlightAction.setActionDefinitionId(RESTORE_LAST_HIGHLIGHT);
     
     fConvert2LatexAction = new RetargetTextEditorAction(b, "Convert2LaTeX."); //$NON-NLS-1$
-    fConvert2LatexAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
+    fConvert2LatexAction.setActionDefinitionId(CONVERT_TO_LATEX);
     
     fConvert2OldLatexAction = new RetargetTextEditorAction(b, "Convert2OldLaTeX."); //$NON-NLS-1$
-    fConvert2OldLatexAction .setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
+    fConvert2OldLatexAction .setActionDefinitionId(CONVERT_TO_OLD_LATEX);
     
     fConvert2UnicodeAction = new RetargetTextEditorAction(b, "Convert2Unicode."); //$NON-NLS-1$
-    fConvert2UnicodeAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
+    fConvert2UnicodeAction.setActionDefinitionId(CONVERT_TO_UNICODE);
     
     fConvert2XMLAction = new RetargetTextEditorAction(b, "Convert2XML."); //$NON-NLS-1$
-    fConvert2XMLAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
+    fConvert2XMLAction.setActionDefinitionId(CONVERT_TO_XML);
     
   }
 
@@ -170,15 +170,15 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     if (part instanceof ITextEditor)
       fEditor = (ITextEditor) part;
     
-    fGotoDeclarationAction.setAction(getAction(fEditor, CZTActionConstants.GO_TO_DECLARATION));
+    fGotoDeclarationAction.setAction(getAction(fEditor, GO_TO_DECLARATION));
     
-    fHighlightEnclosingTermAction.setAction(getAction(fEditor, CZTActionConstants.HIGHLIGHT_ENCLOSING));
-    fRestoreLastHighlightAction.setAction(getAction(fEditor, CZTActionConstants.RESTORE_LAST));
+    fHighlightEnclosingTermAction.setAction(getAction(fEditor, HIGHLIGHT_ENCLOSING_ELEMENT));
+    fRestoreLastHighlightAction.setAction(getAction(fEditor, RESTORE_LAST_HIGHLIGHT));
     
-    fConvert2LatexAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_LATEX));
-    fConvert2OldLatexAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_OLD_LATEX));
-    fConvert2UnicodeAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_UNICODE));
-    fConvert2XMLAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_XML));
+    fConvert2LatexAction.setAction(getAction(fEditor, CONVERT_TO_LATEX));
+    fConvert2OldLatexAction.setAction(getAction(fEditor, CONVERT_TO_OLD_LATEX));
+    fConvert2UnicodeAction.setAction(getAction(fEditor, CONVERT_TO_UNICODE));
+    fConvert2XMLAction.setAction(getAction(fEditor, CONVERT_TO_XML));
     
 //    convert2XMLAction.setEditor(this.editor);
     
