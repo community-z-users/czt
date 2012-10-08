@@ -4,7 +4,6 @@ package net.sourceforge.czt.eclipse.ui.editors.zeditor;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
 import net.sourceforge.czt.eclipse.ui.util.IZFileType;
 import net.sourceforge.czt.eclipse.ui.util.IZMode;
 import net.sourceforge.czt.eclipse.ui.util.Selector;
@@ -35,6 +34,17 @@ import static net.sourceforge.czt.eclipse.ui.editors.actions.ICztActionConstants
  */
 public class ZEditorActionContributor extends BasicTextEditorActionContributor
 {
+  
+  /**
+   * The name of the status line group item
+   */
+  private static final String STATUS_LINE_GROUP = "net.sourceforge.czt.eclipse.ui.status.group";
+  
+  /**
+   * The id of the status line contribution item - Editing Mode
+   */
+  private static final String ID_STATUS_LINE_EDIT_MODE = "net.sourceforge.czt.eclipse.ui.status.edit.mode";
+  
   // Display the editor editing mode here
   private StatusLineContributionItem fEditModeArea;
   
@@ -152,10 +162,10 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
   public void contributeToStatusLine(IStatusLineManager statusLineManager)
   {
     super.contributeToStatusLine(statusLineManager);
-    statusLineManager.insertBefore(StatusLineManager.MIDDLE_GROUP, new GroupMarker(CztUI.STATUS_LINE_GROUP));
-    fEditModeArea = new StatusLineContributionItem(CztUI.ID_STATUS_LINE_EDIT_MODE);
-    statusLineManager.appendToGroup(CztUI.STATUS_LINE_GROUP, fEditModeArea);
-    statusLineManager.insertAfter(CztUI.ID_STATUS_LINE_EDIT_MODE, new Separator());
+    statusLineManager.insertBefore(StatusLineManager.MIDDLE_GROUP, new GroupMarker(STATUS_LINE_GROUP));
+    fEditModeArea = new StatusLineContributionItem(ID_STATUS_LINE_EDIT_MODE);
+    statusLineManager.appendToGroup(STATUS_LINE_GROUP, fEditModeArea);
+    statusLineManager.insertAfter(ID_STATUS_LINE_EDIT_MODE, new Separator());
 //    statusLineManager.prependToGroup(StatusLineManager.MIDDLE_GROUP, statusItem);
 //    statusLineManager.add(new Separator());
 //    statusItem.setText("my status line item");

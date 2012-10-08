@@ -4,7 +4,7 @@
 package net.sourceforge.czt.eclipse.ui.util;
 
 /**
- * Central access point for the CZT plug-in (id <code>"net.sourceforge.czt.eclipse"</code>).
+ * Central access point for the CZT plug-in.
  * <p>
  * This class provides static methods and fields only; it is not intended to be
  * instantiated or subclassed by clients.
@@ -14,7 +14,6 @@ package net.sourceforge.czt.eclipse.ui.util;
  */
 public final class CztUI
 {
-//    private static ISharedImages fgSharedImages= null;
     
     private CztUI() {
         // prevent instantiation of CztUI.
@@ -44,27 +43,4 @@ public final class CztUI
      */
     public static final String ID_NEW_CZT_SPECIFICATION_WIZARD = "net.sourceforge.czt.eclipse.ui.wizards.ZSpecification";
     
-    /**
-     * The name of the status line group item
-     * (value <code>"net.sourceforge.czt.eclipse.status.group"</code>).
-     */
-    public static final String STATUS_LINE_GROUP = "net.sourceforge.czt.eclipse.status.group";
-    
-    /**
-     * The id of the status line contribution item - Editing Mode
-     * (value <code>"net.sourceforge.czt.eclipse.status.edit.mode"</code>).
-     */
-    public static final String ID_STATUS_LINE_EDIT_MODE = "net.sourceforge.czt.eclipse.status.edit.mode";
-    
-    /**
-     * Returns the shared images for the CZT UI.
-     *
-     * @return the shared images manager
-     */
- //   public static ISharedImages getSharedImages() {
- //       if (fgSharedImages == null)
- //           fgSharedImages= new SharedImages();
-            
- //       return fgSharedImages;
- //   }
 }
