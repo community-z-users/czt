@@ -11,7 +11,7 @@ import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgImages;
-import net.sourceforge.czt.eclipse.vcg.ui.VcgPlugin;
+import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.session.CommandException;
@@ -78,7 +78,7 @@ public class VCPage extends Page {
 	}
 	
 	private static IEclipsePreferences getPrefs() {
-		return InstanceScope.INSTANCE.getNode(VcgPlugin.PLUGIN_ID);
+		return InstanceScope.INSTANCE.getNode(VcgUIPlugin.PLUGIN_ID);
 	}
 
 	public VCPage(VCView view, ZEditor editor) {
@@ -199,7 +199,7 @@ public class VCPage extends Page {
 			} catch (Exception ex) {
 				MessageDialog.openError(getSite().getShell(), "Problems Printing VC",
 						"Cannot print VC: " + ex.getMessage());
-				VcgPlugin.getDefault().log(ex);
+				VcgUIPlugin.getDefault().log(ex);
 			}
 		}
 		
@@ -213,7 +213,7 @@ public class VCPage extends Page {
 			editor.getViewer().setSelectedRange(offset, vcInsert.length());
 			
 		} catch (BadLocationException e) {
-			VcgPlugin.getDefault().log(e);
+			VcgUIPlugin.getDefault().log(e);
 		}
 		
 		// wait for reconcile (parsing) and refresh
@@ -335,9 +335,9 @@ public class VCPage extends Page {
 				vcs.addAll(createVCs(monitor));
 			} catch (VCGException e) {
 				Throwable summary = handleVCException(e);
-				return VcgPlugin.newErrorStatus(summary.getMessage(), summary);
+				return VcgUIPlugin.newErrorStatus(summary.getMessage(), summary);
 			} catch (CommandException e) {
-				return VcgPlugin.newErrorStatus(e.getMessage(), e);
+				return VcgUIPlugin.newErrorStatus(e.getMessage(), e);
 			}
 			
 			if (monitor.isCanceled()) {
@@ -435,7 +435,7 @@ public class VCPage extends Page {
 			List<? extends Throwable> exceptions = VCGUtils.handleVCGException(e, "Generating VCs");
 			if (exceptions.isEmpty()) {
 				// log the main
-				VcgPlugin.getDefault().log(e);
+				VcgUIPlugin.getDefault().log(e);
 				return e;
 			}
 			
@@ -453,7 +453,7 @@ public class VCPage extends Page {
 				
 				String msg = errMsg.length() > 0 ? errMsg.toString() : ex.getMessage();
 
-				VcgPlugin.getDefault().log(msg, ex);
+				VcgUIPlugin.getDefault().log(msg, ex);
 			}
 		
 			// the first one is summary

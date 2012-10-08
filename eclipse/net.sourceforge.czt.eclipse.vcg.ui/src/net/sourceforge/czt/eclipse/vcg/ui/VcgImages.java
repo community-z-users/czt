@@ -16,7 +16,7 @@ public class VcgImages {
 
 	static {
 		String pathSuffix = "icons/"; //$NON-NLS-1$	
-		ICON_BASE_URL= VcgPlugin.getDefault().getBundle().getEntry(pathSuffix);
+		ICON_BASE_URL= VcgUIPlugin.getDefault().getBundle().getEntry(pathSuffix);
 	}
 	
 	public static final String IMG_REFRESH = ICON_BASE_URL + "refresh.gif";
@@ -28,7 +28,7 @@ public class VcgImages {
 	 * or <code>null</code> if it does not exist.
 	 */
 	public static Image getImage(String path) {
-		ImageRegistry imageRegistry = VcgPlugin.getDefault().getImageRegistry();
+		ImageRegistry imageRegistry = VcgUIPlugin.getDefault().getImageRegistry();
 		Image image = imageRegistry.get(path);
 		if (image == null) {
 			getImageDescriptor(path);
@@ -43,7 +43,7 @@ public class VcgImages {
 	 * or <code>null</code> if it does not exist.
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		ImageRegistry imageRegistry = VcgPlugin.getDefault().getImageRegistry();
+		ImageRegistry imageRegistry = VcgUIPlugin.getDefault().getImageRegistry();
 		ImageDescriptor desc = imageRegistry.getDescriptor(path);
 		if (desc == null) {
 			desc = ImageDescriptor.getMissingImageDescriptor();

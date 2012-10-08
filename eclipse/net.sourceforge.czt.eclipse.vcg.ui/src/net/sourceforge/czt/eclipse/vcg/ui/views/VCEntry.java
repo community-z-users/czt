@@ -8,7 +8,7 @@ import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
-import net.sourceforge.czt.eclipse.vcg.ui.VcgPlugin;
+import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -107,7 +107,7 @@ public class VCEntry extends PlatformObject {
 			try {
 				contents = ZEditorUtil.print(vcPara, sectInfo, getSectionName(), markup, 80, true);
 			} catch (CommandException e) {
-				throw new CoreException(VcgPlugin.newErrorStatus(e.getMessage(), e));
+				throw new CoreException(VcgUIPlugin.newErrorStatus(e.getMessage(), e));
 			}
 			return contents;
 		}

@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.vcg.ui;
 
-import static net.sourceforge.czt.eclipse.vcg.ui.VcgPlugin.PLUGIN_ID;
+import static net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin.PLUGIN_ID;
 
 public interface IVcgConstants {
 

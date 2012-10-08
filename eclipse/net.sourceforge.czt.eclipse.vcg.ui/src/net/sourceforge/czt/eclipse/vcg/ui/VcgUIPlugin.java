@@ -8,18 +8,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class VcgPlugin extends AbstractUIPlugin {
+public class VcgUIPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.sourceforge.czt.eclipse.vcg.ui"; //$NON-NLS-1$
 
 	// The shared instance
-	private static VcgPlugin plugin;
+	private static VcgUIPlugin plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public VcgPlugin() {
+	public VcgUIPlugin() {
 	}
 
 	/*
@@ -45,7 +45,7 @@ public class VcgPlugin extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static VcgPlugin getDefault() {
+	public static VcgUIPlugin getDefault() {
 		return plugin;
 	}
 	

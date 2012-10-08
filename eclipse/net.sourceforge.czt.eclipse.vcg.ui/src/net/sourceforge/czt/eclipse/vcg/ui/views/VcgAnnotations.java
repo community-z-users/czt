@@ -20,12 +20,12 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
 import net.sourceforge.czt.eclipse.ui.util.MarkerUtil;
-import net.sourceforge.czt.eclipse.vcg.ui.VcgPlugin;
+import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 
 
 public class VcgAnnotations {
 
-	public static final String MARKER_ERROR = VcgPlugin.PLUGIN_ID + ".errorMarker";
+	public static final String MARKER_ERROR = VcgUIPlugin.PLUGIN_ID + ".errorMarker";
 	
 	private final IResource markerResource;
 	private final IDocument document;
@@ -124,7 +124,7 @@ public class VcgAnnotations {
 		try {
 			markerResource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			VcgPlugin.getDefault().log(ce);
+			VcgUIPlugin.getDefault().log(ce);
 		}
 	}
 	
@@ -169,7 +169,7 @@ public class VcgAnnotations {
 		try {
 			resource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			VcgPlugin.getDefault().log(ce);
+			VcgUIPlugin.getDefault().log(ce);
 		}
 	}
 	
