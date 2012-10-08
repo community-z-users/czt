@@ -4,8 +4,6 @@
 
 package net.sourceforge.czt.eclipse.ui.wizards;
 
-import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
