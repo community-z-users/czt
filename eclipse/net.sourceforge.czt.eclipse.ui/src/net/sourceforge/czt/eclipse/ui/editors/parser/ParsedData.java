@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.util.Selector;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.SectionManager;
@@ -20,7 +21,7 @@ import org.eclipse.jface.text.Position;
 /**
  * @author Chengdong Xu
  */
-public class ParsedData
+public class ParsedData implements IZCompileData
 {
   private Object source_;
   
@@ -60,6 +61,7 @@ public class ParsedData
     fErrorList.addAll(errors);
   }
   
+  @Override
   public List<CztError> getErrors()
   {
     return Collections.unmodifiableList(fErrorList);
@@ -131,6 +133,7 @@ public class ParsedData
     return source_;
   }
 
+  @Override
   public Spec getSpec()
   {
     return spec_;
@@ -154,6 +157,7 @@ public class ParsedData
     return new Selector(spec_);
   }
 
+  @Override
   public Position getTermPosition(Term term)
   {
     return posProvider.getPosition(term);

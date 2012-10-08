@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.ui.editors.zeditor;
 import java.math.BigInteger;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.ui.editors.ZDialectSupport;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
@@ -80,7 +81,7 @@ public class ZEditorUtil {
     return editor.getDocumentProvider().getDocument(editor.getEditorInput());
   }
   
-  public static boolean hasErrors(ParsedData parsedData) {
+  public static boolean hasErrors(IZCompileData parsedData) {
     
     if (parsedData == null) {
       return true;
@@ -226,7 +227,7 @@ public class ZEditorUtil {
     @Override
     public void aboutToBeReconciled() {}
 
-    protected abstract void run(ParsedData parsedData);
+    protected abstract void run(IZCompileData parsedData);
   }
 
 }

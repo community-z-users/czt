@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
@@ -325,8 +326,9 @@ public class ZEditorResults {
 				
 				ISnapshotEntry proofEntry = getPreviousProofEntry();
 				if (proofEntry != null) {
+					IZCompileData parsedData = getEditor().getParsedData();
 					output.addAll(convertProofResult(
-							getEditor().getParsedData().getSectionManager(), 
+							parsedData.getSectionManager(), 
 							getSectionName(), markup, proofEntry, TEXT_WIDTH, showTrace));
 				}
 			}
@@ -398,7 +400,8 @@ public class ZEditorResults {
 			List<PartitionString> output = new ArrayList<PartitionString>();
 			
 			Object result = getSnapshotEntry().getData().getResult();
-			output.addAll(convertOutputResult(getEditor().getParsedData().getSectionManager(),
+			IZCompileData parsedData = getEditor().getParsedData();
+			output.addAll(convertOutputResult(parsedData.getSectionManager(),
 					getSectionName(), markup, TEXT_WIDTH, result, false));
 			
 			Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();
@@ -446,7 +449,8 @@ public class ZEditorResults {
 
 		@Override
 		public SectionManager getSectionManager() {
-			return getEditor().getParsedData().getSectionManager();
+			IZCompileData parsedData = getEditor().getParsedData();
+			return parsedData.getSectionManager();
 		}
 
 		@Override
@@ -477,8 +481,9 @@ public class ZEditorResults {
 		public IZInfoConfiguration loadContents(Markup markup, boolean showTrace,
 				IProgressMonitor monitor) throws CoreException {
 
+			IZCompileData parsedData = getEditor().getParsedData();
 			List<PartitionString> output = convertProofResult(
-					getEditor().getParsedData().getSectionManager(),
+					parsedData.getSectionManager(),
 					getSectionName(), 
 					markup, getSnapshotEntry(), TEXT_WIDTH, showTrace);
 			

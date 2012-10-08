@@ -6,8 +6,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
@@ -30,7 +30,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	private final BigInteger documentVersion;
 	
 	private final Object waitObj = new Object();
-	private ParsedData parsedData = null;
+	private IZCompileData parsedData = null;
 	private boolean reconciled = false;
 	
 	public AbstractSubmitCommand(ZEditor editor) {
@@ -110,7 +110,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 		// wait until reconcile completes
     	ZEditorUtil.runOnReconcile(editor, documentVersion, new ReconcileRunnable() {
 			@Override
-			protected void run(ParsedData parsedData) {
+			protected void run(IZCompileData parsedData) {
 				synchronized(waitObj) {
 					
 					AbstractSubmitCommand.this.parsedData = parsedData;
