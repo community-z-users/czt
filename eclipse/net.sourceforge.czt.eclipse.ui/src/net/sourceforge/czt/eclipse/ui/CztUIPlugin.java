@@ -1,7 +1,5 @@
 package net.sourceforge.czt.eclipse.ui;
 
-import java.util.ResourceBundle;
-
 import net.sourceforge.czt.eclipse.ui.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.ui.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.ui.editors.latex.ZLatexPartitionScanner;
