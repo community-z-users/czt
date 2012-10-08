@@ -4,7 +4,7 @@ Bundle-Name: Z/EVES Prover Integration for CZT
 Bundle-SymbolicName: net.sourceforge.czt.eclipse.zeves;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: net.sourceforge.czt.eclipse.zeves.ZEvesPlugin
-Bundle-Vendor: Community Z Tools
+Bundle-Vendor: Community Z Tools Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime;bundle-version="3.7.0",
  net.sourceforge.czt.eclipse.ui;bundle-version="1.6.0",

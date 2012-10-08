@@ -3,7 +3,7 @@
       id="net.sourceforge.czt.m2e.feature"
       label="m2e support for building CZT"
       version="1.0.0.qualifier"
-      provider-name="Community Z Tools">
+      provider-name="Community Z Tools Project">
 
    <description url="http://czt.sourceforge.net">
       Support plug-ins for building CZT source code using Eclipse m2e.
