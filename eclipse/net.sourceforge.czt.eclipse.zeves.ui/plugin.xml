@@ -624,7 +624,7 @@
          name="Z/EVES Result: True"
          point="org.eclipse.core.resources.markers">
       <super
-            type="net.sourceforge.czt.eclipse.zeves.resultMarker">
+            type="net.sourceforge.czt.eclipse.zeves.ui.resultMarker">
       </super>
    </extension>
    <extension
@@ -655,49 +655,49 @@
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             markerSeverity="0"
-            markerType="net.sourceforge.czt.eclipse.zeves.resultMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.result">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.resultMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.result">
       </type>
       <type
             markerSeverity="0"
-            markerType="net.sourceforge.czt.eclipse.zeves.resultTrueMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.resultTrue"
-            super="net.sourceforge.czt.eclipse.zeves.annotation.result">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.resultTrueMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.resultTrue"
+            super="net.sourceforge.czt.eclipse.zeves.ui.annotation.result">
       </type>
       <type
             markerSeverity="0"
-            markerType="net.sourceforge.czt.eclipse.zeves.commandStatusMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.finished">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.commandStatusMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.finished">
       </type>
       <type
             markerSeverity="1"
-            markerType="net.sourceforge.czt.eclipse.zeves.commandStatusMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.unfinished">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.commandStatusMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.unfinished">
       </type>
       <type
             markerSeverity="2"
-            markerType="net.sourceforge.czt.eclipse.zeves.commandStatusMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.failed">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.commandStatusMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.failed">
       </type>
       <type
-            markerType="net.sourceforge.czt.eclipse.zeves.processMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.command.unprocessed">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.processMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.unprocessed">
       </type>
       <type
-            markerType="net.sourceforge.czt.eclipse.zeves.outputSelectionMarker"
-            name="net.sourceforge.czt.eclipse.zeves.annotation.outputSelection">
+            markerType="net.sourceforge.czt.eclipse.zeves.ui.outputSelectionMarker"
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.outputSelection">
       </type>
       <type
-            name="net.sourceforge.czt.eclipse.zeves.annotation.output.error">
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.output.error">
       </type>
       <type
-            name="net.sourceforge.czt.eclipse.zeves.annotation.output.warning">
+            name="net.sourceforge.czt.eclipse.zeves.ui.annotation.output.warning">
       </type>
    </extension>
    <extension
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.command.unfinished"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.unfinished"
             colorPreferenceKey="commandUnfinishedColor"
             colorPreferenceValue="255,228,255"
             highlightPreferenceKey="commandUnfinishedHighlighting"
@@ -715,7 +715,7 @@
             verticalRulerPreferenceValue="false">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.command.unprocessed"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.unprocessed"
             colorPreferenceKey="commandUnprocessedColor"
             colorPreferenceValue="255,228,225"
             highlightPreferenceKey="commandUnprocessedHighlighting"
@@ -733,7 +733,7 @@
             verticalRulerPreferenceValue="false">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.command.failed"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.failed"
             colorPreferenceKey="commandFailedColor"
             colorPreferenceValue="255,204,204"
             highlightPreferenceKey="commandFailedHighlighting"
@@ -751,7 +751,7 @@
             verticalRulerPreferenceValue="false">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.command.finished"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.command.finished"
             colorPreferenceKey="commandFinishedColor"
             colorPreferenceValue="239,247,248"
             highlightPreferenceKey="commandFinishedHighlighting"
@@ -769,7 +769,7 @@
             verticalRulerPreferenceValue="false">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.result"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.result"
             icon="icons/proof_marker.png"
             colorPreferenceKey="proofResultColor"
             colorPreferenceValue="152,128,239"
@@ -788,7 +788,7 @@
             verticalRulerPreferenceValue="true">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.resultTrue"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.resultTrue"
             icon="icons/thm_proved.gif"
             colorPreferenceKey="proofResultTrueColor"
             colorPreferenceValue="152,128,239"
@@ -807,7 +807,7 @@
             verticalRulerPreferenceValue="true">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.outputSelection"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.outputSelection"
             colorPreferenceKey="outputSelectionColor"
             colorPreferenceValue="227,202,252"
             highlightPreferenceKey="outputSelectionHighlighting"
@@ -826,7 +826,7 @@
             verticalRulerPreferenceValue="true">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.output.error"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.output.error"
             colorPreferenceKey="outputErrorColor"
             colorPreferenceValue="255,204,204"
             highlightPreferenceKey="outputErrorHighlighting"
@@ -844,7 +844,7 @@
             verticalRulerPreferenceValue="false">
       </specification>
       <specification
-            annotationType="net.sourceforge.czt.eclipse.zeves.annotation.output.warning"
+            annotationType="net.sourceforge.czt.eclipse.zeves.ui.annotation.output.warning"
             colorPreferenceKey="outputWarningColor"
             colorPreferenceValue="248,229,122"
             highlightPreferenceKey="outputWarningHighlighting"
