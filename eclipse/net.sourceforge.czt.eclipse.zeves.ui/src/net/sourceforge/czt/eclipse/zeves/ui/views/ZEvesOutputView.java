@@ -13,7 +13,7 @@ import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.ui.views.ZInfoView;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.actions.SendProofCommand;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ISnapshotChangedListener;
 import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotChangedEvent;
@@ -73,23 +73,23 @@ import org.eclipse.ui.contexts.IContextService;
  */
 public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 
-	public static final String VIEW_ID = ZEvesPlugin.PLUGIN_ID + ".view.Output";
+	public static final String VIEW_ID = ZEvesUIPlugin.PLUGIN_ID + ".view.Output";
 	private static final String PROP_SHOW_TRACE = VIEW_ID + ".showProofInfo";
 	private static final String PROP_SHOW_OUTPUT_SELECTION = VIEW_ID + ".showOutputSelection";
 	
 	private IMarker editorMarker = null;
 	
 	static {
-		IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+		IPreferenceStore preferenceStore = ZEvesUIPlugin.getDefault().getPreferenceStore();
 		preferenceStore.setDefault(PROP_SHOW_TRACE, false);
 		preferenceStore.setDefault(PROP_SHOW_OUTPUT_SELECTION, true);
 	}
 
 	private static final String SELECTION_CMDS_ID = "selectionCmds";
 	
-	private static final String CONTEXT_TERM = ZEvesPlugin.PLUGIN_ID + ".proof.term";
-	private static final String CONTEXT_EXPR = ZEvesPlugin.PLUGIN_ID + ".proof.expr";
-	private static final String CONTEXT_PRED = ZEvesPlugin.PLUGIN_ID + ".proof.pred";
+	private static final String CONTEXT_TERM = ZEvesUIPlugin.PLUGIN_ID + ".proof.term";
+	private static final String CONTEXT_EXPR = ZEvesUIPlugin.PLUGIN_ID + ".proof.expr";
+	private static final String CONTEXT_PRED = ZEvesUIPlugin.PLUGIN_ID + ".proof.pred";
 	private final Map<String, IContextActivation> contextActivations = new HashMap<String, IContextActivation>();
 	
 	private boolean showProofTrace;
@@ -102,7 +102,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		
 		super.createPartControl(parent);
 		
-		ZEvesPlugin.getZEves().getSnapshot().addSnapshotChangedListener(snapshotListener);
+		ZEvesUIPlugin.getZEves().getSnapshot().addSnapshotChangedListener(snapshotListener);
 		
 		zViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			
@@ -154,7 +154,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	
 	@Override
 	public void dispose() {
-		ZEvesPlugin.getZEves().getSnapshot().removeSnapshotChangedListener(snapshotListener);
+		ZEvesUIPlugin.getZEves().getSnapshot().removeSnapshotChangedListener(snapshotListener);
 		super.dispose();
 	}
 
@@ -187,7 +187,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	
 	private MenuManager getApplySubmenu() {
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
 			return null;
 		}
@@ -227,7 +227,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 				applyRules = api.getRulesMatchingExpression(proofResult.getGoalName(),
 						zEvesStepIndex.intValue(), exprStr);
 			} catch (ZEvesException e) {
-				ZEvesPlugin.getDefault().log(e);
+				ZEvesUIPlugin.getDefault().log(e);
 				return null;
 			}
 		} else if (selectedTerm instanceof Pred) {
@@ -237,7 +237,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 				applyRules = api.getRulesMatchingPredicate(proofResult.getGoalName(),
 						zEvesStepIndex.intValue(), exprStr);
 			} catch (ZEvesException e) {
-				ZEvesPlugin.getDefault().log(e);
+				ZEvesUIPlugin.getDefault().log(e);
 				return null;
 			}
 		} else {
@@ -282,7 +282,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			return ZEvesResultConverter.parseZEvesResult(sectInfo, sectName, selectedText);
 		} catch (IOException e) {
 			// unexpected exception - log and return
-			ZEvesPlugin.getDefault().log(e);
+			ZEvesUIPlugin.getDefault().log(e);
 			return null;
 		} catch (CommandException e) {
 			// cannot parse
@@ -366,7 +366,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			try {
 				editorMarker.delete();
 			} catch (CoreException e) {
-				ZEvesPlugin.getDefault().log(e);
+				ZEvesUIPlugin.getDefault().log(e);
 			}
 			editorMarker = null;
 		}
@@ -392,7 +392,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 					editorMarker = resource.createMarker(markerInfo.getType());
 					editorMarker.setAttributes(markerInfo.getAttributes());
 				} catch (CoreException e) {
-					ZEvesPlugin.getDefault().log(e);
+					ZEvesUIPlugin.getDefault().log(e);
 				}
 			}
 		}
@@ -455,7 +455,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
 			setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
-			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			IPreferenceStore preferenceStore = ZEvesUIPlugin.getDefault().getPreferenceStore();
 			boolean showProofInfo = preferenceStore.getBoolean(PROP_SHOW_TRACE);
 			setShowProofInfo(showProofInfo);
 		}
@@ -474,7 +474,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			
 			reload();
 
-			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			IPreferenceStore preferenceStore = ZEvesUIPlugin.getDefault().getPreferenceStore();
 			preferenceStore.setValue(PROP_SHOW_TRACE, show);
 		}
 	}
@@ -488,7 +488,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			// setDescription("?");
 			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_OUTPUT_SELECTION));
 
-			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			IPreferenceStore preferenceStore = ZEvesUIPlugin.getDefault().getPreferenceStore();
 			boolean showOutputSelection = preferenceStore.getBoolean(PROP_SHOW_OUTPUT_SELECTION);
 			setShowOutputSelection(showOutputSelection);
 		}
@@ -507,7 +507,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			
 			updateEditorMarker(getCurrentInput());
 
-			IPreferenceStore preferenceStore = ZEvesPlugin.getDefault().getPreferenceStore();
+			IPreferenceStore preferenceStore = ZEvesUIPlugin.getDefault().getPreferenceStore();
 			preferenceStore.setValue(PROP_SHOW_OUTPUT_SELECTION, show);
 		}
 	}
@@ -557,7 +557,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			try {
 				SendProofCommand.addSubmitCommand(proofResult, proofCommand);
 			} catch (ExecutionException e) {
-				ZEvesPlugin.getDefault().log(e);
+				ZEvesUIPlugin.getDefault().log(e);
 			}
 		}
 		

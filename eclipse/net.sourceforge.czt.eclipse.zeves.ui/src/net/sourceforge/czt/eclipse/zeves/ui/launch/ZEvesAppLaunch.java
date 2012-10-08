@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.launch;
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
@@ -62,7 +62,7 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		prover.setServer(server);
 		
 		// init launch in the process support
-		ZEvesPlugin.getZEvesProcessSupport().initLaunch(configuration);
+		ZEvesUIPlugin.getZEvesProcessSupport().initLaunch(configuration);
 		
 		System.out.println("Done launching");
 	}
@@ -121,7 +121,7 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
 		try {
 			location= configuration.getAttribute(ZEvesLaunchConstants.ATTR_LOCATION, ""); //$NON-NLS-1$
 		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log("Error reading configuration", ce);
+			ZEvesUIPlugin.getDefault().log("Error reading configuration", ce);
 		}
 		return location;
 	}
@@ -133,7 +133,7 @@ public class ZEvesAppLaunch extends ZEvesRemoteLaunch {
       location = configuration.getAttribute(ZEvesLaunchConstants.ATTR_WORKING_DIR, (String) null); //$NON-NLS-1$
     }
     catch (CoreException ce) {
-      ZEvesPlugin.getDefault().log("Error reading configuration", ce);
+      ZEvesUIPlugin.getDefault().log("Error reading configuration", ce);
     }
     return location;
   }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.editors.parser.ZProblemSeverity;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.Dialog;
@@ -37,7 +37,7 @@ public class ProblemSeveritiesPreferencePage extends PreferencePage implements
 	
 	public ProblemSeveritiesPreferencePage() {
 		super();
-	    setPreferenceStore(ZEvesPlugin.getDefault().getPreferenceStore());
+	    setPreferenceStore(ZEvesUIPlugin.getDefault().getPreferenceStore());
 	    setDescription("Select the severity level for the following optional Z problems:");
 	}
 
@@ -187,9 +187,9 @@ public class ProblemSeveritiesPreferencePage extends PreferencePage implements
 		changedOptions.clear();
 		
 		try {
-			InstanceScope.INSTANCE.getNode(ZEvesPlugin.PLUGIN_ID).flush();
+			InstanceScope.INSTANCE.getNode(ZEvesUIPlugin.PLUGIN_ID).flush();
 		} catch (BackingStoreException e) {
-			ZEvesPlugin.getDefault().log(e);
+			ZEvesUIPlugin.getDefault().log(e);
 		}
 
 		return super.performOk();

@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesServer;
 import net.sourceforge.czt.zeves.ZEvesServerEvent;
@@ -38,7 +38,7 @@ public class ZEvesProcessSupport {
 	public void initLaunch(ILaunchConfiguration launchConfig) {
 		this.launchConfig = launchConfig;
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		
 		if (lastServer != null) {
 			lastServer.removeServerListener(serverListener);
@@ -65,7 +65,7 @@ public class ZEvesProcessSupport {
 	}
 	
 	public void stop() {
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		prover.stop();
 	}
 	

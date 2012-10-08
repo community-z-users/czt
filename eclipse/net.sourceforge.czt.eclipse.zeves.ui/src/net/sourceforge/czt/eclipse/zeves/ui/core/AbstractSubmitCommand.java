@@ -12,7 +12,7 @@ import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -41,9 +41,9 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	@Override
 	public IStatus doExecute(IProgressMonitor monitor) {
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
-			return ZEvesPlugin.newErrorStatus("Z/EVES prover is not running.", null);
+			return ZEvesUIPlugin.newErrorStatus("Z/EVES prover is not running.", null);
 		}
 		
 		final ZEvesApi zEvesApi = prover.getApi();
@@ -54,7 +54,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
         // TODO handle if resource is not available
         String filePath = ResourceUtil.getPath(resource);
 		
-        ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
+        ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
         int submittedOffsetInFile = snapshot.getLastPositionOffset(filePath);
         
         int start = getStartOffset(submittedOffsetInFile);
@@ -82,7 +82,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 				ResourceUtil.deleteMarkers(fileUndoOffsets);
 				
 			} catch (ZEvesException e) {
-				return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+				return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 			}
 		}
 		

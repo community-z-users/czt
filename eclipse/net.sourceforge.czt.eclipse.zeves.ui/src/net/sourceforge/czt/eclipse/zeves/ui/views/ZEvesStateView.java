@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.views;
 import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResetCommand;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
@@ -249,7 +249,7 @@ public class ZEvesStateView extends ViewPart {
 		});
         updateSelectionActions();
 		
-		sectionsViewer.setInput(ZEvesPlugin.getZEves().getSnapshot());
+		sectionsViewer.setInput(ZEvesUIPlugin.getZEves().getSnapshot());
 	}
 	
 	private void updateSelectionActions() {
@@ -272,7 +272,7 @@ public class ZEvesStateView extends ViewPart {
 
 	private void updateState() {
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		updateProverState(prover.getApi());
 		updateServerState(prover.getServer());
 		updateProverDataState(prover.getApi());
@@ -351,7 +351,7 @@ public class ZEvesStateView extends ViewPart {
 						}
 					});
 				} catch (ZEvesException e) {
-					return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+					return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 				}
 				
 				return Status.OK_STATUS;
@@ -395,7 +395,7 @@ public class ZEvesStateView extends ViewPart {
 		@Override
 		public void run() {
 			
-			ZEvesPlugin.getZEves().getExecutor().addCommand(new ZEvesResetCommand() {
+			ZEvesUIPlugin.getZEves().getExecutor().addCommand(new ZEvesResetCommand() {
 				@Override
 				protected void completed(IStatus result) {
 					fireUpdateState();
@@ -420,7 +420,7 @@ public class ZEvesStateView extends ViewPart {
 		 */
 		@Override
 		public void run() {
-			ZEvesPlugin.getZEvesProcessSupport().stop();
+			ZEvesUIPlugin.getZEvesProcessSupport().stop();
 			fireUpdateState();
 		}
 	}
@@ -450,7 +450,7 @@ public class ZEvesStateView extends ViewPart {
 			final FileSection selectedSection = 
 				(FileSection) ((IStructuredSelection) selection).getFirstElement();
 			
-			ZEves prover = ZEvesPlugin.getZEves();
+			ZEves prover = ZEvesUIPlugin.getZEves();
 			if (!prover.isRunning()) {
 				return;
 			}

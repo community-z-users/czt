@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesUndoCommand;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView;
@@ -32,7 +32,7 @@ public class OutputViewBackCommand extends AbstractHandler {
 
 		IZEditorObject editorElement = (IZEditorObject) currentInput;
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(outputView.getSite().getShell(), "Prover Not Running",
 					"The Z/EVES prover is not running.");

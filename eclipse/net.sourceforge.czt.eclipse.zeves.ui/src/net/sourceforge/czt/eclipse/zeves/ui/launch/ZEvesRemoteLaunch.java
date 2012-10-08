@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesApi;
 
@@ -33,7 +33,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 			return;
 		}
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (prover.isLaunched()) {
         	// we only allow one prover instance
         	abort("Only a single Z/EVES prover can be running at any time - stop the running prover before launching a new one");
@@ -190,7 +190,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 		try {
 			address = configuration.getAttribute(ZEvesLaunchConstants.ATTR_SERVER_ADDR, ""); //$NON-NLS-1$; 
 		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log("Error reading configuration", ce);
+			ZEvesUIPlugin.getDefault().log("Error reading configuration", ce);
 		}
 		return address;
 	}
@@ -200,7 +200,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 		try {
 			port= configuration.getAttribute(ZEvesLaunchConstants.ATTR_PORT, DEFAULT_PORT); 
 		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log("Error reading configuration", ce);
+			ZEvesUIPlugin.getDefault().log("Error reading configuration", ce);
 		}
 		return port;
 	}
@@ -214,7 +214,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 	 * @param code error code
 	 */
 	protected static void abort(String message, Throwable exception, int code) throws CoreException {
-		throw new CoreException(new Status(IStatus.ERROR, ZEvesPlugin.PLUGIN_ID, code, message, exception));
+		throw new CoreException(new Status(IStatus.ERROR, ZEvesUIPlugin.PLUGIN_ID, code, message, exception));
 	}
 	
 	protected static void abort(String message) throws CoreException {

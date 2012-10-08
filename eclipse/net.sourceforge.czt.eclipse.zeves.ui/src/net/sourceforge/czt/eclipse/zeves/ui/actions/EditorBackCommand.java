@@ -5,7 +5,7 @@ import java.util.List;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesBackCommand;
@@ -29,7 +29,7 @@ public class EditorBackCommand extends AbstractHandler {
 		
 		final ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
 					"The Z/EVES prover is not running.");
@@ -53,7 +53,7 @@ public class EditorBackCommand extends AbstractHandler {
 		}
 		
 		String filePath = ResourceUtil.getPath(resource);
-		ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
+		ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
 		int lastOffset = snapshot.getLastPositionOffset(filePath);
 		
 		if (lastOffset >= 0) {

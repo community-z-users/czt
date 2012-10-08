@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.core;
 
 import java.io.IOException;
 
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesServer;
 
@@ -25,7 +25,7 @@ public class ZEves {
 				api.disconnect();
 			} catch (IOException e) {
 				// TODO ignore?
-				ZEvesPlugin.getDefault().log("Problems disconnecting Z/EVES API: " + e.getMessage(), e);
+				ZEvesUIPlugin.getDefault().log("Problems disconnecting Z/EVES API: " + e.getMessage(), e);
 			}
 		}
 		

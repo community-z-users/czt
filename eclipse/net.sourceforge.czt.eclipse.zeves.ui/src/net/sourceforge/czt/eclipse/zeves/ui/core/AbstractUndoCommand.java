@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.core;
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 
@@ -25,7 +25,7 @@ public abstract class AbstractUndoCommand extends AbstractExecCommand {
 	@Override
 	public IStatus doExecute(IProgressMonitor monitor) {
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
 			return Status.OK_STATUS;
 		}
@@ -55,7 +55,7 @@ public abstract class AbstractUndoCommand extends AbstractExecCommand {
 			ResourceUtil.deleteMarkers(fileUndoOffsets);
 			
 		} catch (ZEvesException e) {
-			return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+			return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 		}
 		
 		return Status.OK_STATUS;

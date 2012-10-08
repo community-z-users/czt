@@ -1,7 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.ui.perspective;
 
 import net.sourceforge.czt.eclipse.ui.util.CztUI;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView;
 
 import org.eclipse.ui.IFolderLayout;
@@ -17,10 +17,10 @@ import org.eclipse.ui.IPerspectiveFactory;
 public class ZEvesPerspectiveFactory implements IPerspectiveFactory
 {
 
-  private static final String ID_NAVIGATOR_FOLDER = ZEvesPlugin.PLUGIN_ID + ".navigatorFolder"; //$NON-NLS-1$
-  private static final String ID_THEOREMS_FOLDER = ZEvesPlugin.PLUGIN_ID + ".theoremsFolder"; //$NON-NLS-1$
-  private static final String ID_OUTPUT_FOLDER = ZEvesPlugin.PLUGIN_ID + ".outputFolder"; //$NON-NLS-1$
-  private static final String ID_OUTLINE_FOLDER = ZEvesPlugin.PLUGIN_ID + ".outlineFolder"; //$NON-NLS-1$
+  private static final String ID_NAVIGATOR_FOLDER = ZEvesUIPlugin.PLUGIN_ID + ".navigatorFolder"; //$NON-NLS-1$
+  private static final String ID_THEOREMS_FOLDER = ZEvesUIPlugin.PLUGIN_ID + ".theoremsFolder"; //$NON-NLS-1$
+  private static final String ID_OUTPUT_FOLDER = ZEvesUIPlugin.PLUGIN_ID + ".outputFolder"; //$NON-NLS-1$
+  private static final String ID_OUTLINE_FOLDER = ZEvesUIPlugin.PLUGIN_ID + ".outlineFolder"; //$NON-NLS-1$
   
   private static final String ID_SEARCH_VIEW = "org.eclipse.search.ui.views.SearchView"; //$NON-NLS-1$
   private static final String ID_CONSOLE_VIEW = "org.eclipse.ui.console.ConsoleView"; //$NON-NLS-1$

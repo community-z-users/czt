@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.views.TheoremTree.TheoremEntry;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -127,7 +127,7 @@ public class ZEvesTheoremView extends ViewPart {
 
 	private void updateTheoremList(boolean user) {
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		
 		ZEvesApi api = prover.getApi();
 		
@@ -197,7 +197,7 @@ public class ZEvesTheoremView extends ViewPart {
 				}
 				
 			} catch (ZEvesException e) {
-				return ZEvesPlugin.newErrorStatus(e.getMessage(), e);
+				return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 			}
 			
 			if (monitor.isCanceled()) {

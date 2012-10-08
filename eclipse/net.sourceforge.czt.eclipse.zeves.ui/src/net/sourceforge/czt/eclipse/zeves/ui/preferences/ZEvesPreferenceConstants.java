@@ -3,13 +3,13 @@ package net.sourceforge.czt.eclipse.zeves.ui.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import net.sourceforge.czt.eclipse.ui.editors.parser.ZProblemSeverity;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 
 public class ZEvesPreferenceConstants {
 
 //	public static final String PROP_GENERATE_FEASIBILITY_VCS = ZEvesPlugin.PLUGIN_ID + ".generateFeasibilityVCs";
 	
-	private static final String SEVERITY_PREF = ZEvesPlugin.PLUGIN_ID + ".severity";
+	private static final String SEVERITY_PREF = ZEvesUIPlugin.PLUGIN_ID + ".severity";
 	
 	public static final String SEVERITY_PROOF_COMMAND_PARSE_PROBLEMS = SEVERITY_PREF + ".PROOF_COMMAND_PARSE_PROBLEMS";
 	public static final String SEVERITY_PROOF_COMMAND_UNCHECKED_EXPR = SEVERITY_PREF + ".PROOF_COMMAND_UNCHECKED_EXPR";

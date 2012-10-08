@@ -16,7 +16,7 @@ public class ZEvesImages {
 
 	static {
 		String pathSuffix = "icons/"; //$NON-NLS-1$	
-		ICON_BASE_URL= ZEvesPlugin.getDefault().getBundle().getEntry(pathSuffix);
+		ICON_BASE_URL= ZEvesUIPlugin.getDefault().getBundle().getEntry(pathSuffix);
 	}
 	
 	public static final String IMG_LAUNCH_TAB_ZEVES = ICON_BASE_URL + "z-eves.png";
@@ -35,7 +35,7 @@ public class ZEvesImages {
 	 * or <code>null</code> if it does not exist.
 	 */
 	public static Image getImage(String path) {
-		ImageRegistry imageRegistry = ZEvesPlugin.getDefault().getImageRegistry();
+		ImageRegistry imageRegistry = ZEvesUIPlugin.getDefault().getImageRegistry();
 		Image image = imageRegistry.get(path);
 		if (image == null) {
 			getImageDescriptor(path);
@@ -50,7 +50,7 @@ public class ZEvesImages {
 	 * or <code>null</code> if it does not exist.
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		ImageRegistry imageRegistry = ZEvesPlugin.getDefault().getImageRegistry();
+		ImageRegistry imageRegistry = ZEvesUIPlugin.getDefault().getImageRegistry();
 		ImageDescriptor desc = imageRegistry.getDescriptor(path);
 		if (desc == null) {
 			desc = ImageDescriptor.getMissingImageDescriptor();

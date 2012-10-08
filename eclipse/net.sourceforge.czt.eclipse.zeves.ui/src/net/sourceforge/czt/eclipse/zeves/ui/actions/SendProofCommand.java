@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IProofObject;
@@ -22,7 +22,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public abstract class SendProofCommand extends AbstractHandler {
 
-	private static final String PARAM_CMD_NAME = ZEvesPlugin.PLUGIN_ID + ".proof.cmdName";
+	private static final String PARAM_CMD_NAME = ZEvesUIPlugin.PLUGIN_ID + ".proof.cmdName";
 	
 	private static final String DEFAULT_IDENT = "  ";
 	
@@ -87,7 +87,7 @@ public abstract class SendProofCommand extends AbstractHandler {
 		try {
 			document.replace(posEnd, 0, cmdWithSep);
 		} catch (BadLocationException e) {
-			ZEvesPlugin.getDefault().log(e);
+			ZEvesUIPlugin.getDefault().log(e);
 		}
 		
 		// ask the editor to reconcile to avoid waiting for the 
@@ -116,7 +116,7 @@ public abstract class SendProofCommand extends AbstractHandler {
 			}
 			indent = out.toString();
 		} catch (BadLocationException e) {
-			ZEvesPlugin.getDefault().log(e);
+			ZEvesUIPlugin.getDefault().log(e);
 		}
 		return indent;
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 import net.sourceforge.czt.eclipse.ui.views.FilteredTree2;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.zeves.ZEvesException;
@@ -251,7 +251,7 @@ class TheoremTree extends FilteredTree2 {
 		@Override
 		public String loadContents(Markup markup, IProgressMonitor monitor) throws CoreException {
 			
-			ZEves zEves = ZEvesPlugin.getZEves();
+			ZEves zEves = ZEvesUIPlugin.getZEves();
 			if (!zEves.isRunning()) {
 				return null;
 			}
@@ -263,7 +263,7 @@ class TheoremTree extends FilteredTree2 {
 				}
 				return result.toString();
 			} catch (ZEvesException e) {
-				throw new CoreException(ZEvesPlugin.newErrorStatus(e.getMessage(), e));
+				throw new CoreException(ZEvesUIPlugin.newErrorStatus(e.getMessage(), e));
 			}
 		}
 

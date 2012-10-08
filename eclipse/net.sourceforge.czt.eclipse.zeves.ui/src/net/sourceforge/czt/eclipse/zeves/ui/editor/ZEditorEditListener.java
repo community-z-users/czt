@@ -6,7 +6,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.IResourceDocumentListener;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesUndoCommand;
 
@@ -44,7 +44,7 @@ public class ZEditorEditListener implements IResourceDocumentListener {
 	
 	private void undoThrough(ITextEditor editor, int editOffset) {
 		
-		ZEves prover = ZEvesPlugin.getZEves();
+		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
 			return;
 		}

@@ -20,21 +20,21 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
 
 
 import net.sourceforge.czt.eclipse.ui.util.MarkerUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 
 public class ZEvesMarkers {
 
-	public static final String MARKER_ERROR = ZEvesPlugin.PLUGIN_ID + ".errorMarker";
-	public static final String MARKER_RESULT = ZEvesPlugin.PLUGIN_ID + ".resultMarker";
-	public static final String MARKER_RESULT_TRUE = ZEvesPlugin.PLUGIN_ID + ".resultTrueMarker";
+	public static final String MARKER_ERROR = ZEvesUIPlugin.PLUGIN_ID + ".errorMarker";
+	public static final String MARKER_RESULT = ZEvesUIPlugin.PLUGIN_ID + ".resultMarker";
+	public static final String MARKER_RESULT_TRUE = ZEvesUIPlugin.PLUGIN_ID + ".resultTrueMarker";
 	
-	public static final String MARKER_COMMAND_STATUS = ZEvesPlugin.PLUGIN_ID + ".commandStatusMarker";
+	public static final String MARKER_COMMAND_STATUS = ZEvesUIPlugin.PLUGIN_ID + ".commandStatusMarker";
 	public static final int STATUS_FINISHED = IMarker.SEVERITY_INFO;
 	public static final int STATUS_UNFINISHED = IMarker.SEVERITY_WARNING;
 	public static final int STATUS_FAILED = IMarker.SEVERITY_ERROR;
 	
-	public static final String MARKER_PROCESS = ZEvesPlugin.PLUGIN_ID + ".processMarker";
-	public static final String MARKER_OUTPUT_SELECTION = ZEvesPlugin.PLUGIN_ID + ".outputSelectionMarker";
+	public static final String MARKER_PROCESS = ZEvesUIPlugin.PLUGIN_ID + ".processMarker";
+	public static final String MARKER_OUTPUT_SELECTION = ZEvesUIPlugin.PLUGIN_ID + ".outputSelectionMarker";
 	
 	private final IResource markerResource;
 	private final IDocument document;
@@ -145,7 +145,7 @@ public class ZEvesMarkers {
 		try {
 			markerResource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log(ce);
+			ZEvesUIPlugin.getDefault().log(ce);
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class ZEvesMarkers {
 		try {
 			markerResource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log(ce);
+			ZEvesUIPlugin.getDefault().log(ce);
 		}
 	}
 	
@@ -246,7 +246,7 @@ public class ZEvesMarkers {
 		try {
 			resource.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			ZEvesPlugin.getDefault().log(ce);
+			ZEvesUIPlugin.getDefault().log(ce);
 		}
 	}
 	

@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.core;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -37,7 +37,7 @@ public class ZEvesLinearExecutor {
 				return Status.OK_STATUS;
 			}
 			
-			if (ZEvesPlugin.getDefault() == null) {
+			if (ZEvesUIPlugin.getDefault() == null) {
 				// shutting down - do not execute any more
 				return Status.CANCEL_STATUS;
 			}

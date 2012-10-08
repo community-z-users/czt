@@ -14,13 +14,13 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
+public class ZEvesUIPlugin extends AbstractUIPlugin implements IStartup {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.sourceforge.czt.eclipse.zeves.ui"; //$NON-NLS-1$
 
 	// The shared instance
-	private static ZEvesPlugin plugin;
+	private static ZEvesUIPlugin plugin;
 	
 	private ZEves prover;
 	private ZEditorEditTracker editTracker;
@@ -29,7 +29,7 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 	/**
 	 * The constructor
 	 */
-	public ZEvesPlugin() {
+	public ZEvesUIPlugin() {
 	}
 
 	/*
@@ -76,7 +76,7 @@ public class ZEvesPlugin extends AbstractUIPlugin implements IStartup {
 	 *
 	 * @return the shared instance
 	 */
-	public static ZEvesPlugin getDefault() {
+	public static ZEvesUIPlugin getDefault() {
 		return plugin;
 	}
 	

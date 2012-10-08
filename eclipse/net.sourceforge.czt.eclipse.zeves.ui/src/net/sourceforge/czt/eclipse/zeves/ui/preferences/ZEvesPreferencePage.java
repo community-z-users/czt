@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.Dialog;
@@ -26,7 +26,7 @@ public class ZEvesPreferencePage extends PreferencePage implements IWorkbenchPre
 	
 	public ZEvesPreferencePage() {
 	    super();
-	    setPreferenceStore(ZEvesPlugin.getDefault().getPreferenceStore());
+	    setPreferenceStore(ZEvesUIPlugin.getDefault().getPreferenceStore());
 	    setDescription("Z/EVES theorem prover integration settings.");
 	}
 
@@ -93,9 +93,9 @@ public class ZEvesPreferencePage extends PreferencePage implements IWorkbenchPre
 		}
 		
 		try {
-			InstanceScope.INSTANCE.getNode(ZEvesPlugin.PLUGIN_ID).flush();
+			InstanceScope.INSTANCE.getNode(ZEvesUIPlugin.PLUGIN_ID).flush();
 		} catch (BackingStoreException e) {
-			ZEvesPlugin.getDefault().log(e);
+			ZEvesUIPlugin.getDefault().log(e);
 		}
 
 		return super.performOk();

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import net.sourceforge.czt.eclipse.ui.editors.parser.IZProblemSeverityProvider;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ZProblemSeverity;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.zeves.ErrorMessage;
@@ -102,7 +102,7 @@ public class ZEvesProblemSeverityProvider implements IZProblemSeverityProvider {
 	}
 	
 	private ZProblemSeverity getSeverityPref(String prefKey) {
-		return ZEvesPreferenceConstants.getSeverityPref(ZEvesPlugin.getDefault().getPreferenceStore(), prefKey);
+		return ZEvesPreferenceConstants.getSeverityPref(ZEvesUIPlugin.getDefault().getPreferenceStore(), prefKey);
 	}
 
 }

@@ -19,7 +19,7 @@ import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesPosVisitor;
@@ -68,7 +68,7 @@ public class ZEditorResults {
 	public static ISnapshotEntry getSnapshotEntryApprox(String filePath, IDocument document,
 			int offset, Set<ResultType> allowedTypes) {
 		
-		ZEvesSnapshot snapshot = ZEvesPlugin.getZEves().getSnapshot();
+		ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
 		
 		// calculate "target" positions for the indicated. We specify a decreasing priority
 		// order of positions that could apply to locate results. Then the first result
@@ -212,7 +212,7 @@ public class ZEditorResults {
 				postLinePos = new Position(postLineOffset, postLineLength);
 			}
 		} catch (BadLocationException ex) {
-			ZEvesPlugin.getDefault().log(ex);
+			ZEvesUIPlugin.getDefault().log(ex);
 		}
 		
 		// order the priority of positions
@@ -887,7 +887,7 @@ public class ZEditorResults {
 			return output;
 			
 		} catch (IOException e) {
-			ZEvesPlugin.getDefault().log(e);
+			ZEvesUIPlugin.getDefault().log(e);
 			return withWarning("I/O problems parsing Z/EVES result: " + e.getMessage().trim(), str);
 		} catch (CommandException e) {
 			Throwable cause = e.getCause();
@@ -896,7 +896,7 @@ public class ZEditorResults {
 			}
 			
 			String msg = "Cannot parse Z/EVES result: " + ZEditorUtil.clean(cause.getMessage()).trim();
-			ZEvesPlugin.getDefault().log(msg, cause);
+			ZEvesUIPlugin.getDefault().log(msg, cause);
 			return withWarning(msg, str);
 		}
 	}

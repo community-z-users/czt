@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.ui.launch;
 
-import static net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin.PLUGIN_ID;
+import static net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin.PLUGIN_ID;
 
 public interface ZEvesLaunchConstants {
 
