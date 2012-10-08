@@ -458,6 +458,15 @@
             </equals>
          </with>
       </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.ui.inZEditor">
+         <with
+               variable="activePartId">
+            <equals
+                  value="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor">
+            </equals>
+         </with>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">

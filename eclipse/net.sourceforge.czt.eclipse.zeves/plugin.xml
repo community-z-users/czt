@@ -462,7 +462,7 @@
             commandId="net.sourceforge.czt.eclipse.zeves.submitToPoint">
          <activeWhen>
             <reference
-                  definitionId="net.sourceforge.czt.eclipse.zeves.inZEditor">
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZEditor">
             </reference>
          </activeWhen>
       </handler>
@@ -471,7 +471,7 @@
             commandId="net.sourceforge.czt.eclipse.zeves.submitBack">
          <activeWhen>
             <reference
-                  definitionId="net.sourceforge.czt.eclipse.zeves.inZEditor">
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZEditor">
             </reference>
          </activeWhen>
       </handler>
@@ -480,7 +480,7 @@
             commandId="net.sourceforge.czt.eclipse.zeves.submitNext">
          <activeWhen>
             <reference
-                  definitionId="net.sourceforge.czt.eclipse.zeves.inZEditor">
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZEditor">
             </reference>
          </activeWhen>
       </handler>
@@ -948,15 +948,6 @@
                      value="net.sourceforge.czt.eclipse.zeves.proof.expr">
                </equals>
             </iterate>
-         </with>
-      </definition>
-      <definition
-            id="net.sourceforge.czt.eclipse.zeves.inZEditor">
-         <with
-               variable="activePartId">
-            <equals
-                  value="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor">
-            </equals>
          </with>
       </definition>
       <definition
