@@ -963,13 +963,13 @@
       <page
             category="net.sourceforge.czt.eclipse.ui.preferences.base"
             class="net.sourceforge.czt.eclipse.zeves.ui.preferences.ZEvesPreferencePage"
-            id="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
+            id="net.sourceforge.czt.eclipse.zeves.ui.preferences.zeves"
             name="Z/EVES">
       </page>
       <page
             category="net.sourceforge.czt.eclipse.ui.preferences.compiler"
             class="net.sourceforge.czt.eclipse.zeves.ui.preferences.ProblemSeveritiesPreferencePage"
-            id="net.sourceforge.czt.eclipse.zeves.preferences.ProblemSeveritiesPreferencePage"
+            id="net.sourceforge.czt.eclipse.zeves.ui.preferences.severities"
             name="Errors/Warnings">
       </page>
    </extension>
