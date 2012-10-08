@@ -5,7 +5,7 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="true"
-            category="net.sourceforge.czt.eclipse"
+            category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.vcg.ui.views.VCView"
             icon="icons/vc_view.png"
             id="net.sourceforge.czt.eclipse.vcg.views.VC"

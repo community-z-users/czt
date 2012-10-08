@@ -17,22 +17,22 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            id="net.sourceforge.czt.eclipse"
+            id="net.sourceforge.czt.eclipse.ui.category.views"
             name="%Views.categoryName"/>
       <view
-            category="net.sourceforge.czt.eclipse"
+            category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.ui.views.ZCharMapView"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.views.ZCharMapView"
             name="%CharMapView.name"/>
       <view
-            category="net.sourceforge.czt.eclipse"
+            category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.ui.views.ZConversionView"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.views.ZConversionView"
             name="%ConversionView.name"/>
       <view
-            category="net.sourceforge.czt.eclipse"
+            category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.ui.views.ZInfoView"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.views.ZInfo"
