@@ -73,7 +73,7 @@ import org.eclipse.ui.contexts.IContextService;
  */
 public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 
-	public static final String VIEW_ID = ZEvesUIPlugin.PLUGIN_ID + ".view.Output";
+	public static final String VIEW_ID = ZEvesUIPlugin.PLUGIN_ID + ".views.Output";
 	private static final String PROP_SHOW_TRACE = VIEW_ID + ".showProofInfo";
 	private static final String PROP_SHOW_OUTPUT_SELECTION = VIEW_ID + ".showOutputSelection";
 	

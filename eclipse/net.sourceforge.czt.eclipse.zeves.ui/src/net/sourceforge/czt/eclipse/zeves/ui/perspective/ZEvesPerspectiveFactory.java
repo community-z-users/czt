@@ -25,8 +25,8 @@ public class ZEvesPerspectiveFactory implements IPerspectiveFactory
   private static final String ID_SEARCH_VIEW = "org.eclipse.search.ui.views.SearchView"; //$NON-NLS-1$
   private static final String ID_CONSOLE_VIEW = "org.eclipse.ui.console.ConsoleView"; //$NON-NLS-1$
   
-  private static final String ID_THEOREMS_VIEW = "net.sourceforge.czt.eclipse.zeves.ui.view.Theorems"; //$NON-NLS-1$
-  private static final String ID_ZEVES_STATE_VIEW = "net.sourceforge.czt.eclipse.zeves.ui.view.ZEvesState"; //$NON-NLS-1$
+  private static final String ID_THEOREMS_VIEW = "net.sourceforge.czt.eclipse.zeves.ui.views.Theorems"; //$NON-NLS-1$
+  private static final String ID_ZEVES_STATE_VIEW = "net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesState"; //$NON-NLS-1$
   private static final String ID_VERIFICATION_VIEW = "net.sourceforge.czt.eclipse.vcg.ui.views.VC"; //$NON-NLS-1$
   
   

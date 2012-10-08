@@ -109,7 +109,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:net.sourceforge.czt.eclipse.zeves.view.Output?before=info-view">
+            locationURI="toolbar:net.sourceforge.czt.eclipse.zeves.ui.views.Output?before=info-view">
          <command
                commandId="net.sourceforge.czt.eclipse.zeves.ui.proof.reduce"
                label="Reduction"
@@ -332,7 +332,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:net.sourceforge.czt.eclipse.zeves.view.Output?after=selectionCmds">
+            locationURI="popup:net.sourceforge.czt.eclipse.zeves.ui.views.Output?after=selectionCmds">
          <command
                commandId="net.sourceforge.czt.eclipse.zeves.ui.proof.selectionCmd"
                label="Expand This Name"
@@ -552,32 +552,32 @@
          point="org.eclipse.ui.views">
       <view
             allowMultiple="true"
-            category="net.sourceforge.czt.eclipse.zeves.view"
+            category="net.sourceforge.czt.eclipse.zeves.ui.category.views"
             class="net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesStateView"
             icon="icons/z-eves.png"
-            id="net.sourceforge.czt.eclipse.zeves.view.ZEvesState"
+            id="net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesState"
             name="Z/EVES"
             restorable="true">
       </view>
       <category
-            id="net.sourceforge.czt.eclipse.zeves.view"
+            id="net.sourceforge.czt.eclipse.zeves.ui.category.views"
             name="Z/EVES">
       </category>
       <view
             allowMultiple="true"
-            category="net.sourceforge.czt.eclipse.zeves.view"
+            category="net.sourceforge.czt.eclipse.zeves.ui.category.views"
             class="net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesTheoremView"
             icon="icons/z-eves.png"
-            id="net.sourceforge.czt.eclipse.zeves.view.Theorems"
+            id="net.sourceforge.czt.eclipse.zeves.ui.views.Theorems"
             name="Theorems"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
-            category="net.sourceforge.czt.eclipse.zeves.view"
+            category="net.sourceforge.czt.eclipse.zeves.ui.category.views"
             class="net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView"
             icon="icons/z-eves.png"
-            id="net.sourceforge.czt.eclipse.zeves.view.Output"
+            id="net.sourceforge.czt.eclipse.zeves.ui.views.Output"
             name="Z/EVES Output"
             restorable="true">
       </view>
@@ -944,7 +944,7 @@
          <with
                variable="activePartId">
             <equals
-                  value="net.sourceforge.czt.eclipse.zeves.view.Output">
+                  value="net.sourceforge.czt.eclipse.zeves.ui.views.Output">
             </equals>
          </with>
       </definition>
