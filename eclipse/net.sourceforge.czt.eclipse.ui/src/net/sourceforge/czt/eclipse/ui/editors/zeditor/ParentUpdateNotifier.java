@@ -21,7 +21,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.ui.IEditorPart;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.parser.DocumentSourceLocator;
+import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.util.VisiblePartRunner;
 import net.sourceforge.czt.parser.util.SectParentResolver;
@@ -177,7 +177,7 @@ public class ParentUpdateNotifier
       if (sectMan.isCached(key)) {
         // check if it cached - it may be that the section was added as is to the section manager
         Source source = sectMan.get(key);
-        String path = DocumentSourceLocator.getPath(source);
+        String path = DocumentUtil.getPath(source);
         if (path != null) {
           parentPaths.add(path);
         }

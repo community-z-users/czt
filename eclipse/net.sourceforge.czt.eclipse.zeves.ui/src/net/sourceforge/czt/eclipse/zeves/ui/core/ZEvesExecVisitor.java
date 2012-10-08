@@ -20,9 +20,9 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.parser.DocumentSourceLocator;
-import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
+import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
+import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesTactics.CommandSequence;
@@ -209,7 +209,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	try {
     		
 	    	Source parentSource = sectInfo.get(new Key<Source>(parentSectName, Source.class));
-	    	String parentFilePath = DocumentSourceLocator.getPath(parentSource);
+	    	String parentFilePath = DocumentUtil.getPath(parentSource);
 	    	
 	    	if (parentFilePath == null) {
 	    		// cannot find the file path

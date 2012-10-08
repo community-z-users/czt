@@ -5,10 +5,10 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -41,7 +41,7 @@ public class DocumentSourceLocator extends SourceLocator
     
     Source source = manager.get(key);
     // check if we can resolve the path of the given source
-    String path = getPath(source);
+    String path = DocumentUtil.getPath(source);
     if (path == null) {
       // unable to determine source path - keep the old source
       return true;
@@ -78,26 +78,6 @@ public class DocumentSourceLocator extends SourceLocator
     source.setEncoding(prevSource.getEncoding());
     source.setMarkup(prevSource.getMarkup());
     return source;
-  }
-  
-  /**
-   * Tries to resolve the file path of the given source object.
-   * 
-   * @param source
-   * @return the path, or <code>null</code> if could not resolve it
-   */
-  public static String getPath(Source source) {
-    if (source instanceof FileSource) {
-      FileSource fileSource = (FileSource) source;
-      // TODO something more deterministic than toString() to get the path?
-      return fileSource.toString();
-    }
-    
-    if (source instanceof StringFileSource) {
-      return ((StringFileSource) source).getPath();
-    }
-    
-    return null;
   }
 
   

@@ -7,8 +7,8 @@ import java.util.TimerTask;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
+import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;

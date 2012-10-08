@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.Position;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
