@@ -14,7 +14,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public final class ZEditorMessages extends NLS
 {
-  private static final String BUNDLE_FOR_ACTION_KEYS = "net.sourceforge.czt.eclipse.editors.actions.EditorActionMessages";//$NON-NLS-1$
+  private static final String BUNDLE_FOR_ACTION_KEYS = "net.sourceforge.czt.eclipse.ui.editors.actions.EditorActionMessages";//$NON-NLS-1$
 
   private static ResourceBundle fgBundleForActionKeys = ResourceBundle
       .getBundle(BUNDLE_FOR_ACTION_KEYS);
