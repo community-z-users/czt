@@ -59,7 +59,6 @@ import net.sourceforge.czt.eclipse.ui.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.ui.outline.ZContentOutlinePage;
 import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.ui.preferences.ZEditorConstants;
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
 import net.sourceforge.czt.eclipse.ui.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.ui.util.IZEncoding;
 import net.sourceforge.czt.eclipse.ui.util.IZFileType;
@@ -2222,7 +2221,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       compMsgParser.parseCompilerMessage(dialect, document, resource, errors);
     } catch (CoreException ce) {
       CztUIPlugin.getDefault().getLog().log(
-          new Status(IStatus.ERROR, CztUI.ID_PLUGIN, 0, CztUIPlugin
+          new Status(IStatus.ERROR, CztUIPlugin.PLUGIN_ID, 0, CztUIPlugin
               .getResourceString("Error occurred when creating markers"), ce));
     } finally {
 

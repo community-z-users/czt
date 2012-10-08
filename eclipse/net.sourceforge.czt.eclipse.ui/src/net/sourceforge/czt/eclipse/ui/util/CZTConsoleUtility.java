@@ -74,7 +74,7 @@ public class CZTConsoleUtility
           .log(
               new Status(
                   IStatus.ERROR,
-                  CztUI.ID_PLUGIN,
+                  CztUIPlugin.PLUGIN_ID,
                   0,
                   CztUIPlugin
                       .getResourceString("CompilerAction.consoleViewOpeningProblem"),

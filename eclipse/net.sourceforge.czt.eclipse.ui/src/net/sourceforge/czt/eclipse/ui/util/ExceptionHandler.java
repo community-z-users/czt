@@ -28,7 +28,7 @@ public class ExceptionHandler
      * logged as an error with the error code <code>JavaStatusConstants.INTERNAL_ERROR</code>.
      */
     public static void log(Throwable t, String message) {
-        CztUIPlugin.log(new Status(IStatus.ERROR, CztUIPlugin.getPluginID(), 
+        CztUIPlugin.log(new Status(IStatus.ERROR, CztUIPlugin.PLUGIN_ID, 
             1001, message, t));
     }
     

@@ -4,10 +4,10 @@
 
 package net.sourceforge.czt.eclipse.ui.preferences;
 
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.util.Assert;
 
 /**
  * A settable IStatus. 
@@ -185,6 +185,6 @@ public class StatusInfo implements IStatus
    */
   public String getPlugin()
   {
-    return CztUI.ID_PLUGIN;
+    return CztUIPlugin.PLUGIN_ID;
   }
 }

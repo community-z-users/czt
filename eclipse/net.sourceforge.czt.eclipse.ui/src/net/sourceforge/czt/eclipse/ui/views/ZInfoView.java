@@ -68,7 +68,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
 
   protected static final String TOOLBAR_GROUP_INFO_VIEW = "info-view";
 
-  private static final String VIEW_ID = CztUIPlugin.getPluginID() + ".views.ZInfo";
+  private static final String VIEW_ID = CztUIPlugin.PLUGIN_ID + ".views.ZInfo";
 
   private static final String PROP_FORCE_UNICODE = VIEW_ID + ".forceUnicode";
 

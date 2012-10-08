@@ -5,6 +5,8 @@
 package net.sourceforge.czt.eclipse.ui.util;
 
 
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
+
 import org.eclipse.core.resources.IMarker;
 
 /**
@@ -16,28 +18,27 @@ public interface IZMarker extends IMarker
   /**
    * CZT problem marker type
    */
-  public final String PROBLEM = CztUI.ID_PLUGIN + ".ui.problemmarker";
+  public final String PROBLEM = CztUIPlugin.PLUGIN_ID + ".problemmarker";
 
   /**
    * CZT task marker type
    */
-  public final String TASK = CztUI.ID_PLUGIN + ".ui.taskmarker";
+  public final String TASK = CztUIPlugin.PLUGIN_ID + ".taskmarker";
 
   /**
    * CZT bookmark marker type
    */
-  public final String BOOKMARK = CztUI.ID_PLUGIN + ".ui.bookmarkmarker";
+  public final String BOOKMARK = CztUIPlugin.PLUGIN_ID + ".bookmarkmarker";
 
   /**
    * CZT occurrence marker type
    */
-  public final String OCCURRENCE = CztUI.ID_PLUGIN + ".ui.occurrencemarker";
+  public final String OCCURRENCE = CztUIPlugin.PLUGIN_ID + ".occurrencemarker";
 
   /**
    * CZT term highlight marker type
    */
-  public final String TERMHIGHLIGHT = CztUI.ID_PLUGIN
-      + ".ui.termhighlightmarker";
+  public final String TERMHIGHLIGHT = CztUIPlugin.PLUGIN_ID + ".termhighlightmarker";
 
   /**
    * CZT marker attribute,

@@ -10,7 +10,6 @@ import net.sourceforge.czt.eclipse.ui.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.DocumentEditTracker;
 import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.ui.util.CZTColorManager;
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
 import net.sourceforge.czt.eclipse.ui.util.IZFileType;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.CommandException;
@@ -201,7 +200,7 @@ public class CztUIPlugin extends AbstractUIPlugin
    */
   public static ImageDescriptor getImageDescriptor(String path)
   {
-    return imageDescriptorFromPlugin(CztUI.ID_PLUGIN, path);
+    return imageDescriptorFromPlugin(PLUGIN_ID, path);
   }
 
   public static IWorkspace getWorkspace()
@@ -370,7 +369,7 @@ public class CztUIPlugin extends AbstractUIPlugin
           }
           else 
           {
-        	log(new Status(IStatus.WARNING, getPluginID(), 1001, next.getMessage(), typeErrorException));  
+        	log(new Status(IStatus.WARNING, PLUGIN_ID, 1001, next.getMessage(), typeErrorException));  
           }
         }
       }
@@ -425,7 +424,7 @@ public class CztUIPlugin extends AbstractUIPlugin
 
   public static void logErrorMessage(String message)
   {
-    log(new Status(IStatus.ERROR, getPluginID(), 1001, message, null));
+    log(new Status(IStatus.ERROR, PLUGIN_ID, 1001, message, null));
   }
 
   public static void logErrorStatus(String message, IStatus status)
@@ -434,7 +433,7 @@ public class CztUIPlugin extends AbstractUIPlugin
       logErrorMessage(message);
       return;
     }
-    MultiStatus multi = new MultiStatus(getPluginID(), 1001, message, null);
+    MultiStatus multi = new MultiStatus(PLUGIN_ID, 1001, message, null);
     multi.add(status);
     log(multi);
   }
@@ -446,11 +445,7 @@ public class CztUIPlugin extends AbstractUIPlugin
 
   public static void log(String message, Throwable e)
   {
-    log(new Status(IStatus.ERROR, getPluginID(), 1001, message, e));
+    log(new Status(IStatus.ERROR, PLUGIN_ID, 1001, message, e));
   }
 
-  public static String getPluginID()
-  {
-    return CztUI.ID_PLUGIN;
-  }
 }

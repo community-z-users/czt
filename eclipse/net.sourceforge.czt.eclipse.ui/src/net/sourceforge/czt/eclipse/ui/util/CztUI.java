@@ -21,11 +21,6 @@ public final class CztUI
     }
     
     /**
-     * The id of the CZT plug-in (value <code>"net.sourceforge.czt.eclipse"</code>).
-     */ 
-    public static final String ID_PLUGIN= "net.sourceforge.czt.eclipse"; //$NON-NLS-1$
-    
-    /**
      * The id of the Z perspective
      * (value {@code net.sourceforge.czt.eclipse.ui.ZPerspective}).
      */ 

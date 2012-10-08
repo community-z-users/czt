@@ -14,7 +14,6 @@ import java.util.Set;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
@@ -164,7 +163,7 @@ public class ZAnnotationReconcilingStrategy
 
           public void handleException(Throwable ex)
           {
-            IStatus status = new Status(IStatus.ERROR, CztUI.ID_PLUGIN,
+            IStatus status = new Status(IStatus.ERROR, CztUIPlugin.PLUGIN_ID,
                 IStatus.OK, "Error in CZT Core during reconcile", ex); //$NON-NLS-1$
             CztUIPlugin.getDefault().getLog().log(status);
           }

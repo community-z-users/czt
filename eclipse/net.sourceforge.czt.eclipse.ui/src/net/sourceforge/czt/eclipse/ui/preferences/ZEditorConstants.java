@@ -10,7 +10,7 @@ import net.sourceforge.czt.eclipse.ui.util.IZColorConstants;
 public class ZEditorConstants
 {
 
-  private static final String EDITOR_PREF = CztUIPlugin.getPluginID() + ".editor";
+  private static final String EDITOR_PREF = CztUIPlugin.PLUGIN_ID + ".editor";
   private static final String ANNOTATION_PREF = EDITOR_PREF + ".annotation";
   
   /*
