@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
 import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.internal.util.PartAdapter;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 

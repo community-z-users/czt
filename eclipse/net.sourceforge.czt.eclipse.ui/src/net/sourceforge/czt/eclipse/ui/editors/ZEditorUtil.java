@@ -1,10 +1,9 @@
-package net.sourceforge.czt.eclipse.ui.editors.zeditor;
+package net.sourceforge.czt.eclipse.ui.editors;
 
 import java.math.BigInteger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZDialectSupport;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;

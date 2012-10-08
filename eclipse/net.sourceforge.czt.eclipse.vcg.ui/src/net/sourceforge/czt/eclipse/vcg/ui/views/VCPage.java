@@ -8,8 +8,8 @@ import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgImages;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.parser.util.CztError;

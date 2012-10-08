@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.ui.internal.views;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.internal.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.SimpleZSourceViewerConfiguration;

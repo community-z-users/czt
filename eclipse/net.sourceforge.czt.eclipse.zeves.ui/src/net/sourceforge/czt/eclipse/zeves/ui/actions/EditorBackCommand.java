@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;

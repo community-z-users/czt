@@ -24,7 +24,6 @@ Export-Package: net.sourceforge.czt.eclipse.ui,
  net.sourceforge.czt.eclipse.ui.compile,
  net.sourceforge.czt.eclipse.ui.document,
  net.sourceforge.czt.eclipse.ui.editors,
- net.sourceforge.czt.eclipse.ui.editors.zeditor,
  net.sourceforge.czt.eclipse.ui.util,
  net.sourceforge.czt.eclipse.ui.views
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
