@@ -78,7 +78,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String OUTLINE_Z_COMPLETE_TREE = "net.sourceforge.czt.eclipse.outline.completeTree"; //$NON-NLS-1$
+  public static final String OUTLINE_Z_COMPLETE_TREE = CztUIPlugin.PLUGIN_ID + ".outline.completeTree"; //$NON-NLS-1$
   
   /**
    * Initializes the given preference store with the default values.
