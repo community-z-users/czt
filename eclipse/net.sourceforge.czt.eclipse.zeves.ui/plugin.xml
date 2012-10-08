@@ -489,7 +489,7 @@
             commandId="net.sourceforge.czt.eclipse.zeves.ui.prover.submitBack">
          <activeWhen>
             <reference
-                  definitionId="net.sourceforge.czt.eclipse.zeves.inOutputView">
+                  definitionId="net.sourceforge.czt.eclipse.zeves.ui.inOutputView">
             </reference>
          </activeWhen>
       </handler>
@@ -498,7 +498,7 @@
             commandId="net.sourceforge.czt.eclipse.zeves.ui.prover.submitNext">
          <activeWhen>
             <reference
-                  definitionId="net.sourceforge.czt.eclipse.zeves.inOutputView">
+                  definitionId="net.sourceforge.czt.eclipse.zeves.ui.inOutputView">
             </reference>
          </activeWhen>
       </handler>
@@ -940,7 +940,7 @@
          </with>
       </definition>
       <definition
-            id="net.sourceforge.czt.eclipse.zeves.inOutputView">
+            id="net.sourceforge.czt.eclipse.zeves.ui.inOutputView">
          <with
                variable="activePartId">
             <equals
