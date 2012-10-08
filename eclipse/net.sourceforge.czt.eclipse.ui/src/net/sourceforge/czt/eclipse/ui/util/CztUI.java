@@ -34,15 +34,15 @@ public final class CztUI
     
     /**
      * The id of the new CZT project wizard
-     * (value <code>"net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"</code>).
+     * (value {@code net.sourceforge.czt.eclipse.ui.wizards.CztProject}).
      */
-    public static final String ID_NEW_CZT_PROJECT_WIZARD = "net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard";
+    public static final String ID_NEW_CZT_PROJECT_WIZARD = "net.sourceforge.czt.eclipse.ui.wizards.CztProject";
     
     /**
-     * The id of the new CZT project wizard
-     * (value <code>"net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"</code>).
+     * The id of the new Z specification wizard
+     * (value {@code net.sourceforge.czt.eclipse.ui.wizards.ZSpecification}).
      */
-    public static final String ID_NEW_CZT_SPECIFICATION_WIZARD = "net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard";
+    public static final String ID_NEW_CZT_SPECIFICATION_WIZARD = "net.sourceforge.czt.eclipse.ui.wizards.ZSpecification";
     
     /**
      * The name of the status line group item
