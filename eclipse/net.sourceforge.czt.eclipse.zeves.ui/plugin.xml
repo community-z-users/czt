@@ -866,7 +866,7 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="net.sourceforge.czt.eclipse.zeves.submitToPoint"
-            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="Shift+M1+Enter">
       </key>

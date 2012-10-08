@@ -574,7 +574,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   @Override
   protected void initializeKeyBindingScopes()
   {
-    setKeyBindingScopes(new String[]{"net.sourceforge.czt.eclipse.ZEditorScope"}); //$NON-NLS-1$
+    setKeyBindingScopes(new String[]{"net.sourceforge.czt.eclipse.ui.context.ZEditor"}); //$NON-NLS-1$
   }
 
   /**
