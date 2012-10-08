@@ -9,7 +9,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
@@ -26,14 +26,14 @@ import org.eclipse.jface.text.IDocument;
 
 public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final BigInteger documentVersion;
 	
 	private final Object waitObj = new Object();
 	private IZCompileData parsedData = null;
 	private boolean reconciled = false;
 	
-	public AbstractSubmitCommand(ZEditor editor) {
+	public AbstractSubmitCommand(IZEditor editor) {
 		this.editor = editor;
 		this.documentVersion = editor.getDocumentVersion();
 	}

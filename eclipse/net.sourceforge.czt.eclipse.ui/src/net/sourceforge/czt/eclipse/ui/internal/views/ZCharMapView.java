@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.internal.editors.IDialectChangedListener;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZChar;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZCharTable;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZDialectSupport;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZDialectSupport.ZDialect;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
 import net.sourceforge.czt.session.Markup;
 

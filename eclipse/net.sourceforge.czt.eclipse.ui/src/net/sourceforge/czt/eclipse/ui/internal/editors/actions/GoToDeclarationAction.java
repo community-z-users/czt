@@ -5,10 +5,10 @@ import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.VarDecl;

@@ -4,9 +4,11 @@ import java.math.BigInteger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZDialectSupport;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.parser.util.CztError;
@@ -34,12 +36,12 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 public class ZEditorUtil {
 
-  public static int getCaretPosition(ZEditor editor)
+  public static int getCaretPosition(IZEditor editor)
   {
     return editor.getViewer().getTextWidget().getCaretOffset();
   }
 
-  public static boolean setCaretPosition(ZEditor editor, int position)
+  public static boolean setCaretPosition(IZEditor editor, int position)
   {
     try {
       StyledText text = editor.getViewer().getTextWidget(); 
@@ -187,23 +189,25 @@ public class ZEditorUtil {
     return text.replace("\u2028", "");
   }
 
-  public static void runOnReconcile(final ZEditor editor, final ReconcileRunnable callback)
+  public static void runOnReconcile(final IZEditor editor, final ReconcileRunnable callback)
   {
     runOnReconcile(editor, editor.getDocumentVersion(), callback);
   }
   
-  public static void runOnReconcile(final ZEditor editor, BigInteger minDocumentVersion, 
+  public static void runOnReconcile(final IZEditor editor, BigInteger minDocumentVersion, 
       final ReconcileRunnable callback)
   {
     // TODO better synchronization?
-    callback.editor = editor;
+    // TODO investigate the typecast
+    ZEditor zeditor = (ZEditor) editor;
+    callback.editor = zeditor;
     callback.minDocumentVersion = minDocumentVersion;
-    editor.addReconcileListener(callback);
+    zeditor.addReconcileListener(callback);
     
     // check maybe this version is already correct
-    ParsedData parsedData = editor.getParsedData();
+    ParsedData parsedData = zeditor.getParsedData();
     if (parsedData.getDocumentVersion().compareTo(minDocumentVersion) >= 0) {
-      editor.removeReconcileListener(callback);
+      zeditor.removeReconcileListener(callback);
       callback.run(parsedData);
     }
   }

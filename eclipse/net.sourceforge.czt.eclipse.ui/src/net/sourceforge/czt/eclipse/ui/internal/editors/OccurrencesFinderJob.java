@@ -9,9 +9,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfoResolver;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZAnnotationType;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;

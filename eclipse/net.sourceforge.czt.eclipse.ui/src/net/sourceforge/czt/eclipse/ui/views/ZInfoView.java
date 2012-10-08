@@ -3,12 +3,13 @@ package net.sourceforge.czt.eclipse.ui.views;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.CztImages;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.internal.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewerConfiguration;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.SimpleZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.ui.internal.util.IColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.PartAdapter;
@@ -622,7 +623,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
 
   private int getCaretPosition(IWorkbenchPart part)
   {
-    if (part instanceof ZEditor) {
+    if (part instanceof IZEditor) {
       return ZEditorUtil.getCaretPosition((ZEditor) part);
     }
 

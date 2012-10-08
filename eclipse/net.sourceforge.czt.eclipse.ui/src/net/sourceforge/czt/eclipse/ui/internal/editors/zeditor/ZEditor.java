@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.sourceforge.czt.eclipse.ui.editors.zeditor;
+package net.sourceforge.czt.eclipse.ui.internal.editors.zeditor;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -30,7 +30,9 @@ import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.internal.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.ui.internal.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.internal.editors.IZReconcilingListener;
@@ -53,10 +55,6 @@ import net.sourceforge.czt.eclipse.ui.internal.editors.hover.UnicodeSourceViewer
 import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ZCompilerMessageParser;
-import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.DocumentChangeListenerSupport;
-import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ParentUpdateNotifier;
-import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditorMessages;
-import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditorModel;
 import net.sourceforge.czt.eclipse.ui.internal.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.ui.internal.outline.ZContentOutlinePage;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
@@ -148,7 +146,7 @@ import static net.sourceforge.czt.eclipse.ui.internal.editors.actions.ICztAction
  * @author Chengdong Xu
  * @author Andrius Velykis
  */
-public class ZEditor extends TextEditor implements IZReconcilingListener
+public class ZEditor extends TextEditor implements IZReconcilingListener, IZEditor
 {
 
   /**
@@ -712,6 +710,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     return viewer;
   }
 
+  @Override
   public final ISourceViewer getViewer()
   {
     return getSourceViewer();
@@ -765,10 +764,12 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     return model;
   }
   
+  @Override
   public BigInteger getDocumentVersion() {
     return model.getDocumentVersion();
   }
   
+  @Override
   public void forceReconcile() {
     forceReconcile(0L);
   }
@@ -1714,6 +1715,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   /**
    * Returns the markup of the fEditor input
    */
+  @Override
   public Markup getMarkup()
   {
     return fMarkup;
@@ -1743,6 +1745,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     this.fEncoding = encoding;
   }
 
+  @Override
   public ParsedData getParsedData()
   {
     return model.getParsedData();

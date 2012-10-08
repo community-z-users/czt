@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgImages;
@@ -70,7 +70,7 @@ public class VCPage extends Page {
 	private Action insertCursorAction;
 	
 	private final VCView view;
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final InSpecFilter inSpecFilter = new InSpecFilter(getShowInSpecPref());
 	
 	private static boolean getShowInSpecPref() {
@@ -81,7 +81,7 @@ public class VCPage extends Page {
 		return InstanceScope.INSTANCE.getNode(VcgUIPlugin.PLUGIN_ID);
 	}
 
-	public VCPage(VCView view, ZEditor editor) {
+	public VCPage(VCView view, IZEditor editor) {
 		super();
 		this.view = view;
 		this.editor = editor;

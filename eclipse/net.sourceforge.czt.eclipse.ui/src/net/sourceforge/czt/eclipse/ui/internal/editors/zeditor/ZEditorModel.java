@@ -7,7 +7,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ZCompiler;
 import net.sourceforge.czt.parser.util.CztErrorImpl;

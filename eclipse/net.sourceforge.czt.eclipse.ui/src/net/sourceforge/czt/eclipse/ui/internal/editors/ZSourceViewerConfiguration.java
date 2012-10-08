@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.hover.ZAnnotationHover;
 import net.sourceforge.czt.eclipse.ui.internal.editors.hover.ZTextHover;
 import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZCharCodeScanner;
@@ -18,6 +17,7 @@ import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZLatexPartitionScan
 import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodeCodeScanner;
 import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodeDoubleClickStrategy;
 import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartitionScanner;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.IColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;

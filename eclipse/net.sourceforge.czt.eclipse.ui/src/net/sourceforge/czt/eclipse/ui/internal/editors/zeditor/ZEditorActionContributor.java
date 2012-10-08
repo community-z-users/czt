@@ -4,7 +4,6 @@ package net.sourceforge.czt.eclipse.ui.internal.editors.zeditor;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZMode;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;

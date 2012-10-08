@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
@@ -39,7 +39,7 @@ public class OutputViewSubmitNextCommand extends AbstractHandler {
 			return null;
 		}
 		
-		final ZEditor editor = editorElement.getEditor();
+		final IZEditor editor = editorElement.getEditor();
 		Position elemPos = editorElement.getPosition();
 		final int elemEnd = elemPos.getOffset() + elemPos.getLength();
 		

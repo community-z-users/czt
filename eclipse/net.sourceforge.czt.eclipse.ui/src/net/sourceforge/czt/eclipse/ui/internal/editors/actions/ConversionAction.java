@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.views.ZConversionView;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;

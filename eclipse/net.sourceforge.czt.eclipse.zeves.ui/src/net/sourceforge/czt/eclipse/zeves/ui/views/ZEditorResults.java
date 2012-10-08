@@ -16,8 +16,8 @@ import java.util.Map.Entry;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
@@ -120,7 +120,7 @@ public class ZEditorResults {
 		return null;
 	}
 	
-	public static IZInfoObject getZEvesResult(final ZEditor editor, int caretPos) {
+	public static IZInfoObject getZEvesResult(final IZEditor editor, int caretPos) {
 		
 		IResource resource = ZEditorUtil.getEditorResource(editor);
 		if (resource == null) {
@@ -141,7 +141,7 @@ public class ZEditorResults {
 		return getInfoObject(editor, entry);
 	}
 	
-	private static IZInfoObject getInfoObject(ZEditor editor, ISnapshotEntry entry) {
+	private static IZInfoObject getInfoObject(IZEditor editor, ISnapshotEntry entry) {
 		switch (entry.getType()) {
 		case GOAL:
 		case PROOF: return new ZEvesProofObject(editor, entry);
@@ -225,17 +225,17 @@ public class ZEditorResults {
 	private static abstract class ZEditorObject<T extends Term> 
 		extends PlatformObject implements IZInfoObject, IZEditorObject {
 		
-		private final ZEditor editor;
+		private final IZEditor editor;
 		private final ISnapshotEntry snapshotEntry;
 		
-		public ZEditorObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEditorObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super();
 			this.editor = editor;
 			this.snapshotEntry = snapshotEntry;
 		}
 
 		@Override
-		public ZEditor getEditor() {
+		public IZEditor getEditor() {
 			return editor;
 		}
 		
@@ -275,7 +275,7 @@ public class ZEditorResults {
 	private static class ZEvesErrorObject extends ZEditorObject<Term> 
 		implements IZEvesInfoProvider {
 
-		public ZEvesErrorObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEvesErrorObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 		
@@ -388,7 +388,7 @@ public class ZEditorResults {
 	
 	private static class ZEvesParaObject extends ZEditorObject<Para> implements IZEvesInfoProvider {
 
-		public ZEvesParaObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEvesParaObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 		
@@ -427,7 +427,7 @@ public class ZEditorResults {
 	private static class ZEvesProofObject extends ZEditorObject<ProofCommand> 
 		implements IZEvesInfoProvider, IProofObject {
 		
-		public ZEvesProofObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEvesProofObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 
@@ -962,7 +962,7 @@ public class ZEditorResults {
 	
 	public interface IZEditorObject {
 		
-		public ZEditor getEditor();
+		public IZEditor getEditor();
 		
 		public Position getPosition();
 		

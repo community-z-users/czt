@@ -6,7 +6,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor"
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor"
             contributorClass="net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditorActionContributor"
             extensions="zed,zed8,zed16"
             icon="icons/ZSpec.png"

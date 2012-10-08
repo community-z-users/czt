@@ -4,8 +4,8 @@
 
 package net.sourceforge.czt.eclipse.ui.internal.preferences;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewerConfiguration;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.IColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 

@@ -8,9 +8,9 @@ import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfoResolver;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.z.ast.AxPara;

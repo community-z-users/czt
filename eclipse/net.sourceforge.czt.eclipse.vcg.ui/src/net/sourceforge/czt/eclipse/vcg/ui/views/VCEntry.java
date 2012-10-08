@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.PlatformObject;
 
 import net.sourceforge.czt.eclipse.ui.CztUI;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
@@ -17,7 +17,7 @@ import net.sourceforge.czt.z.ast.ZSect;
 
 public class VCEntry extends PlatformObject {
 	
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final SectionManager sectInfo;
 	private final ZSect section;
 	
@@ -27,7 +27,7 @@ public class VCEntry extends PlatformObject {
 	
 	private IZInfoObject info;
 	
-	public VCEntry(ZEditor editor, SectionManager sectInfo, ZSect section, Para vcPara,
+	public VCEntry(IZEditor editor, SectionManager sectInfo, ZSect section, Para vcPara,
 			Para sourcePara, boolean alreadyInSpec) {
 		super();
 		this.editor = editor;
@@ -62,7 +62,7 @@ public class VCEntry extends PlatformObject {
 		return alreadyInSpec;
 	}
 	
-	public ZEditor getEditor() {
+	public IZEditor getEditor() {
 		return editor;
 	}
 	

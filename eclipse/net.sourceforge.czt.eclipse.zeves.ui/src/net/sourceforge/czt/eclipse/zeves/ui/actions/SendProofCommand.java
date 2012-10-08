@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
@@ -61,7 +61,7 @@ public abstract class SendProofCommand extends AbstractHandler {
 		
 		// insert the command after the proof result position into the editor
 		Position pos = proofResult.getPosition();
-		final ZEditor editor = proofResult.getEditor();
+		final IZEditor editor = proofResult.getEditor();
 		IDocument document = ZEditorUtil.getDocument(editor);
 		
 		if (pos == null || document == null) {

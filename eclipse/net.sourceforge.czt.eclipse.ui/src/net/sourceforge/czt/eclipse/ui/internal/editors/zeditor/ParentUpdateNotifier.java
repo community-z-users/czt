@@ -24,7 +24,6 @@ import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
 import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.internal.util.VisiblePartRunner;
 import net.sourceforge.czt.parser.util.SectParentResolver;

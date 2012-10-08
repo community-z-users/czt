@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.ui.views.ZInfoView;
@@ -306,8 +306,8 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
     @Override
 	protected IZInfoObject findSelectedZInfoElement(IWorkbenchPart part, ISelection selection, int caretPos) {
 		
-		if (part instanceof ZEditor && selection instanceof ITextSelection) {
-			return ZEditorResults.getZEvesResult((ZEditor) part, caretPos);
+		if (part instanceof IZEditor && selection instanceof ITextSelection) {
+			return ZEditorResults.getZEvesResult((IZEditor) part, caretPos);
 		}
     	
 		return super.findSelectedZInfoElement(part, selection, caretPos);
@@ -377,7 +377,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		
 		if (element instanceof IZEditorObject) {
 			IZEditorObject editorObj = (IZEditorObject) element;
-			ZEditor editor = editorObj.getEditor();
+			IZEditor editor = editorObj.getEditor();
 			
 			IResource resource = ZEditorUtil.getEditorResource(editor);
 			if (resource != null) {
@@ -405,7 +405,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			return true;
 		}
 		
-		if (selection instanceof ITextSelection && part instanceof ZEditor) {
+		if (selection instanceof ITextSelection && part instanceof IZEditor) {
     		return true;
     	}
 		
@@ -546,7 +546,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		@Override
 		public void run() {
 			
-			ZEditor editor = proofResult.getEditor();
+			IZEditor editor = proofResult.getEditor();
 			SectionManager sectInfo = proofResult.getSectionManager().clone();
 			String sectName = proofResult.getSectionName();
 			

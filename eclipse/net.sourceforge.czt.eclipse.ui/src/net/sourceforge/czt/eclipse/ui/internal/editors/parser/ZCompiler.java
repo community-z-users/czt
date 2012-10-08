@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.parser.util.ParseException;

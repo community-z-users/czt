@@ -2,7 +2,7 @@
 package net.sourceforge.czt.eclipse.ui.internal.editors;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditorModel;
 
 import org.eclipse.core.runtime.IProgressMonitor;

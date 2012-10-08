@@ -14,7 +14,7 @@ import java.util.Set;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;

@@ -17,7 +17,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.session.CommandException;
@@ -51,7 +51,7 @@ import net.sourceforge.czt.zeves.util.ZEvesUtils;
 
 public class VCManager {
 
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final AbstractVCG<Pred> vcg;
 	private final IZCompileData parsedData;
 	private final ZSect specSect;
@@ -68,7 +68,7 @@ public class VCManager {
 	private final Set<String> ignoreSources = new HashSet<String>();
 	private final Set<String> ignoreSchemas = new HashSet<String>();
 	
-	public VCManager(ZEditor editor, AbstractVCG<Pred> vcg, IZCompileData parsedData, ZSect specSect) {
+	public VCManager(IZEditor editor, AbstractVCG<Pred> vcg, IZCompileData parsedData, ZSect specSect) {
 		super();
 		this.editor = editor;
 		this.vcg = vcg;

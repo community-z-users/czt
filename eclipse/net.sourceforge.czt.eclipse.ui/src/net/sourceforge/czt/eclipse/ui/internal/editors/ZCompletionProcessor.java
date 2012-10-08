@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.session.Markup;
 
 import org.eclipse.jface.text.BadLocationException;

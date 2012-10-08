@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.core;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -15,7 +15,7 @@ public class ZEvesSubmitCommand extends AbstractSubmitCommand {
 	
 	private final int offset;
 	
-	public ZEvesSubmitCommand(ZEditor editor, int offset) {
+	public ZEvesSubmitCommand(IZEditor editor, int offset) {
 		super(editor);
 		this.offset = offset;
 	}
