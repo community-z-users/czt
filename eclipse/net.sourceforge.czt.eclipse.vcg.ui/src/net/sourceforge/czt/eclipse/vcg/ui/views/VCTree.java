@@ -2,9 +2,12 @@ package net.sourceforge.czt.eclipse.vcg.ui.views;
 
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.outline.ZContentOutlinePage;
+import net.sourceforge.czt.eclipse.ui.outline.NodeIconVisitor;
 import net.sourceforge.czt.eclipse.ui.views.FilteredTree2;
+import net.sourceforge.czt.util.Visitor;
 
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -14,8 +17,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 
+
 class VCTree extends FilteredTree2
 {
+  
+  private final Visitor<Image> termIconVisitor = new NodeIconVisitor(
+      new LocalResourceManager(JFaceResources.getResources(), this));
 
   public VCTree(Composite parent, int treeStyle)
   {
@@ -41,7 +48,7 @@ class VCTree extends FilteredTree2
       public Image getImage(Object element)
       {
         VCEntry entry = (VCEntry) element;
-        return entry.getVCPara().accept(ZContentOutlinePage.TERM_ICON_VISITOR);
+        return entry.getVCPara().accept(termIconVisitor);
       }
     });
 

@@ -27,7 +27,6 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -343,14 +342,6 @@ public class CztUIPlugin extends AbstractUIPlugin
 		 throw new RuntimeException("Error creating a new section manager", ce);
     }
     fSectionManager = sectManager;
-  }
-
-  /*
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#createImageRegistry()
-   */
-  protected ImageRegistry createImageRegistry()
-  {
-    return CztImages.getImageRegistry();
   }
 
   public static ImageDescriptorRegistry getImageDescriptorRegistry()

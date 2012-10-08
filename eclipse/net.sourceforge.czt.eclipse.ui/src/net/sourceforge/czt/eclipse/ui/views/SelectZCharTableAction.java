@@ -43,7 +43,7 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
     
     setText(DEFAULT_LABEL);
     setToolTipText("Select Dialect to Display Its Character Table");
-    setImageDescriptor(CztImages.DESC_CHAR_TABLE);
+    setImageDescriptor(CztImages.CHAR_TABLE);
     setMenuCreator(this);
   }
   

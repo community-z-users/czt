@@ -681,7 +681,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
       setToolTipText("Force Unicode");
 
       // setDescription("?");
-      setImageDescriptor(CztImages.DESC_UNICODE);
+      setImageDescriptor(CztImages.UNICODE);
 
       IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       boolean forceUnicode = preferenceStore.getBoolean(PROP_FORCE_UNICODE);

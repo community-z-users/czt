@@ -17,6 +17,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.DefaultPositionUpdater;
@@ -55,7 +56,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
   private final static Visitor<List<? extends Term>> NODE_CHILDREN_VISITOR = 
       new NodeChildrenVisitor();
   
-  public static final Visitor<Image> TERM_ICON_VISITOR = new NodeIconVisitor();
+  private final ResourceManager resourceManager;
+  private final Visitor<Image> termIconVisitor;
   
   /** A flag to show complete syntax tree in outline */
   private boolean showCompleteTree;
@@ -279,14 +281,14 @@ public class ZContentOutlinePage extends ContentOutlinePage
       if (element instanceof CztTreeNode) {
         CztTreeNode node = (CztTreeNode) element;
 
-        Image icon = node.getTerm().accept(TERM_ICON_VISITOR);
+        Image icon = node.getTerm().accept(termIconVisitor);
         if (icon != null) {
           return icon;
         }
       }
 
       // use default Z element icon
-      return CztImages.get(CztImages.IMG_Z_ELEMENT);
+      return resourceManager.createImageWithDefault(CztImages.Z_ELEMENT);
       
 //      // always use some icon - needed for overlays
 //      return PlatformUI.getWorkbench().getSharedImages().getImage(
@@ -322,11 +324,13 @@ public class ZContentOutlinePage extends ContentOutlinePage
    * @param fEditor
    *            the fEditor
    */
-  public ZContentOutlinePage(String contextMenuId, ITextEditor editor)
+  public ZContentOutlinePage(String contextMenuId, ITextEditor editor, ResourceManager resourceManager)
   {
     super();
     fContextMenuId = contextMenuId;
     fTextEditor = editor;
+    this.resourceManager = resourceManager;
+    termIconVisitor = new NodeIconVisitor(resourceManager);
   }
   
   private void registerToolbarActions(IActionBars actionBars)
@@ -480,7 +484,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
       setToolTipText("Show Complete Syntax Tree");
 
       // setDescription("?");
-      setImageDescriptor(CztImages.DESC_COMPLETE_TREE);
+      setImageDescriptor(CztImages.COMPLETE_TREE);
 
       IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       boolean showCompleteTree = preferenceStore

@@ -342,10 +342,10 @@ public class ProblemsLabelDecorator
   {
     int adornmentFlags = computeAdornmentFlags(element);
     if (adornmentFlags == ERRORTICK_ERROR) {
-      decoration.addOverlay(CztImages.DESC_OVR_ERROR);
+      decoration.addOverlay(CztImages.OVR_ERROR);
     }
     else if (adornmentFlags == ERRORTICK_WARNING) {
-      decoration.addOverlay(CztImages.DESC_OVR_WARNING);
+      decoration.addOverlay(CztImages.OVR_WARNING);
     }
   }
 

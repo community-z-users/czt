@@ -79,6 +79,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
 import org.eclipse.jface.text.DefaultInformationControl;
@@ -835,7 +837,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   protected ZContentOutlinePage createOutlinePage()
   {
     ZContentOutlinePage page = new ZContentOutlinePage(fOutlinerContextMenuId,
-        this);
+        this, new LocalResourceManager(JFaceResources.getResources(), getViewer().getTextWidget()));
     fOutlineSelectionChangedListener.install(page);
     setOutlinePageInput(page, model.getParsedData());
     return page;

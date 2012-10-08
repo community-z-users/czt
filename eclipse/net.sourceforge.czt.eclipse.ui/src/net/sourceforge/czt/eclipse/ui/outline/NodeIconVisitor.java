@@ -26,6 +26,8 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.zeves.ast.ProofScript;
 import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -44,6 +46,17 @@ public class NodeIconVisitor
       VarDeclVisitor<Image>,
       ProofScriptVisitor<Image>
 {
+  
+  private final ResourceManager resourceManager;
+
+  public NodeIconVisitor(ResourceManager resourceManager)
+  {
+    this.resourceManager = resourceManager;
+  }
+  
+  private Image image(ImageDescriptor desc) {
+    return resourceManager.createImageWithDefault(desc);
+  }
 
   /*
    * @see net.sourceforge.czt.base.visitor.TermVisitor#visitTerm(net.sourceforge.czt.base.ast.Term)
@@ -58,7 +71,7 @@ public class NodeIconVisitor
    */
   public Image visitZSect(ZSect zSect)
   {
-    return CztImages.get(CztImages.IMG_ZSECTION);
+    return image(CztImages.ZSECTION);
   }
 
   /**
@@ -66,7 +79,7 @@ public class NodeIconVisitor
    */
   public Image visitGivenPara(GivenPara givenPara)
   {
-    return CztImages.get(CztImages.IMG_GIVENPARA);
+    return image(CztImages.GIVENPARA);
   }
 
   /**
@@ -76,11 +89,11 @@ public class NodeIconVisitor
   {
     Box box = axPara.getBox();
     if ((box == null) || Box.AxBox.equals(box))
-      return CztImages.get(CztImages.IMG_AXPARA_AXBOX);
+      return image(CztImages.AXPARA_AXBOX);
     else if (Box.OmitBox.equals(box))
-      return CztImages.get(CztImages.IMG_AXPARA_OMITBOX);
+      return image(CztImages.AXPARA_OMITBOX);
     else if (Box.SchBox.equals(box))
-      return CztImages.get(CztImages.IMG_AXPARA_SCHBOX);
+      return image(CztImages.AXPARA_SCHBOX);
     return null;
   }
 
@@ -89,7 +102,7 @@ public class NodeIconVisitor
    */
   public Image visitConjPara(ConjPara conjPara)
   {
-    return CztImages.get(CztImages.IMG_CONJPARA);
+    return image(CztImages.CONJPARA);
   }
 
   /**
@@ -97,7 +110,7 @@ public class NodeIconVisitor
    */
   public Image visitFreePara(FreePara freePara)
   {
-    return CztImages.get(CztImages.IMG_FREEPARA);
+    return image(CztImages.FREEPARA);
   }
 
   /**
@@ -105,7 +118,7 @@ public class NodeIconVisitor
    */
   public Image visitOptempPara(OptempPara optempPara)
   {
-    return CztImages.get(CztImages.IMG_OPTEMPPARA);
+    return image(CztImages.OPTEMPPARA);
   }
   
   /**
@@ -113,7 +126,7 @@ public class NodeIconVisitor
    */
   public Image visitProofScript(ProofScript proofScript)
   {
-    return CztImages.get(CztImages.IMG_PROOFSCRIPT);
+    return image(CztImages.PROOFSCRIPT);
   }
 
   /*

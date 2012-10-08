@@ -3,9 +3,9 @@ package net.sourceforge.czt.eclipse.ui.editors;
 
 import net.sourceforge.czt.eclipse.ui.CztImages;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 
@@ -238,12 +238,12 @@ public class CztElementImageDescriptor extends CompositeImageDescriptor
     Point size = getSize();
     int x = 0;
     if ((fFlags & ERROR) != 0) {
-      ImageData data = getImageData(CztImages.DESC_OVR_ERROR);
+      ImageData data = getImageData(CztImages.OVR_ERROR);
       drawImage(data, x, size.y - data.height);
       x += data.width;
     }
     if ((fFlags & WARNING) != 0) {
-      ImageData data = getImageData(CztImages.DESC_OVR_WARNING);
+      ImageData data = getImageData(CztImages.OVR_WARNING);
       drawImage(data, x, size.y - data.height);
       x += data.width;
     }

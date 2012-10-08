@@ -24,6 +24,9 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
+import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
@@ -186,6 +189,8 @@ public class ZEvesStateView extends ViewPart {
 		column.setWidth(500);
 		column.setResizable(true);
 		column.setMoveable(true);
+		final ResourceManager resourceManager = new LocalResourceManager(
+			JFaceResources.getResources(), sectionsViewer.getControl());
 		viewerColumn.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
@@ -196,7 +201,7 @@ public class ZEvesStateView extends ViewPart {
 
 			@Override
 			public Image getImage(Object element) {
-				return CztImages.get(CztImages.IMG_ZSECTION);
+				return resourceManager.createImageWithDefault(CztImages.ZSECTION);
 			}
 
 			@Override
