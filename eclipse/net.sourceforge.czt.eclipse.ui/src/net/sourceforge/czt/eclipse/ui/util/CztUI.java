@@ -21,13 +21,6 @@ public final class CztUI
     }
     
     /**
-     * The id of the Z perspective
-     * (value {@code net.sourceforge.czt.eclipse.ui.ZPerspective}).
-     */ 
-    public static final String ID_PERSPECTIVE = "net.sourceforge.czt.eclipse.ui.ZPerspective"; //$NON-NLS-1$
-    
-    
-    /**
      * The id of the Z fEditor
      * (value <code>"net.sourceforge.czt.eclipse.editors.zeditor"</code>).
      */ 
