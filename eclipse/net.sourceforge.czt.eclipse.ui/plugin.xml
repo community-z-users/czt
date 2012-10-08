@@ -232,32 +232,32 @@
             commandId="net.sourceforge.czt.eclipse.ui.editor.expandSelection"
             contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+Arrow_Up"/>
+            sequence="Alt+Shift+M1+ARROW_UP"/>
       <key
             commandId="net.sourceforge.czt.eclipse.ui.editor.contractSelection"
             contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+Arrow_Down"/>
+            sequence="Alt+Shift+M1+ARROW_DOWN"/>
       <key
             commandId="net.sourceforge.czt.eclipse.ui.convert.latex"
             contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+L"/>
+            sequence="Shift+M1+L"/>
       <key
             commandId="net.sourceforge.czt.eclipse.ui.convert.oldlatex"
             contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+O"/>
+            sequence="Shift+M1+O"/>
       <key
             commandId="net.sourceforge.czt.eclipse.ui.convert.unicode"
             contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+U"/>
+            sequence="Shift+M1+U"/>
       <key
             commandId="net.sourceforge.czt.eclipse.ui.convert.xml"
             contextId="net.sourceforge.czt.eclipse.ui.context.ZEditor"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+X"/>
+            sequence="Shift+M1+X"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
