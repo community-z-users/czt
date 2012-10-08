@@ -113,6 +113,7 @@ public class ZEditorUtil {
       switch (markup) {
         case LATEX: return IZFileType.FILETYPE_LATEX;
         case UNICODE: return IZFileType.FILETYPE_UTF8;
+        default: return null;
       }
     }
     
