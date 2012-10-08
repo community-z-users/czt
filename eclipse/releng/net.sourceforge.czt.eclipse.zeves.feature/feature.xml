@@ -38,7 +38,7 @@
    </requires>
 
    <plugin
-         id="net.sourceforge.czt.eclipse.zeves"
+         id="net.sourceforge.czt.eclipse.zeves.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
