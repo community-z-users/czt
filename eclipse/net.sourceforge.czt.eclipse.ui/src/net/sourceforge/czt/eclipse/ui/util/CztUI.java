@@ -19,13 +19,7 @@ public final class CztUI
     private CztUI() {
         // prevent instantiation of CztUI.
     }
-    
-    /**
-     * The id of the Z fEditor
-     * (value <code>"net.sourceforge.czt.eclipse.editors.zeditor"</code>).
-     */ 
-    public static final String ID_Z_EDITOR = "net.sourceforge.czt.eclipse.editors.zeditor"; //$NON-NLS-1$
-    
+        
     /**
      * The id of the Character Map view
      * (value <code>"net.sourceforge.czt.eclipse.views.ZCharMapView"</code>).
