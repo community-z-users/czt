@@ -38,7 +38,7 @@ public class ZCharCodeScanner extends AbstractZCodeScanner
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner#getTokenProperties()
+   * @see net.sourceforge.czt.eclipse.ui.editors.AbstractZCodeScanner#getTokenProperties()
    */
   @Override
   protected String[] getTokenProperties()
@@ -46,13 +46,10 @@ public class ZCharCodeScanner extends AbstractZCodeScanner
     return fgTokenProperties;
   }
 
-  /*
-   * @see net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner#createRules()
+  /**
+   * @see net.sourceforge.czt.eclipse.ui.editors.AbstractZCodeScanner#createRules()
    */
   @Override
-  /**
-   * @see net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner#createRules()
-   */
   protected List<IRule> createRules()
   {
     List<IRule> rules = new ArrayList<IRule>();

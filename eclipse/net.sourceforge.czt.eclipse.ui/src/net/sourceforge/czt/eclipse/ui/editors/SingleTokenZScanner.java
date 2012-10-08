@@ -31,7 +31,7 @@ public class SingleTokenZScanner extends AbstractZCodeScanner
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner#getTokenProperties()
+   * @see net.sourceforge.czt.eclipse.ui.editors.AbstractZCodeScanner#getTokenProperties()
    */
   @Override
   protected String[] getTokenProperties()
@@ -40,7 +40,7 @@ public class SingleTokenZScanner extends AbstractZCodeScanner
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.AbstractZCodeScanner#createRules()
+   * @see net.sourceforge.czt.eclipse.ui.editors.AbstractZCodeScanner#createRules()
    */
   @Override
   protected List<IRule> createRules()

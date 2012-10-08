@@ -55,7 +55,7 @@ public class ZEditorSyntaxColoringPreferencePage
   }
 
   /**
-   * @see net.sourceforge.czt.eclipse.preferences.AbstractConfigureationBlockPreferencePage#createConfigurationBlock(org.eclipse.ui.internal.editors.text.OverlayPreferenceStore)
+   * @see net.sourceforge.czt.eclipse.ui.preferences.AbstractConfigureationBlockPreferencePage#createConfigurationBlock(org.eclipse.ui.internal.editors.text.OverlayPreferenceStore)
    */
   protected IPreferenceConfigurationBlock createConfigurationBlock(
       OverlayPreferenceStore overlayPreferenceStore)

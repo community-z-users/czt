@@ -2195,7 +2195,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
    */
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.IZReconcilingListener#aboutToBeReconciled()
+   * @see net.sourceforge.czt.eclipse.ui.editors.IZReconcilingListener#aboutToBeReconciled()
    */
   
   public boolean isParsingEnabled()
@@ -2233,7 +2233,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.IZReconcilingListener#reconciled(net.sourceforge.czt.eclipse.editors.parser.ParsedData, boolean, org.eclipse.core.runtime.IProgressMonitor)
+   * @see net.sourceforge.czt.eclipse.ui.editors.IZReconcilingListener#reconciled(net.sourceforge.czt.eclipse.editors.parser.ParsedData, boolean, org.eclipse.core.runtime.IProgressMonitor)
    */
   @Override
   public void reconciled(ParsedData parsedData, boolean forced,

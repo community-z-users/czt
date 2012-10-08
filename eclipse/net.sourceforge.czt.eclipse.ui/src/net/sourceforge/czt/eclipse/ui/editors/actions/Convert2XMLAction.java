@@ -40,7 +40,7 @@ public class Convert2XMLAction extends ConversionAction
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#process(net.sourceforge.czt.session.SectionManager)
+   * @see net.sourceforge.czt.eclipse.ui.editors.actions.ConversionAction#process(net.sourceforge.czt.session.SectionManager)
    */
   @Override
   protected String process(SectionManager manager) throws CommandException
@@ -51,7 +51,7 @@ public class Convert2XMLAction extends ConversionAction
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#getTargetMarkup()
+   * @see net.sourceforge.czt.eclipse.ui.editors.actions.ConversionAction#getTargetMarkup()
    */
   @Override
   protected Markup getTargetMarkup()

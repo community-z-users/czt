@@ -467,7 +467,7 @@ public abstract class AbstractConfigurationBlock
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.preferences.IPreferenceConfigurationBlock#createControl(org.eclipse.swt.widgets.Composite)
+   * @see net.sourceforge.czt.eclipse.ui.preferences.IPreferenceConfigurationBlock#createControl(org.eclipse.swt.widgets.Composite)
    *//*
    public Control createControl(Composite parent)
    {
@@ -476,7 +476,7 @@ public abstract class AbstractConfigurationBlock
    }
    */
   /*
-   * @see net.sourceforge.czt.eclipse.preferences.IPreferenceConfigurationBlock#initialize()
+   * @see net.sourceforge.czt.eclipse.ui.preferences.IPreferenceConfigurationBlock#initialize()
    */
   public void initialize()
   {
@@ -518,14 +518,14 @@ public abstract class AbstractConfigurationBlock
   }
 
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.eclipse.preferences.IPreferenceConfigurationBlock#performOk()
+   * @see net.sourceforge.czt.eclipse.ui.preferences.IPreferenceConfigurationBlock#performOk()
    */
   public void performOk()
   {
   }
 
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.eclipse.preferences.IPreferenceConfigurationBlock#performDefaults()
+   * @see net.sourceforge.czt.eclipse.ui.preferences.IPreferenceConfigurationBlock#performDefaults()
    */
   public void performDefaults()
   {
@@ -540,7 +540,7 @@ public abstract class AbstractConfigurationBlock
   }
 
   /*
-   * @see net.sourceforge.czt.eclipse.preferences.IPreferenceConfigurationBlock#dispose()
+   * @see net.sourceforge.czt.eclipse.ui.preferences.IPreferenceConfigurationBlock#dispose()
    */
   public void dispose()
   {

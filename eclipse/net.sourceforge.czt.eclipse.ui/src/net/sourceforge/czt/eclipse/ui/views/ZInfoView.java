@@ -161,7 +161,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   }
 
   /**
-   * Copied from net.sourceforge.czt.eclipse.views.ZConversionView
+   * Copied from net.sourceforge.czt.eclipse.ui.views.ZConversionView
    * @param parent
    */
   private Control createZViewer(Composite parent)
