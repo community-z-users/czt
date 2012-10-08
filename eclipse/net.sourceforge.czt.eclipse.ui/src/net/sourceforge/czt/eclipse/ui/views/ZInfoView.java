@@ -3,10 +3,10 @@ package net.sourceforge.czt.eclipse.ui.views;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.CztImages;
-import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.internal.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.SimpleZSourceViewerConfiguration;
@@ -81,7 +81,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
 
   protected ZSourceViewer zViewer;
 
-  protected FontUpdater fontUpdater;
+  private FontUpdater fontUpdater;
 
   /** The text context menu to be disposed. */
   private Menu fTextContextMenu;
@@ -639,6 +639,10 @@ public class ZInfoView extends ViewPart implements ISelectionListener
     if (currentViewInput != null) {
       setInput(currentViewInput);
     }
+  }
+  
+  protected void setMarkup(Markup markup) {
+    fontUpdater.setFont(ZEditorUtil.getEditorFont(markup));
   }
 
 

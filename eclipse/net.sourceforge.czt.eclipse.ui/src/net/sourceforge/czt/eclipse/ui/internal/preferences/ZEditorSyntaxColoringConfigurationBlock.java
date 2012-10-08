@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.ui.internal.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.internal.editors.PixelConverter;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;

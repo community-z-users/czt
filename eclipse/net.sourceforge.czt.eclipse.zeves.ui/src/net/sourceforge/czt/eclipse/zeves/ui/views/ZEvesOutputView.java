@@ -345,7 +345,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			// TODO support viewer configurations?
 			IDocument document = inputConfig.getDocument();
 			
-		    fontUpdater.setFont(ZEditorUtil.getEditorFont(markup));
+		    setMarkup(markup);
 		    
 		    IAnnotationModel model = new AnnotationModel();
 		    for (Entry<Annotation, Position> annotation : inputConfig.getAnnotations().entrySet()) {

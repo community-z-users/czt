@@ -30,9 +30,9 @@ import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.internal.editors.CZTTextTools;
+import net.sourceforge.czt.eclipse.ui.internal.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.internal.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.ui.internal.editors.OccurrencesFinderJob;
 import net.sourceforge.czt.eclipse.ui.internal.editors.OccurrencesFinderJobCanceler;
