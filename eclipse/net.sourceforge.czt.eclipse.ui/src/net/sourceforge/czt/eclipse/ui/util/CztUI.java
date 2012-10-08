@@ -22,15 +22,15 @@ public final class CztUI
         
     /**
      * The id of the Character Map view
-     * (value <code>"net.sourceforge.czt.eclipse.views.ZCharMapView"</code>).
+     * (value {@code net.sourceforge.czt.eclipse.ui.views.ZCharMap}).
      */
-    public static final String ID_CHARMAP = "net.sourceforge.czt.eclipse.views.ZCharMapView";
+    public static final String ID_CHARMAP = "net.sourceforge.czt.eclipse.ui.views.ZCharMap";
     
     /**
      * The id of the Z conversion page view
-     * (value <code>"net.sourceforge.czt.eclipse.views.ZConversionView"</code>).
+     * (value {@code net.sourceforge.czt.eclipse.ui.views.ZConversion}).
      */
-    public static final String ID_CONVERSIONVIEW = "net.sourceforge.czt.eclipse.views.ZConversionView";
+    public static final String ID_CONVERSIONVIEW = "net.sourceforge.czt.eclipse.ui.views.ZConversion";
     
     /**
      * The id of the new CZT project wizard

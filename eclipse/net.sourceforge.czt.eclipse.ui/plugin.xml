@@ -23,19 +23,19 @@
             category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.ui.views.ZCharMapView"
             icon="icons/ZSpec.png"
-            id="net.sourceforge.czt.eclipse.views.ZCharMapView"
+            id="net.sourceforge.czt.eclipse.ui.views.ZCharMap"
             name="%CharMapView.name"/>
       <view
             category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.ui.views.ZConversionView"
             icon="icons/ZSpec.png"
-            id="net.sourceforge.czt.eclipse.views.ZConversionView"
+            id="net.sourceforge.czt.eclipse.ui.views.ZConversion"
             name="%ConversionView.name"/>
       <view
             category="net.sourceforge.czt.eclipse.ui.category.views"
             class="net.sourceforge.czt.eclipse.ui.views.ZInfoView"
             icon="icons/ZSpec.png"
-            id="net.sourceforge.czt.eclipse.views.ZInfo"
+            id="net.sourceforge.czt.eclipse.ui.views.ZInfo"
             name="Z Info">
       </view>
    </extension>
