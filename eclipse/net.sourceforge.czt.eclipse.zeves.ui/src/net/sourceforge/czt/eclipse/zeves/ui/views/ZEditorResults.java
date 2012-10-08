@@ -14,11 +14,11 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
@@ -307,8 +307,7 @@ public class ZEditorResults {
 			
 			String descStart = caseText != null ? caseText + ", " : "";
 			
-			return descStart + "Z/EVES error for: "
-					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+			return descStart + "Z/EVES error for: " + CztUI.getTermLabel(source);
 		}
 
 		@Override
@@ -421,8 +420,7 @@ public class ZEditorResults {
 				return null;
 			}
 			
-			return "Z/EVES paragraph result for: "
-					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+			return "Z/EVES paragraph result for: " + CztUI.getTermLabel(source);
 		}
 	}
 	
@@ -465,10 +463,7 @@ public class ZEditorResults {
 			String caseText = getCaseText(getSnapshotEntry());
 			String desc = caseText == null ? "Proof results for: " : caseText + ", results for: ";
 			
-			String commandStr = command != null ? 
-					command.accept(TermLabelVisitorFactory.getTermLabelVisitor(true)) : 
-					"unknown";
-					
+			String commandStr = command != null ? CztUI.getTermLabel(command) : "unknown";
 			return desc + commandStr;
 		}
 		

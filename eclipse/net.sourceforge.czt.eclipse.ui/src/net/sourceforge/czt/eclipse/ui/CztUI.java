@@ -1,5 +1,12 @@
 package net.sourceforge.czt.eclipse.ui;
 
+import org.eclipse.jface.resource.ResourceManager;
+import org.eclipse.swt.graphics.Image;
+
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.outline.NodeIconVisitor;
+import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
+
 /**
  * CZT UI component references.
  * 
@@ -34,5 +41,24 @@ public final class CztUI
    * (value {@code net.sourceforge.czt.eclipse.ui.wizards.ZSpecification}).
    */
   public static final String Z_SPEC_WIZARD_ID = "net.sourceforge.czt.eclipse.ui.wizards.ZSpecification";
+  
+  
+  public static String getTermLabel(Term term) {
+    
+    if (term == null) {
+      return null;
+    }
+    
+    return term.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+  }
+  
+  public static Image getTermImage(ResourceManager resourceManager, Term term) {
+    
+    if (term == null || resourceManager == null) {
+      return null;
+    }
+    
+    return term.accept(new NodeIconVisitor(resourceManager));
+  }
 
 }

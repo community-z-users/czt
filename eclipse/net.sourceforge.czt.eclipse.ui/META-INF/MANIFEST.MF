@@ -25,7 +25,6 @@ Export-Package: net.sourceforge.czt.eclipse.ui,
  net.sourceforge.czt.eclipse.ui.document,
  net.sourceforge.czt.eclipse.ui.editors,
  net.sourceforge.czt.eclipse.ui.editors.zeditor,
- net.sourceforge.czt.eclipse.ui.outline,
  net.sourceforge.czt.eclipse.ui.preferences,
  net.sourceforge.czt.eclipse.ui.util,
  net.sourceforge.czt.eclipse.ui.views
