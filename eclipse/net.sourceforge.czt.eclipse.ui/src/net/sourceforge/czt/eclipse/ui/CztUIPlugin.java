@@ -1,10 +1,11 @@
 package net.sourceforge.czt.eclipse.ui;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.DocumentEditTracker;
+import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
 import net.sourceforge.czt.eclipse.ui.internal.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.ui.internal.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartitionScanner;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.DocumentEditTracker;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
@@ -171,9 +172,9 @@ public class CztUIPlugin extends AbstractUIPlugin
   /**
    * Retrieves a document edit tracker, which notifies when documents are edited within Eclipse.
    * @return the tracker for the plugin
-   * @see DocumentEditTracker
+   * @see IDocumentEditTracker
    */
-  public static DocumentEditTracker getEditTracker() {
+  public static IDocumentEditTracker getEditTracker() {
     return getDefault().editTracker;
   }
 

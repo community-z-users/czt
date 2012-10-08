@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.IResourceDocumentListener;
+import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;

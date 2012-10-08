@@ -1,10 +1,11 @@
-package net.sourceforge.czt.eclipse.ui.editors.zeditor;
+package net.sourceforge.czt.eclipse.ui.internal.editors.zeditor;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
+import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.DocumentChangeListenerSupport;
 import net.sourceforge.czt.eclipse.ui.internal.util.PartAdapter;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 
@@ -43,7 +44,7 @@ import org.eclipse.ui.PlatformUI;
  * @author Andrius Velykis
  * @see IResourceDocumentListener
  */
-public class DocumentEditTracker
+public class DocumentEditTracker implements IDocumentEditTracker
 {
 
   private final Map<IEditorPart, DocumentChangeListenerSupport> editorListeners = 
@@ -292,11 +293,13 @@ public class DocumentEditTracker
    * 
    * @param listener
    */
+  @Override
   public void addEditListener(IResourceDocumentListener listener)
   {
     interestedListeners.add(listener);
   }
 
+  @Override
   public void removeEditListener(IResourceDocumentListener listener)
   {
     interestedListeners.remove(listener);

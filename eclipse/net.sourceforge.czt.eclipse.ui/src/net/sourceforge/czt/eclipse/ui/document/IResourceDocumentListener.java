@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.editors.zeditor;
+package net.sourceforge.czt.eclipse.ui.document;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.DocumentEvent;

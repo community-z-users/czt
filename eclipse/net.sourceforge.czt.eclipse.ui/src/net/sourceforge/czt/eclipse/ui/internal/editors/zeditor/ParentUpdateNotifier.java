@@ -22,8 +22,8 @@ import org.eclipse.ui.IEditorPart;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.DocumentEditTracker;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.IResourceDocumentListener;
+import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
+import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.internal.util.VisiblePartRunner;
@@ -151,7 +151,7 @@ public class ParentUpdateNotifier
     // remove existing parents from the new set
     parentPaths.removeAll(currentPaths);
     
-    DocumentEditTracker editTracker = CztUIPlugin.getEditTracker();
+    IDocumentEditTracker editTracker = CztUIPlugin.getEditTracker();
     for (String remPath : removePaths) {
       editTracker.removeEditListener(editListeners.get(remPath));
       editListeners.remove(remPath);
@@ -233,7 +233,7 @@ public class ParentUpdateNotifier
   
   public void dispose() {
     
-    DocumentEditTracker editTracker = CztUIPlugin.getEditTracker();
+    IDocumentEditTracker editTracker = CztUIPlugin.getEditTracker();
     for (IResourceDocumentListener listener : editListeners.values()) {
       editTracker.removeEditListener(listener);
     }
