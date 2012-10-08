@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.vcg.ui.views;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.CztUI;
-import net.sourceforge.czt.eclipse.ui.views.FilteredTree2;
+import net.sourceforge.czt.eclipse.ui.util.FilteredTree2;
 
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;

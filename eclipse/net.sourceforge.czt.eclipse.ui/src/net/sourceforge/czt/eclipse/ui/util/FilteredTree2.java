@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.views;
+package net.sourceforge.czt.eclipse.ui.util;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
