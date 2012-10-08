@@ -16,7 +16,7 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="net.sourceforge.czt.eclipse.perspectives">
+            targetID="net.sourceforge.czt.eclipse.ui.ZPerspective">
          <viewShortcut
                id="net.sourceforge.czt.eclipse.vcg.views.VC">
          </viewShortcut>
@@ -24,7 +24,7 @@
                id="net.sourceforge.czt.eclipse.vcg.views.VC"
                minimized="false"
                relationship="bottom"
-               relative="org.eclipse.ui.views.ResourceNavigator"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
                visible="true">
          </view>
          <viewShortcut
