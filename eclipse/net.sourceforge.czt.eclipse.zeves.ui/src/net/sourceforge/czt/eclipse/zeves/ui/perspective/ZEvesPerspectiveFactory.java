@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.ui.perspective;
 
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
+import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView;
 

@@ -1,8 +1,8 @@
 
 package net.sourceforge.czt.eclipse.ui.perspective;
 
+import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
 
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;

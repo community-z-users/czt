@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.sourceforge.czt.eclipse.ui.util;
+package net.sourceforge.czt.eclipse.ui;
 
 /**
  * Central access point for the CZT plug-in.

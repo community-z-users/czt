@@ -2,9 +2,9 @@ package net.sourceforge.czt.eclipse.ui.editors.actions;
 
 import java.util.ResourceBundle;
 
+import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
 import net.sourceforge.czt.eclipse.ui.views.ZConversionView;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
