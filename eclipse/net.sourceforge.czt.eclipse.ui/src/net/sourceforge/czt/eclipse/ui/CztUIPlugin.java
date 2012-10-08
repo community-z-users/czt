@@ -1,13 +1,13 @@
 package net.sourceforge.czt.eclipse.ui;
 
-import net.sourceforge.czt.eclipse.ui.editors.CZTTextTools;
-import net.sourceforge.czt.eclipse.ui.editors.ImageDescriptorRegistry;
-import net.sourceforge.czt.eclipse.ui.editors.latex.ZLatexPartitionScanner;
-import net.sourceforge.czt.eclipse.ui.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.DocumentEditTracker;
-import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
-import net.sourceforge.czt.eclipse.ui.util.CZTColorManager;
-import net.sourceforge.czt.eclipse.ui.util.IZFileType;
+import net.sourceforge.czt.eclipse.ui.internal.editors.CZTTextTools;
+import net.sourceforge.czt.eclipse.ui.internal.editors.ImageDescriptorRegistry;
+import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZLatexPartitionScanner;
+import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartitionScanner;
+import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
+import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;

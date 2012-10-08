@@ -4,11 +4,11 @@ import java.math.BigInteger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.editors.IZReconcilingListener;
-import net.sourceforge.czt.eclipse.ui.editors.ZDialectSupport;
-import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.ui.preferences.ZEditorConstants;
-import net.sourceforge.czt.eclipse.ui.util.IZFileType;
+import net.sourceforge.czt.eclipse.ui.internal.editors.IZReconcilingListener;
+import net.sourceforge.czt.eclipse.ui.internal.editors.ZDialectSupport;
+import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
+import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.print.util.CztPrintString;

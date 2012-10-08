@@ -1,5 +1,7 @@
 package net.sourceforge.czt.eclipse.ui.editors;
 
+import net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewerConfiguration;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;

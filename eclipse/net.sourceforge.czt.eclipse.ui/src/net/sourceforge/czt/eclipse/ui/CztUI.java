@@ -4,8 +4,8 @@ import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.graphics.Image;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.outline.NodeIconVisitor;
-import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
+import net.sourceforge.czt.eclipse.ui.internal.outline.NodeIconVisitor;
+import net.sourceforge.czt.eclipse.ui.internal.outline.TermLabelVisitorFactory;
 
 /**
  * CZT UI component references.

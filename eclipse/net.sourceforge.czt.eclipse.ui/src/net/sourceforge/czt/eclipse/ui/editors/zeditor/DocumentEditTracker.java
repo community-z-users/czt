@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.util.PartAdapter;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.DocumentChangeListenerSupport;
+import net.sourceforge.czt.eclipse.ui.internal.util.PartAdapter;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 
 import org.eclipse.core.resources.IResource;

@@ -7,7 +7,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor"
-            contributorClass="net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorActionContributor"
+            contributorClass="net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditorActionContributor"
             extensions="zed,zed8,zed16"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.ui.ZEditor"
@@ -21,13 +21,13 @@
             name="%Views.categoryName"/>
       <view
             category="net.sourceforge.czt.eclipse.ui.category.views"
-            class="net.sourceforge.czt.eclipse.ui.views.ZCharMapView"
+            class="net.sourceforge.czt.eclipse.ui.internal.views.ZCharMapView"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.ui.views.ZCharMap"
             name="%CharMapView.name"/>
       <view
             category="net.sourceforge.czt.eclipse.ui.category.views"
-            class="net.sourceforge.czt.eclipse.ui.views.ZConversionView"
+            class="net.sourceforge.czt.eclipse.ui.internal.views.ZConversionView"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.ui.views.ZConversion"
             name="%ConversionView.name"/>
@@ -44,7 +44,7 @@
          name="%DocumentSetupParticipant.name"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
-            class="net.sourceforge.czt.eclipse.ui.editors.latex.ZDocumentSetupParticipant_Latex"
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZDocumentSetupParticipant_Latex"
             extensions="zed">
       </participant>
    </extension>
@@ -53,7 +53,7 @@
          name="%DocumentSetupParticipant.name"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
-            class="net.sourceforge.czt.eclipse.ui.editors.unicode.ZDocumentSetupParticipant_Utf8"
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZDocumentSetupParticipant_Utf8"
             extensions="zed8">
       </participant>
    </extension>
@@ -62,7 +62,7 @@
          name="%DocumentSetupParticipant.name"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
-            class="net.sourceforge.czt.eclipse.ui.editors.unicode.ZDocumentSetupParticipant_Utf16"
+            class="net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZDocumentSetupParticipant_Utf16"
             extensions="zed16">
       </participant>
    </extension>
@@ -262,7 +262,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="net.sourceforge.czt.eclipse.ui.perspective.ZPerspectiveFactory"
+            class="net.sourceforge.czt.eclipse.ui.internal.perspective.ZPerspectiveFactory"
             icon="icons/CZTproject.png"
             id="net.sourceforge.czt.eclipse.ui.ZPerspective"
             name="Z"/>
@@ -285,27 +285,27 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="net.sourceforge.czt.eclipse.ui.preferences.CZTBasePreferencePage"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.CZTBasePreferencePage"
             id="net.sourceforge.czt.eclipse.ui.preferences.base"
             name="%CztBasePreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.general"/>
       </page>
       <page
             category="net.sourceforge.czt.eclipse.ui.preferences.base"
-            class="net.sourceforge.czt.eclipse.ui.preferences.CompilerPreferencePage"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.CompilerPreferencePage"
             id="net.sourceforge.czt.eclipse.ui.preferences.compiler"
             name="%CompilerPreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.compiler"/>
       </page> <page
             category="net.sourceforge.czt.eclipse.ui.preferences.base"
-            class="net.sourceforge.czt.eclipse.ui.preferences.ZEditorBasePreferencePage"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorBasePreferencePage"
             id="net.sourceforge.czt.eclipse.ui.preferences.editor"
             name="%ZEditorBasePreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.editor"/>
       </page>
       <page
             category="net.sourceforge.czt.eclipse.ui.preferences.editor"
-            class="net.sourceforge.czt.eclipse.ui.preferences.ZEditorAnnotationPreferencePage"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorAnnotationPreferencePage"
             id="net.sourceforge.czt.eclipse.ui.preferences.annotation"
             name="%ZEditorAnnotationPreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.annotation"/>
@@ -313,14 +313,14 @@
      
       <page
             category="net.sourceforge.czt.eclipse.ui.preferences.editor"
-            class="net.sourceforge.czt.eclipse.ui.preferences.ZEditorFoldingPreferencePage"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorFoldingPreferencePage"
             id="net.sourceforge.czt.eclipse.ui.preferences.folding"
             name="%ZEditorFoldingPreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.folding"/>
       </page>
       <page
             category="net.sourceforge.czt.eclipse.ui.preferences.editor"
-            class="net.sourceforge.czt.eclipse.ui.preferences.ZEditorSyntaxColoringPreferencePage"
+            class="net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorSyntaxColoringPreferencePage"
             id="net.sourceforge.czt.eclipse.ui.preferences.syntaxcoloring"
             name="%ZEditorSyntaxColoringPreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.keywords.syntaxcoloring"/>
@@ -349,7 +349,7 @@
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
-      <initializer class="net.sourceforge.czt.eclipse.ui.preferences.CZTPreferenceInitializer"/>
+      <initializer class="net.sourceforge.czt.eclipse.ui.internal.preferences.CZTPreferenceInitializer"/>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -358,7 +358,7 @@
             name="%NewWizardCategoryName"/>
       <wizard
             category="net.sourceforge.czt.eclipse.ui.category.newWizards"
-            class="net.sourceforge.czt.eclipse.ui.wizards.NewCZTProjectWizard"
+            class="net.sourceforge.czt.eclipse.ui.internal.wizards.NewCZTProjectWizard"
             finalPerspective="net.sourceforge.czt.eclipse.ui.ZPerspective"
             icon="icons/CZTproject.png"
             id="net.sourceforge.czt.eclipse.ui.wizards.CztProject"
@@ -367,7 +367,7 @@
             project="true"/>
       <wizard
             category="net.sourceforge.czt.eclipse.ui.category.newWizards"
-            class="net.sourceforge.czt.eclipse.ui.wizards.NewZSpecificationWizard"
+            class="net.sourceforge.czt.eclipse.ui.internal.wizards.NewZSpecificationWizard"
             finalPerspective="net.sourceforge.czt.eclipse.ui.ZPerspective"
             icon="icons/ZSpec.png"
             id="net.sourceforge.czt.eclipse.ui.wizards.ZSpecification"
