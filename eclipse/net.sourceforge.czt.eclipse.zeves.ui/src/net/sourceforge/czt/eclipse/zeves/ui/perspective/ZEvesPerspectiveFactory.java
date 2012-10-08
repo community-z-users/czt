@@ -27,7 +27,7 @@ public class ZEvesPerspectiveFactory implements IPerspectiveFactory
   
   private static final String ID_THEOREMS_VIEW = "net.sourceforge.czt.eclipse.zeves.ui.view.Theorems"; //$NON-NLS-1$
   private static final String ID_ZEVES_STATE_VIEW = "net.sourceforge.czt.eclipse.zeves.ui.view.ZEvesState"; //$NON-NLS-1$
-  private static final String ID_VERIFICATION_VIEW = "net.sourceforge.czt.eclipse.vcg.views.VC"; //$NON-NLS-1$
+  private static final String ID_VERIFICATION_VIEW = "net.sourceforge.czt.eclipse.vcg.ui.views.VC"; //$NON-NLS-1$
   
   
   @Override
