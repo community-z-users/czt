@@ -111,8 +111,7 @@ public class NameInfoResolver
     String section = zSect.getName();
 
     try {
-      SectTypeEnvAnn steAnn = (SectTypeEnvAnn) manager.get(new Key(section,
-          SectTypeEnvAnn.class));
+      SectTypeEnvAnn steAnn = manager.get(new Key<SectTypeEnvAnn>(section, SectTypeEnvAnn.class));
       if (steAnn != null) {
         for (NameSectTypeTriple triple : steAnn.getNameSectTypeTriple()) {
           ZName name = triple.getZName();
