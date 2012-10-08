@@ -508,14 +508,14 @@
       <launchConfigurationType
             category="org.eclipse.ui.externaltools"
             delegate="net.sourceforge.czt.eclipse.zeves.ui.launch.ZEvesAppLaunch"
-            id="net.sourceforge.czt.eclipse.zeves.app"
+            id="net.sourceforge.czt.eclipse.zeves.ui.launch.app"
             modes="run"
             name="Z/EVES">
       </launchConfigurationType>
       <launchConfigurationType
             category="org.eclipse.ui.externaltools"
             delegate="net.sourceforge.czt.eclipse.zeves.ui.launch.ZEvesAppLaunch"
-            id="net.sourceforge.czt.eclipse.zeves.remote"
+            id="net.sourceforge.czt.eclipse.zeves.ui.launch.remote"
             modes="run"
             name="Z/EVES Remote">
       </launchConfigurationType>
@@ -523,14 +523,14 @@
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
       <launchConfigurationTypeImage
-            configTypeID="net.sourceforge.czt.eclipse.zeves.app"
+            configTypeID="net.sourceforge.czt.eclipse.zeves.ui.launch.app"
             icon="icons/z-eves.png"
-            id="net.sourceforge.czt.eclipse.zeves.app">
+            id="net.sourceforge.czt.eclipse.zeves.ui.launch.app">
       </launchConfigurationTypeImage>
       <launchConfigurationTypeImage
-            configTypeID="net.sourceforge.czt.eclipse.zeves.remote"
+            configTypeID="net.sourceforge.czt.eclipse.zeves.ui.launch.remote"
             icon="icons/z-eves.png"
-            id="net.sourceforge.czt.eclipse.zeves.remote">
+            id="net.sourceforge.czt.eclipse.zeves.ui.launch.remote">
       </launchConfigurationTypeImage>
    </extension>
    <extension
@@ -538,14 +538,14 @@
       <launchConfigurationTabGroup
             class="net.sourceforge.czt.eclipse.zeves.ui.launch.ZEvesAppLaunchTabGroup"
             description="Run Z/EVES theorem prover"
-            id="net.sourceforge.czt.eclipse.zeves.app"
-            type="net.sourceforge.czt.eclipse.zeves.app">
+            id="net.sourceforge.czt.eclipse.zeves.ui.launch.app"
+            type="net.sourceforge.czt.eclipse.zeves.ui.launch.app">
       </launchConfigurationTabGroup>
       <launchConfigurationTabGroup
             class="net.sourceforge.czt.eclipse.zeves.ui.launch.ZEvesAppLaunchTabGroup"
             description="Connect to a Z/EVES theorem prover server"
-            id="net.sourceforge.czt.eclipse.zeves.remote"
-            type="net.sourceforge.czt.eclipse.zeves.remote">
+            id="net.sourceforge.czt.eclipse.zeves.ui.launch.remote"
+            type="net.sourceforge.czt.eclipse.zeves.ui.launch.remote">
       </launchConfigurationTabGroup>
    </extension>
    <extension
