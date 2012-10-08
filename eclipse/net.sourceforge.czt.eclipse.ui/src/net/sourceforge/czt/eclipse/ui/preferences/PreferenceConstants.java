@@ -70,36 +70,6 @@ public class PreferenceConstants
    */
   public static final String PROP_TYPECHECK_USE_STRONG_TYPING = net.sourceforge.czt.typecheck.oz.TypecheckPropertiesKeys.PROP_TYPECHECK_USE_STRONG_TYPING; 
 
-  /*
-   * Z Character view preference keys
-   */
-  /**
-   * A named preference that controls the way in which a zchar is inserted in the charmap view. 
-   * <p>
-   * Value is of type <code>String</code>: possible values are <code>
-   * INSERT_ZCHAR_BY_CLICK</code> or <code>
-   * INSERT_ZCHAR_BY_DOUBLE_CLICK</code>.
-   * </p>
-   * 
-   * @see #DOUBLE_CLICK_EXPANDS
-   * @see #DOUBLE_CLICK_GOES_INTO
-   */
-  public static final String INSERT_ZCHAR = "net.sourceforge.czt.eclipse.charmapview.InsertZChar"; //$NON-NLS-1$
-
-  /**
-   * A string value used by the named preference <code>SINGLE_CLICK</code>.
-   * 
-   * @see #CLICK
-   */
-  public static final String INSERT_ZCHAR_BY_CLICK = "net.sourceforge.czt.eclipse.charmapview.SingleClick"; //$NON-NLS-1$
-
-  /**
-   * A string value used by the named preference <code>DOUBLE_CLICK</code>.
-   * 
-   * @see #DOUBLE_CLICK
-   */
-  public static final String INSERT_ZCHAR_BY_DOUBLE_CLICK = "net.sourceforge.czt.eclipse.charmapview.DoubleClick"; //$NON-NLS-1$
-
   
   /**
    * A named preference that controls whether the complete syntax tree is displayed in the
@@ -117,16 +87,6 @@ public class PreferenceConstants
    */
   public static void initializeDefaultValues(IPreferenceStore store)
   {
-
-    // CZT base preference page
-    //		store.setDefault(PreferenceConstants.DOUBLE_CLICK, PreferenceConstants.DOUBLE_CLICK_EXPANDS);
-    //		store.setDefault(PreferenceConstants.UPDATE_Z_VIEWS, PreferenceConstants.UPDATE_WHILE_EDITING);	
-    //		store.setToDefault(PreferenceConstants.UPDATE_Z_VIEWS); // clear preference, update on save not supported anymore
-
-    //		store.setDefault(PreferenceConstants.SEARCH_USE_REDUCED_MENU, true);
-    // Appearance preference page
-    //		store.setDefault(PreferenceConstants.APPEARANCE_PKG_NAME_PATTERN_FOR_PKG_VIEW, ""); //$NON-NLS-1$
-    //		store.setDefault(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER, true);
 
     // Compiler preference page
     store.setDefault(PROP_DIALECT, "z");
