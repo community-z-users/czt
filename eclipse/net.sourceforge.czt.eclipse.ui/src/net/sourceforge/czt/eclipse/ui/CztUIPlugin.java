@@ -1,6 +1,5 @@
 package net.sourceforge.czt.eclipse.ui;
 
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.eclipse.ui.editors.CZTTextTools;
@@ -56,9 +55,6 @@ public class CztUIPlugin extends AbstractUIPlugin
   //The shared instance.
   private static CztUIPlugin plugin;
 
-  //Resource bundle.
-  private ResourceBundle resourceBundle;
-
   private RuleBasedPartitionScanner fZDefaultPartitionScanner;
 
   private RuleBasedPartitionScanner fZLatexPartitionScanner;
@@ -107,13 +103,6 @@ public class CztUIPlugin extends AbstractUIPlugin
   {
     super();
     plugin = this;
-
-    //try {
-      resourceBundle = ResourceBundle
-          .getBundle("net.sourceforge.czt.eclipse.CZTPluginResources");
-    //} catch (MissingResourceException x) {
-    //  resourceBundle = null;
-    //}
   }
 
   /**
@@ -238,28 +227,6 @@ public class CztUIPlugin extends AbstractUIPlugin
     if (!(part instanceof AbstractTextEditor))
       return null;
     return part;
-  }
-
-  /**
-   * Returns the string from the plugin's resource bundle,
-   * or 'key' if not found.
-   */
-  public static String getResourceString(String key)
-  {
-    ResourceBundle bundle = CztUIPlugin.getDefault().getResourceBundle();
-    try {
-      return (bundle != null) ? bundle.getString(key) : key;
-    } catch (MissingResourceException e) {
-      return key;
-    }
-  }
-
-  /**
-   * Returns the plugin's resource bundle,
-   */
-  public ResourceBundle getResourceBundle()
-  {
-    return resourceBundle;
   }
 
   public synchronized CZTTextTools getCZTTextTools()

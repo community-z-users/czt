@@ -2221,8 +2221,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       compMsgParser.parseCompilerMessage(dialect, document, resource, errors);
     } catch (CoreException ce) {
       CztUIPlugin.getDefault().getLog().log(
-          new Status(IStatus.ERROR, CztUIPlugin.PLUGIN_ID, 0, CztUIPlugin
-              .getResourceString("Error occurred when creating markers"), ce));
+          new Status(IStatus.ERROR, CztUIPlugin.PLUGIN_ID, 0, "Error occurred when creating markers", ce));
     } finally {
 
     }

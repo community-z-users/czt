@@ -76,8 +76,7 @@ public class CZTConsoleUtility
                   IStatus.ERROR,
                   CztUIPlugin.PLUGIN_ID,
                   0,
-                  CztUIPlugin
-                      .getResourceString("CompilerAction.consoleViewOpeningProblem"),
+                  "Error occurred opening console",
                   e));
     }
   }
