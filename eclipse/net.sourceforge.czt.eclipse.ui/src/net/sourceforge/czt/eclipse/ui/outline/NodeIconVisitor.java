@@ -5,7 +5,7 @@ package net.sourceforge.czt.eclipse.ui.outline;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -58,7 +58,7 @@ public class NodeIconVisitor
    */
   public Image visitZSect(ZSect zSect)
   {
-    return CZTPluginImages.get(CZTPluginImages.IMG_ZSECTION);
+    return CztImages.get(CztImages.IMG_ZSECTION);
   }
 
   /**
@@ -66,7 +66,7 @@ public class NodeIconVisitor
    */
   public Image visitGivenPara(GivenPara givenPara)
   {
-    return CZTPluginImages.get(CZTPluginImages.IMG_GIVENPARA);
+    return CztImages.get(CztImages.IMG_GIVENPARA);
   }
 
   /**
@@ -76,11 +76,11 @@ public class NodeIconVisitor
   {
     Box box = axPara.getBox();
     if ((box == null) || Box.AxBox.equals(box))
-      return CZTPluginImages.get(CZTPluginImages.IMG_AXPARA_AXBOX);
+      return CztImages.get(CztImages.IMG_AXPARA_AXBOX);
     else if (Box.OmitBox.equals(box))
-      return CZTPluginImages.get(CZTPluginImages.IMG_AXPARA_OMITBOX);
+      return CztImages.get(CztImages.IMG_AXPARA_OMITBOX);
     else if (Box.SchBox.equals(box))
-      return CZTPluginImages.get(CZTPluginImages.IMG_AXPARA_SCHBOX);
+      return CztImages.get(CztImages.IMG_AXPARA_SCHBOX);
     return null;
   }
 
@@ -89,7 +89,7 @@ public class NodeIconVisitor
    */
   public Image visitConjPara(ConjPara conjPara)
   {
-    return CZTPluginImages.get(CZTPluginImages.IMG_CONJPARA);
+    return CztImages.get(CztImages.IMG_CONJPARA);
   }
 
   /**
@@ -97,7 +97,7 @@ public class NodeIconVisitor
    */
   public Image visitFreePara(FreePara freePara)
   {
-    return CZTPluginImages.get(CZTPluginImages.IMG_FREEPARA);
+    return CztImages.get(CztImages.IMG_FREEPARA);
   }
 
   /**
@@ -105,7 +105,7 @@ public class NodeIconVisitor
    */
   public Image visitOptempPara(OptempPara optempPara)
   {
-    return CZTPluginImages.get(CZTPluginImages.IMG_OPTEMPPARA);
+    return CztImages.get(CztImages.IMG_OPTEMPPARA);
   }
   
   /**
@@ -113,7 +113,7 @@ public class NodeIconVisitor
    */
   public Image visitProofScript(ProofScript proofScript)
   {
-    return CZTPluginImages.get(CZTPluginImages.IMG_PROOFSCRIPT);
+    return CztImages.get(CztImages.IMG_PROOFSCRIPT);
   }
 
   /*

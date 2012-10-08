@@ -386,7 +386,7 @@ public class CztUIPlugin extends AbstractUIPlugin
    */
   protected ImageRegistry createImageRegistry()
   {
-    return CZTPluginImages.getImageRegistry();
+    return CztImages.getImageRegistry();
   }
 
   public static ImageDescriptorRegistry getImageDescriptorRegistry()

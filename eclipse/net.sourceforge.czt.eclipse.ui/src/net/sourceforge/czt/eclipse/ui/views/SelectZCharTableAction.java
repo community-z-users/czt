@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.eclipse.ui.editors.ZDialectSupport.ZDialect;
 
 import org.eclipse.jface.action.Action;
@@ -43,7 +43,7 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
     
     setText(DEFAULT_LABEL);
     setToolTipText("Select Dialect to Display Its Character Table");
-    setImageDescriptor(CZTPluginImages.DESC_CHAR_TABLE);
+    setImageDescriptor(CztImages.DESC_CHAR_TABLE);
     setMenuCreator(this);
   }
   

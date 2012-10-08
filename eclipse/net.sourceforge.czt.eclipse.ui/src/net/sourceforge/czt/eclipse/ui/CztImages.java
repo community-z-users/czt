@@ -20,7 +20,7 @@ import org.osgi.framework.Bundle;
  * 
  * @author Chengdong Xu
  */
-public class CZTPluginImages
+public class CztImages
 {
   //public static final IPath ICONS_PATH= new Path("$nl$/icons/full"); //$NON-NLS-1$
   public static final IPath ICONS_PATH = new Path("$nl$/icons"); //$NON-NLS-1$

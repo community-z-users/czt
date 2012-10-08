@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.ui.views;
 
-import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
@@ -196,7 +196,7 @@ public class ZEvesStateView extends ViewPart {
 
 			@Override
 			public Image getImage(Object element) {
-				return CZTPluginImages.get(CZTPluginImages.IMG_ZSECTION);
+				return CztImages.get(CztImages.IMG_ZSECTION);
 			}
 
 			@Override

@@ -8,7 +8,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
 import net.sourceforge.czt.util.Visitor;
@@ -286,7 +286,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
       }
 
       // use default Z element icon
-      return CZTPluginImages.get(CZTPluginImages.IMG_Z_ELEMENT);
+      return CztImages.get(CztImages.IMG_Z_ELEMENT);
       
 //      // always use some icon - needed for overlays
 //      return PlatformUI.getWorkbench().getSharedImages().getImage(
@@ -480,7 +480,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
       setToolTipText("Show Complete Syntax Tree");
 
       // setDescription("?");
-      setImageDescriptor(CZTPluginImages.DESC_COMPLETE_TREE);
+      setImageDescriptor(CztImages.DESC_COMPLETE_TREE);
 
       IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       boolean showCompleteTree = preferenceStore

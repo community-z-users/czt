@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.outline.CztTreeNode;
 
@@ -342,10 +342,10 @@ public class ProblemsLabelDecorator
   {
     int adornmentFlags = computeAdornmentFlags(element);
     if (adornmentFlags == ERRORTICK_ERROR) {
-      decoration.addOverlay(CZTPluginImages.DESC_OVR_ERROR);
+      decoration.addOverlay(CztImages.DESC_OVR_ERROR);
     }
     else if (adornmentFlags == ERRORTICK_WARNING) {
-      decoration.addOverlay(CZTPluginImages.DESC_OVR_WARNING);
+      decoration.addOverlay(CztImages.DESC_OVR_WARNING);
     }
   }
 

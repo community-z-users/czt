@@ -2,7 +2,7 @@
 package net.sourceforge.czt.eclipse.ui.views;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.ZSourceViewer;
@@ -681,7 +681,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
       setToolTipText("Force Unicode");
 
       // setDescription("?");
-      setImageDescriptor(CZTPluginImages.DESC_UNICODE);
+      setImageDescriptor(CztImages.DESC_UNICODE);
 
       IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       boolean forceUnicode = preferenceStore.getBoolean(PROP_FORCE_UNICODE);
