@@ -583,32 +583,21 @@
       </view>
    </extension>
    <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="net.sourceforge.czt.eclipse.zeves.perspective.ZEvesPerspectiveFactory"
+            icon="icons/z-eves.png"
+            id="net.sourceforge.czt.eclipse.zeves.ui.ZEvesPerspective"
+            name="Z/EVES">
+      </perspective>
+   </extension>
+   <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="net.sourceforge.czt.eclipse.ui.ZPerspective">
-         <viewShortcut
-               id="net.sourceforge.czt.eclipse.zeves.view.ZEvesState">
-         </viewShortcut>
-         <view
-               id="net.sourceforge.czt.eclipse.zeves.view.ZEvesState"
-               minimized="false"
-               relationship="stack"
-               relative="org.eclipse.ui.views.ContentOutline"
-               visible="true">
-         </view>
-         <viewShortcut
-               id="net.sourceforge.czt.eclipse.zeves.view.Theorems">
-         </viewShortcut>
-         <viewShortcut
-               id="net.sourceforge.czt.eclipse.zeves.view.Output">
-         </viewShortcut>
-         <view
-               id="net.sourceforge.czt.eclipse.zeves.view.Output"
-               minimized="false"
-               relationship="stack"
-               relative="net.sourceforge.czt.eclipse.views.ZConversionView"
-               visible="true">
-         </view>
+         <perspectiveShortcut
+               id="net.sourceforge.czt.eclipse.zeves.ui.ZEvesPerspective">
+         </perspectiveShortcut>
       </perspectiveExtension>
    </extension>
    <extension
@@ -959,6 +948,15 @@
             </equals>
          </with>
       </definition>
+      <definition
+            id="net.sourceforge.czt.eclipse.zeves.ui.inZEvesPerspective">
+         <with
+               variable="activeWorkbenchWindow.activePerspective">
+            <equals
+                  value="net.sourceforge.czt.eclipse.zeves.ui.ZEvesPerspective">
+            </equals>
+         </with>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -990,5 +988,26 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup></startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard
+            type="new"
+            wizardId="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard">
+         <enablement>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.ui.inZEvesPerspective">
+            </reference>
+         </enablement>
+      </commonWizard>
+      <commonWizard
+            type="new"
+            wizardId="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard">
+         <enablement>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.zeves.ui.inZEvesPerspective">
+            </reference>
+         </enablement>
+      </commonWizard>
    </extension>
 </plugin>
