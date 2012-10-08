@@ -1,7 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.ui.editor;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.IResourceDocumentListener;
+import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 
 /**
  * A document edit tracker that uses {@link ZEditorEditListener} to track

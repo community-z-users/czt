@@ -55,7 +55,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":net.sourceforge.czt.eclipse.ui.editors.parser.IZProblemSeverityProvider"/>
+                  <meta.attribute kind="java" basedOn=":net.sourceforge.czt.eclipse.ui.compile.IZProblemSeverityProvider"/>
                </appInfo>
             </annotation>
          </attribute>

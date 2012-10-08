@@ -14,10 +14,11 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.ui.CztUI;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
@@ -119,7 +120,7 @@ public class ZEditorResults {
 		return null;
 	}
 	
-	public static IZInfoObject getZEvesResult(final ZEditor editor, int caretPos) {
+	public static IZInfoObject getZEvesResult(final IZEditor editor, int caretPos) {
 		
 		IResource resource = ZEditorUtil.getEditorResource(editor);
 		if (resource == null) {
@@ -140,7 +141,7 @@ public class ZEditorResults {
 		return getInfoObject(editor, entry);
 	}
 	
-	private static IZInfoObject getInfoObject(ZEditor editor, ISnapshotEntry entry) {
+	private static IZInfoObject getInfoObject(IZEditor editor, ISnapshotEntry entry) {
 		switch (entry.getType()) {
 		case GOAL:
 		case PROOF: return new ZEvesProofObject(editor, entry);
@@ -224,17 +225,17 @@ public class ZEditorResults {
 	private static abstract class ZEditorObject<T extends Term> 
 		extends PlatformObject implements IZInfoObject, IZEditorObject {
 		
-		private final ZEditor editor;
+		private final IZEditor editor;
 		private final ISnapshotEntry snapshotEntry;
 		
-		public ZEditorObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEditorObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super();
 			this.editor = editor;
 			this.snapshotEntry = snapshotEntry;
 		}
 
 		@Override
-		public ZEditor getEditor() {
+		public IZEditor getEditor() {
 			return editor;
 		}
 		
@@ -274,7 +275,7 @@ public class ZEditorResults {
 	private static class ZEvesErrorObject extends ZEditorObject<Term> 
 		implements IZEvesInfoProvider {
 
-		public ZEvesErrorObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEvesErrorObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 		
@@ -306,8 +307,7 @@ public class ZEditorResults {
 			
 			String descStart = caseText != null ? caseText + ", " : "";
 			
-			return descStart + "Z/EVES error for: "
-					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+			return descStart + "Z/EVES error for: " + CztUI.getTermLabel(source);
 		}
 
 		@Override
@@ -325,8 +325,9 @@ public class ZEditorResults {
 				
 				ISnapshotEntry proofEntry = getPreviousProofEntry();
 				if (proofEntry != null) {
+					IZCompileData parsedData = getEditor().getParsedData();
 					output.addAll(convertProofResult(
-							getEditor().getParsedData().getSectionManager(), 
+							parsedData.getSectionManager(), 
 							getSectionName(), markup, proofEntry, TEXT_WIDTH, showTrace));
 				}
 			}
@@ -387,7 +388,7 @@ public class ZEditorResults {
 	
 	private static class ZEvesParaObject extends ZEditorObject<Para> implements IZEvesInfoProvider {
 
-		public ZEvesParaObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEvesParaObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 		
@@ -398,7 +399,8 @@ public class ZEditorResults {
 			List<PartitionString> output = new ArrayList<PartitionString>();
 			
 			Object result = getSnapshotEntry().getData().getResult();
-			output.addAll(convertOutputResult(getEditor().getParsedData().getSectionManager(),
+			IZCompileData parsedData = getEditor().getParsedData();
+			output.addAll(convertOutputResult(parsedData.getSectionManager(),
 					getSectionName(), markup, TEXT_WIDTH, result, false));
 			
 			Map<Annotation, Position> annotations = new HashMap<Annotation, Position>();
@@ -418,15 +420,14 @@ public class ZEditorResults {
 				return null;
 			}
 			
-			return "Z/EVES paragraph result for: "
-					+ source.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+			return "Z/EVES paragraph result for: " + CztUI.getTermLabel(source);
 		}
 	}
 	
 	private static class ZEvesProofObject extends ZEditorObject<ProofCommand> 
 		implements IZEvesInfoProvider, IProofObject {
 		
-		public ZEvesProofObject(ZEditor editor, ISnapshotEntry snapshotEntry) {
+		public ZEvesProofObject(IZEditor editor, ISnapshotEntry snapshotEntry) {
 			super(editor, snapshotEntry);
 		}
 
@@ -446,7 +447,8 @@ public class ZEditorResults {
 
 		@Override
 		public SectionManager getSectionManager() {
-			return getEditor().getParsedData().getSectionManager();
+			IZCompileData parsedData = getEditor().getParsedData();
+			return parsedData.getSectionManager();
 		}
 
 		@Override
@@ -461,10 +463,7 @@ public class ZEditorResults {
 			String caseText = getCaseText(getSnapshotEntry());
 			String desc = caseText == null ? "Proof results for: " : caseText + ", results for: ";
 			
-			String commandStr = command != null ? 
-					command.accept(TermLabelVisitorFactory.getTermLabelVisitor(true)) : 
-					"unknown";
-					
+			String commandStr = command != null ? CztUI.getTermLabel(command) : "unknown";
 			return desc + commandStr;
 		}
 		
@@ -477,8 +476,9 @@ public class ZEditorResults {
 		public IZInfoConfiguration loadContents(Markup markup, boolean showTrace,
 				IProgressMonitor monitor) throws CoreException {
 
+			IZCompileData parsedData = getEditor().getParsedData();
 			List<PartitionString> output = convertProofResult(
-					getEditor().getParsedData().getSectionManager(),
+					parsedData.getSectionManager(),
 					getSectionName(), 
 					markup, getSnapshotEntry(), TEXT_WIDTH, showTrace);
 			
@@ -962,7 +962,7 @@ public class ZEditorResults {
 	
 	public interface IZEditorObject {
 		
-		public ZEditor getEditor();
+		public IZEditor getEditor();
 		
 		public Position getPosition();
 		

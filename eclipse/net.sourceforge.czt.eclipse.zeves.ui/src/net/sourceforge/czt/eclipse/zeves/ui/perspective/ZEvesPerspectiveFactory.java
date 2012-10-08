@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.zeves.ui.perspective;
 
-import net.sourceforge.czt.eclipse.ui.util.CztUI;
+import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView;
 
@@ -50,8 +50,8 @@ public class ZEvesPerspectiveFactory implements IPerspectiveFactory
     // put the Z/EVES output view on the bottom with Char Map, Conversion view and various IDE views
     IFolderLayout outputFolder = layout.createFolder(ID_OUTPUT_FOLDER, IPageLayout.BOTTOM, 0.75f, editorArea);
     outputFolder.addView(ZEvesOutputView.VIEW_ID);
-    outputFolder.addView(CztUI.ID_CHARMAP);
-    outputFolder.addPlaceholder(CztUI.ID_CONVERSIONVIEW);
+    outputFolder.addView(CztUI.CHARMAP_VIEW_ID);
+    outputFolder.addPlaceholder(CztUI.CONVERSION_VIEW_ID);
     outputFolder.addView(IPageLayout.ID_PROBLEM_VIEW);
     outputFolder.addPlaceholder(ID_SEARCH_VIEW);
     outputFolder.addPlaceholder(ID_CONSOLE_VIEW);
@@ -70,8 +70,8 @@ public class ZEvesPerspectiveFactory implements IPerspectiveFactory
     layout.addShowViewShortcut(ID_THEOREMS_VIEW);
     layout.addShowViewShortcut(ID_ZEVES_STATE_VIEW);
     layout.addShowViewShortcut(ID_VERIFICATION_VIEW);
-    layout.addShowViewShortcut(CztUI.ID_CHARMAP);
-    layout.addShowViewShortcut(CztUI.ID_CONVERSIONVIEW);
+    layout.addShowViewShortcut(CztUI.CHARMAP_VIEW_ID);
+    layout.addShowViewShortcut(CztUI.CONVERSION_VIEW_ID);
 
     // views - search
     layout.addShowViewShortcut(ID_SEARCH_VIEW);
@@ -88,8 +88,8 @@ public class ZEvesPerspectiveFactory implements IPerspectiveFactory
     layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView"); //$NON-NLS-1$
 
     // new actions - Java project creation wizard
-    layout.addNewWizardShortcut(CztUI.ID_NEW_CZT_PROJECT_WIZARD);
-    layout.addNewWizardShortcut(CztUI.ID_NEW_CZT_SPECIFICATION_WIZARD);
+    layout.addNewWizardShortcut(CztUI.CZT_PROJECT_WIZARD_ID);
+    layout.addNewWizardShortcut(CztUI.Z_SPEC_WIZARD_ID);
     layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
     layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");//$NON-NLS-1$
     layout.addNewWizardShortcut("org.eclipse.ui.editors.wizards.UntitledTextFileWizard");//$NON-NLS-1$

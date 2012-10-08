@@ -5,7 +5,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.IResourceDocumentListener;
+import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesUndoCommand;

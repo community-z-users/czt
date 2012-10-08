@@ -2,8 +2,8 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
@@ -27,7 +27,7 @@ public class EditorBackCommand extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		final ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
+		final IZEditor editor = (IZEditor) HandlerUtil.getActiveEditor(event);
 		
 		ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {
@@ -46,7 +46,7 @@ public class EditorBackCommand extends AbstractHandler {
 		return null;
 	}
 	
-	public static void updateCaretOnBack(final ZEditor editor) {
+	public static void updateCaretOnBack(final IZEditor editor) {
 		IResource resource = ZEditorUtil.getEditorResource(editor);
 		if (resource == null) {
 			return;

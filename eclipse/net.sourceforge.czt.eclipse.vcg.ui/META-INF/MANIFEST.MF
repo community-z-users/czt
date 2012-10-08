@@ -13,7 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: net.sourceforge.czt.eclipse.vcg.ui.views
 Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
  net.sourceforge.czt.base.visitor;version="1.6.0",
  net.sourceforge.czt.parser.util;version="1.6.0",

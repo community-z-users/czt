@@ -6,10 +6,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgImages;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.parser.util.CztError;
@@ -70,7 +70,7 @@ public class VCPage extends Page {
 	private Action insertCursorAction;
 	
 	private final VCView view;
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final InSpecFilter inSpecFilter = new InSpecFilter(getShowInSpecPref());
 	
 	private static boolean getShowInSpecPref() {
@@ -81,7 +81,7 @@ public class VCPage extends Page {
 		return InstanceScope.INSTANCE.getNode(VcgUIPlugin.PLUGIN_ID);
 	}
 
-	public VCPage(VCView view, ZEditor editor) {
+	public VCPage(VCView view, IZEditor editor) {
 		super();
 		this.view = view;
 		this.editor = editor;
@@ -220,7 +220,7 @@ public class VCPage extends Page {
 		ZEditorUtil.runOnReconcile(editor, new ReconcileRunnable() {
 			
 			@Override
-			protected void run(ParsedData parsedData) {
+			protected void run(IZCompileData parsedData) {
 				updateVCList(false);
 			}
 		});
@@ -246,7 +246,7 @@ public class VCPage extends Page {
 	 * @param cursorPos
 	 * @return
 	 */
-	private int findParaInsert(ParsedData parsedData, int cursorPos) {
+	private int findParaInsert(IZCompileData parsedData, int cursorPos) {
 		
 		if (parsedData == null) {
 			return -1;
@@ -290,7 +290,7 @@ public class VCPage extends Page {
 
 	private void updateVCList(boolean user) {
 		
-		ParsedData parsedData = editor.getParsedData();
+		IZCompileData parsedData = editor.getParsedData();
 		if (parsedData == null || parsedData.getSpec() == null
 				|| parsedData.getSectionManager() == null) {
 			// do not launch the job if nothing is available
@@ -312,10 +312,10 @@ public class VCPage extends Page {
 	
 	private class VCRefreshJob extends Job {
 
-		private final ParsedData parsedData;
+		private final IZCompileData parsedData;
 		private String viewMsg;
 		
-		public VCRefreshJob(ParsedData parsedData) {
+		public VCRefreshJob(IZCompileData parsedData) {
 			super("Generating verification conditions");
 			this.parsedData = parsedData;
 		}

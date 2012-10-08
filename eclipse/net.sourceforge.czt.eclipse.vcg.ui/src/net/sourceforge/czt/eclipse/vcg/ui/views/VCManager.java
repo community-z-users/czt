@@ -15,10 +15,10 @@ import org.eclipse.jface.text.Position;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
+import net.sourceforge.czt.eclipse.ui.CztUI;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -51,9 +51,9 @@ import net.sourceforge.czt.zeves.util.ZEvesUtils;
 
 public class VCManager {
 
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final AbstractVCG<Pred> vcg;
-	private final ParsedData parsedData;
+	private final IZCompileData parsedData;
 	private final ZSect specSect;
 	
 	private final VcgAnnotations markers;
@@ -68,7 +68,7 @@ public class VCManager {
 	private final Set<String> ignoreSources = new HashSet<String>();
 	private final Set<String> ignoreSchemas = new HashSet<String>();
 	
-	public VCManager(ZEditor editor, AbstractVCG<Pred> vcg, ParsedData parsedData, ZSect specSect) {
+	public VCManager(IZEditor editor, AbstractVCG<Pred> vcg, IZCompileData parsedData, ZSect specSect) {
 		super();
 		this.editor = editor;
 		this.vcg = vcg;
@@ -323,7 +323,7 @@ public class VCManager {
 	}
 	
 	private String getLabel(Term term) {
-		return term.accept(TermLabelVisitorFactory.getTermLabelVisitor(true));
+		return CztUI.getTermLabel(term);
 	}
 
 	private void fixConjVCName(Para vcPara) {

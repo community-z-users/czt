@@ -6,12 +6,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
+import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
@@ -26,14 +26,14 @@ import org.eclipse.jface.text.IDocument;
 
 public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	
-	private final ZEditor editor;
+	private final IZEditor editor;
 	private final BigInteger documentVersion;
 	
 	private final Object waitObj = new Object();
-	private ParsedData parsedData = null;
+	private IZCompileData parsedData = null;
 	private boolean reconciled = false;
 	
-	public AbstractSubmitCommand(ZEditor editor) {
+	public AbstractSubmitCommand(IZEditor editor) {
 		this.editor = editor;
 		this.documentVersion = editor.getDocumentVersion();
 	}
@@ -110,7 +110,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 		// wait until reconcile completes
     	ZEditorUtil.runOnReconcile(editor, documentVersion, new ReconcileRunnable() {
 			@Override
-			protected void run(ParsedData parsedData) {
+			protected void run(IZCompileData parsedData) {
 				synchronized(waitObj) {
 					
 					AbstractSubmitCommand.this.parsedData = parsedData;

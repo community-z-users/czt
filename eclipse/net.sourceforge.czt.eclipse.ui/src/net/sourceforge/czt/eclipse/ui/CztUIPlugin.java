@@ -1,13 +1,14 @@
 package net.sourceforge.czt.eclipse.ui;
 
-import net.sourceforge.czt.eclipse.ui.editors.CZTTextTools;
-import net.sourceforge.czt.eclipse.ui.editors.ImageDescriptorRegistry;
-import net.sourceforge.czt.eclipse.ui.editors.latex.ZLatexPartitionScanner;
-import net.sourceforge.czt.eclipse.ui.editors.unicode.ZUnicodePartitionScanner;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.DocumentEditTracker;
-import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
-import net.sourceforge.czt.eclipse.ui.util.CZTColorManager;
-import net.sourceforge.czt.eclipse.ui.util.IZFileType;
+import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
+import net.sourceforge.czt.eclipse.ui.internal.editors.CZTTextTools;
+import net.sourceforge.czt.eclipse.ui.internal.editors.ImageDescriptorRegistry;
+import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZLatexPartitionScanner;
+import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartitionScanner;
+import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.DocumentEditTracker;
+import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
+import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -27,7 +28,6 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -172,9 +172,9 @@ public class CztUIPlugin extends AbstractUIPlugin
   /**
    * Retrieves a document edit tracker, which notifies when documents are edited within Eclipse.
    * @return the tracker for the plugin
-   * @see DocumentEditTracker
+   * @see IDocumentEditTracker
    */
-  public static DocumentEditTracker getEditTracker() {
+  public static IDocumentEditTracker getEditTracker() {
     return getDefault().editTracker;
   }
 
@@ -343,14 +343,6 @@ public class CztUIPlugin extends AbstractUIPlugin
 		 throw new RuntimeException("Error creating a new section manager", ce);
     }
     fSectionManager = sectManager;
-  }
-
-  /*
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#createImageRegistry()
-   */
-  protected ImageRegistry createImageRegistry()
-  {
-    return CztImages.getImageRegistry();
   }
 
   public static ImageDescriptorRegistry getImageDescriptorRegistry()

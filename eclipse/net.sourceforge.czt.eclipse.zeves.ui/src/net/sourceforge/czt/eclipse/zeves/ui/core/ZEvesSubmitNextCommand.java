@@ -1,8 +1,8 @@
 package net.sourceforge.czt.eclipse.zeves.ui.core;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Spec;
@@ -19,7 +19,7 @@ import org.eclipse.jface.text.Position;
 
 public class ZEvesSubmitNextCommand extends AbstractSubmitCommand {
 	
-	public ZEvesSubmitNextCommand(ZEditor editor) {
+	public ZEvesSubmitNextCommand(IZEditor editor) {
 		super(editor);
 	}
 

@@ -1,7 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
@@ -20,14 +20,14 @@ public class SubmitToPointCommand extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		ZEditor editor = (ZEditor) HandlerUtil.getActiveEditor(event);
+		IZEditor editor = (IZEditor) HandlerUtil.getActiveEditor(event);
 		int caretPosition = ZEditorUtil.getCaretPosition(editor);
 		
 		submitToOffset(editor, caretPosition);
 		return null;
 	}
 
-	public static void submitToOffset(final ZEditor editor, final int offset) {
+	public static void submitToOffset(final IZEditor editor, final int offset) {
 		
 		final ZEves prover = ZEvesUIPlugin.getZEves();
 		if (!prover.isRunning()) {

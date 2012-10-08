@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.vcg.ui.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -31,7 +31,7 @@ public class VCView extends PageBookView {
 
 	@Override
 	protected PageRec doCreatePage(IWorkbenchPart part) {
-		VCPage vcPage = new VCPage(this, (ZEditor) part);
+		VCPage vcPage = new VCPage(this, (IZEditor) part);
 		initPage(vcPage);
 		vcPage.createControl(getPageBook());
 		return new PageRec(part, vcPage);
@@ -56,7 +56,7 @@ public class VCView extends PageBookView {
 
 	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
-		return part instanceof ZEditor;
+		return part instanceof IZEditor;
 	}
 
 	void setViewMessage(IPage page, String message) {

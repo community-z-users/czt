@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 import java.io.IOException;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IProofObject;
@@ -34,7 +34,7 @@ public class SendSelectionProofCommand extends SendProofCommand {
 		}
 		
 		ITextSelection textSel = (ITextSelection) selection;
-		ZEditor editor = proofResult.getEditor();
+		IZEditor editor = proofResult.getEditor();
 		
 		String selectedText = textSel.getText();
 		SectionManager sectInfo = proofResult.getSectionManager().clone();
