@@ -40,18 +40,31 @@
       </view>
    </extension>
    <extension
-         id="CZTDocumentSetupParticipant"
+         id="ZLatexDocumentSetupParticipant"
          name="%DocumentSetupParticipant.name"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
             class="net.sourceforge.czt.eclipse.ui.editors.latex.ZDocumentSetupParticipant_Latex"
-            extensions="zed"/>
+            extensions="zed">
+      </participant>
+   </extension>
+   <extension
+         id="ZUtf8DocumentSetupParticipant"
+         name="%DocumentSetupParticipant.name"
+         point="org.eclipse.core.filebuffers.documentSetup">
       <participant
             class="net.sourceforge.czt.eclipse.ui.editors.unicode.ZDocumentSetupParticipant_Utf8"
-            extensions="zed8"/>
+            extensions="zed8">
+      </participant>
+   </extension>
+   <extension
+         id="ZUtf16DocumentSetupParticipant"
+         name="%DocumentSetupParticipant.name"
+         point="org.eclipse.core.filebuffers.documentSetup">
       <participant
             class="net.sourceforge.czt.eclipse.ui.editors.unicode.ZDocumentSetupParticipant_Utf16"
-            extensions="zed16"/>
+            extensions="zed16">
+      </participant>
    </extension>
    <extension
          id="problemmarker"
