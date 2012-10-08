@@ -104,6 +104,8 @@ public class ZEvesSubmitNextCommand extends AbstractSubmitCommand {
 	}
 	
 	private static class ExecutedFirstException extends RuntimeException {
+
+		private static final long serialVersionUID = 5233807376445703371L;
 	}
 
 }

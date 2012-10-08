@@ -8,7 +8,9 @@ import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
 
 public class SnapshotChangedEvent extends EventObject {
 
-	public enum SnapshotChangeType {
+  private static final long serialVersionUID = 4136840641946576490L;
+
+  public enum SnapshotChangeType {
 		ADD,
 		REMOVE
 	}
