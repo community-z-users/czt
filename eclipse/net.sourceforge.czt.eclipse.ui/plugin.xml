@@ -10,7 +10,7 @@
             contributorClass="net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorActionContributor"
             extensions="zed,zed8,zed16"
             icon="icons/ZSpec.png"
-            id="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor"
+            id="net.sourceforge.czt.eclipse.ui.ZEditor"
             name="%Editor.name">
       </editor>
    </extension>
@@ -463,7 +463,7 @@
          <with
                variable="activePartId">
             <equals
-                  value="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor">
+                  value="net.sourceforge.czt.eclipse.ui.ZEditor">
             </equals>
          </with>
       </definition>
