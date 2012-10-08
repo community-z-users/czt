@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
 
 import org.eclipse.core.runtime.IPath;
@@ -100,7 +100,7 @@ public enum ZDialectSupport {
   }
   
   private IPreferenceStore getPrefs() {
-    return CZTPlugin.getDefault().getPreferenceStore();
+    return CztUIPlugin.getDefault().getPreferenceStore();
   }
 
   public List<ZDialect> getTableIds()

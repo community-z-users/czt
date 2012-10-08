@@ -3,7 +3,7 @@
  */
 package net.sourceforge.czt.eclipse.ui.editors.hover;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.util.IZFileType;
 
@@ -116,7 +116,7 @@ public class UnicodeSourceViewerInformationControl
     }
 
     IDocument doc= new Document(information);
-    CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(doc, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
+    CztUIPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(doc, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
     ((SourceViewer)getViewer()).setInput(doc);
   }
 }

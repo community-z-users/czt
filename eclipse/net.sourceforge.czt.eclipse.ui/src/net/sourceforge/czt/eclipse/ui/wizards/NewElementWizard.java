@@ -6,7 +6,7 @@ package net.sourceforge.czt.eclipse.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.util.ExceptionHandler;
 
 import org.eclipse.core.resources.IFile;
@@ -49,7 +49,7 @@ public abstract class NewElementWizard extends Wizard implements INewWizard
 
   protected void openResource(final IFile resource)
   {
-    final IWorkbenchPage activePage = CZTPlugin.getActivePage();
+    final IWorkbenchPage activePage = CztUIPlugin.getActivePage();
     if (activePage != null) {
       final Display display = getShell().getDisplay();
       if (display != null) {

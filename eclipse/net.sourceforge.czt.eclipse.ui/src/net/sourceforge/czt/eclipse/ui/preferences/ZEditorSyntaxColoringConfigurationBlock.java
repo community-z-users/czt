@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.PixelConverter;
@@ -860,7 +860,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
     String content = loadPreviewContentFromFile("ColorSettingPreviewCode.txt"); //$NON-NLS-1$
     IDocument document = new Document(content);
-    CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
+    CztUIPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
         document, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
     fPreviewViewer.setDocument(document);
 

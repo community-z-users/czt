@@ -262,7 +262,7 @@ public class CZTPluginImages
       boolean useMissingImageDescriptor)
   {
     IPath path = ICONS_PATH.append(prefix).append(name);
-    return createImageDescriptor(CZTPlugin.getDefault().getBundle(), path,
+    return createImageDescriptor(CztUIPlugin.getDefault().getBundle(), path,
         useMissingImageDescriptor);
   }
 

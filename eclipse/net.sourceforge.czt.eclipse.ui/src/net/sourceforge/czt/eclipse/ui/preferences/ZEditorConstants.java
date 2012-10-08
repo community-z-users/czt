@@ -4,13 +4,13 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.graphics.RGB;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.util.IZColorConstants;
 
 public class ZEditorConstants
 {
 
-  private static final String EDITOR_PREF = CZTPlugin.getPluginID() + ".editor";
+  private static final String EDITOR_PREF = CztUIPlugin.getPluginID() + ".editor";
   private static final String ANNOTATION_PREF = EDITOR_PREF + ".annotation";
   
   /*

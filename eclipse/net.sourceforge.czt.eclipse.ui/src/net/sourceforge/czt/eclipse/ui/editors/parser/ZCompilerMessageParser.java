@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.util.IZMarker;
 import net.sourceforge.czt.eclipse.ui.util.MarkerUtil;
 import net.sourceforge.czt.parser.util.CztError;
@@ -60,7 +60,7 @@ public class ZCompilerMessageParser
       }
     }
     catch (CoreException ex) {
-      CZTPlugin.log(ex);
+      CztUIPlugin.log(ex);
     }
   }
 
@@ -159,7 +159,7 @@ public class ZCompilerMessageParser
         @Override
         public void handleException(Throwable exception)
         {
-          CZTPlugin.log(exception);
+          CztUIPlugin.log(exception);
         }
 
         @Override

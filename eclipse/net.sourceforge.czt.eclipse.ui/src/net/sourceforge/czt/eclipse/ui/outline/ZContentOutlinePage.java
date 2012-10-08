@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
@@ -482,7 +482,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
       // setDescription("?");
       setImageDescriptor(CZTPluginImages.DESC_COMPLETE_TREE);
 
-      IPreferenceStore preferenceStore = CZTPlugin.getDefault().getPreferenceStore();
+      IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       boolean showCompleteTree = preferenceStore
           .getBoolean(PreferenceConstants.OUTLINE_Z_COMPLETE_TREE);
       setShowCompleteTree(showCompleteTree);
@@ -503,7 +503,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
       setChecked(show);
 //      getTreeViewer().refresh(false);
 
-      IPreferenceStore preferenceStore = CZTPlugin.getDefault().getPreferenceStore();
+      IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       preferenceStore.setValue(PreferenceConstants.OUTLINE_Z_COMPLETE_TREE, show);
     }
   }

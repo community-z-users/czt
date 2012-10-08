@@ -1,7 +1,7 @@
 
 package net.sourceforge.czt.eclipse.ui.editors;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorModel;
 
@@ -119,7 +119,7 @@ public class ZReconcilingStrategy
     try {
       reconcile(initialReconcile);
     } catch (Throwable e) {
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
       e.printStackTrace();
     } 
   }

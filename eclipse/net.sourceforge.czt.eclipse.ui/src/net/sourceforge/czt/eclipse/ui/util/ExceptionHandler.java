@@ -6,7 +6,7 @@ package net.sourceforge.czt.eclipse.ui.util;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -28,7 +28,7 @@ public class ExceptionHandler
      * logged as an error with the error code <code>JavaStatusConstants.INTERNAL_ERROR</code>.
      */
     public static void log(Throwable t, String message) {
-        CZTPlugin.log(new Status(IStatus.ERROR, CZTPlugin.getPluginID(), 
+        CztUIPlugin.log(new Status(IStatus.ERROR, CztUIPlugin.getPluginID(), 
             1001, message, t));
     }
     
@@ -41,7 +41,7 @@ public class ExceptionHandler
      * @param message message to be displayed by the dialog window
      */
     public static void handle(CoreException e, String title, String message) {
-        handle(e, CZTPlugin.getActiveWorkbenchShell(), title, message);
+        handle(e, CztUIPlugin.getActiveWorkbenchShell(), title, message);
     }
     
     /**
@@ -65,7 +65,7 @@ public class ExceptionHandler
      * @param message message to be displayed by the dialog window
      */
     public static void handle(InvocationTargetException e, String title, String message) {
-        handle(e, CZTPlugin.getActiveWorkbenchShell(), title, message);
+        handle(e, CztUIPlugin.getActiveWorkbenchShell(), title, message);
     }
     
     /**
@@ -83,7 +83,7 @@ public class ExceptionHandler
     //---- Hooks for subclasses to control exception handling ------------------------------------
     
     protected void perform(CoreException e, Shell shell, String title, String message) {
-        CZTPlugin.log(e);
+        CztUIPlugin.log(e);
         IStatus status= e.getStatus();
         if (status != null) {
             ErrorDialog.openError(shell, title, message, status);
@@ -97,7 +97,7 @@ public class ExceptionHandler
         if (target instanceof CoreException) {
             perform((CoreException)target, shell, title, message);
         } else {
-            CZTPlugin.log(e);
+            CztUIPlugin.log(e);
             if (e.getMessage() != null && e.getMessage().length() > 0) {
                 displayMessageDialog(e, e.getMessage(), shell, title, message);
             } else {

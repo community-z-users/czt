@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
@@ -53,7 +53,7 @@ public enum ZCompiler
     IDocument document = editor.getDocumentProvider().getDocument(
         editor.getEditorInput());
     
-    SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
+    SectionManager sectMan = CztUIPlugin.getDefault().getSectionManager();
     
     // init dynamic sources from other editors
     initEditorSourcesCommand(sectMan);
@@ -130,7 +130,7 @@ public enum ZCompiler
       }
     } catch (CommandException ce) {
       // TODO Is ignoring OK?
-      CZTPlugin.log("Unexpected error in Z compiler: " + ce.getMessage(), ce);
+      CztUIPlugin.log("Unexpected error in Z compiler: " + ce.getMessage(), ce);
     }
 
     parsedData.setErrors(errors);
@@ -160,10 +160,10 @@ public enum ZCompiler
     }
 
     if (cause instanceof IOException) {
-      CZTPlugin.log("Input output error: " + cause.getMessage(), cause);
+      CztUIPlugin.log("Input output error: " + cause.getMessage(), cause);
     }
     else {
-      CZTPlugin.log("Unknown error in Z compiler: " + String.valueOf(cause), cause);
+      CztUIPlugin.log("Unknown error in Z compiler: " + String.valueOf(cause), cause);
     }
 
     return Collections.<CztError> emptyList();

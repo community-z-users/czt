@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.ui.preferences;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 
@@ -152,7 +152,7 @@ public class PreferenceConstants
    */
   public static IPreferenceStore getPreferenceStore()
   {
-    return CZTPlugin.getDefault().getPreferenceStore();
+    return CztUIPlugin.getDefault().getPreferenceStore();
   }
 
 }

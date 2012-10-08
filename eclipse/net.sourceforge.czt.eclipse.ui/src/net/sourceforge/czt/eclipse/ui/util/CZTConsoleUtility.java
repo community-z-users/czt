@@ -1,7 +1,7 @@
 
 package net.sourceforge.czt.eclipse.ui.util;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -68,7 +68,7 @@ public class CZTConsoleUtility
       MessageConsoleStream out = console.newMessageStream();
       out.println(message);
     } catch (PartInitException e) {
-      CZTPlugin
+      CztUIPlugin
           .getDefault()
           .getLog()
           .log(
@@ -76,7 +76,7 @@ public class CZTConsoleUtility
                   IStatus.ERROR,
                   CztUI.ID_PLUGIN,
                   0,
-                  CZTPlugin
+                  CztUIPlugin
                       .getResourceString("CompilerAction.consoleViewOpeningProblem"),
                   e));
     }

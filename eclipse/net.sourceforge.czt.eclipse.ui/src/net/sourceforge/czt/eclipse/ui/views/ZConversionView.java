@@ -1,6 +1,6 @@
 package net.sourceforge.czt.eclipse.ui.views;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.ZSourceViewer;
@@ -39,11 +39,11 @@ public class ZConversionView extends ViewPart
   {
     IPreferenceStore generalTextStore = EditorsUI.getPreferenceStore();
     IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[]{
-        CZTPlugin.getDefault().getPreferenceStore(), generalTextStore});
+        CztUIPlugin.getDefault().getPreferenceStore(), generalTextStore});
 
     fSourceViewer = new ZSourceViewer(parent, null, null, false, SWT.V_SCROLL | SWT.H_SCROLL, store);
 
-    IColorManager colorManager = CZTPlugin.getDefault().getCZTTextTools().getColorManager();
+    IColorManager colorManager = CztUIPlugin.getDefault().getCZTTextTools().getColorManager();
     SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
         colorManager, store, null, IZPartitions.Z_PARTITIONING, false);
     fSourceViewer.configure(configuration);
@@ -85,7 +85,7 @@ public class ZConversionView extends ViewPart
       Markup targetMarkup, String data)
   {
     IDocument document = new Document(data);
-    CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
+    CztUIPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
         document, IZPartitions.Z_PARTITIONING, ZEditorUtil.getFileType(targetMarkup));
     
     setStatus(fileName, getMarkupLabel(sourceMarkup), getMarkupLabel(targetMarkup));

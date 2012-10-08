@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.ui.editors.latex;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.util.IZFileType;
 
@@ -36,7 +36,7 @@ public class ZDocumentSetupParticipant_Latex
 //    System.out.println("ZDocumentSetupParticipant_Latex.setup starts");
     if (document instanceof IDocumentExtension3) {
       IDocumentExtension3 extension3 = (IDocumentExtension3) document;
-      IDocumentPartitioner partitioner = new FastPartitioner(CZTPlugin
+      IDocumentPartitioner partitioner = new FastPartitioner(CztUIPlugin
           .getDefault().getZPartitionScanner(IZFileType.FILETYPE_LATEX),
           ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX);
       extension3.setDocumentPartitioner(IZPartitions.Z_PARTITIONING, partitioner);

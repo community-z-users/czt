@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
@@ -322,7 +322,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 				return ((IZEvesInfoProvider) element).loadContents(
 						getElementMarkup(element), showProofTrace, monitor);
 			} catch (CoreException e) {
-				CZTPlugin.log(e);
+				CztUIPlugin.log(e);
 				return null;
 			}
 		}

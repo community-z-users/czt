@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.outline.CztTreeNode;
@@ -123,7 +123,7 @@ public class ProblemsLabelDecorator
   private ImageDescriptorRegistry getRegistry()
   {
     if (fRegistry == null) {
-      fRegistry = fUseNewRegistry ? new ImageDescriptorRegistry() : CZTPlugin
+      fRegistry = fUseNewRegistry ? new ImageDescriptorRegistry() : CztUIPlugin
           .getImageDescriptorRegistry();
     }
     return fRegistry;

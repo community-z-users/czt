@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.preferences.PreferenceConstants;
 
 /**
@@ -93,7 +93,7 @@ public class TermLabelVisitorFactory
 
   private static String getDialect()
   {
-    return CZTPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT);
+    return CztUIPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT);
   }
 
   private static TermVisitor<String> getShortDescVisitor(String dialect)

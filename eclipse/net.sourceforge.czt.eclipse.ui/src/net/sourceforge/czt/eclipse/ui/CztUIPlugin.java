@@ -48,14 +48,14 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class CZTPlugin extends AbstractUIPlugin
+public class CztUIPlugin extends AbstractUIPlugin
 {
 
   // The plug-in ID
   public static final String PLUGIN_ID = "net.sourceforge.czt.eclipse.ui"; //$NON-NLS-1$
 
   //The shared instance.
-  private static CZTPlugin plugin;
+  private static CztUIPlugin plugin;
 
   //Resource bundle.
   private ResourceBundle resourceBundle;
@@ -104,7 +104,7 @@ public class CZTPlugin extends AbstractUIPlugin
   /**
    * The constructor.
    */
-  public CZTPlugin()
+  public CztUIPlugin()
   {
     super();
     plugin = this;
@@ -178,7 +178,7 @@ public class CZTPlugin extends AbstractUIPlugin
   /**
    * Returns the shared instance.
    */
-  public static CZTPlugin getDefault()
+  public static CztUIPlugin getDefault()
   {
     return plugin;
   }
@@ -247,7 +247,7 @@ public class CZTPlugin extends AbstractUIPlugin
    */
   public static String getResourceString(String key)
   {
-    ResourceBundle bundle = CZTPlugin.getDefault().getResourceBundle();
+    ResourceBundle bundle = CztUIPlugin.getDefault().getResourceBundle();
     try {
       return (bundle != null) ? bundle.getString(key) : key;
     } catch (MissingResourceException e) {

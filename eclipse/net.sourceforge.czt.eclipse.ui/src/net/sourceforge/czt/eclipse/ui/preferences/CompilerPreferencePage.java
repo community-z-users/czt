@@ -6,7 +6,7 @@ package net.sourceforge.czt.eclipse.ui.preferences;
 
 import java.util.ArrayList;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -40,7 +40,7 @@ public class CompilerPreferencePage extends PreferencePage
   public CompilerPreferencePage()
   {
     super();
-    setPreferenceStore(CZTPlugin.getDefault().getPreferenceStore());
+    setPreferenceStore(CztUIPlugin.getDefault().getPreferenceStore());
     setDescription(PreferencesMessages.CompilerPreferencePage_description);
     fCheckBoxes = new ArrayList<Button>();
   }
@@ -160,7 +160,7 @@ public class CompilerPreferencePage extends PreferencePage
     }
     store.setValue(PreferenceConstants.PROP_DIALECT, fDialectCombo.getText());
 
-    CZTPlugin.getDefault().savePluginPreferences();
+    CztUIPlugin.getDefault().savePluginPreferences();
 
     return super.performOk();
   }

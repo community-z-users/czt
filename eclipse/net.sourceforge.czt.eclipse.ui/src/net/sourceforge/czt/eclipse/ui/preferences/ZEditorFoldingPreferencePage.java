@@ -6,7 +6,7 @@ package net.sourceforge.czt.eclipse.ui.preferences;
 
 import java.util.ArrayList;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -44,7 +44,7 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
   public ZEditorFoldingPreferencePage()
   {
     super();
-    setPreferenceStore(CZTPlugin.getDefault().getPreferenceStore());
+    setPreferenceStore(CztUIPlugin.getDefault().getPreferenceStore());
     setDescription(PreferencesMessages.ZEditorPreferencePage_folding_description);
 
     fRadioButtons = new ArrayList<Button>();
@@ -218,7 +218,7 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
       store.setValue(key, button.getSelection());
     }
 
-    CZTPlugin.getDefault().savePluginPreferences();
+    CztUIPlugin.getDefault().savePluginPreferences();
 
     return super.performOk();
   }

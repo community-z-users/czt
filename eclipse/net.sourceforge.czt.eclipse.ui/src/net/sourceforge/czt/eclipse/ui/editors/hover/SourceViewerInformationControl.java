@@ -3,7 +3,7 @@
  */
 package net.sourceforge.czt.eclipse.ui.editors.hover;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.ui.preferences.SimpleZSourceViewerConfiguration;
@@ -123,9 +123,9 @@ public class SourceViewerInformationControl
       }
 
       // Source viewer
-      IPreferenceStore store= CZTPlugin.getDefault().getCombinedPreferenceStore();
+      IPreferenceStore store= CztUIPlugin.getDefault().getCombinedPreferenceStore();
       fViewer= new ZSourceViewer(composite, null, null, false, style, store);
-      fViewer.configure(new SimpleZSourceViewerConfiguration(CZTPlugin.getDefault().getCZTTextTools().getColorManager(), store, null, IZPartitions.Z_PARTITIONING, false));
+      fViewer.configure(new SimpleZSourceViewerConfiguration(CztUIPlugin.getDefault().getCZTTextTools().getColorManager(), store, null, IZPartitions.Z_PARTITIONING, false));
       fViewer.setEditable(false);
 
       fText= fViewer.getTextWidget();
@@ -256,7 +256,7 @@ public class SourceViewerInformationControl
   }
 
   IDocument doc= new Document(information);
-  CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(doc, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
+  CztUIPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(doc, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
   fViewer.setInput(doc);
   }
 

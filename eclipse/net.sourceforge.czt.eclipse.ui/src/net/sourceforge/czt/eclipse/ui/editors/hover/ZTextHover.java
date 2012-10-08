@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.ui.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
@@ -107,7 +107,7 @@ public class ZTextHover extends DefaultTextHover
   @Override
   public IRegion getHoverRegion(ITextViewer textViewer, int offset)
   {
-    if (!CZTPlugin.getDefault().getPreferenceStore()
+    if (!CztUIPlugin.getDefault().getPreferenceStore()
         .getBoolean(ZEditorConstants.SHOW_HOVER)) {
       return null;
     }

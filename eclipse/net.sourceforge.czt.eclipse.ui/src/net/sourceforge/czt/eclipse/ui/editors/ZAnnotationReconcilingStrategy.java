@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.util.CztUI;
 
@@ -166,7 +166,7 @@ public class ZAnnotationReconcilingStrategy
           {
             IStatus status = new Status(IStatus.ERROR, CztUI.ID_PLUGIN,
                 IStatus.OK, "Error in CZT Core during reconcile", ex); //$NON-NLS-1$
-            CZTPlugin.getDefault().getLog().log(status);
+            CztUIPlugin.getDefault().getLog().log(status);
           }
         });
 

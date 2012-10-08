@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.ui.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -38,7 +38,7 @@ public class PlatformUtil
     }
     catch (IllegalStateException e) {
       // no workbench - just log
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
     
   }

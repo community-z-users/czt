@@ -4,7 +4,7 @@ package net.sourceforge.czt.eclipse.ui.editors.actions;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.ui.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
@@ -57,7 +57,7 @@ public class GoToDeclarationAction extends TextEditorAction
     Position decl_pos = editor.getParsedData().getTermPosition(decl_term);
 
     if (decl_pos != null) {
-      IWorkbenchPage page = CZTPlugin.getActivePage();
+      IWorkbenchPage page = CztUIPlugin.getActivePage();
       if (page != null) {
         page.activate(editor);
         editor.selectAndReveal(decl_pos.getOffset(), decl_pos.getLength());

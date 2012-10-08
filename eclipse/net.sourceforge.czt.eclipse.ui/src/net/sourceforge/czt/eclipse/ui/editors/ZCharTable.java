@@ -6,7 +6,7 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -63,7 +63,7 @@ public class ZCharTable
     ZXmlHandler handler = new ZXmlHandler();
 
     try {
-      InputStream stream = FileLocator.openStream(CZTPlugin.getDefault().getBundle(), path, false);
+      InputStream stream = FileLocator.openStream(CztUIPlugin.getDefault().getBundle(), path, false);
 
       SAXParserFactory factory = SAXParserFactory.newInstance();
       SAXParser saxParser = factory.newSAXParser();
@@ -71,7 +71,7 @@ public class ZCharTable
       saxParser.parse(stream, handler);
     }
     catch (Exception e) {
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
 
     List<List<Object>> lists = handler.getCharList();

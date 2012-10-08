@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.editors.parser.ZCompiler;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
@@ -69,7 +69,7 @@ public class ZEditorModel
   }
   
   private ParsedData emptyData(BigInteger version) {
-    return new ParsedData(editor, version, CZTPlugin.getDefault().getSectionManager());
+    return new ParsedData(editor, version, CztUIPlugin.getDefault().getSectionManager());
   }
   
   private void setParsedData(ParsedData parsedData) {
@@ -154,7 +154,7 @@ public class ZEditorModel
     try {
       return ZCompiler.INSTANCE.parse(editor, version);
     } catch (Throwable e) {
-      CZTPlugin.log("Error in CZT during reconcile: " + e.getMessage(), e);
+      CztUIPlugin.log("Error in CZT during reconcile: " + e.getMessage(), e);
       
       // still return an empty parsed data with correct version
       ParsedData parsedData = emptyData(version);

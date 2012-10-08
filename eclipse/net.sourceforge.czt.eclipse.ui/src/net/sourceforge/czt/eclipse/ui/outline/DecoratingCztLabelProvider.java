@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.ui.outline;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.ProblemsLabelDecorator;
 
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
@@ -49,7 +49,7 @@ public class DecoratingCztLabelProvider extends DecoratingLabelProvider
     //			labelProvider.addListener(new ProblemsLabelDecorator(null));
     //		}
     //		super(labelProvider, new ProblemsLabelDecorator(null));
-    super(labelProvider, new ProblemsLabelDecorator(CZTPlugin
+    super(labelProvider, new ProblemsLabelDecorator(CztUIPlugin
         .getImageDescriptorRegistry()));
   }
 

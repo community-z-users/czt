@@ -6,7 +6,7 @@ package net.sourceforge.czt.eclipse.ui.editors.latex;
 
 import java.util.Stack;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -255,7 +255,7 @@ public class ZLatexPairMatcher implements ICharacterPairMatcher
 
   protected ITypedRegion getPartition(IDocument document, int offset)
   {
-    return CZTPlugin.getDefault().getCZTTextTools().getPartition(document,
+    return CztUIPlugin.getDefault().getCZTTextTools().getPartition(document,
         offset, IZPartitions.Z_PARTITIONING);
   }
 

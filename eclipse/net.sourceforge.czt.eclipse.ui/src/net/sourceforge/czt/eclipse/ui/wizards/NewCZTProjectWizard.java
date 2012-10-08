@@ -6,7 +6,7 @@ package net.sourceforge.czt.eclipse.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.util.ExceptionHandler;
 
 import org.eclipse.core.runtime.CoreException;
@@ -40,7 +40,7 @@ public class NewCZTProjectWizard extends NewElementWizard
   {
     super();
     setDefaultPageImageDescriptor(null);
-    setDialogSettings(CZTPlugin.getDefault().getDialogSettings());
+    setDialogSettings(CztUIPlugin.getDefault().getDialogSettings());
   }
 
   /**

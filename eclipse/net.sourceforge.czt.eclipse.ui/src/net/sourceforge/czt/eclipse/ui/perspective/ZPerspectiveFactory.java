@@ -1,7 +1,7 @@
 
 package net.sourceforge.czt.eclipse.ui.perspective;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.util.CztUI;
 
 import org.eclipse.search.ui.NewSearchUI;
@@ -19,11 +19,11 @@ import org.eclipse.ui.console.IConsoleConstants;
 public class ZPerspectiveFactory implements IPerspectiveFactory
 {
 
-  private static final String ID_NAVIGATOR_FOLDER = CZTPlugin.PLUGIN_ID + ".navigatorFolder";
+  private static final String ID_NAVIGATOR_FOLDER = CztUIPlugin.PLUGIN_ID + ".navigatorFolder";
 
-  private static final String ID_OUTPUT_FOLDER = CZTPlugin.PLUGIN_ID + ".outputFolder";
+  private static final String ID_OUTPUT_FOLDER = CztUIPlugin.PLUGIN_ID + ".outputFolder";
 
-  private static final String ID_OUTLINE_FOLDER = CZTPlugin.PLUGIN_ID + ".outlineFolder";
+  private static final String ID_OUTLINE_FOLDER = CztUIPlugin.PLUGIN_ID + ".outlineFolder";
   
 
   public void createInitialLayout(IPageLayout layout)

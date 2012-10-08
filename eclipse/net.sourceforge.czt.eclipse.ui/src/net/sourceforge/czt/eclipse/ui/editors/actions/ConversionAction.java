@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.ui.editors.actions;
 
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.util.CztUI;
 import net.sourceforge.czt.eclipse.ui.views.ZConversionView;
@@ -65,7 +65,7 @@ public abstract class ConversionAction extends TextEditorAction
     } catch (Exception e) {
       MessageDialog.openError(getTextEditor().getSite().getShell(), "Conversion Problem",
           "Problems encountered during conversion: " + e.getMessage());
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
     
     try {
@@ -80,7 +80,7 @@ public abstract class ConversionAction extends TextEditorAction
       ZConversionView view = (ZConversionView) page.showView(CztUI.ID_CONVERSIONVIEW);
       view.setConversionData(fileName, sourceMarkup, targetMarkup, data);
     } catch (PartInitException e) {
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
   }
   

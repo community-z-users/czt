@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.ui.preferences;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -44,7 +44,7 @@ public class ZEditorAnnotationPreferencePage extends AbstractConfigurationBlockP
    */
   protected void setPreferenceStore()
   {
-    setPreferenceStore(CZTPlugin.getDefault().getPreferenceStore());
+    setPreferenceStore(CztUIPlugin.getDefault().getPreferenceStore());
   }
 
   protected Label createDescriptionLabel(Composite parent)

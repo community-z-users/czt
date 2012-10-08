@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.ui.preferences;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.PreferencePage;
@@ -98,7 +98,7 @@ public abstract class AbstractConfigurationBlockPreferencePage
 
     fOverlayStore.propagate();
 
-    CZTPlugin.getDefault().savePluginPreferences();
+    CztUIPlugin.getDefault().savePluginPreferences();
 
     return true;
   }

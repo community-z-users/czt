@@ -1,7 +1,7 @@
 
 package net.sourceforge.czt.eclipse.ui.views;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
 import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
@@ -68,12 +68,12 @@ public class ZInfoView extends ViewPart implements ISelectionListener
 
   protected static final String TOOLBAR_GROUP_INFO_VIEW = "info-view";
 
-  private static final String VIEW_ID = CZTPlugin.getPluginID() + ".views.ZInfo";
+  private static final String VIEW_ID = CztUIPlugin.getPluginID() + ".views.ZInfo";
 
   private static final String PROP_FORCE_UNICODE = VIEW_ID + ".forceUnicode";
 
   static {
-    IPreferenceStore preferenceStore = CZTPlugin.getDefault().getPreferenceStore();
+    IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
     preferenceStore.setDefault(PROP_FORCE_UNICODE, false);
   }
 
@@ -168,8 +168,8 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   {
 
     IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[]{
-        CZTPlugin.getDefault().getPreferenceStore(), EditorsUI.getPreferenceStore()});
-    IColorManager colorManager = CZTPlugin.getDefault().getCZTTextTools().getColorManager();
+        CztUIPlugin.getDefault().getPreferenceStore(), EditorsUI.getPreferenceStore()});
+    IColorManager colorManager = CztUIPlugin.getDefault().getCZTTextTools().getColorManager();
 
     zViewer = new ZSourceViewer(parent, null, null, true, SWT.V_SCROLL | SWT.H_SCROLL, store);
 
@@ -229,7 +229,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
     Document document = new Document(text);
 
     String fileType = ZEditorUtil.getFileType(markup);
-    CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
+    CztUIPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
         document, IZPartitions.Z_PARTITIONING, fileType);
 
     fontUpdater.setFont(ZEditorUtil.getEditorFont(markup));
@@ -560,7 +560,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
       return element.loadContents(getElementMarkup(element), monitor);
     }
     catch (CoreException e) {
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
 
     return null;
@@ -587,7 +587,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
       return inputElement.loadDescription(monitor);
     }
     catch (CoreException e) {
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
 
     return null;
@@ -683,7 +683,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
       // setDescription("?");
       setImageDescriptor(CZTPluginImages.DESC_UNICODE);
 
-      IPreferenceStore preferenceStore = CZTPlugin.getDefault().getPreferenceStore();
+      IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       boolean forceUnicode = preferenceStore.getBoolean(PROP_FORCE_UNICODE);
       setForceUnicode(forceUnicode);
     }
@@ -704,7 +704,7 @@ public class ZInfoView extends ViewPart implements ISelectionListener
       forceUnicode = force;
       setChecked(force);
 
-      IPreferenceStore preferenceStore = CZTPlugin.getDefault().getPreferenceStore();
+      IPreferenceStore preferenceStore = CztUIPlugin.getDefault().getPreferenceStore();
       preferenceStore.setValue(PROP_FORCE_UNICODE, force);
     }
   }

@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.ui.preferences;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -51,7 +51,7 @@ public class ZEditorSyntaxColoringPreferencePage
    */
   protected void setPreferenceStore()
   {
-    setPreferenceStore(CZTPlugin.getDefault().getPreferenceStore());
+    setPreferenceStore(CztUIPlugin.getDefault().getPreferenceStore());
   }
 
   /**

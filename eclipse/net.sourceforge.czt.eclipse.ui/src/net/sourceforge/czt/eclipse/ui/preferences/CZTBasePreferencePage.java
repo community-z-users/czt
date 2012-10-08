@@ -3,7 +3,7 @@
  */
 package net.sourceforge.czt.eclipse.ui.preferences;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.PreferencePage;
@@ -29,7 +29,7 @@ public class CZTBasePreferencePage extends PreferencePage
   public CZTBasePreferencePage()
   {
     super();
-    setPreferenceStore(CZTPlugin.getDefault().getPreferenceStore());
+    setPreferenceStore(CztUIPlugin.getDefault().getPreferenceStore());
     setDescription(PreferencesMessages.CZTBasePreferencePage_description);
   }
   

@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.ui.editors.FontUpdater;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
@@ -558,7 +558,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     //    System.out.println("ZEditor.initializeEditor starts");
     IPreferenceStore store = createCombinedPreferenceStore(null);
     setPreferenceStore(store);
-    CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
+    CZTTextTools textTools = CztUIPlugin.getDefault().getCZTTextTools();
     setSourceViewerConfiguration(new ZSourceViewerConfiguration(textTools
         .getColorManager(), store, this, IZPartitions.Z_PARTITIONING));
     fParsingEnabled = store.getBoolean(ZEditorConstants.PARSING_ENABLED);
@@ -793,7 +793,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
 
   boolean isFoldingEnabled()
   {
-    return CZTPlugin.getDefault().getPreferenceStore().getBoolean(
+    return CztUIPlugin.getDefault().getPreferenceStore().getBoolean(
         ZEditorConstants.FOLDING_ENABLED);
   }
 
@@ -1452,8 +1452,8 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       }
     }
 
-    if (!isActivePart() && CZTPlugin.getActivePage() != null)
-      CZTPlugin.getActivePage().bringToTop(this);
+    if (!isActivePart() && CztUIPlugin.getActivePage() != null)
+      CztUIPlugin.getActivePage().bringToTop(this);
 
     if (segment == null)
       return;
@@ -2029,7 +2029,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
     //            stores.add(new EclipsePreferencesAdapter(new ProjectScope(project.getProject()), JavaCore.PLUGIN_ID));
     //        }
 
-    stores.add(CZTPlugin.getDefault().getPreferenceStore());
+    stores.add(CztUIPlugin.getDefault().getPreferenceStore());
     //        stores.add(new PreferencesAdapter(JavaCore.getPlugin().getPluginPreferences()));
     stores.add(EditorsUI.getPreferenceStore());
 
@@ -2045,7 +2045,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   {
     super.setPreferenceStore(store);
     if (getSourceViewerConfiguration() instanceof ZSourceViewerConfiguration) {
-      CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
+      CZTTextTools textTools = CztUIPlugin.getDefault().getCZTTextTools();
       setSourceViewerConfiguration(new ZSourceViewerConfiguration(textTools
           .getColorManager(), store, this, IZPartitions.Z_PARTITIONING));
     }
@@ -2218,11 +2218,11 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
       // first delete all the previous markers
       resource.deleteMarkers(IZMarker.PROBLEM, true, 0);
 
-      String dialect = CZTPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT);
+      String dialect = CztUIPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT);
       compMsgParser.parseCompilerMessage(dialect, document, resource, errors);
     } catch (CoreException ce) {
-      CZTPlugin.getDefault().getLog().log(
-          new Status(IStatus.ERROR, CztUI.ID_PLUGIN, 0, CZTPlugin
+      CztUIPlugin.getDefault().getLog().log(
+          new Status(IStatus.ERROR, CztUI.ID_PLUGIN, 0, CztUIPlugin
               .getResourceString("Error occurred when creating markers"), ce));
     } finally {
 

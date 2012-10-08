@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.editors.IDialectChangedListener;
 import net.sourceforge.czt.eclipse.ui.editors.ZChar;
 import net.sourceforge.czt.eclipse.ui.editors.ZCharTable;
@@ -364,7 +364,7 @@ public class ZCharMapView extends ViewPart
       getSite().getPage().activate(textEditor);
       textEditor.selectAndReveal(selection.getOffset() + stringInput.length(), 0);
     } catch (BadLocationException e) {
-      CZTPlugin.log(e);
+      CztUIPlugin.log(e);
     }
   }
   
