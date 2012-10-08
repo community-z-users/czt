@@ -6,12 +6,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil.ReconcileRunnable;
+import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil.ReconcileRunnable;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;

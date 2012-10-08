@@ -3,7 +3,8 @@ package net.sourceforge.czt.eclipse.vcg.ui.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.IPage;

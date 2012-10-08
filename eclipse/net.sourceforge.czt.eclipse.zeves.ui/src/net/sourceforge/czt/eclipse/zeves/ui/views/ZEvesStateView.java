@@ -1,7 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.ui.views;
 
-import net.sourceforge.czt.eclipse.CZTPluginImages;
-import net.sourceforge.czt.eclipse.util.PlatformUtil;
+import net.sourceforge.czt.eclipse.ui.CZTPluginImages;
+import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;

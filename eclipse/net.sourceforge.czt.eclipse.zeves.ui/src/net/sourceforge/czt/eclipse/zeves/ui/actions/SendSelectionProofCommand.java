@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 import java.io.IOException;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IProofObject;

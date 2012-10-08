@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import net.sourceforge.czt.eclipse.editors.parser.ZProblemSeverity;
+import net.sourceforge.czt.eclipse.ui.editors.parser.ZProblemSeverity;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 
 public class ZEvesPreferenceConstants {

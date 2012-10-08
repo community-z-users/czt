@@ -2,8 +2,9 @@ package net.sourceforge.czt.eclipse.vcg.ui.views;
 
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
-import net.sourceforge.czt.eclipse.views.FilteredTree2;
+import net.sourceforge.czt.eclipse.ui.outline.ZContentOutlinePage;
+import net.sourceforge.czt.eclipse.ui.views.FilteredTree2;
+
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;

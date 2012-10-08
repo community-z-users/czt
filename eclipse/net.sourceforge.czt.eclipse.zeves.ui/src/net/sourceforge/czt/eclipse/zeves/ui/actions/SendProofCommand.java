@@ -1,7 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.ui.actions;
 
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEvesOutputView;

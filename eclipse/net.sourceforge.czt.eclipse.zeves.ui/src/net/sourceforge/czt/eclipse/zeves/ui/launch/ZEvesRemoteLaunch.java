@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.launch;
 import java.io.IOException;
 import java.net.ConnectException;
 
-import net.sourceforge.czt.eclipse.util.PlatformUtil;
+import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesApi;

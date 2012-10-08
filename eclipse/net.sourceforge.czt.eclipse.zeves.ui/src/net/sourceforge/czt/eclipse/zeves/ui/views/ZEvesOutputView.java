@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.CZTPlugin;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.views.IZInfoObject;
-import net.sourceforge.czt.eclipse.views.ZInfoView;
+import net.sourceforge.czt.eclipse.ui.CZTPlugin;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
+import net.sourceforge.czt.eclipse.ui.views.ZInfoView;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.actions.SendProofCommand;

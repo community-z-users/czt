@@ -2,8 +2,8 @@ package net.sourceforge.czt.eclipse.zeves.ui.preferences;
 
 import java.util.Arrays;
 
-import net.sourceforge.czt.eclipse.editors.parser.IZProblemSeverityProvider;
-import net.sourceforge.czt.eclipse.editors.parser.ZProblemSeverity;
+import net.sourceforge.czt.eclipse.ui.editors.parser.IZProblemSeverityProvider;
+import net.sourceforge.czt.eclipse.ui.editors.parser.ZProblemSeverity;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;

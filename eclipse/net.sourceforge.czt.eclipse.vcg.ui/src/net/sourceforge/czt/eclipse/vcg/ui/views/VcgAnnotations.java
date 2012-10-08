@@ -19,7 +19,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
-import net.sourceforge.czt.eclipse.util.MarkerUtil;
+import net.sourceforge.czt.eclipse.ui.util.MarkerUtil;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgPlugin;
 
 

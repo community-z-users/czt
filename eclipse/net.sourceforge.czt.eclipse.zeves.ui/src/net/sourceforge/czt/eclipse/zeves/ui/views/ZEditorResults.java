@@ -14,11 +14,11 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.IZPartitions;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.editors.zeditor.ZEditorUtil;
-import net.sourceforge.czt.eclipse.outline.TermLabelVisitorFactory;
-import net.sourceforge.czt.eclipse.views.IZInfoObject;
+import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.ui.editors.zeditor.ZEditorUtil;
+import net.sourceforge.czt.eclipse.ui.outline.TermLabelVisitorFactory;
+import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotUtil;

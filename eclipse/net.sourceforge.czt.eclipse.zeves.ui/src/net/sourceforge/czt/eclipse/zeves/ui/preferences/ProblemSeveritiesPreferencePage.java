@@ -3,7 +3,7 @@ package net.sourceforge.czt.eclipse.zeves.ui.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.editors.parser.ZProblemSeverity;
+import net.sourceforge.czt.eclipse.ui.editors.parser.ZProblemSeverity;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;

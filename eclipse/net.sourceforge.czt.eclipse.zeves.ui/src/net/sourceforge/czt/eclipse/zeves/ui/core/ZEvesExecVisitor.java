@@ -20,9 +20,9 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.parser.DocumentSourceLocator;
-import net.sourceforge.czt.eclipse.editors.parser.IPositionProvider;
-import net.sourceforge.czt.eclipse.editors.parser.TermPositionProvider;
+import net.sourceforge.czt.eclipse.ui.editors.parser.DocumentSourceLocator;
+import net.sourceforge.czt.eclipse.ui.editors.parser.IPositionProvider;
+import net.sourceforge.czt.eclipse.ui.editors.parser.TermPositionProvider;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesTactics.CommandSequence;
