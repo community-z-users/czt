@@ -961,13 +961,13 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            category="net.sourceforge.czt.eclipse.ui.preferences.base"
             class="net.sourceforge.czt.eclipse.zeves.ui.preferences.ZEvesPreferencePage"
             id="net.sourceforge.czt.eclipse.zeves.preferences.ZEvesPreferencePage"
             name="Z/EVES">
       </page>
       <page
-            category="net.sourceforge.czt.eclipse.preferences.CompilerPreferencePage"
+            category="net.sourceforge.czt.eclipse.ui.preferences.compiler"
             class="net.sourceforge.czt.eclipse.zeves.ui.preferences.ProblemSeveritiesPreferencePage"
             id="net.sourceforge.czt.eclipse.zeves.preferences.ProblemSeveritiesPreferencePage"
             name="Errors/Warnings">

@@ -14,6 +14,7 @@ import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -204,7 +205,8 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     
     createDependency(parseEnableButton, new Button[]{reportOnSaveButton, reportWhileEditButton});
     
-    String text = PreferencesMessages.ZEditorBasePreferencePage_compiler_link;
+    String text = NLS.bind(PreferencesMessages.ZEditorBasePreferencePage_compiler_link,
+        "net.sourceforge.czt.eclipse.ui.preferences.compiler"); //$NON-NLS-1$
     Link link = addLink(appearanceComposite, text, INDENT);
     link.setToolTipText(PreferencesMessages.ZEditorBasePreferencePage_compiler_link_tooltip);
     
