@@ -372,7 +372,7 @@ public class ZEvesStateView extends ViewPart {
 			setToolTipText("Refresh Prover State");
 
 			// setDescription("?");
-			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_REFRESH));
+			setImageDescriptor(ZEvesImages.REFRESH);
 		}
 
 		/*
@@ -391,7 +391,7 @@ public class ZEvesStateView extends ViewPart {
 			setToolTipText("Reset Prover");
 
 			// setDescription("?");
-			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_RESET));
+			setImageDescriptor(ZEvesImages.RESET);
 		}
 
 		/*

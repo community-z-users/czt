@@ -486,7 +486,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 			setToolTipText("Highlight Position in Editor");
 
 			// setDescription("?");
-			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_OUTPUT_SELECTION));
+			setImageDescriptor(ZEvesImages.OUTPUT_SELECTION);
 
 			IPreferenceStore preferenceStore = ZEvesUIPlugin.getDefault().getPreferenceStore();
 			boolean showOutputSelection = preferenceStore.getBoolean(PROP_SHOW_OUTPUT_SELECTION);

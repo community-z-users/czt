@@ -6,6 +6,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
+import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Image;
@@ -18,6 +21,8 @@ public abstract class ZEvesMainLaunchTab extends AbstractLaunchConfigurationTab
 {
 
   private final static String FIRST_EDIT = "editedByZEvesTab"; //$NON-NLS-1$
+  
+  private final ResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
 
   private boolean fInitializing = false;
 
@@ -74,6 +79,13 @@ public abstract class ZEvesMainLaunchTab extends AbstractLaunchConfigurationTab
 
   protected abstract void performApplyConfig(ILaunchConfigurationWorkingCopy configuration);
 
+  @Override
+  public void dispose()
+  {
+    resourceManager.dispose();
+    super.dispose();
+  }
+
   /*
    * (non-Javadoc)
    * @see org.eclipse.debug.ui.ILaunchConfigurationTab#getName()
@@ -113,7 +125,7 @@ public abstract class ZEvesMainLaunchTab extends AbstractLaunchConfigurationTab
   @Override
   public Image getImage()
   {
-    return ZEvesImages.getImage(ZEvesImages.IMG_LAUNCH_TAB_ZEVES);
+    return resourceManager.createImageWithDefault(ZEvesImages.LAUNCH_TAB_ZEVES);
   }
 
   /*

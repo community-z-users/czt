@@ -258,7 +258,7 @@ public class ZEvesTheoremView extends ViewPart {
 			super("Refresh");
 			setToolTipText("Show Theorems");
 			
-			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_REFRESH));
+			setImageDescriptor(ZEvesImages.REFRESH);
 		}
 		
 		/*
@@ -278,7 +278,7 @@ public class ZEvesTheoremView extends ViewPart {
 			super("Show Axioms", SWT.TOGGLE);
 			setToolTipText("Show Axioms in Theorems");
 			
-			setImageDescriptor(ZEvesImages.getImageDescriptor(ZEvesImages.IMG_THEOREM_AXIOM));
+			setImageDescriptor(ZEvesImages.THEOREM_AXIOM);
 			setChecked(axiomFilter.isShowAxioms());
 		}
 

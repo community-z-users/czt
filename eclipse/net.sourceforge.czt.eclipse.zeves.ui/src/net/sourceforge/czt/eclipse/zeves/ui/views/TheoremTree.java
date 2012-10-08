@@ -13,6 +13,9 @@ import net.sourceforge.czt.zeves.ZEvesApi.ZEvesTheoremType;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
+import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -27,6 +30,9 @@ import org.eclipse.swt.widgets.Composite;
  */
 class TheoremTree extends FilteredTree2
 {
+  
+  private final ResourceManager resourceManager = 
+      new LocalResourceManager(JFaceResources.getResources(), this);
 
   public TheoremTree(Composite parent, int treeStyle)
   {
@@ -56,14 +62,14 @@ class TheoremTree extends FilteredTree2
 
         switch (entry.getType()) {
           case AXIOM :
-            return ZEvesImages.getImage(ZEvesImages.IMG_THEOREM_AXIOM);
+            return resourceManager.createImageWithDefault(ZEvesImages.THEOREM_AXIOM);
           case GOAL : {
             boolean proved = entry.isProved();
             if (proved) {
-              return ZEvesImages.getImage(ZEvesImages.IMG_THEOREM_PROVED);
+              return resourceManager.createImageWithDefault(ZEvesImages.THEOREM_PROVED);
             }
             else {
-              return ZEvesImages.getImage(ZEvesImages.IMG_THEOREM_UNPROVED);
+              return resourceManager.createImageWithDefault(ZEvesImages.THEOREM_UNPROVED);
             }
           }
         }
