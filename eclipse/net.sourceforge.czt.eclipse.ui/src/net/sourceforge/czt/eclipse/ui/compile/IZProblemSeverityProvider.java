@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.editors.parser;
+package net.sourceforge.czt.eclipse.ui.compile;
 
 import net.sourceforge.czt.parser.util.CztError;
 

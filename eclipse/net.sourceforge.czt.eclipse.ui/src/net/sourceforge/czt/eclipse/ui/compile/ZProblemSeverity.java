@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.editors.parser;
+package net.sourceforge.czt.eclipse.ui.compile;
 
 public enum ZProblemSeverity {
 

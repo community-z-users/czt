@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
+import net.sourceforge.czt.eclipse.ui.compile.IZProblemSeverityProvider;
+import net.sourceforge.czt.eclipse.ui.compile.ZProblemSeverity;
 import net.sourceforge.czt.eclipse.ui.util.IZMarker;
 import net.sourceforge.czt.eclipse.ui.util.MarkerUtil;
 import net.sourceforge.czt.parser.util.CztError;

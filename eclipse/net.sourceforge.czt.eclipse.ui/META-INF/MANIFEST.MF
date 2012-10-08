@@ -21,6 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Export-Package: net.sourceforge.czt.eclipse.ui,
+ net.sourceforge.czt.eclipse.ui.compile,
  net.sourceforge.czt.eclipse.ui.editors,
  net.sourceforge.czt.eclipse.ui.editors.parser,
  net.sourceforge.czt.eclipse.ui.editors.zeditor,
