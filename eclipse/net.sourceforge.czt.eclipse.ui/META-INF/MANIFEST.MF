@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Plugin.name
 Bundle-SymbolicName: net.sourceforge.czt.eclipse.ui;singleton:=true
 Bundle-Version: 1.6.0.qualifier
-Bundle-Activator: net.sourceforge.czt.eclipse.CZTPlugin
+Bundle-Activator: net.sourceforge.czt.eclipse.ui.CztUIPlugin
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
@@ -20,14 +20,14 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.2.0",
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
-Export-Package: net.sourceforge.czt.eclipse,
- net.sourceforge.czt.eclipse.editors,
- net.sourceforge.czt.eclipse.editors.parser,
- net.sourceforge.czt.eclipse.editors.zeditor,
- net.sourceforge.czt.eclipse.outline,
- net.sourceforge.czt.eclipse.preferences,
- net.sourceforge.czt.eclipse.util,
- net.sourceforge.czt.eclipse.views
+Export-Package: net.sourceforge.czt.eclipse.ui,
+ net.sourceforge.czt.eclipse.ui.editors,
+ net.sourceforge.czt.eclipse.ui.editors.parser,
+ net.sourceforge.czt.eclipse.ui.editors.zeditor,
+ net.sourceforge.czt.eclipse.ui.outline,
+ net.sourceforge.czt.eclipse.ui.preferences,
+ net.sourceforge.czt.eclipse.ui.util,
+ net.sourceforge.czt.eclipse.ui.views
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
  net.sourceforge.czt.base.visitor;version="1.6.0",

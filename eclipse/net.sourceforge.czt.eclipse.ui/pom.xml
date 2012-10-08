@@ -10,6 +10,6 @@
   <artifactId>net.sourceforge.czt.eclipse.ui</artifactId>
   <packaging>eclipse-plugin</packaging>
 
-  <name>CZT Eclipse UI Plugin</name>
+  <name>CZT Eclipse UI</name>
   
 </project>
