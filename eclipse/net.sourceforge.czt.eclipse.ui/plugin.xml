@@ -447,5 +447,36 @@
          </description>
       </fontDefinition>
    </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="net.sourceforge.czt.eclipse.ui.inZPerspective">
+         <with
+               variable="activeWorkbenchWindow.activePerspective">
+            <equals
+                  value="net.sourceforge.czt.eclipse.ui.ZPerspective">
+            </equals>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard
+            type="new"
+            wizardId="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard">
+         <enablement>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZPerspective">
+            </reference></enablement>
+      </commonWizard>
+      <commonWizard
+            type="new"
+            wizardId="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard">
+         <enablement>
+            <reference
+                  definitionId="net.sourceforge.czt.eclipse.ui.inZPerspective">
+            </reference></enablement>
+      </commonWizard>
+   </extension>
 
 </plugin>
