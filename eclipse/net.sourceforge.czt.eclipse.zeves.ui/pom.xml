@@ -7,9 +7,10 @@
     <version>1.6.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>net.sourceforge.czt.eclipse.ui</artifactId>
+  <artifactId>net.sourceforge.czt.eclipse.zeves.ui</artifactId>
   <packaging>eclipse-plugin</packaging>
+  <version>1.0.0-SNAPSHOT</version>
 
-  <name>CZT Eclipse UI</name>
+  <name>Z/EVES Eclipse UI</name>
   
 </project>
