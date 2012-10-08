@@ -4,6 +4,8 @@
 
 package net.sourceforge.czt.eclipse.ui.util;
 
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
+
 /**
  * The types of CZT annotations
  * 
@@ -12,49 +14,51 @@ package net.sourceforge.czt.eclipse.ui.util;
 public interface IZAnnotationType
 {
 
+  static final String ANN_ID = CztUIPlugin.PLUGIN_ID + ".annotation";
+  
   /**
    * CZT error annotation type
    * to be used to present an error
    */
-  public final String ERROR = "net.sourceforge.czt.eclipse.error";
+  public final String ERROR = ANN_ID + ".error";
 
   /**
    * CZT warning annotation type
    * to be used to present a warning
    */
-  public final String WARNING = "net.sourceforge.czt.eclipse.warning";
+  public final String WARNING = ANN_ID + ".warning";
 
   /**
    * CZT info annotation type
    * to be used to present some information
    */
-  public final String INFO = "net.sourceforge.czt.eclipse.info";
+  public final String INFO = ANN_ID + ".info";
 
   /**
    * CZT task annotation type
    * to be used to present a task
    */
-  public final String TASK = "net.sourceforge.czt.eclipse.task";
+  public final String TASK = ANN_ID + ".task";
 
   /**
    * CZT bookmark annotation type
    * to be used to present a bookmark
    */
-  public final String BOOKMARK = "net.sourceforge.czt.eclipse.bookmark";
+  public final String BOOKMARK = ANN_ID + ".bookmark";
 
   /**
    * CZT occurrence annotation type,
    * to be used to present an occurrence of (a referrence to) a term
    */
-  public final String OCCURRENCE = "net.sourceforge.czt.eclipse.occurrence";
+  public final String OCCURRENCE = ANN_ID + ".occurrence";
 
   /**
    * CZT term highlight annotation type
    */
-  public final String TERMHIGHLIGHT = "net.sourceforge.czt.eclipse.termhighlight";
+  public final String TERMHIGHLIGHT = ANN_ID + ".termhighlight";
   
   /**
    * CZT schema box annotation type
    */
-  public final String SCHEMABOX = "net.sourceforge.czt.eclipse.schemabox";
+  public final String SCHEMABOX = ANN_ID + ".schemabox";
 }
