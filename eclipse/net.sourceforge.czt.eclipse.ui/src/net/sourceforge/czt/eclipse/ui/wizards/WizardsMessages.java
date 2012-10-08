@@ -10,7 +10,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public final class WizardsMessages extends NLS
 {
-  private static final String BUNDLE_NAME = "net.sourceforge.czt.eclipse.wizards.WizardsMessages";//$NON-NLS-1$
+  private static final String BUNDLE_NAME = "net.sourceforge.czt.eclipse.ui.wizards.WizardsMessages";//$NON-NLS-1$
   
   private WizardsMessages() {
     // Do not instantiate

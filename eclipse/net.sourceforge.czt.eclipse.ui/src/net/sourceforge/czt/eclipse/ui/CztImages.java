@@ -25,7 +25,7 @@ public class CztImages
   //public static final IPath ICONS_PATH= new Path("$nl$/icons/full"); //$NON-NLS-1$
   public static final IPath ICONS_PATH = new Path("$nl$/icons"); //$NON-NLS-1$
 
-  private static final String NAME_PREFIX = "net.sourceforge.czt.eclipse."; //$NON-NLS-1$
+  private static final String NAME_PREFIX = CztUIPlugin.PLUGIN_ID + "."; //$NON-NLS-1$
 
   private static final int NAME_PREFIX_LENGTH = NAME_PREFIX.length();
 

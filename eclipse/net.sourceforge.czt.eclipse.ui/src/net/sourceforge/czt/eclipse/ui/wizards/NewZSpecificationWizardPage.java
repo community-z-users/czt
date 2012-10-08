@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URI;
 
+import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -503,7 +505,7 @@ public class NewZSpecificationWizardPage extends WizardPage
   private void throwCoreException(String message, Throwable exception)
   throws CoreException
   {
-    IStatus status = new Status(IStatus.ERROR, "net.sourceforge.czt.eclipse",
+    IStatus status = new Status(IStatus.ERROR, CztUIPlugin.PLUGIN_ID,
         IStatus.OK, message, exception);
     throw new CoreException(status);
   }
