@@ -77,7 +77,7 @@ public abstract class ConversionAction extends TextEditorAction
           .getActiveWorkbenchWindow().getActivePage();
       if (page == null)
         return;
-      ZConversionView view = (ZConversionView) page.showView(CztUI.ID_CONVERSIONVIEW);
+      ZConversionView view = (ZConversionView) page.showView(CztUI.CONVERSION_VIEW_ID);
       view.setConversionData(fileName, sourceMarkup, targetMarkup, data);
     } catch (PartInitException e) {
       CztUIPlugin.log(e);

@@ -38,8 +38,8 @@ public class ZPerspectiveFactory implements IPerspectiveFactory
 
     // put the Z Character Map view on the bottom with the Conversion view and various IDE views
     IFolderLayout outputFolder = layout.createFolder(ID_OUTPUT_FOLDER, IPageLayout.BOTTOM, 0.75f, editorArea);
-    outputFolder.addView(CztUI.ID_CHARMAP);
-    outputFolder.addPlaceholder(CztUI.ID_CONVERSIONVIEW);
+    outputFolder.addView(CztUI.CHARMAP_VIEW_ID);
+    outputFolder.addPlaceholder(CztUI.CONVERSION_VIEW_ID);
     outputFolder.addView(IPageLayout.ID_PROBLEM_VIEW);
     outputFolder.addPlaceholder(NewSearchUI.SEARCH_VIEW_ID);
     outputFolder.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
@@ -53,8 +53,8 @@ public class ZPerspectiveFactory implements IPerspectiveFactory
     layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
 
     // views - CZT
-    layout.addShowViewShortcut(CztUI.ID_CHARMAP);
-    layout.addShowViewShortcut(CztUI.ID_CONVERSIONVIEW);
+    layout.addShowViewShortcut(CztUI.CHARMAP_VIEW_ID);
+    layout.addShowViewShortcut(CztUI.CONVERSION_VIEW_ID);
 
     // views - search
     layout.addShowViewShortcut(NewSearchUI.SEARCH_VIEW_ID);
@@ -71,8 +71,8 @@ public class ZPerspectiveFactory implements IPerspectiveFactory
     layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView"); //$NON-NLS-1$
 
     // new actions - Java project creation wizard
-    layout.addNewWizardShortcut(CztUI.ID_NEW_CZT_PROJECT_WIZARD);
-    layout.addNewWizardShortcut(CztUI.ID_NEW_CZT_SPECIFICATION_WIZARD);
+    layout.addNewWizardShortcut(CztUI.CZT_PROJECT_WIZARD_ID);
+    layout.addNewWizardShortcut(CztUI.Z_SPEC_WIZARD_ID);
     layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
     layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");//$NON-NLS-1$
     layout.addNewWizardShortcut("org.eclipse.ui.editors.wizards.UntitledTextFileWizard");//$NON-NLS-1$
