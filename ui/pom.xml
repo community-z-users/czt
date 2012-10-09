@@ -37,10 +37,6 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>specreader</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
       <artifactId>vcg</artifactId>
     </dependency>
     <dependency>
