@@ -55,7 +55,6 @@ import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.SpecSource;
 
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn;
@@ -148,9 +147,6 @@ public class Main
       boolean syntaxCheckOnly = false;
       boolean prove = false;
       boolean printIds = false;
-      boolean isBufferingWanted = false;
-      boolean isNarrativeWanted = false;
-      boolean useSpecReader = false;
       boolean domainCheck = false;
       for (int i = 0; i < args.length; i++)
       {
@@ -215,12 +211,6 @@ public class Main
             return;
           }
         }
-        else if (args[i].startsWith("-g"))
-        {
-          useSpecReader = true;
-          isBufferingWanted = args[i].indexOf('b', 2) > -1 ? true : false;
-          isNarrativeWanted = args[i].indexOf('i', 2) > -1 ? true : false;
-        }
         else if (args[i].startsWith("-cp"))
         {
           if (i == args.length)
@@ -259,24 +249,7 @@ public class Main
             manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS,
                     "true");
           }
-          Source source = null;
-          boolean openOk = false;
-          if (useSpecReader)
-          {
-            for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES)
-            {
-              if (args[i].endsWith(suff))
-              {
-                source = new SpecSource(args[i], isBufferingWanted, isNarrativeWanted);
-                openOk = true;
-                break;
-              }
-            }
-          }
-          if (!openOk)
-          {  /* Not latex mark-up, so specreader not used */
-            source = new FileSource(args[i]);
-          }
+          Source source = new FileSource(args[i]);
           File file = new File(args[i]);
           if (file != null && file.getParent() != null)
           {
@@ -437,14 +410,10 @@ public class Main
   public static String usage(String prefix)
   {
     return "Community Z Tools " + getVersion() + "\nUsage:\n"
-           + "  " + prefix + "[-d <dialect>] [-g{bi}] [-o <filename>] [-s] <filename>\n"
+           + "  " + prefix + "[-d <dialect>] [-o <filename>] [-s] <filename>\n"
            + "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n"
            + "Flags:\n"
            + "  -d   specify the dialect to be used\n"
-           + "  -g   options concerned with gathering of latex mark-up so that\n"
-           + "         directives are moved to the beginnings of their sections\n"
-           + "     b  buffer whole spec in memory while doing so (faster)\n"
-           + "     i  retain informal narrative rather than eliding it\n"
            + "  -o   specify output file (mark-up is determined by file ending)\n"
            + "  -s   syntax check only\n"
            + "  -p   makes it zpatt dialect and set prove as true?\n"
