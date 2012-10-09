@@ -29,8 +29,8 @@ public class TypeCheckResources
     "/net/sourceforge/czt/typecheck/zeves/WarningMessage_en.properties";
 
   static {
-    addFile(ZEVES_ERROR_MESSAGES);
-    addFile(ZEVES_WARNING_MESSAGES);
+    addFile(TypeCheckResources.class.getResource(ZEVES_ERROR_MESSAGES));
+    addFile(TypeCheckResources.class.getResource(ZEVES_WARNING_MESSAGES));
   }
 }
 

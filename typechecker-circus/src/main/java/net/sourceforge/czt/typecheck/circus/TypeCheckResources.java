@@ -29,8 +29,8 @@ public class TypeCheckResources
     "/net/sourceforge/czt/typecheck/circus/WarningMessage_en.properties";
 
   static {
-    addFile(CIRCUS_ERROR_MESSAGES);
-    addFile(CIRCUS_WARNING_MESSAGES);
+    addFile(TypeCheckResources.class.getResource(CIRCUS_ERROR_MESSAGES));
+    addFile(TypeCheckResources.class.getResource(CIRCUS_WARNING_MESSAGES));
   }
 }
 

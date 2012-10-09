@@ -26,7 +26,7 @@ public class TypeCheckResources
     "/net/sourceforge/czt/typecheck/oz/ErrorMessage_en.properties";
 
   static {
-    addFile(MESSAGES);
+    addFile(TypeCheckResources.class.getResource(MESSAGES));
   }
 }
 

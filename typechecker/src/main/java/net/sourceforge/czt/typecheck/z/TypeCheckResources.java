@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.ListResourceBundle;
 import java.util.Properties;
@@ -37,13 +38,13 @@ public class TypeCheckResources
   protected static Object [][] contents_;
 
   static {
-    addFile(MESSAGES);
+    addFile(TypeCheckResources.class.getResource(MESSAGES));
   }
 
-  protected static void addFile(String file)
+  protected static void addFile(URL file)
   {
     try {
-      properties_.load(TypeCheckResources.class.getResourceAsStream(file));
+      properties_.load(file.openStream());
     }
     catch (Exception exception) {
       String message = "Cannot open properties file " + file;
