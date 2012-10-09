@@ -8,3 +8,6 @@ zml2xhtml: From Z into HTML, via XSLT style sheets.  This allows
 
 z2svg: From Z into SVG.  For browsing the well-formed formulae of
     a Z specification using a standard web browser with SVG plug-in.
+
+specreader: Z specification parser that allows processing of specifications
+    with multiple Z sections per file. Performs rearrangement of sections.
