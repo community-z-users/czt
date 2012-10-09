@@ -99,8 +99,7 @@ import net.sourceforge.czt.z.util.ZString;
  *   &lt;/li&gt;
  *   &lt;li&gt;
  *     Latex markup directives are recognised only outside of a
- *     formal paragraph and only after they have been defined,
- *     unless the optional SpecReader pre-processor is used.
+ *     formal paragraph and only after they have been defined.
  *   &lt;/li&gt;
  * &lt;/ul&gt;
  */
