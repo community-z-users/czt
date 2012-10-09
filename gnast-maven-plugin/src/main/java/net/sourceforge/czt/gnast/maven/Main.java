@@ -11,6 +11,7 @@ import net.sourceforge.czt.gnast.Gnast.GnastBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
  * @goal generate
@@ -61,6 +62,12 @@ public class Main
    * @required
    */
   private MavenProject project;
+  
+  /** 
+   * Injected by Maven
+   * @component
+   */
+  private BuildContext buildContext;
 
   @Override
   public void execute() throws MojoExecutionException
@@ -82,6 +89,10 @@ public class Main
 
     if (verbose) {
       config = config.verbosity(Level.FINER);
+    }
+    
+    if (buildContext != null) {
+      config = config.buildContext(buildContext);
     }
 
     // create the generator and launch it

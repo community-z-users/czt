@@ -25,11 +25,15 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -43,6 +47,9 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.codehaus.plexus.util.Scanner;
+import org.sonatype.plexus.build.incremental.BuildContext;
+import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
 /**
  * <p>The GnAST command line user interface.</p>
@@ -55,6 +62,7 @@ import org.apache.commons.cli.ParseException;
  * </p>
  *
  * @author Petra Malik
+ * @author Andrius Velykis
  */
 public class Gnast implements GlobalProperties
 {
@@ -104,6 +112,10 @@ public class Gnast implements GlobalProperties
   private Map<String,Project> projects_ = new HashMap<String,Project>();
   
   private final GnastBuilder config;
+  
+  private Set<String> changedBuildFiles = new HashSet<String>();
+  
+  private boolean forceGenerateAll = true;
 
 
   // ############################################################
@@ -264,6 +276,49 @@ public class Gnast implements GlobalProperties
 
     try {
       
+      boolean projectsChanged = !resolveProjectFiles(config.source, false).isEmpty();
+      
+      if (!projectsChanged && !config.destination.exists()) {
+        // destination does not exist - force generate all
+        projectsChanged = true;
+      }
+      
+      boolean needToGenerate = projectsChanged;
+      
+      Set<String> changedBuildFiles = new HashSet<String>();
+      if (!projectsChanged) {
+        // check if the templates have changed
+        
+        // get the base dir - may be in JAR!
+        File baseDir = Project.getFile(Project.getBaseDirResource(this, ""));
+        if (baseDir != null) {
+          // base dir can be resolved and is not in a JAR - check for changes
+          changedBuildFiles.addAll(getDirChanges(baseDir));
+        }
+        
+        // check other template paths for changes
+        for (File templatePath : getTemplatePaths()) {
+          changedBuildFiles.addAll(getDirChanges(templatePath));
+        }
+        
+// Avoid checking the destination for now - incremental build loops because /target is refreshed
+//        // also check destination for changes
+//        if (config.destination.exists()) {
+//          changedBuildFiles.addAll(getDirChanges(config.destination));
+//        }
+        
+        needToGenerate = !changedBuildFiles.isEmpty();
+      }
+      
+      if (!needToGenerate) {
+        // source schemas, template paths and build directory is up-to-date
+        // no need to regenerate, so stop now
+        return;
+      }
+      
+      this.forceGenerateAll = projectsChanged;
+      this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
+      
       // first resolve all schema projects from the indicated source directory
       // this is necessary to resolve transitive dependencies
       resolveProjects(config.source);
@@ -293,18 +348,50 @@ public class Gnast implements GlobalProperties
   
   private void resolveProjects(File sourceDir)
   {
-    if (sourceDir.isDirectory()) {
-      
-      for (File schemaFile : sourceDir.listFiles()) {
-        if (schemaFile.getName().endsWith(".xsd")) {
-          Project project = getProject(schemaFile);
-          namespaces_.put(project.getTargetNamespace(), project);
-        }
-      }
-      
-    } else {
-      throw new GnastException("Invalid source directory: " + sourceDir);
+    // ignore changes - take all project files
+    List<File> allProjectFiles = resolveProjectFiles(sourceDir, true);
+    
+    for (File schemaFile : allProjectFiles) {
+      Project project = getProject(schemaFile);
+      namespaces_.put(project.getTargetNamespace(), project);
     }
+  }
+  
+  private List<File> resolveProjectFiles(File sourceDir, boolean ignoreDelta)
+  {
+    Scanner scanner = config.buildContext.newScanner(sourceDir, ignoreDelta);
+    scanner.setIncludes(new String[]{"*.xsd"});
+    scanner.scan();
+
+    String[] includedFiles = scanner.getIncludedFiles();
+    List<File> projectFiles = new ArrayList<File>();
+    for (String schemaFile : includedFiles) {
+      projectFiles.add(new File(sourceDir + "/" + schemaFile));
+    }
+
+    return projectFiles;
+  }
+  
+  private Set<String> getDirChanges(File dir) {
+    
+    Set<String> dirChanges = new HashSet<String>();
+    
+    Scanner deleteScanner = config.buildContext.newDeleteScanner(dir);
+    deleteScanner.scan();
+    dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
+    
+    Scanner changeScanner = config.buildContext.newScanner(dir);
+    changeScanner.scan();
+    dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
+    
+    // also add full paths
+    Set<String> dirChangesFullPaths = new HashSet<String>();
+    for (String relative : dirChanges) {
+      dirChangesFullPaths.add(dir + "/" + relative);
+    }
+    dirChanges.addAll(dirChangesFullPaths);
+    
+    return dirChanges;
   }
   
   // ################ INTERFACE GlobalProperties ####################
@@ -370,6 +457,24 @@ public class Gnast implements GlobalProperties
   public List<File> getTemplatePaths()
   {
     return config.templatePaths;
+  }
+  
+  @Override
+  public BuildContext getBuildContext()
+  {
+    return config.buildContext;
+  }
+  
+  @Override
+  public Set<String> getChangedFiles()
+  {
+    return changedBuildFiles;
+  }
+  
+  @Override
+  public boolean forceGenerateAll()
+  {
+    return forceGenerateAll;
   }
 
   // ############################################################
@@ -551,6 +656,12 @@ public class Gnast implements GlobalProperties
      */
     private String namespace = "http://czt.sourceforge.net/zml";
     
+    /**
+     * The build context to read/write to filesystem.
+     * By default, use non-incremental build context.
+     */
+    private BuildContext buildContext = new DefaultBuildContext();
+    
     
     public GnastBuilder verbosity(Level verbosity) {
       this.verbosity = verbosity;
@@ -586,6 +697,11 @@ public class Gnast implements GlobalProperties
     
     public GnastBuilder finalizers(boolean addAstFinalizer) {
       this.addAstFinalizer = addAstFinalizer;
+      return this;
+    }
+    
+    public GnastBuilder buildContext(BuildContext buildContext) {
+      this.buildContext = buildContext;
       return this;
     }
     

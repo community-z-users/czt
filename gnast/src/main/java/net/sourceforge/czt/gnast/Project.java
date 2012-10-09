@@ -32,6 +32,7 @@ import net.sourceforge.czt.gnast.gen.*;
  * A project.
  *
  * @author Petra Malik
+ * @author Andrius Velykis
  * @czt.todo Provide a project which cannot generate its classes
  *           when <code>global</code> is false.
  */
@@ -132,11 +133,9 @@ public class Project
     if (splitted.length > 0) {
       last = splitted[splitted.length - 1];
     }
-    apgen_.setTemplate(StringUtils.capitalize(last)
-                       + "Package.vm");
-    String filename =
-      global_.toDirectoryName(name) + "package.html";
-    createFile(filename);
+    String template = StringUtils.capitalize(last) + "Package.vm";
+    String filename = global_.toDirectoryName(name) + "package.html";
+    createFileIfNeeded(filename, template, Collections.<String>emptySet());
 
     logExiting(methodName);
   }
@@ -152,8 +151,8 @@ public class Project
   public static String resolvePath(GlobalProperties global, String fileName)
   {
     // first check if the file name is within the JAR (core GnAST template)
-    String jarPath = global.getBaseDir() + fileName;
-    if (Project.class.getResource(jarPath) != null){
+    URL baseDirResource = getBaseDirResource(global, fileName);
+    if (baseDirResource != null){
       return fileName;
     }
     
@@ -166,6 +165,26 @@ public class Project
     }
     
     // not found
+    return null;
+  }
+  
+  public static URL getBaseDirResource(GlobalProperties global, String fileName)
+  {
+    String jarPath = global.getBaseDir() + fileName;
+    return Project.class.getResource(jarPath);
+  }
+  
+  public static File getFile(URL url) {
+    
+    if (url == null) {
+      return null;
+    }
+    
+    if ("file".equals(url.getProtocol())) {
+      return new File(url.getFile());
+    }
+    
+    // for non-files, just return null
     return null;
   }
 
@@ -181,11 +200,14 @@ public class Project
       return;
     }
     
+    String javaName = name + ".java";
+    String qualifiedJavaName = getBasePackage() + "." + packageName + "." + javaName;
+    
     // check fully qualified name
-    String addCodeFilename = resolvePath(global_, getBasePackage() + "." + packageName + "." + name + ".java");
+    String addCodeFilename = resolvePath(global_, qualifiedJavaName);
     if (addCodeFilename == null) {
       // check short name
-      addCodeFilename = resolvePath(global_, name + ".java");
+      addCodeFilename = resolvePath(global_, javaName);
     }
 
     Map<String,Object> map = new HashMap<String,Object>();
@@ -195,13 +217,62 @@ public class Project
       map.put("AdditionalCodeFilename", addCodeFilename);
     }
     apgen_.addToContext("class", map);
-    apgen_.setTemplate(template);
     String filename =
       global_.toFileName(getBasePackage() + "." + packageName,
                          name);
-    createFile(filename);
+    createFileIfNeeded(filename, template, Arrays.asList(javaName, qualifiedJavaName));
   }
 
+  private boolean createFileIfNeeded(String fileName, String templateName, 
+      Collection<? extends String> relatedTemplates)
+  {
+    
+    boolean generate = global_.forceGenerateAll(); 
+    if (!generate) {
+      // check if any of the template files (or the output file) is changed
+      Set<String> testFiles = new HashSet<String>();
+      testFiles.add(fileName);
+      testFiles.add(templateName);
+      testFiles.addAll(relatedTemplates);
+      generate = containsAny(global_.getChangedFiles(), testFiles);
+    }
+    
+    if (!generate) {
+      // nothing's changed - do not create the file
+      return false;
+    }
+    
+    apgen_.setTemplate(templateName);
+    return createFile(fileName);
+  }
+  
+  private boolean containsAny(Collection<?> col1, Collection<?> col2) {
+    
+    for (Object e2 : col2) {
+      if (col1.contains(e2)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  private Set<String> getAstFileNames(JAstObject astObj)
+  {
+    Set<String> astFileNames = new HashSet<String>();
+    String code = astObj.getAdditionalCodeFilename();
+    if (code != null) {
+      astFileNames.add(code);
+    }
+    
+    String impl = astObj.getAdditionalImplCodeFilename();
+    if (impl != null) {
+      astFileNames.add(impl);
+    }
+
+    return astFileNames;
+  }
+  
   /**
    * <p>Applies the context to the template and writes
    * the result to the given file name.</p>
@@ -217,9 +288,10 @@ public class Project
     final String methodName = "createFile";
     logEntering(methodName);
     boolean success = false;
+    
+    File tempFile = null;
     try {
-      File tempFile = File.createTempFile("gnast", ".vr");
-      tempFile.deleteOnExit();
+      tempFile = File.createTempFile("gnast", ".vr");
       logFine("Using temporary file " + tempFile.toString());
       FileWriter writer = new FileWriter(tempFile);
       apgen_.setWriter(writer);
@@ -229,19 +301,28 @@ public class Project
         logInfo("Writing file " + fileName);
         File file = new File(fileName);
         new File(file.getParent()).mkdirs();
-        writer = new FileWriter(fileName);
+        
+        Writer targetWriter = new OutputStreamWriter(
+            global_.getBuildContext().newFileOutputStream(file));
+        
         FileReader reader = new FileReader(tempFile);
         int c;
         while ((c = reader.read()) != -1) {
-          writer.write(c);
+          targetWriter.write(c);
         }
         reader.close();
-        writer.close();
+        targetWriter.flush();
+        targetWriter.close();
         success = true;
       }
     }
     catch (IOException e) {
       logSevere(e.getMessage());
+    } finally {
+      // try to delete the file
+      if (tempFile != null && !tempFile.delete()) {
+        tempFile.deleteOnExit();
+      }
     }
 
     logExiting(methodName, new Boolean(success));
@@ -357,24 +438,22 @@ public class Project
     Map<String, ? extends JAstObject> astClasses = project_.getAstClasses();
     for (JAstObject c : astClasses.values()) {
       apgen_.addToContext("class", c);
+      Set<String> astFileNames = getAstFileNames(c);
 
       logFine("Generating class file for " + c.getName());
       filename = global_.toFileName(c.getImplPackage(),
                                     c.getImplName());
-      apgen_.setTemplate("AstClass.vm");
-      createFile(filename);
+      createFileIfNeeded(filename, "AstClass.vm", astFileNames);
 
       logFine("Generating interface file for " + c.getName());
       filename = global_.toFileName(c.getPackage(),
                                     c.getName());
-      apgen_.setTemplate("AstInterface.vm");
-      createFile(filename);
+      createFileIfNeeded(filename, "AstInterface.vm", astFileNames);
 
       logFine("Generating visitor for " + c.getName());
       filename = global_.toFileName(getVisitorPackage(),
                                     c.getName() + "Visitor");
-      apgen_.setTemplate("AstVisitorInterface.vm");
-      createFile(filename);
+      createFileIfNeeded(filename, "AstVisitorInterface.vm", astFileNames);
     }
 
     Map<String, List<String>> enumClasses = project_.getEnumerations();
@@ -384,8 +463,7 @@ public class Project
 
       filename = global_.toFileName(getAstPackage(),
                                     enumName);
-      apgen_.setTemplate("Enum.vm");
-      createFile(filename);
+      createFileIfNeeded(filename, "Enum.vm", Collections.<String>emptySet());
     }
   }
 

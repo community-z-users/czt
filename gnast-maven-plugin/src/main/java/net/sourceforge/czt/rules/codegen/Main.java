@@ -20,18 +20,24 @@
 package net.sourceforge.czt.rules.codegen;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
+import java.util.Set;
+
+import org.sonatype.plexus.build.incremental.BuildContext;
+import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
@@ -40,13 +46,14 @@ import org.apache.xerces.xs.*;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.Scanner;
 
-import net.sourceforge.czt.zml.Resources;
 
 /**
  * @goal rulecodegen
  *
  * @author Petra Malik
+ * @author Andrius Velykis
  */
 public class Main
   extends AbstractMojo 
@@ -55,35 +62,63 @@ public class Main
 
   /**
    * @parameter expression="${project.build.directory}/generated-sources/gnast"
-   * @required
    */
-  private String outputDirectory;
+  private File outputDirectory;
 
   /**
-   * @parameter expression="${basedir}/src/codegen/vm"
+   * @parameter expression="${project.basedir}/src/main/resources/vm/"
    * @required
    */
-  private String velocimacroDirectory;
+  private File templateDirectory;
+  
+  /**
+   * @parameter
+   * @required
+   */
+  private File sourceSchema;
 
   /**
    * @parameter expression="${project}"
    * @required
    */
   private MavenProject project;
-
+  
+  
+  /** 
+   * Injected by Maven
+   * @component
+   */
+  private BuildContext buildContext;
+  
+  private Set<String> changedFiles = Collections.emptySet();
+  private boolean generateAll = true;
+  
   public void execute()
     throws MojoExecutionException
   {
     if (project != null )
     {
-      project.addCompileSourceRoot(outputDirectory);
+      project.addCompileSourceRoot(outputDirectory.getPath());
     }
-    File outputDir = new File(outputDirectory);
-    if (outputDir.exists())
-    {
-      getLog().info( "Code has already been generated" );
-      return;
+    
+    if (buildContext == null) {
+      // non-incremental context by default
+      buildContext = new DefaultBuildContext();
     }
+    
+    // if the schema has changed, or output directory does not exist, generate all
+    this.generateAll = buildContext.hasDelta(sourceSchema) || !outputDirectory.exists();
+    this.changedFiles = Collections.emptySet();
+    
+    if (!generateAll) {
+      this.changedFiles = getDirChanges(templateDirectory);
+      if (changedFiles.isEmpty()) {
+        // nothing has changed - do not need to regenerate the code
+        getLog().info( "No changes in source files - code is not regenerated." );
+        return;
+      }
+    }
+    
     try {
       System.setProperty(DOMImplementationRegistry.PROPERTY,
         "org.apache.xerces.dom.DOMXSImplementationSourceImpl");
@@ -96,15 +131,15 @@ public class Main
       DOMErrorHandler errorHandler = new ErrorHandler();
       config.setParameter("error-handler", errorHandler);
       config.setParameter("validate", Boolean.TRUE);
-      XSModel model = schemaLoader.loadURI(Resources.getZpattSchema().toString());
+      XSModel model = schemaLoader.loadURI(sourceSchema.toURI().toString());
 
       RuntimeInstance velocity = new RuntimeInstance();
       Properties initProps = new Properties();
-      initProps.put("file.resource.loader.path", velocimacroDirectory);
+      initProps.put("file.resource.loader.path", templateDirectory + "/");
       velocity.init(initProps);
     
       XSNamedMap map = model.getComponents(XSTypeDefinition.COMPLEX_TYPE);
-      Vector jokers = new Vector();
+      List<JokerClass> jokers = new ArrayList<JokerClass>();
       for (int i = 0; i < map.getLength(); i++) {
         XSComplexTypeDefinition item = (XSComplexTypeDefinition) map.item(i);
         String name = item.getName();
@@ -136,22 +171,51 @@ public class Main
     }
   }
 
-  private static void write(RuntimeInstance velocity,
+  private void write(RuntimeInstance velocity,
                             String destination,
                             String templateName,
                             VelocityContext context)
     throws Exception
   {
+    
+    // check if file sources have changed (or the file itself)
+    boolean generate = generateAll || changedFiles.contains(destination) || changedFiles.contains(templateName);
+    if (!generate) {
+      // this file does not need to be generated
+      return;
+    }
+    
     File dest = new File(destination);
-    System.err.println(destination);
     dest.getParentFile().mkdirs();
-    dest.createNewFile();
-    Writer writer = new FileWriter(dest);
+    
+    Writer writer = new OutputStreamWriter(buildContext.newFileOutputStream(dest));
     Template template = velocity.getTemplate(templateName);
-    System.err.println("Writing file " + destination);
     template.merge(context, writer);
     writer.close();
   }
+  
+  private Set<String> getDirChanges(File dir) {
+    
+    Set<String> dirChanges = new HashSet<String>();
+    
+    Scanner deleteScanner = buildContext.newDeleteScanner(dir);
+    deleteScanner.scan();
+    dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
+    
+    Scanner changeScanner = buildContext.newScanner(dir);
+    changeScanner.scan();
+    dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
+    
+    // also add full paths
+    Set<String> dirChangesFullPaths = new HashSet<String>();
+    for (String relative : dirChanges) {
+      dirChangesFullPaths.add(dir + "/" + relative);
+    }
+    dirChanges.addAll(dirChangesFullPaths);
+    
+    return dirChanges;
+  }
+  
 }
 
 class ErrorHandler
