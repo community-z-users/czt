@@ -22,6 +22,9 @@ package net.sourceforge.czt.gnast;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
  * <p>Global GnAST properties for a code generation run.</p>
@@ -82,4 +85,11 @@ public interface GlobalProperties
   String getBaseDir();
   
   List<File> getTemplatePaths();
+  
+  BuildContext getBuildContext();
+  
+  Set<String> getChangedFiles();
+  
+  boolean isSchemaChanged();
+  
 }
