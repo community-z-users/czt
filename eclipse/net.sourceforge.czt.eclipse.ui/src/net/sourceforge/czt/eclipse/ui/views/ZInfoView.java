@@ -35,6 +35,7 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -78,9 +79,9 @@ public class ZInfoView extends ViewPart implements ISelectionListener
     preferenceStore.setDefault(PROP_FORCE_UNICODE, false);
   }
 
-  protected Composite main;
+  private Composite main;
 
-  protected ZSourceViewer zViewer;
+  private ZSourceViewer zViewer;
 
   private FontUpdater fontUpdater;
 
@@ -609,6 +610,11 @@ public class ZInfoView extends ViewPart implements ISelectionListener
   protected Markup getElementMarkup(IZInfoObject element)
   {
     return (forceUnicode || element == null) ? Markup.UNICODE : element.getMarkup();
+  }
+  
+  protected ISourceViewer getViewer()
+  {
+    return zViewer;
   }
 
   protected boolean isSelectionInteresting(IWorkbenchPart part, ISelection selection)

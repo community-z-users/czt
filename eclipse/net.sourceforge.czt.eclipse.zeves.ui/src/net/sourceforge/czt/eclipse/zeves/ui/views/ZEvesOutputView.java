@@ -104,7 +104,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		
 		ZEvesUIPlugin.getZEves().getSnapshot().addSnapshotChangedListener(snapshotListener);
 		
-		zViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		getViewer().getSelectionProvider().addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -264,7 +264,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	
 	private Term getSelectedTerm() {
 		
-		ITextSelection selection = (ITextSelection) zViewer.getSelection();
+		ITextSelection selection = (ITextSelection) getViewer().getSelectionProvider().getSelection();
 		if (selection.isEmpty()) {
 			return null;
 		}
@@ -352,7 +352,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		    	model.addAnnotation(annotation.getKey(), annotation.getValue());
 		    }
 		    
-		    zViewer.setDocument(document, model);
+		    getViewer().setDocument(document, model);
 		    
 		} else {
 			super.setContents(input, markup);
