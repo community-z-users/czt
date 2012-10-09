@@ -227,7 +227,7 @@ public class Project
       Collection<? extends String> relatedTemplates)
   {
     
-    boolean generate = global_.isSchemaChanged(); 
+    boolean generate = global_.forceGenerateAll(); 
     if (!generate) {
       // check if any of the template files (or the output file) is changed
       Set<String> testFiles = new HashSet<String>();

@@ -115,7 +115,7 @@ public class Gnast implements GlobalProperties
   
   private Set<String> changedBuildFiles = new HashSet<String>();
   
-  private boolean schemaChanged = true;
+  private boolean forceGenerateAll = true;
 
 
   // ############################################################
@@ -277,7 +277,14 @@ public class Gnast implements GlobalProperties
     try {
       
       boolean projectsChanged = !resolveProjectFiles(config.source, false).isEmpty();
+      
+      if (!projectsChanged && !config.destination.exists()) {
+        // destination does not exist - force generate all
+        projectsChanged = true;
+      }
+      
       boolean needToGenerate = projectsChanged;
+      
       Set<String> changedBuildFiles = new HashSet<String>();
       if (!projectsChanged) {
         // check if the templates have changed
@@ -309,7 +316,7 @@ public class Gnast implements GlobalProperties
         return;
       }
       
-      this.schemaChanged = projectsChanged;
+      this.forceGenerateAll = projectsChanged;
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
       
       // first resolve all schema projects from the indicated source directory
@@ -465,9 +472,9 @@ public class Gnast implements GlobalProperties
   }
   
   @Override
-  public boolean isSchemaChanged()
+  public boolean forceGenerateAll()
   {
-    return schemaChanged;
+    return forceGenerateAll;
   }
 
   // ############################################################

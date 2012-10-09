@@ -90,6 +90,6 @@ public interface GlobalProperties
   
   Set<String> getChangedFiles();
   
-  boolean isSchemaChanged();
+  boolean forceGenerateAll();
   
 }
