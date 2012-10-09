@@ -675,8 +675,8 @@ public class Main
     }
   }
 
-  private void debug(SectionManager manager, String fileName) throws CommandException
-  {
+//  private void debug(SectionManager manager, String fileName) throws CommandException
+//  {
     /*
     if (!debug_) return;
     // find the file for it
@@ -702,5 +702,5 @@ public class Main
     }
     System.exit(0);
      */
-  }
+//  }
 }
