@@ -1487,11 +1487,6 @@ public class SectionManager
    *              Just a placeholder for the resource from the standard input.
    *              Resource name is fixed as "System.in".
    *              </dd>
-   *          <dl>SpecSource</dl>
-   *              <dd>   
-   *              File source for the SpecReader tool, which allows the right
-   *              processing of specifications with multiple Z sections per file.
-   *              </dd>
    *        </dl>
    *      <br>
    *      Source location is important to tell the give parser(s) the right 

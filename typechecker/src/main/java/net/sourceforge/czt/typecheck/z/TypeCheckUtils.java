@@ -215,7 +215,6 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
    * @param term
    * @return
    */
-  @SuppressWarnings("CallToThreadDumpStack")
   protected List<? extends ErrorAnn> guardedTypeCheck(TypeChecker typeChecker, Term term)
   {
     // add type checking robustness on exceptions occurring at the top-level
@@ -327,10 +326,6 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     System.err.println("              a semicolon-separated list of dirs");
     System.err.println("              (e.g., -cp ./tests;/user/myfiles).");
     System.err.println("              The list is mandatory and must not be empty.");
-    System.err.println("       -g{bi} gathering of latex mark-up so that directives");
-    System.err.println("              are moved to the beginnings of their sections");
-    System.err.println("           b  buffer whole spec in memory (faster)");
-    System.err.println("           i  retain informal narrative (no eliding)");
     System.err.println("\n");
     System.err.println("Default flags are: \"-" +
         ((syntaxOnlyDefault() ? "s " : "") +
@@ -341,8 +336,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         (printTypesDefault() ? "t " : "") +
         (printBenchmarkTimesDefault() ? "b" : "") +
         (warningOutputDefault().equals(WarningManager.WarningOutput.RAISE) ? "w" :
-          warningOutputDefault().equals(WarningManager.WarningOutput.HIDE) ? "h" : "") +
-        (useSpecReaderDefault() ? "gb " : "")).trim() +
+          warningOutputDefault().equals(WarningManager.WarningOutput.HIDE) ? "h" : "")).trim() +
         "\"");
   }
 
@@ -396,21 +390,6 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     return null;
   }
   
-  protected  boolean useSpecReaderDefault()
-  {
-    return PROP_TYPECHECK_USE_SPECREADER_DEFAULT;
-  }
-
-  protected boolean isSpecReaderBufferingWantedDefault() 
-  {
-    return false && useSpecReaderDefault();
-  }
-  
-  protected boolean isSpecReaderNarrativeWantedDefault()
-  {
-    return false && useSpecReaderDefault();
-  }
-
   /** The list of known toolkits.
    *  This is used internally to avoid printing the types of toolkit names.
    * @return list of toolkit names
@@ -584,9 +563,6 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     Boolean printBenchmark = null;
     Boolean useNameIds = null;
     WarningManager.WarningOutput warningOutput = null;
-    Boolean useSpecReader = null;
-    Boolean isBufferingWanted = null;
-    Boolean isNarrativeWanted = null;
     String cztpath = null;
     Boolean printDepsOf = null;
 
@@ -666,14 +642,6 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         i++;
         defaultFlags = false;
         cztpath = args[i].trim();
-      }
-      else if (args[i].startsWith("-g")) 
-      {
-          useSpecReader = true;
-          defaultFlags = false;
-          isBufferingWanted = args[i].indexOf('b', 2) > -1? true : false;
-          isNarrativeWanted = args[i].indexOf('i', 2) > -1? true : false;          
-          manager.setProperty(PROP_TYPECHECK_USE_SPECREADER, String.valueOf(useSpecReader));    
       }
       else if (args[i].startsWith("-deps"))
       {
@@ -777,9 +745,6 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       printBenchmark    = printBenchmarkTimesDefault();
       useNameIds        = useNameIdsDefault();
       warningOutput     = warningOutputDefault();
-      useSpecReader     = useSpecReaderDefault();
-      isBufferingWanted = isSpecReaderBufferingWantedDefault();
-      isNarrativeWanted = isSpecReaderNarrativeWantedDefault();
       cztpath           = cztPathDefault();
       printDepsOf       = printDepsOfDefault();
     }
@@ -794,17 +759,13 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
       printBenchmark    = printBenchmark != null ? printBenchmark : false;
       useNameIds        = useNameIds != null ? useNameIds : false;
       warningOutput     = warningOutput != null ? warningOutput : WarningManager.WarningOutput.SHOW;
-      useSpecReader     = useSpecReader != null ? useSpecReader : false;
-      isBufferingWanted = isBufferingWanted != null ? isBufferingWanted : false;
-      isNarrativeWanted = isNarrativeWanted != null ? isNarrativeWanted : false;
       //cztpath           = cztpath != null ? cztpath : null;
       printDepsOf       = printDepsOf != null ? printDepsOf : false;
     }  
     assert syntaxOnly != null && useBeforeDecl != null &&
       recursiveTypes != null && printTypes != null &&
       printZml != null && printBenchmark != null && useNameIds != null &&
-      warningOutput != null && useSpecReader != null &&
-      isBufferingWanted != null && isNarrativeWanted != null &&
+      warningOutput != null &&
       printDepsOf != null : "Invalid flags!";
     
     // add a potentially old czt path (? TODO: decide to add this or not ?)
@@ -847,24 +808,9 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         manager.setProperty("czt.path", localcztpath);
       }
       
-      Source source = null;
-      boolean openOk = false;
-      if (useSpecReader)
-      {
-        for (String suff : net.sourceforge.czt.specreader.SpecReader.SUFFICES) {
-          if (file.endsWith(suff)) {
-            source = new SpecSource(file, isBufferingWanted, isNarrativeWanted);
-            openOk = true;
-            break;
-          }
-        }
-      }
-      if (!openOk)
-      {
-        //NOTE: from the Main CZT UI, the file.getParent() is being added
-        //      to czt.path. This seems to be spurious as it works without it.
-        source = new FileSource(file);
-      }
+      //NOTE: from the Main CZT UI, the file.getParent() is being added
+      //      to czt.path. This seems to be spurious as it works without it.
+      Source source = new FileSource(file);
       long parsingErrors = 0;
       try {
         term = this.parse(source, manager);
