@@ -22,16 +22,8 @@
 
 package net.sourceforge.czt.rules.ast;
 
-import java.util.*;
-import java.util.logging.*;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.impl.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.*;
-import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
  * An implementation of the interface

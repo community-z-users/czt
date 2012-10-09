@@ -22,7 +22,6 @@ package net.sourceforge.czt.rules.ast;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.ZpattFactoryImpl;
 
