@@ -26,3 +26,4 @@ target/
 /rules/*.log.lck
 /util/src/main/resources
 /vcg/src/test/resources/tests/z/czt.sty
+velocity.log*
