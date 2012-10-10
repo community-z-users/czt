@@ -94,6 +94,7 @@
     <module>jedit</module>
     <module>cup-maven-plugin</module>
     <module>gnast-maven-plugin</module>
+    <module>parsergen-maven-plugin</module>
     <module>parser</module>
     <module>parser-circus</module>
     <module>parser-oz</module>
