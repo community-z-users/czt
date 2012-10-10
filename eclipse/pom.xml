@@ -84,7 +84,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
+      <artifactId>parser-z</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
