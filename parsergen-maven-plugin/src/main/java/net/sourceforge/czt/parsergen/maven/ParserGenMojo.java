@@ -28,6 +28,7 @@ import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
@@ -140,7 +141,7 @@ public class ParserGenMojo
       for (File templateFile : templates) {
         
         // generate if it is fresh, or if the template file has changed
-        boolean generate = forceGenerate || buildContext.hasDelta(templateFile);
+        boolean generate = forceGenerate || hasDelta(templateFile);
         if (!generate) {
           continue;
         }
@@ -165,8 +166,28 @@ public class ParserGenMojo
       throw new MojoExecutionException("Transformation failed", e);
     }
   }
+  
+  /**
+   * A workaround for m2e EclipseBuildContext, which always returns {@code true}
+   * for {@link BuildContext#hasDelta(File)}. Using Scanner instead.
+   * 
+   * @param file
+   * @return
+   */
+  private boolean hasDelta(File file)
+  {
+    if (file == null || file.getParentFile() == null) {
+      return buildContext.hasDelta(file);
+    }
     
+    File parent = file.getParentFile();
+    Scanner scanner = buildContext.newScanner(parent);
+    scanner.setIncludes(new String[] { file.getName() } );
+    scanner.scan();
     
+    return scanner.getIncludedFiles().length > 0;
+  }
+
   private String toAddExpr(String addNodes)
   {
 
