@@ -219,6 +219,9 @@ public class ParserGenMojo
     catch (TransformerConfigurationException e) {
       final String message = "Error generating file " + outFile;
       throw new MojoExecutionException(message, e);
+    } finally {
+      // close the output stream
+      outputStream.close();
     }
   }
 
