@@ -20,7 +20,6 @@
   
   <modules>
     <module>net.sourceforge.czt.m2e.cup</module>
-    <module>net.sourceforge.czt.m2e.parser-src</module>
     
     <module>net.sourceforge.czt.m2e.feature</module>
     <module>net.sourceforge.czt.m2e.repository</module>

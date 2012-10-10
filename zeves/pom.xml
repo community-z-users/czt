@@ -20,7 +20,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
+      <artifactId>parser-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
