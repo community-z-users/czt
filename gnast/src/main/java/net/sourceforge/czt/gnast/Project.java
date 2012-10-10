@@ -276,40 +276,39 @@ public class Project
     logEntering(methodName);
     boolean success = false;
     
-    File tempFile = null;
+    File file = new File(fileName);
+    Writer writer = null;
+    
+    // make parent directory structure
+    File parent = file.getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+    
     try {
-      tempFile = File.createTempFile("gnast", ".vr");
-      logFine("Using temporary file " + tempFile.toString());
-      FileWriter writer = new FileWriter(tempFile);
+      writer = new OutputStreamWriter(
+          global_.getBuildContext().newFileOutputStream(file));
+      
       apgen_.setWriter(writer);
-      if (apgen_.generate(Level.SEVERE)) {
-        writer.flush();
-        writer.close();
-        logInfo("Writing file " + fileName);
-        File file = new File(fileName);
-        new File(file.getParent()).mkdirs();
-        
-        Writer targetWriter = new OutputStreamWriter(
-            global_.getBuildContext().newFileOutputStream(file));
-        
-        FileReader reader = new FileReader(tempFile);
-        int c;
-        while ((c = reader.read()) != -1) {
-          targetWriter.write(c);
-        }
-        reader.close();
-        targetWriter.flush();
-        targetWriter.close();
-        success = true;
-      }
+      logInfo("Writing file " + fileName);
+      apgen_.generate(Level.SEVERE);
+      
+      success = true;
     }
     catch (IOException e) {
       logSevere(e.getMessage());
     } finally {
-      // try to delete the file
-      if (tempFile != null && !tempFile.delete()) {
-        tempFile.deleteOnExit();
+      
+      // close the output writer
+      if (writer != null) {
+        try {
+          writer.close();
+        }
+        catch (IOException e) {
+          logSevere(e.getMessage());
+        }
       }
+      
     }
 
     logExiting(methodName, new Boolean(success));
