@@ -53,6 +53,7 @@
             <configuration>
               <!-- Additional project-specific GnAST templates in every project. -->
               <additionalTemplates>
+                <templateDirectory>${project.basedir}/../corejava-src/src/main/resources/vm</templateDirectory>
                 <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
               </additionalTemplates>
               <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
