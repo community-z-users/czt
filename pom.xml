@@ -96,11 +96,6 @@
     <module>gnast-maven-plugin</module>
     <module>parsergen-maven-plugin</module>
     <module>parser</module>
-    <module>parser-circus</module>
-    <module>parser-oz</module>
-    <module>parser-ozpatt</module>
-    <module>parser-src</module>
-    <module>parser-zpatt</module>
     <module>session</module>
     <module>typechecker</module>
     <module>typechecker-oz</module>
@@ -113,7 +108,6 @@
     <module>zeves</module>
     <module>zlive</module>
     <module>zml</module>
-    <module>parser-zeves</module>
     <module>typechecker-zeves</module>
   </modules>
 
@@ -216,12 +210,12 @@
       <!-- CZT Parser -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
-        <artifactId>parser</artifactId>
+        <artifactId>parser-z</artifactId>
         <version>${czt.version}</version>
       </dependency>
       <dependency>
         <groupId>${czt.groupId}</groupId>
-        <artifactId>parser</artifactId>
+        <artifactId>parser-z</artifactId>
         <version>${czt.version}</version>
         <type>test-jar</type>
         <scope>test</scope>
@@ -405,6 +399,14 @@
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.5</version>
+        <scope>test</scope>
+      </dependency>
+      
+      <!-- Apache Commons -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.1</version>
         <scope>test</scope>
       </dependency>
       
