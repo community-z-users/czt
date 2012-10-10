@@ -1,54 +1,37 @@
-<!--
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>czt</artifactId>
-    <groupId>net.sourceforge.czt</groupId>
-    <version>1.6-SNAPSHOT</version>
-  </parent>
-  <groupId>net.sourceforge.czt</groupId>
-  <artifactId>parser-zeves</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>CZT Z/EVES (proofs) parser</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-</project>
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>parser</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>parser-zeves</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Z/EVES (proofs) Parser</name>
+
+  <name>CZT Parser Z/EVES</name>
   <description>
-    Provides classes for parsing and printing Z Eves proofs
+    Provides classes for parsing and printing Z/EVES specifications.
   </description>
+
+  <properties>
+    <parser.nodes>zeves</parser.nodes>
+    <parser.package>net.sourceforge.czt.parser.zeves</parser.package>
+    <printer.nodes>z,zeves</printer.nodes>
+    <printer.package>net.sourceforge.czt.print.zeves</printer.package>
+    <contextfree.nodes>zeves,print</contextfree.nodes>
+  </properties>
+
+
   <dependencies>
-    <!--<dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>zeves</artifactId>
-    </dependency>-->
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
+      <artifactId>parser-z</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
+      <artifactId>parser-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -59,91 +42,78 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+
   <build>
     <plugins>
-       <plugin>
+
+      <plugin>
         <groupId>net.sourceforge.czt</groupId>
-        <artifactId>parser-src</artifactId>
-        <version>1.6-SNAPSHOT</version>
+        <artifactId>parsergen-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>generate-parser-java</id>
             <configuration>
-              <dialect>zeves</dialect>
-              <templateDirectory>${basedir}/../parser-src/src/main/resources/templates</templateDirectory>
-              <!--<templateDirectory>${project.build.directory}/generated-sources/templates</templateDirectory>-->
-              <!--<templateDirectory>C:/research/tools/java/sourceforge/czt/0.5.2/trunk/parser-src/src/main/resources/templates</templateDirectory>-->
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
             </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
+          </execution>
+          <execution>
+            <id>generate-parser-java-symmap</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-cup</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-jflex</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-printer-unicode2latex</id>
+            <configuration>
+              <addNodes>${printer.nodes}</addNodes>
+              <packageName>${printer.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-printer-contextfree</id>
+            <configuration>
+              <addNodes>${contextfree.nodes}</addNodes>
+              <packageName>${printer.package}</packageName>
+            </configuration>
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>de.jflex</groupId>
         <artifactId>maven-jflex-plugin</artifactId>
-        <version>1.4.3</version>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <configuration>
-              <outputDirectory>${project.build.directory}/generated-sources/jflex</outputDirectory>
-              <lexDefinitions>
-                <lexDefinition>${project.build.directory}/generated-sources/parser-src-jflex</lexDefinition>
-              </lexDefinitions>
-              <!-- graphviz .dot file and dump of state tyables 
-              <dot>true</dot>
-              <verbose>true</verbose>
-              -->
-            </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
+
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>cup-maven-plugin</artifactId>
-        <version>1.6-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/parser-src-cup</sourceDirectory>
-              <!--
-              <dumpStates>true</dumpStates>
-              <dumpGrammar>true</dumpGrammar>
-              <dumpTables>false</dumpTables>
-              -->
-            </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemProperties>
-            <property>
-            <name>net.sourceforge.cobertura.datafile</name>
-            <value>target/cobertura/cobertura.ser</value>
-            </property>
-          </systemProperties>
-          <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
-        </configuration>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
       </plugin>
+
     </plugins>
   </build>
 </project>

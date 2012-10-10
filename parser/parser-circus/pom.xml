@@ -1,23 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"> 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>parser</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>parser-circus</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Circus Parser</name>
-  <description>Provides classes for parsing and printing Circus specifications.</description>
+
+  <name>CZT Parser Circus</name>
+  <description>
+    Provides classes for parsing and printing Circus specifications.
+  </description>
+
+  <properties>
+    <parser.nodes>circus</parser.nodes>
+    <parser.package>net.sourceforge.czt.parser.circus</parser.package>
+    <printer.nodes>z,circus</printer.nodes>
+    <printer.package>net.sourceforge.czt.print.circus</printer.package>
+    <contextfree.nodes>circus,print</contextfree.nodes>
+  </properties>
+
+
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
+      <artifactId>parser-z</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
+      <artifactId>parser-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -33,164 +47,125 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <!--
-  <profiles>
-        <profile>
-            <id>netbeans-public</id>
-            <activation>
-                <property>
-                    <name>netbeans.execution</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib</classpathPrefix>
-                                    <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexParser</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>nb</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>directory</goal>
-                                </goals>
-                                <configuration>
-                                    <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
-                                    <finalName>executable</finalName>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>  
-   --> 
-  <build>          
+
+
+  <build>
     <plugins>
-      <!--
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>initialize</phase>
-            <configuration>
-              <outputDirectory>${project.build.directory}/generated-sources/templates</outputDirectory>>
-              <resources>
-                <resource>
-                  <directory>../parser-src/src/main/resources/templates</directory>
-                  <includes>
-                      <include>*.xml</include>
-                  </includes>            
-                </resource>
-              </resources>
-            </configuration>
-            <goals>
-              <goal>resources</goal>
-            </goals>
-          </execution>
-        </executions>        
-      </plugin>
-      -->
+
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
-        <artifactId>parser-src</artifactId>
-        <version>1.6-SNAPSHOT</version>
+        <artifactId>parsergen-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>generate-parser-java</id>
             <configuration>
-              <dialect>circus</dialect>
-              <templateDirectory>${basedir}/../parser-src/src/main/resources/templates</templateDirectory>
-              <!--<templateDirectory>${project.build.directory}/generated-sources/templates</templateDirectory>-->
-              <!--<templateDirectory>C:/research/tools/java/sourceforge/czt/0.5.2/trunk/parser-src/src/main/resources/templates</templateDirectory>-->
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
             </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
+          </execution>
+          <execution>
+            <id>generate-parser-java-symmap</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-cup</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-parser-jflex</id>
+            <configuration>
+              <addNodes>${parser.nodes}</addNodes>
+              <packageName>${parser.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-printer-unicode2latex</id>
+            <configuration>
+              <addNodes>${printer.nodes}</addNodes>
+              <packageName>${printer.package}</packageName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-printer-contextfree</id>
+            <configuration>
+              <addNodes>${contextfree.nodes}</addNodes>
+              <packageName>${printer.package}</packageName>
+            </configuration>
           </execution>
         </executions>
-      </plugin>      
+      </plugin>
+
       <plugin>
         <groupId>de.jflex</groupId>
         <artifactId>maven-jflex-plugin</artifactId>
-        <version>1.4.3</version>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <configuration>
-              <outputDirectory>${project.build.directory}/generated-sources/jflex</outputDirectory>
-              <lexDefinitions>
-                <lexDefinition>${project.build.directory}/generated-sources/parser-src-jflex</lexDefinition>
-              </lexDefinitions>
-            </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
+
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>cup-maven-plugin</artifactId>
-        <version>1.6-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/parser-src-cup</sourceDirectory>              
-              <!--
-              <dumpStates>true</dumpStates>
-              <dumpGrammar>true</dumpGrammar>              
-              <dumpTables>false</dumpTables>
-              -->
-            </configuration>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
       </plugin>
-    </plugins>    
-    <!--
-    <testResources>
-        <testResource>
-            <directory>../parser/src/test/java</directory>
-            <includes>
-                <include>**/*.class</include>                                              
-            </includes>            
-        </testResource>
-        <testResource>
-            <directory>src/test/java</directory>
-            <includes>
-                <include>**/*.class</include>                                              
-            </includes>            
-        </testResource>
-    </testResources> -->
-  </build>  
-  <!--
-  <properties>
-        <netbeans.hint.useExternalMaven>true</netbeans.hint.useExternalMaven>
-    </properties>
-    -->
+
+    </plugins>
+  </build>
+  
+<!--
+  <profiles>
+    <profile>
+      <id>netbeans-public</id>
+      <activation>
+        <property>
+          <name>netbeans.execution</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addClasspath>true</addClasspath>
+                  <classpathPrefix>lib</classpathPrefix>
+                  <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexParser</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nb</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>directory</goal>
+                </goals>
+                <configuration>
+                  <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
+                  <finalName>executable</finalName>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+-->
+  
 </project>
