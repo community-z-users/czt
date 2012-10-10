@@ -25,6 +25,8 @@ package net.sourceforge.czt.gnast;
  */
 public class GnastException extends RuntimeException
 {
+  private static final long serialVersionUID = 3273606251769804868L;
+
   public GnastException()
   {
   }
