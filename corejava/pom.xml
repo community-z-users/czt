@@ -30,6 +30,7 @@
   </properties>
 
   <modules>
+    <module>corejava-src</module>
     <module>corejava-z</module>
     <module>corejava-zpatt</module>
     <module>corejava-oz</module>
