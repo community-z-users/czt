@@ -62,8 +62,12 @@ public class SchemaProject
   // ##################### MEMBER VARIABLES #####################
   // ############################################################
 
-  private static final Logger LOGGER =
-    Logger.getLogger("net.sourceforge.czt.gnast.schema.SchemaProject");
+  private static final Logger LOGGER = Logger.getLogger(SchemaProject.class.getName());
+  
+  /**
+   * Static instance of TransformerFactory since it is thread safe and may be expensive.
+   */
+  private static final TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
 
   /**
    * The class name of this class; used for logging purposes.
@@ -453,10 +457,7 @@ public class SchemaProject
   {
     if (node == null) return null;
     try {
-      TransformerFactory tFactory =
-        TransformerFactory.newInstance();
-      Transformer transformer =
-        tFactory.newTransformer();
+      Transformer transformer = TRANSFORMER_FACTORY.newTransformer();
       transformer.setOutputProperty("omit-xml-declaration", "yes");
       StringWriter writer = new StringWriter();
       StreamResult result = new StreamResult(writer);
