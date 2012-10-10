@@ -165,27 +165,31 @@ public class ParserGenMojo
       throw new MojoExecutionException("Transformation failed", e);
     }
   }
+    
+    
+  private String toAddExpr(String addNodes)
+  {
 
-  private String toAddExpr(String addNodes) {
-    
     String[] splitNodes = addNodes.split(",");
-    
+
     StringBuilder out = new StringBuilder();
-    
+
     for (String addNode : splitNodes) {
       out.append("{");
       out.append(addNode.trim());
       out.append("}");
     }
-    
+
     return out.toString();
   }
-  
-  private String dropExtension(String name) {
+
+  private String dropExtension(String name)
+  {
     int lastDot = name.lastIndexOf(".");
     if (lastDot >= 0) {
       return name.substring(0, lastDot);
-    } else {
+    }
+    else {
       return name;
     }
   }
