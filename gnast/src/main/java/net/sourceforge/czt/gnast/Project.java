@@ -141,8 +141,7 @@ public class Project
   }
   
   /**
-   * Resolves the given template file in the template directory (checks if it exists).
-   * First checks the GnAST plugin itself, then scans the additional template paths.
+   * Resolves the given template file in one of the template directories (checks if it exists).
    * 
    * @param global
    * @param fileName
@@ -150,13 +149,7 @@ public class Project
    */
   public static String resolvePath(GlobalProperties global, String fileName)
   {
-    // first check if the file name is within the JAR (core GnAST template)
-    URL baseDirResource = getBaseDirResource(global, fileName);
-    if (baseDirResource != null){
-      return fileName;
-    }
-    
-    // now check if file exists somewhere in additional template paths
+    // check if file exists somewhere in template paths
     for (File templatePath : global.getTemplatePaths()) {
       String filePath = templatePath.getAbsolutePath() + "/" + fileName;
       if (new File(filePath).exists()) {
@@ -166,12 +159,6 @@ public class Project
     
     // not found
     return null;
-  }
-  
-  public static URL getBaseDirResource(GlobalProperties global, String fileName)
-  {
-    String jarPath = global.getBaseDir() + fileName;
-    return Project.class.getResource(jarPath);
   }
   
   public static File getFile(URL url) {
@@ -331,24 +318,13 @@ public class Project
 
   /**
    * Concatenates all template paths into one comma-separated string.
-   * 
-   * Uses the base template path (from this JAR) and all additionally
-   * indicated paths.
    * @return
    */
   private String getTemplatePathURLs() {
     
     List<URL> templatePaths = new ArrayList<URL>();
     
-    // first add the base path in GnAST JAR
-    URL baseUrl = Project.class.getResource(global_.getBaseDir());
-    if (baseUrl == null) {
-      throw new GnastException("Base template directory cannot be located at " + global_.getBaseDir());
-    } else {
-      templatePaths.add(baseUrl);
-    }
-    
-    // now add all additional paths
+    // add all paths as URLs
     for (File templateFile : global_.getTemplatePaths()) {
       try {
         URL url = templateFile.toURI().toURL();

@@ -96,11 +96,6 @@ public class Gnast implements GlobalProperties
    */
   private Map<String,Project> namespaces_ = new HashMap<String,Project>();
 
-
-  /** The base directory of GnAST templates in the plugin */
-  private static final String BASE_TEMPLATES_DIR = "/vm/";
-  
-  
   /**
    * <p>A mapping from project names to the actual projects.</p>
    *
@@ -288,15 +283,6 @@ public class Gnast implements GlobalProperties
       Set<String> changedBuildFiles = new HashSet<String>();
       if (!projectsChanged) {
         // check if the templates have changed
-        
-        // get the base dir - may be in JAR!
-        File baseDir = Project.getFile(Project.getBaseDirResource(this, ""));
-        if (baseDir != null) {
-          // base dir can be resolved and is not in a JAR - check for changes
-          changedBuildFiles.addAll(getDirChanges(baseDir));
-        }
-        
-        // check other template paths for changes
         for (File templatePath : getTemplatePaths()) {
           changedBuildFiles.addAll(getDirChanges(templatePath));
         }
@@ -447,12 +433,6 @@ public class Gnast implements GlobalProperties
       + ".java";
   }
 
-  @Override
-  public String getBaseDir()
-  {
-    return BASE_TEMPLATES_DIR;
-  }
-  
   @Override
   public List<File> getTemplatePaths()
   {
