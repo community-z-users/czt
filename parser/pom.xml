@@ -31,6 +31,7 @@
   </properties>
   
   <modules>
+    <module>parser-src</module>
     <module>parser-z</module>
     <module>parser-zpatt</module>
     <module>parser-oz</module>
