@@ -73,6 +73,10 @@ public class Main
   public void execute() throws MojoExecutionException
   {
     getLog().info("Generating AST for " + targetNamespace + ". This may take some time.");
+    
+    if (project != null) {
+      project.addCompileSourceRoot(outputDirectory.getPath());
+    }
 
     GnastBuilder config = new GnastBuilder()
         .templates(additionalTemplates)
@@ -96,11 +100,15 @@ public class Main
     }
 
     // create the generator and launch it
-    Gnast gnast = config.create();
-    gnast.generate();
-
-    if (project != null) {
-      project.addCompileSourceRoot(outputDirectory.getPath());
+    try {
+      
+      Gnast gnast = config.create();
+      gnast.generate();
+      
+    } catch (Exception ex) {
+      // catch any exceptions and report as Maven ones
+      throw new MojoExecutionException("GnAST code generation failed", ex);
     }
+
   }
 }
