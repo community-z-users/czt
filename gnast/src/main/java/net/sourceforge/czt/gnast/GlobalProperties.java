@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.gnast;
 
-import java.io.File;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,12 +82,20 @@ public interface GlobalProperties
    */
   String toFileName(String packageName, String className);
 
-  List<File> getTemplatePaths();
+  List<URL> getTemplatePaths();
   
   BuildContext getBuildContext();
   
   Set<String> getChangedFiles();
   
   boolean forceGenerateAll();
+  
+  /**
+   * Resolves the given template file in one of the template directories (checks if it exists).
+   * 
+   * @param fileName
+   * @return
+   */
+  public String resolvePath(String fileName);
   
 }

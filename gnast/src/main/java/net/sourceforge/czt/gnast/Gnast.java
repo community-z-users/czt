@@ -118,6 +118,12 @@ public class Gnast implements GlobalProperties
   private Set<String> changedBuildFiles = new HashSet<String>();
   
   private boolean forceGenerateAll = true;
+  
+  /**
+   * A cache for path resolution. Needed because checking if file name exists
+   * can be an expensive operation - hopefully the cache can help somewhat.
+   */
+  private final Map<String, Boolean> pathResolvedCache = new HashMap<String, Boolean>();
 
 
   // ############################################################
@@ -255,9 +261,9 @@ public class Gnast implements GlobalProperties
                 : Level.OFF));
     
     String[] templates = line.getOptionValues("t");
-    List<File> templateDirs = new ArrayList<File>();
+    List<URL> templateDirs = new ArrayList<URL>();
     for (String path : templates) {
-      templateDirs.add(new File(path));
+      templateDirs.add(toURL(path));
     }
     
     return new GnastBuilder()
@@ -339,13 +345,13 @@ public class Gnast implements GlobalProperties
       // or mapping has changed
       boolean generateAll = sourceSchemasChanged(config.sourceSchemas) 
           || !config.destination.exists()
-          || !getURLChanges(config.mappingPropertiesFile).isEmpty();
+          || !getURLChanges(config.mappingPropertiesFile, false).isEmpty();
       
       Set<String> changedBuildFiles = new HashSet<String>();
       if (!generateAll) {
         // check if the templates have changed
-        for (File templatePath : getTemplatePaths()) {
-          changedBuildFiles.addAll(getDirChanges(templatePath));
+        for (URL templatePath : getTemplatePaths()) {
+          changedBuildFiles.addAll(getURLChanges(templatePath, true));
         }
         
 // Avoid checking the destination for now - incremental build loops because /target is refreshed
@@ -406,7 +412,7 @@ public class Gnast implements GlobalProperties
   private boolean sourceSchemasChanged(Collection<URL> sourceSchemas)
   {
     for (URL schemaUrl : sourceSchemas) {
-      if (!getURLChanges(schemaUrl).isEmpty()) {
+      if (!getURLChanges(schemaUrl, false).isEmpty()) {
         return true;
       }
     }
@@ -414,12 +420,16 @@ public class Gnast implements GlobalProperties
     return false;
   }
   
-  private Set<String> getURLChanges(URL url) {
+  private Set<String> getURLChanges(URL url, boolean isDir) {
     // get the url file - may be in JAR!
-    File file = Project.getFile(url);
+    File file = getFile(url);
     if (file != null) {
       // file can be resolved as is not in JAR - check for changes
-      return getFileChanges(file);
+      if (isDir) {
+        return getDirChanges(file);
+      } else {
+        return getFileChanges(file);
+      }
     } else {
       return Collections.emptySet();
     }
@@ -502,7 +512,7 @@ public class Gnast implements GlobalProperties
   }
 
   @Override
-  public List<File> getTemplatePaths()
+  public List<URL> getTemplatePaths()
   {
     return config.templatePaths;
   }
@@ -523,6 +533,95 @@ public class Gnast implements GlobalProperties
   public boolean forceGenerateAll()
   {
     return forceGenerateAll;
+  }
+  
+  /**
+   * Resolves the given template file in one of the template directories (checks if it exists).
+   * 
+   * @param fileName
+   * @return
+   */
+  @Override
+  public String resolvePath(String fileName)
+  {
+    
+    Boolean cachedResolved = pathResolvedCache.get(fileName);
+    if (cachedResolved != null) {
+      
+      if (cachedResolved.booleanValue()) {
+        // cached and resolvable
+        return fileName;
+      } else {
+        // cached, but not resolvable 
+        return null;
+      }
+    }
+    
+    // not cached - try resolving
+    boolean resolved = canResolvePath(fileName);
+    // cache
+    pathResolvedCache.put(fileName, resolved);
+    
+    return resolved ? fileName : null;
+  }
+  
+  private boolean canResolvePath(String fileName) {
+    // check if file exists somewhere in template paths
+    for (URL templatePath : getTemplatePaths()) {
+      
+      URL fileUrl;
+      try {
+        fileUrl = new URL(templatePath.toString() + "/" + fileName);
+      }
+      catch (MalformedURLException e) {
+        throw new GnastException(e);
+      }
+      
+      File file = getFile(fileUrl);
+      if (file != null) {
+        if (file.exists()) {
+          return true;
+        }
+      } else {
+        // try opening a stream to see whether it is a valid URL
+        
+        InputStream testStream = null;
+        try {
+          testStream = fileUrl.openStream();
+          return true;
+        }
+        catch (IOException e) {
+          // ignore - cannot open a stream, so file does not exist
+        }
+        finally {
+          if (testStream != null) {
+            try {
+              testStream.close();
+            }
+            catch (IOException e) {
+              // ignore
+            }
+          }
+        }
+      }
+    }
+    
+    // not found
+    return false;
+  }
+  
+  private static File getFile(URL url) {
+    
+    if (url == null) {
+      return null;
+    }
+    
+    if ("file".equals(url.getProtocol())) {
+      return new File(url.getFile());
+    }
+    
+    // for non-files, just return null
+    return null;
   }
 
   // ############################################################
@@ -714,7 +813,7 @@ public class Gnast implements GlobalProperties
     /**
      * The list of additional template paths (e.g. for extending templates).
      */
-    private List<File> templatePaths = new ArrayList<File>();
+    private List<URL> templatePaths = new ArrayList<URL>();
     
     /**
      * The mapping properties file.
@@ -757,7 +856,7 @@ public class Gnast implements GlobalProperties
       return this;
     }
     
-    public GnastBuilder templates(List<File> templatePaths) {
+    public GnastBuilder templates(List<URL> templatePaths) {
       this.templatePaths.addAll(templatePaths);
       return this;
     }

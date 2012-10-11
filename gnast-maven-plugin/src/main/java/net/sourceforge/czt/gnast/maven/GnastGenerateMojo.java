@@ -40,7 +40,7 @@ public class GnastGenerateMojo
    * @parameter alias="templateDirectory"
    * @required
    */
-  private List<File> templates = new ArrayList<File>();
+  private List<String> templates = new ArrayList<String>();
   
   /**
    * @parameter
@@ -128,7 +128,7 @@ public class GnastGenerateMojo
     }
 
     GnastBuilder config = new GnastBuilder()
-        .templates(templates)
+        .templates(locateResources(templates))
         .sourceSchemas(allSchemas)
         .namespace(targetNamespace);
 
@@ -166,8 +166,8 @@ public class GnastGenerateMojo
 
   }
   
-  private Set<URL> locateResources(Collection<String> locations) throws MojoExecutionException {
-    Set<URL> urls = new HashSet<URL>();
+  private List<URL> locateResources(Collection<String> locations) throws MojoExecutionException {
+    List<URL> urls = new ArrayList<URL>();
     for (String location : locations) {
       urls.add(locateResource(location));
     }

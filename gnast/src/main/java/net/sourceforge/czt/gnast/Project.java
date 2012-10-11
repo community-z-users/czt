@@ -132,41 +132,6 @@ public class Project
     logExiting(methodName);
   }
   
-  /**
-   * Resolves the given template file in one of the template directories (checks if it exists).
-   * 
-   * @param global
-   * @param fileName
-   * @return
-   */
-  public static String resolvePath(GlobalProperties global, String fileName)
-  {
-    // check if file exists somewhere in template paths
-    for (File templatePath : global.getTemplatePaths()) {
-      String filePath = templatePath.getAbsolutePath() + "/" + fileName;
-      if (new File(filePath).exists()) {
-        return fileName;
-      }
-    }
-    
-    // not found
-    return null;
-  }
-  
-  public static File getFile(URL url) {
-    
-    if (url == null) {
-      return null;
-    }
-    
-    if ("file".equals(url.getProtocol())) {
-      return new File(url.getFile());
-    }
-    
-    // for non-files, just return null
-    return null;
-  }
-
   protected void generate(String id)
   {
     String name = project_.getClassName(id);
@@ -183,10 +148,10 @@ public class Project
     String qualifiedJavaName = getBasePackage() + "." + packageName + "." + javaName;
     
     // check fully qualified name
-    String addCodeFilename = resolvePath(global_, qualifiedJavaName);
+    String addCodeFilename = global_.resolvePath(qualifiedJavaName);
     if (addCodeFilename == null) {
       // check short name
-      addCodeFilename = resolvePath(global_, javaName);
+      addCodeFilename = global_.resolvePath(javaName);
     }
 
     Map<String,Object> map = new HashMap<String,Object>();
@@ -316,14 +281,8 @@ public class Project
     List<URL> templatePaths = new ArrayList<URL>();
     
     // add all paths as URLs
-    for (File templateFile : global_.getTemplatePaths()) {
-      try {
-        URL url = templateFile.toURI().toURL();
-        templatePaths.add(url);
-      }
-      catch (MalformedURLException e) {
-        throw new GnastException(e);
-      }
+    for (URL templateDir : global_.getTemplatePaths()) {
+      templatePaths.add(templateDir);
     }
     
     StringBuilder concat = new StringBuilder();
@@ -331,6 +290,10 @@ public class Project
     for (URL templatePath : templatePaths) {
       concat.append(sep);
       concat.append(templatePath);
+      if (!templatePath.toString().endsWith("/")) {
+        // append directory separator at the end, otherwise lookup fails
+        concat.append("/");
+      }
       sep = ",";
     }
     

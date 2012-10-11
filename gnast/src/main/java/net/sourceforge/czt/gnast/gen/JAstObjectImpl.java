@@ -164,12 +164,12 @@ public abstract class JAstObjectImpl implements JAstObject
 
   public String getAdditionalCodeFilename()
   {
-    return Project.resolvePath(global_, getName() + ".java");
+    return global_.resolvePath(getName() + ".java");
   }
 
   public String getAdditionalImplCodeFilename()
   {
-    return Project.resolvePath(global_, getImplName() + ".java");
+    return global_.resolvePath(getImplName() + ".java");
   }
 
   public abstract String getNamespace();
