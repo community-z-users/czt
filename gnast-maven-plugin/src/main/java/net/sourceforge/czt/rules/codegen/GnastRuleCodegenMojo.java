@@ -124,7 +124,7 @@ public class GnastRuleCodegenMojo
     }
     
     // replace all dots with dir separators
-    String packageDir = packageName.replace("\\.", "/");
+    String packageDir = packageName.replace(".", "/");
     
     try {
       System.setProperty(DOMImplementationRegistry.PROPERTY,
