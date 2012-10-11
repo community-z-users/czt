@@ -28,10 +28,6 @@
       <artifactId>gnast</artifactId>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>zml</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>

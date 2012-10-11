@@ -73,6 +73,14 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on ZML to locate the ZML schema files -->
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>zml</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
