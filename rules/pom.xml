@@ -39,6 +39,7 @@
             <phase>generate-sources</phase>
             <configuration>
               <sourceSchema>${project.basedir}/../zml/src/main/resources/net/sourceforge/czt/zml/xsd/ZPattern.xsd</sourceSchema>
+              <packageName>net.sourceforge.czt.rules.ast</packageName>
             </configuration>
             <goals>
               <goal>rulecodegen</goal>
