@@ -53,7 +53,8 @@
             <configuration>
               <!-- Additional project-specific GnAST templates in every project. -->
               <templates>
-                <templateDirectory>${project.basedir}/../corejava-src/src/main/resources/vm</templateDirectory>
+                <!-- the first /vm directory is a classpath resource (in corejava-src module) -->
+                <templateDirectory>/vm</templateDirectory>
                 <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
               </templates>
               <!-- mapping.properties as classpath resource (in corejava-src module) -->
