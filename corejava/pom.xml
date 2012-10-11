@@ -57,7 +57,14 @@
                 <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
               </templates>
               <mappingFile>${project.basedir}/../corejava-src/src/main/resources/mapping.properties</mappingFile>
-              <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
+              <sourceSchemas>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Circus.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/CircusPattern.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Object-Z.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Z.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/ZEves.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/ZPattern.xsd</schemaLocation>
+              </sourceSchemas>
               <addAstFinaliser>false</addAstFinaliser>
               <verbose>true</verbose>
             </configuration>
