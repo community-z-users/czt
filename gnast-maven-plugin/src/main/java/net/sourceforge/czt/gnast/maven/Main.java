@@ -30,7 +30,7 @@ public class Main
   /**
    * @parameter alias="templateDirectory"
    */
-  private List<File> additionalTemplates = new ArrayList<File>();
+  private List<File> templates = new ArrayList<File>();
   
   /**
    * @parameter
@@ -79,7 +79,7 @@ public class Main
     }
 
     GnastBuilder config = new GnastBuilder()
-        .templates(additionalTemplates)
+        .templates(templates)
         .source(sourceDirectory)
         .namespace(targetNamespace);
 
