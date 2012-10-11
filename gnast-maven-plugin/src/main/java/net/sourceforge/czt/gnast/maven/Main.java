@@ -29,8 +29,14 @@ public class Main
 
   /**
    * @parameter alias="templateDirectory"
+   * @required
    */
   private List<File> templates = new ArrayList<File>();
+  
+  /**
+   * @parameter
+   */
+  private File mappingFile;
   
   /**
    * @parameter
@@ -85,6 +91,10 @@ public class Main
 
     if (outputDirectory != null) {
       config = config.destination(outputDirectory);
+    }
+    
+    if (mappingFile != null) {
+      config = config.mapping(mappingFile);
     }
 
     if (addAstFinaliser != null) {
