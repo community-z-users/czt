@@ -56,6 +56,7 @@
                 <templateDirectory>${project.basedir}/../corejava-src/src/main/resources/vm</templateDirectory>
                 <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
               </templates>
+              <mappingFile>${project.basedir}/../corejava-src/src/main/resources/mapping.properties</mappingFile>
               <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
               <addAstFinaliser>false</addAstFinaliser>
               <verbose>true</verbose>
