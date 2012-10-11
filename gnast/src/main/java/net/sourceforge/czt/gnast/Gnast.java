@@ -411,7 +411,7 @@ public class Gnast implements GlobalProperties
       }
     }
     
-    return true;
+    return false;
   }
   
   private Set<String> getURLChanges(URL url) {
