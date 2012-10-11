@@ -79,6 +79,8 @@ public class Gnast implements GlobalProperties
   
   private static final String DESTINATION_DEFAULT = ".";
   private static final Boolean AST_FINALISER_DEFAULT = Boolean.FALSE;
+  
+  private static final String MAPPING_FILE = "mapping.properties";
 
   /**
    * <p>
@@ -110,6 +112,8 @@ public class Gnast implements GlobalProperties
   private Map<String,Project> projects_ = new HashMap<String,Project>();
   
   private final GnastBuilder config;
+  
+  private Properties mapping = new Properties();
   
   private Set<String> changedBuildFiles = new HashSet<String>();
   
@@ -313,6 +317,8 @@ public class Gnast implements GlobalProperties
       this.forceGenerateAll = projectsChanged;
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
       
+      this.mapping = Gnast.loadProperties(MAPPING_FILE);
+      
       // first resolve all schema projects from the indicated source directory
       // this is necessary to resolve transitive dependencies
       resolveProjects(config.source);
@@ -401,7 +407,7 @@ public class Gnast implements GlobalProperties
     String name = url.toString();
     Project result = projects_.get(name);
     if (result == null) {
-      result = new Project(url, this);
+      result = new Project(url, mapping, this);
       projects_.put(name, result);
     }
     return result;

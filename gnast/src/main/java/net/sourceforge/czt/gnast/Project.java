@@ -44,8 +44,6 @@ public class Project
   // ##################### MEMBER VARIABLES #####################
   // ############################################################
 
-  private final String mappingFile_ = "mapping.properties";
-
   /**
    * The schema project.
    */
@@ -61,11 +59,6 @@ public class Project
    */
   private Apgen apgen_;
 
-  /**
-   * <p>The mapping properties.</p>
-   */
-  private Properties mapping_;
-
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -78,15 +71,14 @@ public class Project
    * @throws NullPointerException if <code>url</code> is
    *         <code>null</code>.
    */
-  public Project(URL url, GlobalProperties global)
+  public Project(URL url, Properties mapping, GlobalProperties global)
   {
     logFine("Reading schema " + url);
     if (url == null) throw new NullPointerException();
     global_ = global;
 
-    mapping_ = Gnast.loadProperties(mappingFile_);
     try {
-      project_ = new SchemaProject(url, mapping_, global_);
+      project_ = new SchemaProject(url, mapping, global_);
     }
     catch (javax.xml.parsers.ParserConfigurationException exception) {
       logSevere("Parse error while parsing " + url);
