@@ -19,7 +19,7 @@ import org.sonatype.plexus.build.incremental.BuildContext;
  * @author Petra Malik
  * @author Andrius Velykis
  */
-public class Main
+public class GnastGenerateMojo
   extends AbstractMojo 
 {
   /**
@@ -29,8 +29,14 @@ public class Main
 
   /**
    * @parameter alias="templateDirectory"
+   * @required
    */
-  private List<File> additionalTemplates = new ArrayList<File>();
+  private List<File> templates = new ArrayList<File>();
+  
+  /**
+   * @parameter
+   */
+  private File mappingFile;
   
   /**
    * @parameter
@@ -79,12 +85,16 @@ public class Main
     }
 
     GnastBuilder config = new GnastBuilder()
-        .templates(additionalTemplates)
+        .templates(templates)
         .source(sourceDirectory)
         .namespace(targetNamespace);
 
     if (outputDirectory != null) {
       config = config.destination(outputDirectory);
+    }
+    
+    if (mappingFile != null) {
+      config = config.mapping(mappingFile);
     }
 
     if (addAstFinaliser != null) {

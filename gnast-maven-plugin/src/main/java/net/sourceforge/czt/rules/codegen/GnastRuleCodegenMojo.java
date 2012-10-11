@@ -55,10 +55,9 @@ import org.codehaus.plexus.util.Scanner;
  * @author Petra Malik
  * @author Andrius Velykis
  */
-public class Main
+public class GnastRuleCodegenMojo
   extends AbstractMojo 
 {
-  private static String PACKAGE_DIR = "net/sourceforge/czt/rules/ast/";
 
   /**
    * @parameter expression="${project.build.directory}/generated-sources/gnast"
@@ -76,6 +75,11 @@ public class Main
    * @required
    */
   private File sourceSchema;
+  
+  /**
+   * @parameter
+   */
+  private String packageName = "";
 
   /**
    * @parameter expression="${project}"
@@ -119,6 +123,9 @@ public class Main
       }
     }
     
+    // replace all dots with dir separators
+    String packageDir = packageName.replace("\\.", "/");
+    
     try {
       System.setProperty(DOMImplementationRegistry.PROPERTY,
         "org.apache.xerces.dom.DOMXSImplementationSourceImpl");
@@ -151,16 +158,14 @@ public class Main
           context.put("joker", jokerClass);
           context.put("complex_type", item);
           context.put("isList", name.endsWith("List"));
-          String dest = outputDirectory + "/" + PACKAGE_DIR +
-            "Prover" + name + ".java";
+          String dest = outputDirectory + "/" + packageDir + "/" + "Prover" + name + ".java";
           write(velocity, dest, "Joker.vm", context);
-          dest = outputDirectory + "/" + PACKAGE_DIR +
-            "Prover" + name + "Binding.java";
+          dest = outputDirectory + "/" + packageDir + "/" + "Prover" + name + "Binding.java";
           write(velocity, dest, "Binding.vm", context);
         }
       }
       final String dest =
-        outputDirectory + "/" + PACKAGE_DIR + "ProverFactory.java";
+        outputDirectory + "/" + packageDir + "/" + "ProverFactory.java";
       VelocityContext context = new VelocityContext();
       context.put("jokers", jokers);
       write(velocity, dest, "Factory.vm", context);

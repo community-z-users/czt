@@ -82,8 +82,6 @@ public interface GlobalProperties
    */
   String toFileName(String packageName, String className);
 
-  String getBaseDir();
-  
   List<File> getTemplatePaths();
   
   BuildContext getBuildContext();

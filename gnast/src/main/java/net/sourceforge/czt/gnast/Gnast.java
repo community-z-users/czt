@@ -76,7 +76,10 @@ public class Gnast implements GlobalProperties
   private static final String PROPERTY_FILE = "gnast.properties";
   
   private static final String AST_FINALISER_PROP = "addAstFinaliser";
-
+  
+  private static final String DESTINATION_DEFAULT = ".";
+  private static final Boolean AST_FINALISER_DEFAULT = Boolean.FALSE;
+  
   /**
    * <p>
    * Project independent settings intended to be used
@@ -96,11 +99,6 @@ public class Gnast implements GlobalProperties
    */
   private Map<String,Project> namespaces_ = new HashMap<String,Project>();
 
-
-  /** The base directory of GnAST templates in the plugin */
-  private static final String BASE_TEMPLATES_DIR = "/vm/";
-  
-  
   /**
    * <p>A mapping from project names to the actual projects.</p>
    *
@@ -112,6 +110,8 @@ public class Gnast implements GlobalProperties
   private Map<String,Project> projects_ = new HashMap<String,Project>();
   
   private final GnastBuilder config;
+  
+  private Properties mapping = new Properties();
   
   private Set<String> changedBuildFiles = new HashSet<String>();
   
@@ -131,22 +131,27 @@ public class Gnast implements GlobalProperties
   {
     Properties gnastProperties = loadProperties(PROPERTY_FILE);
 
-    if (!config.destinationSet) {
+    if (config.destination == null) {
       // try reading from the properties
-      config.destination = new File(gnastProperties.getProperty("dest.dir", config.destination.getPath()));
+      // otherwise use the default - local dir "."
+      config.destination = new File(gnastProperties.getProperty("dest.dir", DESTINATION_DEFAULT));
     }
     defaultContext_ = removePrefix("vm.", gnastProperties);
     
-    if (config.addAstFinalizer) {
-      defaultContext_.put(AST_FINALISER_PROP, Boolean.TRUE);
-    } else {
+    if (config.addAstFinalizer == null) {
       // check if there is a property set for the finaliser, then convert it to Boolean
       // e.g. it may be "false" as a String
       Object astFinaliserVal = defaultContext_.get(AST_FINALISER_PROP);
       if (astFinaliserVal instanceof String) {
-        defaultContext_.put(AST_FINALISER_PROP, Boolean.parseBoolean((String) astFinaliserVal));
+        config.addAstFinalizer = Boolean.parseBoolean((String) astFinaliserVal);
+      } else {
+        // use default
+        config.addAstFinalizer = AST_FINALISER_DEFAULT;
       }
     }
+    
+    // put the property into context
+    defaultContext_.put(AST_FINALISER_PROP, AST_FINALISER_DEFAULT);
     
     if (config.verbosity.intValue() < Level.INFO.intValue())
     {
@@ -206,6 +211,12 @@ public class Gnast implements GlobalProperties
                                       .withDescription("Additional template directories")
                                       .create("t"));
     
+    argOptions.addOption(OptionBuilder.withArgName("file")
+                                      .hasArg()
+                                      .withLongOpt("mapping")
+                                      .withDescription("XML type mapping properties file")
+                                      .create("m"));
+    
     argOptions.addOption(OptionBuilder.withArgName("dir")
                                       .hasArg()
                                       .withLongOpt("source")
@@ -252,6 +263,7 @@ public class Gnast implements GlobalProperties
       .finalizers(line.hasOption("f"))
       .destination(toFile(line.getOptionValue("d")))
       .templates(templateDirs)
+      .mapping(toFile(line.getOptionValue("m")))
       .source(toFile(line.getOptionValue("s")))
       .namespace(line.getOptionValue("n"));
   }
@@ -278,25 +290,14 @@ public class Gnast implements GlobalProperties
       
       boolean projectsChanged = !resolveProjectFiles(config.source, false).isEmpty();
       
-      if (!projectsChanged && !config.destination.exists()) {
-        // destination does not exist - force generate all
-        projectsChanged = true;
-      }
-      
-      boolean needToGenerate = projectsChanged;
+      // generate all if the projects have changed, destination does not exist,
+      // or mapping has changed
+      boolean generateAll = projectsChanged || !config.destination.exists()
+          || !getFileChanges(config.mappingPropertiesFile).isEmpty();
       
       Set<String> changedBuildFiles = new HashSet<String>();
-      if (!projectsChanged) {
+      if (!generateAll) {
         // check if the templates have changed
-        
-        // get the base dir - may be in JAR!
-        File baseDir = Project.getFile(Project.getBaseDirResource(this, ""));
-        if (baseDir != null) {
-          // base dir can be resolved and is not in a JAR - check for changes
-          changedBuildFiles.addAll(getDirChanges(baseDir));
-        }
-        
-        // check other template paths for changes
         for (File templatePath : getTemplatePaths()) {
           changedBuildFiles.addAll(getDirChanges(templatePath));
         }
@@ -306,18 +307,20 @@ public class Gnast implements GlobalProperties
 //        if (config.destination.exists()) {
 //          changedBuildFiles.addAll(getDirChanges(config.destination));
 //        }
-        
-        needToGenerate = !changedBuildFiles.isEmpty();
       }
       
-      if (!needToGenerate) {
+      if (!generateAll && changedBuildFiles.isEmpty()) {
         // source schemas, template paths and build directory is up-to-date
         // no need to regenerate, so stop now
         return;
       }
       
-      this.forceGenerateAll = projectsChanged;
+      this.forceGenerateAll = generateAll;
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
+      
+      if (config.mappingPropertiesFile.exists()) {
+        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile.getPath());
+      }
       
       // first resolve all schema projects from the indicated source directory
       // this is necessary to resolve transitive dependencies
@@ -373,14 +376,26 @@ public class Gnast implements GlobalProperties
   }
   
   private Set<String> getDirChanges(File dir) {
+    return getFileChanges(dir, null);
+  }
+  
+  private Set<String> getFileChanges(File file) {
+    // a workaround for m2e EclipseBuildContext,
+    // which does not support BuildContext#hasDelta()
+    return getFileChanges(file.getParentFile(), new String[]{file.getName()});
+  }
+  
+  private Set<String> getFileChanges(File dir, String[] fileNames) {
     
     Set<String> dirChanges = new HashSet<String>();
     
     Scanner deleteScanner = config.buildContext.newDeleteScanner(dir);
+    deleteScanner.setIncludes(fileNames);
     deleteScanner.scan();
     dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
     
     Scanner changeScanner = config.buildContext.newScanner(dir);
+    deleteScanner.setIncludes(fileNames);
     changeScanner.scan();
     dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
     
@@ -407,7 +422,7 @@ public class Gnast implements GlobalProperties
     String name = url.toString();
     Project result = projects_.get(name);
     if (result == null) {
-      result = new Project(url, this);
+      result = new Project(url, mapping, this);
       projects_.put(name, result);
     }
     return result;
@@ -447,12 +462,6 @@ public class Gnast implements GlobalProperties
       + ".java";
   }
 
-  @Override
-  public String getBaseDir()
-  {
-    return BASE_TEMPLATES_DIR;
-  }
-  
   @Override
   public List<File> getTemplatePaths()
   {
@@ -508,7 +517,7 @@ public class Gnast implements GlobalProperties
    * If the given file cannot be found or read, logging
    * messages are written and the empty property map is
    * returned.  This means that the caller cannot distinguish
-   * whether an attempt to read a file was unseccessful or
+   * whether an attempt to read a file was unsuccessful or
    * the file did not contain properties.
    *
    * @param name the file to be read.
@@ -633,18 +642,22 @@ public class Gnast implements GlobalProperties
      */
     private Level verbosity = Level.SEVERE;
     
-    private boolean addAstFinalizer = false;
+    private Boolean addAstFinalizer = null;
     
     /**
      * The destination directory where all the generated files go in.
      */
-    private File destination = new File(".");
-    private boolean destinationSet = false;
+    private File destination = null;
     
     /**
      * The list of additional template paths (e.g. for extending templates).
      */
     private List<File> templatePaths = new ArrayList<File>();
+    
+    /**
+     * The mapping properties file.
+     */
+    private File mappingPropertiesFile = new File("mapping.properties");
     
     /**
      * The directory for ZML schema source files.
@@ -671,7 +684,13 @@ public class Gnast implements GlobalProperties
     public GnastBuilder destination(File destination) {
       if (destination != null) {
         this.destination = destination;
-        this.destinationSet = true;
+      }
+      return this;
+    }
+    
+    public GnastBuilder mapping(File mappingPropertiesFile) {
+      if (mappingPropertiesFile != null) {
+        this.mappingPropertiesFile = mappingPropertiesFile;
       }
       return this;
     }

@@ -44,8 +44,6 @@ public class Project
   // ##################### MEMBER VARIABLES #####################
   // ############################################################
 
-  private final String mappingFile_ = "mapping.properties";
-
   /**
    * The schema project.
    */
@@ -61,11 +59,6 @@ public class Project
    */
   private Apgen apgen_;
 
-  /**
-   * <p>The mapping properties.</p>
-   */
-  private Properties mapping_;
-
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -78,15 +71,14 @@ public class Project
    * @throws NullPointerException if <code>url</code> is
    *         <code>null</code>.
    */
-  public Project(URL url, GlobalProperties global)
+  public Project(URL url, Properties mapping, GlobalProperties global)
   {
     logFine("Reading schema " + url);
     if (url == null) throw new NullPointerException();
     global_ = global;
 
-    mapping_ = Gnast.loadProperties(mappingFile_);
     try {
-      project_ = new SchemaProject(url, mapping_, global_);
+      project_ = new SchemaProject(url, mapping, global_);
     }
     catch (javax.xml.parsers.ParserConfigurationException exception) {
       logSevere("Parse error while parsing " + url);
@@ -141,8 +133,7 @@ public class Project
   }
   
   /**
-   * Resolves the given template file in the template directory (checks if it exists).
-   * First checks the GnAST plugin itself, then scans the additional template paths.
+   * Resolves the given template file in one of the template directories (checks if it exists).
    * 
    * @param global
    * @param fileName
@@ -150,13 +141,7 @@ public class Project
    */
   public static String resolvePath(GlobalProperties global, String fileName)
   {
-    // first check if the file name is within the JAR (core GnAST template)
-    URL baseDirResource = getBaseDirResource(global, fileName);
-    if (baseDirResource != null){
-      return fileName;
-    }
-    
-    // now check if file exists somewhere in additional template paths
+    // check if file exists somewhere in template paths
     for (File templatePath : global.getTemplatePaths()) {
       String filePath = templatePath.getAbsolutePath() + "/" + fileName;
       if (new File(filePath).exists()) {
@@ -166,12 +151,6 @@ public class Project
     
     // not found
     return null;
-  }
-  
-  public static URL getBaseDirResource(GlobalProperties global, String fileName)
-  {
-    String jarPath = global.getBaseDir() + fileName;
-    return Project.class.getResource(jarPath);
   }
   
   public static File getFile(URL url) {
@@ -289,40 +268,39 @@ public class Project
     logEntering(methodName);
     boolean success = false;
     
-    File tempFile = null;
+    File file = new File(fileName);
+    Writer writer = null;
+    
+    // make parent directory structure
+    File parent = file.getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+    
     try {
-      tempFile = File.createTempFile("gnast", ".vr");
-      logFine("Using temporary file " + tempFile.toString());
-      FileWriter writer = new FileWriter(tempFile);
+      writer = new OutputStreamWriter(
+          global_.getBuildContext().newFileOutputStream(file));
+      
       apgen_.setWriter(writer);
-      if (apgen_.generate(Level.SEVERE)) {
-        writer.flush();
-        writer.close();
-        logInfo("Writing file " + fileName);
-        File file = new File(fileName);
-        new File(file.getParent()).mkdirs();
-        
-        Writer targetWriter = new OutputStreamWriter(
-            global_.getBuildContext().newFileOutputStream(file));
-        
-        FileReader reader = new FileReader(tempFile);
-        int c;
-        while ((c = reader.read()) != -1) {
-          targetWriter.write(c);
-        }
-        reader.close();
-        targetWriter.flush();
-        targetWriter.close();
-        success = true;
-      }
+      logInfo("Writing file " + fileName);
+      apgen_.generate(Level.SEVERE);
+      
+      success = true;
     }
     catch (IOException e) {
       logSevere(e.getMessage());
     } finally {
-      // try to delete the file
-      if (tempFile != null && !tempFile.delete()) {
-        tempFile.deleteOnExit();
+      
+      // close the output writer
+      if (writer != null) {
+        try {
+          writer.close();
+        }
+        catch (IOException e) {
+          logSevere(e.getMessage());
+        }
       }
+      
     }
 
     logExiting(methodName, new Boolean(success));
@@ -331,24 +309,13 @@ public class Project
 
   /**
    * Concatenates all template paths into one comma-separated string.
-   * 
-   * Uses the base template path (from this JAR) and all additionally
-   * indicated paths.
    * @return
    */
   private String getTemplatePathURLs() {
     
     List<URL> templatePaths = new ArrayList<URL>();
     
-    // first add the base path in GnAST JAR
-    URL baseUrl = Project.class.getResource(global_.getBaseDir());
-    if (baseUrl == null) {
-      throw new GnastException("Base template directory cannot be located at " + global_.getBaseDir());
-    } else {
-      templatePaths.add(baseUrl);
-    }
-    
-    // now add all additional paths
+    // add all paths as URLs
     for (File templateFile : global_.getTemplatePaths()) {
       try {
         URL url = templateFile.toURI().toURL();

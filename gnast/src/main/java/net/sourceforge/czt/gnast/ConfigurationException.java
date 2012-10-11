@@ -26,6 +26,8 @@ package net.sourceforge.czt.gnast;
  */
 public class ConfigurationException extends Exception
 {
+  private static final long serialVersionUID = 3393461749544945631L;
+
   public ConfigurationException()
   {
   }

@@ -30,6 +30,7 @@
   </properties>
 
   <modules>
+    <module>corejava-src</module>
     <module>corejava-z</module>
     <module>corejava-zpatt</module>
     <module>corejava-oz</module>
@@ -51,9 +52,11 @@
             <phase>generate-sources</phase>
             <configuration>
               <!-- Additional project-specific GnAST templates in every project. -->
-              <additionalTemplates>
+              <templates>
+                <templateDirectory>${project.basedir}/../corejava-src/src/main/resources/vm</templateDirectory>
                 <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
-              </additionalTemplates>
+              </templates>
+              <mappingFile>${project.basedir}/../corejava-src/src/main/resources/mapping.properties</mappingFile>
               <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
               <addAstFinaliser>false</addAstFinaliser>
               <verbose>true</verbose>
