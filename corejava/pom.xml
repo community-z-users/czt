@@ -56,7 +56,8 @@
                 <templateDirectory>${project.basedir}/../corejava-src/src/main/resources/vm</templateDirectory>
                 <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
               </templates>
-              <mappingFile>${project.basedir}/../corejava-src/src/main/resources/mapping.properties</mappingFile>
+              <!-- mapping.properties as classpath resource (in corejava-src module) -->
+              <mappingFileLocation>/mapping.properties</mappingFileLocation>
               <sourceSchemas>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/Circus.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/CircusPattern.xsd</schemaLocation>
@@ -78,6 +79,12 @@
             <!-- Depend on ZML to locate the ZML schema files -->
             <groupId>${czt.groupId}</groupId>
             <artifactId>zml</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
+          <dependency>
+            <!-- Depend on corejava-src to locate template files and mapping.properties -->
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>corejava-src</artifactId>
             <version>${czt.version}</version>
           </dependency>
         </dependencies>
