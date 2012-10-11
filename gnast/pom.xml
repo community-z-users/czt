@@ -1,17 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>gnast</artifactId>
   <packaging>jar</packaging>
+
   <name>CZT GnAST</name>
   <description>
-    Provides classes for generating AST classes from XML Schema files.
+    Provides AST class generator from XML Schema files.
   </description>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.velocity</groupId>
@@ -31,4 +35,15 @@
       <artifactId>plexus-container-default</artifactId>
     </dependency>
   </dependencies>
+  
+  <build>
+    <resources>
+      <resource>
+        <!-- Replace (filter) Maven variables in gnast.properties file (e.g. project version) -->
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+
 </project>
