@@ -45,7 +45,7 @@ public class GnastGenerateMojo
   /**
    * @parameter
    */
-  private File mappingFile;
+  private String mappingFileLocation;
   
   /**
    * @parameter
@@ -136,6 +136,7 @@ public class GnastGenerateMojo
       config = config.destination(outputDirectory);
     }
     
+    URL mappingFile = locateResource(mappingFileLocation);
     if (mappingFile != null) {
       config = config.mapping(mappingFile);
     }
@@ -175,6 +176,10 @@ public class GnastGenerateMojo
   }
   
   private URL locateResource(String resourceLocation) throws MojoExecutionException {
+    
+    if (resourceLocation == null) {
+      return null;
+    }
     
     if (locator == null) {
       locator = new DefaultResourceManager();

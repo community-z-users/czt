@@ -20,8 +20,8 @@
 package net.sourceforge.czt.gnast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -80,6 +80,7 @@ public class Gnast implements GlobalProperties
   
   private static final String DESTINATION_DEFAULT = ".";
   private static final Boolean AST_FINALISER_DEFAULT = Boolean.FALSE;
+  private static final String MAPPING_FILE_DEFAULT = "mapping.properties";
   
   /**
    * <p>
@@ -130,7 +131,7 @@ public class Gnast implements GlobalProperties
    */
   private Gnast(GnastBuilder config)
   {
-    Properties gnastProperties = loadProperties(PROPERTY_FILE);
+    Properties gnastProperties = loadProperties(findResource(PROPERTY_FILE));
 
     if (config.destination == null) {
       // try reading from the properties
@@ -264,31 +265,32 @@ public class Gnast implements GlobalProperties
       .finalizers(line.hasOption("f"))
       .destination(toFile(line.getOptionValue("d")))
       .templates(templateDirs)
-      .mapping(toFile(line.getOptionValue("m")))
+      .mapping(toURL(line.getOptionValue("m")))
       .sourceSchemas(schemaDirToURL(line.getOptionValue("s")))
       .namespace(line.getOptionValue("n"));
   }
   
-  private static File toFile(String path) {
+  private static File toFile(String path)
+  {
     if (path == null) {
       return null;
-    } else {
+    }
+    else {
       return new File(path);
     }
   }
   
   private static URL toURL(String path)
   {
-    if (path == null) {
-      return null;
-    }
-    else {
-      return toURL(new File(path));
-    }
+    return toURL(toFile(path));
   }
 
   private static URL toURL(File file)
   {
+    if (file == null) {
+      return null;
+    }
+    
     try {
       return file.toURI().toURL();
     }
@@ -329,11 +331,15 @@ public class Gnast implements GlobalProperties
 
     try {
       
+      if (config.mappingPropertiesFile == null) {
+        config.mappingPropertiesFile = findResource(MAPPING_FILE_DEFAULT);
+      }
+      
       // generate all if the source schemas have changed, destination does not exist,
       // or mapping has changed
       boolean generateAll = sourceSchemasChanged(config.sourceSchemas) 
           || !config.destination.exists()
-          || !getFileChanges(config.mappingPropertiesFile).isEmpty();
+          || !getURLChanges(config.mappingPropertiesFile).isEmpty();
       
       Set<String> changedBuildFiles = new HashSet<String>();
       if (!generateAll) {
@@ -358,8 +364,8 @@ public class Gnast implements GlobalProperties
       this.forceGenerateAll = generateAll;
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
       
-      if (config.mappingPropertiesFile.exists()) {
-        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile.getPath());
+      if (config.mappingPropertiesFile != null) {
+        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile);
       }
       
       // first resolve all schema projects from the indicated source directory
@@ -542,51 +548,74 @@ public class Gnast implements GlobalProperties
     String packageName = "net.sourceforge.czt.gnast";
     return Logger.getLogger(packageName + "." + getClassName());
   }
+  
+  /**
+   * Returns the URL of the given resource file.
+   * <p>
+   * First, the current working directory is tried, then the name is treated as a resource.
+   * If the given file cannot be found, {@code null} is returned.
+   * </p>
+   * 
+   * @param name the file to be located.
+   * @return the URL of the resource file, or {@code null} if not found.
+   */
+  private static URL findResource(String name)
+  {
+    if (name == null) {
+      return null;
+    }
+    
+    File file = new File(name);
+    if (file.exists()) {
+      return toURL(file);
+    } else {
+      URL resourceUrl = Gnast.class.getResource("/" + name);
+      if (resourceUrl == null) {
+        getLogger().log(Level.WARNING, "Cannot find resource " + name);
+      }
+      return resourceUrl;
+    }
+  }
 
   /**
-   * Returns the properties provided in the given file.
-   * First, the current working directory is tried,
-   * then the name is treated as a resource.
-   * If the given file cannot be found or read, logging
-   * messages are written and the empty property map is
-   * returned.  This means that the caller cannot distinguish
-   * whether an attempt to read a file was unsuccessful or
-   * the file did not contain properties.
-   *
-   * @param name the file to be read.
+   * Returns the properties provided in the given URL.
+   * <p>
+   * If the given file cannot be found or read, logging messages are written and the empty property
+   * map is returned. This means that the caller cannot distinguish whether an attempt to read a
+   * file was unsuccessful or the file did not contain properties.
+   * </p>
+   * 
+   * @param url the URL of a file to be read.
    * @return the properties contained in the file or the
-   *         empty property mapping (should never be
-   *         <code>null</code>).
+   *         empty property mapping (should never be {@code null}).
    */
-  public static Properties loadProperties(String name)
+  private static Properties loadProperties(URL url)
   {
     final String methodName = "loadProperties";
-    getLogger().entering(getClassName(), methodName, name);
+    getLogger().entering(getClassName(), methodName, url);
+    
     Properties erg = new Properties();
-    if (name != null) {
+    
+    if (url != null) {
+      InputStream urlStream = null;
       try {
-        erg.load(new FileInputStream(name));
+        urlStream = url.openStream();
+        erg.load(urlStream);
       }
-      catch (FileNotFoundException fnfe) {
-        URL url = Gnast.class.getResource("/" + name);
-        if (url != null) {
+      catch (IOException e) {
+        getLogger().log(Level.WARNING, "Cannot read property resource at " + url, e);
+      } finally {
+        if (urlStream != null) {
           try {
-            erg.load(url.openStream());
+            urlStream.close();
           }
-          catch (java.io.IOException ioe) {
-            getLogger().log(Level.WARNING, "Cannot read property resource {0}", name);
+          catch (IOException e) {
+            getLogger().log(Level.WARNING, "Cannot close property resource at " + url, e);
           }
         }
-        else {
-          getLogger().log(Level.WARNING, "Cannot find property file {0}", name);
-        }
-      }
-      catch (java.io.IOException ioe) {
-        getLogger().log(Level.WARNING, "Cannot read property file {0}", name);
       }
     }
-    if (name != null) {
-    }
+    
     getLogger().exiting(getClassName(), methodName, erg);
     return erg;
   }
@@ -690,7 +719,7 @@ public class Gnast implements GlobalProperties
     /**
      * The mapping properties file.
      */
-    private File mappingPropertiesFile = new File("mapping.properties");
+    private URL mappingPropertiesFile = null;
     
     /**
      * XML schema source files from which to generate ASTs.
@@ -721,7 +750,7 @@ public class Gnast implements GlobalProperties
       return this;
     }
     
-    public GnastBuilder mapping(File mappingPropertiesFile) {
+    public GnastBuilder mapping(URL mappingPropertiesFile) {
       if (mappingPropertiesFile != null) {
         this.mappingPropertiesFile = mappingPropertiesFile;
       }
