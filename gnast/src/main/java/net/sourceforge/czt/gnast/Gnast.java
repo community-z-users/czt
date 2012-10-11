@@ -76,6 +76,9 @@ public class Gnast implements GlobalProperties
   private static final String PROPERTY_FILE = "gnast.properties";
   
   private static final String AST_FINALISER_PROP = "addAstFinaliser";
+  
+  private static final String DESTINATION_DEFAULT = ".";
+  private static final Boolean AST_FINALISER_DEFAULT = Boolean.FALSE;
 
   /**
    * <p>
@@ -126,22 +129,27 @@ public class Gnast implements GlobalProperties
   {
     Properties gnastProperties = loadProperties(PROPERTY_FILE);
 
-    if (!config.destinationSet) {
+    if (config.destination == null) {
       // try reading from the properties
-      config.destination = new File(gnastProperties.getProperty("dest.dir", config.destination.getPath()));
+      // otherwise use the default - local dir "."
+      config.destination = new File(gnastProperties.getProperty("dest.dir", DESTINATION_DEFAULT));
     }
     defaultContext_ = removePrefix("vm.", gnastProperties);
     
-    if (config.addAstFinalizer) {
-      defaultContext_.put(AST_FINALISER_PROP, Boolean.TRUE);
-    } else {
+    if (config.addAstFinalizer == null) {
       // check if there is a property set for the finaliser, then convert it to Boolean
       // e.g. it may be "false" as a String
       Object astFinaliserVal = defaultContext_.get(AST_FINALISER_PROP);
       if (astFinaliserVal instanceof String) {
-        defaultContext_.put(AST_FINALISER_PROP, Boolean.parseBoolean((String) astFinaliserVal));
+        config.addAstFinalizer = Boolean.parseBoolean((String) astFinaliserVal);
+      } else {
+        // use default
+        config.addAstFinalizer = AST_FINALISER_DEFAULT;
       }
     }
+    
+    // put the property into context
+    defaultContext_.put(AST_FINALISER_PROP, AST_FINALISER_DEFAULT);
     
     if (config.verbosity.intValue() < Level.INFO.intValue())
     {
@@ -613,13 +621,12 @@ public class Gnast implements GlobalProperties
      */
     private Level verbosity = Level.SEVERE;
     
-    private boolean addAstFinalizer = false;
+    private Boolean addAstFinalizer = null;
     
     /**
      * The destination directory where all the generated files go in.
      */
-    private File destination = new File(".");
-    private boolean destinationSet = false;
+    private File destination = null;
     
     /**
      * The list of additional template paths (e.g. for extending templates).
@@ -651,7 +658,6 @@ public class Gnast implements GlobalProperties
     public GnastBuilder destination(File destination) {
       if (destination != null) {
         this.destination = destination;
-        this.destinationSet = true;
       }
       return this;
     }
