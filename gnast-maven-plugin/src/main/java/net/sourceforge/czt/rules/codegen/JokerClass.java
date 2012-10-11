@@ -23,8 +23,8 @@ import org.apache.xerces.xs.XSComplexTypeDefinition;
 
 public class JokerClass
 {
-  /*@ non_null */
-  private XSComplexTypeDefinition typeDef_;
+//  /*@ non_null */
+//  private XSComplexTypeDefinition typeDef_;
 
   /*@ non_null */
   private String name_;
@@ -32,7 +32,7 @@ public class JokerClass
   /*@ requires typeDef != null; */
   public JokerClass(XSComplexTypeDefinition typeDef)
   {
-    typeDef_ = typeDef;
+//    typeDef_ = typeDef;
     name_ = typeDef.getName();
   }
 
