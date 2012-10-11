@@ -55,7 +55,7 @@ import org.codehaus.plexus.util.Scanner;
  * @author Petra Malik
  * @author Andrius Velykis
  */
-public class Main
+public class GnastRuleCodegenMojo
   extends AbstractMojo 
 {
   private static String PACKAGE_DIR = "net/sourceforge/czt/rules/ast/";

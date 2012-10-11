@@ -19,7 +19,7 @@ import org.sonatype.plexus.build.incremental.BuildContext;
  * @author Petra Malik
  * @author Andrius Velykis
  */
-public class Main
+public class GnastGenerateMojo
   extends AbstractMojo 
 {
   /**
