@@ -60,7 +60,7 @@ public class ParserGenMojo
   private File outputDirectory;
   
   /**
-   * @parameter alias="templateFileLocation"
+   * @parameter
    * @required
    */
   private List<String> templates = new ArrayList<String>();
