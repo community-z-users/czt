@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -48,9 +47,10 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
+
+import static net.sourceforge.czt.gnast.ResourceUtils.getURLChanges;
 
 /**
  * <p>The GnAST command line user interface.</p>
@@ -420,55 +420,6 @@ public class Gnast implements GlobalProperties
     return false;
   }
   
-  private static Set<String> getURLChanges(BuildContext buildContext, URL url, boolean isDir) {
-    // get the url file - may be in JAR!
-    File file = getFile(url);
-    if (file != null) {
-      // file can be resolved as is not in JAR - check for changes
-      if (isDir) {
-        return getDirChanges(buildContext, file);
-      } else {
-        return getFileChanges(buildContext, file);
-      }
-    } else {
-      return Collections.emptySet();
-    }
-  }
-  
-  private static Set<String> getDirChanges(BuildContext buildContext, File dir) {
-    return getFileChanges(buildContext, dir, null);
-  }
-  
-  private static Set<String> getFileChanges(BuildContext buildContext, File file) {
-    // a workaround for m2e EclipseBuildContext,
-    // which does not support BuildContext#hasDelta()
-    return getFileChanges(buildContext, file.getParentFile(), new String[]{file.getName()});
-  }
-  
-  private static Set<String> getFileChanges(BuildContext buildContext, File dir, String[] fileNames) {
-    
-    Set<String> dirChanges = new HashSet<String>();
-    
-    Scanner deleteScanner = buildContext.newDeleteScanner(dir);
-    deleteScanner.setIncludes(fileNames);
-    deleteScanner.scan();
-    dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
-    
-    Scanner changeScanner = buildContext.newScanner(dir);
-    deleteScanner.setIncludes(fileNames);
-    changeScanner.scan();
-    dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
-    
-    // also add full paths
-    Set<String> dirChangesFullPaths = new HashSet<String>();
-    for (String relative : dirChanges) {
-      dirChangesFullPaths.add(dir + "/" + relative);
-    }
-    dirChanges.addAll(dirChangesFullPaths);
-    
-    return dirChanges;
-  }
-  
   // ################ INTERFACE GlobalProperties ####################
 
   @Override
@@ -577,7 +528,7 @@ public class Gnast implements GlobalProperties
         throw new GnastException(e);
       }
       
-      File file = getFile(fileUrl);
+      File file = ResourceUtils.getFile(fileUrl);
       if (file != null) {
         if (file.exists()) {
           return true;
@@ -608,20 +559,6 @@ public class Gnast implements GlobalProperties
     
     // not found
     return false;
-  }
-  
-  private static File getFile(URL url) {
-    
-    if (url == null) {
-      return null;
-    }
-    
-    if ("file".equals(url.getProtocol())) {
-      return new File(url.getFile());
-    }
-    
-    // for non-files, just return null
-    return null;
   }
 
   // ############################################################
