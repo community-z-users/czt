@@ -73,7 +73,7 @@ public class GnastRuleCodegenMojo
   private File outputDirectory;
 
   /**
-   * @parameter expression="${project.basedir}/src/main/resources/vm/"
+   * @parameter expression="${project.basedir}/src/main/resources/vm/gnast/"
    * @required
    */
   private File templateDirectory;
