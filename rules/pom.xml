@@ -38,7 +38,7 @@
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <sourceSchemaLocation>${project.basedir}/../zml/src/main/resources/net/sourceforge/czt/zml/xsd/ZPattern.xsd</sourceSchemaLocation>
+              <sourceSchemaLocation>net/sourceforge/czt/zml/xsd/ZPattern.xsd</sourceSchemaLocation>
               <packageName>net.sourceforge.czt.rules.ast</packageName>
             </configuration>
             <goals>
@@ -46,6 +46,14 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on ZML to locate the ZML schema files -->
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>zml</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
