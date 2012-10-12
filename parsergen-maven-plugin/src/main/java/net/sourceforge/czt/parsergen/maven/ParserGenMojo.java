@@ -182,7 +182,12 @@ public class ParserGenMojo
   {
     try {
       File file = resource.getFile();
-      return hasDelta(file);
+      if (file == null) {
+        // not a file - no changes then
+        return false;
+      } else {
+        return hasDelta(file);
+      }
     }
     catch (IOException e) {
       throw new MojoExecutionException("Invalid resource: " + resource.getName(), e);
@@ -198,7 +203,7 @@ public class ParserGenMojo
    */
   private boolean hasDelta(File file)
   {
-    if (file == null || file.getParentFile() == null) {
+    if (file.getParentFile() == null) {
       return buildContext.hasDelta(file);
     }
     
