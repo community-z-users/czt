@@ -31,14 +31,14 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>gnast-maven-plugin</artifactId>
         <version>1.6-SNAPSHOT</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <sourceSchema>${project.basedir}/../zml/src/main/resources/net/sourceforge/czt/zml/xsd/ZPattern.xsd</sourceSchema>
+              <sourceSchemaLocation>${project.basedir}/../zml/src/main/resources/net/sourceforge/czt/zml/xsd/ZPattern.xsd</sourceSchemaLocation>
               <packageName>net.sourceforge.czt.rules.ast</packageName>
             </configuration>
             <goals>
