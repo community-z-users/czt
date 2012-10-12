@@ -6,9 +6,9 @@
     <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
-  <artifactId>typechecker</artifactId>
+  <artifactId>typechecker-z</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Typechecker</name>
+  <name>CZT Typechecker Z</name>
   <description>
     Provides classes for typechecking a Z specification.
   </description>
