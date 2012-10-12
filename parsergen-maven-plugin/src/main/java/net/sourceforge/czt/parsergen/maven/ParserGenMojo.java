@@ -21,7 +21,9 @@ package net.sourceforge.czt.parsergen.maven;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
@@ -35,9 +37,8 @@ import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
-import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -52,6 +53,8 @@ import javax.xml.transform.stream.StreamSource;
 public class ParserGenMojo
   extends AbstractMojo
 {
+ 
+  private static final String TRANSFORMER_SOURCE = "/transformer/template2text.xsl";
   
   /**
    * @parameter expression="${project.build.directory}/generated-sources/parsergen"
@@ -287,42 +290,57 @@ public class ParserGenMojo
     }
   }
 
-  private void generate(File outFile,
-                        PlexusResource templateResource,
-                        String className,
-                        String packageName,
-                        String addExpr)
-    throws Exception
+  private void generate(File outFile, PlexusResource templateResource,
+      String className, String packageName, String addExpr) throws MojoExecutionException
   {
     
     if (! outFile.getParentFile().exists()) {
       outFile.getParentFile().mkdirs();
     }
     
-    OutputStream outputStream = buildContext.newFileOutputStream(outFile);
+    URL transformerSourceUrl = ParserGenMojo.class.getResource(TRANSFORMER_SOURCE);
+    if (transformerSourceUrl == null) {
+      throw new MojoExecutionException("Cannot locate file at " + TRANSFORMER_SOURCE);
+    }
     
     try {
-      Transformer t = getFactory().newTransformer(getTransformer());
-      t.setParameter("class", className);
-      t.setParameter("package", packageName);
-      t.setParameter("add", addExpr);
-      t.transform(new StreamSource(templateResource.getInputStream()),
-                  new StreamResult(outputStream));
+      
+      InputStream transformerStream = transformerSourceUrl.openStream();
+      try {
+
+        Transformer t = getFactory().newTransformer(new StreamSource(transformerStream));
+        t.setParameter("class", className);
+        t.setParameter("package", packageName);
+        t.setParameter("add", addExpr);
+
+        OutputStream outputStream = buildContext.newFileOutputStream(outFile);
+        try {
+
+          InputStream templateStream = templateResource.getInputStream();
+          try {
+            // perform the transformation - and close the streams afterwards
+            t.transform(new StreamSource(templateStream), new StreamResult(outputStream));
+          }
+          finally {
+            templateStream.close();
+          }
+        }
+        finally {
+          outputStream.close();
+        }
+      }
+      finally {
+        transformerStream.close();
+      }
     }
-    catch (TransformerConfigurationException e) {
+    catch (TransformerException e) {
       final String message = "Error generating file " + outFile;
       throw new MojoExecutionException(message, e);
-    } finally {
-      // close the output stream
-      outputStream.close();
     }
-  }
-
-  private Source getTransformer()
-    throws Exception
-  {
-    final String name = "/transformer/template2text.xsl";
-    return new StreamSource(getClass().getResource(name).openStream());
+    catch (IOException e) {
+      final String message = "Error generating file " + outFile;
+      throw new MojoExecutionException(message, e);
+    }
   }
 
 }
