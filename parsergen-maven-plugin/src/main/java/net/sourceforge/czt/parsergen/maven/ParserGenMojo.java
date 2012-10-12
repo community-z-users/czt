@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006, 2007, 2012  Petra Malik, Andrius Velykis
+  Copyright 2006, 2007, 2012  Petra Malik, Andrius Velykis
   
   This file is part of the CZT project.
 
@@ -33,7 +33,6 @@ import org.codehaus.plexus.resource.DefaultResourceManager;
 import org.codehaus.plexus.resource.PlexusResource;
 import org.codehaus.plexus.resource.ResourceManager;
 import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
-import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
@@ -190,41 +189,12 @@ public class ParserGenMojo
         // not a file - no changes then
         return false;
       } else {
-        return hasDelta(file);
+        return buildContext.hasDelta(file);
       }
     }
     catch (IOException e) {
       throw new MojoExecutionException("Invalid resource: " + resource.getName(), e);
     }
-  }
-  
-  /**
-   * A workaround for m2e EclipseBuildContext, which always returns {@code true}
-   * for {@link BuildContext#hasDelta(File)}. Using Scanner instead.
-   * 
-   * @param file
-   * @return
-   */
-  private boolean hasDelta(File file)
-  {
-    if (file.getParentFile() == null) {
-      return buildContext.hasDelta(file);
-    }
-    
-    File dir = file.getParentFile();
-    String[] fileName = new String[] { file.getName() };
-    
-    Scanner deleteScanner = buildContext.newDeleteScanner(dir);
-    deleteScanner.setIncludes(fileName);
-    deleteScanner.scan();
-    if (deleteScanner.getIncludedFiles().length > 0) {
-      return true;
-    }
-    
-    Scanner changeScanner = buildContext.newScanner(dir);
-    changeScanner.setIncludes(fileName);
-    changeScanner.scan();
-    return changeScanner.getIncludedFiles().length > 0;
   }
   
   private PlexusResource locateResource(String resourceLocation) throws MojoExecutionException {
