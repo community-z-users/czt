@@ -1,20 +1,20 @@
 /*
-  Copyright (C) 2005, 2006, 2007 Petra Malik
-  This file is part of the czt project.
+  Copyright 2005, 2006, 2007, 2012  Petra Malik, Andrius Velykis
+  
+  This file is part of the CZT project.
 
-  The czt project contains free software; you can redistribute it and/or modify
+  The CZT project is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The czt project is distributed in the hope that it will be useful,
+  The CZT project is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  along with CZT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 package net.sourceforge.czt.rules.codegen;
@@ -25,9 +25,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -54,7 +52,6 @@ import org.codehaus.plexus.resource.DefaultResourceManager;
 import org.codehaus.plexus.resource.PlexusResource;
 import org.codehaus.plexus.resource.ResourceManager;
 import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
-import org.codehaus.plexus.util.Scanner;
 
 
 /**
@@ -230,28 +227,6 @@ public class GnastRuleCodegenMojo
     Template template = velocity.getTemplate(templateName);
     template.merge(context, writer);
     writer.close();
-  }
-  
-  private Set<String> getDirChanges(File dir) {
-    
-    Set<String> dirChanges = new HashSet<String>();
-    
-    Scanner deleteScanner = buildContext.newDeleteScanner(dir);
-    deleteScanner.scan();
-    dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
-    
-    Scanner changeScanner = buildContext.newScanner(dir);
-    changeScanner.scan();
-    dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
-    
-    // also add full paths
-    Set<String> dirChangesFullPaths = new HashSet<String>();
-    for (String relative : dirChanges) {
-      dirChangesFullPaths.add(dir + "/" + relative);
-    }
-    dirChanges.addAll(dirChangesFullPaths);
-    
-    return dirChanges;
   }
   
   private URL locateResource(String resourceLocation) throws MojoExecutionException {
