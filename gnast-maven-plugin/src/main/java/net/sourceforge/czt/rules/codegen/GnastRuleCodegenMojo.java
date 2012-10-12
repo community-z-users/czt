@@ -76,7 +76,7 @@ public class GnastRuleCodegenMojo
    * @parameter expression="${project.basedir}/src/main/resources/vm/gnast/"
    * @required
    */
-  private File templateDirectory;
+  private String templateDirectory;
   
   /**
    * @parameter
@@ -134,8 +134,13 @@ public class GnastRuleCodegenMojo
         || !outputDirectory.exists();
     this.changedFiles = Collections.emptySet();
     
+    URL templateDirectoryUrl = locateResource(templateDirectory);
+    if (templateDirectoryUrl == null) {
+      throw new MojoExecutionException("Template directory location cannot be resolved: " + templateDirectory);
+    }
+    
     if (!generateAll) {
-      this.changedFiles = getDirChanges(templateDirectory);
+      this.changedFiles = ResourceUtils.getURLChanges(buildContext, templateDirectoryUrl, true);
       if (changedFiles.isEmpty()) {
         // nothing has changed - do not need to regenerate the code
         getLog().info( "No changes in source files - code is not regenerated." );
@@ -162,7 +167,15 @@ public class GnastRuleCodegenMojo
 
       RuntimeInstance velocity = new RuntimeInstance();
       Properties initProps = new Properties();
-      initProps.put("file.resource.loader.path", templateDirectory + "/");
+      
+      /*
+       * Use URL resource loader. This way we can indicate template roots both from the JAR files
+       * as well as from dependent project files.
+       */
+      initProps.put("resource.loader", "url");
+      initProps.put("url.resource.loader.root", templateDirectoryUrl.toString() + "/");
+      initProps.put("url.resource.loader.class", "org.apache.velocity.runtime.resource.loader.URLResourceLoader");
+      
       velocity.init(initProps);
     
       XSNamedMap map = model.getComponents(XSTypeDefinition.COMPLEX_TYPE);
