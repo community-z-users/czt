@@ -108,7 +108,7 @@ public class ResourceUtils
     dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
     
     Scanner changeScanner = buildContext.newScanner(dir);
-    deleteScanner.setIncludes(fileNames);
+    changeScanner.setIncludes(fileNames);
     changeScanner.scan();
     dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
     
