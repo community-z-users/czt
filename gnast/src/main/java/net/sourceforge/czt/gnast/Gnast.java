@@ -345,13 +345,13 @@ public class Gnast implements GlobalProperties
       // or mapping has changed
       boolean generateAll = sourceSchemasChanged(config.sourceSchemas) 
           || !config.destination.exists()
-          || !getURLChanges(config.mappingPropertiesFile, false).isEmpty();
+          || !getURLChanges(config.buildContext, config.mappingPropertiesFile, false).isEmpty();
       
       Set<String> changedBuildFiles = new HashSet<String>();
       if (!generateAll) {
         // check if the templates have changed
         for (URL templatePath : getTemplatePaths()) {
-          changedBuildFiles.addAll(getURLChanges(templatePath, true));
+          changedBuildFiles.addAll(getURLChanges(config.buildContext, templatePath, true));
         }
         
 // Avoid checking the destination for now - incremental build loops because /target is refreshed
@@ -412,7 +412,7 @@ public class Gnast implements GlobalProperties
   private boolean sourceSchemasChanged(Collection<URL> sourceSchemas)
   {
     for (URL schemaUrl : sourceSchemas) {
-      if (!getURLChanges(schemaUrl, false).isEmpty()) {
+      if (!getURLChanges(config.buildContext, schemaUrl, false).isEmpty()) {
         return true;
       }
     }
@@ -420,41 +420,41 @@ public class Gnast implements GlobalProperties
     return false;
   }
   
-  private Set<String> getURLChanges(URL url, boolean isDir) {
+  private static Set<String> getURLChanges(BuildContext buildContext, URL url, boolean isDir) {
     // get the url file - may be in JAR!
     File file = getFile(url);
     if (file != null) {
       // file can be resolved as is not in JAR - check for changes
       if (isDir) {
-        return getDirChanges(file);
+        return getDirChanges(buildContext, file);
       } else {
-        return getFileChanges(file);
+        return getFileChanges(buildContext, file);
       }
     } else {
       return Collections.emptySet();
     }
   }
   
-  private Set<String> getDirChanges(File dir) {
-    return getFileChanges(dir, null);
+  private static Set<String> getDirChanges(BuildContext buildContext, File dir) {
+    return getFileChanges(buildContext, dir, null);
   }
   
-  private Set<String> getFileChanges(File file) {
+  private static Set<String> getFileChanges(BuildContext buildContext, File file) {
     // a workaround for m2e EclipseBuildContext,
     // which does not support BuildContext#hasDelta()
-    return getFileChanges(file.getParentFile(), new String[]{file.getName()});
+    return getFileChanges(buildContext, file.getParentFile(), new String[]{file.getName()});
   }
   
-  private Set<String> getFileChanges(File dir, String[] fileNames) {
+  private static Set<String> getFileChanges(BuildContext buildContext, File dir, String[] fileNames) {
     
     Set<String> dirChanges = new HashSet<String>();
     
-    Scanner deleteScanner = config.buildContext.newDeleteScanner(dir);
+    Scanner deleteScanner = buildContext.newDeleteScanner(dir);
     deleteScanner.setIncludes(fileNames);
     deleteScanner.scan();
     dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
     
-    Scanner changeScanner = config.buildContext.newScanner(dir);
+    Scanner changeScanner = buildContext.newScanner(dir);
     deleteScanner.setIncludes(fileNames);
     changeScanner.scan();
     dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
