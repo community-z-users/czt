@@ -20,14 +20,17 @@
 package net.sourceforge.czt.parsergen.maven;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.resource.DefaultResourceManager;
+import org.codehaus.plexus.resource.PlexusResource;
+import org.codehaus.plexus.resource.ResourceManager;
+import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
 import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
@@ -57,10 +60,10 @@ public class ParserGenMojo
   private File outputDirectory;
   
   /**
-   * @parameter alias="templateFile"
+   * @parameter alias="templateFileLocation"
    * @required
    */
-  private List<File> templates = new ArrayList<File>();
+  private List<String> templates = new ArrayList<String>();
   
   /**
    * Comma-separated list of add: nodes
@@ -102,6 +105,12 @@ public class ParserGenMojo
    * @component
    */
   private BuildContext buildContext;
+  
+  /**
+   * Injected by Maven
+   * @component
+   */
+  private ResourceManager locator;
 
   // lazily initialised to avoid if nothing is generated
   private volatile TransformerFactory factory;
@@ -138,15 +147,17 @@ public class ParserGenMojo
 
       String addExpr = toAddExpr(addNodes);
 
-      for (File templateFile : templates) {
+      for (String templateLocation : templates) {
+        
+        PlexusResource templateResource = locateResource(templateLocation);
         
         // generate if it is fresh, or if the template file has changed
-        boolean generate = forceGenerate || hasDelta(templateFile);
+        boolean generate = forceGenerate || hasDelta(templateResource);
         if (!generate) {
           continue;
         }
 
-        String templateName = dropExtension(templateFile.getName());
+        String templateName = getFileName(templateResource.getName());
 
         String targetClassName = className != null ? className : templateName;
 
@@ -154,7 +165,7 @@ public class ParserGenMojo
             packageName.replace('.', File.separatorChar) + "/" + 
             targetClassName + "." + fileExtension;
 
-        generate(new File(targetFile), templateFile, targetClassName, packageName, addExpr);
+        generate(new File(targetFile), templateResource, targetClassName, packageName, addExpr);
       }
 
     }
@@ -164,6 +175,17 @@ public class ParserGenMojo
     catch (Exception e) {
       e.printStackTrace();
       throw new MojoExecutionException("Transformation failed", e);
+    }
+  }
+  
+  private boolean hasDelta(PlexusResource resource) throws MojoExecutionException
+  {
+    try {
+      File file = resource.getFile();
+      return hasDelta(file);
+    }
+    catch (IOException e) {
+      throw new MojoExecutionException("Invalid resource: " + resource.getName(), e);
     }
   }
   
@@ -180,12 +202,39 @@ public class ParserGenMojo
       return buildContext.hasDelta(file);
     }
     
-    File parent = file.getParentFile();
-    Scanner scanner = buildContext.newScanner(parent);
-    scanner.setIncludes(new String[] { file.getName() } );
-    scanner.scan();
+    File dir = file.getParentFile();
+    String[] fileName = new String[] { file.getName() };
     
-    return scanner.getIncludedFiles().length > 0;
+    Scanner deleteScanner = buildContext.newDeleteScanner(dir);
+    deleteScanner.setIncludes(fileName);
+    deleteScanner.scan();
+    if (deleteScanner.getIncludedFiles().length > 0) {
+      return true;
+    }
+    
+    Scanner changeScanner = buildContext.newScanner(dir);
+    changeScanner.setIncludes(fileName);
+    changeScanner.scan();
+    return changeScanner.getIncludedFiles().length > 0;
+  }
+  
+  private PlexusResource locateResource(String resourceLocation) throws MojoExecutionException {
+    
+    if (resourceLocation == null) {
+      return null;
+    }
+    
+    if (locator == null) {
+      locator = new DefaultResourceManager();
+    }
+    
+    try {
+      return locator.getResource(resourceLocation);
+    }
+    catch (ResourceNotFoundException e) {
+      throw new MojoExecutionException("Cannot find resource " + resourceLocation, e);
+    }
+    
   }
 
   private String toAddExpr(String addNodes)
@@ -204,19 +253,30 @@ public class ParserGenMojo
     return out.toString();
   }
 
-  private String dropExtension(String name)
+  private String getFileName(String path)
   {
-    int lastDot = name.lastIndexOf(".");
-    if (lastDot >= 0) {
-      return name.substring(0, lastDot);
+    // try both backslashes, e.g. for windows paths?
+    int lastSep1 = path.indexOf("/");
+    int lastSep2 = path.indexOf("\\");
+    int lastSep = Math.max(lastSep1, lastSep2);
+
+    String nameExt;
+    if (lastSep >= 0) {
+      nameExt = path.substring(lastSep + 1);
+    } else {
+      nameExt = path;
     }
-    else {
-      return name;
+
+    int lastDot = nameExt.lastIndexOf(".");
+    if (lastDot >= 0) {
+      return nameExt.substring(0, lastDot);
+    } else {
+      return nameExt;
     }
   }
 
   private void generate(File outFile,
-                        File templateFile,
+                        PlexusResource templateResource,
                         String className,
                         String packageName,
                         String addExpr)
@@ -234,7 +294,7 @@ public class ParserGenMojo
       t.setParameter("class", className);
       t.setParameter("package", packageName);
       t.setParameter("add", addExpr);
-      t.transform(new StreamSource(new FileInputStream(templateFile)),
+      t.transform(new StreamSource(templateResource.getInputStream()),
                   new StreamResult(outputStream));
     }
     catch (TransformerConfigurationException e) {
@@ -246,7 +306,7 @@ public class ParserGenMojo
     }
   }
 
-  public Source getTransformer()
+  private Source getTransformer()
     throws Exception
   {
     final String name = "/transformer/template2text.xsl";
