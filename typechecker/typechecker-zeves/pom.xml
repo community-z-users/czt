@@ -21,7 +21,7 @@
     </dependency>    
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>            
+      <artifactId>typechecker-z</artifactId>            
     </dependency> 
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -31,7 +31,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

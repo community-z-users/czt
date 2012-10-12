@@ -262,12 +262,12 @@
       <!-- CZT Typechecker -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker</artifactId>
+        <artifactId>typechecker-z</artifactId>
         <version>${czt.version}</version>
       </dependency>
       <dependency>
         <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker</artifactId>
+        <artifactId>typechecker-z</artifactId>
         <version>${czt.version}</version>
         <type>test-jar</type>
         <scope>test</scope>
