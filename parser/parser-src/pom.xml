@@ -4,7 +4,7 @@
 
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>parser</artifactId>
+    <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
 
