@@ -20,8 +20,10 @@
 package net.sourceforge.czt.rules.codegen;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,6 +31,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import net.sourceforge.czt.gnast.ResourceUtils;
 
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
@@ -46,6 +50,10 @@ import org.apache.xerces.xs.*;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.resource.DefaultResourceManager;
+import org.codehaus.plexus.resource.PlexusResource;
+import org.codehaus.plexus.resource.ResourceManager;
+import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
 import org.codehaus.plexus.util.Scanner;
 
 
@@ -74,7 +82,7 @@ public class GnastRuleCodegenMojo
    * @parameter
    * @required
    */
-  private File sourceSchema;
+  private String sourceSchemaLocation;
   
   /**
    * @parameter
@@ -94,6 +102,12 @@ public class GnastRuleCodegenMojo
    */
   private BuildContext buildContext;
   
+  /**
+   * Injected by Maven
+   * @component
+   */
+  private ResourceManager locator;
+  
   private Set<String> changedFiles = Collections.emptySet();
   private boolean generateAll = true;
   
@@ -110,8 +124,14 @@ public class GnastRuleCodegenMojo
       buildContext = new DefaultBuildContext();
     }
     
+    URL sourceSchemaUrl = locateResource(sourceSchemaLocation);
+    if (sourceSchemaUrl == null) {
+      throw new MojoExecutionException("XML schema location cannot be resolved: " + sourceSchemaLocation);
+    }
+    
     // if the schema has changed, or output directory does not exist, generate all
-    this.generateAll = buildContext.hasDelta(sourceSchema) || !outputDirectory.exists();
+    this.generateAll = !ResourceUtils.getURLChanges(buildContext, sourceSchemaUrl, false).isEmpty()
+        || !outputDirectory.exists();
     this.changedFiles = Collections.emptySet();
     
     if (!generateAll) {
@@ -138,7 +158,7 @@ public class GnastRuleCodegenMojo
       DOMErrorHandler errorHandler = new ErrorHandler();
       config.setParameter("error-handler", errorHandler);
       config.setParameter("validate", Boolean.TRUE);
-      XSModel model = schemaLoader.loadURI(sourceSchema.toURI().toString());
+      XSModel model = schemaLoader.loadURI(sourceSchemaUrl.toURI().toString());
 
       RuntimeInstance velocity = new RuntimeInstance();
       Properties initProps = new Properties();
@@ -219,6 +239,29 @@ public class GnastRuleCodegenMojo
     dirChanges.addAll(dirChangesFullPaths);
     
     return dirChanges;
+  }
+  
+  private URL locateResource(String resourceLocation) throws MojoExecutionException {
+    
+    if (resourceLocation == null) {
+      return null;
+    }
+    
+    if (locator == null) {
+      locator = new DefaultResourceManager();
+    }
+    
+    try {
+      PlexusResource resource = locator.getResource(resourceLocation);
+      return resource.getURL();
+    }
+    catch (ResourceNotFoundException e) {
+      throw new MojoExecutionException("Cannot find resource " + resourceLocation, e);
+    }
+    catch (IOException e) {
+      throw new MojoExecutionException("Cannot find resource URL " + resourceLocation, e);
+    }
+    
   }
   
 }
