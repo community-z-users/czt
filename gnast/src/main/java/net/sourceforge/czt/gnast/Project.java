@@ -1,26 +1,25 @@
 /*
-  Copyright 2003, 2005, 2006, 2007 Petra Malik
-  This file is part of the czt project.
+  Copyright 2003, 2005, 2006, 2007, 2012  Petra Malik, Andrius Velykis
+  
+  This file is part of the CZT project.
 
-  The czt project contains free software; you can redistribute it and/or modify
+  The CZT project is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The czt project is distributed in the hope that it will be useful,
+  The CZT project is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  along with CZT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 package net.sourceforge.czt.gnast;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
@@ -132,41 +131,6 @@ public class Project
     logExiting(methodName);
   }
   
-  /**
-   * Resolves the given template file in one of the template directories (checks if it exists).
-   * 
-   * @param global
-   * @param fileName
-   * @return
-   */
-  public static String resolvePath(GlobalProperties global, String fileName)
-  {
-    // check if file exists somewhere in template paths
-    for (File templatePath : global.getTemplatePaths()) {
-      String filePath = templatePath.getAbsolutePath() + "/" + fileName;
-      if (new File(filePath).exists()) {
-        return fileName;
-      }
-    }
-    
-    // not found
-    return null;
-  }
-  
-  public static File getFile(URL url) {
-    
-    if (url == null) {
-      return null;
-    }
-    
-    if ("file".equals(url.getProtocol())) {
-      return new File(url.getFile());
-    }
-    
-    // for non-files, just return null
-    return null;
-  }
-
   protected void generate(String id)
   {
     String name = project_.getClassName(id);
@@ -183,10 +147,10 @@ public class Project
     String qualifiedJavaName = getBasePackage() + "." + packageName + "." + javaName;
     
     // check fully qualified name
-    String addCodeFilename = resolvePath(global_, qualifiedJavaName);
+    String addCodeFilename = global_.resolvePath(qualifiedJavaName);
     if (addCodeFilename == null) {
       // check short name
-      addCodeFilename = resolvePath(global_, javaName);
+      addCodeFilename = global_.resolvePath(javaName);
     }
 
     Map<String,Object> map = new HashMap<String,Object>();
@@ -316,14 +280,8 @@ public class Project
     List<URL> templatePaths = new ArrayList<URL>();
     
     // add all paths as URLs
-    for (File templateFile : global_.getTemplatePaths()) {
-      try {
-        URL url = templateFile.toURI().toURL();
-        templatePaths.add(url);
-      }
-      catch (MalformedURLException e) {
-        throw new GnastException(e);
-      }
+    for (URL templateDir : global_.getTemplatePaths()) {
+      templatePaths.add(templateDir);
     }
     
     StringBuilder concat = new StringBuilder();
@@ -331,6 +289,10 @@ public class Project
     for (URL templatePath : templatePaths) {
       concat.append(sep);
       concat.append(templatePath);
+      if (!templatePath.toString().endsWith("/")) {
+        // append directory separator at the end, otherwise lookup fails
+        concat.append("/");
+      }
       sep = ",";
     }
     

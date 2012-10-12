@@ -1,31 +1,31 @@
 /*
-  Copyright 2003, 2005, 2006, 2007, 2012 Petra Malik, Andrius Velykis
-  This file is part of the czt project.
+  Copyright 2003, 2005, 2006, 2007, 2012  Petra Malik, Andrius Velykis
+  
+  This file is part of the CZT project.
 
-  The czt project contains free software; you can redistribute it and/or modify
+  The CZT project is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The czt project is distributed in the hope that it will be useful,
+  The CZT project is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  along with CZT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 package net.sourceforge.czt.gnast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -47,9 +47,10 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
+
+import static net.sourceforge.czt.gnast.ResourceUtils.getURLChanges;
 
 /**
  * <p>The GnAST command line user interface.</p>
@@ -79,6 +80,7 @@ public class Gnast implements GlobalProperties
   
   private static final String DESTINATION_DEFAULT = ".";
   private static final Boolean AST_FINALISER_DEFAULT = Boolean.FALSE;
+  private static final String MAPPING_FILE_DEFAULT = "mapping.properties";
   
   /**
    * <p>
@@ -116,6 +118,12 @@ public class Gnast implements GlobalProperties
   private Set<String> changedBuildFiles = new HashSet<String>();
   
   private boolean forceGenerateAll = true;
+  
+  /**
+   * A cache for path resolution. Needed because checking if file name exists
+   * can be an expensive operation - hopefully the cache can help somewhat.
+   */
+  private final Map<String, Boolean> pathResolvedCache = new HashMap<String, Boolean>();
 
 
   // ############################################################
@@ -129,7 +137,7 @@ public class Gnast implements GlobalProperties
    */
   private Gnast(GnastBuilder config)
   {
-    Properties gnastProperties = loadProperties(PROPERTY_FILE);
+    Properties gnastProperties = loadProperties(findResource(PROPERTY_FILE));
 
     if (config.destination == null) {
       // try reading from the properties
@@ -253,9 +261,9 @@ public class Gnast implements GlobalProperties
                 : Level.OFF));
     
     String[] templates = line.getOptionValues("t");
-    List<File> templateDirs = new ArrayList<File>();
+    List<URL> templateDirs = new ArrayList<URL>();
     for (String path : templates) {
-      templateDirs.add(new File(path));
+      templateDirs.add(toURL(path));
     }
     
     return new GnastBuilder()
@@ -263,17 +271,58 @@ public class Gnast implements GlobalProperties
       .finalizers(line.hasOption("f"))
       .destination(toFile(line.getOptionValue("d")))
       .templates(templateDirs)
-      .mapping(toFile(line.getOptionValue("m")))
-      .source(toFile(line.getOptionValue("s")))
+      .mapping(toURL(line.getOptionValue("m")))
+      .sourceSchemas(schemaDirToURL(line.getOptionValue("s")))
       .namespace(line.getOptionValue("n"));
   }
   
-  private static File toFile(String path) {
+  private static File toFile(String path)
+  {
     if (path == null) {
       return null;
-    } else {
+    }
+    else {
       return new File(path);
     }
+  }
+  
+  private static URL toURL(String path)
+  {
+    return toURL(toFile(path));
+  }
+
+  private static URL toURL(File file)
+  {
+    if (file == null) {
+      return null;
+    }
+    
+    try {
+      return file.toURI().toURL();
+    }
+    catch (MalformedURLException e) {
+      throw new GnastException("File " + file + " cannot be converted to URL: " + e.getMessage(), e);
+    }
+  }
+  
+  private static Collection<URL> schemaDirToURL(String path) {
+    return schemaDirToURL(path != null ? new File(path) : null);
+  }
+  
+  public static Collection<URL> schemaDirToURL(File dir) {
+    
+    if (dir == null) {
+      return Collections.emptySet();
+    }
+    
+    Set<URL> fileUrls = new HashSet<URL>();
+    for (File file : dir.listFiles()) {
+      if (file.getName().endsWith(".xsd")) {
+        fileUrls.add(toURL(file));
+      }
+    }
+    
+    return fileUrls;
   }
 
   // ********************* OTHERS *************************
@@ -288,18 +337,21 @@ public class Gnast implements GlobalProperties
 
     try {
       
-      boolean projectsChanged = !resolveProjectFiles(config.source, false).isEmpty();
+      if (config.mappingPropertiesFile == null) {
+        config.mappingPropertiesFile = findResource(MAPPING_FILE_DEFAULT);
+      }
       
-      // generate all if the projects have changed, destination does not exist,
+      // generate all if the source schemas have changed, destination does not exist,
       // or mapping has changed
-      boolean generateAll = projectsChanged || !config.destination.exists()
-          || !getFileChanges(config.mappingPropertiesFile).isEmpty();
+      boolean generateAll = sourceSchemasChanged(config.sourceSchemas) 
+          || !config.destination.exists()
+          || !getURLChanges(config.buildContext, config.mappingPropertiesFile, false).isEmpty();
       
       Set<String> changedBuildFiles = new HashSet<String>();
       if (!generateAll) {
         // check if the templates have changed
-        for (File templatePath : getTemplatePaths()) {
-          changedBuildFiles.addAll(getDirChanges(templatePath));
+        for (URL templatePath : getTemplatePaths()) {
+          changedBuildFiles.addAll(getURLChanges(config.buildContext, templatePath, true));
         }
         
 // Avoid checking the destination for now - incremental build loops because /target is refreshed
@@ -318,19 +370,19 @@ public class Gnast implements GlobalProperties
       this.forceGenerateAll = generateAll;
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
       
-      if (config.mappingPropertiesFile.exists()) {
-        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile.getPath());
+      if (config.mappingPropertiesFile != null) {
+        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile);
       }
       
       // first resolve all schema projects from the indicated source directory
       // this is necessary to resolve transitive dependencies
-      resolveProjects(config.source);
+      resolveProjects(config.sourceSchemas);
       
       // now locate the required target project schema by its namespace
       Project targetProject = namespaces_.get(config.namespace);
       if (targetProject == null) {
         throw new GnastException("Cannot find schema with target namespace " + config.namespace
-            + " in source directory " + config.source);
+            + " in given locations " + config.sourceSchemas);
       }
       
       // generate the ASTs
@@ -349,64 +401,23 @@ public class Gnast implements GlobalProperties
     }
   }
   
-  private void resolveProjects(File sourceDir)
+  private void resolveProjects(Collection<URL> sourceSchemas)
   {
-    // ignore changes - take all project files
-    List<File> allProjectFiles = resolveProjectFiles(sourceDir, true);
-    
-    for (File schemaFile : allProjectFiles) {
-      Project project = getProject(schemaFile);
+    for (URL schemaUrl : sourceSchemas) {
+      Project project = getProject(schemaUrl);
       namespaces_.put(project.getTargetNamespace(), project);
     }
   }
   
-  private List<File> resolveProjectFiles(File sourceDir, boolean ignoreDelta)
+  private boolean sourceSchemasChanged(Collection<URL> sourceSchemas)
   {
-    Scanner scanner = config.buildContext.newScanner(sourceDir, ignoreDelta);
-    scanner.setIncludes(new String[]{"*.xsd"});
-    scanner.scan();
-
-    String[] includedFiles = scanner.getIncludedFiles();
-    List<File> projectFiles = new ArrayList<File>();
-    for (String schemaFile : includedFiles) {
-      projectFiles.add(new File(sourceDir + "/" + schemaFile));
+    for (URL schemaUrl : sourceSchemas) {
+      if (!getURLChanges(config.buildContext, schemaUrl, false).isEmpty()) {
+        return true;
+      }
     }
-
-    return projectFiles;
-  }
-  
-  private Set<String> getDirChanges(File dir) {
-    return getFileChanges(dir, null);
-  }
-  
-  private Set<String> getFileChanges(File file) {
-    // a workaround for m2e EclipseBuildContext,
-    // which does not support BuildContext#hasDelta()
-    return getFileChanges(file.getParentFile(), new String[]{file.getName()});
-  }
-  
-  private Set<String> getFileChanges(File dir, String[] fileNames) {
     
-    Set<String> dirChanges = new HashSet<String>();
-    
-    Scanner deleteScanner = config.buildContext.newDeleteScanner(dir);
-    deleteScanner.setIncludes(fileNames);
-    deleteScanner.scan();
-    dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
-    
-    Scanner changeScanner = config.buildContext.newScanner(dir);
-    deleteScanner.setIncludes(fileNames);
-    changeScanner.scan();
-    dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
-    
-    // also add full paths
-    Set<String> dirChangesFullPaths = new HashSet<String>();
-    for (String relative : dirChanges) {
-      dirChangesFullPaths.add(dir + "/" + relative);
-    }
-    dirChanges.addAll(dirChangesFullPaths);
-    
-    return dirChanges;
+    return false;
   }
   
   // ################ INTERFACE GlobalProperties ####################
@@ -426,17 +437,6 @@ public class Gnast implements GlobalProperties
       projects_.put(name, result);
     }
     return result;
-  }
-  
-  private Project getProject(File file)
-  {
-    try {
-      URL url = file.toURI().toURL();
-      return getProject(url);
-    }
-    catch (MalformedURLException e) {
-      throw new GnastException(e);
-    }
   }
 
   @Override
@@ -463,7 +463,7 @@ public class Gnast implements GlobalProperties
   }
 
   @Override
-  public List<File> getTemplatePaths()
+  public List<URL> getTemplatePaths()
   {
     return config.templatePaths;
   }
@@ -484,6 +484,81 @@ public class Gnast implements GlobalProperties
   public boolean forceGenerateAll()
   {
     return forceGenerateAll;
+  }
+  
+  /**
+   * Resolves the given template file in one of the template directories (checks if it exists).
+   * 
+   * @param fileName
+   * @return
+   */
+  @Override
+  public String resolvePath(String fileName)
+  {
+    
+    Boolean cachedResolved = pathResolvedCache.get(fileName);
+    if (cachedResolved != null) {
+      
+      if (cachedResolved.booleanValue()) {
+        // cached and resolvable
+        return fileName;
+      } else {
+        // cached, but not resolvable 
+        return null;
+      }
+    }
+    
+    // not cached - try resolving
+    boolean resolved = canResolvePath(fileName);
+    // cache
+    pathResolvedCache.put(fileName, resolved);
+    
+    return resolved ? fileName : null;
+  }
+  
+  private boolean canResolvePath(String fileName) {
+    // check if file exists somewhere in template paths
+    for (URL templatePath : getTemplatePaths()) {
+      
+      URL fileUrl;
+      try {
+        fileUrl = new URL(templatePath.toString() + "/" + fileName);
+      }
+      catch (MalformedURLException e) {
+        throw new GnastException(e);
+      }
+      
+      File file = ResourceUtils.getFile(fileUrl);
+      if (file != null) {
+        if (file.exists()) {
+          return true;
+        }
+      } else {
+        // try opening a stream to see whether it is a valid URL
+        
+        InputStream testStream = null;
+        try {
+          testStream = fileUrl.openStream();
+          return true;
+        }
+        catch (IOException e) {
+          // ignore - cannot open a stream, so file does not exist
+        }
+        finally {
+          if (testStream != null) {
+            try {
+              testStream.close();
+            }
+            catch (IOException e) {
+              // ignore
+            }
+          }
+        }
+      }
+    }
+    
+    // not found
+    return false;
   }
 
   // ############################################################
@@ -509,51 +584,74 @@ public class Gnast implements GlobalProperties
     String packageName = "net.sourceforge.czt.gnast";
     return Logger.getLogger(packageName + "." + getClassName());
   }
+  
+  /**
+   * Returns the URL of the given resource file.
+   * <p>
+   * First, the current working directory is tried, then the name is treated as a resource.
+   * If the given file cannot be found, {@code null} is returned.
+   * </p>
+   * 
+   * @param name the file to be located.
+   * @return the URL of the resource file, or {@code null} if not found.
+   */
+  private static URL findResource(String name)
+  {
+    if (name == null) {
+      return null;
+    }
+    
+    File file = new File(name);
+    if (file.exists()) {
+      return toURL(file);
+    } else {
+      URL resourceUrl = Gnast.class.getResource("/" + name);
+      if (resourceUrl == null) {
+        getLogger().log(Level.WARNING, "Cannot find resource " + name);
+      }
+      return resourceUrl;
+    }
+  }
 
   /**
-   * Returns the properties provided in the given file.
-   * First, the current working directory is tried,
-   * then the name is treated as a resource.
-   * If the given file cannot be found or read, logging
-   * messages are written and the empty property map is
-   * returned.  This means that the caller cannot distinguish
-   * whether an attempt to read a file was unsuccessful or
-   * the file did not contain properties.
-   *
-   * @param name the file to be read.
+   * Returns the properties provided in the given URL.
+   * <p>
+   * If the given file cannot be found or read, logging messages are written and the empty property
+   * map is returned. This means that the caller cannot distinguish whether an attempt to read a
+   * file was unsuccessful or the file did not contain properties.
+   * </p>
+   * 
+   * @param url the URL of a file to be read.
    * @return the properties contained in the file or the
-   *         empty property mapping (should never be
-   *         <code>null</code>).
+   *         empty property mapping (should never be {@code null}).
    */
-  public static Properties loadProperties(String name)
+  private static Properties loadProperties(URL url)
   {
     final String methodName = "loadProperties";
-    getLogger().entering(getClassName(), methodName, name);
+    getLogger().entering(getClassName(), methodName, url);
+    
     Properties erg = new Properties();
-    if (name != null) {
+    
+    if (url != null) {
+      InputStream urlStream = null;
       try {
-        erg.load(new FileInputStream(name));
+        urlStream = url.openStream();
+        erg.load(urlStream);
       }
-      catch (FileNotFoundException fnfe) {
-        URL url = Gnast.class.getResource("/" + name);
-        if (url != null) {
+      catch (IOException e) {
+        getLogger().log(Level.WARNING, "Cannot read property resource at " + url, e);
+      } finally {
+        if (urlStream != null) {
           try {
-            erg.load(url.openStream());
+            urlStream.close();
           }
-          catch (java.io.IOException ioe) {
-            getLogger().log(Level.WARNING, "Cannot read property resource {0}", name);
+          catch (IOException e) {
+            getLogger().log(Level.WARNING, "Cannot close property resource at " + url, e);
           }
         }
-        else {
-          getLogger().log(Level.WARNING, "Cannot find property file {0}", name);
-        }
-      }
-      catch (java.io.IOException ioe) {
-        getLogger().log(Level.WARNING, "Cannot read property file {0}", name);
       }
     }
-    if (name != null) {
-    }
+    
     getLogger().exiting(getClassName(), methodName, erg);
     return erg;
   }
@@ -652,17 +750,17 @@ public class Gnast implements GlobalProperties
     /**
      * The list of additional template paths (e.g. for extending templates).
      */
-    private List<File> templatePaths = new ArrayList<File>();
+    private List<URL> templatePaths = new ArrayList<URL>();
     
     /**
      * The mapping properties file.
      */
-    private File mappingPropertiesFile = new File("mapping.properties");
+    private URL mappingPropertiesFile = null;
     
     /**
-     * The directory for ZML schema source files.
+     * XML schema source files from which to generate ASTs.
      */
-    private File source = new File(".");
+    private Set<URL> sourceSchemas = Collections.emptySet();
     
     /**
      * The generated project namespace.
@@ -688,22 +786,20 @@ public class Gnast implements GlobalProperties
       return this;
     }
     
-    public GnastBuilder mapping(File mappingPropertiesFile) {
+    public GnastBuilder mapping(URL mappingPropertiesFile) {
       if (mappingPropertiesFile != null) {
         this.mappingPropertiesFile = mappingPropertiesFile;
       }
       return this;
     }
     
-    public GnastBuilder templates(List<File> templatePaths) {
+    public GnastBuilder templates(List<URL> templatePaths) {
       this.templatePaths.addAll(templatePaths);
       return this;
     }
     
-    public GnastBuilder source(File source) {
-      if (source != null) {
-        this.source = source;
-      }
+    public GnastBuilder sourceSchemas(Collection<URL> sourceSchemas) {
+      this.sourceSchemas = new HashSet<URL>(sourceSchemas);
       return this;
     }
     

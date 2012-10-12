@@ -53,11 +53,21 @@
             <configuration>
               <!-- Additional project-specific GnAST templates in every project. -->
               <templates>
-                <templateDirectory>${project.basedir}/../corejava-src/src/main/resources/vm</templateDirectory>
-                <templateDirectory>${project.basedir}/src/main/resources/vm</templateDirectory>
+                <templateDirectory>${project.basedir}/src/main/resources/vm/gnast</templateDirectory>
+                <!-- the common /vm/gnast directory is a classpath resource (in corejava-src module).
+                     Added second to allow overriding of base templates if needed -->
+                <templateDirectory>/vm/gnast</templateDirectory>
               </templates>
-              <mappingFile>${project.basedir}/../corejava-src/src/main/resources/mapping.properties</mappingFile>
-              <sourceDirectory>${basedir}/../../zml/src/main/resources/net/sourceforge/czt/zml/xsd</sourceDirectory>
+              <!-- gnast-mapping.properties as classpath resource (in corejava-src module) -->
+              <mappingFileLocation>/gnast-mapping.properties</mappingFileLocation>
+              <sourceSchemas>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Circus.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/CircusPattern.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Object-Z.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/Z.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/ZEves.xsd</schemaLocation>
+                <schemaLocation>net/sourceforge/czt/zml/xsd/ZPattern.xsd</schemaLocation>
+              </sourceSchemas>
               <addAstFinaliser>false</addAstFinaliser>
               <verbose>true</verbose>
             </configuration>
@@ -66,6 +76,20 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on ZML to locate the ZML schema files -->
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>zml</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
+          <dependency>
+            <!-- Depend on corejava-src to locate template files and mapping.properties -->
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>corejava-src</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
