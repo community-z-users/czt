@@ -143,7 +143,8 @@ public class ParserGenMojo
         project.addCompileSourceRoot(outputDirectory.getPath());
       }
       
-      boolean forceGenerate = !outputDirectory.exists();
+      // force generation on a non-incremental build
+      boolean forceGenerate = !buildContext.isIncremental() || !outputDirectory.exists();
 
       String addExpr = toAddExpr(addNodes);
 
