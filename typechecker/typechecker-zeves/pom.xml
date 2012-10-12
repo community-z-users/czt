@@ -8,7 +8,7 @@
   </parent>
   <artifactId>typechecker-zeves</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Z/EVES (proofs) Typechecker</name>
+  <name>CZT Typechecker Z/EVES</name>
   <description>Provides classes for typechecking Z/EVES proofs.</description>
   <dependencies>
      <dependency>

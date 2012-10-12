@@ -8,9 +8,9 @@
   </parent>
   <artifactId>typechecker-oz</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Object-Z Typechecker</name>
+  <name>CZT Typechecker Object-Z</name>
   <description>
-    Provides classes for typechecking Object Z specifications.
+    Provides classes for typechecking Object-Z specifications.
   </description>
   <dependencies>
     <dependency>

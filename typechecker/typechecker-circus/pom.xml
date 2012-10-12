@@ -8,7 +8,7 @@
   </parent>
   <artifactId>typechecker-circus</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Circus Typechecker</name>
+  <name>CZT Typechecker Circus</name>
   <!-- 
     changed IDE editor settings to use UTF-8, rather than windows-1252.
     this was creating an error within the javac "unmappable character to UTF-8".
