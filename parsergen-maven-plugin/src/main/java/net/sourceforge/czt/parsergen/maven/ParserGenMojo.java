@@ -253,11 +253,17 @@ public class ParserGenMojo
     return out.toString();
   }
 
+  /**
+   * Extracts file name (without extension) from a file path.
+   * 
+   * @param path
+   * @return
+   */
   private String getFileName(String path)
   {
     // try both backslashes, e.g. for windows paths?
-    int lastSep1 = path.indexOf("/");
-    int lastSep2 = path.indexOf("\\");
+    int lastSep1 = path.lastIndexOf("/");
+    int lastSep2 = path.lastIndexOf("\\");
     int lastSep = Math.max(lastSep1, lastSep2);
 
     String nameExt;
