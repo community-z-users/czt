@@ -1,53 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>typechecker</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
+
   <name>CZT Typechecker</name>
   <description>
-    Provides classes for typechecking a Z specification.
+    Provides classes for typechecking Z and Z extension specifications.
   </description>
-  <dependencies>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-z</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-z</artifactId>
-    </dependency>    
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>session</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-z</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  
+  <modules>
+    <module>typechecker-z</module>
+    <module>typechecker-oz</module>
+    <module>typechecker-circus</module>
+    <module>typechecker-zeves</module>
+  </modules>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>

@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>typechecker</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
   <artifactId>typechecker-zeves</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Z/EVES (proofs) Typechecker</name>
+  <name>CZT Typechecker Z/EVES</name>
   <description>Provides classes for typechecking Z/EVES proofs.</description>
   <dependencies>
      <dependency>
@@ -21,7 +21,7 @@
     </dependency>    
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>            
+      <artifactId>typechecker-z</artifactId>            
     </dependency> 
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -31,7 +31,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

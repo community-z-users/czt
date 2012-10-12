@@ -104,7 +104,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-z</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>

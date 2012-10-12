@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>typechecker</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
   <artifactId>typechecker-circus</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Circus Typechecker</name>
+  <name>CZT Typechecker Circus</name>
   <!-- 
     changed IDE editor settings to use UTF-8, rather than windows-1252.
     this was creating an error within the javac "unmappable character to UTF-8".
@@ -88,7 +88,7 @@
     </dependency>    
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>            
+      <artifactId>typechecker-z</artifactId>            
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -98,7 +98,7 @@
     </dependency> 
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency> 

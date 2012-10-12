@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>typechecker</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
   <artifactId>typechecker-oz</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Object-Z Typechecker</name>
+  <name>CZT Typechecker Object-Z</name>
   <description>
-    Provides classes for typechecking Object Z specifications.
+    Provides classes for typechecking Object-Z specifications.
   </description>
   <dependencies>
     <dependency>
@@ -19,7 +19,7 @@
     </dependency>    
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>            
+      <artifactId>typechecker-z</artifactId>            
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -29,7 +29,7 @@
     </dependency> 
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>typechecker-z</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
