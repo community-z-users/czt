@@ -24,7 +24,8 @@
   </dependencies>
 
   <properties>
-    <template.dir>${project.basedir}/../parser-src/src/main/resources/templates</template.dir>
+    <!-- /templates is a classpath resource directory in `parser-src` JAR -->
+    <template.dir>/templates</template.dir>
     <parser.java.dir>${project.build.directory}/generated-sources/parsergen</parser.java.dir>
     <parser.cup.dir>${project.build.directory}/generated-sources/parsergen-cup</parser.cup.dir>
     <parser.jflex.dir>${project.build.directory}/generated-sources/parsergen-jflex</parser.jflex.dir>
@@ -140,6 +141,14 @@
               </goals>
             </execution>
           </executions>
+          <dependencies>
+            <dependency>
+              <!-- Depend on parser-src to locate parser template files -->
+              <groupId>${czt.groupId}</groupId>
+              <artifactId>parser-src</artifactId>
+              <version>${czt.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
 
         <plugin>
