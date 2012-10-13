@@ -11,3 +11,12 @@ corresponding to the released CUP version **0.11a**.
 
 [cup-tum]: http://www2.cs.tum.edu/projects/cup/
 [cup-svn]: https://www2.in.tum.de/repos/cup/develop/
+
+## Community Z Tools updates
+
+Changed the `java_cup.emit` class to break up each case in the switch statement
+(each case in the parse table) into its own method. This prevents `do_action()`
+method from growing too large, thus avoiding the `code too large` Java compiler
+error. The error appears for very large grammars (e.g. in [CZT][czt] parsers).
+
+[czt]: http://czt.sourceforge.net/parser

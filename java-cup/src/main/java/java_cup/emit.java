@@ -414,7 +414,50 @@ public class emit {
 
 	  /* give them their own block to work in */
 	  out.println("            {");
-
+          out.println("               " + pre("result") + " = case" + prod.index() + "(");
+          out.println("                 " + pre("act_num,"));
+          out.println("                 " + pre("parser,"));
+          out.println("                 " + pre("stack,"));
+          out.println("                 " + pre("top);"));
+    
+          /* end of their block */
+          out.println("            }");
+    
+          /* if this was the start production, do action for accept */
+          if (prod == start_prod) {
+            out.println("          /* ACCEPT */");
+            out.println("          " + pre("parser") + ".done_parsing();");
+          }
+    
+          /* code to return lhs symbol */
+          out.println("          return " + pre("result") + ";");
+          out.println();
+        }
+    
+        /* end of switch */
+        out.println("          /* . . . . . .*/");
+        out.println("          default:");
+        out.println("            throw new Exception(");
+        out.println("               \"Invalid action number found in internal parse table\");");
+        out.println();
+        out.println("        }");
+    
+        /* end of method */
+        out.println("    }");
+    
+        /* emit the methods for each production. */
+        for (Enumeration p = production.all(); p.hasMoreElements();) {
+          prod = (production) p.nextElement();
+    
+          /* method header */
+          out.println("    //" + prod.to_simple_string());
+          out.println("    java_cup.runtime.Symbol case" + prod.index() + "(");
+          out.println("    int                        " + pre("act_num,"));
+          out.println("    java_cup.runtime.lr_parser " + pre("parser,"));
+          out.println("    java.util.Stack            " + pre("stack,"));
+          out.println("    int                        " + pre("top)"));
+          out.println("    throws java.lang.Exception");
+          out.println("    {");
 
           /**
            * TUM 20060608 intermediate result patch
@@ -435,7 +478,8 @@ public class emit {
 	  /*make the variable RESULT which will point to the new Symbol (see below)
 	    and be changed by action code
 	    6/13/96 frankf */
-	  out.println("              " +  prod.lhs().the_symbol().stack_type() +
+          out.println("      java_cup.runtime.Symbol " + pre("result") + ";");
+	  out.println("      " +  prod.lhs().the_symbol().stack_type() +
 		      " RESULT ="+result+";");
 
 	  /* Add code to propagate RESULT assignments that occur in
@@ -517,33 +561,14 @@ public class emit {
 			prod.lhs().the_symbol().index() + 
 			", RESULT);");
 	  }
-	  
-	  /* end of their block */
-	  out.println("            }");
-
-	  /* if this was the start production, do action for accept */
-	  if (prod == start_prod)
-	    {
-	      out.println("          /* ACCEPT */");
-	      out.println("          " + pre("parser") + ".done_parsing();");
-	    }
 
 	  /* code to return lhs symbol */
-	  out.println("          return " + pre("result") + ";");
+	  out.println("      return " + pre("result") + ";");
 	  out.println();
+	  
+	  /* end of method */
+	  out.println("    }");
 	}
-
-      /* end of switch */
-      out.println("          /* . . . . . .*/");
-      out.println("          default:");
-      out.println("            throw new Exception(");
-      out.println("               \"Invalid action number found in " +
-				  "internal parse table\");");
-      out.println();
-      out.println("        }");
-
-      /* end of method */
-      out.println("    }");
 
       /* end of class */
       out.println("}");
