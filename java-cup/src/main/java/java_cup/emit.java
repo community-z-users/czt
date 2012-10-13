@@ -385,7 +385,7 @@ public class emit {
 		     pre("do_action") + "(");
       out.println("    int                        " + pre("act_num,"));
       out.println("    java_cup.runtime.lr_parser " + pre("parser,"));
-      out.println("    java.util.Stack<Symbol>    " + pre("stack,"));
+      out.println("    java.util.Stack<java_cup.runtime.Symbol> " + pre("stack,"));
       out.println("    int                        " + pre("top)"));
       out.println("    throws java.lang.Exception");
       out.println("    {");
@@ -454,7 +454,7 @@ public class emit {
           out.println("    java_cup.runtime.Symbol case" + prod.index() + "(");
           out.println("    int                        " + pre("act_num,"));
           out.println("    java_cup.runtime.lr_parser " + pre("parser,"));
-          out.println("    java.util.Stack<Symbol>    " + pre("stack,"));
+          out.println("    java.util.Stack<java_cup.runtime.Symbol> " + pre("stack,"));
           out.println("    int                        " + pre("top)"));
           out.println("    throws java.lang.Exception");
           out.println("    {");
@@ -467,10 +467,10 @@ public class emit {
               int lastResult = ((action_production)prod).getIndexOfIntermediateResult();
               if (lastResult!=-1) {
                   result =  "(" + prod.lhs().the_symbol().stack_type() + ") " +
-                      "((java_cup.runtime.Symbol) " + emit.pre("stack") + 
+                      emit.pre("stack") + 
                       // TUM 20050917
                       ((lastResult==1)?".peek()":(".elementAt(" + emit.pre("top") + "-" + (lastResult-1) + ")"))+
-                      ").value";
+                      ".value";
               }
           }
 
@@ -500,20 +500,20 @@ public class emit {
 	    out.println("              " + "// propagate RESULT from " +s.name());
 //            // look out, whether the intermediate result is null or not
 //	    out.println("              " + "if ( " +
-//	      "((java_cup.runtime.Symbol) " + emit.pre("stack") + 
+//	      emit.pre("stack") + 
 //			// TUM 20050917
 //			((index==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + index + ")"))+
-//			").value != null )");
+//			".value != null )");
 
 // TUM 20060608: even when its null: who cares?
 
 	    // store the intermediate result into RESULT
             out.println("                " + "RESULT = " +
 	      "(" + prod.lhs().the_symbol().stack_type() + ") " +
-	      "((java_cup.runtime.Symbol) " + emit.pre("stack") + 
+	      emit.pre("stack") + 
 			// TUM 20050917
 			((index==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + index + ")"))+
-			").value;");
+			".value;");
             break;
 	  }
 
@@ -533,21 +533,21 @@ public class emit {
 	    String leftstring, rightstring;
 	    // TUM 20050917
             //int roffset = 0;
-	    rightstring = "((java_cup.runtime.Symbol)" + emit.pre("stack") + 
+	    rightstring = emit.pre("stack") + 
 		// TUM 20050917
 		//".elementAt(" + emit.pre("top") + "-" + roffset + "))"+
 		".peek()"+
                 // TUM 20060327 removed .right
-		")"; 	  
+		""; 	  
 	    if (prod.rhs_length() == 0) 
 	      leftstring = rightstring;
 	    else {
 	      loffset = prod.rhs_length() - 1;
-	      leftstring = "((java_cup.runtime.Symbol)" + emit.pre("stack") + 
+	      leftstring = emit.pre("stack") + 
 		  // TUM 20050917
 		  ((loffset==0)?(".peek()"):(".elementAt(" + emit.pre("top") + "-" + loffset + ")")) +
                   // TUM 20060327 removed .left
-		  ")";
+		  "";
 	    }
 //	    out.println("              " + pre("result") + " = new java_cup.runtime.Symbol(" + 
 	    out.println("              " + pre("result") + " = parser.getSymbolFactory().newSymbol(" + 
@@ -934,7 +934,7 @@ public class emit {
       out.println("  public java_cup.runtime.Symbol do_action(");
       out.println("    int                        act_num,");
       out.println("    java_cup.runtime.lr_parser parser,");
-      out.println("    java.util.Stack<Symbol>    stack,");
+      out.println("    java.util.Stack<java_cup.runtime.Symbol> stack,");
       out.println("    int                        top)");
       out.println("    throws java.lang.Exception");
       out.println("  {");
