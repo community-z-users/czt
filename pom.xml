@@ -57,6 +57,17 @@
       <url>http://www.gnu.org/copyleft/gpl.txt</url>
     </license>
   </licenses>
+  
+  <developers>
+    <developer>
+      <id>andriusvelykis</id>
+      <name>Andrius Velykis</name>
+      <url>http://andrius.velykis.lt</url>
+      <organization>Newcastle University, UK</organization>
+      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+  </developers>
 
   <scm>
     <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
