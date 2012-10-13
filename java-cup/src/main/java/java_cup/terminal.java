@@ -82,7 +82,7 @@ public class terminal extends symbol {
   /** Table of all terminals.  Elements are stored using name strings as 
    *  the key 
    */
-  protected static Hashtable _all = new Hashtable();
+  protected static Hashtable<String, terminal> _all = new Hashtable<String, terminal>();
 
   //Hm Added clear  to clear all static fields
   public static void clear() {
@@ -94,7 +94,7 @@ public class terminal extends symbol {
   }
   
   /** Access to all terminals. */
-  public static Enumeration all() {return _all.elements();}
+  public static Enumeration<terminal> all() {return _all.elements();}
 
   /** Lookup a terminal by name string. */ 
   public static terminal find(String with_name)
@@ -102,21 +102,21 @@ public class terminal extends symbol {
       if (with_name == null)
 	return null;
       else 
-	return (terminal)_all.get(with_name);
+	return _all.get(with_name);
     }
 
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Table of all terminals indexed by their index number. */
-  protected static Hashtable _all_by_index = new Hashtable();
+  protected static Hashtable<Integer, terminal> _all_by_index = new Hashtable<Integer, terminal>();
 
   /** Lookup a terminal by index. */
   public static terminal find(int indx)
     {
       Integer the_indx = new Integer(indx);
 
-      return (terminal)_all_by_index.get(the_indx);
+      return _all_by_index.get(the_indx);
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -144,6 +144,7 @@ public class terminal extends symbol {
   /*-----------------------------------------------------------*/
 
   /** Report this symbol as not being a non-terminal. */
+  @Override
   public boolean is_non_term() 
     {
       return false;
@@ -152,6 +153,7 @@ public class terminal extends symbol {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Convert to a string. */
+  @Override
   public String toString()
     {
       return super.toString() + "[" + index() + "]";

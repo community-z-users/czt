@@ -220,14 +220,14 @@ public class production {
   /** Table of all productions.  Elements are stored using their index as 
    *  the key.
    */
-  protected static Hashtable _all = new Hashtable();
+  protected static Hashtable<Integer, production> _all = new Hashtable<Integer, production>();
  
   /** Access to all productions. */
-  public static Enumeration all() {return _all.elements();}
+  public static Enumeration<production> all() {return _all.elements();}
 
     /** Lookup a production by index. */
   public static production find(int indx) {
-    return (production) _all.get(new Integer(indx));
+    return _all.get(new Integer(indx));
   }
 
   //Hm Added clear  to clear all static fields
@@ -432,7 +432,7 @@ public class production {
       String declaration = "";
 
       symbol_part part;
-      action_part act_part;
+//      action_part act_part;
       int         pos;
 
       /* walk down the parts and extract the labels */
@@ -562,7 +562,7 @@ public class production {
             ) throws internal_error
     {
       non_terminal new_nt;
-      production   new_prod;
+//      production   new_prod;
       String declare_str;
       int lastLocation = -1;
       /* walk over the production and process each action */
@@ -578,7 +578,7 @@ public class production {
 	    new_nt.is_embedded_action = true; /* 24-Mar-1998, CSA */
 
 	    /* create a new production with just the action */
-	    new_prod = new action_production(this, new_nt, null, 0, 
+	    /*new_prod = */new action_production(this, new_nt, null, 0, 
 		declare_str + ((action_part)rhs(act_loc)).code_string(), (lastLocation==-1)?-1:(act_loc-lastLocation));
 
 	    /* replace the action with the generated non terminal */
@@ -698,6 +698,7 @@ public class production {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality comparison. */
+  @Override
   public boolean equals(Object other)
     {
       if (!(other instanceof production))
@@ -709,6 +710,7 @@ public class production {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Produce a hash code. */
+  @Override
   public int hashCode()
     {
       /* just use a simple function of the index */
@@ -718,6 +720,7 @@ public class production {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Convert to a string. */
+  @Override
   public String toString() 
     {
       String result;

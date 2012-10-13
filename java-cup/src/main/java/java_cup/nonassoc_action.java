@@ -28,11 +28,13 @@ public class nonassoc_action extends parse_action {
   /*-----------------------------------------------------------*/
 
   /** Quick access to type of action. */
+  @Override
   public int kind() {return NONASSOC;}
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Equality test. */
+  @Override
   public boolean equals(parse_action other)
     {
       return other != null && other.kind() == NONASSOC;
@@ -41,6 +43,7 @@ public class nonassoc_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality test. */
+  @Override
   public boolean equals(Object other)
     {
       if (other instanceof parse_action)
@@ -52,6 +55,7 @@ public class nonassoc_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Compute a hash code. */
+  @Override
   public int hashCode()
     {
       /* all objects of this class hash together */
@@ -61,6 +65,7 @@ public class nonassoc_action extends parse_action {
 
 
   /** Convert to string. */
+  @Override
   public String toString() 
     {
       return "NONASSOC";

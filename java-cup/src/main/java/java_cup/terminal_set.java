@@ -212,6 +212,7 @@ public class terminal_set {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality comparison. */
+  @Override
   public boolean equals(Object other)
     {
       if (!(other instanceof terminal_set))
@@ -223,6 +224,7 @@ public class terminal_set {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Convert to string. */
+  @Override
   public String toString()
     {
       String result;

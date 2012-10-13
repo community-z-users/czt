@@ -159,7 +159,7 @@ public class emit {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** List of imports (Strings containing class names) to go with actions. */
-  public static Stack import_list = new Stack();
+  public static Stack<String> import_list = new Stack<String>();
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
@@ -219,7 +219,7 @@ public class emit {
   public static void clear () {
       _lr_values = true;
       action_code = null;
-      import_list = new Stack();
+      import_list = new Stack<String>();
       init_code = null;
       not_reduced = 0;
       num_conflicts = 0;
@@ -302,9 +302,9 @@ public class emit {
       out.println("  /* terminals */");
 
       /* walk over the terminals */              /* later might sort these */
-      for (Enumeration e = terminal.all(); e.hasMoreElements(); )
+      for (Enumeration<terminal> e = terminal.all(); e.hasMoreElements(); )
 	{
-	  term = (terminal)e.nextElement();
+	  term = e.nextElement();
 
 	  /* output a constant decl for the terminal */
 	  out.println("  public static final int " + term.name() + " = " + 
@@ -318,9 +318,9 @@ public class emit {
           out.println("  /* non terminals */");
 
           /* walk over the non terminals */       /* later might sort these */
-          for (Enumeration e = non_terminal.all(); e.hasMoreElements(); )
+          for (Enumeration<non_terminal> e = non_terminal.all(); e.hasMoreElements(); )
 	    {
-	      nt = (non_terminal)e.nextElement();
+	      nt = e.nextElement();
 
           // ****
           // TUM Comment: here we could add a typesafe enumeration
@@ -385,7 +385,7 @@ public class emit {
 		     pre("do_action") + "(");
       out.println("    int                        " + pre("act_num,"));
       out.println("    java_cup.runtime.lr_parser " + pre("parser,"));
-      out.println("    java.util.Stack            " + pre("stack,"));
+      out.println("    java.util.Stack<Symbol>    " + pre("stack,"));
       out.println("    int                        " + pre("top)"));
       out.println("    throws java.lang.Exception");
       out.println("    {");
@@ -403,9 +403,9 @@ public class emit {
       out.println("        {");
 
       /* emit action code for each production as a separate case */
-      for (Enumeration p = production.all(); p.hasMoreElements(); )
+      for (Enumeration<production> p = production.all(); p.hasMoreElements(); )
 	{
-	  prod = (production)p.nextElement();
+	  prod = p.nextElement();
 
 	  /* case label */
           out.println("          /*. . . . . . . . . . . . . . . . . . . .*/");
@@ -446,15 +446,15 @@ public class emit {
         out.println("    }");
     
         /* emit the methods for each production. */
-        for (Enumeration p = production.all(); p.hasMoreElements();) {
-          prod = (production) p.nextElement();
+        for (Enumeration<production> p = production.all(); p.hasMoreElements();) {
+          prod = p.nextElement();
     
           /* method header */
           out.println("    //" + prod.to_simple_string());
           out.println("    java_cup.runtime.Symbol case" + prod.index() + "(");
           out.println("    int                        " + pre("act_num,"));
           out.println("    java_cup.runtime.lr_parser " + pre("parser,"));
-          out.println("    java.util.Stack            " + pre("stack,"));
+          out.println("    java.util.Stack<Symbol>    " + pre("stack,"));
           out.println("    int                        " + pre("top)"));
           out.println("    throws java.lang.Exception");
           out.println("    {");
@@ -591,9 +591,9 @@ public class emit {
 
       /* collect up the productions in order */
       all_prods = new production[production.number()];
-      for (Enumeration p = production.all(); p.hasMoreElements(); )
+      for (Enumeration<production> p = production.all(); p.hasMoreElements(); )
 	{
-	  prod = (production)p.nextElement();
+	  prod = p.nextElement();
 	  all_prods[prod.index()] = prod;
 	}
 
@@ -617,6 +617,7 @@ public class emit {
       /* do the public accessor method */
       out.println();
       out.println("  /** Access to production table. */");
+      out.println("  @Override");
       out.println("  public short[][] production_table() " + 
 						 "{return _production_table;}");
 
@@ -724,6 +725,7 @@ public class emit {
       /* do the public accessor method */
       out.println();
       out.println("  /** Access to parse-action table. */");
+      out.println("  @Override");
       out.println("  public short[][] action_table() {return _action_table;}");
 
       action_table_time = System.currentTimeMillis() - start_time;
@@ -740,7 +742,7 @@ public class emit {
     parse_reduce_table red_tab)
     {
       lalr_state       goto_st;
-      parse_action     act;
+//      parse_action     act;
 
       long start_time = System.currentTimeMillis();
 
@@ -786,6 +788,7 @@ public class emit {
       /* do the public accessor method */
       out.println();
       out.println("  /** Access to <code>reduce_goto</code> table. */");
+      out.println("  @Override");
       out.println("  public short[][] reduce_table() {return _reduce_table;}");
       out.println();
 
@@ -917,6 +920,7 @@ public class emit {
 
       /* action object initializer */
       out.println("  /** Action encapsulation object initializer. */");
+      out.println("  @Override");
       out.println("  protected void init_actions()");
       out.println("    {");
       /* TUM changes; proposed by Henning Niss 20050628: added typeArgument */
@@ -926,10 +930,11 @@ public class emit {
 
       /* access to action code */
       out.println("  /** Invoke a user supplied parse action. */");
+      out.println("  @Override");
       out.println("  public java_cup.runtime.Symbol do_action(");
       out.println("    int                        act_num,");
       out.println("    java_cup.runtime.lr_parser parser,");
-      out.println("    java.util.Stack            stack,");
+      out.println("    java.util.Stack<Symbol>    stack,");
       out.println("    int                        top)");
       out.println("    throws java.lang.Exception");
       out.println("  {");
@@ -942,20 +947,24 @@ public class emit {
 
       /* method to tell the parser about the start state */
       out.println("  /** Indicates start state. */");
+      out.println("  @Override");
       out.println("  public int start_state() {return " + start_st + ";}");
 
       /* method to indicate start production */
       out.println("  /** Indicates start production. */");
+      out.println("  @Override");
       out.println("  public int start_production() {return " + 
 		     start_production.index() + ";}");
       out.println();
 
       /* methods to indicate EOF and error symbol indexes */
       out.println("  /** <code>EOF</code> Symbol index. */");
+      out.println("  @Override");
       out.println("  public int EOF_sym() {return " + terminal.EOF.index() + 
 					  ";}");
       out.println();
       out.println("  /** <code>error</code> Symbol index. */");
+      out.println("  @Override");
       out.println("  public int error_sym() {return " + terminal.error.index() +
 					  ";}");
       out.println();
@@ -965,6 +974,7 @@ public class emit {
 	{
           out.println();
 	  out.println("  /** User initialization code. */");
+	  out.println("  @Override");
 	  out.println("  public void user_init() throws java.lang.Exception");
 	  out.println("    {");
 	  out.println(init_code);
@@ -976,6 +986,7 @@ public class emit {
 	{
           out.println();
 	  out.println("  /** Scan to get the next Symbol. */");
+	  out.println("  @Override");
 	  out.println("  public java_cup.runtime.Symbol scan()");
 	  out.println("    throws java.lang.Exception");
 	  out.println("    {");

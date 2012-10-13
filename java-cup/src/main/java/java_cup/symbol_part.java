@@ -53,6 +53,7 @@ public class symbol_part extends production_part {
   /*-----------------------------------------------------------*/
 
   /** Respond that we are not an action part. */
+  @Override
   public boolean is_action() { return false; }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -67,6 +68,7 @@ public class symbol_part extends production_part {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality comparison. */
+  @Override
   public boolean equals(Object other)
     {
       if (!(other instanceof symbol_part))
@@ -78,6 +80,7 @@ public class symbol_part extends production_part {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Produce a hash code. */
+  @Override
   public int hashCode()
     {
       return super.hashCode() ^ 
@@ -87,6 +90,7 @@ public class symbol_part extends production_part {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Convert to a string. */
+  @Override
   public String toString()
     {
       if (the_symbol() != null)

@@ -23,10 +23,11 @@ public class symbol_set {
   /** Constructor for cloning from another set. 
    * @param other the set we are cloning from.
    */
+  @SuppressWarnings("unchecked")
   public symbol_set(symbol_set other) throws internal_error
     {
       not_null(other);
-      _all = (Hashtable)other._all.clone();
+      _all = (Hashtable<String, symbol>)other._all.clone();
     }
 
   /*-----------------------------------------------------------*/
@@ -35,10 +36,10 @@ public class symbol_set {
 
   /** A hash table to hold the set. Symbols are keyed using their name string. 
    */
-  protected Hashtable _all = new Hashtable(11);
+  protected Hashtable<String, symbol> _all = new Hashtable<String, symbol>(11);
 
   /** Access to all elements of the set. */
-  public Enumeration all() {return _all.elements();}
+  public Enumeration<symbol> all() {return _all.elements();}
 
   /** size of the set */
   public int size() {return _all.size();}
@@ -74,8 +75,8 @@ public class symbol_set {
       not_null(other);
 
       /* walk down our set and make sure every element is in the other */
-      for (Enumeration e = all(); e.hasMoreElements(); )
-	if (!other.contains((symbol)e.nextElement()))
+      for (Enumeration<symbol> e = all(); e.hasMoreElements(); )
+	if (!other.contains(e.nextElement()))
 	  return false;
 
       /* they were all there */
@@ -136,8 +137,8 @@ public class symbol_set {
       not_null(other);
 
       /* walk down the other set and do the adds individually */
-      for (Enumeration e = other.all(); e.hasMoreElements(); )
-	result = add((symbol)e.nextElement()) || result;
+      for (Enumeration<symbol> e = other.all(); e.hasMoreElements(); )
+	result = add(e.nextElement()) || result;
 
       return result;
     }
@@ -152,8 +153,8 @@ public class symbol_set {
       not_null(other);
 
       /* walk down the other set and do the removes individually */
-      for (Enumeration e = other.all(); e.hasMoreElements(); )
-	remove((symbol)e.nextElement());
+      for (Enumeration<symbol> e = other.all(); e.hasMoreElements(); )
+	remove(e.nextElement());
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -176,6 +177,7 @@ public class symbol_set {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality comparison. */
+  @Override
   public boolean equals(Object other)
     {
       if (!(other instanceof symbol_set))
@@ -187,15 +189,16 @@ public class symbol_set {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Compute a hash code. */
+  @Override
   public int hashCode()
     {
       int result = 0;
       int cnt;
-      Enumeration e;
+      Enumeration<symbol> e;
 
       /* hash together codes from at most first 5 elements */
       for (e = all(), cnt=0 ; e.hasMoreElements() && cnt<5; cnt++)
-	result ^= ((symbol)e.nextElement()).hashCode();
+	result ^= e.nextElement().hashCode();
 
       return result;
     }
@@ -203,6 +206,7 @@ public class symbol_set {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Convert to a string. */
+  @Override
   public String toString()
     {
       String result;
@@ -210,14 +214,14 @@ public class symbol_set {
 
       result = "{";
       comma_flag = false;
-      for (Enumeration e = all(); e.hasMoreElements(); )
+      for (Enumeration<symbol> e = all(); e.hasMoreElements(); )
 	{
 	  if (comma_flag)
 	    result += ", ";
 	  else
 	    comma_flag = true;
 
-	  result += ((symbol)e.nextElement()).name();
+	  result += e.nextElement().name();
 	}
       result += "}";
 

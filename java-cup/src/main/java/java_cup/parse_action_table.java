@@ -79,9 +79,9 @@ public class parse_action_table {
 	}
 
       /* now go across every production and make sure we hit it */
-      for (Enumeration p = production.all(); p.hasMoreElements(); )
+      for (Enumeration<production> p = production.all(); p.hasMoreElements(); )
 	{
-	  prod = (production)p.nextElement();
+	  prod = p.nextElement();
 
 	  /* if we didn't hit it give a warning */
 	  if (prod.num_reductions() == 0)
@@ -103,6 +103,7 @@ public class parse_action_table {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*
 
   /** Convert to a string. */
+  @Override
   public String toString()
     {
       String result;

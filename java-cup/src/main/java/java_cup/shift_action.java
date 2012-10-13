@@ -42,6 +42,7 @@ public class shift_action extends parse_action {
   /*-----------------------------------------------------------*/
 
   /** Quick access to type of action. */
+  @Override
   public int kind() {return SHIFT;}
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -55,6 +56,7 @@ public class shift_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality test. */
+  @Override
   public boolean equals(Object other)
     {
       if (other instanceof shift_action)
@@ -66,6 +68,7 @@ public class shift_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Compute a hash code. */
+  @Override
   public int hashCode()
     {
       /* use the hash code of the state we are shifting to */
@@ -75,6 +78,7 @@ public class shift_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Convert to a string. */
+  @Override
   public String toString() {return "SHIFT(to state " + shift_to().index() + ")";}
 
   /*-----------------------------------------------------------*/

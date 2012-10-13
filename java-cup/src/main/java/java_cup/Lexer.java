@@ -397,8 +397,8 @@ public class Lexer implements sym, java_cup.runtime.Scanner {
   /** number of newlines encountered up to the start of the matched text */
   private int yyline;
 
-  /** the number of characters up to the start of the matched text */
-  private int yychar;
+//  /** the number of characters up to the start of the matched text */
+//  private int yychar;
 
   /**
    * the number of characters from the last newline up to the start of the 
@@ -406,10 +406,10 @@ public class Lexer implements sym, java_cup.runtime.Scanner {
    */
   private int yycolumn;
 
-  /** 
-   * zzAtBOL == true <=> the scanner is currently at the beginning of a line
-   */
-  private boolean zzAtBOL = true;
+//  /** 
+//   * zzAtBOL == true <=> the scanner is currently at the beginning of a line
+//   */
+//  private boolean zzAtBOL = true;
 
   /** zzAtEOF == true <=> the scanner is at the EOF */
   private boolean zzAtEOF;
@@ -558,12 +558,12 @@ public class Lexer implements sym, java_cup.runtime.Scanner {
    */
   public final void yyreset(java.io.Reader reader) {
     zzReader = reader;
-    zzAtBOL  = true;
+//    zzAtBOL  = true;
     zzAtEOF  = false;
     zzEOFDone = false;
     zzEndRead = zzStartRead = 0;
     zzCurrentPos = zzMarkedPos = 0;
-    yyline = yychar = yycolumn = 0;
+    yyline = /*yychar = */yycolumn = 0;
     zzLexicalState = YYINITIAL;
   }
 
@@ -680,6 +680,7 @@ public class Lexer implements sym, java_cup.runtime.Scanner {
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
+  @Override
   public java_cup.runtime.Symbol next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;

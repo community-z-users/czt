@@ -42,6 +42,7 @@ public class reduce_action extends parse_action {
   /*-----------------------------------------------------------*/
 
   /** Quick access to type of action. */
+  @Override
   public int kind() {return REDUCE;}
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -55,6 +56,7 @@ public class reduce_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Generic equality test. */
+  @Override
   public boolean equals(Object other)
     {
       if (other instanceof reduce_action)
@@ -66,6 +68,7 @@ public class reduce_action extends parse_action {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Compute a hash code. */
+  @Override
   public int hashCode()
     {
       /* use the hash code of the production we are reducing with */
@@ -74,6 +77,7 @@ public class reduce_action extends parse_action {
 
 
   /** Convert to string. */
+  @Override
   public String toString() 
     {
       return "REDUCE(with prod " + reduce_with().index() + ")";
