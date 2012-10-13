@@ -372,7 +372,7 @@ public class Gnast implements GlobalProperties
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
       
       if (config.mappingPropertiesFile != null) {
-        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile);
+        this.mapping = loadProperties(config.mappingPropertiesFile);
       }
       
       // first resolve all schema projects from the indicated source directory
