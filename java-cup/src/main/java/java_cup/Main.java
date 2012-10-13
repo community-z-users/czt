@@ -232,8 +232,11 @@ public class Main {
 
       /* If there were errors during the run,
        * exit with non-zero status (makefile-friendliness). --CSA */
-      if (ErrorManager.getManager().getErrorCount() != 0)
-	  System.exit(100);
+      if (ErrorManager.getManager().getErrorCount() != 0) {
+//	  System.exit(100);
+        throw new CupParserException("Parser generation finished with " + 
+            ErrorManager.getManager().getErrorCount() + " errors.");
+      }
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -272,7 +275,8 @@ public class Main {
 "    -dump          produce a dump of all of the above\n"+
 "    -version       print the version information for CUP and exit\n"
       );
-      System.exit(1);
+//      System.exit(1);
+      throw new CupParserException("Invalid usage.");
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -367,7 +371,8 @@ public class Main {
 	  /* CSA 23-Jul-1999 */
 	  else if (argv[i].equals("-version")) {
 	      System.out.println(version.title_str);
-	      System.exit(1);
+//	      System.exit(1);
+	      throw new CupParserException("Version requested.");
 	  }
       /* TUM changes; suggested by Henning Niss 20050628*/
  	  else if (argv[i].equals("-typearg")){
@@ -430,7 +435,8 @@ public class Main {
 		 new BufferedOutputStream(new FileOutputStream(fil), 4096));
       } catch(Exception e) {
 	System.err.println("Can't open \"" + out_name + "\" for output");
-	System.exit(3);
+//	System.exit(3);
+        throw new CupParserException("Can't open \"" + out_name + "\" for output", e);
       }
 
       /* symbol constants class */
@@ -441,7 +447,8 @@ public class Main {
 		 new BufferedOutputStream(new FileOutputStream(fil), 4096));
       } catch(Exception e) {
 	System.err.println("Can't open \"" + out_name + "\" for output");
-	System.exit(4);
+//	System.exit(4);
+	throw new CupParserException("Can't open \"" + out_name + "\" for output", e);
       }
     }
 

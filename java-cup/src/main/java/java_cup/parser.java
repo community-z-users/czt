@@ -441,7 +441,9 @@ public class parser extends java_cup.runtime.lr_parser {
       done_parsing();
       if (info instanceof Symbol) ErrorManager.getManager().emit_fatal(message+ "\nCan't recover from previous error(s), giving up.",(Symbol)info);
       else ErrorManager.getManager().emit_fatal(message + "\nCan't recover from previous error(s), giving up.",cur_token);
-      System.exit(1);
+//      System.exit(1);
+      throw new CupParserException(message + "\nCan't recover from previous error(s), giving up. @ " + 
+          (info instanceof Symbol ? (Symbol) info : cur_token));
     }
 
     @Override
