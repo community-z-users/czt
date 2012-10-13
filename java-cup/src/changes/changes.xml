@@ -1,0 +1,14 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Java CUP Parser Generator</title>
+  </properties>
+  <body>
+    <release version="0.11-a" date="2006-06-08" description="Java CUP release 0.11a">
+      <action type="update">
+        Latest official release of CUP parser generator for Java from Technical University of Munich.
+      </action>
+    </release>
+  </body>
+</document>
