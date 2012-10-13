@@ -127,7 +127,9 @@ public class GnastRuleCodegenMojo
     }
     
     // if the schema has changed, or output directory does not exist, generate all
-    this.generateAll = !ResourceUtils.getURLChanges(buildContext, sourceSchemaUrl, false).isEmpty()
+    // also generate all for non-incremental builds
+    this.generateAll = !buildContext.isIncremental()
+        || !ResourceUtils.getURLChanges(buildContext, sourceSchemaUrl, false).isEmpty()
         || !outputDirectory.exists();
     this.changedFiles = Collections.emptySet();
     
