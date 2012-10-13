@@ -6,6 +6,9 @@
   </properties>
   <body>
     <release version="0.11-a-czt01" date="2012-10-13" description="CZT updates">
+      <action type="update" dev="andriusvelykis">
+        Updated to use Java Generics and avoid other warnings.
+      </action>
       <action type="fix" dev="petramalik">
         Changed the java_cup.emit class to break up each case in the parse table into its own
         method. This prevents do_action() method from growing too large, thus avoiding the 

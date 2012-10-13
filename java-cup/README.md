@@ -19,4 +19,6 @@ Changed the `java_cup.emit` class to break up each case in the switch statement
 method from growing too large, thus avoiding the `code too large` Java compiler
 error. The error appears for very large grammars (e.g. in [CZT][czt] parsers).
 
+Also updated to use Java Generics and avoid other warnings.
+
 [czt]: http://czt.sourceforge.net/parser
