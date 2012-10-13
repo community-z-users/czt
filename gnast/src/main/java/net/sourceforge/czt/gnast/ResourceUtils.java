@@ -88,27 +88,29 @@ public class ResourceUtils
     }
   }
   
-  private static Set<String> getDirChanges(BuildContext buildContext, File dir) {
-    return getFileChanges(buildContext, dir, null);
-  }
-  
   private static Set<String> getFileChanges(BuildContext buildContext, File file) {
-    // a workaround for m2e EclipseBuildContext,
-    // which does not support BuildContext#hasDelta()
-    return getFileChanges(buildContext, file.getParentFile(), new String[]{file.getName()});
+    
+    boolean fileChanged = buildContext.hasDelta(file);
+    if (fileChanged) {
+      // mark the paths (both full path and just the name) for changes
+      Set<String> changes = new HashSet<String>();
+      changes.add(file.getPath());
+      changes.add(file.getName());
+      return changes;
+    } else {
+      return Collections.emptySet();
+    }
   }
   
-  private static Set<String> getFileChanges(BuildContext buildContext, File dir, String[] fileNames) {
+  private static Set<String> getDirChanges(BuildContext buildContext, File dir) {
     
     Set<String> dirChanges = new HashSet<String>();
     
     Scanner deleteScanner = buildContext.newDeleteScanner(dir);
-    deleteScanner.setIncludes(fileNames);
     deleteScanner.scan();
     dirChanges.addAll(Arrays.asList(deleteScanner.getIncludedFiles()));
     
     Scanner changeScanner = buildContext.newScanner(dir);
-    changeScanner.setIncludes(fileNames);
     changeScanner.scan();
     dirChanges.addAll(Arrays.asList(changeScanner.getIncludedFiles()));
     
