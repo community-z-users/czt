@@ -5,6 +5,12 @@
     <title>Java CUP Runtime</title>
   </properties>
   <body>
+    <release version="0.11-a-r20-czt01" date="2012-10-13" description="Generics and cleanup">
+      <action type="update" dev="andriusvelykis">
+        Updated to use Java Generics and avoid other warnings.
+      </action>
+    </release>
+  
     <release version="0.11-a-r20" date="2009-08-17" description="Fixes in CUP development repository">
       <action type="fix" due-to="Michael Petter">
         Fixes in CUP development repository (revision 20) with message "forgot the standard constructor".
