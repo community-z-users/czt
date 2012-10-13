@@ -155,15 +155,22 @@ public class SchemaProject
     nsPrefixProps_ = collectNamespacePrefixes(url);
     global_ = globalProperties;
     if (mapping != null) bindings_ = mapping;
-    InputSource in = new InputSource(url.openStream());
-    DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
-    dfactory.setNamespaceAware(true);
-    document_ = dfactory.newDocumentBuilder().parse(in);
+    
+    InputStream urlStream = url.openStream();
+    try {
+      InputSource in = new InputSource(urlStream);
+      DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
+      dfactory.setNamespaceAware(true);
+      document_ = dfactory.newDocumentBuilder().parse(in);
+    } finally {
+      urlStream.close();
+    }
     xPath_ = new XPath(document_);
     Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
     }
+    
   }
   
   private void ensureInit() {
@@ -495,23 +502,26 @@ public class SchemaProject
     Pattern p =
       Pattern.compile("xmlns:[a-zA-Z]+[\\s]*\\=\\s*\\\"[^\\\"]*\\\"");
     BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-    String seq = reader.readLine();
-    while (seq != null) {
-      Matcher m = p.matcher(seq);
-      while (m.find()) {
-        String s = m.group();
-        String[] blubb = s.split("\"");
-        Pattern p2 = Pattern.compile("xmlns:[a-zA-Z]+[^a-zA-Z]");
-        Matcher m2 = p2.matcher(blubb[0]);
-        if (m2.find()) {
-          String string = m2.group();
-          final int l = "xmlns:".length();
-          result.setProperty(string.substring(l, string.length() - 1), blubb[1]);
+    try {
+      String seq = reader.readLine();
+      while (seq != null) {
+        Matcher m = p.matcher(seq);
+        while (m.find()) {
+          String s = m.group();
+          String[] blubb = s.split("\"");
+          Pattern p2 = Pattern.compile("xmlns:[a-zA-Z]+[^a-zA-Z]");
+          Matcher m2 = p2.matcher(blubb[0]);
+          if (m2.find()) {
+            String string = m2.group();
+            final int l = "xmlns:".length();
+            result.setProperty(string.substring(l, string.length() - 1), blubb[1]);
+          }
         }
+        seq = reader.readLine();
       }
-      seq = reader.readLine();
+    } finally {
+      reader.close();
     }
-    reader.close();
     return result;
   }
 

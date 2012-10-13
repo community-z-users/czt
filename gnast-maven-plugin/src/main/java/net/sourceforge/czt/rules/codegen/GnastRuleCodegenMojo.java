@@ -127,7 +127,9 @@ public class GnastRuleCodegenMojo
     }
     
     // if the schema has changed, or output directory does not exist, generate all
-    this.generateAll = !ResourceUtils.getURLChanges(buildContext, sourceSchemaUrl, false).isEmpty()
+    // also generate all for non-incremental builds
+    this.generateAll = !buildContext.isIncremental()
+        || !ResourceUtils.getURLChanges(buildContext, sourceSchemaUrl, false).isEmpty()
         || !outputDirectory.exists();
     this.changedFiles = Collections.emptySet();
     
@@ -210,7 +212,7 @@ public class GnastRuleCodegenMojo
                             String destination,
                             String templateName,
                             VelocityContext context)
-    throws Exception
+    throws IOException
   {
     
     // check if file sources have changed (or the file itself)
@@ -224,9 +226,12 @@ public class GnastRuleCodegenMojo
     dest.getParentFile().mkdirs();
     
     Writer writer = new OutputStreamWriter(buildContext.newFileOutputStream(dest));
-    Template template = velocity.getTemplate(templateName);
-    template.merge(context, writer);
-    writer.close();
+    try {
+      Template template = velocity.getTemplate(templateName);
+      template.merge(context, writer);
+    } finally {
+      writer.close();
+    }
   }
   
   private URL locateResource(String resourceLocation) throws MojoExecutionException {

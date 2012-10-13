@@ -342,8 +342,9 @@ public class Gnast implements GlobalProperties
       }
       
       // generate all if the source schemas have changed, destination does not exist,
-      // or mapping has changed
-      boolean generateAll = sourceSchemasChanged(config.sourceSchemas) 
+      // or mapping has changed, or the build is not incremental
+      boolean generateAll = !config.buildContext.isIncremental()
+          || sourceSchemasChanged(config.sourceSchemas) 
           || !config.destination.exists()
           || !getURLChanges(config.buildContext, config.mappingPropertiesFile, false).isEmpty();
       
@@ -371,7 +372,7 @@ public class Gnast implements GlobalProperties
       this.changedBuildFiles = Collections.unmodifiableSet(changedBuildFiles);
       
       if (config.mappingPropertiesFile != null) {
-        this.mapping = Gnast.loadProperties(config.mappingPropertiesFile);
+        this.mapping = loadProperties(config.mappingPropertiesFile);
       }
       
       // first resolve all schema projects from the indicated source directory
