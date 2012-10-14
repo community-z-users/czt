@@ -44,7 +44,6 @@
         <executions>
           <execution>
             <id>generate-chars</id>
-            <phase>generate-sources</phase>
             <configuration>
               <transformationSets>
                 <transformationSet>
@@ -75,9 +74,6 @@
                 </transformationSet>
               </transformationSets>
             </configuration>
-	        <goals>
-	          <goal>transform</goal>
-	        </goals>
           </execution>
         </executions>
       </plugin>
