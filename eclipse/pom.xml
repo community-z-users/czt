@@ -34,8 +34,6 @@
   </pluginRepositories>
   
   <modules>
-    <module>m2e</module>
-
     <module>net.sourceforge.czt.eclipse.ui</module>
     <module>net.sourceforge.czt.eclipse.doc</module>
     <module>net.sourceforge.czt.eclipse.vcg.ui</module>
