@@ -12,6 +12,15 @@ released CUP version **0.11a**. Additional fixes are included (revision 20 of
 [cup-tum]: http://www2.cs.tum.edu/projects/cup/
 [cup-svn]: https://www2.in.tum.de/repos/cup/develop/
 
+
 ## Community Z Tools updates
 
 Updated to use Java Generics and avoid other warnings.
+
+
+## License
+
+CUP is released under [CUP License][cup-license] (MIT-like license).
+See the included LICENSE file.
+
+[cup-license]: http://www2.cs.tum.edu/projects/cup/licence.html

@@ -12,6 +12,7 @@ corresponding to the released CUP version **0.11a**.
 [cup-tum]: http://www2.cs.tum.edu/projects/cup/
 [cup-svn]: https://www2.in.tum.de/repos/cup/develop/
 
+
 ## Community Z Tools updates
 
 Changed the `java_cup.emit` class to break up each case in the switch statement
@@ -26,3 +27,12 @@ longer kills the IDE with it.
 Also updated to use Java Generics and avoid other warnings.
 
 [czt]: http://czt.sourceforge.net/parser
+
+
+## License
+
+CUP is released under [CUP License][cup-license] (MIT-like license).
+See the included LICENSE file.
+
+[cup-license]: http://www2.cs.tum.edu/projects/cup/licence.html
+
