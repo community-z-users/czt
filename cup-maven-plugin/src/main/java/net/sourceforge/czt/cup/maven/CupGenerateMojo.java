@@ -36,7 +36,6 @@ import java_cup.Main;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.Scanner;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
@@ -288,17 +287,47 @@ public class CupGenerateMojo extends AbstractMojo
       buildContext = new DefaultBuildContext();
     }
     
-    // find source files (only changed ones for incremental)
-    Scanner fileScanner = buildContext.newScanner(sourceDirectory);
-    fileScanner.setIncludes(new String[] { "**/*" + CUP_EXTENSION });
-    fileScanner.scan();
+//    // find source files (only changed ones for incremental)
+//    Scanner fileScanner = buildContext.newScanner(sourceDirectory);
+//    fileScanner.setIncludes(new String[] { "**/*" + CUP_EXTENSION });
+//    fileScanner.scan();
+//    
+//    List<File> cupFiles = new ArrayList<File>();
+//    for (String path : fileScanner.getIncludedFiles()) {
+//      // convert paths to absolute
+//      cupFiles.add(new File(sourceDirectory, path));
+//    }
+//    
+//    return cupFiles;
     
-    List<File> cupFiles = new ArrayList<File>();
-    for (String path : fileScanner.getIncludedFiles()) {
-      // convert paths to absolute
-      cupFiles.add(new File(sourceDirectory, path));
+    // a workaround for a problem in EclipseBuildContext (Eclipse m2e), where
+    // resources are not refreshed between the invocations of separate builders.
+    // So if the CUP source files were generated in the same iteration, this
+    // plug-in does not see them.
+    // As a workaround, look for physical files and check for their deltas.
+    List<File> allCupFiles = getAllCupFiles(new File[] { sourceDirectory });
+    List<File> changed = new ArrayList<File>(); 
+    
+    for (File file : allCupFiles) {
+      if (buildContext.hasDelta(file)) {
+        changed.add(file);
+      }
     }
     
+    return changed;
+  }
+  
+  private List<File> getAllCupFiles(File[] files)
+  {
+    List<File> cupFiles = new ArrayList<File>();
+    for (File file : files) {
+      if (file.isDirectory()) {
+        cupFiles.addAll(getAllCupFiles(file.listFiles()));
+      }
+      else if (file.getName().endsWith(CUP_EXTENSION)) {
+        cupFiles.add(file);
+      }
+    }
     return cupFiles;
   }
   
