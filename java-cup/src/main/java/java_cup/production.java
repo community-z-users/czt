@@ -396,24 +396,24 @@ public class production {
 
       /* Put in the left/right value labels */
       if (emit.lr_values())
-        ret = "\t\tint " + labelname + "left = ((java_cup.runtime.Symbol)" + 
+        ret = "\t\tint " + labelname + "left = " + 
 	  emit.pre("stack") + 
  	    // TUM 20050917
 	    ((offset==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + offset + ")"))+
-	    ").left;\n" +
-	  "\t\tint " + labelname + "right = ((java_cup.runtime.Symbol)" + 
+	    ".left;\n" +
+	  "\t\tint " + labelname + "right = " + 
 	  emit.pre("stack") +
  	    // TUM 20050917
 	    ((offset==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + offset + ")"))+
-	    ").right;\n";
+	    ".right;\n";
       else ret = "";
 
       /* otherwise, just declare label. */
 	return ret + "\t\t" + stack_type + " " + labelname + " = (" + stack_type + 
-	  ")((" + "java_cup.runtime.Symbol) " + emit.pre("stack") + 
+	  ") " + emit.pre("stack") + 
 	    // TUM 20050917
 	    ((offset==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + offset + ")"))+
-	    ").value;\n";
+	    ".value;\n";
 
     }
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
