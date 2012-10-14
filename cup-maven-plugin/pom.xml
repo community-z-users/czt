@@ -27,6 +27,18 @@
       <artifactId>maven-plugin-api</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.sonatype.plexus</groupId>
+      <artifactId>plexus-build-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-container-default</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+    </dependency>
+    <dependency>
       <groupId>net.sourceforge.czt</groupId>
       <artifactId>java-cup</artifactId>
       <version>0.11-a-czt01-SNAPSHOT</version>
