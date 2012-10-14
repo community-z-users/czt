@@ -16,6 +16,13 @@
     Maven plug-in for Java CUP parser generator. Uses CUP 0.11a (with CZT updates).
     Generated parsers need java-cup-runtime dependency to compile.
   </description>
+  
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://czt.sourceforge.net/cup-maven-plugin/LICENSE</url>
+    </license>
+  </licenses>
 
   <dependencies>
     <dependency>

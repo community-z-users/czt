@@ -20,6 +20,13 @@
     which are implemented in Java.
   </description>
   
+  <licenses>
+    <license>
+      <name>CUP License (MIT License)</name>
+      <url>http://www.cs.tum.edu/projects/cup/licence.html</url>
+    </license>
+  </licenses>
+  
   <dependencies>
     <dependency>
       <groupId>net.sourceforge.czt</groupId>
