@@ -316,7 +316,7 @@
         <version>${czt.version}</version>
       </dependency>
 
-      <!-- ZEves -->
+      <!-- Z/EVES -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>zeves</artifactId>
@@ -439,6 +439,13 @@
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-resources</artifactId>
         <version>1.0-alpha-7</version>
+      </dependency>
+      
+      <!-- XML transformations -->
+      <dependency>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>1.0</version>
       </dependency>
       
     </dependencies>
