@@ -21,8 +21,8 @@ package net.sourceforge.czt.print.z;
 
 import java.io.IOException;
 import java.io.Writer;
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;

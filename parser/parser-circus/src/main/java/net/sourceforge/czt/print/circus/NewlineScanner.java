@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.print.circus;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
+import java_cup.runtime.Scanner;
 
 public class NewlineScanner extends net.sourceforge.czt.print.z.NewlineScanner
 {

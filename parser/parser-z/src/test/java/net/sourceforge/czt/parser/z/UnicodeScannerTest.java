@@ -22,7 +22,7 @@ package net.sourceforge.czt.parser.z;
 import java.io.*;
 import java.math.BigInteger;
 import java.util.Properties;
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
 
 import junit.framework.*;
 

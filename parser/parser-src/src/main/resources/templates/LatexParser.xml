@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Properties;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.Key;

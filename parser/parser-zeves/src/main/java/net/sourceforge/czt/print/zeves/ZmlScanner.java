@@ -22,7 +22,7 @@ package net.sourceforge.czt.print.zeves;
 import java.util.Iterator;
 import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Symbol;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;

@@ -23,8 +23,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Map;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;

@@ -19,7 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>java_cup</artifactId>
+      <artifactId>java-cup-runtime</artifactId>
     </dependency>
   </dependencies>
 
@@ -178,7 +178,7 @@
         <plugin>
           <groupId>net.sourceforge.czt</groupId>
           <artifactId>cup-maven-plugin</artifactId>
-          <version>1.6-SNAPSHOT</version>
+          <version>${czt.version}</version>
           <executions>
             <execution>
               <phase>process-sources</phase>

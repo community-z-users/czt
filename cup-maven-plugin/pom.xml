@@ -21,7 +21,8 @@
     </dependency>
     <dependency>
       <groupId>net.sourceforge.czt</groupId>
-      <artifactId>java_cup</artifactId>
+      <artifactId>java-cup</artifactId>
+      <version>0.11-a-czt01-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

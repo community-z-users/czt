@@ -27,8 +27,8 @@ package <package/>;
 import java.lang.reflect.*;
 import java.util.Properties;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;

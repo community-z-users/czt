@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 
 import java.util.*;
 
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 

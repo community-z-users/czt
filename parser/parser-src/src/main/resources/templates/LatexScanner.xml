@@ -27,7 +27,7 @@ import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
@@ -53,7 +53,7 @@ import net.sourceforge.czt.session.*;
  * line and column number information.&lt;/p&gt;
  */
 public class <class/>
-  implements net.sourceforge.czt.java_cup.runtime.Scanner
+  implements java_cup.runtime.Scanner
 {
   private LatexToUnicode latexLexer_;
   private UnicodeScanner unicodeLexer_;

@@ -46,7 +46,7 @@ import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;

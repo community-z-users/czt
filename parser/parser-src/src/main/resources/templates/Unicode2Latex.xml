@@ -22,7 +22,7 @@
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -593,9 +593,9 @@ parser code {:
 
   public void report_error(String message, Object info) {
     StringBuffer m = new StringBuffer("Error");
-    if (info instanceof net.sourceforge.czt.java_cup.runtime.Symbol) {
-      net.sourceforge.czt.java_cup.runtime.Symbol s =
-        ((net.sourceforge.czt.java_cup.runtime.Symbol) info);
+    if (info instanceof java_cup.runtime.Symbol) {
+      java_cup.runtime.Symbol s =
+        ((java_cup.runtime.Symbol) info);
       if (s.left &gt;= 0) {                
         m.append(" in line "+(s.left+1));   
         if (s.right &gt;= 0) m.append(", column "+(s.right + 1));

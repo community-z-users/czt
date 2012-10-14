@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.parser.util.*;

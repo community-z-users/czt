@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.CztError;

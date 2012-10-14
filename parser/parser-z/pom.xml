@@ -35,10 +35,6 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>java_cup</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
       <artifactId>zml</artifactId>
       <scope>test</scope>
     </dependency>

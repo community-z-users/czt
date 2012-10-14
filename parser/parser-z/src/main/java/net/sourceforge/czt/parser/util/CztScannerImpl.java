@@ -22,7 +22,7 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.Map;
 import java.util.Properties;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Symbol;
 
 /**
  *

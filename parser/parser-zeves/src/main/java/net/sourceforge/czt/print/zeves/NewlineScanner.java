@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.print.zeves;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
+import java_cup.runtime.Scanner;
 
 /**
  *
