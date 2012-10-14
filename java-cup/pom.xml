@@ -24,7 +24,6 @@
     <dependency>
       <groupId>net.sourceforge.czt</groupId>
       <artifactId>java-cup-runtime</artifactId>
-      <version>0.11-a-r20-czt01-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
