@@ -24,9 +24,9 @@
   </dependencies>
 
   <properties>
-    <build.xml.dir>${basedir}/target/generated-sources/xml/xslt</build.xml.dir>
-    <xml.dir>${basedir}/src/main/resources/xml</xml.dir>
-    <xsl.dir>${basedir}/src/main/resources/xsl</xsl.dir>
+    <build.xml.dir>${project.basedir}/target/generated-sources/xml/xslt</build.xml.dir>
+    <xml.dir>${project.basedir}/src/main/resources/xml</xml.dir>
+    <xsl.dir>${project.basedir}/src/main/resources/xsl</xsl.dir>
   </properties>
 
   <modules>
