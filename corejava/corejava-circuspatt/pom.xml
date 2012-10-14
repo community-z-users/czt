@@ -49,6 +49,7 @@
         <artifactId>xml-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>generate-chars</id>
             <phase>generate-sources</phase>
             <configuration>
               <transformationSets>
