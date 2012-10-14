@@ -1,23 +1,23 @@
 /*
-  Copyright (C) 2006 Petra Malik
-  This file is part of the czt project.
+  Copyright 2006, 2012  Petra Malik, Andrius Velykis
+  
+  This file is part of the CZT project.
 
-  The czt project contains free software; you can redistribute it and/or modify
+  The CZT project is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The czt project is distributed in the hope that it will be useful,
+  The CZT project is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with czt; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  along with CZT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package net.sourceforge.czt.java_cup.maven;
+package net.sourceforge.czt.cup.maven;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,9 +34,9 @@ import org.apache.maven.project.MavenProject;
 /**
  * @goal generate
  * @phase generate-sources
- * @description Maven JavaCup Plugin
+ * @description Java CUP Maven Plugin
  */
-public class Plugin
+public class CupGenerateMojo
   extends AbstractMojo
 {
   /**
