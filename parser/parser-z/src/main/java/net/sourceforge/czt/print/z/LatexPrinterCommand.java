@@ -113,7 +113,7 @@ public class LatexPrinterCommand
     parser = null;
   }
 
-  protected void parse(Writer out, SectionManager sectInfo, net.sourceforge.czt.java_cup.runtime.lr_parser parser, String sectionName) throws PrintException
+  protected void parse(Writer out, SectionManager sectInfo, java_cup.runtime.lr_parser parser, String sectionName) throws PrintException
   {
     try
     {

@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>java-cup-runtime</artifactId>
+  <version>0.11-a-r20-czt01-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Java CUP Runtime</name>
+  <description>
+    Java CUP (parser generator) runtime for CUP-generated parsers.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.LocInfo;
@@ -79,7 +79,7 @@ import net.sourceforge.czt.parser.util.Decorword;
  * \sdef, we return an OPNAME instead of a DECORWORD.
 </add:oz>
  */
-class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
+class <class/> implements java_cup.runtime.Scanner
 {
   //indicates whether the previous token is a named box token
   //i.e. SCH, GENSCH, CLASS, OPSCH, ZPROOF
@@ -230,7 +230,7 @@ class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
   </add:zeves>
   private final String sourceName_;
 
-  <class/>(String sourceName, net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
+  <class/>(String sourceName, java_cup.runtime.Scanner dumbscanner)
   {
     sourceName_ = sourceName == null ? "unknownSource" : sourceName;
     dumb_ = new TokenStack(dumbscanner);

@@ -22,21 +22,12 @@ package net.sourceforge.czt.rules.print;
 import java.io.Writer;
 import java.util.Properties;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
-
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.print.z.UnicodePrinter;
-import net.sourceforge.czt.print.zpatt.Sym;
-import net.sourceforge.czt.print.zpatt.Unicode2Latex;
-import net.sourceforge.czt.print.zpatt.ZmlScanner;
 import net.sourceforge.czt.print.zpatt.ZpattPrintVisitor;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.zpatt.ast.Binding;
 
 /**
  * Utilities for printing Z specifications given as an AST.

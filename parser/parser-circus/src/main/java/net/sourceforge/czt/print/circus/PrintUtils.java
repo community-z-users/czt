@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Symbol;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;

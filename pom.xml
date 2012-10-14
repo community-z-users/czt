@@ -57,6 +57,17 @@
       <url>http://www.gnu.org/copyleft/gpl.txt</url>
     </license>
   </licenses>
+  
+  <developers>
+    <developer>
+      <id>andriusvelykis</id>
+      <name>Andrius Velykis</name>
+      <url>http://andrius.velykis.lt</url>
+      <organization>Newcastle University, UK</organization>
+      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+  </developers>
 
   <scm>
     <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
@@ -89,9 +100,10 @@
     <module>gaffe</module>
     <module>gaffe2</module>
     <module>gnast</module>
-    <module>java_cup</module>
     <module>jaxb</module>
     <module>jedit</module>
+    <module>java-cup-runtime</module>
+    <module>java-cup</module>
     <module>cup-maven-plugin</module>
     <module>gnast-maven-plugin</module>
     <module>parsergen-maven-plugin</module>
@@ -190,11 +202,11 @@
         <version>${czt.version}</version>
       </dependency>
 
-      <!-- CZT Java_Cup -->
+      <!-- Java CUP -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
-        <artifactId>java_cup</artifactId>
-        <version>${czt.version}</version>
+        <artifactId>java-cup-runtime</artifactId>
+        <version>0.11-a-r20-czt01-SNAPSHOT</version>
       </dependency>
 
       <!-- CZT Session -->

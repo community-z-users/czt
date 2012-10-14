@@ -23,7 +23,7 @@ package <package/>;
 
 import java.io.*;
 import java.util.Properties;
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
       
 import net.sourceforge.czt.parser.util.CztScannerImpl;
 import net.sourceforge.czt.parser.util.CztReader;

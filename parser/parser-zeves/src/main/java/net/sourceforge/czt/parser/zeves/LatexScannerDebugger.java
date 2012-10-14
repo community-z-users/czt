@@ -123,7 +123,7 @@ public class LatexScannerDebugger {
       }
     }
 
-    net.sourceforge.czt.java_cup.runtime.Scanner scanner;
+    java_cup.runtime.Scanner scanner;
      if (source.getMarkup().equals(Markup.UNICODE))
        scanner = new UnicodeScanner(source, sectInfo_.getProperties());
      else // assume LaTex

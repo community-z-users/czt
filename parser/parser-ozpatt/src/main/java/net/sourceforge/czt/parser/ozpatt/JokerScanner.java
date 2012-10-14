@@ -21,8 +21,8 @@ package net.sourceforge.czt.parser.ozpatt;
 
 import java.lang.reflect.Field;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
 
 public class JokerScanner
   extends net.sourceforge.czt.parser.zpatt.JokerScanner

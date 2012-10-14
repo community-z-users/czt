@@ -29,7 +29,7 @@
 package <package/>;
 
 import java.io.*;
-import net.sourceforge.czt.java_cup.runtime.*;
+import java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.Source;
@@ -58,11 +58,11 @@ import net.sourceforge.czt.parser.zeves.Proofword;
 %cupsym Sym
 //%cup
 
-%implements net.sourceforge.czt.java_cup.runtime.Scanner
+%implements java_cup.runtime.Scanner
 %function next_token
-%type net.sourceforge.czt.java_cup.runtime.Symbol
+%type java_cup.runtime.Symbol
 %eofval{
-  return  new net.sourceforge.czt.java_cup.runtime.Symbol(Sym.EOF);
+  return  new java_cup.runtime.Symbol(Sym.EOF);
 %eofval}
 %eofclose
 
