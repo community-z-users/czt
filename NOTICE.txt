@@ -14,9 +14,6 @@ General Public License (see COPYING.txt).
 Java CUP, which is used for the CZT parser, is licensed under the
 Standard ML of New Jersey.  See LICENSE_CUP.txt for more information.
 
-JDSL, which is part of modeljunit, is licensed under a BSD style
-license; see file LICENSE_JDSL.txt for more information.
-
 JUnit, which is used for testing, is licensed under the
 Common Public License, see
 http://www.opensource.org/licenses/cpl.php
