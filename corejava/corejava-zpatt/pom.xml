@@ -23,6 +23,19 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <dialect>zpatt</dialect>
+    <dialectCaps>ZPatt</dialectCaps>
+    <zml.schema.name>ZPattern.xsd</zml.schema.name>
+    <zml.schema.namespace>http://czt.sourceforge.net/zpatt</zml.schema.namespace>
+    
+    <char.src.file>${dialect}char.xml</char.src.file>
+    <char.xsl>${xsl.dir}/${dialect}char2class.xsl</char.xsl>
+    <char.string.xsl>${xsl.dir}/${dialect}char2stringclass.xsl</char.string.xsl>
+    <char.out.file>net/sourceforge/czt/${dialect}/util/${dialectCaps}Char.java</char.out.file>
+    <char.string.out.file>net/sourceforge/czt/${dialect}/util/${dialectCaps}String.java</char.string.out.file>
+  </properties>
+
   <build>
     <plugins>
 
@@ -32,7 +45,7 @@
         <executions>
           <execution>
             <configuration>
-              <targetNamespace>http://czt.sourceforge.net/zpatt</targetNamespace>
+              <targetNamespace>${zml.schema.namespace}</targetNamespace>
             </configuration>
           </execution>
         </executions>
@@ -47,30 +60,26 @@
             <configuration>
               <transformationSets>
                 <transformationSet>
-                  <dir>${xml.dir}</dir>
                   <includes>
-                    <include>zpattchar.xml</include>
+                    <include>${char.src.file}</include>
                   </includes>
-                  <outputDir>${build.xml.dir}/</outputDir>
-                    <fileMappers>
-                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-                        <targetName>net/sourceforge/czt/zpatt/util/ZPattChar.java</targetName>
-                      </fileMapper>
-                    </fileMappers>
-                  <stylesheet>${xsl.dir}/zpattchar2class.xsl</stylesheet>
+                  <fileMappers>
+                    <fileMapper>
+                      <targetName>${char.out.file}</targetName>
+                    </fileMapper>
+                  </fileMappers>
+                  <stylesheet>${char.xsl}</stylesheet>
                 </transformationSet>
                 <transformationSet>
-                  <dir>${xml.dir}</dir>
                   <includes>
-                    <include>zpattchar.xml</include>
+                    <include>${char.src.file}</include>
                   </includes>
-                  <outputDir>${build.xml.dir}/</outputDir>
-                    <fileMappers>
-                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-                        <targetName>net/sourceforge/czt/zpatt/util/ZPattString.java</targetName>
-                      </fileMapper>
-                    </fileMappers>
-                  <stylesheet>${xsl.dir}/zpattchar2stringclass.xsl</stylesheet>
+                  <fileMappers>
+                    <fileMapper>
+                      <targetName>${char.string.out.file}</targetName>
+                    </fileMapper>
+                  </fileMappers>
+                  <stylesheet>${char.string.xsl}</stylesheet>
                 </transformationSet>
               </transformationSets>
             </configuration>
@@ -95,13 +104,13 @@
             <id>generate-jaxb</id>
             <configuration>
               <schemaIncludes>
-                <include>ZPattern.xsd</include>
+                <include>${zml.schema.name}</include>
               </schemaIncludes>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <executions>
@@ -111,7 +120,7 @@
               <filesets>
                 <fileset>
                   <excludes>
-                    <exclude>net/sourceforge/czt/zpatt/jaxb/gen/*</exclude>
+                    <exclude>net/sourceforge/czt/${dialect}/jaxb/gen/*</exclude>
                   </excludes>
                 </fileset>
               </filesets>

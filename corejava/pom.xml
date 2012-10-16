@@ -105,6 +105,48 @@
 	        <goals>
 	          <goal>transform</goal>
 	        </goals>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <!-- 
+                  <includes>
+                    <include>zchar.xml</include>
+                  </includes>
+                  -->
+                  <outputDir>${build.xml.dir}/</outputDir>
+                  <fileMappers>
+                    <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                      <!-- 
+                      <targetName>net/sourceforge/czt/z/util/ZChar.java</targetName>
+                      -->
+                    </fileMapper>
+                  </fileMappers>
+                  <!-- 
+                  <stylesheet>${xsl.dir}/zchar2class.xsl</stylesheet>
+                  -->
+                </transformationSet>
+                <transformationSet>
+                  <dir>${xml.dir}</dir>
+                  <!-- 
+                  <includes>
+                    <include>zchar.xml</include>
+                  </includes>
+                  -->
+                  <outputDir>${build.xml.dir}/</outputDir>
+                  <fileMappers>
+                    <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
+                      <!-- 
+                      <targetName>net/sourceforge/czt/z/util/ZString.java</targetName>
+                      -->
+                    </fileMapper>
+                  </fileMappers>
+                  <!-- 
+                  <stylesheet>${xsl.dir}/zchar2stringclass.xsl</stylesheet>
+                   -->
+                </transformationSet>
+              </transformationSets>
+            </configuration>
           </execution>
 
           <execution>
@@ -138,7 +180,7 @@
             <artifactId>corejava-src</artifactId>
             <version>${czt.version}</version>
           </dependency>
-        </dependencies>        
+        </dependencies>
       </plugin>
 
       <plugin>
