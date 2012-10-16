@@ -19,7 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>jaxb</artifactId>
+      <artifactId>util</artifactId>
     </dependency>
   </dependencies>
 
