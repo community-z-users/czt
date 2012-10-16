@@ -36,8 +36,11 @@ public class JaxbXmlWriter
   static final JAXBContext JAXB_CONTEXT;
   static {
     try {
-      JAXB_CONTEXT = JAXBContext.newInstance(JaxbContext.PATH, 
-          net.sourceforge.czt.z.jaxb.gen.ObjectFactory.class.getClassLoader());
+      JAXB_CONTEXT = JAXBContext.newInstance(toJaxbContextPath(
+              net.sourceforge.czt.z.jaxb.gen.ObjectFactory.class,
+              net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory.class,
+              net.sourceforge.czt.oz.jaxb.gen.ObjectFactory.class), 
+          net.sourceforge.czt.oz.jaxb.gen.ObjectFactory.class.getClassLoader());
     } catch (JAXBException e) {
       throw new RuntimeException(e);
     }

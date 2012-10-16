@@ -20,6 +20,9 @@
 package net.sourceforge.czt.base.jaxb;
 
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -77,5 +80,28 @@ public abstract class JaxbXmlWriter
       System.err.println("JaxbXmlWriter: Caught Exception:");
       e.printStackTrace();
     }
+  }
+  
+  /**
+   * Constructs a JAXB context path out of given classes. Uses package names of
+   * these classes to produce a colon-separated String.
+   * 
+   * @param contextClasses
+   * @return
+   */
+  public static String toJaxbContextPath(Class<?>... contextClasses)
+  {
+    // exclude duplicates but preserve order
+    Set<Class<?>> noDuplicates = new LinkedHashSet<Class<?>>(Arrays.asList(contextClasses));
+    
+    StringBuilder out = new StringBuilder();
+    String separator = "";
+    for (Class<?> clazz : noDuplicates) {
+      out.append(separator);
+      out.append(clazz.getPackage().getName());
+      separator = ":";
+    }
+    
+    return out.toString();
   }
 }

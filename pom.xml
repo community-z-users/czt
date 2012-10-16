@@ -100,7 +100,6 @@
     <module>gaffe</module>
     <module>gaffe2</module>
     <module>gnast</module>
-    <module>jaxb</module>
     <module>jedit</module>
     <module>java-cup-runtime</module>
     <module>java-cup</module>
@@ -153,13 +152,6 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>util</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT Jaxb (generated classes) -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>jaxb</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
@@ -316,7 +308,7 @@
         <version>${czt.version}</version>
       </dependency>
 
-      <!-- ZEves -->
+      <!-- Z/EVES -->
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>zeves</artifactId>

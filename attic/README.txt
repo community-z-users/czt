@@ -11,3 +11,5 @@ z2svg: From Z into SVG.  For browsing the well-formed formulae of
 
 specreader: Z specification parser that allows processing of specifications
     with multiple Z sections per file. Performs rearrangement of sections.
+
+gnast-xsl: XSL templates obsoleted in AST generation

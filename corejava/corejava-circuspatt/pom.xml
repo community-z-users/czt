@@ -29,6 +29,19 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <dialect>circuspatt</dialect>
+    <dialectCaps>CircusPatt</dialectCaps>
+    <zml.schema.name>CircusPattern.xsd</zml.schema.name>
+    <zml.schema.namespace>http://czt.sourceforge.net/circuspatt</zml.schema.namespace>
+    
+    <char.src.file>${dialect}char.xml</char.src.file>
+    <char.xsl>${xsl.dir}/${dialect}char2class.xsl</char.xsl>
+    <char.string.xsl>${xsl.dir}/${dialect}char2stringclass.xsl</char.string.xsl>
+    <char.out.file>net/sourceforge/czt/${dialect}/util/${dialectCaps}Char.java</char.out.file>
+    <char.string.out.file>net/sourceforge/czt/${dialect}/util/${dialectCaps}String.java</char.string.out.file>
+  </properties>
+
   <build>
     <plugins>
 
@@ -38,7 +51,7 @@
         <executions>
           <execution>
             <configuration>
-              <targetNamespace>http://czt.sourceforge.net/circuspatt</targetNamespace>
+              <targetNamespace>${zml.schema.namespace}</targetNamespace>
             </configuration>
           </execution>
         </executions>
@@ -49,40 +62,37 @@
         <artifactId>xml-maven-plugin</artifactId>
         <executions>
           <execution>
-            <phase>generate-sources</phase>
+            <id>generate-chars</id>
             <configuration>
               <transformationSets>
                 <transformationSet>
-                  <dir>${xml.dir}</dir>
                   <includes>
-                    <include>circuspattchar.xml</include>
+                    <include>${char.src.file}</include>
                   </includes>
-                  <outputDir>${build.xml.dir}/</outputDir>
-                    <fileMappers>
-                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-                        <targetName>net/sourceforge/czt/circuspatt/util/CircusPattChar.java</targetName>
-                      </fileMapper>
-                    </fileMappers>
-                  <stylesheet>${xsl.dir}/circuspattchar2class.xsl</stylesheet>
+                  <fileMappers>
+                    <fileMapper>
+                      <targetName>${char.out.file}</targetName>
+                    </fileMapper>
+                  </fileMappers>
+                  <stylesheet>${char.xsl}</stylesheet>
                 </transformationSet>
                 <transformationSet>
-                  <dir>${xml.dir}</dir>
                   <includes>
-                    <include>circuspattchar.xml</include>
+                    <include>${char.src.file}</include>
                   </includes>
-                  <outputDir>${build.xml.dir}/</outputDir>
-                    <fileMappers>
-                      <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.MergeFileMapper">
-                        <targetName>net/sourceforge/czt/circuspatt/util/CircusPattString.java</targetName>
-                      </fileMapper>
-                    </fileMappers>
-                  <stylesheet>${xsl.dir}/circuspattchar2stringclass.xsl</stylesheet>
+                  <fileMappers>
+                    <fileMapper>
+                      <targetName>${char.string.out.file}</targetName>
+                    </fileMapper>
+                  </fileMappers>
+                  <stylesheet>${char.string.xsl}</stylesheet>
                 </transformationSet>
               </transformationSets>
             </configuration>
-	        <goals>
-	          <goal>transform</goal>
-	        </goals>
+          </execution>
+
+          <execution>
+            <id>annotate-jaxb</id>
           </execution>
         </executions>
       </plugin>
@@ -90,6 +100,39 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-jaxb</id>
+            <configuration>
+              <schemaIncludes>
+                <include>${zml.schema.name}</include>
+              </schemaIncludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>clean-extra-jaxb</id>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <excludes>
+                    <exclude>net/sourceforge/czt/${dialect}/jaxb/gen/*</exclude>
+                  </excludes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
