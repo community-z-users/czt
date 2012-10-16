@@ -441,13 +441,6 @@
         <version>1.0-alpha-7</version>
       </dependency>
       
-      <!-- XML transformations -->
-      <dependency>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-        <version>1.0</version>
-      </dependency>
-      
     </dependencies>
   </dependencyManagement>
   <build>
