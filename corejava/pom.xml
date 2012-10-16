@@ -108,6 +108,8 @@
           </execution>
 
           <execution>
+            <!-- Annotates ZML schema with missing JAXB annotations, e.g. adds specific complex types
+                 for elements sharing some type. -->
             <id>annotate-jaxb</id>
             <phase>generate-sources</phase>
             <configuration>
@@ -118,7 +120,8 @@
                     <include>*.xsd</include>
                   </includes>
                   <outputDir>${jaxb.xsd.dir}</outputDir>
-                  <stylesheet>${project.basedir}/../../gnast/src/xsl/annotateJaxbBindings.xsl</stylesheet>
+                  <!-- Stylesheet is in classpath, `corejava-src` project -->
+                  <stylesheet>/xsl/annotateJaxbBindings.xsl</stylesheet>
                   <addedToClasspath>false</addedToClasspath>
                 </transformationSet>
               </transformationSets>
@@ -128,6 +131,14 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <!-- Depend on corejava-src to locate stylesheet -->
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>corejava-src</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
+        </dependencies>        
       </plugin>
 
       <plugin>
