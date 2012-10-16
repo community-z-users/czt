@@ -67,52 +67,54 @@ public class GaffeLoadListener implements ActionListener
       XMLDecoder e = new XMLDecoder(new BufferedInputStream(
           new FileInputStream(file)));
 
-      //ReInitialize Analyzer
-      String specFile = (String) e.readObject();
-      String stateSchemaName = (String) e.readObject();
-      String initSchemaName = (String) e.readObject();
-      Analyzer analyzer = GaffeFactory.getAnalyzer();
-      analyzer.initialize(new File(specFile));
-      //Reset UI
-      GaffeUI.resetAll();
-
-      //ReInitialise Evaluator
-      VariablePane statePane = new VariablePane();
-      statePane.setBorder(new TitledBorder("state"));
-      statePane.setName(file.getName());
-      GaffeUI.getMainFrame().tab(statePane,"RT");
-      GaffeUI.setStatePane(statePane);
-      HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
-          "state");
-      state = GaffeUtil.prime(state);
-      statePane.setComponentMap(GaffeUtil.createComponentMap(state));
-      Evaluator evaluator = GaffeFactory.getEvaluator();
-      EvalResult results = evaluator.initialize(analyzer.getSpecURL(),
-          initSchemaName);
-      Step step = new Step(initSchemaName, results);
-      Step evaluatingRoot = (Step) evaluatingTree.getRoot();
-      evaluatingRoot.add(step);
-      System.out.println("Loading file.. " + file.getName());
-      /*---------------------------------------------*/
-
-      // Load SchemaTree
-      DefaultTreeModel schemaTree = (DefaultTreeModel) e.readObject();
-      GaffeUI.getOperationPane().add(new JTree(schemaTree));
-      /*---------------------------------------------*/
-
-      // Load StepTree
-      StepTree tree = (StepTree) e.readObject();
-      GaffeUtil.addStepTree("default", tree);
-      tree.setStateSchemaName(stateSchemaName);
-      tree.setInitSchemaName(initSchemaName);
-      tree.addPropertyChangeListener(statePane);
-      tree.addPropertyChangeListener(GaffeUI.getToolBar());
-      Step root = (Step) tree.getRoot();
-      restore(root);
-      tree.setStep(root);
-      /*---------------------------------------------*/
-
-      e.close();
+      try {
+        //ReInitialize Analyzer
+        String specFile = (String) e.readObject();
+        String stateSchemaName = (String) e.readObject();
+        String initSchemaName = (String) e.readObject();
+        Analyzer analyzer = GaffeFactory.getAnalyzer();
+        analyzer.initialize(new File(specFile));
+        //Reset UI
+        GaffeUI.resetAll();
+  
+        //ReInitialise Evaluator
+        VariablePane statePane = new VariablePane();
+        statePane.setBorder(new TitledBorder("state"));
+        statePane.setName(file.getName());
+        GaffeUI.getMainFrame().tab(statePane,"RT");
+        GaffeUI.setStatePane(statePane);
+        HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
+            "state");
+        state = GaffeUtil.prime(state);
+        statePane.setComponentMap(GaffeUtil.createComponentMap(state));
+        Evaluator evaluator = GaffeFactory.getEvaluator();
+        EvalResult results = evaluator.initialize(analyzer.getSpecURL(),
+            initSchemaName);
+        Step step = new Step(initSchemaName, results);
+        Step evaluatingRoot = (Step) evaluatingTree.getRoot();
+        evaluatingRoot.add(step);
+        System.out.println("Loading file.. " + file.getName());
+        /*---------------------------------------------*/
+  
+        // Load SchemaTree
+        DefaultTreeModel schemaTree = (DefaultTreeModel) e.readObject();
+        GaffeUI.getOperationPane().add(new JTree(schemaTree));
+        /*---------------------------------------------*/
+  
+        // Load StepTree
+        StepTree tree = (StepTree) e.readObject();
+        GaffeUtil.addStepTree("default", tree);
+        tree.setStateSchemaName(stateSchemaName);
+        tree.setInitSchemaName(initSchemaName);
+        tree.addPropertyChangeListener(statePane);
+        tree.addPropertyChangeListener(GaffeUI.getToolBar());
+        Step root = (Step) tree.getRoot();
+        restore(root);
+        tree.setStep(root);
+        /*---------------------------------------------*/
+      } finally {
+        e.close();
+      }
       GaffeUI.getMainFrame().reset();
       System.out.println("File: " + file.getName() + "loaded!");
     } catch (IOException ioex) {

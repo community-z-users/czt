@@ -21,7 +21,6 @@ package net.sourceforge.czt.parser.util;
 
 import java.io.*;
 import java.net.URL;
-import java_cup.runtime.*;
 
 import junit.framework.*;
 
@@ -29,16 +28,12 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.z.util.DeleteMarkupParaVisitor;
 import net.sourceforge.czt.z.util.DeleteNarrVisitor;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * A (JUnit) test class for testing the parser.
@@ -181,7 +176,7 @@ public abstract class AbstractParserTest
   public void testConjectureNames()
     throws Exception
   {
-    Visitor visitor = new DeleteNarrVisitor();
+    Visitor<Term> visitor = new DeleteNarrVisitor();
     Spec parsedSpec =
       (Spec) parse(getTestExample("conjectures.tex"), manager_).accept(visitor);
     assertEquals(1, parsedSpec.getSect().size());
@@ -250,8 +245,15 @@ public abstract class AbstractParserTest
     throws Exception
   {
     JaxbXmlReader reader = new JaxbXmlReader();
-    Visitor visitor = new DeleteNarrVisitor();
-    Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
+    Visitor<Term> visitor = new DeleteNarrVisitor();
+    InputStream zmlStream = zmlURL.openStream();
+    Term zmlTerm;
+    try {
+      zmlTerm = reader.read(zmlStream);
+    } finally {
+      zmlStream.close();
+    }
+    Spec zmlSpec = (Spec) zmlTerm.accept(visitor);
     Spec parsedSpec =
       (Spec) parse(url, manager_).accept(visitor);
     visitor = new DeleteMarkupParaVisitor();
@@ -280,9 +282,9 @@ public abstract class AbstractParserTest
 }
 
 class DeleteLocVisitor
-  implements TermVisitor
+  implements TermVisitor<Term>
 {
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     VisitorUtils.visitTerm(this, term);
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);

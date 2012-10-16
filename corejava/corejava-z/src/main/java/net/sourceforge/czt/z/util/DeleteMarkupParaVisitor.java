@@ -20,7 +20,6 @@
 package net.sourceforge.czt.z.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -30,17 +29,17 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class DeleteMarkupParaVisitor
-  implements TermVisitor,
-             LatexMarkupParaVisitor,
-             SpecVisitor,
-             ZParaListVisitor,
-             ZSectVisitor
+  implements TermVisitor<Term>,
+             LatexMarkupParaVisitor<Term>,
+             SpecVisitor<Term>,
+             ZParaListVisitor<Term>,
+             ZSectVisitor<Term>
 {
   /**
    * Returns the given term.  No iteration is needed since
    * MarkupPara are only possible in specifications or sections.
    */
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return term;
   }
@@ -52,7 +51,7 @@ public class DeleteMarkupParaVisitor
    * specification is created containing the sections returned by the
    * visit calls.
    */
-  public Object visitSpec(Spec spec)
+  public Term visitSpec(Spec spec)
   {
     List<Sect> newSects = new ArrayList<Sect>(spec.getSect().size());
     for (Sect sect : spec.getSect()) {

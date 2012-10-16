@@ -392,8 +392,13 @@ public class Main
       URL url = Main.class.getResource("/net/sourceforge/czt/czt.properties");
       if (url != null)
       {
-        props.load(url.openStream());
+        InputStream urlStream = url.openStream();
+        try {
+        props.load(urlStream);
         version = (String) props.get("version");
+        } finally {
+          urlStream.close();
+        }
       }
     }
     catch (IOException e)
@@ -527,10 +532,11 @@ public class Main
       URL url = Main.class.getResource("command.properties");
       Properties result = new Properties();
       InputStream is = url.openStream();
-      if (is != null)
-      {
+      try {
         result.loadFromXML(is);
         return result;
+      } finally {
+        is.close();
       }
     }
     catch (IOException e)

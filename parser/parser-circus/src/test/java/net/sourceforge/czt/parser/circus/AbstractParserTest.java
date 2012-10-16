@@ -11,6 +11,7 @@ package net.sourceforge.czt.parser.circus;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -126,9 +127,9 @@ public abstract class AbstractParserTest extends TestCase
     return term;
   }
   
-  class DeleteLocVisitor implements TermVisitor
+  class DeleteLocVisitor implements TermVisitor<Term>
   {
-    public Object visitTerm(Term term)
+    public Term visitTerm(Term term)
     {
       VisitorUtils.visitTerm(this, term);
       LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
@@ -141,8 +142,15 @@ public abstract class AbstractParserTest extends TestCase
   throws Exception
   {
     JaxbXmlReader reader = new JaxbXmlReader();
-    Visitor visitor = new DeleteNarrVisitor();
-    Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
+    Visitor<Term> visitor = new DeleteNarrVisitor();
+    InputStream zmlStream = zmlURL.openStream();
+    Term zmlTerm;
+    try {
+      zmlTerm = reader.read(zmlStream);
+    } finally {
+      zmlStream.close();
+    }
+    Spec zmlSpec = (Spec) zmlTerm.accept(visitor);
     Spec parsedSpec = (Spec) parse(new UrlSource(url)).accept(visitor);
     visitor = new DeleteMarkupParaVisitor();
     parsedSpec = (Spec) parsedSpec.accept(visitor);

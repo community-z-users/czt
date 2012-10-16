@@ -173,6 +173,8 @@ public class AnimatorCore
         rootContext.add(newForm);
       }
     } catch (ArrayIndexOutOfBoundsException ex) {
+    } finally {
+      decoder.close();
     }
 
     //XXX Load Z specification.

@@ -242,10 +242,14 @@ public class ZCharMap extends JPanel
       try {
     	InputStream stream = url.openStream();
 
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        SAXParser saxParser = factory.newSAXParser();
-
-        saxParser.parse(stream, handler);
+        try {
+          SAXParserFactory factory = SAXParserFactory.newInstance();
+          SAXParser saxParser = factory.newSAXParser();
+  
+          saxParser.parse(stream, handler);
+        } finally {
+          stream.close();
+        }
       }
       catch (Exception e) {
     	throw new RuntimeException(e);

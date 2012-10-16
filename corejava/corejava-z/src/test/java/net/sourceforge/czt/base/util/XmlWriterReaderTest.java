@@ -21,9 +21,9 @@ package net.sourceforge.czt.base.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Iterator;
 
 import junit.framework.*;
 
@@ -68,7 +68,13 @@ public abstract class XmlWriterReaderTest
     XmlReader reader = createXmlReader();
     XmlWriter writer = createXmlWriter();
     for (URL url : getExampleFiles()) {
-      Term term = reader.read(url.openStream());
+      InputStream is = url.openStream();
+      Term term;
+      try {
+        term = reader.read(is);
+      } finally {
+        is.close();
+      }
       File tmpFile1 = File.createTempFile("cztXmlWriterReader", "test.zml");
       tmpFile1.deleteOnExit();
       writer.write(term, new FileOutputStream(tmpFile1));

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -73,14 +74,23 @@ public class CZT2ZEves {
                   {   
                     String filename = path + "/zeves.properties";
                     FileInputStream fis = new FileInputStream(new File(filename));
-                    zevesp.load(fis);
+                    try {
+                      zevesp.load(fis);
+                    } finally {
+                      fis.close();
+                    }
                   } catch (IOException e)
                   {        
                     //URL url = CZT2ZEves.class.getResource("net/sourceforge/czt/zeves/zeves.properties");
                     URL url = CZT2ZEves.class.getResource("./zeves.properties");
-                    if (url != null)
-                      zevesp.load(url.openStream());
-                    else
+                    if (url != null) {
+                      InputStream inputStream = url.openStream();
+                      try {
+                        zevesp.load(inputStream);
+                      } finally {
+                        inputStream.close();
+                      }
+                    } else
                       throw e;
                   }
                   server = zevesp.getProperty("ZEVES_EXECUTABLE");
@@ -165,36 +175,40 @@ public class CZT2ZEves {
         Socket zevesSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;
+        BufferedReader stdIn = null;
         try {
-            zevesSocket = new Socket(address, Integer.valueOf(port));
-            out = new PrintWriter(zevesSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(zevesSocket.getInputStream()));
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + address + " at port " + port);
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Could not get I/O for the connection to: " + address + " at port " + port);
-            System.exit(1);
+          try {
+              zevesSocket = new Socket(address, Integer.valueOf(port));
+              out = new PrintWriter(zevesSocket.getOutputStream(), true);
+              in = new BufferedReader(new InputStreamReader(zevesSocket.getInputStream()));
+          } catch (UnknownHostException e) {
+              System.err.println("Don't know about host: " + address + " at port " + port);
+              System.exit(1);
+          } catch (IOException e) {
+              System.err.println("Could not get I/O for the connection to: " + address + " at port " + port);
+              System.exit(1);
+          }
+          stdIn = new BufferedReader(new InputStreamReader(System.in));
+          System.out.print("zevesClient>");
+          String userInput = stdIn.readLine();
+          while (userInput != null) {
+              out.println(userInput);
+              StringBuilder response = new StringBuilder();
+              String zevesIn = in.readLine();
+              while (zevesIn != null && (zevesIn.equals("</zoutput>") || zevesIn.equals("</zerrort>"))) {
+                  response.append(zevesIn);
+                  zevesIn = in.readLine();
+              }
+              System.out.println("zevesClient>\n\t" + response.toString());
+              System.out.print("zevesClient>");
+              userInput = stdIn.readLine();
+          }
+        } finally {
+          if (out != null) { out.close(); }
+          if (in != null) { in.close(); }
+          if (stdIn != null) { stdIn.close(); }
+          if (zevesSocket != null) { zevesSocket.close(); }
         }
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("zevesClient>");
-        String userInput = stdIn.readLine();
-        while (userInput != null) {
-            out.println(userInput);
-            StringBuilder response = new StringBuilder();
-            String zevesIn = in.readLine();
-            while (zevesIn != null && (zevesIn.equals("</zoutput>") || zevesIn.equals("</zerrort>"))) {
-                response.append(zevesIn);
-                zevesIn = in.readLine();
-            }
-            System.out.println("zevesClient>\n\t" + response.toString());
-            System.out.print("zevesClient>");
-            userInput = stdIn.readLine();
-        }
-        out.close();
-        in.close();
-        stdIn.close();
-        zevesSocket.close();
     }
     
     private static final CZT2ZEvesPrinter sZEvesPrinter = new CZT2ZEvesPrinter(null/*...*/);

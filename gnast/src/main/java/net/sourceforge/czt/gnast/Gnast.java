@@ -537,23 +537,13 @@ public class Gnast implements GlobalProperties
       } else {
         // try opening a stream to see whether it is a valid URL
         
-        InputStream testStream = null;
         try {
-          testStream = fileUrl.openStream();
+          InputStream testStream = fileUrl.openStream();
+          testStream.close();
           return true;
         }
         catch (IOException e) {
           // ignore - cannot open a stream, so file does not exist
-        }
-        finally {
-          if (testStream != null) {
-            try {
-              testStream.close();
-            }
-            catch (IOException e) {
-              // ignore
-            }
-          }
         }
       }
     }

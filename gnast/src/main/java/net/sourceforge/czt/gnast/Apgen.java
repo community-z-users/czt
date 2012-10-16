@@ -463,8 +463,13 @@ public class Apgen
     }
 
     Properties props = new Properties();
+    FileInputStream fis = new FileInputStream(propertyFile);
     try {
-      props.load(new FileInputStream(propertyFile));
+      try {
+        props.load(fis);
+      } finally {
+        fis.close();
+      }
     }
     catch (Exception e) {
       System.err.println(e.getMessage());

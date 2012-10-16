@@ -131,7 +131,12 @@ public class <class/> extends AbstractCommand
     else if (source.getMarkup() == Markup.ZML)
     {
       JaxbXmlReader reader = new JaxbXmlReader();
-      result = reader.read(new InputSource(source.getReader()));
+      Reader in = source.getReader();
+      try {
+        result = reader.read(new InputSource(in));
+      } finally {
+        in.close();
+      }
       if (result instanceof Spec) {
         Spec spec = (Spec) result;
         for (Sect sect : spec.getSect()) {
@@ -194,10 +199,14 @@ public class <class/> extends AbstractCommand
       buf.append("\\end{zsection} ");
       buf.append("\\begin{axdef} \\where\n");
       Reader reader = src.getReader();
-      int ch = reader.read();
-      while (ch != -1) {
-        buf.appendCodePoint(ch);
-        ch = reader.read();
+      try {
+        int ch = reader.read();
+        while (ch != -1) {
+          buf.appendCodePoint(ch);
+          ch = reader.read();
+        }
+      } finally {
+        reader.close();
       }
       buf.append("\n\\end{axdef}\n");
     }
@@ -214,10 +223,14 @@ public class <class/> extends AbstractCommand
       buf.append(ZString.BAR);
       buf.append(ZString.NL);
       Reader reader = src.getReader();
-      int ch = reader.read();
-      while (ch != -1) {
-        buf.appendCodePoint(ch);
-        ch = reader.read();
+      try {
+        int ch = reader.read();
+        while (ch != -1) {
+          buf.appendCodePoint(ch);
+          ch = reader.read();
+        }
+      } finally {
+        reader.close();
       }
       buf.append(ZString.NL);
       buf.append(ZString.END);
@@ -275,10 +288,14 @@ public class <class/> extends AbstractCommand
       buf.append("\\end{zsection} ");
       buf.append("\\begin{axdef} result == \n");
       Reader reader = src.getReader();
-      int ch = reader.read();
-      while (ch != -1) {
-        buf.appendCodePoint(ch);
-        ch = reader.read();
+      try {
+        int ch = reader.read();
+        while (ch != -1) {
+          buf.appendCodePoint(ch);
+          ch = reader.read();
+        }
+      } finally {
+        reader.close();
       }
       buf.append("\n\\end{axdef}\n");
     }
@@ -298,10 +315,14 @@ public class <class/> extends AbstractCommand
       buf.append(" ");
       buf.append(ZString.NL);
       Reader reader = src.getReader();
-      int ch = reader.read();
-      while (ch != -1) {
-        buf.appendCodePoint(ch);
-        ch = reader.read();
+      try {
+        int ch = reader.read();
+        while (ch != -1) {
+          buf.appendCodePoint(ch);
+          ch = reader.read();
+        }
+      } finally {
+        reader.close();
       }
       buf.append(ZString.NL);
       buf.append(ZString.END);
@@ -348,10 +369,14 @@ public class <class/> extends AbstractCommand
       buf.append(parent.replaceAll("_", "\\\\_"));
       buf.append("\\end{zsection} \n");
       Reader reader = src.getReader();
-      int ch = reader.read();
-      while (ch != -1) {
-        buf.appendCodePoint(ch);
-        ch = reader.read();
+      try {
+        int ch = reader.read();
+        while (ch != -1) {
+          buf.appendCodePoint(ch);
+          ch = reader.read();
+        }
+      } finally {
+        reader.close();
       }
     }
     else {
@@ -364,10 +389,14 @@ public class <class/> extends AbstractCommand
       buf.append(parent);
       buf.append(ZString.END);
       Reader reader = src.getReader();
-      int ch = reader.read();
-      while (ch != -1) {
-        buf.appendCodePoint(ch);
-        ch = reader.read();
+      try {
+        int ch = reader.read();
+        while (ch != -1) {
+          buf.appendCodePoint(ch);
+          ch = reader.read();
+        }
+      } finally {
+        reader.close();
       }
     }
     // we create a temporary sectman so that this temp section does not

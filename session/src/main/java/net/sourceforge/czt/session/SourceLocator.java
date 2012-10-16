@@ -205,8 +205,12 @@ public class SourceLocator extends AbstractCommand
         try 
         {          
           FileInputStream fis = new FileInputStream(cztpropsfile);
-          //cztprops.loadFromXML(fis);          
-          cztprops.load(fis);
+          //cztprops.loadFromXML(fis);
+          try {
+            cztprops.load(fis);
+          } finally {
+            fis.close();
+          }
         } catch (IOException e)
         {        
           throw new SourceLocatorException("czt.properties", path, e);
@@ -392,32 +396,30 @@ public class SourceLocator extends AbstractCommand
     try {
       Properties props = new Properties();
       InputStream is = providersListUrl.openStream();
-      if (is != null) {
+      try {
         props.loadFromXML(is);
-        
-        // get the keys (class names)
-        Set<String> classNames = props.stringPropertyNames();
-        List<Class<?>> toolkitProviders = new ArrayList<Class<?>>();
-        
-        // add current class as provider
-        toolkitProviders.add(SourceLocator.class);
-        
-        // resolve the class for each class name
-        for (String className : classNames) {
-          Class<?> aClass = toClass(className);
-          
-          // only use classes that are available (e.g. we may have a subset of CZT core)
-          if (aClass != null) {
-            toolkitProviders.add(aClass);
-          }
-        }
-        
-        return toolkitProviders;
-        
-      } else {
-        getLogger().warning(errorMessage);
-        throw new RuntimeException(errorMessage);
+      } finally {
+        is.close();
       }
+        
+      // get the keys (class names)
+      Set<String> classNames = props.stringPropertyNames();
+      List<Class<?>> toolkitProviders = new ArrayList<Class<?>>();
+      
+      // add current class as provider
+      toolkitProviders.add(SourceLocator.class);
+      
+      // resolve the class for each class name
+      for (String className : classNames) {
+        Class<?> aClass = toClass(className);
+        
+        // only use classes that are available (e.g. we may have a subset of CZT core)
+        if (aClass != null) {
+          toolkitProviders.add(aClass);
+        }
+      }
+      
+      return toolkitProviders;
     }
     catch (IOException e) {
       getLogger().warning(errorMessage);

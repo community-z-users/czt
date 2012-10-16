@@ -43,9 +43,9 @@ public class ZEvesSocket {
 	class ZEvesResponse { ZEvesResponse(String foo) {} // dummy
 	}
 	
-    private boolean fConnected;
+//    private boolean fConnected;
     private boolean fAutoFlushZEvesOut;
-    private boolean fNeedsReconnection;
+//    private boolean fNeedsReconnection;
     
     private int fPort;
     private String fHost;
@@ -55,7 +55,7 @@ public class ZEvesSocket {
     private BufferedReader fZEvesIn;
     
     private ZSect fZSect;    
-    private ZEvesResponse fResponse;
+//    private ZEvesResponse fResponse;
     private SectionInfo fSectInfo;
     private final CZT2ZEvesPrinter fPrinter;    
     
@@ -87,7 +87,7 @@ public class ZEvesSocket {
         fZEvesIn = null;
         fZEvesOut = null;
         fZEvesServer = null;            
-        fResponse = null;
+//        fResponse = null;
     }
     
     protected void finalize() throws Throwable {

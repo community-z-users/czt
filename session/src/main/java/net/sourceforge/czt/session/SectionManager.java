@@ -612,13 +612,12 @@ public class SectionManager
     try {
       Properties props = new Properties();
       InputStream is = url.openStream();
-      if (is != null) {
+      try {
         props.loadFromXML(is);
         putCommands(props);
-        return;
+      } finally {
+        is.close();
       }
-      getLogger().warning(errorMessage);
-      throw new RuntimeException(errorMessage);
     }
     catch (IOException e) {
       getLogger().warning(errorMessage);

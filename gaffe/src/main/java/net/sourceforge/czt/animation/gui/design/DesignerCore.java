@@ -967,8 +967,9 @@ public class DesignerCore implements BeanContextProxy
             setupWindowMenu(), DesignerCore.this));
       }
     } catch (ArrayIndexOutOfBoundsException ex) {
-    };
-    decoder.close();
+    } finally {
+      decoder.close();
+    }
     if (formDesigns.isEmpty())
       JOptionPane.showMessageDialog(null, "File contains no form designs",
           "Bad or empty file", JOptionPane.ERROR_MESSAGE);
@@ -1023,11 +1024,15 @@ public class DesignerCore implements BeanContextProxy
       };
       String license = "";
       try {
-        String s = input.readLine();
-        do {
-          license += s + "\n";
-          s = input.readLine();
-        } while (s != null);
+        try {
+          String s = input.readLine();
+          do {
+            license += s + "\n";
+            s = input.readLine();
+          } while (s != null);
+        } finally {
+          input.close();
+        }
       } catch (IOException ex) {
         throw new Error("Couldn't read the GPL License text.");
       }
@@ -1083,8 +1088,12 @@ public class DesignerCore implements BeanContextProxy
                 .getSelectedItem());
             InputStreamReader scriptReader = new InputStreamReader(scriptURL
                 .openStream());
-            String script = IOUtils.getStringFromReader(scriptReader);
-            scriptField.replaceSelection(script);
+            try {
+              String script = IOUtils.getStringFromReader(scriptReader);
+              scriptField.replaceSelection(script);
+            } finally {
+              scriptReader.close();
+            }
           } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(InitScriptDialog.this,
                 "File not found:" + ex, "File not found",

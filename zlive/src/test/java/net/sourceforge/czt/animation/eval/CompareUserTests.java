@@ -28,36 +28,43 @@ public class CompareUserTests
       in = new BufferedReader(inStream);
       out.println("animate_"+fileType.toLowerCase()+".tex");
       int counter = 0;
-      String temp;
-      if (gainedTests.size()>0){
-        do {
-          temp = in.readLine();
-          if(temp!=null) {
-            if(((Integer)gainedTests.get(gainedCounter)).intValue() == counter) {
-              out.println("+ Line "+counter+": "+temp);
-              gainedCounter++;
+      try {
+        if (gainedTests.size()>0){
+          String temp;
+          do {
+            temp = in.readLine();
+            if(temp!=null) {
+              if(((Integer)gainedTests.get(gainedCounter)).intValue() == counter) {
+                out.println("+ Line "+counter+": "+temp);
+                gainedCounter++;
+              }
+              counter++;
             }
-            counter++;
-          }
-        } while((temp!=null) && (gainedCounter<gainedTests.size()));
+          } while((temp!=null) && (gainedCounter<gainedTests.size()));
+        }
+      } finally {
+        in.close();
       }
-
-      in.close();
       counter = 0;
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
 
-      if (lostTests.size()>0){
-        do {
-          temp = in.readLine();
-          if(temp!=null) {
-            if(((Integer)lostTests.get(lostCounter)).intValue() == counter) {
-              out.println("- Line "+counter+": "+temp);
-              lostCounter++;
+      try {
+        if (lostTests.size()>0){
+          String temp;
+          do {
+            temp = in.readLine();
+            if(temp!=null) {
+              if(((Integer)lostTests.get(lostCounter)).intValue() == counter) {
+                out.println("- Line "+counter+": "+temp);
+                lostCounter++;
+              }
+              counter++;
             }
-            counter++;
-          }
-        } while((temp!=null) && (lostCounter<lostTests.size()));
+          } while((temp!=null) && (lostCounter<lostTests.size()));
+        }
+      } finally {
+        in.close();
       }
     }
     catch (FileNotFoundException e) {System.out.println("File not found : animate_"+fileType.toLowerCase()+".tex");}
@@ -120,30 +127,34 @@ public class CompareUserTests
     File inputFile = new File(dir,fileName);
     FileReader inStream = new FileReader(inputFile);
     BufferedReader reader = new BufferedReader(inStream);
-    ArrayList<Integer> passed = new ArrayList<Integer>();
-    String line = reader.readLine();
-    while (line != null) {
-	if (line.startsWith("Passed test:")
-         || line.startsWith("Passed undef test:")) {
-            if ((line.indexOf("::")) >= 0) {
-		String testNum = line.substring(line.lastIndexOf(':')+1);
-		out.println("WARNING: Passed test #"+testNum
-			    +" has no line number in file "
-			    +dir+"/"+fileName);
-	    }
-	    else {
-		// we have a line number
-		int colon = line.lastIndexOf(':');
-		if (colon < 0)
-		    throw new RuntimeException("Bad test output: "+line);
-		String lineNum = line.substring(colon+1);
-		passed.add(new Integer(lineNum));
-	    }
-	}
-        line = reader.readLine();
+    try {
+      ArrayList<Integer> passed = new ArrayList<Integer>();
+      String line = reader.readLine();
+      while (line != null) {
+  	if (line.startsWith("Passed test:")
+           || line.startsWith("Passed undef test:")) {
+              if ((line.indexOf("::")) >= 0) {
+  		String testNum = line.substring(line.lastIndexOf(':')+1);
+  		out.println("WARNING: Passed test #"+testNum
+  			    +" has no line number in file "
+  			    +dir+"/"+fileName);
+  	    }
+  	    else {
+  		// we have a line number
+  		int colon = line.lastIndexOf(':');
+  		if (colon < 0)
+  		    throw new RuntimeException("Bad test output: "+line);
+  		String lineNum = line.substring(colon+1);
+  		passed.add(new Integer(lineNum));
+  	    }
+  	}
+          line = reader.readLine();
+      }
+      return passed;
+      
+    } finally {
+      reader.close();
     }
-    reader.close();
-    return passed;
   }
 
   public static void main (String args[])

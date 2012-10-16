@@ -198,13 +198,20 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
     try {
       FileInputStream fileStream = new FileInputStream(getSettingsFileName());
-      ObjectInputStream os = new ObjectInputStream(fileStream);
-
-      Object pathObject = os.readObject();
-      String path = (String) pathObject;
-      chooser.setCurrentDirectory(new File(path));
-
-      os.close();
+      ObjectInputStream os = null;
+      try {
+        os = new ObjectInputStream(fileStream);
+  
+        Object pathObject = os.readObject();
+        String path = (String) pathObject;
+        chooser.setCurrentDirectory(new File(path));
+      } finally {
+        if (os != null) {
+          os.close();
+        } else {
+          fileStream.close();
+        }
+      }
     }
     catch (Exception e) {
       //e.printStackTrace();
@@ -466,7 +473,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     close.setEnabled(true);
 
     String selectedLanguage = "";
-    String selectedEncoding = "";
+//    String selectedEncoding = "";
     int nrOfZSects = 0;
 
     clearTreeView();

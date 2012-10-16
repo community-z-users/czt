@@ -19,6 +19,7 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -608,7 +609,12 @@ public class ZLive
       Properties props = new Properties();
       URL url = ZLive.class.getResource("zlive.properties");
       if (url != null) {
-        props.load(url.openStream());
+        InputStream is = url.openStream();
+        try {
+          props.load(is);
+        } finally {
+          is.close();
+        }
         version = (String) props.get("version");
       }
     }

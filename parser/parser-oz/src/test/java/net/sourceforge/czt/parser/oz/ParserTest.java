@@ -137,8 +137,15 @@ public class ParserTest
     throws Exception
   {
     JaxbXmlReader reader = new JaxbXmlReader();
-    Visitor visitor = new DeleteNarrVisitor();
-    Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
+    Visitor<Term> visitor = new DeleteNarrVisitor();
+    InputStream zmlStream = zmlURL.openStream();
+    Term zmlTerm;
+    try {
+      zmlTerm = reader.read(zmlStream);
+    } finally {
+      zmlStream.close();
+    }
+    Spec zmlSpec = (Spec) zmlTerm.accept(visitor);
     Spec parsedSpec =
       (Spec) parse(url, manager_).accept(visitor);
     visitor = new DeleteMarkupParaVisitor();

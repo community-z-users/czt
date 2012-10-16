@@ -150,7 +150,7 @@ public class SpecialLatexParser {
             SectionInfo sectInfo)
             throws ParseException, FileNotFoundException, IOException {
         logger.fine("Parse LaTex file " + filename);
-        Reader in = new InputStreamReader(new FileInputStream(filename));
+//        Reader in = new InputStreamReader(new FileInputStream(filename));
         SpecialLatexParser parser = new SpecialLatexParser(new FileSource(filename),//in,
                 //filename,
                 sectInfo,
@@ -284,7 +284,7 @@ public class SpecialLatexParser {
                         Term reparse = parseLatexFile(filename + PRINT_LATEX_EXT, sm);                        
                         time = System.currentTimeMillis() - time;
                         if (reparse != null) {                          
-                          boolean equalTerms = reparse.equals(term);
+//                          boolean equalTerms = reparse.equals(term);
                           time = System.currentTimeMillis() - time;
                           System.out.println("Original and old terms are not Object.equals().");
                           System.out.println("----FINISHED LATEX REPARSING----(" +  time + "msecs)");   
@@ -341,7 +341,7 @@ public class SpecialLatexParser {
         private boolean fShowTimeStamp = true;
         private boolean fShowRecordedMessage = true;
         private boolean fShowSourceMethod = true;
-        private boolean fShowDirectory = true;
+//        private boolean fShowDirectory = true;
         private boolean fShowStackTrace = true;
         
         // Line separator string.  This is the value of the line.separator
@@ -355,7 +355,7 @@ public class SpecialLatexParser {
             fShowTimeStamp = showTimeStamp;
             fShowRecordedMessage = showRecordedMessage;
             fShowSourceMethod = showSourceMethod;
-            fShowDirectory = showDirectory;
+//            fShowDirectory = showDirectory;
             fShowStackTrace = showStackTrace;            
         }
         
