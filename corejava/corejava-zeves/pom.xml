@@ -75,12 +75,49 @@
               </transformationSets>
             </configuration>
           </execution>
+
+          <execution>
+            <id>annotate-jaxb</id>
+          </execution>
         </executions>
       </plugin>
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-jaxb</id>
+            <configuration>
+              <schemaIncludes>
+                <include>ZEves.xsd</include>
+              </schemaIncludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>clean-extra-jaxb</id>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <excludes>
+                    <exclude>net/sourceforge/czt/zeves/jaxb/gen/*</exclude>
+                  </excludes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
