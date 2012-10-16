@@ -72,13 +72,6 @@
          unpack="false"/>
 
    <plugin
-         id="net.sourceforge.czt.jaxb"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="net.sourceforge.czt.parser-z"
          download-size="0"
          install-size="0"
