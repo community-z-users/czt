@@ -193,6 +193,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
         <executions>
           <execution>
             <!-- A workaround to split JAXB generation between projects.
