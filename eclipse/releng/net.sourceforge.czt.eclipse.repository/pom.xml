@@ -52,6 +52,10 @@
           </execution>
         </executions>
         <configuration>
+          <formats>
+            <linux>tar.gz</linux>
+            <macosx>tar.gz</macosx>
+          </formats>
           <products>
             <product>
               <id>net.sourceforge.czt.eclipse.product</id>
