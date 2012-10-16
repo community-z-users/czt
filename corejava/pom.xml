@@ -193,13 +193,10 @@
                      used together with .episode files. It complains about multiple schemaBindings definitions.
                      As a workaround, all jaxb:* elements should be cleaned from all schemas that have
                      .episode files defined for them. (Currently all ZML XSDs have jaxb:* elements).
-                   - Some of Z.xsd types are defined as elements without a component Complex Type,
-                     e.g. IffExpr. IffExpr gets generated and added to the .episode file as "~tns:IffExpr",
-                     which means that when the bindings are applied in, say, ZPatt generation, XJC is
-                     looking for a complex type "IffExpr" and fails. These need to be fixed manually
-                     to be "element::tns:IffExpr" to indicate that they are just elements.
+                     This can be done using additional XSL tranformation to remove all jaxb:* elements. 
                    - Even with the above fixed, XJC generated additional ObjectFactory for parent schemas,
-                     which I did not find how to suppress. This would result in too many ObjectFactories around.
+                     which I did not find how to suppress. This would result in too many ObjectFactories
+                     around, and compilation errors arising from them.
                      
                  Because of these issues, I opted for another way to split the JAXB generation. In every
                  project, JAXB for a specific XSD is generated (which generates JAXB for all its parents
