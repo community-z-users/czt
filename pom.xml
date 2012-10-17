@@ -730,13 +730,13 @@
                 <configuration>
                   <target>
                     <mkdir dir="${site.build.dir}" />
-                    <copy failonerror="false" file="README.txt" tofile="${site.build.apt.dir}/index.apt"/>
-                    <copy failonerror="false" file="README.txt" tofile="${site.build.apt.dir}/manual.apt"/>
-                    <copy failonerror="false" file="INSTALL.txt" tofile="${site.build.apt.dir}/install.apt"/>
-                    <copy failonerror="false" file="fonts/INSTALL.txt" tofile="${site.build.apt.dir}/font.apt"/>
-                    <copy failonerror="false" file="README.md" tofile="${site.build.md.dir}/index.md"/>
-                    <copy failonerror="false" file="README.md" tofile="${site.build.md.dir}/manual.md"/>
-                    <copy failonerror="false" file="INSTALL.md" tofile="${site.build.md.dir}/install.md"/>
+                    <copy failonerror="false" quiet="true" file="README.txt" tofile="${site.build.apt.dir}/index.apt"/>
+                    <copy failonerror="false" quiet="true" file="README.txt" tofile="${site.build.apt.dir}/manual.apt"/>
+                    <copy failonerror="false" quiet="true" file="INSTALL.txt" tofile="${site.build.apt.dir}/install.apt"/>
+                    <copy failonerror="false" quiet="true" file="fonts/INSTALL.txt" tofile="${site.build.apt.dir}/font.apt"/>
+                    <copy failonerror="false" quiet="true" file="README.md" tofile="${site.build.md.dir}/index.md"/>
+                    <copy failonerror="false" quiet="true" file="README.md" tofile="${site.build.md.dir}/manual.md"/>
+                    <copy failonerror="false" quiet="true" file="INSTALL.md" tofile="${site.build.md.dir}/install.md"/>
 <!--                     <copy overwrite="true" failonerror="false" todir="${site.build.dir}">
                       <fileset dir="src/site" />
                     </copy> -->
@@ -744,6 +744,13 @@
                 </configuration>
               </execution>
             </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.8.3</version>
+              </dependency>
+            </dependencies>
           </plugin>
 
           <plugin>
