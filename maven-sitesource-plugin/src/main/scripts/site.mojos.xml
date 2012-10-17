@@ -1,9 +1,0 @@
-<pluginMetadata>
-  <mojos>
-    <mojo>
-      <goal>site</goal>
-      <call>site</call>
-      <description>Build the sources of the CZT web-site.</description>
-    </mojo>
-  </mojos>
-</pluginMetadata>

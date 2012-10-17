@@ -18,6 +18,10 @@
     <!-- Use build timestamp as OSGI qualifier (e.g. 1.6.0.201209062207) -->
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
+    
+    <site.build.dir>${project.build.directory}/generated-site</site.build.dir>
+    <site.build.apt.dir>${site.build.dir}/apt</site.build.apt.dir>
+    <site.build.md.dir>${site.build.dir}/markdown</site.build.md.dir>
   </properties>
 
   <description>
@@ -674,7 +678,7 @@
 
     <!-- a profile for CZT website generation using Maven site plugin.
          To build a multi-module site, run the following Maven command on the root:
-         mvn clean site:site site:stage -P site
+         mvn clean site site:stage -P site
          -->
     <profile>
       <id>site</id>
@@ -709,20 +713,39 @@
 
       <build>
         <plugins>
-<!-- 
+
+          <!-- Copy additional files to the site directory, e.g. README or INSTALL files from
+               project root, so that they are available in the generated HMTL website. -->
           <plugin>
-            <groupId>net.sourceforge.czt</groupId>
-            <artifactId>maven-sitesource-plugin</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.7</version>
             <executions>
               <execution>
-                <phase>generate-sources</phase>
+                <id>copy-site-files</id>
+                <phase>pre-site</phase>
                 <goals>
-                  <goal>site</goal>
+                  <goal>run</goal>
                 </goals>
+                <configuration>
+                  <target>
+                    <mkdir dir="${site.build.dir}" />
+                    <copy failonerror="false" file="README.txt" tofile="${site.build.apt.dir}/index.apt"/>
+                    <copy failonerror="false" file="README.txt" tofile="${site.build.apt.dir}/manual.apt"/>
+                    <copy failonerror="false" file="INSTALL.txt" tofile="${site.build.apt.dir}/install.apt"/>
+                    <copy failonerror="false" file="fonts/INSTALL.txt" tofile="${site.build.apt.dir}/font.apt"/>
+                    <copy failonerror="false" file="README.md" tofile="${site.build.md.dir}/index.md"/>
+                    <copy failonerror="false" file="README.md" tofile="${site.build.md.dir}/manual.md"/>
+                    <copy failonerror="false" file="INSTALL.md" tofile="${site.build.md.dir}/install.md"/>
+<!--                     <copy overwrite="true" failonerror="false" todir="${site.build.dir}">
+                      <fileset dir="src/site" />
+                    </copy> -->
+                  </target>
+                </configuration>
               </execution>
             </executions>
           </plugin>
--->
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-site-plugin</artifactId>
