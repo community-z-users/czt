@@ -1,0 +1,22 @@
+.color-highlight {
+	color: #225E9B;
+}
+
+body {
+	background-image:url(../images/bg.png);
+}
+
+
+#footer-czt-logo {
+	margin: 0 auto;
+	height: 200px;
+	width: 200px;
+	background-image:url(../images/czt-logo200.png);
+}
+
+.navbar .brand {
+	background-image:url(../images/czt-logo32.png);
+	background-repeat: no-repeat;
+	background-position: 20px center;
+	padding-left: 60px;
+}
