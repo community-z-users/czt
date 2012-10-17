@@ -280,7 +280,8 @@
         This makes it easier to write visitors since Term and
         List must not be distinguished any more.
         Note that this change may break existing visitors
-        (see also the <link href="http://sourceforge.net/mailarchive/forum.php?thread_id=4875423&amp;forum_id=36894">proposal</link> for this API change).
+        (see also the proposal for this API change: 
+        http://sourceforge.net/mailarchive/forum.php?thread_id=4875423&amp;forum_id=36894).
       </action>
       <action dev="Petra" type="update">
         XmlWriter and XmlReader now throw (Un)MarshalException in case that
