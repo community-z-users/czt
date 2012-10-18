@@ -472,11 +472,15 @@ public class CupGenerateMojo extends AbstractMojo
     }
 
     // refresh generated parser and symbol files after generation
-    buildContext.refresh(destFile);
-    buildContext.refresh(symbolsFile);
-
-    getLog().info("CUP: generated " + destFile);
-    getLog().info("CUP: generated " + symbolsFile);
+    refreshFile(destFile);
+    refreshFile(symbolsFile);
+    
+    // refresh generated external parser tables (*.dat files)
+    for (File resourceFile : destDir.listFiles()) {
+      if (resourceFile.getName().endsWith(".dat")) {
+        refreshFile(resourceFile);
+      }
+    }
 
   }
 
@@ -511,5 +515,11 @@ public class CupGenerateMojo extends AbstractMojo
     }
 
     return null;
+  }
+  
+  private void refreshFile(File targetFile)
+  {
+    buildContext.refresh(targetFile);
+    getLog().info("CUP: generated " + targetFile);
   }
 }
