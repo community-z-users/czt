@@ -819,15 +819,15 @@ public class emit {
     
     // To avoid "code too large" errors, output very large parser tables to file
     int tableSize = 0;
-    for (int i = 0; i < sa.length; i++) {
-      tableSize += sa[i].length;
+    if (!external_tables) {
+      tableSize = getTableSizeBytes(sa);
     }
     
     // "Code too large" error limits the size of the compiled code, not the input code/chars.
     // As a simple workaround, here we just compare the size of the parser table
     // to some arbitrary number that works, and use that;
-    // e.g. use character count * 4 (max UTF-8 bytes per char)
-    boolean tableTooLarge = tableSize > 65000 / 4;
+    // e.g. use the UTF-8 character byte size
+    boolean tableTooLarge = tableSize > 65500;
     
     // check if outputting to external tables, or the table is too large anyway
     if (!external_tables && !tableTooLarge) {
@@ -842,9 +842,34 @@ public class emit {
       writeToFile(tableName, sa);
       
       // add loading code
-      out.print("    loadTableFromFile(\"" + tableName + "\");");
+      out.println("    loadTableFromFile(\"" + tableName + "\");");
       return true;
     }
+  }
+  
+  private static int getTableSizeBytes(short[][] sa)
+  {
+    // Calculate byte size of characters in the table. Algorithm taken from
+    // http://stackoverflow.com/questions/8511490/calculating-length-in-utf-8-of-java-string-without-actually-encoding-it#answer-8512877
+    int tableSize = 0;
+    for (int i = 0; i < sa.length; i++) {
+      short[] line = sa[i];
+      for (int j = 0; j < line.length; j++) {
+        char ch = (char) line[j];
+        if (ch <= 0x7F) {
+          tableSize++;
+        } else if (ch <= 0x7FF) {
+          tableSize += 2;
+        } else if (Character.isHighSurrogate(ch)) {
+          tableSize += 4;
+          ++i;
+        } else {
+          tableSize += 3;
+        }
+      }
+    }
+    
+    return tableSize;
   }
   
   private static void writeToFile(String tableName, short[][] table) {
