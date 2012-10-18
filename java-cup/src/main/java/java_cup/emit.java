@@ -135,6 +135,14 @@ public class emit {
 
  /** TUM changes; proposed by Henning Niss 20050628: Type arguments for class declaration */
   public static String class_type_argument = null;
+  
+  /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
+
+  /** User option -- output parser tables to external files, which are
+   *  loaded during runtime? If the tables are too large, they are output
+   *  to external file anyway. */
+  public static boolean external_tables = false;
+
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
@@ -819,9 +827,10 @@ public class emit {
     // As a simple workaround, here we just compare the size of the parser table
     // to some arbitrary number that works, and use that;
     // e.g. use character count * 4 (max UTF-8 bytes per char)
-    boolean codeTooLarge = tableSize > 65000 / 4;
+    boolean tableTooLarge = tableSize > 65000 / 4;
     
-    if (!codeTooLarge) {
+    // check if outputting to external tables, or the table is too large anyway
+    if (!external_tables && !tableTooLarge) {
       // as in original CUP - output the array to the generated parser file
       out.print("    unpackFromStrings(");
       do_table_as_string(out, sa);

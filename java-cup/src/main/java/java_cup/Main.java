@@ -384,6 +384,8 @@ public class Main {
  	      emit.class_type_argument = argv[i];
       }
 
+          else if (argv[i].equals("-external_tables")) emit.external_tables = true;
+
 	  /* CSA 24-Jul-1999; suggestion by Jean Vaucher */
 	  else if (!argv[i].startsWith("-") && i==len-1) {
 	      /* use input from file. */

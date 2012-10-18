@@ -247,6 +247,24 @@ public class CupGenerateMojo extends AbstractMojo
   private boolean noScanner;
   
   /**
+   * Output parser tables to external files.
+   * <p>
+   * The external parser tables are normally encoded in the generated parser file. This option
+   * allows outputting them to an external file, which is loaded by the generated parser
+   * during runtime. The files are named as the parser tables, e.g. "action_table".
+   * </p>
+   * <p>
+   * If the parser tables are too large, they are always written to an external file, despite
+   * this option here. This is to avoid "code too large" Java compilation errors, caused by
+   * the initialisation code (the parser table String) being too large. This option allows
+   * outputting all tables to external files, thus minimising parser class footprint.
+   * </p>
+   * 
+   * @parameter
+   */
+  private boolean externalTables;
+  
+  /**
    * @parameter expression="${project}"
    * @required
    */
@@ -433,6 +451,9 @@ public class CupGenerateMojo extends AbstractMojo
     }
     if (noScanner) {
       args.add("-noscanner");
+    }
+    if (externalTables) {
+      args.add("-external_tables");
     }
 
     // target directory path
