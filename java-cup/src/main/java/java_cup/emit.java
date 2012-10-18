@@ -1,5 +1,10 @@
 package java_cup;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Stack;
 import java.util.Enumeration;
@@ -581,8 +586,9 @@ public class emit {
 
   /** Emit the production table. 
    * @param out stream to produce output on.
+   * @return {@code true} if external file was used to store parser table
    */
-  protected static void emit_production_table(PrintWriter out)
+  protected static boolean emit_production_table(PrintWriter out)
     {
       production all_prods[];
       production prod;
@@ -610,7 +616,7 @@ public class emit {
       out.println();
       out.println("  /** Production table. */");
       out.println("  protected static final short _production_table[][] = ");
-      do_table_init(out, prod_table);
+      boolean externalTable = do_table_init("production_table", out, prod_table);
 
       /* do the public accessor method */
       out.println();
@@ -620,6 +626,7 @@ public class emit {
 						 "{return _production_table;}");
 
       production_table_time = System.currentTimeMillis() - start_time;
+      return externalTable;
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -628,8 +635,9 @@ public class emit {
    * @param out             stream to produce output on.
    * @param act_tab         the internal representation of the action table.
    * @param compact_reduces do we use the most frequent reduce as default?
+   * @return {@code true} if external file was used to store parser table
    */
-  protected static void do_action_table(
+  protected static boolean do_action_table(
     PrintWriter        out, 
     parse_action_table act_tab,
     boolean            compact_reduces)
@@ -716,7 +724,7 @@ public class emit {
       out.println();
       out.println("  /** Parse-action table. */");
       out.println("  protected static final short[][] _action_table = "); 
-      do_table_init(out, action_table);
+      boolean externalTable = do_table_init("action_table", out, action_table);
 
       /* do the public accessor method */
       out.println();
@@ -725,6 +733,7 @@ public class emit {
       out.println("  public short[][] action_table() {return _action_table;}");
 
       action_table_time = System.currentTimeMillis() - start_time;
+      return externalTable;
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -732,8 +741,9 @@ public class emit {
   /** Emit the reduce-goto table. 
    * @param out     stream to produce output on.
    * @param red_tab the internal representation of the reduce-goto table.
+   * @return {@code true} if external file was used to store parser table
    */
-  protected static void do_reduce_table(
+  protected static boolean do_reduce_table(
     PrintWriter out, 
     parse_reduce_table red_tab)
     {
@@ -777,7 +787,7 @@ public class emit {
       out.println();
       out.println("  /** <code>reduce_goto</code> table. */");
       out.println("  protected static final short[][] _reduce_table = ");
-      do_table_init(out, reduce_goto_table);
+      boolean externalTable = do_table_init("reduce_table", out, reduce_goto_table);
 
       /* do the public accessor method */
       out.println();
@@ -787,12 +797,111 @@ public class emit {
       out.println();
 
       goto_table_time = System.currentTimeMillis() - start_time;
+      return externalTable;
     }
 
-  private static void do_table_init(PrintWriter out, short[][] sa) {
-    out.print  ("    unpackFromStrings(");
-    do_table_as_string(out, sa);
-    out.println(");");
+  /**
+   * 
+   * @param tableName
+   * @param out
+   * @param sa
+   * @return {@code true} if external file was used to store parser table
+   */
+  private static boolean do_table_init(String tableName, PrintWriter out, short[][] sa) {
+    
+    // To avoid "code too large" errors, output very large parser tables to file
+    int tableSize = 0;
+    for (int i = 0; i < sa.length; i++) {
+      tableSize += sa[i].length;
+    }
+    
+    // "Code too large" error limits the size of the compiled code, not the input code/chars.
+    // As a simple workaround, here we just compare the size of the parser table
+    // to some arbitrary number that works, and use that;
+    // e.g. use character count * 4 (max UTF-8 bytes per char)
+    boolean codeTooLarge = tableSize > 65000 / 4;
+    
+    if (!codeTooLarge) {
+      // as in original CUP - output the array to the generated parser file
+      out.print("    unpackFromStrings(");
+      do_table_as_string(out, sa);
+      out.println(");");
+      return false;
+    }
+    else {
+      // write to file
+      writeToFile(tableName, sa);
+      
+      // add loading code
+      out.print("    loadTableFromFile(\"" + tableName + "\");");
+      return true;
+    }
+  }
+  
+  private static void writeToFile(String tableName, short[][] table) {
+    // create a file with the table name in the target directory
+    File tableFile = new File(Main.dest_dir, tableName + ".dat");
+    
+    // output to that file
+    FileOutputStream fileStream;
+    try {
+      fileStream = new FileOutputStream(tableFile);
+    }
+    catch (FileNotFoundException e) {
+      throw new CupParserException("Invalid file to output " + tableName, e);
+    }
+    
+    try {
+      try {
+        // serialize as object
+        ObjectOutputStream out = new ObjectOutputStream(fileStream);
+        try {
+          out.writeObject(table);
+        }
+        finally {
+          out.flush();
+          out.close();
+        }
+      }
+      finally {
+        // just in case there were exceptions initialising the writer, close the stream at the end
+        fileStream.close();
+      }
+    }
+    catch (IOException ie) {
+      throw new CupParserException("Problems writing " + tableName, ie);
+    }
+  }
+  
+  private static void emitExternalTableLoad(PrintWriter out) {
+    // encode the whole method as Strings, to avoid modifying the runtime
+    out.println();
+    out.println("  /** Load external table from file. */");
+    out.println("  private static short[][] loadTableFromFile(String tableName)");
+    out.println("  {");
+    out.println("    String tableFileName = tableName + \".dat\";");
+    out.println("    java.io.InputStream is = " + parser_class_name + ".class.getResourceAsStream(tableFileName);");
+    out.println("    if (is == null) {");
+    out.println("      throw new RuntimeException(\"Cannot find external parser table \" + tableFileName);");
+    out.println("    }");
+    out.println();
+    out.println("    try {");
+    out.println("      try {");
+    out.println();
+    out.println("        java.io.ObjectInputStream in = new java.io.ObjectInputStream(is);");
+    out.println("        try {");
+    out.println("          return (short[][]) in.readObject();");
+    out.println("        } finally {");
+    out.println("          in.close();");
+    out.println("        }");
+    out.println();
+    out.println("      } finally {");
+    out.println("        is.close();");
+    out.println("      }");
+    out.println("    } catch (Exception e) {");
+    out.println("      throw new RuntimeException(\"Cannot load external parser table \" + tableFileName, e);");
+    out.println("    }");
+    out.println("  }");
   }
   
   // print a string array encoding the given short[][] array.
@@ -909,9 +1018,14 @@ public class emit {
       }
 
       /* emit the various tables */
-      emit_production_table(out);
-      do_action_table(out, action_table, compact_reduces);
-      do_reduce_table(out, reduce_table);
+      boolean extProduction = emit_production_table(out);
+      boolean extAction = do_action_table(out, action_table, compact_reduces);
+      boolean extReduce = do_reduce_table(out, reduce_table);
+      
+      if (extProduction || extAction || extReduce) {
+        // output the content of external table file loading method
+        emitExternalTableLoad(out);
+      }
 
       /* instance of the action encapsulation class */
       out.println("  /** Instance of action encapsulation class. */");
