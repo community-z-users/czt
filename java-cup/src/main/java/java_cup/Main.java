@@ -258,6 +258,7 @@ public class Main {
 "    -destdir name  specify the destination directory, to store the generated files in\n" +
 "    -parser name   specify parser class name [default \"parser\"]\n" +
 "    -typearg args  specify type arguments for parser class\n" + 
+"    -external_tables  output parser tables to external file\n" + 
 "    -symbols name  specify name for symbol constant class [default \"sym\"]\n"+
 "    -interface     put symbols in an interface, rather than a class\n" +
 "    -nonterms      put non terminals in symbol constant class\n" + 
