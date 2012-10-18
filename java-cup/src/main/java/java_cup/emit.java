@@ -610,9 +610,7 @@ public class emit {
       out.println();
       out.println("  /** Production table. */");
       out.println("  protected static final short _production_table[][] = ");
-      out.print  ("    unpackFromStrings(");
-      do_table_as_string(out, prod_table);
-      out.println(");");
+      do_table_init(out, prod_table);
 
       /* do the public accessor method */
       out.println();
@@ -718,9 +716,7 @@ public class emit {
       out.println();
       out.println("  /** Parse-action table. */");
       out.println("  protected static final short[][] _action_table = "); 
-      out.print  ("    unpackFromStrings(");
-      do_table_as_string(out, action_table);
-      out.println(");");
+      do_table_init(out, action_table);
 
       /* do the public accessor method */
       out.println();
@@ -780,10 +776,8 @@ public class emit {
       /* emit the table. */
       out.println();
       out.println("  /** <code>reduce_goto</code> table. */");
-      out.println("  protected static final short[][] _reduce_table = "); 
-      out.print  ("    unpackFromStrings(");
-      do_table_as_string(out, reduce_goto_table);
-      out.println(");");
+      out.println("  protected static final short[][] _reduce_table = ");
+      do_table_init(out, reduce_goto_table);
 
       /* do the public accessor method */
       out.println();
@@ -795,6 +789,12 @@ public class emit {
       goto_table_time = System.currentTimeMillis() - start_time;
     }
 
+  private static void do_table_init(PrintWriter out, short[][] sa) {
+    out.print  ("    unpackFromStrings(");
+    do_table_as_string(out, sa);
+    out.println(");");
+  }
+  
   // print a string array encoding the given short[][] array.
   protected static void do_table_as_string(PrintWriter out, short[][] sa) {
     out.println("new String[] {");
