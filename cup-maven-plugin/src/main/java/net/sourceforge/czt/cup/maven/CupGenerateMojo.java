@@ -33,6 +33,7 @@ import java.util.List;
 
 import java_cup.Main;
 
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -283,6 +284,14 @@ public class CupGenerateMojo extends AbstractMojo
     if (project != null)
     {
       project.addCompileSourceRoot(outputDirectory.getPath());
+      
+      // also add the output directory *.dat files as resources to the project,
+      // otherwise they will not be picked up for compilation.
+      // *.dat files are external parser tables
+      Resource resource = new Resource();
+      resource.setDirectory(outputDirectory.getPath());
+      resource.addInclude("**/*.dat");
+      project.addResource(resource);
     }
     
     List<File> cupSourceFiles = getCupFiles();
