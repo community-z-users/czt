@@ -14,7 +14,7 @@
       <action type="update" dev="andriusvelykis">
         Updated to use Java Generics and avoid other warnings.
       </action>
-      <action type="fix" dev="petramalik">
+      <action type="fix" dev="timmiller">
         Changed the java_cup.emit class to break up each case in the parse table into its own
         method. This prevents do_action() method from growing too large, thus avoiding the 
         "code too large" Java compiler error.
