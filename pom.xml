@@ -193,7 +193,7 @@
       <dependency>
         <groupId>${czt.dev.groupId}</groupId>
         <artifactId>java-cup-runtime</artifactId>
-        <version>0.11-a-r20-czt01-SNAPSHOT</version>
+        <version>0.11-a-czt01-SNAPSHOT</version>
       </dependency>
 
       <!-- CZT Session -->
