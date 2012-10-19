@@ -125,9 +125,11 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>compile</scope>
+      <version>4.5</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
   <dependencyManagement>
     <dependencies>
       <!-- ********* -->
@@ -351,14 +353,6 @@
         <groupId>rhino</groupId>
         <artifactId>rhino</artifactId>
         <version>1.5-R3</version>
-      </dependency>
-
-      <!-- JUnit -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.5</version>
-        <scope>test</scope>
       </dependency>
       
       <!-- Apache Commons -->
