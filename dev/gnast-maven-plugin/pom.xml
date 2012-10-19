@@ -1,13 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
-    <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <groupId>net.sourceforge.czt.dev</groupId>
+    <artifactId>dev</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>gnast-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
+
   <name>CZT GnAST Maven Plugin</name>
 
   <dependencies>
@@ -24,8 +27,9 @@
       <artifactId>xercesImpl</artifactId>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>net.sourceforge.czt.dev</groupId>
       <artifactId>gnast</artifactId>
+      <version>1.6-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>

@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <groupId>net.sourceforge.czt.dev</groupId>
+    <artifactId>dev</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
 

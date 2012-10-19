@@ -13,6 +13,7 @@
   <properties>
     <czt.version>1.6-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
+    <czt.dev.groupId>net.sourceforge.czt.dev</czt.dev.groupId>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Use build timestamp as OSGI qualifier (e.g. 1.6.0.201209062207) -->
@@ -100,16 +101,11 @@
 
 
   <modules>
+    <module>dev</module>
     <module>corejava</module>
     <module>gaffe</module>
     <module>gaffe2</module>
-    <module>gnast</module>
     <module>jedit</module>
-    <module>java-cup-runtime</module>
-    <module>java-cup</module>
-    <module>cup-maven-plugin</module>
-    <module>gnast-maven-plugin</module>
-    <module>parsergen-maven-plugin</module>
     <module>parser</module>
     <module>session</module>
     <module>typechecker</module>
@@ -142,13 +138,6 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>zml</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT GnAST -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>gnast</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
@@ -200,7 +189,7 @@
 
       <!-- Java CUP -->
       <dependency>
-        <groupId>${czt.groupId}</groupId>
+        <groupId>${czt.dev.groupId}</groupId>
         <artifactId>java-cup-runtime</artifactId>
         <version>0.11-a-r20-czt01-SNAPSHOT</version>
       </dependency>

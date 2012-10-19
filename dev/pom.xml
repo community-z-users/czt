@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <groupId>net.sourceforge.czt.dev</groupId>
+  <artifactId>dev</artifactId>
+  <packaging>pom</packaging>
+
+  <name>CZT Developer Tools</name>
+  <description>
+    Generic libraries and Maven plug-ins for building CZT and similar tools.
+  </description>
+
+  <modules>
+    <module>gnast</module>
+    <module>gnast-maven-plugin</module>
+
+    <module>java-cup-runtime</module>
+    <module>java-cup</module>
+    <module>cup-maven-plugin</module>
+
+    <module>parsergen-maven-plugin</module>
+  </modules>
+
+</project>

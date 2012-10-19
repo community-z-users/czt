@@ -18,7 +18,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${czt.dev.groupId}</groupId>
       <artifactId>java-cup-runtime</artifactId>
     </dependency>
   </dependencies>
@@ -45,7 +45,7 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>net.sourceforge.czt</groupId>
+          <groupId>${czt.dev.groupId}</groupId>
           <artifactId>parsergen-maven-plugin</artifactId>
           <version>1.6-SNAPSHOT</version>
           <executions>
@@ -176,7 +176,7 @@
         </plugin>
 
         <plugin>
-          <groupId>net.sourceforge.czt</groupId>
+          <groupId>${czt.dev.groupId}</groupId>
           <artifactId>cup-maven-plugin</artifactId>
           <version>${czt.version}</version>
           <executions>
