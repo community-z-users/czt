@@ -11,7 +11,7 @@
   <artifactId>cup-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
 
-  <name>CUP Maven Plugin</name>
+  <name>Java CUP Maven Plugin</name>
   <description>
     Maven plug-in for Java CUP parser generator. Uses CUP 0.11a (with CZT updates).
     Generated parsers need java-cup-runtime dependency to compile.
