@@ -3,7 +3,6 @@
   targetNamespace="http://czt.sourceforge.net/zeves"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:Z="http://czt.sourceforge.net/zml"
-  xmlns:P="http://czt.sourceforge.net/zpatt"
   xmlns:ZEVES="http://czt.sourceforge.net/zeves"
   xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0"
   xmlns:gnast="http://czt.sourceforge.net/gnast"
@@ -77,12 +76,13 @@
     </xs:appinfo>
   </xs:annotation>
 
-  <!-- NOTE: GnAST considers the first import only in the SchemaProject build phase,
-             so always put ZPattern.xsd first for Circus.xsd (i.e. innermost parent).
-
-       TODO: or should we just import from Z.xsd? Maybe not as Z/EVES allows for jokers as well
-   -->
+  <!-- For now, do not support ZPattern in Z/EVES. Until there is a need, assume that
+       Z/EVES does not allow jokers. Therefore we do not import the ZPattern schema.
+       
+       GnAST considers the first import only, so if ZPattern was needed, it would need to
+       go before Z.xsd (since ZPattern.xsd imports Z.xsd itself).
   <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>
+  -->
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
   <!-- ********************************************************************* -->

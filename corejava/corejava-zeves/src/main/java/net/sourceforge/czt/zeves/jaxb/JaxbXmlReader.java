@@ -22,7 +22,6 @@ package net.sourceforge.czt.zeves.jaxb;
 import javax.xml.bind.JAXBContext;
 
 import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 import net.sourceforge.czt.zeves.ast.ZEvesFactory;
 
 /**
@@ -34,10 +33,9 @@ public class JaxbXmlReader
   extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
   public JaxbXmlReader(ZFactory zFactory,
-                       ZpattFactory zpattFactory,
                        ZEvesFactory zevesFactory)
   {
-    super(new JaxbToAst(zFactory, zpattFactory, zevesFactory));
+    super(new JaxbToAst(zFactory, zevesFactory));
   }
 
   public JaxbXmlReader()
