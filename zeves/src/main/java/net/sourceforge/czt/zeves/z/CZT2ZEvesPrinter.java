@@ -3273,12 +3273,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
       {
         // if I have no generic formal, then there must be opName
         // genFormals.isEmpty <=> hasOpArg(name)
-        //assert (!genFormalP.isEmpty() || hasOpArg(zboxItemName)) &&
-        //        (genFormalP.isEmpty() || !hasOpArg(zboxItemName));
+        assert (!genFormalP.isEmpty() || hasOpArg(zboxItemName)) &&
+                (genFormalP.isEmpty() || !hasOpArg(zboxItemName));
         switch (on.getFixity())
         {
           case INFIX:
-            // for infix there are two cases: X op Y and _ op _ (all or nothing)
+        	// for infix there are two cases: X op Y and _ op _ (all or nothing)
             switch (genFormalP.size())
             {
               case 2:
@@ -3306,20 +3306,39 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             }
             break;
           case POSTFIX:
-            if (genFormalP.size() != 1)
-              throw new ZEvesIncompatibleASTException("Generic postfix operator in horizontal definition requires 1 formal parameter");
-            assert !hasOpArg(zboxItemName);
-            // put gen formals first
-            result = format(ZED_BOX_HORIZONTAL_PATTERN, zboxLocation, zboxAbility, getIdent(ZUtils.assertZName(genFormalP.get(0))),
-                    zboxItemName, zboxItemSymbol, zboxItemExpr);
+          	if (genFormalP.isEmpty())
+          	{
+          		// no generic parameter e.g. ??? don't know ???
+          		assert hasOpArg(zboxItemName);
+          		result = format(ZED_BOX_HORIZONTAL_PATTERN, zboxLocation, zboxAbility, "", zboxItemName, zboxItemSymbol, zboxItemExpr);
+          	}
+          	else 
+          	{
+	            if (genFormalP.size() != 1)
+	              throw new ZEvesIncompatibleASTException("Generic postfix operator in horizontal definition requires 1 formal parameter");
+	            assert !hasOpArg(zboxItemName);
+	            // put gen formals first
+	            result = format(ZED_BOX_HORIZONTAL_PATTERN, zboxLocation, zboxAbility, getIdent(ZUtils.assertZName(genFormalP.get(0))),
+	                    zboxItemName, zboxItemSymbol, zboxItemExpr);
+          	}
             break;
           case PREFIX:
-            if (genFormalP.size() != 1)
-              throw new ZEvesIncompatibleASTException("Generic postfix operator in horizontal definition requires 1 formal parameter");
-            assert !hasOpArg(zboxItemName);
-            // put gen formals afterwards
-            result = format(ZED_BOX_HORIZONTAL_PATTERN, zboxLocation, zboxAbility, zboxItemName,
+        	if (genFormalP.isEmpty())
+        	{
+        		// no generic parameter e.g. (\disjoint \_)
+        		assert hasOpArg(zboxItemName);
+        		result = format(ZED_BOX_HORIZONTAL_PATTERN, zboxLocation, zboxAbility, zboxItemName,"", zboxItemSymbol, zboxItemExpr);
+        	}
+        	else 
+        	{
+        		// NOTE: if there are generics, must be one, for now. Should we extend for more? Or ZEves doesn't allow? 
+        		if (genFormalP.size() != 1)
+        			throw new ZEvesIncompatibleASTException("Generic prefix operator in horizontal definition requires 1 formal parameter");
+        		assert !hasOpArg(zboxItemName);
+        		// put gen formals afterwards
+        		result = format(ZED_BOX_HORIZONTAL_PATTERN, zboxLocation, zboxAbility, zboxItemName,
                     getIdent(ZUtils.assertZName(genFormalP.get(0))), zboxItemSymbol, zboxItemExpr);
+        	}
             break;
           case NOFIX:
           default:
