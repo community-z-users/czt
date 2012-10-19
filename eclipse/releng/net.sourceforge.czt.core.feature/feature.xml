@@ -65,7 +65,7 @@
          unpack="false"/>
 
    <plugin
-         id="net.sourceforge.czt.java-cup-runtime"
+         id="net.sourceforge.czt.dev.java-cup-runtime"
          download-size="0"
          install-size="0"
          version="0.0.0"

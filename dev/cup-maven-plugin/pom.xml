@@ -3,15 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <groupId>net.sourceforge.czt.dev</groupId>
+    <artifactId>dev</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>cup-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
 
-  <name>CUP Maven Plugin</name>
+  <name>Java CUP Maven Plugin</name>
   <description>
     Maven plug-in for Java CUP parser generator. Uses CUP 0.11a (with CZT updates).
     Generated parsers need java-cup-runtime dependency to compile.
@@ -20,7 +20,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>http://czt.sourceforge.net/cup-maven-plugin/LICENSE</url>
+      <url>http://czt.sourceforge.net/dev/cup-maven-plugin/LICENSE</url>
     </license>
   </licenses>
 
@@ -46,7 +46,7 @@
       <artifactId>plexus-utils</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sourceforge.czt</groupId>
+      <groupId>net.sourceforge.czt.dev</groupId>
       <artifactId>java-cup</artifactId>
       <version>0.11-a-czt01-SNAPSHOT</version>
     </dependency>

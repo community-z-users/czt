@@ -13,6 +13,7 @@
   <properties>
     <czt.version>1.6-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
+    <czt.dev.groupId>net.sourceforge.czt.dev</czt.dev.groupId>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Use build timestamp as OSGI qualifier (e.g. 1.6.0.201209062207) -->
@@ -100,16 +101,11 @@
 
 
   <modules>
+    <module>dev</module>
     <module>corejava</module>
     <module>gaffe</module>
     <module>gaffe2</module>
-    <module>gnast</module>
     <module>jedit</module>
-    <module>java-cup-runtime</module>
-    <module>java-cup</module>
-    <module>cup-maven-plugin</module>
-    <module>gnast-maven-plugin</module>
-    <module>parsergen-maven-plugin</module>
     <module>parser</module>
     <module>session</module>
     <module>typechecker</module>
@@ -142,13 +138,6 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>zml</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT GnAST -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>gnast</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
@@ -200,7 +189,7 @@
 
       <!-- Java CUP -->
       <dependency>
-        <groupId>${czt.groupId}</groupId>
+        <groupId>${czt.dev.groupId}</groupId>
         <artifactId>java-cup-runtime</artifactId>
         <version>0.11-a-r20-czt01-SNAPSHOT</version>
       </dependency>
@@ -349,13 +338,6 @@
       <!-- external stuff -->
       <!-- ************** -->
 
-      <!-- Ant -->
-      <dependency>
-        <groupId>ant</groupId>
-        <artifactId>ant</artifactId>
-        <version>1.6.5</version>
-      </dependency>
-
       <!-- Bsf -->
       <dependency>
         <groupId>bsf</groupId>
@@ -369,34 +351,6 @@
         <groupId>rhino</groupId>
         <artifactId>rhino</artifactId>
         <version>1.5-R3</version>
-      </dependency>
-
-      <!-- Maven Plugin API -->
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-plugin-api</artifactId>
-        <version>2.0</version>
-      </dependency>
-
-      <!-- Maven Project -->
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-project</artifactId>
-        <version>2.0.4</version>
-      </dependency>
-
-      <!-- Velocity -->
-      <dependency>
-        <groupId>org.apache.velocity</groupId>
-        <artifactId>velocity</artifactId>
-        <version>1.7</version>
-      </dependency>
-
-      <!-- Xerces-->
-      <dependency>
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.8.0</version>
       </dependency>
 
       <!-- JUnit -->
@@ -415,30 +369,9 @@
         <scope>test</scope>
       </dependency>
       
-      <!-- Plexus Build API -->
-      <dependency>
-        <groupId>org.sonatype.plexus</groupId>
-        <artifactId>plexus-build-api</artifactId>
-        <version>0.0.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-container-default</artifactId>
-        <version>1.5.5</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-utils</artifactId>
-        <version>3.0.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-resources</artifactId>
-        <version>1.0-alpha-7</version>
-      </dependency>
-      
     </dependencies>
   </dependencyManagement>
+
   <build>
     <plugins>
       <plugin>

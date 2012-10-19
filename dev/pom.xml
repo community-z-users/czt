@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <groupId>net.sourceforge.czt.dev</groupId>
+  <artifactId>dev</artifactId>
+  <packaging>pom</packaging>
+
+  <name>CZT Developer Tools</name>
+  <description>
+    Generic libraries and Maven plug-ins for building CZT and similar tools.
+  </description>
+
+  <modules>
+    <module>gnast</module>
+    <module>gnast-maven-plugin</module>
+
+    <module>java-cup-runtime</module>
+    <module>java-cup</module>
+    <module>cup-maven-plugin</module>
+
+    <module>parsergen-maven-plugin</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Maven Plugin API -->
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-project</artifactId>
+        <version>2.0.4</version>
+      </dependency>
+
+      <!-- Velocity -->
+      <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.7</version>
+      </dependency>
+
+      <!-- Xerces-->
+      <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xercesImpl</artifactId>
+        <version>2.8.0</version>
+      </dependency>
+
+      <!-- Plexus Build API -->
+      <dependency>
+        <groupId>org.sonatype.plexus</groupId>
+        <artifactId>plexus-build-api</artifactId>
+        <version>0.0.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-container-default</artifactId>
+        <version>1.5.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>3.0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-resources</artifactId>
+        <version>1.0-alpha-7</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>

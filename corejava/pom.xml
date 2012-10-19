@@ -46,7 +46,7 @@
     <plugins>
       <!-- Put GnAST plugin first since xml generation ought to generate to ./gnast as well -->
       <plugin>
-        <groupId>${czt.groupId}</groupId>
+        <groupId>${czt.dev.groupId}</groupId>
         <artifactId>gnast-maven-plugin</artifactId>
         <version>1.6-SNAPSHOT</version>
         <executions>
