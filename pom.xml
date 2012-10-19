@@ -338,13 +338,6 @@
       <!-- external stuff -->
       <!-- ************** -->
 
-      <!-- Ant -->
-      <dependency>
-        <groupId>ant</groupId>
-        <artifactId>ant</artifactId>
-        <version>1.6.5</version>
-      </dependency>
-
       <!-- Bsf -->
       <dependency>
         <groupId>bsf</groupId>
