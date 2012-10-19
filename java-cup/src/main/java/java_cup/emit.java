@@ -1,5 +1,10 @@
 package java_cup;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Stack;
 import java.util.Enumeration;
@@ -130,6 +135,14 @@ public class emit {
 
  /** TUM changes; proposed by Henning Niss 20050628: Type arguments for class declaration */
   public static String class_type_argument = null;
+  
+  /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
+
+  /** User option -- output parser tables to external files, which are
+   *  loaded during runtime? If the tables are too large, they are output
+   *  to external file anyway. */
+  public static boolean external_tables = false;
+
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
@@ -581,8 +594,9 @@ public class emit {
 
   /** Emit the production table. 
    * @param out stream to produce output on.
+   * @return {@code true} if external file was used to store parser table
    */
-  protected static void emit_production_table(PrintWriter out)
+  protected static boolean emit_production_table(PrintWriter out)
     {
       production all_prods[];
       production prod;
@@ -610,9 +624,7 @@ public class emit {
       out.println();
       out.println("  /** Production table. */");
       out.println("  protected static final short _production_table[][] = ");
-      out.print  ("    unpackFromStrings(");
-      do_table_as_string(out, prod_table);
-      out.println(");");
+      boolean externalTable = do_table_init("production_table", out, prod_table);
 
       /* do the public accessor method */
       out.println();
@@ -622,6 +634,7 @@ public class emit {
 						 "{return _production_table;}");
 
       production_table_time = System.currentTimeMillis() - start_time;
+      return externalTable;
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -630,8 +643,9 @@ public class emit {
    * @param out             stream to produce output on.
    * @param act_tab         the internal representation of the action table.
    * @param compact_reduces do we use the most frequent reduce as default?
+   * @return {@code true} if external file was used to store parser table
    */
-  protected static void do_action_table(
+  protected static boolean do_action_table(
     PrintWriter        out, 
     parse_action_table act_tab,
     boolean            compact_reduces)
@@ -718,9 +732,7 @@ public class emit {
       out.println();
       out.println("  /** Parse-action table. */");
       out.println("  protected static final short[][] _action_table = "); 
-      out.print  ("    unpackFromStrings(");
-      do_table_as_string(out, action_table);
-      out.println(");");
+      boolean externalTable = do_table_init("action_table", out, action_table);
 
       /* do the public accessor method */
       out.println();
@@ -729,6 +741,7 @@ public class emit {
       out.println("  public short[][] action_table() {return _action_table;}");
 
       action_table_time = System.currentTimeMillis() - start_time;
+      return externalTable;
     }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
@@ -736,8 +749,9 @@ public class emit {
   /** Emit the reduce-goto table. 
    * @param out     stream to produce output on.
    * @param red_tab the internal representation of the reduce-goto table.
+   * @return {@code true} if external file was used to store parser table
    */
-  protected static void do_reduce_table(
+  protected static boolean do_reduce_table(
     PrintWriter out, 
     parse_reduce_table red_tab)
     {
@@ -780,10 +794,8 @@ public class emit {
       /* emit the table. */
       out.println();
       out.println("  /** <code>reduce_goto</code> table. */");
-      out.println("  protected static final short[][] _reduce_table = "); 
-      out.print  ("    unpackFromStrings(");
-      do_table_as_string(out, reduce_goto_table);
-      out.println(");");
+      out.println("  protected static final short[][] _reduce_table = ");
+      boolean externalTable = do_table_init("reduce_table", out, reduce_goto_table);
 
       /* do the public accessor method */
       out.println();
@@ -793,8 +805,139 @@ public class emit {
       out.println();
 
       goto_table_time = System.currentTimeMillis() - start_time;
+      return externalTable;
     }
 
+  /**
+   * 
+   * @param tableName
+   * @param out
+   * @param sa
+   * @return {@code true} if external file was used to store parser table
+   */
+  private static boolean do_table_init(String tableName, PrintWriter out, short[][] sa) {
+    
+    // To avoid "code too large" errors, output very large parser tables to file
+    int tableSize = 0;
+    if (!external_tables) {
+      tableSize = getTableSizeBytes(sa);
+    }
+    
+    // "Code too large" error limits the size of the compiled code, not the input code/chars.
+    // As a simple workaround, here we just compare the size of the parser table
+    // to some arbitrary number that works, and use that;
+    // e.g. use the UTF-8 character byte size
+    boolean tableTooLarge = tableSize > 65500;
+    
+    // check if outputting to external tables, or the table is too large anyway
+    if (!external_tables && !tableTooLarge) {
+      // as in original CUP - output the array to the generated parser file
+      out.print("    unpackFromStrings(");
+      do_table_as_string(out, sa);
+      out.println(");");
+      return false;
+    }
+    else {
+      // write to file
+      writeToFile(tableName, sa);
+      
+      // add loading code
+      out.println("    loadTableFromFile(\"" + tableName + "\");");
+      return true;
+    }
+  }
+  
+  private static int getTableSizeBytes(short[][] sa)
+  {
+    // Calculate byte size of characters in the table. Algorithm taken from
+    // http://stackoverflow.com/questions/8511490/calculating-length-in-utf-8-of-java-string-without-actually-encoding-it#answer-8512877
+    int tableSize = 0;
+    for (int i = 0; i < sa.length; i++) {
+      short[] line = sa[i];
+      for (int j = 0; j < line.length; j++) {
+        char ch = (char) line[j];
+        if (ch <= 0x7F) {
+          tableSize++;
+        } else if (ch <= 0x7FF) {
+          tableSize += 2;
+        } else if (Character.isHighSurrogate(ch)) {
+          tableSize += 4;
+          ++i;
+        } else {
+          tableSize += 3;
+        }
+      }
+    }
+    
+    return tableSize;
+  }
+  
+  private static void writeToFile(String tableName, short[][] table) {
+    // create a file with the table name in the target directory
+    File tableFile = new File(Main.dest_dir, tableName + ".dat");
+    
+    // output to that file
+    FileOutputStream fileStream;
+    try {
+      fileStream = new FileOutputStream(tableFile);
+    }
+    catch (FileNotFoundException e) {
+      throw new CupParserException("Invalid file to output " + tableName, e);
+    }
+    
+    try {
+      try {
+        // serialize as object
+        ObjectOutputStream out = new ObjectOutputStream(fileStream);
+        try {
+          out.writeObject(table);
+        }
+        finally {
+          out.flush();
+          out.close();
+        }
+      }
+      finally {
+        // just in case there were exceptions initialising the writer, close the stream at the end
+        fileStream.close();
+      }
+    }
+    catch (IOException ie) {
+      throw new CupParserException("Problems writing " + tableName, ie);
+    }
+  }
+  
+  private static void emitExternalTableLoad(PrintWriter out) {
+    // encode the whole method as Strings, to avoid modifying the runtime
+    out.println();
+    out.println("  /** Load external table from file. */");
+    out.println("  private static short[][] loadTableFromFile(String tableName)");
+    out.println("  {");
+    out.println("    String tableFileName = tableName + \".dat\";");
+    out.println("    java.io.InputStream is = " + parser_class_name + ".class.getResourceAsStream(tableFileName);");
+    out.println("    if (is == null) {");
+    out.println("      throw new RuntimeException(\"Cannot find external parser table \" + tableFileName);");
+    out.println("    }");
+    out.println();
+    out.println("    try {");
+    out.println("      try {");
+    out.println();
+    out.println("        java.io.ObjectInputStream in = new java.io.ObjectInputStream(is);");
+    out.println("        try {");
+    out.println("          return (short[][]) in.readObject();");
+    out.println("        } finally {");
+    out.println("          in.close();");
+    out.println("        }");
+    out.println();
+    out.println("      } finally {");
+    out.println("        is.close();");
+    out.println("      }");
+    out.println("    } catch (Exception e) {");
+    out.println("      throw new RuntimeException(\"Cannot load external parser table \" + tableFileName, e);");
+    out.println("    }");
+    out.println("  }");
+  }
+  
   // print a string array encoding the given short[][] array.
   protected static void do_table_as_string(PrintWriter out, short[][] sa) {
     out.println("new String[] {");
@@ -909,9 +1052,14 @@ public class emit {
       }
 
       /* emit the various tables */
-      emit_production_table(out);
-      do_action_table(out, action_table, compact_reduces);
-      do_reduce_table(out, reduce_table);
+      boolean extProduction = emit_production_table(out);
+      boolean extAction = do_action_table(out, action_table, compact_reduces);
+      boolean extReduce = do_reduce_table(out, reduce_table);
+      
+      if (extProduction || extAction || extReduce) {
+        // output the content of external table file loading method
+        emitExternalTableLoad(out);
+      }
 
       /* instance of the action encapsulation class */
       out.println("  /** Instance of action encapsulation class. */");

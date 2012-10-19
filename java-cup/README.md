@@ -16,9 +16,13 @@ corresponding to the released CUP version **0.11a**.
 ## Community Z Tools updates
 
 Changed the `java_cup.emit` class to break up each case in the switch statement
-(each case in the parse table) into its own method. This prevents `do_action()`
-method from growing too large, thus avoiding the `code too large` Java compiler
-error. The error appears for very large grammars (e.g. in [CZT][czt] parsers).
+(each case in the parse table) into its own method. Furthermore, very large
+parse table definitions (e.g. action_table) are written to an external file
+and loaded during runtime.
+
+These prevent `do_action()` method and static initialization from growing too large,
+thus avoiding the `code too large` Java compiler error. The error appears for very
+large grammars (e.g. in [CZT][czt] parsers).
 
 Replaced `System.exit()` calls on fatal errors with unchecked exception. 
 This makes parser generation within IDEs better, since an error in generator no

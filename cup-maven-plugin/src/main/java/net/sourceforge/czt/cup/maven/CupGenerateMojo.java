@@ -33,6 +33,7 @@ import java.util.List;
 
 import java_cup.Main;
 
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -247,6 +248,24 @@ public class CupGenerateMojo extends AbstractMojo
   private boolean noScanner;
   
   /**
+   * Output parser tables to external files.
+   * <p>
+   * The external parser tables are normally encoded in the generated parser file. This option
+   * allows outputting them to an external file, which is loaded by the generated parser
+   * during runtime. The files are named as the parser tables, e.g. "action_table".
+   * </p>
+   * <p>
+   * If the parser tables are too large, they are always written to an external file, despite
+   * this option here. This is to avoid "code too large" Java compilation errors, caused by
+   * the initialisation code (the parser table String) being too large. This option allows
+   * outputting all tables to external files, thus minimising parser class footprint.
+   * </p>
+   * 
+   * @parameter
+   */
+  private boolean externalTables;
+  
+  /**
    * @parameter expression="${project}"
    * @required
    */
@@ -265,6 +284,14 @@ public class CupGenerateMojo extends AbstractMojo
     if (project != null)
     {
       project.addCompileSourceRoot(outputDirectory.getPath());
+      
+      // also add the output directory *.dat files as resources to the project,
+      // otherwise they will not be picked up for compilation.
+      // *.dat files are external parser tables
+      Resource resource = new Resource();
+      resource.setDirectory(outputDirectory.getPath());
+      resource.addInclude("**/*.dat");
+      project.addResource(resource);
     }
     
     List<File> cupSourceFiles = getCupFiles();
@@ -434,6 +461,9 @@ public class CupGenerateMojo extends AbstractMojo
     if (noScanner) {
       args.add("-noscanner");
     }
+    if (externalTables) {
+      args.add("-external_tables");
+    }
 
     // target directory path
     args.add("-destdir");
@@ -451,11 +481,15 @@ public class CupGenerateMojo extends AbstractMojo
     }
 
     // refresh generated parser and symbol files after generation
-    buildContext.refresh(destFile);
-    buildContext.refresh(symbolsFile);
-
-    getLog().info("CUP: generated " + destFile);
-    getLog().info("CUP: generated " + symbolsFile);
+    refreshFile(destFile);
+    refreshFile(symbolsFile);
+    
+    // refresh generated external parser tables (*.dat files)
+    for (File resourceFile : destDir.listFiles()) {
+      if (resourceFile.getName().endsWith(".dat")) {
+        refreshFile(resourceFile);
+      }
+    }
 
   }
 
@@ -490,5 +524,11 @@ public class CupGenerateMojo extends AbstractMojo
     }
 
     return null;
+  }
+  
+  private void refreshFile(File targetFile)
+  {
+    buildContext.refresh(targetFile);
+    getLog().info("CUP: generated " + targetFile);
   }
 }
