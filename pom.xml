@@ -23,6 +23,9 @@
     <site.build.dir>${project.build.directory}/generated-site</site.build.dir>
     <site.build.apt.dir>${site.build.dir}/apt</site.build.apt.dir>
     <site.build.md.dir>${site.build.dir}/markdown</site.build.md.dir>
+
+    <site.deploy.id>czt-sf</site.deploy.id>
+    <site.deploy.url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs</site.deploy.url>
   </properties>
 
   <description>
@@ -81,10 +84,11 @@
 
   <distributionManagement>
     <site>
-      <id>czt</id>
-      <url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs/</url>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}</url>
     </site>
   </distributionManagement>
+
   <repositories>
     <repository>
       <id>czt</id>

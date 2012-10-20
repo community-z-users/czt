@@ -26,6 +26,13 @@
     <czt.buildId>${buildQualifier}</czt.buildId>
   </properties>
   
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/eclipse</url>
+    </site>
+  </distributionManagement>
+  
   <pluginRepositories>
     <pluginRepository>
       <id>tycho-snapshots</id>

@@ -12,6 +12,14 @@
   <version>1.0.0-SNAPSHOT</version>
 
   <name>Z/EVES Eclipse UI</name>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/eclipse/zeves</url>
+    </site>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
