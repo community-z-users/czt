@@ -23,6 +23,9 @@
     <site.build.dir>${project.build.directory}/generated-site</site.build.dir>
     <site.build.apt.dir>${site.build.dir}/apt</site.build.apt.dir>
     <site.build.md.dir>${site.build.dir}/markdown</site.build.md.dir>
+
+    <site.deploy.id>czt-sf</site.deploy.id>
+    <site.deploy.url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs</site.deploy.url>
   </properties>
 
   <description>
@@ -81,10 +84,11 @@
 
   <distributionManagement>
     <site>
-      <id>czt</id>
-      <url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs/</url>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}</url>
     </site>
   </distributionManagement>
+
   <repositories>
     <repository>
       <id>czt</id>
@@ -609,9 +613,13 @@
          -->
     <profile>
       <id>site</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
+      <activation />
+
+      <!-- Include the "eclipse" module, which is not included by default -->
+      <modules>
+        <module>eclipse</module>
+      </modules>
+
       <!-- Sonatype OSS Maven repositories for reflow-maven-skin (not published into Central yet) -->
       <repositories>
         <repository>
@@ -736,6 +744,7 @@
          We use static .qualifier instead of time-generated one in m2e.
          Also need to use special position for manifest in PDE (ignored in .gitignore)  -->
     <profile>
+      <id>m2e</id>
       <activation>
         <property>
           <name>m2e.version</name>
