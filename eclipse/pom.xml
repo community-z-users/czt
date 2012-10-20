@@ -32,15 +32,10 @@
       <url>https://oss.sonatype.org/content/groups/public/</url>
     </pluginRepository>
   </pluginRepositories>
-  
+
+  <!-- The default modules are defined in the "default" profile below.
+       This is to allow for a separate "site" profile with less modules. -->
   <modules>
-    <module>net.sourceforge.czt.eclipse.ui</module>
-    <module>net.sourceforge.czt.eclipse.doc</module>
-    <module>net.sourceforge.czt.eclipse.vcg.ui</module>
-    
-    <module>net.sourceforge.czt.eclipse.zeves.ui</module>
-    
-    <module>releng</module>
   </modules>
   
   <repositories>
@@ -198,4 +193,43 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <!-- Default profile (active by default) that contains all submodules.
+           This is to separate "site" profile that does not include all submodules. -->
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <modules>
+        <module>net.sourceforge.czt.eclipse.ui</module>
+        <module>net.sourceforge.czt.eclipse.doc</module>
+        <module>net.sourceforge.czt.eclipse.vcg.ui</module>
+        
+        <module>net.sourceforge.czt.eclipse.zeves.ui</module>
+        
+        <module>releng</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <!-- Default profile (active by default) that contains all submodules.
+           This is to separate "site" profile that does not include all submodules. -->
+      <id>site</id>
+      <activation />
+      
+      <!-- "maven" mode for Tycho - this will prevent Tycho (used to build Eclipse plug-ins)
+           from trying to build Eclipse plug-ins (and thus failing). -->
+      <properties>
+        <tycho.mode>maven</tycho.mode>
+      </properties>
+
+      <modules>
+        <!-- Only include Z/EVES module in the website for now -->
+        <!-- <module>net.sourceforge.czt.eclipse.zeves.ui</module> -->
+      </modules>
+    </profile>
+  </profiles>
 </project>
