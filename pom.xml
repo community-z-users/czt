@@ -736,6 +736,7 @@
          We use static .qualifier instead of time-generated one in m2e.
          Also need to use special position for manifest in PDE (ignored in .gitignore)  -->
     <profile>
+      <id>m2e</id>
       <activation>
         <property>
           <name>m2e.version</name>
