@@ -609,9 +609,7 @@
          -->
     <profile>
       <id>site</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
+      <activation />
       <!-- Sonatype OSS Maven repositories for reflow-maven-skin (not published into Central yet) -->
       <repositories>
         <repository>
