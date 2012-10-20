@@ -12,5 +12,19 @@
   <packaging>eclipse-plugin</packaging>
 
   <name>CZT Eclipse VCG UI</name>
-  
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
