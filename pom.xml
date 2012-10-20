@@ -610,6 +610,12 @@
     <profile>
       <id>site</id>
       <activation />
+
+      <!-- Include the "eclipse" module, which is not included by default -->
+      <modules>
+        <module>eclipse</module>
+      </modules>
+
       <!-- Sonatype OSS Maven repositories for reflow-maven-skin (not published into Central yet) -->
       <repositories>
         <repository>
