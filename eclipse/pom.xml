@@ -19,7 +19,7 @@
   <name>CZT Eclipse Parent</name>
   
   <properties>
-    <tycho-version>0.16.0-SNAPSHOT</tycho-version>
+    <tycho-version>0.16.0</tycho-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- The build ID - normally the qualifier, but can be e.g. "M2" for milestone builds -->
@@ -32,13 +32,6 @@
       <url>${site.deploy.url}/eclipse</url>
     </site>
   </distributionManagement>
-  
-  <pluginRepositories>
-    <pluginRepository>
-      <id>tycho-snapshots</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
 
   <!-- The default modules are defined in the "default" profile below.
        This is to allow for a separate "site" profile with less modules. -->
