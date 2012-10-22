@@ -40,7 +40,8 @@
       <slogan>Tools for developing and reasoning about Z specifications</slogan>
       <titleTemplate>%2$s | %1$s</titleTemplate>
       <!-- Use Table of Contents at the top of the page (max 6 elements) -->
-      <toc max="6">top</toc>
+      <toc>top</toc>
+      <tocTopMax>6</tocTopMax>
       <!-- Include the documentation and modules in the top navigation (in addition to links) -->
       <topNav>Documentation|modules</topNav>
       <!-- Split menus in the bottom navigation -->
