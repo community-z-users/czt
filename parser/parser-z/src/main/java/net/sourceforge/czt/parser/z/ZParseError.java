@@ -20,6 +20,7 @@
 package net.sourceforge.czt.parser.z;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.CztError;
@@ -81,8 +82,9 @@ public class ZParseError
     super(msg.toString(), params, locInfo);
   }
 
-  protected String getResourceName()
+  @Override
+  protected ResourceBundle getResourceBundle()
   {
-    return RESOURCE_NAME;
+    return ResourceBundle.getBundle(RESOURCE_NAME);
   }
 }

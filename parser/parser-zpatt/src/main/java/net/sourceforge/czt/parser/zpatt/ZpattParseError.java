@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.parser.zpatt;
 
+import java.util.ResourceBundle;
+
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
 
@@ -40,8 +42,9 @@ public class ZpattParseError
     super(msg.toString(), params, locInfo);
   }
 
-  protected String getResourceName()
+  @Override
+  protected ResourceBundle getResourceBundle()
   {
-    return RESOURCE_NAME;
+    return ResourceBundle.getBundle(RESOURCE_NAME);
   }
 }

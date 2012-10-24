@@ -43,12 +43,11 @@ public abstract class CztErrorImpl
     params_ = params;
   }
 
-  protected abstract String getResourceName();
+  protected abstract ResourceBundle getResourceBundle();
 
   public String getMessage()
   {
-    String localized =
-      ResourceBundle.getBundle(getResourceName()).getString(message_);
+    String localized = getResourceBundle().getString(message_);
     MessageFormat form = new MessageFormat(localized);
     return form.format(params_);
   }

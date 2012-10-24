@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.ui.internal.editors.zeditor;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -214,7 +215,7 @@ public class ZEditorModel
     }
 
     @Override
-    protected String getResourceName()
+    protected ResourceBundle getResourceBundle()
     {
       throw new UnsupportedOperationException();
     }

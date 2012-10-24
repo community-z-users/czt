@@ -9,6 +9,8 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.util.List;
+import java.util.ResourceBundle;
+
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
@@ -68,8 +70,9 @@ public class CircusParseError
     super(msg.toString(), params, locInfo);
   }
 
-  protected String getResourceName()
+  @Override
+  protected ResourceBundle getResourceBundle()
   {
-    return RESOURCE_NAME;
+    return ResourceBundle.getBundle(RESOURCE_NAME);
   }
 }

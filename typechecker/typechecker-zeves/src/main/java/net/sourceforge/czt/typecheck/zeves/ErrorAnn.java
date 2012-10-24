@@ -73,9 +73,9 @@ public class ErrorAnn
   }
 
   @Override
-  protected String getResourceName()
+  protected ResourceBundle getResourceBundle()
   {
-    return RESOURCE_NAME;
+    return RESOURCE_BUNDLE;
   }
 
   @Override
