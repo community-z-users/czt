@@ -35,11 +35,11 @@
     <module>corejava-src</module>
     <module>corejava-z</module>
     <module>corejava-zpatt</module>
+    <module>corejava-zeves</module>
     <module>corejava-oz</module>
     <module>corejava-circus</module>
     <module>corejava-circuspatt</module>
     <module>corejava-circustime</module>
-    <module>corejava-zeves</module>
   </modules>
 
   <build>

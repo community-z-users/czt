@@ -46,6 +46,11 @@ import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
+<add:circustime>
+import net.sourceforge.czt.circustime.ast.*;
+import net.sourceforge.czt.circustime.util.Factory;
+import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+</add:circustime>
 import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -2652,9 +2657,11 @@ terminal LocInfo
         // acording to how it is expected to be in CSP_M.
         // USE _RENAME :)
 
+</add:circus>
+<add:circustime>
         /* Support for Circus Time */
         LCIRCTIMEOUT, RCIRCTIMEOUT, CIRCWAIT, CIRCDEADLINE,
-</add:circus>
+</add:circustime>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
@@ -3289,9 +3296,11 @@ precedence right        PREFIXTHEN;
 //CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
 //CIRCSKIP, CIRCSTOP, CIRCCHAOS,
 //LCIRCCHANSET, RCIRCCHANSET,
+</add:circus>
+<add:circustime>
 /* Support for Circus Time */
 precedence left         CIRCDEADLINE;
-</add:circus>
+</add:circustime>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -3346,12 +3355,14 @@ precedence left         LSQUARE, RSQUARE;
 precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
 precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
+</add:circus>
+<add:circustime>
 /* Support for Circus Time: TODO: are these right for Circus time? */
 precedence nonassoc     LCIRCTIMEOUT, RCIRCTIMEOUT;
 precedence nonassoc     CIRCWAIT;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
-</add:circus>
+</add:circustime>
 <add:zeves>
 precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
 </add:zeves>
@@ -6844,6 +6855,7 @@ cspAction ::=
           RESULT = factory_.createChaosAction();
           addLocAnn(RESULT, cc);
         :}
+ <add:circustime>
         |
         /* Support for Circus Time; TODO: check if precedences are right here */
         CIRCWAIT:cw expression:e
@@ -6851,6 +6863,7 @@ cspAction ::=
             RESULT = factory_.createWaitAction(e);
             addLocAnn(RESULT, getLocation(cw, e));
         :}
+ </add:circustime>
         |
         CIRCMU:cm name:n CIRCSPOT circusAction:ca
         {:
@@ -6929,6 +6942,7 @@ cspAction ::=
             RESULT = factory_.createSeqAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
+ <add:circustime>
         |
         /* Support for Circus Time; TODO: check if precedences are right here */
         circusAction:ca CIRCDEADLINE expression:e
@@ -6944,6 +6958,7 @@ cspAction ::=
             RESULT = factory_.createTimeoutAction(factory_.list(cal, car), e);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
+</add:circustime>
         |
         /* Due to a series of reasonable conflicts (listed below), we see that
          * the best choice is to introduce suitable notation (guard brackets,

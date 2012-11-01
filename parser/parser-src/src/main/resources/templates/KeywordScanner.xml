@@ -112,6 +112,10 @@ public class KeywordScanner
     addKeywords(result, CircusKeyword.values());
 </add:circus>
 
+<add:circustime>
+    /* Adds all Circus keyword tokens */
+    addKeywords(result, CircusTimeKeyword.values());
+</add:circustime>
 <add:zeves>
     /* Technically proof words are not keywords, since they can appear in the
      * user specification, albeit that's rare. This is easily achieved in Z/EVES
