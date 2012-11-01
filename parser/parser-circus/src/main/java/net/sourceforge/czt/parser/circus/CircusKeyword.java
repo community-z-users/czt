@@ -109,9 +109,6 @@ public enum CircusKeyword implements Token {
   CIRCREFINES(CircusString.CIRCREFINES, NewlineCategory.BOTH),    /* \\circrefines    , U+2291 */
   CIRCSIMULATES(CircusString.CIRCSIMULATES, NewlineCategory.BOTH),/* \\circsimulates  , U+227C */
   CIRCMU(CircusString.CIRCMU, NewlineCategory.AFTER),              /* \\circmu         , U+00B5 */
-  /* Support for Circus Time */
-  CIRCWAIT(CircusString.CIRCWAIT, NewlineCategory.AFTER),
-  CIRCDEADLINE(CircusString.CIRCDEADLINE, NewlineCategory.BOTH),
   
   /**
    * Note: 

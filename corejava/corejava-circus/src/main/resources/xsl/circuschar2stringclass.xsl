@@ -68,9 +68,6 @@ public interface CircusString extends ZPattString
   String CIRCUSSYNCH = "$$SYNCH";
   String CIRCUSID = "$$CIRCUSID";
   String CIRCUSTRANSFORMER = "$$TRANSFORMER";
-  /* Support for Circus Time */
-  String CIRCWAIT = "wait";
-  String CIRCDEADLINE = "deadline";
 }
 <xsl:text>
 </xsl:text>

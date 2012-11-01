@@ -35,10 +35,11 @@
     <module>parser-src</module>
     <module>parser-z</module>
     <module>parser-zpatt</module>
+    <module>parser-zeves</module>
     <module>parser-oz</module>
     <module>parser-ozpatt</module>
     <module>parser-circus</module>
-    <module>parser-zeves</module>
+<!--  uncomment when ready   <module>parser-circustime</module> -->
   </modules>
 
   <build>

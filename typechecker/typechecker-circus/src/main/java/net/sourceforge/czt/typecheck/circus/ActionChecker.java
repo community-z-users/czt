@@ -47,9 +47,9 @@ import net.sourceforge.czt.circus.ast.ParActionIte;
 import net.sourceforge.czt.circus.ast.ParallelActionIte;
 import net.sourceforge.czt.circus.ast.AlphabetisedParallelActionIte;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
-import net.sourceforge.czt.circus.ast.DeadlineAction;
-import net.sourceforge.czt.circus.ast.TimeoutAction;
-import net.sourceforge.czt.circus.ast.WaitAction;
+//import net.sourceforge.czt.circus.ast.DeadlineAction;
+//import net.sourceforge.czt.circus.ast.TimeoutAction;
+//import net.sourceforge.czt.circus.ast.WaitAction;
 import net.sourceforge.czt.circus.visitor.Action2Visitor;
 import net.sourceforge.czt.circus.visitor.ActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionVisitor;
@@ -65,13 +65,13 @@ import net.sourceforge.czt.circus.visitor.ParamActionVisitor;
 import net.sourceforge.czt.circus.visitor.ParActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
-import net.sourceforge.czt.circus.visitor.DeadlineActionVisitor;
+//import net.sourceforge.czt.circus.visitor.DeadlineActionVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.RenameActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
-import net.sourceforge.czt.circus.visitor.TimeoutActionVisitor;
-import net.sourceforge.czt.circus.visitor.WaitActionVisitor;
+//import net.sourceforge.czt.circus.visitor.TimeoutActionVisitor;
+//import net.sourceforge.czt.circus.visitor.WaitActionVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -161,12 +161,12 @@ public class ActionChecker
   //IntChoiceActionIteVisitor,                              C.12.24  
   ParActionIteVisitor<CircusCommunicationList>,                 //  C.12.25, C.12.26
   ParallelActionIteVisitor<CircusCommunicationList>,            //  C.12.27
-  AlphabetisedParallelActionIteVisitor<CircusCommunicationList>,//  C.12.27-2
+  AlphabetisedParallelActionIteVisitor<CircusCommunicationList>//  C.12.27-2
 
   /* Support for Circus Time (hack F Zeyda) */
-  TimeoutActionVisitor<CircusCommunicationList>,
-  WaitActionVisitor<CircusCommunicationList>,
-  DeadlineActionVisitor<CircusCommunicationList>
+//  TimeoutActionVisitor<CircusCommunicationList>,
+//  WaitActionVisitor<CircusCommunicationList>,
+//  DeadlineActionVisitor<CircusCommunicationList>
   
 {
   private final Expr arithmos_;
@@ -982,28 +982,28 @@ public class ActionChecker
   }
 
   /* Support for Circus Time (hack F Zeyda) */
-  @Override
-  public CircusCommunicationList visitTimeoutAction(TimeoutAction term)
-  {
-    CircusCommunicationList commList = visitAction2(term);
-    typeCheckTimeExpr(term, term.getExpr());
-    return commList;
-  }
-
-  @Override
-  public CircusCommunicationList visitWaitAction(WaitAction term)
-  {
-    CircusCommunicationList commList = visitBasicAction(term);
-    typeCheckTimeExpr(term, term.getExpr());
-    return commList;
-  }
-
-  @Override
-  public CircusCommunicationList visitDeadlineAction(DeadlineAction term)
-  {
-    checkActionParaScope(term, null);
-    CircusCommunicationList commList = visit(term.getCircusAction());
-    typeCheckTimeExpr(term, term.getExpr());
-    return commList;
-  }
+//  @Override
+//  public CircusCommunicationList visitTimeoutAction(TimeoutAction term)
+//  {
+//    CircusCommunicationList commList = visitAction2(term);
+//    typeCheckTimeExpr(term, term.getExpr());
+//    return commList;
+//  }
+//
+//  @Override
+//  public CircusCommunicationList visitWaitAction(WaitAction term)
+//  {
+//    CircusCommunicationList commList = visitBasicAction(term);
+//    typeCheckTimeExpr(term, term.getExpr());
+//    return commList;
+//  }
+//
+//  @Override
+//  public CircusCommunicationList visitDeadlineAction(DeadlineAction term)
+//  {
+//    checkActionParaScope(term, null);
+//    CircusCommunicationList commList = visit(term.getCircusAction());
+//    typeCheckTimeExpr(term, term.getExpr());
+//    return commList;
+//  }
 }
