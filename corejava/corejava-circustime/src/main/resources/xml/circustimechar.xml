@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CIRCUSCHAR>
+  <SPECIAL>    
+    <BRACKET>
+      <!-- Support for Circus Time -->
+      <char id="LCIRCTIMEOUT" hex="21BB" description="left timeout bracket"/>
+      <char id="RCIRCTIMEOUT" hex="22B3" description="right timeout bracket"/>
+    </BRACKET>    
+  </SPECIAL>
+  <SYMBOL>
+    <!-- Neeraj add new core symbols here 
+    <CORESYMBOL>
+    </CORESYMBOL>
+    <CIRCUSTOOLKITSYMBOL>      
+    </CIRCUSTOOLKITSYMBOL>
+     -->
+  </SYMBOL>
+</CIRCUSCHAR>

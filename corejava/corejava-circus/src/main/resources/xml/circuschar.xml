@@ -18,9 +18,6 @@
       <char id="LINTER" hex="27E6" description="left interleave bracket"/>
       <char id="RINTER" hex="27E7" description="right interleave bracket"/>
 
-      <!-- Support for Circus Time -->
-      <char id="LCIRCTIMEOUT" hex="21BB" description="left timeout bracket"/>
-      <char id="RCIRCTIMEOUT" hex="22B3" description="right timeout bracket"/>
     </BRACKET>    
     <BOXCHAR>      
       <char id="CIRCUSCHAR" hex="257A" description="box drawings thick horizontal line to the right."/>            

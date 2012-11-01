@@ -1,0 +1,66 @@
+1) recreate directory structure: either through maven archtype or just copy-paste
+2) adjust new project POM - and if a subproject, adjust it's parent POM too
+	a) change the project name
+	b) add any needed dependencies
+	c) adjust property names to reflect the new project
+	d) add any extra resources (i.e. XSD files) the project needs
+   the work here is by ear: look around to see what is to change closely (search for prj name).
+3) adjust files according to the project being created.
+
+================================================================================
+example: creating CircusTime in corejava
+================================================================================
+
+extend ZML:
+1) added CircusTime.xsd (i.e. copy Circus.xsd and adjust accordingly) in ZML project
+	a) change all .circus to .circustime
+	b) add reference/dependency to circus 
+		(i.e. I've put CircusPattern as a parent, as you might want wildcards in CircusTime
+	c) add the new name space for tyour project within the XSD file
+	d) here one needs to read the file and see what needs changing more closely 
+2) added CIRCUSTIME_SCHEMA to Resources.java
+3) search around for Circus to see what else to add
+
+extend corejava
+1) recreated the directory structure from Circus into ./czt/corejava/corejava-circustime
+2) adjusted the POM.xml file changing "circus" to "circustime" and other minor changes
+3) adjusted corejava pom.xml to add references to circustime XML files, XSD files etc.
+4) change/add any files to source/resources accordingly
+	a) in the /src/java directory there are various classes to change
+	b) in the /resources/vm changes for GnAST
+		-> you can add specialised code here to access various parts of the AST structure
+			in a more convenient / intuitive way than what XML is capable of generating.
+		-> see others for Z and Circus for examples
+	c) in the /resources/xml changes for new Unicode chars
+	d) in the /resources/xsl changes for code-ccess to Unicode chars/strings 
+5) compile everything using maven within corejava to see if it's working
+	preferably with as little in as possible (i.e. just checking the maven admin is okay)
+	
+ALL CHANGED FILES WERE:
+corejava/corejava-circus/src/main/java/net/sourceforge/czt/circus/util/CircusConcreteSyntaxSymbol.java
+corejava/corejava-circus/src/main/java/net/sourceforge/czt/circus/util/CircusConcreteSyntaxSymbolVisitor.java
+corejava/corejava-circus/src/main/resources/xml/circuschar.xml
+corejava/corejava-circus/src/main/resources/xsl/circuschar2stringclass.xsl
+corejava/corejava-circustime/pom.xml
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/jaxb/JaxbXmlReader.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/jaxb/JaxbXmlWriter.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/CircusTimeConcreteSyntaxSymbol.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/CircusTimeConcreteSyntaxSymbolVisitor.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/CircusTimeUtils.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/ConcreteSyntaxDescriptionVisitor.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/GetNameVisitor.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/LongDescriptionResourceBundle.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/PrintVisitor.java
+corejava/corejava-circustime/src/main/java/net/sourceforge/czt/circustime/util/ShortDescriptionResourceBundle.java
+corejava/corejava-circustime/src/main/resources/vm/gnast/CircusTimeFactory.java
+corejava/corejava-circustime/src/main/resources/vm/gnast/CircusTimeFactoryImpl.java
+corejava/corejava-circustime/src/main/resources/xml/circustimechar.xml
+corejava/corejava-circustime/src/main/resources/xsl/circustimechar2class.xsl
+corejava/corejava-circustime/src/main/resources/xsl/circustimechar2stringclass.xsl
+corejava/corejava-circustime/src/test/java/net/sourceforge/czt/circustime/jaxb/JaxbXmlWriterReaderTest.java
+corejava/pom.xml
+doc/new-projects/corejava-newprojects.txt
+zml/src/main/java/net/sourceforge/czt/zml/Resources.java
+zml/src/main/resources/net/sourceforge/czt/zml/examples/circustime/timeactions.xml
+zml/src/main/resources/net/sourceforge/czt/zml/xsd/Circus.xsd
+zml/src/main/resources/net/sourceforge/czt/zml/xsd/CircusTime.xsd

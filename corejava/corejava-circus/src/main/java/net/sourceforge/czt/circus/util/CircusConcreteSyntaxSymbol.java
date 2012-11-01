@@ -178,12 +178,8 @@ public enum CircusConcreteSyntaxSymbol
   PROCESS_SIGNATURE_ANN("Process signature annotation"),
   ACTION_SIGNATURE_ANN("Action signature annotation"),
   OUTPUTFIELD_ANN("Output field annotation"),
-  PROOF_OBLIGATION_ANN("Proof obligation annotation"),
+  PROOF_OBLIGATION_ANN("Proof obligation annotation")
 
-  /* Support for Circus Time */
-  TIMEOUT_ACTION("Timeout Action"),
-  WAIT_ACTION("Wait Action"),
-  DEADLINE_ACTION("Wait Action")
   ;
   
   private final String description_;
