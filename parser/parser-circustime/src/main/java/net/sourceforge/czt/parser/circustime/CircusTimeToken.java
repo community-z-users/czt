@@ -48,12 +48,12 @@ public enum CircusToken
   RSCHEXPRACT(CircusString.RSCHEXPRACT, NewlineCategory.BEFORE),
   LCIRCRENAME(CircusString.LCIRCRENAME, NewlineCategory.AFTER),
   RCIRCRENAME(CircusString.RCIRCRENAME, NewlineCategory.BEFORE),
-  /* Support for Circus Time */
-  LCIRCTIMEOUT(CircusString.LCIRCTIMEOUT, NewlineCategory.AFTER),
-  RCIRCTIMEOUT(CircusString.RCIRCTIMEOUT, NewlineCategory.BEFORE),
-
   CIRCUS(CircusString.CIRCUS, NewlineCategory.BOTH),
-  CIRCUSACTION(CircusString.CIRCUSACTION, NewlineCategory.BOTH);
+  CIRCUSACTION(CircusString.CIRCUSACTION, NewlineCategory.BOTH),
+
+  /* Support for Circus Time */
+  LCIRCTIME(CircusString.LCIRCTIME, NewlineCategory.AFTER),
+  RCIRCTIME(CircusString.RCIRCTIME, NewlineCategory.BEFORE);
 
   private String spelling_;
   private NewlineCategory newlineCategory_;

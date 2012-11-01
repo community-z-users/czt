@@ -302,11 +302,9 @@ BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {L
           | {LCIRCGUARD} | {RCIRCGUARD} | {LSCHEXPRACT} | {RSCHEXPRACT}
           | {LCIRCRENAME} | {RCIRCRENAME} | {LPAR} | {RPAR} | {LINTER} 
           | {RINTER}
-</add:circus>
-<add:circustime>
           /* Support for Circus Time */
-          | {LCIRCTIMEOUT} | {RCIRCTIMEOUT}
-</add:circustime>
+          | {LCIRCTIME} | {RCIRCTIME}
+</add:circus>
 <add:zeves>
           | {LLABEL} | {RLABEL} | {LZNOTE} | {RZNOTE}
 </add:zeves>
@@ -335,12 +333,11 @@ LPAR = "\u27E6" /* left parallel bracket */
 RPAR = "\u27E7" /* right parallel bracket */
 LINTER = "\u301A"   /* left interleave bracket */
 RINTER = "\u301B"   /* left interleave bracket */
-</add:circus>
-<add:circustime>
 /* Support for Circus Time */
-LCIRCTIMEOUT = "\u21BB" /* left timeout bracket */
-RCIRCTIMEOUT = "\u22B3" /* right timeout bracket */
-</add:circustime>
+LCIRCTIME = "\u27EC" /* left time bracket */
+RCIRCTIME = "\u27ED" /* right time bracket */
+
+</add:circus>
 <add:zeves>
 LZNOTE = "\u231C" /* znote comment */
 RZNOTE = "\u231D"
@@ -647,12 +644,11 @@ ZREFINES = //{NL_SPACE}*
   {RPAR}         {  return symbol(Sym.RPAR); }  
   {LINTER}       {  return symbol(Sym.LINTER); }  
   {RINTER}       {  return symbol(Sym.RINTER); }
+ 
+  /* Support for Circus Time */
+  {LCIRCTIME} {  return symbol(Sym.LCIRCTIME); }
+  {RCIRCTIME} {  return symbol(Sym.RCIRCTIME); }
   </add:circus>
-  <add:circustime>
-    /* Support for Circus Time */
-  {LCIRCTIMEOUT} {  return symbol(Sym.LCIRCTIMEOUT); }
-  {RCIRCTIMEOUT} {  return symbol(Sym.RCIRCTIMEOUT); }
-  </add:circustime>
   <add:zeves>
   {LLABEL}      { return symbol(Sym.LLABEL); }
   {RLABEL}      { return symbol(Sym.RLABEL); }

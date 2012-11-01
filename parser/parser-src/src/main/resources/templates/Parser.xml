@@ -46,11 +46,6 @@ import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
-<add:circustime>
-import net.sourceforge.czt.circustime.ast.*;
-import net.sourceforge.czt.circustime.util.Factory;
-import net.sourceforge.czt.circustime.util.CircusTimeUtils;
-</add:circustime>
 import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -2657,11 +2652,13 @@ terminal LocInfo
         // acording to how it is expected to be in CSP_M.
         // USE _RENAME :)
 
-</add:circus>
-<add:circustime>
         /* Support for Circus Time */
-        LCIRCTIMEOUT, RCIRCTIMEOUT, CIRCWAIT, CIRCDEADLINE,
-</add:circustime>
+        CIRCWAIT, 
+	
+	/* Support Circus time for Action and Process */ 
+	ATTIME, CIRCENDBY, CIRCSTARTBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, LCIRCTIME, RCIRCTIME,
+	
+</add:circus>
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
@@ -3087,8 +3084,11 @@ non terminal CircusProcess
     processCall,
     parenthesisedProcess,
     //renamingProcesses,
+    
+     /* Support  Circus Time for Process and Action */
+     circusTimedCSPProcess,
     process;
-
+    
 non terminal BasicProcess
     circusBasicProcess;
 
@@ -3131,8 +3131,11 @@ non terminal CircusAction
     actionCall,
     parenthesisedAction,
     circusBasicProcessMainAction,
+   /* Support  Circus Time for Process and Action */
+   circusTimedCSPActions,
     cspAction;
-
+   
+    
 /// Circus guard //////////////////////////////////////////////////////////
 non terminal Pred
     guard;
@@ -3296,11 +3299,15 @@ precedence right        PREFIXTHEN;
 //CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
 //CIRCSKIP, CIRCSTOP, CIRCCHAOS,
 //LCIRCCHANSET, RCIRCCHANSET,
+
+/* Support  Circus Time for Process and Action */
+
+precedence left  CIRCENDBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, ATTIME;
+precedence right CIRCSTARTBY;
+
+
+
 </add:circus>
-<add:circustime>
-/* Support for Circus Time */
-precedence left         CIRCDEADLINE;
-</add:circustime>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -3355,14 +3362,14 @@ precedence left         LSQUARE, RSQUARE;
 precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
 precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
-</add:circus>
-<add:circustime>
-/* Support for Circus Time: TODO: are these right for Circus time? */
-precedence nonassoc     LCIRCTIMEOUT, RCIRCTIMEOUT;
+
+/* Support  Circus Time for Process and Action */
+precedence nonassoc  LCIRCTIME, RCIRCTIME;
+
 precedence nonassoc     CIRCWAIT;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
-</add:circustime>
+</add:circus>
 <add:zeves>
 precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
 </add:zeves>
@@ -5918,7 +5925,7 @@ processDesc ::=
         {:
            RESULT = p;
         :}
-        ;
+	;
 
 // DESIGN:
 /* Moved replicated productions out of process because they are not
@@ -6199,6 +6206,10 @@ process ::=
         {:
            RESULT = pp;
         :}
+	| 
+	/* Time CSP process */  
+        circusTimedCSPProcess:ctp
+        {: RESULT = ctp; :}
         ;
 
 processCall ::=
@@ -6835,6 +6846,10 @@ circusAction ::=
         /* Parenthesised actions */
         parenthesisedAction:pa
         {: RESULT = pa; :}
+	|
+	/*Timed CSP Action */ 
+	circusTimedCSPActions:tca
+	{: RESULT = tca; :}
         ;
 
 cspAction ::=
@@ -6855,7 +6870,6 @@ cspAction ::=
           RESULT = factory_.createChaosAction();
           addLocAnn(RESULT, cc);
         :}
- <add:circustime>
         |
         /* Support for Circus Time; TODO: check if precedences are right here */
         CIRCWAIT:cw expression:e
@@ -6863,7 +6877,6 @@ cspAction ::=
             RESULT = factory_.createWaitAction(e);
             addLocAnn(RESULT, getLocation(cw, e));
         :}
- </add:circustime>
         |
         CIRCMU:cm name:n CIRCSPOT circusAction:ca
         {:
@@ -6942,23 +6955,6 @@ cspAction ::=
             RESULT = factory_.createSeqAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
- <add:circustime>
-        |
-        /* Support for Circus Time; TODO: check if precedences are right here */
-        circusAction:ca CIRCDEADLINE expression:e
-        {:
-            RESULT = factory_.createDeadlineAction(ca, e);
-            addLocAnn(RESULT, getLocation(ca, e));
-        :}
-        |
-        //TODO: check if this is the right place, given chosen precedences!
-        /* Support for Circus Time */
-        circusAction:cal LCIRCTIMEOUT expression:e RCIRCTIMEOUT circusAction:car
-        {:
-            RESULT = factory_.createTimeoutAction(factory_.list(cal, car), e);
-            addLocAnn(RESULT, getLocation(cal, car));
-        :}
-</add:circustime>
         |
         /* Due to a series of reasonable conflicts (listed below), we see that
          * the best choice is to introduce suitable notation (guard brackets,
@@ -10376,4 +10372,91 @@ deltaList ::=
         :}
         ;
 </add:oz>
+
+
+<add:circus>
+/* prduction rule for time CSP process */
+
+circusTimedCSPProcess ::=
+        process:pl CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+        {:
+	    RESULT = factory_.createTimeEndByProcess(pl, e);
+	    addLocAnn(RESULT, getLocation(pl,e));
+        :}
+	|
+          LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY process:pr
+        {:
+	    RESULT = factory_.createTimeStartByProcess(pr, e);
+	    addLocAnn(RESULT, getLocation(pr,e));
+        :}
+	|
+        process:pl CIRCTIMEOUT  LCIRCTIME expression:e RCIRCTIME  process:pr
+        {:
+	    RESULT = factory_.createTimeoutProcess(factory_.list(pl, pr), e);
+	    addLocAnn(RESULT, getLocation(pl, pr));
+        :}
+	|
+        process:pl CIRCTIMEDINTERRUPT:ti  LCIRCTIME expression:e RCIRCTIME  process:pr
+        {:
+	    RESULT = factory_.createTimedinterruptProcess(factory_.list(pl, pr),e);
+	    addLocAnn(RESULT, getLocation(pl, pr));
+	:}
+	;
+	
+	/* prduction rule for time CSP Actions */
+
+circusTimedCSPActions ::=
+        circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+        {:
+	    RESULT = factory_.createTimeEndByAction(ca, e);
+	    addLocAnn(RESULT, getLocation(ca,e));
+        :}
+	|
+         LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
+        {:
+	    RESULT = factory_.createTimeStartByAction(ca, e);
+	    addLocAnn(RESULT, getLocation(ca,e));
+        :}
+	|
+        circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
+        {:
+	    RESULT = factory_.createTimeoutAction1(factory_.list(al, ar), e);
+	    addLocAnn(RESULT, getLocation(al, ar));
+        :}
+	|
+        circusAction:al CIRCTIMEDINTERRUPT:ti LCIRCTIME expression:e RCIRCTIME circusAction:ar
+        {:
+	    RESULT = factory_.createTimedinterruptAction(factory_.list(al, ar),e);
+	    addLocAnn(RESULT, getLocation(al, ar));
+	:}
+	|
+	CIRCWAIT refName:na COLON expression:e CIRCSPOT circusAction:ac
+	{:
+	    RESULT = factory_.createWaitRangeAction(ac, e);
+	    addLocAnn(RESULT, getLocation(na, ac));
+	
+	:}
+	|
+	communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+        {:
+	    RESULT = factory_.createPrefixingExprAction(ac,comm);
+	    addLocAnn(RESULT, getLocation(comm, ac));	    
+        :}
+	|
+	communication:comm ATTIME:at  refName:na  PREFIXTHEN:pt  circusAction:ac
+        {:
+	    RESULT = factory_.createAtPrefixingAction(ac,comm);
+	    addLocAnn(RESULT, getLocation(comm, ac));
+        :}
+	|
+	communication:comm ATTIME refName:na PREFIXTHEN:pt LCIRCTIME expression:e LCIRCTIME circusAction:ac
+        {:
+	    RESULT = factory_.createAtPrefixingExprAction(ac,comm);
+	    addLocAnn(RESULT, getLocation(comm, ac));
+	:}
+	;
+	
+	
+</add:circus>
+
 </parser>

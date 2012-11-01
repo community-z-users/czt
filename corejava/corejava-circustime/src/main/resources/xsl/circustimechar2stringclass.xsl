@@ -42,7 +42,6 @@ public interface CircusTimeString extends CircusPattString
 
   /* Support for Circus Time */
   String CIRCWAIT = "wait";
-  String CIRCDEADLINE = "deadline";
 }
 <xsl:text>
 </xsl:text>

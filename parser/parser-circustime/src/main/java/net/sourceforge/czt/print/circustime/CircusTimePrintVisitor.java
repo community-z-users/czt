@@ -1143,18 +1143,8 @@ public class CircusPrintVisitor
     return null;
   }
 
-  /* Support for Circus Time (hack F Zeyda) */
-    public Object visitTimeoutAction(TimeoutAction term) {
-        printLPAREN(term);
-        visit(term.getLeftAction());
-        print(CircusToken.LCIRCTIMEOUT);
-        visit(term.getExpr());
-        print(CircusToken.RCIRCTIMEOUT);
-        visit(term.getRightAction());
-        printRPAREN(term);
-        return null;
-    }
-
+ /* Support for Circus Time (hack F Zeyda) */
+   
     public Object visitWaitAction(WaitAction term) {
         printLPAREN(term);
         print(CircusKeyword.CIRCWAIT);
@@ -1163,13 +1153,151 @@ public class CircusPrintVisitor
         return null;
     }
 
-    public Object visitDeadlineAction(DeadlineAction term) {
+   
+
+/* Support for Circus Time : Process */
+
+  public Object visitTimeEndByProcess(TimeEndByProcess term) {
         printLPAREN(term);
-        visit(term.getCircusAction());
-        print(CircusKeyword.CIRCDEADLINE);
+        visit(term.getCircusProcess());
+        print(CircusKeyword.CIRCENDBY);
+        print(CircusToken.LCIRCTIME);        
         visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);        
         printRPAREN(term);
         return null;
     }
 
+public Object visitTimeStartByProcess(TimeStartByProcess term) {
+        printLPAREN(term);
+        print(CircusToken.LCIRCTIME);        
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);        
+        print(CircusKeyword.CIRCSTARTBY);
+        visit(term.getCircusProcess());
+        printRPAREN(term);
+        return null;
+    }
+
+public Object visitTimeoutProcess(TimeoutProcess term) {
+        printLPAREN(term);
+        visit(term.getLeftProcess());
+        print(CircusKeyword.CIRCTIMEOUT);
+        print(CircusToken.LCIRCTIME);        
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);        
+        visit(term.getRightProcess());
+        printRPAREN(term);
+        return null;
+    }
+
+
+public Object visitTimedinterruptProcess(TimedinterruptProcess term) {
+        printLPAREN(term);
+        visit(term.getLeftProcess());
+        print(CircusToken.LCIRCTIME);        
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);        
+        visit(term.getRightProcess());
+        printRPAREN(term);
+        return null;
+    }
+
+
+
+ /* Support for Circus Time : Action */
+
+  public Object visitTimeEndByAction(TimeEndByAction term) {
+        printLPAREN(term);
+        visit(term.getCircusAction());
+        print(CircusKeyword.CIRCENDBY);
+        print(CircusToken.LCIRCTIME); 
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME); 
+        printRPAREN(term);
+        return null;
+    }
+
+public Object visitTimeStartByAction(TimeStartByAction term) {
+        printLPAREN(term);
+        print(CircusToken.LCIRCTIME);
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);
+        print(CircusKeyword.CIRCSTARTBY);
+        visit(term.getCircusAction());
+        printRPAREN(term);
+        return null;
+    }
+
+public Object visitTimeoutAction(TimeoutAction term) {
+        printLPAREN(term);
+        visit(term.getLeftAction());
+        print(CircusKeyword.CIRCTIMEOUT);
+        print(CircusToken.LCIRCTIME);
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);
+        visit(term.getRightAction());
+        printRPAREN(term);
+        return null;
+    }
+
+
+public Object visitTimedinterruptAction(TimedinterruptAction term) {
+        printLPAREN(term);
+        visit(term.getLeftAction());
+        print(CircusToken.LCIRCTIME);
+        visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);
+        visit(term.getRightAction());
+        printRPAREN(term);
+        return null;
+    }
+
+
+public Object visitWaitRangeAction(WaitRangeAction term) {
+        printLPAREN(term);
+        print(CircusKeyword.CIRCWAIT);
+        print(ZKeyword.COLON);
+        visit(term.getExpr());
+        print(CircusKeyword.CIRCSPOT);
+        visit(term.getCircusAction());
+        printRPAREN(term);
+        return null;
+    }
+
+public Object visitPrefixingExprAction(PrefixingExprAction term) {
+        printLPAREN(term);
+	visit(term.getCommunication());
+        print(CircusKeyword.PREFIXTHEN);
+        print(CircusToken.LCIRCTIME);
+        //visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);       
+        visit(term.getCircusAction());
+        printRPAREN(term);
+        return null;
+    }
+
+
+public Object visitAtPrefixingAction(AtPrefixingAction term) {
+        printLPAREN(term);
+	visit(term.getCommunication());
+        print(CircusKeyword.ATTIME);
+        print(CircusKeyword.PREFIXTHEN);       
+        visit(term.getCircusAction());
+        printRPAREN(term);
+        return null;
+    }
+
+public Object visitAtPrefixingExprAction(AtPrefixingExprAction term) {
+        printLPAREN(term);
+	visit(term.getCommunication());
+	print(CircusKeyword.ATTIME);
+        print(CircusKeyword.PREFIXTHEN);
+        print(CircusToken.LCIRCTIME);
+        //visit(term.getExpr());
+        print(CircusToken.RCIRCTIME);       
+        visit(term.getCircusAction());
+        printRPAREN(term);
+        return null;
+    }
 }
