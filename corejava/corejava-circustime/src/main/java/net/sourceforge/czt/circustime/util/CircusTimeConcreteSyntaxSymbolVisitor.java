@@ -43,32 +43,32 @@ public class CircusTimeConcreteSyntaxSymbolVisitor
 
 /* Support for Circus Time : Process */
 
- public CircusConcreteSyntaxSymbol visitTimeEndByProcess(TimeEndByProcess process) {
-    return CircusConcreteSyntaxSymbol.DEADLINE_END_PROCESS;
+ public CircusTimeConcreteSyntaxSymbol visitTimeEndByProcess(TimeEndByProcess process) {
+    return CircusTimeConcreteSyntaxSymbol.DEADLINE_END_PROCESS;
   }
 
- public CircusConcreteSyntaxSymbol visitTimeStartByProcess(TimeStartByProcess process) {
-    return CircusConcreteSyntaxSymbol.DEADLINE_START_PROCESS;
+ public CircusTimeConcreteSyntaxSymbol visitTimeStartByProcess(TimeStartByProcess process) {
+    return CircusTimeConcreteSyntaxSymbol.DEADLINE_START_PROCESS;
   }
 
-public CircusConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process) {
-    return CircusConcreteSyntaxSymbol.TIMEOUT_PROCESS;
+public CircusTimeConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process) {
+    return CircusTimeConcreteSyntaxSymbol.TIMEOUT_PROCESS;
   }
 
 
- public CircusConcreteSyntaxSymbol visitTimedinterruptProcess(TimedinterruptProcess process) {
-    return CircusConcreteSyntaxSymbol.TIMEDINTERRUPT_PROCESS;
+ public CircusTimeConcreteSyntaxSymbol visitTimedinterruptProcess(TimedinterruptProcess process) {
+    return CircusTimeConcreteSyntaxSymbol.TIMEDINTERRUPT_PROCESS;
   }
 
 
  /* Support for Circus Time : Action */
 
- public CircusConcreteSyntaxSymbol visitTimeEndByAction(TimeEndByAction action) {
-    return CircusConcreteSyntaxSymbol.DEADLINE_END_ACTION;
+ public CircusTimeConcreteSyntaxSymbol visitTimeEndByAction(TimeEndByAction action) {
+    return CircusTimeConcreteSyntaxSymbol.DEADLINE_END_ACTION;
   }
 
- public CircusConcreteSyntaxSymbol visitTimeStartByAction(TimeStartByAction action) {
-    return CircusConcreteSyntaxSymbol.DEADLINE_START_ACTION;
+ public CircusTimeConcreteSyntaxSymbol visitTimeStartByAction(TimeStartByAction action) {
+    return CircusTimeConcreteSyntaxSymbol.DEADLINE_START_ACTION;
   }
 
 
@@ -77,8 +77,8 @@ public CircusConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process) {
   }
 
 
- public CircusConcreteSyntaxSymbol visitTimedinterruptAction(TimedinterruptAction action) {
-    return CircusConcreteSyntaxSymbol.TIMEDINTERRUPT_ACTION;
+ public CircusTimeConcreteSyntaxSymbol visitTimedinterruptAction(TimedinterruptAction action) {
+    return CircusTimeConcreteSyntaxSymbol.TIMEDINTERRUPT_ACTION;
   }
 
 
@@ -87,21 +87,21 @@ public CircusConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process) {
   }
 
 
- public CircusConcreteSyntaxSymbol visitWaitRangeAction(WaitRangeAction action) {
-    return CircusConcreteSyntaxSymbol.WAIT_RANGE_ACTION;
+ public CircusTimeConcreteSyntaxSymbol visitWaitRangeAction(WaitRangeAction action) {
+    return CircusTimeConcreteSyntaxSymbol.WAIT_RANGE_ACTION;
   }
 
 
-public CircusConcreteSyntaxSymbol visitPrefixingExprAction(PrefixingExprAction action) {
-    return CircusConcreteSyntaxSymbol.PREFIX_EXPR_ACTION;
+public CircusTimeConcreteSyntaxSymbol visitPrefixingExprAction(PrefixingExprAction action) {
+    return CircusTimeConcreteSyntaxSymbol.PREFIX_EXPR_ACTION;
   }
 
-public CircusConcreteSyntaxSymbol visitAtPrefixingAction(AtPrefixingAction action) {
-    return CircusConcreteSyntaxSymbol.AT_PREFIX_ACTION;
+public CircusTimeConcreteSyntaxSymbol visitAtPrefixingAction(AtPrefixingAction action) {
+    return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_ACTION;
   }
 
-public CircusConcreteSyntaxSymbol visitAtPrefixingExprAction(AtPrefixingExprAction action) {
-    return CircusConcreteSyntaxSymbol.AT_PREFIX_EXPR_ACTION;
+public CircusTimeConcreteSyntaxSymbol visitAtPrefixingExprAction(AtPrefixingExprAction action) {
+    return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_EXPR_ACTION;
   }
 
 

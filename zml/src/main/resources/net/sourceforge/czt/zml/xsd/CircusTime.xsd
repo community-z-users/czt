@@ -254,7 +254,7 @@
     <!-- CSP Action :: Unary -->  
   
   
-     <xs:element name="ActionTime1" type="CT:ActionTime1" substitutionGroup="CIRCUS:Action1" abstract="true">
+   <xs:element name="ActionTime1" type="CT:ActionTime1" substitutionGroup="CIRCUS:Action1" abstract="true">
     <xs:annotation>
       <xs:documentation>
 	Base class for unary Circus time action
@@ -337,8 +337,29 @@
     </xs:annotation>
   </xs:element>
   
+  
+  
+   <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+	Base class for prefixing time action 
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="PrefixingTimeAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:PrefixingAction">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+   
     
-  <xs:element name="PrefixingExprAction" type="CT:PrefixingAction" substitutionGroup="CIRCUS:Action1">
+  <xs:element name="PrefixingExprAction" type="CT:PrefixingTimeAction" substitutionGroup="CT:PrefixingTimeAction">
     <xs:annotation>
       <xs:documentation>
         Prefixing Expression action.
@@ -347,7 +368,7 @@
   </xs:element>
   
   
- <xs:element name="AtPrefixingAction" type="CT:PrefixingAction" substitutionGroup="CIRCUS:Action1">
+ <xs:element name="AtPrefixingAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
     <xs:annotation>
       <xs:documentation>
         At Prefixing  action.
@@ -355,14 +376,15 @@
     </xs:annotation>
   </xs:element>
   
-  <xs:element name="AtPrefixingExprAction" type="CT:PrefixingAction" substitutionGroup="CIRCUS:Action1">
+ 
+  <xs:element name="AtPrefixingExprAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
     <xs:annotation>
       <xs:documentation>
        At Prefixing Expression action.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  -->
+  
   
   <!-- LF: Neeraj, add the other productions here -->
   

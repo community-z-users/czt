@@ -2652,13 +2652,16 @@ terminal LocInfo
         // acording to how it is expected to be in CSP_M.
         // USE _RENAME :)
 
-        /* Support for Circus Time */
-        CIRCWAIT, 
-	
-	/* Support Circus time for Action and Process */ 
-	ATTIME, CIRCENDBY, CIRCSTARTBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, LCIRCTIME, RCIRCTIME,
-	
+        
 </add:circus>
+
+
+ <add:circustime>
+   	/* Support Circus time for Action and Process */ 
+        CIRCWAIT, ATTIME, CIRCENDBY, CIRCSTARTBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, LCIRCTIME, RCIRCTIME,
+ </add:circustime>
+ 
+
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
@@ -3084,9 +3087,6 @@ non terminal CircusProcess
     processCall,
     parenthesisedProcess,
     //renamingProcesses,
-    
-     /* Support  Circus Time for Process and Action */
-     circusTimedCSPProcess,
     process;
     
 non terminal BasicProcess
@@ -3131,8 +3131,6 @@ non terminal CircusAction
     actionCall,
     parenthesisedAction,
     circusBasicProcessMainAction,
-   /* Support  Circus Time for Process and Action */
-   circusTimedCSPActions,
     cspAction;
    
     
@@ -3173,6 +3171,16 @@ non terminal NameSet
     nameSet;
 
 </add:circus>
+
+
+<add:circustime>
+/* Support  Circus Time for Process and Action */
+
+non terminal CircusAction circusTimedCSPActions;
+
+non terminal CircusProcess  circusTimedCSPProcess;
+</add:circustime>
+
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
@@ -3299,15 +3307,16 @@ precedence right        PREFIXTHEN;
 //CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
 //CIRCSKIP, CIRCSTOP, CIRCCHAOS,
 //LCIRCCHANSET, RCIRCCHANSET,
+</add:circus>
 
+<add:circustime>
 /* Support  Circus Time for Process and Action */
 
 precedence left  CIRCENDBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, ATTIME;
 precedence right CIRCSTARTBY;
+</add:circustime>
 
 
-
-</add:circus>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -3363,13 +3372,17 @@ precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put be
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
 precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
 
-/* Support  Circus Time for Process and Action */
-precedence nonassoc  LCIRCTIME, RCIRCTIME;
-
-precedence nonassoc     CIRCWAIT;
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
 </add:circus>
+
+ <add:circustime>
+   /* Support  Circus Time for Process and Action */
+precedence nonassoc  LCIRCTIME, RCIRCTIME;
+precedence nonassoc     CIRCWAIT;
+ </add:circustime>
+
+
 <add:zeves>
 precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
 </add:zeves>
@@ -6206,10 +6219,6 @@ process ::=
         {:
            RESULT = pp;
         :}
-	| 
-	/* Time CSP process */  
-        circusTimedCSPProcess:ctp
-        {: RESULT = ctp; :}
         ;
 
 processCall ::=
@@ -6846,10 +6855,6 @@ circusAction ::=
         /* Parenthesised actions */
         parenthesisedAction:pa
         {: RESULT = pa; :}
-	|
-	/*Timed CSP Action */ 
-	circusTimedCSPActions:tca
-	{: RESULT = tca; :}
         ;
 
 cspAction ::=
@@ -6869,13 +6874,6 @@ cspAction ::=
         {:
           RESULT = factory_.createChaosAction();
           addLocAnn(RESULT, cc);
-        :}
-        |
-        /* Support for Circus Time; TODO: check if precedences are right here */
-        CIRCWAIT:cw expression:e
-        {:
-            RESULT = factory_.createWaitAction(e);
-            addLocAnn(RESULT, getLocation(cw, e));
         :}
         |
         CIRCMU:cm name:n CIRCSPOT circusAction:ca
@@ -10374,7 +10372,7 @@ deltaList ::=
 </add:oz>
 
 
-<add:circus>
+<add:circustime>
 /* prduction rule for time CSP process */
 
 circusTimedCSPProcess ::=
@@ -10430,6 +10428,13 @@ circusTimedCSPActions ::=
 	    addLocAnn(RESULT, getLocation(al, ar));
 	:}
 	|
+	/* Support for Circus Time; TODO: check if precedences are right here */
+        CIRCWAIT:cw expression:e
+        {:
+            RESULT = factory_.createWaitAction(e);
+            addLocAnn(RESULT, getLocation(cw, e));
+        :}
+	|
 	CIRCWAIT refName:na COLON expression:e CIRCSPOT circusAction:ac
 	{:
 	    RESULT = factory_.createWaitRangeAction(ac, e);
@@ -10455,8 +10460,7 @@ circusTimedCSPActions ::=
 	    addLocAnn(RESULT, getLocation(comm, ac));
 	:}
 	;
-	
-	
-</add:circus>
+
+</add:circustime>
 
 </parser>

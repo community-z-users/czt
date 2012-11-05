@@ -31,6 +31,9 @@
       <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/circuspatt'">
         <xsl:text>CP:</xsl:text>
       </xsl:if>
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/circustime'">
+        <xsl:text>CT:</xsl:text>
+      </xsl:if>
       <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/zeves'">
         <xsl:text>ZEVES:</xsl:text>
       </xsl:if>

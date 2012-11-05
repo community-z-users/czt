@@ -656,9 +656,13 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    //CIRCRES, CIRCVRES, CIRCNAMESET, CIRCASSERTREF,
                    //CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
 
-                   /* Support for Circus Time */
-                   LCIRCTIME, RCIRCTIME,
+                 
 </add:circus>
+<add:circustime>
+    /* Support for Circus Time */
+                   LCIRCTIME, RCIRCTIME,
+ </add:circustime> 
+
 <add:zeves>
                    // Proof environment chars and specific proof words
         ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, 
@@ -1504,6 +1508,10 @@ zStInfo   ::=
              {:
                 RESULT = resultTT("~\\rinter~", CircusString.RINTER);
              :}
+</add:circus>
+
+ <add:circustime>
+ 
 	     |
              /* Support for Circus Time */
              LCIRCTIME
@@ -1514,8 +1522,11 @@ zStInfo   ::=
 	     RCIRCTIME
 	     {:
 	        RESULT = resultTT("~\\rcirctime~", CircusString.RCIRCTIME);
-	     :}	     
-</add:circus>
+	     :}	
+  </add:circustime>
+ 
+
+
 <add:zeves>
              |
              LLABEL
