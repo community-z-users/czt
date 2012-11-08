@@ -42,6 +42,7 @@ public class MarkupDirective
                          DirectiveType type,
                          String section,
                          BigInteger lineNr)
+  	throws MarkupException
   {
     command_ = command;
     unicode_ = unicode;
@@ -58,6 +59,7 @@ public class MarkupDirective
    *         is <code>null</code>.
    */
   public MarkupDirective(Directive directive, String section)
+  	throws MarkupException
   {
     command_ = directive.getCommand();
     unicode_ = directive.getUnicode();
@@ -74,11 +76,11 @@ public class MarkupDirective
    * Throws a <code>NullPointerException</code> if one of the member
    * variables is <code>null</code>.
    */
-  private void checkMembersNonNull()
+  private void checkMembersNonNull() throws MarkupException
   {
     if (command_ == null || unicode_ == null ||
         type_ == null || section_ == null) {
-      throw new NullPointerException();
+      throw new MarkupException(this);
     }
   }
 
