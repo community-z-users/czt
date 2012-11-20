@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +22,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesMarkers.MarkerInfo;
+import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.parser.util.SectParentResolver;
 import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsException;
 import net.sourceforge.czt.session.CommandException;
@@ -243,7 +244,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 					parentDocument = documentProvider.getDocument(parentResource);
 				} catch (CoreException e) {
 					// ignore?
-					ZEvesUIPlugin.getDefault().log(e);
+					ZEvesCorePlugin.getDefault().log(e);
 				}
 	    	}
 	    	
@@ -298,7 +299,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			
     	} catch (CommandException ex) {
     		// TODO report the exception on the parent?
-    		ZEvesUIPlugin.getDefault().log(ex);
+    		ZEvesCorePlugin.getDefault().log(ex);
     	}
     	
 		return null;
@@ -581,7 +582,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 						api.back(submittedCount);
 					} catch (ZEvesException e) {
 						// just log - we cannot handle half-state now..
-						ZEvesUIPlugin.getDefault().log(e);
+						ZEvesCorePlugin.getDefault().log(e);
 					}
     			}
     			
@@ -633,7 +634,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		try {
 			marker = markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_UNFINISHED);
 		} catch (CoreException ce) {
-			ZEvesUIPlugin.getDefault().log(ce);
+			ZEvesCorePlugin.getDefault().log(ce);
 		}
     	
     	updateUnprocessed(getEnd(pos));
@@ -661,7 +662,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FAILED);
 				addedMarkers = true;
 			} catch (CoreException ce) {
-				ZEvesUIPlugin.getDefault().log(ce);
+				ZEvesCorePlugin.getDefault().log(ce);
 			}
 			
 //			tryFlush();
@@ -669,7 +670,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		
 		if (!addedMarkers || logDebug(e)) {
 			// mark into log
-			ZEvesUIPlugin.getDefault().log(e);
+			ZEvesCorePlugin.getDefault().log(e);
 		}
     }
     
@@ -699,7 +700,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		try {
 				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FINISHED);
 			} catch (CoreException ce) {
-				ZEvesUIPlugin.getDefault().log(ce);
+				ZEvesCorePlugin.getDefault().log(ce);
 			}
     	}
     	
@@ -736,7 +737,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				}
 //				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FINISHED);
 			} catch (CoreException ce) {
-				ZEvesUIPlugin.getDefault().log(ce);
+				ZEvesCorePlugin.getDefault().log(ce);
 			}
 			
 //			tryFlush();
@@ -781,7 +782,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		try {
 			return ZEvesResultConverter.convertPred(sectInfo, sectName, resultZEves, Markup.UNICODE, 80, true);
 		} catch (IOException e) {
-			ZEvesUIPlugin.getDefault().log(e);
+			ZEvesCorePlugin.getDefault().log(e);
 			throw handleParseException("I/O problems parsing Z/EVES result: " + e.getMessage(), e, resultZEves);
 		} catch (CommandException e) {
 			// TODO log this exception as well?
@@ -812,7 +813,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		    		unprocessedMarker = markers.createProcessMarker(
 		    				jfacePos(new Position(newOffset, length)));
     			} catch (CoreException ce) {
-    				ZEvesUIPlugin.getDefault().log(ce);
+    				ZEvesCorePlugin.getDefault().log(ce);
     			}
     		}
     	}

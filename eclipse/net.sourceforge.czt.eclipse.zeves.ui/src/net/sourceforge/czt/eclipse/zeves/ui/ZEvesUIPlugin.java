@@ -1,6 +1,5 @@
 package net.sourceforge.czt.eclipse.zeves.ui;
 
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEditorEditTracker;
 import net.sourceforge.czt.eclipse.zeves.ui.launch.ZEvesProcessSupport;
 import net.sourceforge.czt.zeves.ZEvesException;
@@ -22,7 +21,6 @@ public class ZEvesUIPlugin extends AbstractUIPlugin implements IStartup {
 	// The shared instance
 	private static ZEvesUIPlugin plugin;
 	
-	private ZEves prover;
 	private ZEditorEditTracker editTracker;
 	private ZEvesProcessSupport proverProcessSupport;
 	
@@ -40,7 +38,6 @@ public class ZEvesUIPlugin extends AbstractUIPlugin implements IStartup {
 		super.start(context);
 		plugin = this;
 		
-		prover = new ZEves();
 		proverProcessSupport = new ZEvesProcessSupport();
 		editTracker = new ZEditorEditTracker();
 		editTracker.init();
@@ -62,11 +59,6 @@ public class ZEvesUIPlugin extends AbstractUIPlugin implements IStartup {
 			proverProcessSupport = null;
 		}
 		
-		if (prover != null) {
-			prover.stop();
-			prover = null;
-		}
-		
 		plugin = null;
 		super.stop(context);
 	}
@@ -78,10 +70,6 @@ public class ZEvesUIPlugin extends AbstractUIPlugin implements IStartup {
 	 */
 	public static ZEvesUIPlugin getDefault() {
 		return plugin;
-	}
-	
-	public static ZEves getZEves() {
-		return getDefault().prover;
 	}
 	
 	public static ZEvesProcessSupport getZEvesProcessSupport() {

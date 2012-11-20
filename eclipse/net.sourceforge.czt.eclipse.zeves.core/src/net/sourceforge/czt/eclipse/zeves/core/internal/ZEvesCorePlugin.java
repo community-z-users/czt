@@ -1,5 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.core.internal;
 
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -18,6 +20,8 @@ public class ZEvesCorePlugin extends Plugin
 
   // The shared instance
   private static ZEvesCorePlugin plugin;
+  
+  private ZEves prover;
 
   /*
    * (non-Javadoc)
@@ -28,6 +32,8 @@ public class ZEvesCorePlugin extends Plugin
   {
     super.start(context);
     plugin = this;
+    
+    prover = new ZEves();
   }
 
   /*
@@ -37,6 +43,11 @@ public class ZEvesCorePlugin extends Plugin
   @Override
   public void stop(BundleContext context) throws Exception
   {
+
+    if (prover != null) {
+      prover.stop();
+      prover = null;
+    }
 
     plugin = null;
     super.stop(context);
@@ -50,6 +61,11 @@ public class ZEvesCorePlugin extends Plugin
   public static ZEvesCorePlugin getDefault()
   {
     return plugin;
+  }
+
+  public static ZEves getZEves()
+  {
+    return getDefault().prover;
   }
 
   /**

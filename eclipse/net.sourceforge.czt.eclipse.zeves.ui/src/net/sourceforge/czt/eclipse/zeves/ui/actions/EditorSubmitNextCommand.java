@@ -3,10 +3,10 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSubmitNextCommand;
+import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSubmitNextCommand;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -24,7 +24,7 @@ public class EditorSubmitNextCommand extends AbstractHandler {
 		
 		final IZEditor editor = (IZEditor) HandlerUtil.getActiveEditor(event);
 		
-		final ZEves prover = ZEvesUIPlugin.getZEves();
+		final ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
 					"The Z/EVES prover is not running.");
@@ -48,7 +48,7 @@ public class EditorSubmitNextCommand extends AbstractHandler {
 		}
 		
 		String filePath = ResourceUtil.getPath(resource);
-		final int lastOffset = ZEvesUIPlugin.getZEves().getSnapshot().getLastPositionOffset(filePath);
+		final int lastOffset = ZEvesCore.getSnapshot().getLastPositionOffset(filePath);
 		
 		// set caret position in display thread
 		PlatformUtil.runInUI(new Runnable() {

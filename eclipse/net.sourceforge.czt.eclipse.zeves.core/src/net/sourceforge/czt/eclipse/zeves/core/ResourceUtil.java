@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
 
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IFile;
@@ -59,7 +60,7 @@ public class ResourceUtil {
 		try {
 			clearResources.get(0).getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			ZEvesUIPlugin.getDefault().log(ce);
+			ZEvesCorePlugin.getDefault().log(ce);
 		}
 	}
 	
@@ -89,7 +90,7 @@ public class ResourceUtil {
 			IFile file = fileUndoOffsets.keySet().iterator().next();
 			file.getWorkspace().run(r, null,IWorkspace.AVOID_UPDATE, null);
 		} catch (CoreException ce) {
-			ZEvesUIPlugin.getDefault().log(ce);
+			ZEvesCorePlugin.getDefault().log(ce);
 		}
 		
 	}

@@ -1,9 +1,9 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.texteditor.ITextEditor;
+
 
 public abstract class AbstractUndoCommand extends AbstractExecCommand {
 	
@@ -26,7 +27,7 @@ public abstract class AbstractUndoCommand extends AbstractExecCommand {
 	@Override
 	public IStatus doExecute(IProgressMonitor monitor) {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			return Status.OK_STATUS;
 		}
@@ -38,7 +39,7 @@ public abstract class AbstractUndoCommand extends AbstractExecCommand {
         	return Status.OK_STATUS;
         }
         
-        ZEvesSnapshot snapshot = prover.getSnapshot();
+        ZEvesSnapshot snapshot = ZEvesCore.getSnapshot();
         String filePath = ResourceUtil.getPath(resource);
         
         int offset = getUndoOffset(filePath);
@@ -56,7 +57,7 @@ public abstract class AbstractUndoCommand extends AbstractExecCommand {
 			ResourceUtil.deleteMarkers(fileUndoOffsets);
 			
 		} catch (ZEvesException e) {
-			return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
+			return ZEvesCorePlugin.newErrorStatus(e.getMessage(), e);
 		}
 		
 		return Status.OK_STATUS;

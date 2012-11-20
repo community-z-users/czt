@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.ui.editor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,8 +1,8 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
@@ -23,13 +23,13 @@ public class ZEvesUndoSectionCommand extends AbstractExecCommand {
 	@Override
 	public IStatus doExecute(IProgressMonitor monitor) {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			return Status.OK_STATUS;
 		}
 
 		ZEvesApi zEvesApi = prover.getApi();
-        ZEvesSnapshot snapshot = prover.getSnapshot();
+        ZEvesSnapshot snapshot = ZEvesCore.getSnapshot();
         
         try {
 			Map<String, Integer> fileUndoOffsets = 
@@ -37,7 +37,7 @@ public class ZEvesUndoSectionCommand extends AbstractExecCommand {
 			
 			ResourceUtil.deleteMarkers(fileUndoOffsets);
 		} catch (ZEvesException e) {
-			return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
+			return ZEvesCorePlugin.newErrorStatus(e.getMessage(), e);
 		}
 		
 		return Status.OK_STATUS;

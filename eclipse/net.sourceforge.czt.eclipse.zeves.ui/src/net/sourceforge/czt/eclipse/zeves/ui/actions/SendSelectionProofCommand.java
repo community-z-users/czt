@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IProofObject;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;

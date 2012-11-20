@@ -12,13 +12,14 @@ import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.ui.views.ZInfoView;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.actions.SendProofCommand;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesMarkers;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResultConverter;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesMarkers.MarkerInfo;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IProofObject;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IZEditorObject;
 import net.sourceforge.czt.eclipse.zeves.ui.views.ZEditorResults.IZEvesInfoProvider;
@@ -102,7 +103,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 		
 		super.createPartControl(parent);
 		
-		ZEvesUIPlugin.getZEves().getSnapshot().addSnapshotChangedListener(snapshotListener);
+		ZEvesCore.getSnapshot().addSnapshotChangedListener(snapshotListener);
 		
 		getViewer().getSelectionProvider().addSelectionChangedListener(new ISelectionChangedListener() {
 			
@@ -154,7 +155,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	
 	@Override
 	public void dispose() {
-		ZEvesUIPlugin.getZEves().getSnapshot().removeSnapshotChangedListener(snapshotListener);
+		ZEvesCore.getSnapshot().removeSnapshotChangedListener(snapshotListener);
 		super.dispose();
 	}
 
@@ -187,7 +188,7 @@ public class ZEvesOutputView extends ZInfoView implements ISelectionListener {
 	
 	private MenuManager getApplySubmenu() {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			return null;
 		}

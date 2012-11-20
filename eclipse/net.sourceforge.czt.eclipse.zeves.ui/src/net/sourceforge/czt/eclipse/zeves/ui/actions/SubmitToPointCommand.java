@@ -3,9 +3,9 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSubmitCommand;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesSubmitCommand;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -29,7 +29,7 @@ public class SubmitToPointCommand extends AbstractHandler {
 
 	public static void submitToOffset(final IZEditor editor, final int offset) {
 		
-		final ZEves prover = ZEvesUIPlugin.getZEves();
+		final ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
 					"The Z/EVES prover is not running.");

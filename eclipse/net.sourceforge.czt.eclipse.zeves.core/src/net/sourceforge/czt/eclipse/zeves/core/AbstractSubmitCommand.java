@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.math.BigInteger;
 import java.util.Map;
@@ -12,7 +12,8 @@ import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -42,9 +43,9 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 	@Override
 	public IStatus doExecute(IProgressMonitor monitor) {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
-			return ZEvesUIPlugin.newErrorStatus("Z/EVES prover is not running.", null);
+			return ZEvesCorePlugin.newErrorStatus("Z/EVES prover is not running.", null);
 		}
 		
 		final ZEvesApi zEvesApi = prover.getApi();
@@ -55,7 +56,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
         // TODO handle if resource is not available
         String filePath = ResourceUtil.getPath(resource);
 		
-        ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
+        ZEvesSnapshot snapshot = ZEvesCore.getSnapshot();
         int submittedOffsetInFile = snapshot.getLastPositionOffset(filePath);
         
         int start = getStartOffset(submittedOffsetInFile);
@@ -83,7 +84,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 				ResourceUtil.deleteMarkers(fileUndoOffsets);
 				
 			} catch (ZEvesException e) {
-				return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
+				return ZEvesCorePlugin.newErrorStatus(e.getMessage(), e);
 			}
 		}
 		

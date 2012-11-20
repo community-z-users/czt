@@ -1,11 +1,11 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -99,7 +99,7 @@ public class ZEvesResultConverter {
 			return ZEditorUtil.print(term, sectInfo, sectName, markup, textWidth, display);
 		} catch (CommandException e) {
 			// problems printing
-			ZEvesUIPlugin.getDefault().log(e);
+			ZEvesCorePlugin.getDefault().log(e);
 			return null;
 		}
 	}

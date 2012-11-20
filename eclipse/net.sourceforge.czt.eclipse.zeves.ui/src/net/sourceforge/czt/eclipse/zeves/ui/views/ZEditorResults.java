@@ -20,10 +20,11 @@ import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
+import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesPosVisitor;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesPosVisitor;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResultConverter;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -71,7 +72,7 @@ public class ZEditorResults {
 	public static ISnapshotEntry getSnapshotEntryApprox(String filePath, IDocument document,
 			int offset, Set<ResultType> allowedTypes) {
 		
-		ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
+		ZEvesSnapshot snapshot = ZEvesCore.getSnapshot();
 		
 		// calculate "target" positions for the indicated. We specify a decreasing priority
 		// order of positions that could apply to locate results. Then the first result
