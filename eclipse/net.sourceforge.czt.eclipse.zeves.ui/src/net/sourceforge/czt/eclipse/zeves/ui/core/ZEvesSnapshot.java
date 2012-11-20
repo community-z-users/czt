@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.SafeRunner;
@@ -156,10 +155,14 @@ public class ZEvesSnapshot {
 		FileSection section = new FileSection(filePath, sectionName);
 		int sectionIndex = sections.indexOf(section);
 		int lastIndex = sections.size() - 1;
-		Assert.isLegal(sectionIndex < 0 || sectionIndex == lastIndex,
-				"Cannot update non-last section: undo first");
-		Assert.isLegal(!isSectionCompleted(section), 
-				"Cannot update a completed section: undo first");
+		
+		if (sectionIndex >= 0 && sectionIndex != lastIndex) {
+			throw new IllegalArgumentException("Cannot update non-last section: undo first");
+		}
+		
+		if (isSectionCompleted(section)) {
+			throw new IllegalArgumentException("Cannot update a completed section: undo first");
+		}
 		
 		this.updatingSection = section;
 		this.sectMan = sectMan;
@@ -168,7 +171,9 @@ public class ZEvesSnapshot {
 			// new section
 			sections.add(updatingSection);
 			
-			Assert.isLegal(pos != null, "No section header position indicated for a new section");
+			if (pos == null) {
+				throw new IllegalArgumentException("No section header position indicated for a new section");
+			}
 			
 			// also add an entry for the section to signal its start
 			// note that this also ensures that sections will always have at least one entry
@@ -193,7 +198,10 @@ public class ZEvesSnapshot {
 	public void completeSection(Position pos, String filePath, String sectionName) {
 		FileSection section = new FileSection(filePath, sectionName);
 		int sectionIndex = sections.indexOf(section);
-		Assert.isLegal(sectionIndex == sections.size() - 1, "Cannot complete non-last section");
+		
+		if (sectionIndex != sections.size() - 1) {
+			throw new IllegalArgumentException("Cannot complete non-last section");
+		}
 		
 		// mark complete
 		markSectionCompleted(section, true);
@@ -226,10 +234,12 @@ public class ZEvesSnapshot {
 		// check that paragraphs are submitted in increasing order
 		ParaSnapshotEntry lastEntry = (ParaSnapshotEntry) getLastEntry(ResultType.PARA);
 		if (lastEntry != null) {
-			Assert.isLegal(historyIndex > lastEntry.getHistoryIndex(),
-					"Paragraph history must be added in increasing order. " 
-							+ "Last index: [" + lastEntry.getHistoryIndex() 
-							+ "], new: [" + historyIndex + "]");
+			if (historyIndex <= lastEntry.getHistoryIndex()) {
+				throw new IllegalArgumentException(
+						"Paragraph history must be added in increasing order. " 
+								+ "Last index: [" + lastEntry.getHistoryIndex() 
+								+ "], new: [" + historyIndex + "]");
+			}
 		}
 		
 		addResult(new ParaSnapshotEntry(getLastEntry(), updatingSection, pos, historyIndex, data));
@@ -242,10 +252,12 @@ public class ZEvesSnapshot {
 		if (lastEntry != null && lastEntry.getSection().equals(updatingSection)) {
 			
 			int lastEnd = getEnd(lastEntry.getPosition());
-			Assert.isLegal(pos.getOffset() >= lastEnd,
+			if (pos.getOffset() < lastEnd) {
+				throw new IllegalArgumentException(
 					"Result positions must be added in increasing order. " 
 							+ "Last position: [" + lastEnd 
 							+ "], new: [" + pos + "]. Please resubmit the section.");
+			}
 		}
 	}
 	
@@ -911,8 +923,15 @@ public class ZEvesSnapshot {
 		
 		public SnapshotEntry(SnapshotEntry previousEntry, FileSection section, Position pos, 
 				ResultType type, SnapshotData data) {
-			Assert.isNotNull(section, "File section must be indicated before update");
-			Assert.isNotNull(data);
+			
+			if (section == null) {
+				throw new IllegalArgumentException("File section must be indicated before update");
+			}
+			
+			if (data == null) {
+				throw new IllegalArgumentException();
+			}
+			
 			this.previousEntry = previousEntry;
 			this.section = section;
 			this.pos = pos;
