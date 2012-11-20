@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ResultType;
 
 public class SnapshotUtil {

@@ -40,9 +40,9 @@ import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.zeves.response.ZEvesProofTrace.TraceType;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
+import net.sourceforge.czt.zeves.snapshot.ISnapshotEntry;
 import net.sourceforge.czt.zeves.snapshot.SnapshotUtil;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
-import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ResultType;
 
 import org.eclipse.core.resources.IResource;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
-import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
 
 public class SnapshotChangedEvent extends EventObject {
 

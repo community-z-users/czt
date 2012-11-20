@@ -32,9 +32,9 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.snapshot.ISnapshotChangedListener;
+import net.sourceforge.czt.zeves.snapshot.ISnapshotEntry;
 import net.sourceforge.czt.zeves.snapshot.SnapshotChangedEvent;
 import net.sourceforge.czt.zeves.snapshot.SnapshotChangedEvent.SnapshotChangeType;
-import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 import org.eclipse.core.commands.ExecutionException;

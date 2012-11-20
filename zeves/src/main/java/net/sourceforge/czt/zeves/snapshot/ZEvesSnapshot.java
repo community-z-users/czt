@@ -884,21 +884,6 @@ public class ZEvesSnapshot {
 		}
 	}
 	
-	public interface ISnapshotEntry {
-		
-		public Position getPosition();
-		
-		public String getFilePath();
-		
-		public String getSectionName();
-		
-		public SnapshotData getData();
-		
-		public ResultType getType();
-		
-		public ISnapshotEntry getPreviousEntry();
-	}
-	
 	private static class SnapshotEntry implements ISnapshotEntry {
 		
 		private final SnapshotEntry previousEntry;
