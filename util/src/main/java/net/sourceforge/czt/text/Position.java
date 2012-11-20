@@ -35,8 +35,14 @@ public class Position {
 	 *            the position length, must be >= 0
 	 */
 	public Position(int offset, int length) {
-		assert (offset >= 0);
-		assert (length >= 0);
+		
+		if (offset < 0) {
+			throw new IllegalArgumentException("Negative offset");
+		}
+		
+		if (length < 0) {
+			throw new IllegalArgumentException("Negative length");
+		}
 
 		this.offset = offset;
 		this.length = length;
