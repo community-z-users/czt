@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Assert;
-
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ResultType;
 
@@ -83,8 +81,13 @@ public class SnapshotUtil {
 		public BackwardsProofIterator(ISnapshotEntry currentEntry, boolean includeErrors) {
 			super();
 			
-			Assert.isNotNull(currentEntry);
-			Assert.isTrue(isProofEntry(currentEntry));
+			if (currentEntry == null) {
+				throw new IllegalArgumentException();
+			}
+			
+			if (!isProofEntry(currentEntry)) {
+				throw new IllegalArgumentException();
+			}
 			
 			this.currentEntry = currentEntry;
 			this.includeErrors = includeErrors;
