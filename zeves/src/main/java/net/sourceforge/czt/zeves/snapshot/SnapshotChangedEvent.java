@@ -1,10 +1,10 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.zeves.snapshot;
 
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
 
 public class SnapshotChangedEvent extends EventObject {
 

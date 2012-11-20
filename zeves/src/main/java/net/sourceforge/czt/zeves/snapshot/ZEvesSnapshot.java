@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.zeves.snapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,12 +13,12 @@ import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.Set;
 
-import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotChangedEvent.SnapshotChangeType;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.text.Position;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
+import net.sourceforge.czt.zeves.snapshot.SnapshotChangedEvent.SnapshotChangeType;
 
 /**
  * This class represent a snapshot of Z/EVES submit state. When Z/EVES prover is

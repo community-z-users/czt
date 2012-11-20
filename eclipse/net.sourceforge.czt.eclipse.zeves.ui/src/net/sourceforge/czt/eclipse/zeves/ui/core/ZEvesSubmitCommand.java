@@ -6,6 +6,8 @@ import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.ZEvesApi;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;

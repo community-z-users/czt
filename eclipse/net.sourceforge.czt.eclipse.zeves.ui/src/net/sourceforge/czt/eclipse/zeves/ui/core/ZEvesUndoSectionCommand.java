@@ -3,9 +3,10 @@ package net.sourceforge.czt.eclipse.zeves.ui.core;
 import java.util.Map;
 
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.FileSection;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.FileSection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;

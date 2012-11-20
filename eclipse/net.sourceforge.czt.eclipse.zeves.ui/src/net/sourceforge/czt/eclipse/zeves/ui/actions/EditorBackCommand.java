@@ -9,9 +9,9 @@ import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesBackCommand;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
 import net.sourceforge.czt.text.Position;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

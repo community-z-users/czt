@@ -47,6 +47,8 @@ import net.sourceforge.czt.zeves.response.ZEvesError;
 import net.sourceforge.czt.zeves.response.ZEvesOutput;
 import net.sourceforge.czt.zeves.response.ZEvesError.ZEvesErrorType;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
+import net.sourceforge.czt.zeves.snapshot.SnapshotData;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
 import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_BEGIN_PATTERN;

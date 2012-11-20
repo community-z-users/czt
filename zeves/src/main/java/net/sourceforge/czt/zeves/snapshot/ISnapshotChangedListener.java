@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.zeves.snapshot;
 
 import java.util.EventListener;
 

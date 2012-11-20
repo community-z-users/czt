@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.zeves.ui.core;
+package net.sourceforge.czt.zeves.snapshot;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ResultType;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ISnapshotEntry;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ResultType;
 
 public class SnapshotUtil {
 

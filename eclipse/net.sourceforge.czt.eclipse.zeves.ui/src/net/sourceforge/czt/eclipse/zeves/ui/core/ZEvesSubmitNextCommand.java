@@ -11,6 +11,7 @@ import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ast.ProofCommand;
 import net.sourceforge.czt.zeves.ast.ProofScript;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;

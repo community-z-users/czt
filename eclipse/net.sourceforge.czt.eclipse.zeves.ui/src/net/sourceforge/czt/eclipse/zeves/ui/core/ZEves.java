@@ -5,6 +5,7 @@ import java.io.IOException;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesServer;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
 
 
 public class ZEves {
