@@ -4,9 +4,9 @@ import java.math.BigInteger;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.Position;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.text.Position;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 public class TermPositionProvider implements IPositionProvider<Term>

@@ -1,6 +1,7 @@
 package net.sourceforge.czt.eclipse.ui.document;
 
-import org.eclipse.jface.text.Position;
+import net.sourceforge.czt.text.Position;
+
 
 public interface IPositionProvider<T>
 {

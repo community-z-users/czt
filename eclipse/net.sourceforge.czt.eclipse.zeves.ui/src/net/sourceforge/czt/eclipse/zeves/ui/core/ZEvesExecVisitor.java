@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.Position;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -34,6 +33,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.text.Position;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.Para;
@@ -52,6 +52,7 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_BEGIN_PATTERN;
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_END_PATTERN;
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.getParents;
+import static net.sourceforge.czt.eclipse.ui.util.TextUtil.jfacePos;
 
 /**
  * Special visitor class to translate top-level Z terms. 
@@ -627,7 +628,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	
     	MarkerInfo marker = null;
 		try {
-			marker = markers.createStatusMarker(pos, ZEvesMarkers.STATUS_UNFINISHED);
+			marker = markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_UNFINISHED);
 		} catch (CoreException ce) {
 			ZEvesUIPlugin.getDefault().log(ce);
 		}
@@ -653,8 +654,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	boolean addedMarkers = false;
 		if (markers != null) {
 			try {
-				markers.createErrorMarker(pos, e.getMessage());
-				markers.createStatusMarker(pos, ZEvesMarkers.STATUS_FAILED);
+				markers.createErrorMarker(jfacePos(pos), e.getMessage());
+				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FAILED);
 				addedMarkers = true;
 			} catch (CoreException ce) {
 				ZEvesUIPlugin.getDefault().log(ce);
@@ -693,7 +694,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	
     	if (markers != null) {
     		try {
-				markers.createStatusMarker(pos, ZEvesMarkers.STATUS_FINISHED);
+				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesUIPlugin.getDefault().log(ce);
 			}
@@ -721,16 +722,16 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 				if (outStr != null) {
 					
 					if (warning) {
-						markers.createErrorMarker(pos, outStr, IMarker.SEVERITY_WARNING);
+						markers.createErrorMarker(jfacePos(pos), outStr, IMarker.SEVERITY_WARNING);
 					} else {
 						if (resultTrue) {
-							markers.createResultTrueMarker(pos, outStr);
+							markers.createResultTrueMarker(jfacePos(pos), outStr);
 						} else {
-							markers.createResultMarker(pos, outStr);
+							markers.createResultMarker(jfacePos(pos), outStr);
 						}
 					}
 				}
-//				markers.createStatusMarker(pos, ZEvesMarkers.STATUS_FINISHED);
+//				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FINISHED);
 			} catch (CoreException ce) {
 				ZEvesUIPlugin.getDefault().log(ce);
 			}
@@ -806,7 +807,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     			unprocessedMarker = null;
     			try {
 		    		unprocessedMarker = markers.createProcessMarker(
-		    				new Position(newOffset, getEndOffset() - newOffset));
+		    				jfacePos(new Position(newOffset, length)));
     			} catch (CoreException ce) {
     				ZEvesUIPlugin.getDefault().log(ce);
     			}

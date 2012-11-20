@@ -62,6 +62,8 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
+import static net.sourceforge.czt.eclipse.ui.util.TextUtil.*;
+
 public class ZEditorResults {
 
 	private static int TEXT_WIDTH = 80;
@@ -91,11 +93,11 @@ public class ZEditorResults {
 		
 		// find all entries in the snapshot for the given position
 		List<ISnapshotEntry> snapshotEntries = snapshot.getEntries(filePath, 
-				new Position(beforeOffset, afterOffset - beforeOffset));
+				net.sourceforge.czt.text.Position.createStartEnd(beforeOffset, afterOffset));
 		
 		for (ISnapshotEntry entry : snapshotEntries) {
 			
-			Position pos = entry.getPosition();
+			Position pos = jfacePos(entry.getPosition());
 			
 			if (!allowedTypes.contains(entry.getType())) {
 				continue;
@@ -156,7 +158,7 @@ public class ZEditorResults {
 			return false;
 		}
 		
-		return ZEvesPosVisitor.includePos(pos, range.getOffset(), range.getLength());
+		return ZEvesPosVisitor.includePos(cztPos(pos), range.getOffset(), range.getLength());
 	}
 
 	private static List<Position> getTargetPositions(IDocument document, int caretPos) {
@@ -245,7 +247,7 @@ public class ZEditorResults {
 
 		@Override
 		public Position getPosition() {
-			return snapshotEntry.getPosition();
+			return jfacePos(snapshotEntry.getPosition());
 		}
 		
 		public Term getSource() {

@@ -16,11 +16,11 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.jface.text.Position;
 
 import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotChangedEvent.SnapshotChangeType;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.text.Position;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 

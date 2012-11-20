@@ -11,6 +11,7 @@ import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesBackCommand;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
 import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
+import net.sourceforge.czt.text.Position;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -18,7 +19,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.text.Position;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 

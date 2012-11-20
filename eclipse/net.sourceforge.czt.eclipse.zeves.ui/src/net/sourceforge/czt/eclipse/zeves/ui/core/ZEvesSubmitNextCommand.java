@@ -4,6 +4,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.text.Position;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -15,7 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.Position;
+
 
 public class ZEvesSubmitNextCommand extends AbstractSubmitCommand {
 	
