@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.Set;
-
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.SafeRunner;
 
 import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotChangedEvent.SnapshotChangeType;
 import net.sourceforge.czt.session.SectionInfo;
@@ -69,7 +66,8 @@ public class ZEvesSnapshot {
 	
 	public static final int GOAL_STEP_INDEX = 1;
 	
-	private final ListenerList snapshotChangedListeners = new ListenerList();
+	private CopyOnWriteArraySet<ISnapshotChangedListener> snapshotChangedListeners = 
+			new CopyOnWriteArraySet<ISnapshotChangedListener>();
 	
 	/**
 	 * Sequential list of unique sections that have result entries within the snapshot
@@ -824,18 +822,8 @@ public class ZEvesSnapshot {
 
 	private void fireSnapshotChanged(SnapshotChangeType type, List<? extends ISnapshotEntry> entries) {
 		final SnapshotChangedEvent event = new SnapshotChangedEvent(this, type, entries);
-		for (final Object listener : snapshotChangedListeners.getListeners()) {
-			
-			// safely notify
-			SafeRunner.run(new ISafeRunnable() {
-				public void handleException(Throwable e) {
-					// exception logged in SafeRunner#run
-				}
-
-				public void run() throws Exception {
-					((ISnapshotChangedListener) listener).snapshotChanged(event);
-				}
-			});
+		for (final ISnapshotChangedListener listener : snapshotChangedListeners) {
+			listener.snapshotChanged(event);
 		}
 	}
 	
