@@ -32,5 +32,4 @@ Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
  net.sourceforge.czt.zeves.response.form;version="1.6.0",
  net.sourceforge.czt.zeves.snapshot;version="1.6.0",
  net.sourceforge.czt.zeves.util;version="1.6.0",
- net.sourceforge.czt.zeves.z;version="1.6.0",
- org.eclipse.ui.texteditor
+ net.sourceforge.czt.zeves.z;version="1.6.0"
