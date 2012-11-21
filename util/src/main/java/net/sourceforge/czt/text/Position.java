@@ -101,11 +101,11 @@ public class Position
   /**
    * Calculates the end offset of this position.
    * 
-   * @return the end offset of this position (last point within the range).
+   * @return the end offset of this position (point after the range).
    */
   public int getEndOffset()
   {
-    return offset + length - 1;
+    return offset + length;
   }
 
   /**
@@ -121,8 +121,9 @@ public class Position
   public boolean overlapsWith(int rangeOffset, int rangeLength)
   {
 
+    // take inclusive values
     int end = rangeOffset + rangeLength - 1;
-    int thisEnd = getEndOffset();
+    int thisEnd = offset + length - 1;
 
     return (this.offset <= end) && (thisEnd >= rangeOffset);
   }
