@@ -1,7 +1,7 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.core.document.IPositionProvider;
 import net.sourceforge.czt.text.Position;
 
 /**

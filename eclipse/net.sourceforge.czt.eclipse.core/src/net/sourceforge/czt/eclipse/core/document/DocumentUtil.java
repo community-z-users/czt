@@ -1,6 +1,6 @@
-package net.sourceforge.czt.eclipse.ui.document;
+package net.sourceforge.czt.eclipse.core.document;
 
-import net.sourceforge.czt.eclipse.ui.internal.editors.parser.StringFileSource;
+import net.sourceforge.czt.eclipse.core.parser.StringFileSource;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Source;
 

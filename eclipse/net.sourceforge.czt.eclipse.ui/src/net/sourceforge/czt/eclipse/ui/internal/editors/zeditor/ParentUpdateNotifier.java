@@ -20,8 +20,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.ui.IEditorPart;
 
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.document.IDocumentEditTracker;
 import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;

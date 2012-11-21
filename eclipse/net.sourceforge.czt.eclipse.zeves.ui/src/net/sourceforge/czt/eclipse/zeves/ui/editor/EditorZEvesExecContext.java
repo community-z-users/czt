@@ -13,8 +13,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
+import net.sourceforge.czt.eclipse.core.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.core.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.util.TextUtil;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecContext;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;

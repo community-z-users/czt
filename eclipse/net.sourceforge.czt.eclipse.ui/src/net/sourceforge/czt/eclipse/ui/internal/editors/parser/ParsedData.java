@@ -10,8 +10,8 @@ import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
+import net.sourceforge.czt.eclipse.core.document.IPositionProvider;
+import net.sourceforge.czt.eclipse.core.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;
 import net.sourceforge.czt.eclipse.ui.util.TextUtil;
 import net.sourceforge.czt.parser.util.CztError;
