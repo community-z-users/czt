@@ -78,7 +78,7 @@ public enum ZCompiler
       sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
     }
 
-    ParsedData parsedData = new ParsedData(editor, documentVersion, sectMan);
+    ParsedData parsedData = new ParsedData(documentVersion, sectMan);
     
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();

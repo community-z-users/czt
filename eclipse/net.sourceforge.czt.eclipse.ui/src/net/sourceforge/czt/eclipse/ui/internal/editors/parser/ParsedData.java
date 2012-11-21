@@ -26,7 +26,6 @@ import org.eclipse.jface.text.Position;
  */
 public class ParsedData implements IZCompileData
 {
-  private Object source_;
   
   private final List<CztError> fErrorList = new ArrayList<CztError>();
 
@@ -42,10 +41,9 @@ public class ParsedData implements IZCompileData
 
   private final BigInteger documentVersion;
 
-  public ParsedData(Object source, BigInteger documentVersion, SectionManager manager)
+  public ParsedData(BigInteger documentVersion, SectionManager manager)
   {
     this.documentVersion = documentVersion;
-    this.source_ = source;
     this.manager_ = manager;
   }
 
@@ -128,12 +126,6 @@ public class ParsedData implements IZCompileData
   public SectionManager getSectionManager()
   {
     return this.manager_;
-  }
-
-
-  public Object getSource()
-  {
-    return source_;
   }
 
   @Override

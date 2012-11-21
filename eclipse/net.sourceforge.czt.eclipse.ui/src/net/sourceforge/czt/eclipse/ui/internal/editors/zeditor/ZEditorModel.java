@@ -70,7 +70,7 @@ public class ZEditorModel
   }
   
   private ParsedData emptyData(BigInteger version) {
-    return new ParsedData(editor, version, CztUIPlugin.getDefault().getSectionManager());
+    return new ParsedData(version, CztUIPlugin.getDefault().getSectionManager());
   }
   
   private void setParsedData(ParsedData parsedData) {

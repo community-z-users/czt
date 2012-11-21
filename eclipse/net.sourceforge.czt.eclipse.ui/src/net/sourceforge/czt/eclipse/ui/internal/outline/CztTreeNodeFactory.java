@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.ui.internal.outline;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.oz.ast.ClassPara;
 import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
@@ -42,11 +43,13 @@ public class CztTreeNodeFactory
 {
   
   private final ParsedData parsedData;
+  private final IZEditor editor;
   private final NamePositionVisitor namePosVisitor = new NamePositionVisitor();
   
-  public CztTreeNodeFactory(ParsedData parsedData)
+  public CztTreeNodeFactory(IZEditor editor, ParsedData parsedData)
   {
     super();
+    this.editor = editor;
     this.parsedData = parsedData;
   }
   
@@ -68,7 +71,7 @@ public class CztTreeNodeFactory
     Position range = getPosition(term);
     Position namePosition = getNamePosition(term, range);
     
-    return new CztTreeNode(parsedData.getSource(), term, range, namePosition);
+    return new CztTreeNode(editor, term, range, namePosition);
   }
 
   private Position getNamePosition(ZNameList nameList)
