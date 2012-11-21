@@ -3,10 +3,10 @@ package net.sourceforge.czt.eclipse.zeves.ui.actions;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
-import net.sourceforge.czt.eclipse.zeves.core.ZEvesSubmitNextCommand;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ZEvesSubmitNextCommand;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

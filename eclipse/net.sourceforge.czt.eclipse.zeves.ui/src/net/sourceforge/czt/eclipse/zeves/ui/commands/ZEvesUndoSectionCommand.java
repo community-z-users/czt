@@ -1,8 +1,10 @@
-package net.sourceforge.czt.eclipse.zeves.core;
+package net.sourceforge.czt.eclipse.zeves.ui.commands;
 
 import java.util.Map;
 
-import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
@@ -37,7 +39,7 @@ public class ZEvesUndoSectionCommand extends AbstractExecCommand {
 			
 			ResourceUtil.deleteMarkers(fileUndoOffsets);
 		} catch (ZEvesException e) {
-			return ZEvesCorePlugin.newErrorStatus(e.getMessage(), e);
+			return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 		}
 		
 		return Status.OK_STATUS;

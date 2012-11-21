@@ -1,9 +1,8 @@
-package net.sourceforge.czt.eclipse.zeves.core;
+package net.sourceforge.czt.eclipse.zeves.ui.commands;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
-import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecContext;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -42,12 +41,13 @@ public class ZEvesSubmitCommand extends AbstractSubmitCommand {
 	}
 
 	@Override
-	protected IStatus submitSpec(IProgressMonitor monitor, ZEvesApi zEvesApi, String filePath,
-			ZEvesSnapshot snapshot, int start, int end, IPositionProvider<Term> posProvider,
-			ZEvesMarkers markers, IDocument document, SectionManager sectInfo, Spec specification) {
+	protected IStatus submitSpec(IProgressMonitor monitor, ZEvesApi zEvesApi,
+	      ZEvesExecContext execContext, ZEvesSnapshot snapshot, 
+	      String file, int start, int end,
+	      SectionManager sectInfo, Spec specification) {
 
 		ZEvesExecVisitor zEvesExec = new ZEvesExecVisitor(
-				zEvesApi, snapshot, markers, document, filePath, posProvider, sectInfo, 
+				zEvesApi, snapshot, execContext, file, sectInfo, 
 				start, end, monitor);
 
 		// wrap into try-finally, because OperationCanceledExpression

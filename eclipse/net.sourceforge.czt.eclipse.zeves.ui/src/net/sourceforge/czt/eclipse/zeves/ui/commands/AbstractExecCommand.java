@@ -1,4 +1,6 @@
-package net.sourceforge.czt.eclipse.zeves.core;
+package net.sourceforge.czt.eclipse.zeves.ui.commands;
+
+import net.sourceforge.czt.eclipse.zeves.core.IZEvesExecCommand;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;

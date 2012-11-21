@@ -1,6 +1,7 @@
-package net.sourceforge.czt.eclipse.zeves.core;
+package net.sourceforge.czt.eclipse.zeves.ui.commands;
 
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
 import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
 
 public class ZEvesBackCommand extends AbstractUndoCommand {

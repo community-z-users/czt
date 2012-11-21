@@ -1,19 +1,19 @@
-package net.sourceforge.czt.eclipse.zeves.core;
+package net.sourceforge.czt.eclipse.zeves.ui.commands;
 
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
-import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
-import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecContext;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.editor.EditorZEvesExecContext;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zeves.ZEvesApi;
@@ -45,7 +45,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 		
 		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
-			return ZEvesCorePlugin.newErrorStatus("Z/EVES prover is not running.", null);
+			return ZEvesUIPlugin.newErrorStatus("Z/EVES prover is not running.", null);
 		}
 		
 		final ZEvesApi zEvesApi = prover.getApi();
@@ -84,7 +84,7 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
 				ResourceUtil.deleteMarkers(fileUndoOffsets);
 				
 			} catch (ZEvesException e) {
-				return ZEvesCorePlugin.newErrorStatus(e.getMessage(), e);
+				return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 			}
 		}
 		
@@ -135,34 +135,32 @@ public abstract class AbstractSubmitCommand extends AbstractExecCommand {
     		return Status.CANCEL_STATUS;
     	}
 		
-		Timer cancelMonitor = initCancelMonitor(zEvesApi, monitor);
-		
-		IPositionProvider<Term> posProvider = new TermPositionProvider(document);
-		ZEvesMarkers markers = resource != null ? new ZEvesMarkers(resource, document) : null;
-		
-		SectionManager sectInfo = parsedData.getSectionManager();
-		Spec specification = parsedData.getSpec();
-		
-		// wrap into try-finally, because OperationCanceledExpression
-		// may be thrown from inside
-		try {
-			
-			return submitSpec(monitor, zEvesApi, filePath, snapshot, start, end, 
-					posProvider, markers, document, sectInfo, specification);
-			
-		} finally {
-			cancelMonitor.cancel();
-		}
-	}
+    Timer cancelMonitor = initCancelMonitor(zEvesApi, monitor);
 	
-	protected abstract int getStartOffset(int submittedOffsetInFile);
-	
-	protected abstract int getEndOffset(IDocument document);
-	
-	protected abstract IStatus submitSpec(IProgressMonitor monitor, ZEvesApi zEvesApi,
-			String filePath, ZEvesSnapshot snapshot, int start, int end,
-			IPositionProvider<Term> posProvider, ZEvesMarkers markers, IDocument document,
-			SectionManager sectInfo, Spec specification);
+    ZEvesExecContext execContext = new EditorZEvesExecContext(filePath, resource, document);
+
+    SectionManager sectInfo = parsedData.getSectionManager();
+    Spec specification = parsedData.getSpec();
+
+    // wrap into try-finally, because OperationCanceledExpression
+    // may be thrown from inside
+    try {
+      return submitSpec(monitor, zEvesApi, execContext, snapshot, 
+          filePath, start, end, sectInfo, specification);
+    }
+    finally {
+      cancelMonitor.cancel();
+    }
+  }
+
+  protected abstract int getStartOffset(int submittedOffsetInFile);
+
+  protected abstract int getEndOffset(IDocument document);
+
+  protected abstract IStatus submitSpec(IProgressMonitor monitor, ZEvesApi zEvesApi,
+      ZEvesExecContext execContext, ZEvesSnapshot snapshot,
+      String file, int start, int end,
+      SectionManager sectInfo, Spec specification);
 
 	private Timer initCancelMonitor(final ZEvesApi zEvesApi, final IProgressMonitor monitor) {
 		

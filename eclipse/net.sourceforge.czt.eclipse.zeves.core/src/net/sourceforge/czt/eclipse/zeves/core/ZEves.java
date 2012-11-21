@@ -35,7 +35,8 @@ public class ZEves {
 		}
 		
 		// finally, execute the reset command
-		getExecutor().addCommand(new ZEvesResetCommand());
+		// the server dies upon disconnection anyway?
+//		getExecutor().addCommand(new ZEvesResetCommand());
 	}
 	
 	public boolean isLaunched() {

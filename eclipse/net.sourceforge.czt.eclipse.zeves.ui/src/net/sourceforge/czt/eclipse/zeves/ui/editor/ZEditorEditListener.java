@@ -8,8 +8,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
 import net.sourceforge.czt.eclipse.zeves.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
-import net.sourceforge.czt.eclipse.zeves.core.ZEvesUndoCommand;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ZEvesUndoCommand;
 
 /**
  * A document edit listener that undoes Z/EVES Snapshot according to recent

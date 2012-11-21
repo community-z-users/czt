@@ -1,8 +1,10 @@
-package net.sourceforge.czt.eclipse.zeves.core;
+package net.sourceforge.czt.eclipse.zeves.ui.commands;
 
 import java.util.Set;
 
-import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
 import net.sourceforge.czt.zeves.ZEvesException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -21,7 +23,7 @@ public class ZEvesResetCommand extends AbstractExecCommand {
 			try {
 				prover.getApi().reset();
 			} catch (ZEvesException e) {
-				return ZEvesCorePlugin.newErrorStatus(e.getMessage(), e);
+				return ZEvesUIPlugin.newErrorStatus(e.getMessage(), e);
 			}
 		}
 		

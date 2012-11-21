@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -15,9 +16,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.util.TextUtil;
-import net.sourceforge.czt.eclipse.zeves.core.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecContext;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ResourceUtil;
 import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.text.Position;
 
@@ -31,6 +32,12 @@ public class EditorZEvesExecContext implements ZEvesExecContext
   private final Map<String, EditorContext> fileContexts = new HashMap<String, EditorContext>();
   
   private static final long FLUSH_INTERVAL = 500;
+  
+  public EditorZEvesExecContext() {}
+  
+  public EditorZEvesExecContext(String file, IResource fileResource, IDocument document) {
+    fileContexts.put(file, initFileContext(fileResource, document));
+  }
   
   @Override
   public Position adaptFullLine(String file, Position pos)
@@ -234,7 +241,12 @@ public class EditorZEvesExecContext implements ZEvesExecContext
         ZEvesUIPlugin.getDefault().log(e);
       }
     }
-
+    
+    return initFileContext(fileResource, document);
+  }
+  
+  private static EditorContext initFileContext(IResource fileResource, IDocument document)
+  {
     ZEvesMarkers fileMarkers = fileResource != null
         ? new ZEvesMarkers(fileResource, document)
         : null;
