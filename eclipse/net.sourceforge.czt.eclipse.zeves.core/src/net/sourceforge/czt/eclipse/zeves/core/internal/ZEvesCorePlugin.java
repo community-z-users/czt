@@ -23,10 +23,6 @@ public class ZEvesCorePlugin extends Plugin
   
   private ZEves prover;
 
-  /*
-   * (non-Javadoc)
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-   */
   @Override
   public void start(BundleContext context) throws Exception
   {
@@ -36,10 +32,6 @@ public class ZEvesCorePlugin extends Plugin
     prover = new ZEves();
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-   */
   @Override
   public void stop(BundleContext context) throws Exception
   {
