@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
@@ -898,7 +899,7 @@ public class ZEditorResults {
 				cause = e;
 			}
 			
-			String msg = "Cannot parse Z/EVES result: " + ZEditorUtil.clean(cause.getMessage()).trim();
+			String msg = "Cannot parse Z/EVES result: " + DocumentUtil.clean(cause.getMessage()).trim();
 			ZEvesUIPlugin.getDefault().log(msg, cause);
 			return withWarning(msg, str);
 		}

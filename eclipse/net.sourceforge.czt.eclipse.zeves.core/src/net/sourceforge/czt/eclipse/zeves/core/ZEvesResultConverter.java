@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
@@ -96,7 +96,7 @@ public class ZEvesResultConverter {
 		
 		try {
 			assertSectionAvailable(sectInfo, sectName);
-			return ZEditorUtil.print(term, sectInfo, sectName, markup, textWidth, display);
+			return DocumentUtil.print(term, sectInfo, sectName, markup, textWidth, display);
 		} catch (CommandException e) {
 			// problems printing
 			ZEvesCorePlugin.getDefault().log(e);

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
@@ -284,7 +285,7 @@ public class VCPage extends Page {
 	
 	public String printVC(VCEntry vcEntry) throws CommandException {
 		
-		return ZEditorUtil.print(vcEntry.getVCPara(), vcEntry.getSectionManager(),
+		return DocumentUtil.print(vcEntry.getVCPara(), vcEntry.getSectionManager(),
 				vcEntry.getSectionName(), vcEntry.getEditor().getMarkup(), 80, false);
 	}
 
