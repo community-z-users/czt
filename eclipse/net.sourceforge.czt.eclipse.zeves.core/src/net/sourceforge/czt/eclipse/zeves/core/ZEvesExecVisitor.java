@@ -571,8 +571,9 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
   {
     execContext.removeStatus(filePath, unprocessedPos, ZEvesStatus.UNPROCESSED);
 
-    unprocessedPos = Position.createStartEnd(newOffset, getEndOffset());
-    if (unprocessedPos.getLength() > 0) {
+    int length = Math.max(0, getEndOffset() - newOffset);
+    unprocessedPos = new Position(newOffset, length);
+    if (length > 0) {
       execContext.addStatus(filePath, unprocessedPos, ZEvesStatus.UNPROCESSED);
     }
   }
