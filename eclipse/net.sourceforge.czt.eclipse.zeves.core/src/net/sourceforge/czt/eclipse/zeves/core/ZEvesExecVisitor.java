@@ -7,24 +7,16 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.editors.text.TextFileDocumentProvider;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
-import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecContext.ZEvesMessageType;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesExecContext.ZEvesStatus;
 import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers;
-import net.sourceforge.czt.eclipse.zeves.ui.editor.ZEvesMarkers.MarkerInfo;
 import net.sourceforge.czt.parser.util.SectParentResolver;
 import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsException;
 import net.sourceforge.czt.session.CommandException;
@@ -56,8 +48,6 @@ import net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter;
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_BEGIN_PATTERN;
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.ZSECTION_END_PATTERN;
 //import static net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter.getParents;
-import static net.sourceforge.czt.eclipse.ui.util.TextUtil.jfacePos;
-
 /**
  * Special visitor class to translate top-level Z terms. 
  * Each element in the returned list must be transmitted to the Z/EVES
@@ -69,28 +59,23 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	
 	private final ZEvesApi api;
 	private final ZEvesSnapshot snapshot;
-	private final ZEvesMarkers markers;
-	private final IDocument document;
+	private final ZEvesExecContext execContext;
 	
 	private final String filePath;
 	private final SectionManager sectInfo;
 	
-	private MarkerInfo unprocessedMarker;
+	private Position unprocessedPos;
 	
 	private final IProgressMonitor progressMonitor;
 	
-	private static final long FLUSH_INTERVAL = 500;
-	private long lastFlush = 0;
-	
-	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesMarkers markers, IDocument document,
-			String filePath, IPositionProvider<? super Term> posProvider, SectionManager sectInfo, 
+	public ZEvesExecVisitor(ZEvesApi api, ZEvesSnapshot snapshot, ZEvesExecContext execContext,
+			String filePath, SectionManager sectInfo, 
 			int startOffset, int endOffset, IProgressMonitor progressMonitor) {
     	
-		super(posProvider, startOffset, endOffset);
+		super(execContext.getTermPositions(filePath), startOffset, endOffset);
 		this.api = api;
 		this.snapshot = snapshot;
-		this.markers = markers;
-		this.document = document;
+		this.execContext = execContext;
 		
 		this.filePath = filePath;
 		this.sectInfo = sectInfo;
@@ -106,7 +91,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     @Override
 	protected void visitZSectHead(ZSect term, Position position) {
     	
-    	MarkerInfo unfinishedMarker = markUnfinished(position);
+    	markUnfinished(position);
 		
 		try {
 			
@@ -162,7 +147,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //    		// do not return - just handle and continue into paragraphs
 //    		handleZEvesException(position, e);
     	} finally {
-    		markFinished(unfinishedMarker);
+    		markFinished(position);
     	}
 		
 	}
@@ -178,7 +163,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	@Override
 	protected void visitZSectEnd(ZSect term, Position position) {
 		
-		MarkerInfo unfinishedMarker = markUnfinished(position);
+		markUnfinished(position);
 		
 		try {
 			snapshot.completeSection(position, filePath, getCurrentSectionName());
@@ -191,7 +176,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //    	} catch (ZEvesException e) {
 //    		handleZEvesException(position, e);
     	} finally {
-    		markFinished(unfinishedMarker);
+    		markFinished(position);
     	}
 	}
 
@@ -228,29 +213,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    		return null;
 	    	}
 	    	
-	    	IFile parentResource = null;
-	    	List<IFile> files = ResourceUtil.findFile(parentFilePath);
-	    	if (files.size() > 0) {
-	    		// take the first one found
-	    		// TODO support multiple resources (e.g. the same file is several times in the workspace)?
-	    		parentResource = files.get(0);
-	    	}
-	    	
-	    	IDocument parentDocument = null;
-	    	if (parentResource != null) {
-	    		TextFileDocumentProvider documentProvider = new TextFileDocumentProvider();
-	    		try {
-					documentProvider.connect(parentResource);
-					parentDocument = documentProvider.getDocument(parentResource);
-				} catch (CoreException e) {
-					// ignore?
-					ZEvesCorePlugin.getDefault().log(e);
-				}
-	    	}
-	    	
-	    	ZEvesMarkers parentAnns = parentResource != null ? 
-	    			new ZEvesMarkers(parentResource, parentDocument) : null;
-	    	IPositionProvider<Term> parentPosProvider = new TermPositionProvider(parentDocument);
+	    	IPositionProvider<? super Term> parentPosProvider = 
+	    	    execContext.getTermPositions(parentFilePath);
 	    	
 	    	Position parentSectPos = parentPosProvider.getPosition(parentSect);
 
@@ -267,7 +231,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	
 	    	// continue until the end of the section
 	    	// note: add +1 to the end, otherwise "end section" is excluded
-	    	int endOffset = getEnd(parentSectPos) + 1;
+	    	int endOffset = parentSectPos.getEndOffset() + 1;
 	    	
 	    	if (startOffset > endOffset) {
 	    		/*
@@ -286,8 +250,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	}
 	    	
 	    	ZEvesExecVisitor parentExec = new ZEvesExecVisitor(
-	    			api, snapshot, parentAnns, parentDocument, 
-	    			parentFilePath, parentPosProvider, sectInfo, 
+	    			api, snapshot, execContext, 
+	    			parentFilePath, sectInfo, 
 	    			startOffset, endOffset, progressMonitor);
 	    	
 	    	try {
@@ -316,7 +280,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	@Override
 	protected void visitPara(Para term, Position pos) {
     	// mark unfinished
-    	MarkerInfo unfinishedMarker = markUnfinished(pos);
+    	markUnfinished(pos);
     	
     	SnapshotData.Builder dataBuilder = new SnapshotData.Builder(term);
     	
@@ -349,14 +313,14 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 	    	}
     	
     	} finally {
-        	markFinished(unfinishedMarker);
+        	markFinished(pos);
     	}
 	}
     
     @Override
 	protected void visitProofScriptHead(ProofScript term, Position pos) {
 		
-    	MarkerInfo unfinishedMarker = markUnfinished(pos);
+    	markUnfinished(pos);
 		
     	String theoremName = getProofScriptName(term);
     	
@@ -383,7 +347,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 //    		handleZEvesException1(pos, term, e, false);
     		return;
     	} finally {
-        	markFinished(unfinishedMarker);
+        	markFinished(pos);
     	}
 	}
 	
@@ -421,8 +385,8 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			return;
 		}
 		
-		pos = adaptFullLine(pos);
-		MarkerInfo unfinishedMarker = markUnfinished(pos);
+		pos = execContext.adaptFullLine(filePath, pos);
+		markUnfinished(pos);
 		
 		try {
 			
@@ -445,47 +409,15 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 			}
 			
 		} finally {
-			markFinished(unfinishedMarker);
+			markFinished(pos);
 		}
 	}
 	
-	private Position adaptFullLine(Position pos) {
-
-		if (document == null) {
-			return pos;
-		}
-		
-		try {
-			int line = document.getLineOfOffset(pos.getOffset());
-			int lineStart = document.getLineOffset(line);
-			if (lineStart >= pos.getOffset()) {
-				// already full line
-				return pos;
-			}
-			
-			// starting in the middle of the line - get the next line
-			if (line < document.getNumberOfLines() - 1) {
-				int nextLine = line + 1;
-				int nextLineStart = document.getLineOffset(nextLine);
-				int posEnd = getEnd(pos);
-				if (nextLineStart <= posEnd) {
-					return new Position(nextLineStart, posEnd - nextLineStart);
-				}
-			}
-			
-		} catch (BadLocationException e) {
-			// ignore
-		}
-		
-		// invalid - return previous
-		return pos;
-	}
-    
     @Override
     protected void visitProofCommand(ProofScript script, ProofCommand command, Position pos) {
     	
     	// mark unfinished
-    	MarkerInfo unfinishedMarker = markUnfinished(pos);
+    	markUnfinished(pos);
 
     	String theoremName = getProofScriptName(script);
     	
@@ -610,7 +542,7 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     		
     	
     	} finally {
-        	markFinished(unfinishedMarker);
+        	markFinished(pos);
     	}
     	
     }
@@ -624,125 +556,99 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
     	return script.getName().accept(getZEvesXmlPrinter());
     }
     
-    private MarkerInfo markUnfinished(Position pos) {
-    	
-    	if (markers == null) {
-    		return null;
-    	}
-    	
-    	MarkerInfo marker = null;
-		try {
-			marker = markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_UNFINISHED);
-		} catch (CoreException ce) {
-			ZEvesCorePlugin.getDefault().log(ce);
-		}
-    	
-    	updateUnprocessed(getEnd(pos));
-    	
-    	tryFlush();
-    	return marker;
+  private void markUnfinished(Position pos)
+  {
+    execContext.addStatus(filePath, pos, ZEvesStatus.UNFINISHED);
+    updateUnprocessed(pos.getEndOffset());
+  }
+
+  private void markFinished(Position pos)
+  {
+    execContext.removeStatus(filePath, pos, ZEvesStatus.UNFINISHED);
+  }
+  
+  private void updateUnprocessed(int newOffset)
+  {
+    execContext.removeStatus(filePath, unprocessedPos, ZEvesStatus.UNPROCESSED);
+
+    unprocessedPos = Position.createStartEnd(newOffset, getEndOffset());
+    if (unprocessedPos.getLength() > 0) {
+      execContext.addStatus(filePath, unprocessedPos, ZEvesStatus.UNPROCESSED);
     }
-    
-    private void markFinished(MarkerInfo unfinishedMarker) {
-    	
-    	if (markers == null || unfinishedMarker == null) {
-    		return;
-    	}
-    	
-    	markers.deleteMarker(unfinishedMarker);
-//    	tryFlush();
+  }
+
+  private void handleZEvesException(Position pos, Term term, ZEvesException e)
+  {
+
+    boolean errAdded = execContext.addMessage(filePath, pos, e.getMessage(), ZEvesMessageType.ERROR);
+    execContext.addStatus(filePath, pos, ZEvesStatus.FAILED);
+
+    if (!errAdded || logDebug(e)) {
+      // mark into log
+      ZEvesCorePlugin.getDefault().log(e);
+    }
+  }
+
+  private boolean logDebug(ZEvesException e)
+  {
+    // if there was an underlying cause, log it.
+    // log Z/EVES parser, scanner errors at the moment
+    return e.getCause() != null || (e.getDebugInfo() != null && logZEvesError(e.getZEvesError()));
+  }
+
+  private boolean logZEvesError(ZEvesError error)
+  {
+    if (error == null) {
+      return false;
     }
 
-    private void handleZEvesException(Position pos, Term term, ZEvesException e) {
-    	
-    	boolean addedMarkers = false;
-		if (markers != null) {
-			try {
-				markers.createErrorMarker(jfacePos(pos), e.getMessage());
-				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FAILED);
-				addedMarkers = true;
-			} catch (CoreException ce) {
-				ZEvesCorePlugin.getDefault().log(ce);
-			}
-			
-//			tryFlush();
-		}
-		
-		if (!addedMarkers || logDebug(e)) {
-			// mark into log
-			ZEvesCorePlugin.getDefault().log(e);
-		}
+    EnumSet<ZEvesErrorType> type = error.getType();
+    return type.contains(ZEvesErrorType.PARSE_ERR) || type.contains(ZEvesErrorType.SCAN_ERR);
+  }
+
+  private void handleResult(Position pos, Object result)
+  {
+    handleResult(pos, result, false);
+  }
+
+  private void handleResult(Position pos, Object result, boolean resultTrue)
+  {
+    execContext.addStatus(filePath, pos, ZEvesStatus.FINISHED);
+
+    if (result == null) {
+      return;
     }
-    
-    private boolean logDebug(ZEvesException e) {
-    	// if there was an underlying cause, log it.
-		return e.getCause() != null
-				// log Z/EVES parser, scanner errors at the moment
-				|| (e.getDebugInfo() != null && logZEvesError(e.getZEvesError()));
+
+    if ((result instanceof ZEvesOutput) && ((ZEvesOutput) result).isEmpty()) {
+      return;
     }
-    
-    private boolean logZEvesError(ZEvesError error) {
-    	if (error == null) {
-    		return false;
-    	}
-    	
-    	EnumSet<ZEvesErrorType> type = error.getType();
-		return type.contains(ZEvesErrorType.PARSE_ERR) || type.contains(ZEvesErrorType.SCAN_ERR);
+
+    boolean warning = false;
+    String outStr;
+    try {
+      outStr = printResult(result);
     }
-    
-    private void handleResult(Position pos, Object result) {
-    	handleResult(pos, result, false);
+    catch (ZEvesException e) {
+      warning = true;
+      outStr = e.getMessage();
     }
-    
-    private void handleResult(Position pos, Object result, boolean resultTrue) {
-    	
-    	if (markers != null) {
-    		try {
-				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FINISHED);
-			} catch (CoreException ce) {
-				ZEvesCorePlugin.getDefault().log(ce);
-			}
-    	}
-    	
-    	if (result == null) {
-    		return;
-    	}
-    	
-    	if ((result instanceof ZEvesOutput) && ((ZEvesOutput) result).isEmpty()) {
-    		return;
-    	}
-    	
-    	boolean warning = false;
-    	String outStr;
-		try {
-			outStr = printResult(result);
-		} catch (ZEvesException e) {
-			warning = true; 
-			outStr = e.getMessage();
-		}
-    	
-    	if (markers != null) {
-			try {
-				if (outStr != null) {
-					
-					if (warning) {
-						markers.createErrorMarker(jfacePos(pos), outStr, IMarker.SEVERITY_WARNING);
-					} else {
-						if (resultTrue) {
-							markers.createResultTrueMarker(jfacePos(pos), outStr);
-						} else {
-							markers.createResultMarker(jfacePos(pos), outStr);
-						}
-					}
-				}
-//				markers.createStatusMarker(jfacePos(pos), ZEvesMarkers.STATUS_FINISHED);
-			} catch (CoreException ce) {
-				ZEvesCorePlugin.getDefault().log(ce);
-			}
-			
-//			tryFlush();
-		}
+
+    if (outStr != null) {
+
+      if (warning) {
+        execContext.addMessage(filePath, pos, outStr, ZEvesMessageType.WARNING);
+      }
+      else {
+        if (resultTrue) {
+          execContext.addMessage(filePath, pos, outStr, ZEvesMessageType.RESULT_TRUE);
+        }
+        else {
+          execContext.addMessage(filePath, pos, outStr, ZEvesMessageType.RESULT);
+        }
+      }
     }
+
+  }
     
     private boolean isResultTrue(ZEvesOutput result) {
     	if (result.getResults().size() == 1) {
@@ -799,50 +705,13 @@ public class ZEvesExecVisitor extends ZEvesPosVisitor {
 		return new ZEvesException(message + "\nZ/EVES result:\n" + unparsedResult, ex);
 	}
 
-    private void updateUnprocessed(int newOffset) {
-    	if (markers != null) {
-    		
-    		if (unprocessedMarker != null) {
-    			markers.deleteMarker(unprocessedMarker);
-    		}
-    		
-    		int length = getEndOffset() - newOffset;
-    		if (length > 0) {
-    			unprocessedMarker = null;
-    			try {
-		    		unprocessedMarker = markers.createProcessMarker(
-		    				jfacePos(new Position(newOffset, length)));
-    			} catch (CoreException ce) {
-    				ZEvesCorePlugin.getDefault().log(ce);
-    			}
-    		}
-    	}
-    }
-    
-    private void tryFlush() {
-    	
-    	if (System.currentTimeMillis() - lastFlush > FLUSH_INTERVAL) {
-    		flush();
-    	}
-    }
-    
-    public void flush() {
-    	if (markers != null) {
-    		markers.flushPendingMarkers();
-    	}
-    	
-    	lastFlush = System.currentTimeMillis();
-    }
-    
-    public void finish() {
-    	// remove unprocessed marker
-    	if (markers != null && unprocessedMarker != null) {
-			markers.deleteMarker(unprocessedMarker);
-    	}
-    	
-    	// flush marker
-    	flush();
-    }
+  public void finish()
+  {
+    // remove unprocessed marker
+    execContext.removeStatus(filePath, unprocessedPos, ZEvesStatus.UNPROCESSED);
+    // mark completed to the exec context
+    execContext.completed(filePath);
+  }
     
     private void checkCancelled() {
     	if (progressMonitor.isCanceled()) {

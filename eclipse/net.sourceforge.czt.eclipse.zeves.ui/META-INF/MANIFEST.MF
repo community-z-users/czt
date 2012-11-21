@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.ui.forms,
  net.sourceforge.czt.eclipse.zeves.core;bundle-version="1.0.0",
- org.eclipse.ui.workbench.texteditor;bundle-version="3.5.0"
+ org.eclipse.ui.workbench.texteditor;bundle-version="3.5.0",
+ org.eclipse.ui.editors;bundle-version="3.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
@@ -28,4 +29,5 @@ Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
  net.sourceforge.czt.zeves.response.form;version="1.6.0",
  net.sourceforge.czt.zeves.snapshot;version="1.6.0",
  net.sourceforge.czt.zeves.util;version="1.6.0",
- net.sourceforge.czt.zeves.z;version="1.6.0"
+ net.sourceforge.czt.zeves.z;version="1.6.0",
+ org.eclipse.ui.texteditor

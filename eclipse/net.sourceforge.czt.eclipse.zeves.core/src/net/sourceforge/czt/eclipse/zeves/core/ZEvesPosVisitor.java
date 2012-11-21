@@ -386,12 +386,8 @@ public class ZEvesPosVisitor implements
     	}
     	
     	// term end position is everything after end of last element
-    	int lastParaEnd = getEnd(lastElemPos);
-    	return new Position(lastParaEnd, getEnd(tPos) - lastParaEnd);
-    }
-    
-    public static int getEnd(Position position) {
-    	return position.getOffset() + position.getLength();
+    	int lastParaEnd = lastElemPos.getEndOffset();
+    	return Position.createStartEnd(lastParaEnd, tPos.getEndOffset());
     }
     
     protected int getEndOffset() {
