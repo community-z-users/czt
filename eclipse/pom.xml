@@ -208,6 +208,7 @@
         <module>net.sourceforge.czt.eclipse.doc</module>
         <module>net.sourceforge.czt.eclipse.vcg.ui</module>
         
+        <module>net.sourceforge.czt.eclipse.zeves.core</module>        
         <module>net.sourceforge.czt.eclipse.zeves.ui</module>
         
         <module>releng</module>

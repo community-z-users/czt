@@ -4,6 +4,7 @@ import net.sourceforge.czt.zeves.response.ZEvesError;
 
 public class ZEvesException extends Exception
 {
+  private static final long serialVersionUID = 5537787929670373518L;
 
   private ZEvesError zEvesErr;
   

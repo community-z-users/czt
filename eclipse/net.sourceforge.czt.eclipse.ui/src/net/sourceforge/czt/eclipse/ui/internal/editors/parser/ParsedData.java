@@ -13,6 +13,7 @@ import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;
+import net.sourceforge.czt.eclipse.ui.util.TextUtil;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
@@ -162,7 +163,7 @@ public class ParsedData implements IZCompileData
   @Override
   public Position getTermPosition(Term term)
   {
-    return posProvider.getPosition(term);
+    return TextUtil.jfacePos(posProvider.getPosition(term));
   }
 
   public BigInteger getDocumentVersion()

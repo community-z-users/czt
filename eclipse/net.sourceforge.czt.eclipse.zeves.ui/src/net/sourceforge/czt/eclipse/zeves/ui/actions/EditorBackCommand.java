@@ -5,12 +5,13 @@ import java.util.List;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesBackCommand;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ResourceUtil;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ZEvesBackCommand;
+import net.sourceforge.czt.text.Position;
+import net.sourceforge.czt.zeves.snapshot.ISnapshotEntry;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -18,7 +19,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.text.Position;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 
@@ -29,7 +29,7 @@ public class EditorBackCommand extends AbstractHandler {
 		
 		final IZEditor editor = (IZEditor) HandlerUtil.getActiveEditor(event);
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			MessageDialog.openInformation(editor.getSite().getShell(), "Prover Not Running",
 					"The Z/EVES prover is not running.");
@@ -53,7 +53,7 @@ public class EditorBackCommand extends AbstractHandler {
 		}
 		
 		String filePath = ResourceUtil.getPath(resource);
-		ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
+		ZEvesSnapshot snapshot = ZEvesCore.getSnapshot();
 		int lastOffset = snapshot.getLastPositionOffset(filePath);
 		
 		if (lastOffset >= 0) {

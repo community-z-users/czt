@@ -2,17 +2,18 @@ package net.sourceforge.czt.eclipse.zeves.ui.views;
 
 import net.sourceforge.czt.eclipse.ui.CztImages;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResetCommand;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesUndoSectionCommand;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.FileSection;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ZEvesResetCommand;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ZEvesUndoSectionCommand;
 import net.sourceforge.czt.eclipse.zeves.ui.launch.ZEvesAppLaunch;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesServer;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.FileSection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -254,7 +255,7 @@ public class ZEvesStateView extends ViewPart {
 		});
         updateSelectionActions();
 		
-		sectionsViewer.setInput(ZEvesUIPlugin.getZEves().getSnapshot());
+		sectionsViewer.setInput(ZEvesCore.getSnapshot());
 	}
 	
 	private void updateSelectionActions() {
@@ -277,7 +278,7 @@ public class ZEvesStateView extends ViewPart {
 
 	private void updateState() {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		updateProverState(prover.getApi());
 		updateServerState(prover.getServer());
 		updateProverDataState(prover.getApi());
@@ -400,7 +401,7 @@ public class ZEvesStateView extends ViewPart {
 		@Override
 		public void run() {
 			
-			ZEvesUIPlugin.getZEves().getExecutor().addCommand(new ZEvesResetCommand() {
+			ZEvesCore.getZEves().getExecutor().addCommand(new ZEvesResetCommand() {
 				@Override
 				protected void completed(IStatus result) {
 					fireUpdateState();
@@ -455,7 +456,7 @@ public class ZEvesStateView extends ViewPart {
 			final FileSection selectedSection = 
 				(FileSection) ((IStructuredSelection) selection).getFirstElement();
 			
-			ZEves prover = ZEvesUIPlugin.getZEves();
+			ZEves prover = ZEvesCore.getZEves();
 			if (!prover.isRunning()) {
 				return;
 			}

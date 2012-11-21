@@ -6,9 +6,9 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.sourceforge.czt.eclipse.ui.document.IResourceDocumentListener;
-import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesUndoCommand;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ZEvesUndoCommand;
 
 /**
  * A document edit listener that undoes Z/EVES Snapshot according to recent
@@ -44,7 +44,7 @@ public class ZEditorEditListener implements IResourceDocumentListener {
 	
 	private void undoThrough(ITextEditor editor, int editOffset) {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (!prover.isRunning()) {
 			return;
 		}

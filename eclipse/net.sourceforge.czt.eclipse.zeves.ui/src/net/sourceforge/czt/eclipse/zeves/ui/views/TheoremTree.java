@@ -4,9 +4,10 @@ import java.util.List;
 
 import net.sourceforge.czt.eclipse.ui.util.FilteredTree2;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.zeves.ZEvesException;
 import net.sourceforge.czt.zeves.ZEvesApi.ZEvesTheoremType;
@@ -296,7 +297,7 @@ class TheoremTree extends FilteredTree2
     public String loadContents(Markup markup, IProgressMonitor monitor) throws CoreException
     {
 
-      ZEves zEves = ZEvesUIPlugin.getZEves();
+      ZEves zEves = ZEvesCore.getZEves();
       if (!zEves.isRunning()) {
         return null;
       }
