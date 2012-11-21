@@ -2,7 +2,7 @@ package net.sourceforge.czt.eclipse.ui.editors;
 
 import java.math.BigInteger;
 
-import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
 import net.sourceforge.czt.session.Markup;
 
 import org.eclipse.jface.text.source.ISourceViewer;

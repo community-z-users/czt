@@ -14,8 +14,8 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.CztUI;
-import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;

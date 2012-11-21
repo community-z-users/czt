@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.document.IPositionProvider;
 import net.sourceforge.czt.eclipse.ui.document.TermPositionProvider;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;

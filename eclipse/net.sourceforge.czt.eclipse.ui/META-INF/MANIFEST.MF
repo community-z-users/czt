@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.search,
  org.eclipse.ui.forms,
  org.eclipse.ui.navigator;bundle-version="3.2.0",
- org.eclipse.core.expressions
+ org.eclipse.core.expressions,
+ net.sourceforge.czt.eclipse.core;bundle-version="1.6.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: net.sourceforge.czt.eclipse.ui,
  net.sourceforge.czt.eclipse.ui.compile,

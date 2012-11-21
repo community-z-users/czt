@@ -6,7 +6,8 @@ Bundle-Version: 1.6.0.qualifier
 Bundle-Activator: net.sourceforge.czt.eclipse.core.internal.CztCorePlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.text
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
@@ -29,3 +30,4 @@ Import-Package: net.sourceforge.czt.base.ast;version="1.6.0",
  net.sourceforge.czt.zeves.util;version="1.6.0",
  net.sourceforge.czt.zeves.visitor;version="1.6.0",
  net.sourceforge.czt.zpatt.util;version="1.6.0"
+Export-Package: net.sourceforge.czt.eclipse.core.compile
