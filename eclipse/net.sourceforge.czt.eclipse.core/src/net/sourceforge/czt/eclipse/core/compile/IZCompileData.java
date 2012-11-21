@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.compile;
+package net.sourceforge.czt.eclipse.core.compile;
 
 import java.util.List;
 

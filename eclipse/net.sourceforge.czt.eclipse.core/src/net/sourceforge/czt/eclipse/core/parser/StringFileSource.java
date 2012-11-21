@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.internal.editors.parser;
+package net.sourceforge.czt.eclipse.core.parser;
 
 import net.sourceforge.czt.session.StringSource;
 

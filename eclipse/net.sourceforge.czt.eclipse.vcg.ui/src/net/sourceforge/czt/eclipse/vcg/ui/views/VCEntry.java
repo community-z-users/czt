@@ -4,9 +4,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.PlatformObject;
 
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.CztUI;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
-import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
 import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.session.CommandException;
@@ -105,7 +105,7 @@ public class VCEntry extends PlatformObject {
 			}
 
 			try {
-				contents = ZEditorUtil.print(vcPara, sectInfo, getSectionName(), markup, 80, true);
+				contents = DocumentUtil.print(vcPara, sectInfo, getSectionName(), markup, 80, true);
 			} catch (CommandException e) {
 				throw new CoreException(VcgUIPlugin.newErrorStatus(e.getMessage(), e));
 			}

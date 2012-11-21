@@ -1,4 +1,4 @@
-package net.sourceforge.czt.eclipse.ui.document;
+package net.sourceforge.czt.eclipse.core.document;
 
 import net.sourceforge.czt.text.Position;
 

@@ -9,6 +9,7 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.CztImages;
+import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
 import net.sourceforge.czt.util.Visitor;
@@ -42,7 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 /**
@@ -117,7 +117,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
           ParsedData data = (ParsedData) newInput;
 
           // build children tree
-          CztTreeNodeFactory nodeFactory = new CztTreeNodeFactory(data);
+          CztTreeNodeFactory nodeFactory = new CztTreeNodeFactory(fTextEditor, data);
           List<CztTreeNode> topNodes = buildTree(nodeFactory, data);
 
           for (CztTreeNode node : topNodes) {
@@ -313,7 +313,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
 
   protected String fContextMenuId;
 
-  protected ITextEditor fTextEditor;
+  protected IZEditor fTextEditor;
 
   /**
    * Creates a content outline page using the given provider and the given
@@ -324,7 +324,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
    * @param fEditor
    *            the fEditor
    */
-  public ZContentOutlinePage(String contextMenuId, ITextEditor editor, ResourceManager resourceManager)
+  public ZContentOutlinePage(String contextMenuId, IZEditor editor, ResourceManager resourceManager)
   {
     super();
     fContextMenuId = contextMenuId;

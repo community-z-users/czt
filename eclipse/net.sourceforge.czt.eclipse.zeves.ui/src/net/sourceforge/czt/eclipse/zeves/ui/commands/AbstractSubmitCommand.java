@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil.ReconcileRunnable;
