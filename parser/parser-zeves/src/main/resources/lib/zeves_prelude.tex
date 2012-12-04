@@ -16,8 +16,14 @@
 % already fuzz-compatible, it makes little sense, I guess.
 %%Zinword \defs {==}
 
+The next two definitions \textbf{must} be within the \textsf{zeves\_prelude} since it is
+included by default in all sections using the ZEves parser. It was previously in the ZEves
+toolkit, which is only included if explicitly added.
+
 These are added implicitly because of the use of $applies\$to$ as a decl name and as an 
-operators and Latex markup command. This is important to add because
+operators and Latex markup command. This is important to add because otherwise when ZEves
+generates VCs containing the predicate (the only time it appears), CZT won't know about 
+this name and hence will complain it can't parse what ZEves gives back.
 %
 %%Zinword applies\$to applies$to
 \begin{zed}
@@ -30,3 +36,10 @@ operators and Latex markup command. This is important to add because
 \where
    \forall R: \power(X \cross Y); x: X @ R ~applies\$to~ x \iff (\exists_1 y: Y @ (x, y) \in R)
 \end{gendef}
+
+Similarly, for the $KnownMember$ schema, we add it so that CZT knows about it, yet
+we don't send it to ZEves, given it already knows about it.
+%
+\begin{schema}{KnownMember}[X]
+	element: X
+\end{schema}
