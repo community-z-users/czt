@@ -688,6 +688,7 @@
 % 2 = gendef
 % 3 = schemas
 % 4 = gen schemas
+% 5 = theorems
 % 99= nothing
 \newcount\@zcountingwhat
 \@zcountingwhat=99
@@ -714,20 +715,26 @@
 %  c) number of generic axiomatic definitions
 %  d) number of schemas
 %  e) number of generic schemas
-%  f) total number of Z declarations
+%  f) number of theorems
+% g) number of proofs
+%  h) total number of Z declarations
 \newcounter{cntZunboxed}      %a) local
 \newcounter{cntZaxdef}        %b) local
 \newcounter{cntZgendef}       %c) local
 \newcounter{cntZschema}       %d) local
 \newcounter{cntZgenschema}    %e) local
-\newcounter{cntZdecl}         %f) local
+\newcounter{cntZtheorem}    %f) local
+\newcounter{cntZproof}    %g) local
+\newcounter{cntZdecl}         %h) local
 
 \newcounter{cntZtotunboxed}   %a) global
 \newcounter{cntZtotaxdef}     %b) global
 \newcounter{cntZtotgendef}    %c) global
 \newcounter{cntZtotschema}    %d) global
 \newcounter{cntZtotgenschema} %e) global
-\newcounter{cntZtotdecl}      %f) global
+\newcounter{cntZtottheorem}    %f) global
+\newcounter{cntZtotproof}    %g) global
+\newcounter{cntZtotdecl}      %h) global
 
 % update the reseting rationale based on package options.
 % maybe put this code at the \DeclareOption part (?)
@@ -737,6 +744,8 @@
   \@addtoreset{cntZgendef}{chapter}
   \@addtoreset{cntZschema}{chapter}
   \@addtoreset{cntZgenschema}{chapter}
+  \@addtoreset{cntZtheorem}{chapter}
+  \@addtoreset{cntZproof}{chapter}
   \@addtoreset{cntZdecl}{chapter}
 
   \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items \fi in Chapter~\thechapter}
@@ -744,6 +753,8 @@
   \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
   \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
   \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+  \renewcommand{\thecntZtheorem}{\arabic{cntZtheorem} theorems  in Chapter~\thechapter}
+  \renewcommand{\thecntZtheorem}{\arabic{cntZproof} proofs  in Chapter~\thechapter}
   \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Chapter~\thechapter}
 \else
   \if@cntbysection@
@@ -752,6 +763,8 @@
     \@addtoreset{cntZgendef}{section}
     \@addtoreset{cntZschema}{section}
     \@addtoreset{cntZgenschema}{section}
+    \@addtoreset{cntZtheorem}{section}
+    \@addtoreset{cntZproof}{section}
     \@addtoreset{cntZdecl}{section}
 
     \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items \fi in Section~\thesection}
@@ -759,6 +772,8 @@
     \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
     \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
     \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
+  \renewcommand{\thecntZtheorem}{\arabic{cntZtheorem} theorems  in Section~\thesection}
+  \renewcommand{\thecntZtheorem}{\arabic{cntZproof} proofs in Section~\thesection}
     \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Section~\thesection}
   \fi
   %\else \if@cntglobally@ \relax \fi
@@ -800,8 +815,22 @@
                       \stepcounter{cntZtotgenschema}
                       \@countZGlobal
                    \else
-                      %don't count at all
-                      \relax
+                     \ifnum \@zcountingwhat = 5
+                        %theorem code...
+                        \stepcounter{cntZtheorem}
+                        \stepcounter{cntZtottheorem}
+                        \@countZGlobal
+                      \else
+                     \ifnum \@zcountingwhat = 6
+                        %proof code...
+                        \stepcounter{cntZproof}
+                        \stepcounter{cntZtotproof}
+                        \@countZGlobal
+                      \else
+                       %don't count at all
+                          \relax
+                       \fi
+                     \fi
                    \fi
                 \fi
              \fi
@@ -831,6 +860,10 @@
                     \hline
                     Generic schemas         & \arabic{cntZtotgenschema} \\
                     \hline
+                    Theorems         & \arabic{cntZtottheorem} \\
+                    \hline
+                    Proofs         & \arabic{cntZtotproof} \\
+                    \hline
                     \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\
                     \hline
                 \end{tabular}
@@ -850,6 +883,10 @@
                     Schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
                     \hline
                     Generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
+                    \hline
+                    Theorems         & \arabic{cntZtheorem}         & \arabic{cntZtottheorem} \\
+                    \hline
+                    Proofs         & \arabic{cntZproof}         & \arabic{cntZtotproof} \\
                     \hline
                     \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
                     \hline
@@ -1165,7 +1202,7 @@
 \def\theorem#1{\@ifnextchar[{\@theorem{#1}}{\@@theorem{#1}}}
 \def\@theorem#1[#2]{\@@theorem{#1 $[#2]$}}
 \def\@@theorem#1{%
-  \@zcountingwhat=0    % sets the kind of counter to addto, 0=unboxed para
+  \@zcountingwhat=5    % sets the kind of counter to addto, 0=unboxed para
   \@@zed\@znoskip\halign to\linewidth\bgroup%
   {\strut$\color{ZedColor}\@zlign\hskip\zedleftsep##$}\hfil \tabskip=0pt plus1fil\crcr
 \hskip -\zedleftsep\hbox{\bf theorem \rm \@ability {\color{ZedColor}#1}}\cr}
@@ -1780,7 +1817,9 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %% the \let\0... stuff is needed to put the ignore macro after the \fi
 %% -- otherwise the \fi gets ignored!
 %%
-\def\zproof{\ifshowzproofs\@@zed\@znoskip\let\par=\cr\obeylines\@vobeyspaces\halign to\linewidth\bgroup
+\def\zproof{\ifshowzproofs% 
+ \@zcountingwhat=6% sets the kind of counter to addto, 0=unboxed para
+ \@@zed\@znoskip\let\par=\cr\obeylines\@vobeyspaces\halign to\linewidth\bgroup
 \strut$\@zlign##$\hfil \tabskip=0pt plus1fil\crcr
 \hskip -\zedleftsep\hbox{\bf proof} \let\0\relax
 \else \let\do\@makeother \dospecials \let\0\ignore@zproof \fi \0}
