@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.print.circus;
+package net.sourceforge.czt.print.circustime;
 
 import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;

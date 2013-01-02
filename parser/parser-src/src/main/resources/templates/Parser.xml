@@ -46,6 +46,11 @@ import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
+<add:circustime>
+import net.sourceforge.czt.circustime.ast.*;
+import net.sourceforge.czt.circustime.util.Factory;
+import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+</add:circustime>
 import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -670,6 +675,7 @@ action code
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:circus>
+
 <add:pattern>
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));

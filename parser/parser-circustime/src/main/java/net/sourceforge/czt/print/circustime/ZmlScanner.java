@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.print.circus;
+package net.sourceforge.czt.print.circustime;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -52,7 +52,7 @@ public class ZmlScanner
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class, this);
-    CircusPrintVisitor visitor = new CircusPrintVisitor(collector, manager);
+    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(collector, manager);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }

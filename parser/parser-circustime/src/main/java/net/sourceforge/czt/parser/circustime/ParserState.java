@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -678,7 +678,7 @@ public class ParserState
   {
     assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
     final String msg = java.text.MessageFormat.format(
-      CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
+      CircusTimeParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
       new Object[]{procName, loc});
     processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
   }

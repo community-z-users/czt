@@ -49,6 +49,11 @@ import net.sourceforge.czt.oz.util.OzString;
 <add:circus>
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
+<add:circustime>
+import net.sourceforge.czt.circustime.util.CircusTimeString;
+</add:circustime>
+
+
 <add:zeves>
 import net.sourceforge.czt.zeves.util.ZEvesString;
 </add:zeves>

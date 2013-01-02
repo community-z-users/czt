@@ -41,6 +41,9 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 <add:circus>
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
+<add:circustime>
+import net.sourceforge.czt.circustime.util.CircusTimeString;
+</add:circustime>
 <add:pattern>
 import net.sourceforge.czt.zpatt.util.ZPattString;
 </add:pattern>
@@ -456,6 +459,11 @@ import net.sourceforge.czt.z.util.ZString;
   }
 
   </add:circus>
+  
+  
+ 
+  
+  
   <add:zeves>
   private void reportError(ErrorType type, ZEvesParseMessage msg,
                            String arg0, String info)

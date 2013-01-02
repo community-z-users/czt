@@ -17,9 +17,9 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
-import net.sourceforge.czt.circus.util.CircusString;
+import net.sourceforge.czt.circustime.util.CircusTimeString;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
@@ -30,11 +30,11 @@ import net.sourceforge.czt.parser.util.Token;
  * add CIRCUS box into here (which may solve the \begin{circus} 
  * problem with \begin{zed} within the scanners.
  */
-public enum CircusToken  
+public enum CircusTimeToken  
   implements Token
 {
   /* TODO: Maybe include hard-space here "~" for beautification */
-  LCIRCCHANSET(CircusString.LCIRCCHANSET, NewlineCategory.AFTER),
+ /* LCIRCCHANSET(CircusString.LCIRCCHANSET, NewlineCategory.AFTER),
   RCIRCCHANSET(CircusString.RCIRCCHANSET, NewlineCategory.BEFORE),
   CIRCLINST(CircusString.CIRCLINST, NewlineCategory.AFTER),
   CIRCRINST(CircusString.CIRCRINST, NewlineCategory.BEFORE),
@@ -48,17 +48,19 @@ public enum CircusToken
   RSCHEXPRACT(CircusString.RSCHEXPRACT, NewlineCategory.BEFORE),
   LCIRCRENAME(CircusString.LCIRCRENAME, NewlineCategory.AFTER),
   RCIRCRENAME(CircusString.RCIRCRENAME, NewlineCategory.BEFORE),
+
   CIRCUS(CircusString.CIRCUS, NewlineCategory.BOTH),
   CIRCUSACTION(CircusString.CIRCUSACTION, NewlineCategory.BOTH),
+*/
 
   /* Support for Circus Time */
-  LCIRCTIME(CircusString.LCIRCTIME, NewlineCategory.AFTER),
-  RCIRCTIME(CircusString.RCIRCTIME, NewlineCategory.BEFORE);
+  LCIRCTIME(CircusTimeString.LCIRCTIME, NewlineCategory.AFTER),
+  RCIRCTIME(CircusTimeString.RCIRCTIME, NewlineCategory.BEFORE);
 
   private String spelling_;
   private NewlineCategory newlineCategory_;
 
-  CircusToken(String spelling, NewlineCategory newlineCategory)
+  CircusTimeToken(String spelling, NewlineCategory newlineCategory)
   {
     spelling_ = spelling;
     newlineCategory_ = newlineCategory;

@@ -184,6 +184,11 @@
       </dependency>
       <dependency>
         <groupId>${czt.groupId}</groupId>
+        <artifactId>corejava-circustime</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>corejava-circuspatt</artifactId>
         <version>${czt.version}</version>
       </dependency>
@@ -261,6 +266,21 @@
         <type>test-jar</type>
         <scope>test</scope>
      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-circustime</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-circustime</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+     </dependency>
+     
+     
+     
 
       <!-- CZT Typechecker -->
       <dependency>

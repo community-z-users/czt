@@ -16,7 +16,7 @@
   </description>
 
   <properties>
-    <parser.nodes>circustime</parser.nodes>
+    <parser.nodes>circus,circustime</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.circustime</parser.package>
     <printer.nodes>z,circus,circustime</printer.nodes>
     <printer.package>net.sourceforge.czt.print.circustime</printer.package>
@@ -52,11 +52,11 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-circustime</artifactId>
+      <artifactId>corejava-circus</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-circus</artifactId>
+      <artifactId>corejava-circustime</artifactId>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -134,6 +134,39 @@
       </plugin>
 
     </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>de.jflex</groupId>
+    								<artifactId>
+    									maven-jflex-plugin
+    								</artifactId>
+    								<versionRange>
+    									[1.4.3-r1,)
+    								</versionRange>
+    								<goals>
+    									<goal>generate</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
   </build>
   
 <!--

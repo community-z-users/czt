@@ -7,7 +7,7 @@ Created on 05 February 2007, 15:23
 To change this template, choose Tools | Template Manager
 and open the template in the editor.
  */
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -26,7 +26,7 @@ import java.util.logging.LogRecord;
  *
  * @author leo
  */
-public class SimpleCircusFormatter extends Formatter {
+public class SimpleCircusTimeFormatter extends Formatter {
     private final static String format = "{0,date} {0,time}";
 
     //~--- fields -------------------------------------------------------------
@@ -56,7 +56,7 @@ public class SimpleCircusFormatter extends Formatter {
      * @param showDirectory
      * @param showStackTrace
      */
-    public SimpleCircusFormatter(boolean showTimeStamp,
+    public SimpleCircusTimeFormatter(boolean showTimeStamp,
                                  boolean showRecordedMessage,
                                  boolean showSourceMethod,
                                  boolean showDirectory,

@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 import java.io.*;
 import java.text.MessageFormat;

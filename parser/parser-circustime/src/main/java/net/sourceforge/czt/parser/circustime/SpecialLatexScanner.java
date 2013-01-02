@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
+
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ import net.sourceforge.czt.session.Source;
  */
 public class SpecialLatexScanner {
  
-  private static Set< String > collectCircusSymbolNames()
+ /* private static Set< String > collectCircusSymbolNames()
   {
     Set< String > result = new HashSet();
     EnumSet CIRCUS_TOKENS = EnumSet.allOf(CircusToken.class);
@@ -50,7 +51,7 @@ public class SpecialLatexScanner {
     
     return result;
   }
-  
+  */
   private static <K, V> Map<V, K> flipMap(Map<K, V> m)
   {
     Map<V, K> result = new HashMap<V, K>();

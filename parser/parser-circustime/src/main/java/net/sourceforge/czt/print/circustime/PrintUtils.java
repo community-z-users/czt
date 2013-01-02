@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.print.circus;
+package net.sourceforge.czt.print.circustime;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -303,7 +303,7 @@ public final class PrintUtils
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    CircusPrintVisitor visitor = new CircusPrintVisitor(printer, warningManager_);
+    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(printer, warningManager_);
     tree.accept(visitor);
   }
 
@@ -339,7 +339,7 @@ public final class PrintUtils
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    CircusPrintVisitor visitor = new CircusPrintVisitor(printer, warningManager_);
+    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(printer, warningManager_);
     tree.accept(visitor);
   }
 }

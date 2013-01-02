@@ -5,7 +5,7 @@
  * Created on 14 May 2007, 14:59
  */
 
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -24,7 +24,7 @@ import net.sourceforge.czt.session.SectionManager;
  *
  * @author leo
  */
-public class SectionManagerCircusParserTest extends TestCase
+public class SectionManagerCircusTimeParserTest extends TestCase
 {
   
  // true => looks into tests/circus/debug/*.tex;
@@ -51,7 +51,7 @@ public class SectionManagerCircusParserTest extends TestCase
       }
   }
   
-  public SectionManagerCircusParserTest(String testName)
+  public SectionManagerCircusTimeParserTest(String testName)
   {
     super(testName);
   }

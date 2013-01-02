@@ -7,7 +7,7 @@ Created on 05 February 2007, 15:21
 To change this template, choose Tools | Template Manager
 and open the template in the editor.
  */
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 //~--- non-JDK imports --------------------------------------------------------
 

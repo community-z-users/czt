@@ -39,11 +39,11 @@ import net.sourceforge.czt.circustime.util.CircusTimeString;
 public enum CircusTimeKeyword implements Token {  
   /* Support for Circus Time */
   CIRCWAIT(CircusTimeString.CIRCWAIT, NewlineCategory.AFTER),
-  CIRCENDBY(CircusString.CIRCENDBY, NewlineCategory.BOTH),
-  CIRCSTARTBY(CircusString.CIRCSTARTBY, NewlineCategory.BOTH),
-  CIRCTIMEOUT(CircusString.CIRCTIMEOUT, NewlineCategory.BOTH),
-  CIRCTIMEDINTERRUPT(CircusString.CIRCTIMEDINTERRUPT, NewlineCategory.BOTH),
-  ATTIME(CircusString.ATTIME, NewlineCategory.BOTH); 
+  CIRCENDBY(CircusTimeString.CIRCENDBY, NewlineCategory.BOTH),
+  CIRCSTARTBY(CircusTimeString.CIRCSTARTBY, NewlineCategory.BOTH),
+  CIRCTIMEOUT(CircusTimeString.CIRCTIMEOUT, NewlineCategory.BOTH),
+  CIRCTIMEDINTERRUPT(CircusTimeString.CIRCTIMEDINTERRUPT, NewlineCategory.BOTH),
+  ATTIME(CircusTimeString.ATTIME, NewlineCategory.BOTH); 
 
  
   private String spelling_;

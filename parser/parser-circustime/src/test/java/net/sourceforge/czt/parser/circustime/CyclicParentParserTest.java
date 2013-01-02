@@ -1,4 +1,4 @@
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.UrlSource;

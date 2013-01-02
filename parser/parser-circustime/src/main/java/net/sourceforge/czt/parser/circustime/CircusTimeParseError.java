@@ -28,12 +28,12 @@ public class CircusTimeParseError
   extends CztErrorImpl
 {
   private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.circustime.CircusParseResources";
+    "net.sourceforge.czt.parser.circustime.CircusTimeParseResources";
 
   public static void report(SectionInfo sectInfo,
                             Source source,
                             ErrorType errorType,
-                            CircusParseMessage msg,
+                            CircusTimeParseMessage msg,
                             Object[] params,
                             LocInfo locInfo)
   {
@@ -43,7 +43,7 @@ public class CircusTimeParseError
   public static void report(SectionInfo sectInfo,
                             Source source,
                             ErrorType errorType,
-                            CircusParseMessage msg,
+                            CircusTimeParseMessage msg,
                             Object[] params,
                             LocInfo locInfo,
                             String info)
@@ -63,7 +63,7 @@ public class CircusTimeParseError
     }
   }
   
-  public CircusTimeParseError(CircusParseMessage msg,
+  public CircusTimeParseError(CircusTimeParseMessage msg,
                          Object[] params,
                          LocInfo locInfo)
   {

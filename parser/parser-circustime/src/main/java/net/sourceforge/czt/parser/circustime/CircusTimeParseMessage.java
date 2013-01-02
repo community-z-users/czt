@@ -7,10 +7,10 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 
-public enum CircusParseMessage {
+public enum CircusTimeParseMessage {
   
   MSG_NOT_IMPLEMENTED("{0} feature not implemented yet."),
   MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET("Expressions in channel set paragraphs can be neither set extension nor set comprehension. It must be a basic channel set expresion instead."),
@@ -80,12 +80,12 @@ public enum CircusParseMessage {
   private final String explanation_;
   private boolean flagged_;
 
-  CircusParseMessage(String message)
+  CircusTimeParseMessage(String message)
   {
     this(message, null);
   }
 
-  CircusParseMessage(String message, String explanation)
+  CircusTimeParseMessage(String message, String explanation)
   {    
     message_ = message;
     explanation_ = explanation;

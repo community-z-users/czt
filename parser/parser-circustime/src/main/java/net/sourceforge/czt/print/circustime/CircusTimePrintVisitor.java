@@ -17,20 +17,26 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.czt.print.circus;
+package net.sourceforge.czt.print.circustime;
 
 import java.util.Iterator;
 import java.util.Properties;
 import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
+import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
+import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.WarningManager;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.circus.ast.*;
+import net.sourceforge.czt.circustime.ast.*;
 import net.sourceforge.czt.circus.visitor.*;
+import net.sourceforge.czt.circustime.visitor.*;
 import net.sourceforge.czt.parser.circus.CircusToken;
+//import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.util.PrintException;
@@ -42,7 +48,7 @@ import net.sourceforge.czt.z.util.ZUtils;
  *
  * @author Petra Malik, Leo Freitas
  */
-public class CircusPrintVisitor
+public class CircusTimePrintVisitor
     extends net.sourceforge.czt.print.z.ZPrintVisitor
     implements CircusVisitor<Object> {
     
@@ -53,12 +59,12 @@ public class CircusPrintVisitor
      * The section information should be able to provide information of
      * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
      */
-    public CircusPrintVisitor(ZPrinter printer, WarningManager wm) {
+    public CircusTimePrintVisitor(ZPrinter printer, WarningManager wm) {
         super(printer);
         warningManager_ = wm;
     }
     
-    public CircusPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm) {
+    public CircusTimePrintVisitor(ZPrinter printer, Properties properties, WarningManager wm) {
         super(printer, properties);
         warningManager_ = wm;
     }
@@ -112,29 +118,29 @@ public class CircusPrintVisitor
         }
     }
     
-    private void warn(CircusPrintMessage cpm, Object... arguments) {
+    private void warn(CircusTimePrintMessage cpm, Object... arguments) {
         warningManager_.warn(cpm.getMessage(), arguments);
     }
     
     private void warnUnexpectedTerm(Term term)
     {
-      warn(CircusPrintMessage.MSG_UNEXPECTED_TERM, term);
+      warn(CircusTimePrintMessage.MSG_UNEXPECTED_TERM, term);
     }
     
     private void warnMissingFor(String msg, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
     }
     
     private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
     }
     
     private void warnLocalOnTheFly(Term para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
     }
     
     private void warnDuplicatedState(Term term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
     }
     
     private boolean processedState_ = false;
@@ -1147,7 +1153,7 @@ public class CircusPrintVisitor
    
     public Object visitWaitAction(WaitAction term) {
         printLPAREN(term);
-        print(CircusKeyword.CIRCWAIT);
+        print(CircusTimeKeyword.CIRCWAIT);
         visit(term.getExpr());
         printRPAREN(term);
         return null;
@@ -1160,20 +1166,20 @@ public class CircusPrintVisitor
   public Object visitTimeEndByProcess(TimeEndByProcess term) {
         printLPAREN(term);
         visit(term.getCircusProcess());
-        print(CircusKeyword.CIRCENDBY);
-        print(CircusToken.LCIRCTIME);        
+        print(CircusTimeKeyword.CIRCENDBY);
+        print(CircusTimeToken.LCIRCTIME);        
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);        
+        print(CircusTimeToken.RCIRCTIME);        
         printRPAREN(term);
         return null;
     }
 
 public Object visitTimeStartByProcess(TimeStartByProcess term) {
         printLPAREN(term);
-        print(CircusToken.LCIRCTIME);        
+        print(CircusTimeToken.LCIRCTIME);        
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);        
-        print(CircusKeyword.CIRCSTARTBY);
+        print(CircusTimeToken.RCIRCTIME);        
+        print(CircusTimeKeyword.CIRCSTARTBY);
         visit(term.getCircusProcess());
         printRPAREN(term);
         return null;
@@ -1182,10 +1188,10 @@ public Object visitTimeStartByProcess(TimeStartByProcess term) {
 public Object visitTimeoutProcess(TimeoutProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
-        print(CircusKeyword.CIRCTIMEOUT);
-        print(CircusToken.LCIRCTIME);        
+        print(CircusTimeKeyword.CIRCTIMEOUT);
+        print(CircusTimeToken.LCIRCTIME);        
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);        
+        print(CircusTimeToken.RCIRCTIME);        
         visit(term.getRightProcess());
         printRPAREN(term);
         return null;
@@ -1195,9 +1201,9 @@ public Object visitTimeoutProcess(TimeoutProcess term) {
 public Object visitTimedinterruptProcess(TimedinterruptProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
-        print(CircusToken.LCIRCTIME);        
+        print(CircusTimeToken.LCIRCTIME);        
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);        
+        print(CircusTimeToken.RCIRCTIME);        
         visit(term.getRightProcess());
         printRPAREN(term);
         return null;
@@ -1210,20 +1216,20 @@ public Object visitTimedinterruptProcess(TimedinterruptProcess term) {
   public Object visitTimeEndByAction(TimeEndByAction term) {
         printLPAREN(term);
         visit(term.getCircusAction());
-        print(CircusKeyword.CIRCENDBY);
-        print(CircusToken.LCIRCTIME); 
+        print(CircusTimeKeyword.CIRCENDBY);
+        print(CircusTimeToken.LCIRCTIME); 
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME); 
+        print(CircusTimeToken.RCIRCTIME); 
         printRPAREN(term);
         return null;
     }
 
 public Object visitTimeStartByAction(TimeStartByAction term) {
         printLPAREN(term);
-        print(CircusToken.LCIRCTIME);
+        print(CircusTimeToken.LCIRCTIME);
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);
-        print(CircusKeyword.CIRCSTARTBY);
+        print(CircusTimeToken.RCIRCTIME);
+        print(CircusTimeKeyword.CIRCSTARTBY);
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
@@ -1232,10 +1238,10 @@ public Object visitTimeStartByAction(TimeStartByAction term) {
 public Object visitTimeoutAction(TimeoutAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
-        print(CircusKeyword.CIRCTIMEOUT);
-        print(CircusToken.LCIRCTIME);
+        print(CircusTimeKeyword.CIRCTIMEOUT);
+        print(CircusTimeToken.LCIRCTIME);
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);
+        print(CircusTimeToken.RCIRCTIME);
         visit(term.getRightAction());
         printRPAREN(term);
         return null;
@@ -1245,9 +1251,9 @@ public Object visitTimeoutAction(TimeoutAction term) {
 public Object visitTimedinterruptAction(TimedinterruptAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
-        print(CircusToken.LCIRCTIME);
+        print(CircusTimeToken.LCIRCTIME);
         visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);
+        print(CircusTimeToken.RCIRCTIME);
         visit(term.getRightAction());
         printRPAREN(term);
         return null;
@@ -1256,7 +1262,7 @@ public Object visitTimedinterruptAction(TimedinterruptAction term) {
 
 public Object visitWaitRangeAction(WaitRangeAction term) {
         printLPAREN(term);
-        print(CircusKeyword.CIRCWAIT);
+        print(CircusTimeKeyword.CIRCWAIT);
         print(ZKeyword.COLON);
         visit(term.getExpr());
         print(CircusKeyword.CIRCSPOT);
@@ -1269,9 +1275,9 @@ public Object visitPrefixingExprAction(PrefixingExprAction term) {
         printLPAREN(term);
 	visit(term.getCommunication());
         print(CircusKeyword.PREFIXTHEN);
-        print(CircusToken.LCIRCTIME);
+        print(CircusTimeToken.LCIRCTIME);
         //visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);       
+        print(CircusTimeToken.RCIRCTIME);       
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
@@ -1281,7 +1287,7 @@ public Object visitPrefixingExprAction(PrefixingExprAction term) {
 public Object visitAtPrefixingAction(AtPrefixingAction term) {
         printLPAREN(term);
 	visit(term.getCommunication());
-        print(CircusKeyword.ATTIME);
+        print(CircusTimeKeyword.ATTIME);
         print(CircusKeyword.PREFIXTHEN);       
         visit(term.getCircusAction());
         printRPAREN(term);
@@ -1291,11 +1297,11 @@ public Object visitAtPrefixingAction(AtPrefixingAction term) {
 public Object visitAtPrefixingExprAction(AtPrefixingExprAction term) {
         printLPAREN(term);
 	visit(term.getCommunication());
-	print(CircusKeyword.ATTIME);
+	print(CircusTimeKeyword.ATTIME);
         print(CircusKeyword.PREFIXTHEN);
-        print(CircusToken.LCIRCTIME);
+        print(CircusTimeToken.LCIRCTIME);
         //visit(term.getExpr());
-        print(CircusToken.RCIRCTIME);       
+        print(CircusTimeToken.RCIRCTIME);       
         visit(term.getCircusAction());
         printRPAREN(term);
         return null;
