@@ -66,17 +66,6 @@
     </license>
   </licenses>
   
-  <developers>
-    <developer>
-      <id>andriusvelykis</id>
-      <name>Andrius Velykis</name>
-      <url>http://andrius.velykis.lt</url>
-      <organization>Newcastle University, UK</organization>
-      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
-      <timezone>0</timezone>
-    </developer>
-  </developers>
-
   <scm>
     <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
     <url>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</url>
@@ -769,4 +758,44 @@
       </build>
     </profile>
   </profiles>
+
+  <developers>
+    <developer>
+      <id>andriusvelykis</id>
+      <name>Andrius Velykis</name>
+      <url>http://andrius.velykis.lt</url>
+      <organization>Newcastle University, UK</organization>
+      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+
+    <developer>
+      <id>leouk</id>
+      <name>Leo Freitas</name>
+      <url>http://www.ncl.ac.uk/computing/people/profile/leo.freitas</url>
+      <organization>Newcastle University, UK</organization>
+      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+
+    <developer>
+      <id>marku</id>
+      <name>Mark Utting</name>
+      <url>http://www.cs.waikato.ac.nz/~marku/</url>
+      <organization>University of Waikato, New Zealand</organization>
+    </developer>
+
+    <developer>
+      <id>petramalik</id>
+      <name>Petra Dietrich</name>
+    </developer>
+
+    <developer>
+      <id>timmiller</id>
+      <name>Tim Miller</name>
+      <url>http://www.csse.unimelb.edu.au/~tmill/</url>
+      <organization>University of Melbourne, Australia</organization>
+    </developer>
+  </developers>
+
 </project>
