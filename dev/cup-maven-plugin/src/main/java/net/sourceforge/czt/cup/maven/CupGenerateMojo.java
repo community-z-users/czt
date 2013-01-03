@@ -477,7 +477,7 @@ public class CupGenerateMojo extends AbstractMojo
       Main.main(args.toArray(new String[0]));
     }
     catch (Exception e) {
-      throw new MojoExecutionException("CUP generation failed", e);
+      throw new MojoExecutionException("CUP generation failed: " + e.getMessage(), e);
     }
 
     // refresh generated parser and symbol files after generation
