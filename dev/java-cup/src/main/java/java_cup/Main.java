@@ -158,6 +158,7 @@ public class Main {
       start_time = System.currentTimeMillis();
       
       /** clean all static members, that contain remaining stuff from earlier calls */
+      ErrorManager.getManager().clear();
       terminal.clear();
       production.clear();
       action_production.clear();
