@@ -30,7 +30,7 @@ public class version {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** The update letter. */
-  public static final String update = "a beta 20060608";
+  public static final String update = "a czt01 beta";
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
