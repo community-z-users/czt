@@ -23,7 +23,7 @@
       <artifactId>bsf</artifactId>
     </dependency>
     <dependency>
-      <groupId>rhino</groupId>
+      <groupId>org.mozilla</groupId>
       <artifactId>rhino</artifactId>
     </dependency>
   </dependencies>

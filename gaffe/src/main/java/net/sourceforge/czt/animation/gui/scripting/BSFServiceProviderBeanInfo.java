@@ -25,7 +25,7 @@ import java.beans.Introspector;
 import java.beans.SimpleBeanInfo;
 import java.beans.beancontext.BeanContextServiceProviderBeanInfo;
 
-import com.ibm.bsf.BSFManager;
+import org.apache.bsf.BSFManager;
 
 /**
  * <code>BeanInfo</code> for <code>BSFServiceProvider</code>.

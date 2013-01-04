@@ -49,8 +49,8 @@ import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 import net.sourceforge.czt.animation.gui.util.Utils;
 
-import com.ibm.bsf.BSFException;
-import com.ibm.bsf.BSFManager;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
 
 /**
  * The core program for normal animation of a specification.
