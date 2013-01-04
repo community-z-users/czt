@@ -103,4 +103,20 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <!-- CZT repository for jEdit libraries, because they are not available in Maven Central -->
+    <repository>
+      <id>czt</id>
+      <name>CZT repository</name>
+      <url>http://czt.sourceforge.net/maven/repository</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>
