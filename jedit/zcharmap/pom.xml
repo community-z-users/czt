@@ -14,8 +14,8 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>jedit</groupId>
-      <artifactId>jedit-parent</artifactId>
+      <groupId>${jedit.groupId}</groupId>
+      <artifactId>${jedit.artifactId}</artifactId>
     </dependency>
   </dependencies>
 </project>
