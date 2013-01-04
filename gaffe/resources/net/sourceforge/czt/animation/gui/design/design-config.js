@@ -4,7 +4,7 @@ System.err.println("In the distribution config file...");
 
 //Run the persistence config file
 function getScript(resource) {
-  importClass(Packages.com.ibm.bsf.util.IOUtils);
+  importClass(Packages.org.apache.bsf.util.IOUtils);
   importClass(java.io.InputStreamReader);
   importClass(java.lang.ClassLoader);
   var stream=ClassLoader.getSystemResourceAsStream(resource);

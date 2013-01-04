@@ -23,7 +23,7 @@ import java.beans.beancontext.BeanContextServiceProvider;
 import java.beans.beancontext.BeanContextServices;
 import java.util.Iterator;
 
-import com.ibm.bsf.BSFManager;
+import org.apache.bsf.BSFManager;
 
 /**
  * Provides access to scripting with the BSF manager via bean contexts.

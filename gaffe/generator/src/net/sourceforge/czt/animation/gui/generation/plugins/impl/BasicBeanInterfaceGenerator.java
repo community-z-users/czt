@@ -177,7 +177,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator
             owner,
             "setInitScript",
             new Object[]{"function getScript(url) {"
-                + "  importClass(Packages.com.ibm.bsf.util.IOUtils);"
+                + "  importClass(Packages.org.apache.bsf.util.IOUtils);"
                 + "  importClass(java.io.InputStreamReader);"
                 + "  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));"
                 + "};"
