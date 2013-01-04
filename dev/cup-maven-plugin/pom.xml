@@ -4,7 +4,7 @@
 
   <parent>
     <groupId>net.sourceforge.czt.dev</groupId>
-    <artifactId>dev</artifactId>
+    <artifactId>dev-parent</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
 

@@ -4,11 +4,11 @@
 
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>czt-parent</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
 
-  <artifactId>corejava</artifactId>
+  <artifactId>corejava-parent</artifactId>
   <packaging>pom</packaging>
 
   <name>CZT Corejava</name>
