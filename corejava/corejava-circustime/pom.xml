@@ -19,12 +19,13 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-circuspatt</artifactId>
+      <artifactId>corejava-circus</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-circus</artifactId>
+      <artifactId>corejava-circuspatt</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-zpatt</artifactId>
@@ -35,6 +36,8 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+    
+    
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zml</artifactId>

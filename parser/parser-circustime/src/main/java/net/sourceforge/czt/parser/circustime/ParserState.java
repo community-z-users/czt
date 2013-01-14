@@ -678,7 +678,7 @@ public class ParserState
   {
     assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
     final String msg = java.text.MessageFormat.format(
-      CircusTimeParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
+      CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
       new Object[]{procName, loc});
     processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
   }

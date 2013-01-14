@@ -42,7 +42,9 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 <add:circustime>
+import net.sourceforge.czt.parser.circus.CircusParseMessage;
 import net.sourceforge.czt.circustime.util.CircusTimeString;
+import net.sourceforge.czt.parser.circus.CircusParseError;
 </add:circustime>
 <add:pattern>
 import net.sourceforge.czt.zpatt.util.ZPattString;

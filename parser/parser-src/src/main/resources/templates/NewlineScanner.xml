@@ -88,6 +88,12 @@ public class <class/>
     map.put("CHANNELOUT", NewlineCategory.NEITHER);
     map.put("CHANNELDOT", NewlineCategory.NEITHER);    
 </add:circus>
+
+<add:circustime>
+    insertInto(map, CircusTimeToken.values());
+    insertInto(map, CircusTimeKeyword.values());
+</add:circustime>
+
 <add:zeves>
     insertInto(map, ZEvesProofToken.values());
     insertInto(map, ZEvesProofKeyword.values());

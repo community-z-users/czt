@@ -17,9 +17,9 @@ public class CircusTimeParseResources extends ListResourceBundle
 
   private static Object[][] computeContents()
   {
-    Object[][] result = new Object[CircusTimeParseMessage.values().length][2];
+    Object[][] result = new Object[CircusParseMessage.values().length][2];
     int i = 0;
-    for (CircusTimeParseMessage msg : CircusTimeParseMessage.values()) {
+    for (CircusParseMessage msg : CircusParseMessage.values()) {
       result[i][0] = msg.toString();
       result[i][1] = msg.getFullMessage();
       i++;

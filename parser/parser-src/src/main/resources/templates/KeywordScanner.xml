@@ -41,6 +41,11 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 
+<add:circustime>
+  import net.sourceforge.czt.parser.circus.CircusKeyword;
+</add:circustime>
+    
+
 <add:tcoz>
 import net.sourceforge.czt.parser.oz.OzKeyword;
 </add:tcoz>
@@ -57,7 +62,9 @@ import net.sourceforge.czt.parser.util.CztScannerImpl;
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
 <add:z> * Z</add:z>
 <add:oz> * Object Z</add:oz>
-<add:circus> * Circus </add:circus><add:tcoz> and TCOZ</add:tcoz>
+<add:circus> * Circus </add:circus>
+<add:circustime> * CircusTime </add:circustime>
+<add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
  * &lt;p&gt;According to the ISO Standard for Z, the lexis for Z specifications

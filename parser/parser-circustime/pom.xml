@@ -20,7 +20,7 @@
     <parser.package>net.sourceforge.czt.parser.circustime</parser.package>
     <printer.nodes>z,circus,circustime</printer.nodes>
     <printer.package>net.sourceforge.czt.print.circustime</printer.package>
-    <contextfree.nodes>circustime,circus,print</contextfree.nodes>
+    <contextfree.nodes>print,circus,circustime</contextfree.nodes>
   </properties>
 
 

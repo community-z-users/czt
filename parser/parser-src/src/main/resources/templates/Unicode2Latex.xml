@@ -1521,12 +1521,12 @@ zStInfo   ::=
              /* Support for Circus Time */
              LCIRCTIME
 	     {:
-	        RESULT = resultTT("~\\lcirctime~", CircusString.LCIRCTIME);
+	        RESULT = resultTT("~\\lcirctime~", CircusTimeString.LCIRCTIME);
 	     :}
 	     |
 	     RCIRCTIME
 	     {:
-	        RESULT = resultTT("~\\rcirctime~", CircusString.RCIRCTIME);
+	        RESULT = resultTT("~\\rcirctime~", CircusTimeString.RCIRCTIME);
 	     :}	
   </add:circustime>
  
