@@ -14,20 +14,18 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.ui.CztUI;
-import net.sourceforge.czt.eclipse.ui.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.views.IZInfoObject;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesPosVisitor;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesResultConverter;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ResourceUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.core.SnapshotUtil;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesPosVisitor;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesResultConverter;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ISnapshotEntry;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEvesSnapshot.ResultType;
+import net.sourceforge.czt.eclipse.zeves.ui.commands.ResourceUtil;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -44,6 +42,10 @@ import net.sourceforge.czt.zeves.response.ZEvesResponseUtil;
 import net.sourceforge.czt.zeves.response.ZEvesProofTrace.TraceType;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
 import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
+import net.sourceforge.czt.zeves.snapshot.ISnapshotEntry;
+import net.sourceforge.czt.zeves.snapshot.SnapshotUtil;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot;
+import net.sourceforge.czt.zeves.snapshot.ZEvesSnapshot.ResultType;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -62,6 +64,8 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
+import static net.sourceforge.czt.eclipse.ui.util.TextUtil.*;
+
 public class ZEditorResults {
 
 	private static int TEXT_WIDTH = 80;
@@ -69,7 +73,7 @@ public class ZEditorResults {
 	public static ISnapshotEntry getSnapshotEntryApprox(String filePath, IDocument document,
 			int offset, Set<ResultType> allowedTypes) {
 		
-		ZEvesSnapshot snapshot = ZEvesUIPlugin.getZEves().getSnapshot();
+		ZEvesSnapshot snapshot = ZEvesCore.getSnapshot();
 		
 		// calculate "target" positions for the indicated. We specify a decreasing priority
 		// order of positions that could apply to locate results. Then the first result
@@ -91,11 +95,11 @@ public class ZEditorResults {
 		
 		// find all entries in the snapshot for the given position
 		List<ISnapshotEntry> snapshotEntries = snapshot.getEntries(filePath, 
-				new Position(beforeOffset, afterOffset - beforeOffset));
+				net.sourceforge.czt.text.Position.createStartEnd(beforeOffset, afterOffset));
 		
 		for (ISnapshotEntry entry : snapshotEntries) {
 			
-			Position pos = entry.getPosition();
+			Position pos = jfacePos(entry.getPosition());
 			
 			if (!allowedTypes.contains(entry.getType())) {
 				continue;
@@ -156,7 +160,7 @@ public class ZEditorResults {
 			return false;
 		}
 		
-		return ZEvesPosVisitor.includePos(pos, range.getOffset(), range.getLength());
+		return ZEvesPosVisitor.includePos(cztPos(pos), range.getOffset(), range.getLength());
 	}
 
 	private static List<Position> getTargetPositions(IDocument document, int caretPos) {
@@ -245,7 +249,7 @@ public class ZEditorResults {
 
 		@Override
 		public Position getPosition() {
-			return snapshotEntry.getPosition();
+			return jfacePos(snapshotEntry.getPosition());
 		}
 		
 		public Term getSource() {
@@ -895,7 +899,7 @@ public class ZEditorResults {
 				cause = e;
 			}
 			
-			String msg = "Cannot parse Z/EVES result: " + ZEditorUtil.clean(cause.getMessage()).trim();
+			String msg = "Cannot parse Z/EVES result: " + DocumentUtil.clean(cause.getMessage()).trim();
 			ZEvesUIPlugin.getDefault().log(msg, cause);
 			return withWarning(msg, str);
 		}

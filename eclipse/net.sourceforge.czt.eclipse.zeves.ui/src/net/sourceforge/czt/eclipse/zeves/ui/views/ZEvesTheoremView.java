@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesImages;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.eclipse.zeves.ui.views.TheoremTree.TheoremEntry;
 import net.sourceforge.czt.zeves.ZEvesApi;
 import net.sourceforge.czt.zeves.ZEvesException;
@@ -127,7 +128,7 @@ public class ZEvesTheoremView extends ViewPart {
 
 	private void updateTheoremList(boolean user) {
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		
 		ZEvesApi api = prover.getApi();
 		

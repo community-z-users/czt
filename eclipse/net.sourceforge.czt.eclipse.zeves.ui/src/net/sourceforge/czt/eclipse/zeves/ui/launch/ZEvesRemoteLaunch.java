@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
+import net.sourceforge.czt.eclipse.zeves.core.ZEves;
+import net.sourceforge.czt.eclipse.zeves.core.ZEvesCore;
 import net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin;
-import net.sourceforge.czt.eclipse.zeves.ui.core.ZEves;
 import net.sourceforge.czt.zeves.ZEvesApi;
 
 import org.eclipse.core.runtime.CoreException;
@@ -33,7 +34,7 @@ public abstract class ZEvesRemoteLaunch extends LaunchConfigurationDelegate {
 			return;
 		}
 		
-		ZEves prover = ZEvesUIPlugin.getZEves();
+		ZEves prover = ZEvesCore.getZEves();
 		if (prover.isLaunched()) {
         	// we only allow one prover instance
         	abort("Only a single Z/EVES prover can be running at any time - stop the running prover before launching a new one");

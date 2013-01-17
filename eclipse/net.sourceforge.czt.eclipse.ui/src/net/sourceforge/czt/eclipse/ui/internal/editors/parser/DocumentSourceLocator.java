@@ -5,7 +5,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.sourceforge.czt.eclipse.ui.document.DocumentUtil;
+import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
+import net.sourceforge.czt.eclipse.core.parser.StringFileSource;
 import net.sourceforge.czt.eclipse.ui.editors.ZEditorUtil;
 import net.sourceforge.czt.eclipse.ui.util.PlatformUtil;
 import net.sourceforge.czt.session.CommandException;

@@ -667,7 +667,8 @@ public class <class/>
     MarkupDirective d2 = e.getMarkupDirective2();
     Object[] args = { d1.getCommand(), d1, d2 };
     LocInfo location = new LocInfoImpl(getSource().toString(),
-                                       d2.getLine().intValue(),
+                                       // d2 can be null
+                                       (d2 != null ? d2 : d1).getLine().intValue(),
                                        -1,
                                        -1,
                                        -1);

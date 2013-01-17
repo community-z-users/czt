@@ -34,11 +34,19 @@ public class MarkupException
   public MarkupException(MarkupDirective directive1,
                          MarkupDirective directive2)
   {
-    super("Command " + directive1.getCommand() +
+    super("LaTeX command " + directive1.getCommand() +
           " defined twice " +
           "\n" + directive1 + "\n" + directive2);
     directive1_ = directive1;
     directive2_ = directive2;
+  }
+  
+  public MarkupException(MarkupDirective directive)
+  {
+	super("LaTeX command is ill-defined - some of its mandatory fields might be null or inconsistent: " 
+			+ directive);
+	directive1_ = directive;
+	directive2_ = null;
   }
 
   public MarkupDirective getMarkupDirective1()

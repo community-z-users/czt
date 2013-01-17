@@ -31,7 +31,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java_cup.ErrorManager;
 import java_cup.Main;
+import java_cup.ErrorManager.CupLogMessage;
+import java_cup.runtime.ComplexSymbolFactory.Location;
 
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
@@ -278,6 +281,7 @@ public class CupGenerateMojo extends AbstractMojo
   private BuildContext buildContext;
 
 
+  @Override
   public void execute()
     throws MojoExecutionException
   {
@@ -361,6 +365,9 @@ public class CupGenerateMojo extends AbstractMojo
   private void generateCup(File file) throws MojoExecutionException
   {
     getLog().debug("CUP: Processing " + file.getPath());
+    
+    // remove previous error/warning messages
+    buildContext.removeMessages(file);
 
     String packageName = this.packageName;
     if (packageName == null) {
@@ -477,7 +484,10 @@ public class CupGenerateMojo extends AbstractMojo
       Main.main(args.toArray(new String[0]));
     }
     catch (Exception e) {
-      throw new MojoExecutionException("CUP generation failed", e);
+      throw new MojoExecutionException("CUP generation failed: " + e.getMessage(), e);
+    }
+    finally {
+      logCupMessages(file);
     }
 
     // refresh generated parser and symbol files after generation
@@ -531,4 +541,38 @@ public class CupGenerateMojo extends AbstractMojo
     buildContext.refresh(targetFile);
     getLog().info("CUP: generated " + targetFile);
   }
+  
+  private void logCupMessages(File targetFile)
+  {
+    ErrorManager log = ErrorManager.getManager();
+    logCupMessages(targetFile, log.getFatals(), BuildContext.SEVERITY_ERROR);
+    logCupMessages(targetFile, log.getErrors(), BuildContext.SEVERITY_ERROR);
+    logCupMessages(targetFile, log.getWarnings(), BuildContext.SEVERITY_WARNING);
+  }
+
+  private void logCupMessages(File targetFile, List<CupLogMessage> msgs, int severity)
+  {
+    if (msgs.isEmpty()) {
+      return;
+    }
+
+    for (CupLogMessage msg : msgs) {
+      
+      // only support location at the moment
+      Location loc = msg.getLeftLoc();
+      
+      int line, column;
+      if (loc != null) {
+        line = loc.getLine();
+        column = loc.getColumn();
+      }
+      else {
+        line = 0;
+        column = 0;
+      }
+      
+      buildContext.addMessage(targetFile, line, column, msg.getMessage(), severity, null);
+    }
+  }
+  
 }

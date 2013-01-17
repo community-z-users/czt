@@ -12,7 +12,7 @@
    </object> 
   </void> 
   <void property="initScript"> 
-   <string>function getScript(url) {  importClass(Packages.com.ibm.bsf.util.IOUtils);  importClass(java.io.InputStreamReader);  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));};function getLibraryScript(name) {  importClass(java.lang.ClassLoader);  return getScript(ClassLoader.getSystemResourceAsStream(      &quot;net/sourceforge/czt/animation/gui/scripts/&quot;+name+&quot;.js&quot;));};eval(getLibraryScript(&quot;fillBeans&quot;));eval(getLibraryScript(&quot;fillHistory&quot;));eval(getLibraryScript(&quot;clearBeans&quot;));</string> 
+   <string>function getScript(url) {  importClass(Packages.org.apache.bsf.util.IOUtils);  importClass(java.io.InputStreamReader);  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));};function getLibraryScript(name) {  importClass(java.lang.ClassLoader);  return getScript(ClassLoader.getSystemResourceAsStream(      &quot;net/sourceforge/czt/animation/gui/scripts/&quot;+name+&quot;.js&quot;));};eval(getLibraryScript(&quot;fillBeans&quot;));eval(getLibraryScript(&quot;fillHistory&quot;));eval(getLibraryScript(&quot;clearBeans&quot;));</string> 
   </void> 
   <void property="initScriptLanguage"> 
    <string>javascript</string> 

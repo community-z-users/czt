@@ -7,7 +7,7 @@
   
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>czt-parent</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
   
@@ -204,10 +204,12 @@
       </activation>
 
       <modules>
+        <module>net.sourceforge.czt.eclipse.core</module>
         <module>net.sourceforge.czt.eclipse.ui</module>
         <module>net.sourceforge.czt.eclipse.doc</module>
         <module>net.sourceforge.czt.eclipse.vcg.ui</module>
         
+        <module>net.sourceforge.czt.eclipse.zeves.core</module>
         <module>net.sourceforge.czt.eclipse.zeves.ui</module>
         
         <module>releng</module>

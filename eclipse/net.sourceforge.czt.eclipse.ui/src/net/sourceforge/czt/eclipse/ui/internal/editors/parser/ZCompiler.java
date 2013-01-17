@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sourceforge.czt.eclipse.core.parser.StringFileSource;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.parser.util.CztError;
@@ -77,7 +78,7 @@ public enum ZCompiler
       sectMan.setProperty(SourceLocator.PROP_CZT_PATH, dir);
     }
 
-    ParsedData parsedData = new ParsedData(editor, documentVersion, sectMan);
+    ParsedData parsedData = new ParsedData(documentVersion, sectMan);
     
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();

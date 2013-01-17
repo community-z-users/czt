@@ -4,6 +4,7 @@ import java.util.EventObject;
 
 public class ZEvesServerEvent extends EventObject
 {
+  private static final long serialVersionUID = 7658234830213768217L;
 
   private final ZEvesServer server;
   

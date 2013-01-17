@@ -1,14 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <!-- Inherit Sonatype OSS POM for Maven Central deployment -->
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
   <groupId>net.sourceforge.czt</groupId>
-  <artifactId>czt</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>czt-parent</artifactId>
   <version>1.6-SNAPSHOT</version>
+  
+  <packaging>pom</packaging>
   <name>Community Z Tools</name>
+
+  <description>
+    Set of libraries and tools for editing, typechecking and animating
+    formal specifications written in the Z specification language,
+    with some support for Z extensions such as Object-Z and Circus.
+  </description>
+
+  <url>http://czt.sourceforge.net</url>
+
 
   <properties>
     <czt.version>1.6-SNAPSHOT</czt.version>
@@ -27,81 +42,6 @@
     <site.deploy.id>czt-sf</site.deploy.id>
     <site.deploy.url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs</site.deploy.url>
   </properties>
-
-  <description>
-    Set of libraries and tools for editing, typechecking and animating
-    formal specifications written in the Z specification language,
-    with some support for Z extensions such as Object-Z and Circus.
-  </description>
-  <url>http://czt.sourceforge.net</url>
-  <organization>
-    <name>Community Z Tools Project</name>
-    <url>http://czt.sourceforge.net</url>
-  </organization>
-  <inceptionYear>2003</inceptionYear>
-  <issueManagement>
-    <system>SourceForge</system>
-    <url>http://sourceforge.net/tracker/?group_id=86250</url>
-  </issueManagement>
-  <mailingLists>
-    <mailingList>
-      <name>CZT-Devel</name>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</unsubscribe>
-      <post>mailto:czt-devel@lists.sourceforge.net</post>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-devel</archive>
-    </mailingList>
-    <mailingList>
-      <name>CZT-Users</name>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</unsubscribe>
-      <post>mailto:czt-users@lists.sourceforge.net</post>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-users</archive>
-    </mailingList>
-  </mailingLists>
-  <licenses>
-    <license>
-      <name>GPL</name>
-      <url>http://www.gnu.org/copyleft/gpl.txt</url>
-    </license>
-  </licenses>
-  
-  <developers>
-    <developer>
-      <id>andriusvelykis</id>
-      <name>Andrius Velykis</name>
-      <url>http://andrius.velykis.lt</url>
-      <organization>Newcastle University, UK</organization>
-      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
-      <timezone>0</timezone>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
-    <url>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</url>
-  </scm>
-
-  <distributionManagement>
-    <site>
-      <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}</url>
-    </site>
-  </distributionManagement>
-
-  <repositories>
-    <repository>
-      <id>czt</id>
-      <name>CZT repository</name>
-      <url>http://czt.sourceforge.net/maven/repository</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
 
   <modules>
@@ -368,15 +308,15 @@
       <dependency>
         <groupId>bsf</groupId>
         <artifactId>bsf</artifactId>
-        <version>2.2</version>
+        <version>2.4.0</version>
       </dependency>
 
       <!-- Rhino -->
 
       <dependency>
-        <groupId>rhino</groupId>
+        <groupId>org.mozilla</groupId>
         <artifactId>rhino</artifactId>
-        <version>1.5-R3</version>
+        <version>1.7R4</version>
       </dependency>
       
       <!-- Apache Commons -->
@@ -789,4 +729,93 @@
       </build>
     </profile>
   </profiles>
+
+  <organization>
+    <name>Community Z Tools Project</name>
+    <url>http://czt.sourceforge.net</url>
+  </organization>
+
+  <inceptionYear>2003</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>http://www.gnu.org/copyleft/gpl.txt</url>
+    </license>
+  </licenses>
+  
+  <developers>
+    <developer>
+      <id>andriusvelykis</id>
+      <name>Andrius Velykis</name>
+      <url>http://andrius.velykis.lt</url>
+      <organization>Newcastle University, UK</organization>
+      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+
+    <developer>
+      <id>leouk</id>
+      <name>Leo Freitas</name>
+      <url>http://www.ncl.ac.uk/computing/people/profile/leo.freitas</url>
+      <organization>Newcastle University, UK</organization>
+      <organizationUrl>http://www.ncl.ac.uk/computing</organizationUrl>
+      <timezone>0</timezone>
+    </developer>
+
+    <developer>
+      <id>marku</id>
+      <name>Mark Utting</name>
+      <url>http://www.cs.waikato.ac.nz/~marku/</url>
+      <organization>University of Waikato, New Zealand</organization>
+    </developer>
+
+    <developer>
+      <id>petramalik</id>
+      <name>Petra Dietrich</name>
+    </developer>
+
+    <developer>
+      <id>timmiller</id>
+      <name>Tim Miller</name>
+      <url>http://www.csse.unimelb.edu.au/~tmill/</url>
+      <organization>University of Melbourne, Australia</organization>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <system>SourceForge</system>
+    <url>http://sourceforge.net/tracker/?group_id=86250</url>
+  </issueManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>CZT-Devel</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</unsubscribe>
+      <post>mailto:czt-devel@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-devel</archive>
+    </mailingList>
+    
+    <mailingList>
+      <name>CZT-Users</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</unsubscribe>
+      <post>mailto:czt-users@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-users</archive>
+    </mailingList>
+  </mailingLists>
+
+  <scm>
+    <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
+    <url>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</url>
+  </scm>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}</url>
+    </site>
+  </distributionManagement>
+
 </project>

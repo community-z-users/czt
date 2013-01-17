@@ -551,6 +551,10 @@ public class <class/> extends AbstractCommand
       manager.cancelTransaction(specKey);
       throw new CommandException(exception);
     }
+    catch (net.sourceforge.czt.util.CztException exception) {
+      manager.cancelTransaction(specKey);
+      throw new CommandException(exception);
+    }
     
     if (term instanceof ZSect) {
       // only parsed the ZSect, so wrap it into a Spec to be consistent
