@@ -30,6 +30,7 @@ import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.Factory;
+import net.sourceforge.czt.parser.circus.CircusParseMessage;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.session.Source;
