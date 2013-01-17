@@ -43,14 +43,21 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 <add:circus>
 import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
+<add:circuscore>
+import net.sourceforge.czt.circus.util.Factory;
+</add:circuscore>
 <add:circustime>
 import net.sourceforge.czt.circustime.ast.*;
-import net.sourceforge.czt.circustime.util.Factory;
 import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+
+import net.sourceforge.czt.parser.circus.CircusParseError;
+import net.sourceforge.czt.parser.circus.CircusParseMessage;
 </add:circustime>
+<add:circustimecore>
+import net.sourceforge.czt.circustime.util.Factory;
+</add:circustimecore>
 import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -10424,7 +10431,7 @@ circusTimedCSPActions ::=
 	|
         circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
         {:
-	    RESULT = factory_.createTimeoutAction1(factory_.list(al, ar), e);
+	    RESULT = factory_.createTimeoutAction(factory_.list(al, ar), e);
 	    addLocAnn(RESULT, getLocation(al, ar));
         :}
 	|
@@ -10450,19 +10457,19 @@ circusTimedCSPActions ::=
 	|
 	communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
         {:
-	    RESULT = factory_.createPrefixingExprAction(ac,comm);
+	    RESULT = factory_.createPrefixingExprAction(ac,comm, e);
 	    addLocAnn(RESULT, getLocation(comm, ac));	    
         :}
 	|
 	communication:comm ATTIME:at  refName:na  PREFIXTHEN:pt  circusAction:ac
         {:
-	    RESULT = factory_.createAtPrefixingAction(ac,comm);
+	    RESULT = factory_.createAtPrefixingAction(ac,comm,factory_.createRefExpr(na));
 	    addLocAnn(RESULT, getLocation(comm, ac));
         :}
 	|
 	communication:comm ATTIME refName:na PREFIXTHEN:pt LCIRCTIME expression:e LCIRCTIME circusAction:ac
         {:
-	    RESULT = factory_.createAtPrefixingExprAction(ac,comm);
+	    RESULT = factory_.createAtPrefixingExprAction(ac,comm, e);
 	    addLocAnn(RESULT, getLocation(comm, ac));
 	:}
 	;

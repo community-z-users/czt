@@ -35,6 +35,11 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.util.CztException;
 
+<add:circustime>
+import net.sourceforge.czt.parser.circus.CircusToken;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
+</add:circustime>
+
 /**
  * &lt;p&gt;This is a NL lexer
  * (part of context-sensitive lexis) for
