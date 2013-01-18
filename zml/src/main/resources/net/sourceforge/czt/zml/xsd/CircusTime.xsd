@@ -110,66 +110,6 @@
   <!-- ********************************************************************* -->
   <!-- Definitions of the elements in the order of appearance in the grammar -->
   <!-- ********************************************************************* -->
-
-  <!-- Section level paragraphs -->
-  
-  
-  <!-- Section level declarations -->  
-  
-  <!-- NONE -->
-
-  <!-- Channel declaration -->
-  
-  <!-- NONE -->
-  
-  <!-- Processes -->    
-  
-  <!-- Process :: Unary with Declaration -->
-  <!-- Process :: Basic -->
-  <!-- Process :: Call -->
-  <!-- Process :: Unary  -->  
-  <!-- Process Definition :: Binary -->  
-  <!-- Process Definition :: Expressions -->
-  <!-- Process Definition :: Unary :: Declaration :: Iterated -->
-  <!-- Process Definition :: Unary :: Declaration :: Iterated :: Indexed -->
-  
-  <!-- Action Para -->
-  
-  <!-- Name Set Paragraphs -->
-  <!-- Name Set Expressions -->
-  
-  <!-- Action Description -->     
-  
-  <!-- Actions -->    
-  
-  <!-- Action :: Unary with Declaration -->
-  <!-- Action :: Commands (base class) -->
-  <!-- Action :: Schema-Exp -->  
-  <!-- Action :: Call -->  
-  <!-- CSP Action :: Basic -->      
-
-  <!-- Wait Action -->
-  <xs:element name="WaitAction" type="CT:WaitAction" substitutionGroup="CIRCUS:BasicAction">
-    <xs:annotation>
-      <xs:documentation>
-        Wait action of Circus Time.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <!-- Wait Action -->
-  <xs:complexType name="WaitAction">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:BasicAction">
-        <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  
-  
   
 
   <!-- CSP Process :: Unary -->  
@@ -351,126 +291,18 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:PrefixingAction">
         <xs:sequence>
+          <xs:element ref="Z:Name">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ChannelElapsedTime"
+                               generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-   
     
-  <xs:element name="PrefixingExprAction" type="CT:PrefixingTimeAction" substitutionGroup="CT:PrefixingTimeAction">
-    <xs:annotation>
-      <xs:documentation>
-        Prefixing Expression action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  
- <xs:element name="AtPrefixingAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
-    <xs:annotation>
-      <xs:documentation>
-        At Prefixing  action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
- 
-  <xs:element name="AtPrefixingExprAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
-    <xs:annotation>
-      <xs:documentation>
-       At Prefixing Expression action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  
-  <!-- LF: Neeraj, add the other productions here -->
-  
-  <!-- CSP Action :: Unary :: Declaration :: Iterated -->
-  
-  <!-- Communication --> 
-  <!-- Communication Fields --> 
-  
-  <!-- Circus declarations -->  
-  <!-- Circus Commands -->
-  
-  <!-- Circus predicates -->
-  
-  
-  <!-- Additional top-level types in Circus -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add new types here -->
-  
-  <!-- Additional process-level types in Circus -->
-
-  <!-- Additional top-level signatures in Circus -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add new signatures here -->
-  
-  <!-- Additional process-level signatures in Circus -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add new signatures here -->
-    
-  <!-- Lists used by Circus elements -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add circus time lists here -->
-    
-  <!-- Term Annotations defined by Circus -->
-  
-  
-  <!-- ***************************************************************** -->
-  <!-- Definitions of complexTypes in the order of usage by the elements -->
-  <!-- ***************************************************************** -->
-
-  <!-- Outermost Paragraph Types -->
-  
-  <!-- Channel Set Expression complexTypes -->
-  <!-- Process Definition complexType -->
-  <!-- Bssic Process -->
-  <!-- Process Definition :: Calls --> 
-  <!-- Process Definition :: Binary -->
-  
-  <!-- Process Definition :: Unary :: Declaration :: Iterated -->
-  
-  <!-- Process Definition :: Unary :: Declaration :: Iterated :: Indexed -->
-
-  <!-- Process Paragraphs complexTypes -->
-
-  <!-- Name Set Expression complexTypes -->
-
-  <!-- Action complexType -->    
-  
-  <!-- CSP Action complexType -->
-  
-  <!-- CSP Action complexType :: Unary -->
-
-  <!-- Deadline Action -->
- 
-  
-  <!-- CSP Action complexType :: Unary :: Declaration :: Iterated -->
-  <!-- CSP Action complexType :: Binary -->
-
-  <!-- Timout Action -->
-  
-  
-  <!-- Lists used by Circus terms --> 
-  
-  
-  <!-- CSP Communication complexType -->
-  
-  <!-- CSP Communication parameters complexType -->
-  
-  <!-- Parameterised Commands complextype -->  
-  <!-- Circus Commands complextype -->
-  <!-- Circus predicates -->
-  
-  <!-- Additional Circus actions for Local Environments of the operational semantics -->
-  
-  <!-- Circus Types and Signatures -->  
-  
-  
-  <!-- Term annotation complex types -->
-  
 </xs:schema>
