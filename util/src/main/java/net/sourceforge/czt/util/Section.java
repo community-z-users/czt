@@ -68,6 +68,10 @@ public enum Section
   CIRCUS_TOOLKIT("circus", "circus_toolkit"),
   // circus bag toolkits not included as they are not std...?
 
+  /** Circus Time toolkits */
+  CIRCUSTIME_PRELUDE("circustime", "circustime_prelude"),
+  CIRCUSTIME_TOOLKIT("circustime", "circustime_toolkit"),
+
   /** VCG toolkits */
   DC_TOOLKIT("dc_toolkit"),
   FSB_TOOLKIT("fsb_toolkit"),

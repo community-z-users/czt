@@ -3479,10 +3479,14 @@ emptySectionHeader ::=
 <add:circus>
            final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
+<add:circustime>
+           final Parent pcircustime = factory_.createParent(CircusTimeUtils.CIRCUSTIME_PRELUDE);
+</add:circustime>
 
            startZSectTransaction(name);
            
-           final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
+           final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz>
+           					<add:circus>, pcircus</add:circus><add:circustime>, pcircustime</add:circustime>);
            resetInfoTables(name, parents, eleft, eright);
            
            RESULT = createZSect(name, parents);
@@ -3568,6 +3572,15 @@ sectionHeader ::=
              p.add(circusParent);
            }
 </add:circus>
+<add:circustime>
+           final Parent circusTimeParent = factory_.createParent(CircusTimeUtils.CIRCUSTIME_PRELUDE);
+           if ((! name.equals(CircusTimeUtils.CIRCUSTIME_PRELUDE)) &amp;&amp;
+               (! p.contains(circusTimeParent)) &amp;&amp;
+               (! name.equals(Section.PRELUDE.getName()))) {
+             p.add(circusTimeParent);
+           }
+</add:circustime>
+
            startZSectTransaction(name);
            
            resetInfoTables(name, p, pleft, pright);
