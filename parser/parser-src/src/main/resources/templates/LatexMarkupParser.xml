@@ -346,10 +346,13 @@ public class <class/>
       addMarkupFunction("oz_toolkit");
 </add:oz>
 <add:circus>
-      addMarkupFunction("circus_prelude");
+      addMarkupFunction(Section.CIRCUS_PRELUDE.getName());
 </add:circus>
+<add:circustime>
+      addMarkupFunction(Section.CIRCUSTIME_PRELUDE.getName());
+</add:circustime>
 <add:zeves>
-      addMarkupFunction("zeves_prelude");
+      addMarkupFunction(Section.ZEVES_PRELUDE.getName());
 </add:zeves>
       addMarkupFunction(Section.STANDARD_TOOLKIT.getName());
       
@@ -380,12 +383,19 @@ public class <class/>
         }
 </add:oz>
 <add:circus>
-        /* Educated guess that it is needed based on Oz code */
+        /* Educated guess that it is needed based on Circus code */
         if (! sectName_.equals("prelude") &amp;&amp;
             ! sectName_.equals("circus_prelude")) {
           addMarkupFunction("circus_prelude");
         }
 </add:circus>
+<add:circustime>
+        /* Educated guess that it is needed based on Circus Time code */
+        if (! sectName_.equals("prelude") &amp;&amp;
+            ! sectName_.equals("circustime_prelude")) {
+          addMarkupFunction("circustime_prelude");
+        }
+</add:circustime>
 <add:zeves>
         /* Educated guess that it is needed based on Oz code */
         if (! sectName_.equals("prelude") &amp;&amp;

@@ -112,9 +112,10 @@ public class SpecialLatexParser {
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
       
-      sm = new SectionManager();                                  
-      sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\src\\main\\resources\\lib;" +
-          "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser-circus\\src\\main\\resources\\lib");
+      sm = new SectionManager("circustime");  
+      sm.setProperty("czt.path", "/Users/nljsf/Local/reps/git/czt/parser/parser-z/src/main/resources/lib/:" +
+          "/Users/nljsf/Local/reps/git/czt/parser/parser-circus/src/main/resources/lib/:" +
+    	  "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/");
     }
     
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 

@@ -42,7 +42,7 @@ public class CircusTimeConcreteSyntaxSymbolVisitor
 
 
 /* Support for Circus Time : Process */
-
+  
  public CircusTimeConcreteSyntaxSymbol visitTimeEndByProcess(TimeEndByProcess process) {
     return CircusTimeConcreteSyntaxSymbol.DEADLINE_END_PROCESS;
   }
@@ -81,29 +81,28 @@ public CircusTimeConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process
     return CircusTimeConcreteSyntaxSymbol.TIMEDINTERRUPT_ACTION;
   }
 
-
-  public CircusTimeConcreteSyntaxSymbol visitWaitAction(WaitAction action) {
-    return CircusTimeConcreteSyntaxSymbol.WAIT_ACTION;
+ public CircusTimeConcreteSyntaxSymbol visitWaitExprAction(WaitExprAction action) 
+ {
+	 if (action.isBasicWaitAction())
+		    return CircusTimeConcreteSyntaxSymbol.WAIT_BASIC_ACTION;
+	 else if (action.isWaitExprAction())
+		    return CircusTimeConcreteSyntaxSymbol.WAIT_EXPR_ACTION;
+	 else
+		// TODO: think about a better exception to raise than this. Or perhaps something general coded up within PrefixingTimeAction?
+			throw new IllegalArgumentException("Wait action doesn't have the right shape!");
   }
 
-
- public CircusTimeConcreteSyntaxSymbol visitWaitRangeAction(WaitRangeAction action) {
-    return CircusTimeConcreteSyntaxSymbol.WAIT_RANGE_ACTION;
+public CircusTimeConcreteSyntaxSymbol visitPrefixingTimeAction(PrefixingTimeAction action) {
+	if (action.isAtPrefixingAction())
+		return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_ACTION;
+	else if (action.isAtPrefixingExprAction())
+		return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_EXPR_ACTION;
+	else if (action.isPrefixingExprAction())
+		return CircusTimeConcreteSyntaxSymbol.PREFIX_EXPR_ACTION;
+	else
+		// TODO: think about a better exception to raise than this. Or perhaps something general coded up within PrefixingTimeAction?
+		throw new IllegalArgumentException("Prefixing time action doesn't have the right shape!");
   }
-
-
-public CircusTimeConcreteSyntaxSymbol visitPrefixingExprAction(PrefixingExprAction action) {
-    return CircusTimeConcreteSyntaxSymbol.PREFIX_EXPR_ACTION;
-  }
-
-public CircusTimeConcreteSyntaxSymbol visitAtPrefixingAction(AtPrefixingAction action) {
-    return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_ACTION;
-  }
-
-public CircusTimeConcreteSyntaxSymbol visitAtPrefixingExprAction(AtPrefixingExprAction action) {
-    return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_EXPR_ACTION;
-  }
-
 
   public interface Utils
     extends IsEmptyNameList

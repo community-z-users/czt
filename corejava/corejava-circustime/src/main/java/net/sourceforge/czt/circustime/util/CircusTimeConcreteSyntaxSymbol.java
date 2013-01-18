@@ -38,8 +38,8 @@ DEADLINE_START_ACTION("Deadline Start Action"),
 TIMEOUT_ACTION("Timeout Action"),
 TIMEDINTERRUPT_ACTION("Timedinterrupt Action"),
 
-WAIT_ACTION("Wait Action"),
-WAIT_RANGE_ACTION("Wait Range Action"),
+WAIT_BASIC_ACTION("Wait Basic Action"),
+WAIT_EXPR_ACTION("Wait Expr Action"),
 
 PREFIX_EXPR_ACTION("Prefixing Expression Action"),
 AT_PREFIX_ACTION("At Prefixing Action"),
