@@ -1149,19 +1149,8 @@ public class CircusTimePrintVisitor
     return null;
   }
 
- /* Support for Circus Time (hack F Zeyda) */
    
-    public Object visitWaitAction(WaitAction term) {
-        printLPAREN(term);
-        print(CircusTimeKeyword.CIRCWAIT);
-        visit(term.getExpr());
-        printRPAREN(term);
-        return null;
-    }
-
-   
-
-/* Support for Circus Time : Process */
+  /* Support for Circus Time : Process */
 
   public Object visitTimeEndByProcess(TimeEndByProcess term) {
         printLPAREN(term);
@@ -1260,20 +1249,30 @@ public Object visitTimedinterruptAction(TimedinterruptAction term) {
     }
 
 
-public Object visitWaitRangeAction(WaitRangeAction term) {
+public Object visitWaitExprAction(WaitExprAction term) {
         printLPAREN(term);
         print(CircusTimeKeyword.CIRCWAIT);
-        print(ZKeyword.COLON);
-        visit(term.getExpr());
-        print(CircusKeyword.CIRCSPOT);
-        visit(term.getCircusAction());
+        if (term.isBasicWaitAction())
+        {
+        	visit(term.getExpr());
+        }
+        else if (term.isWaitExprAction())
+        {
+        	visit(term.getName());
+        	print(ZKeyword.COLON);
+            visit(term.getExpr());
+            print(CircusKeyword.CIRCSPOT);
+            visit(term.getCircusAction());
+        }
         printRPAREN(term);
         return null;
     }
 
-public Object visitPrefixingExprAction(PrefixingExprAction term) {
+public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
         printLPAREN(term);
-	visit(term.getCommunication());
+        visit(term.getCommunication());
+        // TODO: check what is what and then add the right output...
+   //     if (term.isAtPrefixingAction())
         print(CircusKeyword.PREFIXTHEN);
         print(CircusTimeToken.LCIRCTIME);
         //visit(term.getExpr());
@@ -1284,26 +1283,26 @@ public Object visitPrefixingExprAction(PrefixingExprAction term) {
     }
 
 
-public Object visitAtPrefixingAction(AtPrefixingAction term) {
-        printLPAREN(term);
-	visit(term.getCommunication());
-        print(CircusTimeKeyword.ATTIME);
-        print(CircusKeyword.PREFIXTHEN);       
-        visit(term.getCircusAction());
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitAtPrefixingExprAction(AtPrefixingExprAction term) {
-        printLPAREN(term);
-	visit(term.getCommunication());
-	print(CircusTimeKeyword.ATTIME);
-        print(CircusKeyword.PREFIXTHEN);
-        print(CircusTimeToken.LCIRCTIME);
-        //visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);       
-        visit(term.getCircusAction());
-        printRPAREN(term);
-        return null;
-    }
+//public Object visitAtPrefixingAction(AtPrefixingAction term) {
+//        printLPAREN(term);
+//	visit(term.getCommunication());
+//        print(CircusTimeKeyword.ATTIME);
+//        print(CircusKeyword.PREFIXTHEN);       
+//        visit(term.getCircusAction());
+//        printRPAREN(term);
+//        return null;
+//    }
+//
+//public Object visitAtPrefixingExprAction(AtPrefixingExprAction term) {
+//        printLPAREN(term);
+//	visit(term.getCommunication());
+//	print(CircusTimeKeyword.ATTIME);
+//        print(CircusKeyword.PREFIXTHEN);
+//        print(CircusTimeToken.LCIRCTIME);
+//        //visit(term.getExpr());
+//        print(CircusTimeToken.RCIRCTIME);       
+//        visit(term.getCircusAction());
+//        printRPAREN(term);
+//        return null;
+//    }
 }
