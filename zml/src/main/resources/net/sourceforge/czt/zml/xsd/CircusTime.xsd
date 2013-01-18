@@ -216,7 +216,7 @@
   <xs:element name="TimeEndByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
     <xs:annotation>
       <xs:documentation>
-        Deadline process of Circus Time (End).
+        Deadline process of Circus Time (End). This is for (P |&gt; e)
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -224,10 +224,32 @@
  <xs:element name="TimeStartByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
     <xs:annotation>
       <xs:documentation>
-        Deadline process of Circus Time (Start).
+        Deadline process of Circus Time (Start). This is for (e &lt;| P)
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  
+ <xs:element name="WaitExprAction" type="CT:WaitExprAction" substitutionGroup="CT:ActionTime1">
+    <xs:annotation>
+      <xs:documentation>
+        Timed Range action. This AST encompases the three cases of wait operators,
+        where the use of the AST determines which one is the case. Whenever N is null (or ???)
+        then we have the first two cases (wait Expr; wait Expr .. Expr), whereas when N is not null
+        we have (wait N: Expr .. Expr). In any case the upto expression only allows Arithmos type, so
+        it's not quite needed anyway in so far as the AST is concerned.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:complexType name="WaitExprAction">
+    <xs:complexContent>
+      <xs:extension base="CT:ActionTime1">
+        <xs:sequence>
+          <xs:element ref="Z:Name"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   
    <!-- CSP Action :: Binary -->  
     
@@ -269,20 +291,28 @@
   </xs:element>
   
   
- <xs:element name="WaitRangeAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
+  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
     <xs:annotation>
       <xs:documentation>
-        Timed Range action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  
-  
-   <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-	Base class for prefixing time action 
+		 <p>
+		 Common AST for all Circus Time actions. This include the three productions for prefixing as
+		 at prefixing action (Comm@N prefix Act); prefixing expression action (Comm prefix expr act);
+		 at prefixing expr action (Comm@N prefix expr Act). The first would have a null expr?, the second
+		 a null N, the third a non null N and expr. and so on...
+		 </p>
+		 <p>
+		 It's up to the programmer using/creating the AST to differentiate between these three cases.
+		 It's worth NOT having explicit AST productions for each as they have too much in common and that
+		 would lead to much repeated code and higher maintainence effort.
+		 </p> 
+		 <p>
+		 DESIGN DECISION: we have decided against having something like a <code>TimedCommunication</code>
+		 encompasing the channel elapsed time variable as this would greatly increase the complexity of the
+		 grammar when handling Circus communication, which is already complex. This would also entail needs
+		 for SmartScanning updates and potential conflicts. Given the elapsed time variable is not referenciable
+		 within the communication (i.e. we cannot have c?x!y+u@u), then it is okay to keep it within the prefixing
+		 itself.
+		 </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
