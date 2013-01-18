@@ -1,0 +1,178 @@
+\begin{zsection}
+   \SECTION act\_interrupt \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{axdef}
+   val: \nat
+\where
+   val > 20 \land val<30
+\end{axdef}
+
+
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+
+\begin{circusaction}
+    \t1 A \circdef c \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 B \circdef d \then \Skip \\
+\end{circusaction}
+
+%Timeout for Action A and B
+        
+        
+\begin{circusaction}
+    \t1 Act1 \circdef A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+
+\begin{circusaction}
+    \t1 Act2 \circdef A \circendby \lcirctime 20 \rcirctime B \circseq A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+    
+\begin{circusaction}
+    \t1 Act3 \circdef (A \circendby \lcirctime 20 \rcirctime B) \circseq (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+    
+\begin{circusaction}
+    \t1 Act4 \circdef A \circendby \lcirctime 20 \rcirctime B \extchoice A \circendby \lcirctime 20 \rcirctime B \\ 
+\end{circusaction}
+    
+\begin{circusaction}
+    \t1 Act5 \circdef (A \circendby \lcirctime 20 \rcirctime B) \extchoice (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+    
+\begin{circusaction}
+    \t1 Act6 \circdef A \circendby \lcirctime 20 \rcirctime B \intchoice A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+    
+\begin{circusaction}
+    \t1 Act7 \circdef (A \circendby \lcirctime 20 \rcirctime B) \intchoice (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+    
+\begin{circusaction}
+    \t1 Act8 \circdef A \circendby \lcirctime 20 \rcirctime B \interleave A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 Act9 \circdef (A \circendby \lcirctime 20 \rcirctime B) \interleave (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+
+
+\begin{circusaction}
+    \t1 Act10 \circdef A \circendby \lcirctime 20 \rcirctime B \circinterrupt  A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+        
+\begin{circusaction}
+    \t1 Act11 \circdef (A \circendby \lcirctime 20 \rcirctime B) \circinterrupt (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+        
+\begin{circusaction}
+    \t1 Act12 \circdef A \circendby \lcirctime 20 \rcirctime B \linter c,d \rinter A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 Act13 \circdef (A \circendby \lcirctime 20 \rcirctime B) \linter c,d \rinter (A \circendby \lcirctime 20 \rcirctime B) \\
+\end{circusaction}
+
+%Interface parallelism with default (empty) name sets for both sides. Notice the required extra BAR (\verb'|') after/before the parallel brackets.
+
+\begin{circusaction}
+    \t1 Act14 \circdef A \circendby \lcirctime 20 \rcirctime B \lpar | \lchanset c, d \rchanset | \rpar  A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 Act15 \circdef (A \circendby \lcirctime 20 \rcirctime B) \lpar | \lchanset c, d \rchanset | \rpar (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+
+%Interface parallelism with explicit name sets.
+
+\begin{circusaction}
+    \t1 Act16 \circdef A \circendby \lcirctime 20 \rcirctime B \lpar \{~ val ~\} | \lchanset c, d \rchanset | \{~ val ~\} \rpar A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 Act17 \circdef (A \circendby \lcirctime 20 \rcirctime B) \lpar \{~ val ~\} | \lchanset c, d \rchanset | \{~ val ~\} \rpar (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+
+%Alphabetised parallelism with default (empty) name sets for both sides. Notice the required extra BAR (\verb'|') after/before the parallel brackets.
+
+\begin{circusaction}
+    \t1 Act18 \circdef A \circendby \lcirctime 20 \rcirctime B [ | \lchanset c \rchanset || \lchanset c, d \rchanset | ] A \circendby \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+ 
+\begin{circusaction}
+    \t1 Act19 \circdef (A \circendby \lcirctime 20 \rcirctime B) [ | \lchanset c \rchanset || \lchanset c, d \rchanset | ] (A \circendby \lcirctime 25 \rcirctime B) \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 Act20 \circdef \circmu~X \circspot A \circendby \lcirctime 20 \rcirctime B \circseq X \\
+\end{circusaction}
+
+\begin{circusaction}
+    \t1 Act21 \circdef \vres var : \num \circusdot A \circendby \lcirctime var \rcirctime B \\
+\end{circusaction}        
+
+\begin{circusaction}
+	\t1 Act22 \circdef c \then  A \circendby \lcirctime 10 \rcirctime B \\
+\end{circusaction}        
+
+\begin{circusaction}
+	\t1 Act23 \circdef c \then  A \circendby \lcirctime 10 \rcirctime \Skip \\
+\end{circusaction}        
+
+\begin{circusaction}
+	\t1 Act24 \circdef c \then  A \circendby \lcirctime 10 \rcirctime \Stop \\
+\end{circusaction}        
+
+\begin{circusaction}
+	\t1 Act25 \circdef (c \then A \circendby \lcirctime 10 \rcirctime B) \circhide c \\
+\end{circusaction}        
+
+\begin{circusaction}
+	\t1 Act26 \circdef A \circendby \lcirctime val \rcirctime B \\
+\end{circusaction}        
+
+\begin{circusaction}
+	\t1 Act27 \circdef A \circendby \lcirctime val*2+5 \rcirctime B \\
+\end{circusaction}        
+
+ 
+%Negative
+\begin{circusaction}
+    	\t1 Act28 \circdef A \circendby \lcirctime 0 \upto 10 \rcirctime B \\
+\end{circusaction}        
+
+\begin{circusaction}
+    	\t1 Act29 \circdef A \circendby \lcirctime 0 \upto val \rcirctime B \\
+\end{circusaction}        
+
+\begin{circusaction}
+    	\t1 Act30 \circdef A \circendby \lcirctime X : 0 \upto 10 \rcirctime B \\
+\end{circusaction}        
+
+\begin{circusaction}
+    	\t1 Act31 \circdef A \circendby \lcirctime X : 0 \upto val \rcirctime B \\
+\end{circusaction}                
+
+\begin{circusaction}        
+        \t1 \circspot A \circseq B\\
+\end{circusaction}        
+
+
+\begin{circus}
+  \circend
+\end{circus}
+
+

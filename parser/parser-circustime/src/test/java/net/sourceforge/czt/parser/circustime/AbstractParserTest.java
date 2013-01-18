@@ -45,8 +45,8 @@ import net.sourceforge.czt.zml.Resources;
  */
 public abstract class AbstractParserTest extends TestCase
 {
-  // true => looks into tests/circus/debug/*.tex;
-  // false=> looks into tests/circus/*.tex
+  // true => looks into tests/circustime/debug/*.tex;
+  // false=> looks into tests/circustime/*.tex
   protected static boolean DEBUG_TESTING = false; // true;
   
   // true => executes the printing tests, which will reparse and print files.
@@ -57,7 +57,7 @@ public abstract class AbstractParserTest extends TestCase
   protected static final ParseErrorLogging pelsm_;
   
   static {          
-      File shouldDebug = new File("src/test/resources/tests/circus/debug-please");      
+      File shouldDebug = new File("src/test/resources/tests/circustime/debug-please");      
       try{
         if (VERBOSE)
         {
@@ -72,11 +72,11 @@ public abstract class AbstractParserTest extends TestCase
         System.out.println("Debug mode is on");
         pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
         pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
-        TESTS_SOURCEDIR.add("tests/circus/debug");
+        TESTS_SOURCEDIR.add("tests/circustime/debug");
         DEBUG_LEVEL = Level.FINEST;
       } else {
         if (VERBOSE) { System.out.println("Debug mode is off"); }
-        TESTS_SOURCEDIR.add("tests/circus");
+        TESTS_SOURCEDIR.add("tests/circustime");
         // If not debugging testing, then do not do logging.
         pel_ = null;
         pelsm_ = null;
@@ -84,7 +84,7 @@ public abstract class AbstractParserTest extends TestCase
       }
   }
   
-  protected final SectionManager manager_ = new SectionManager();
+  protected final SectionManager manager_ = new SectionManager("circustime");
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
    
   public URL getCircusExample(String name)
@@ -99,7 +99,7 @@ public abstract class AbstractParserTest extends TestCase
   
   public URL getCircusTestExample(String name)
   {
-    URL result = getClass().getResource("/tests/circus/" + name);
+    URL result = getClass().getResource("/tests/circustime/" + name);
     if (result == null)
     {
       throw new CztException("Cannot find example " + name);

@@ -1,0 +1,40 @@
+\begin{zsection}
+   \SECTION time\_action\_wait \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{axdef}
+   val: \nat
+\where
+   val > 20 \land val<30
+\end{axdef}
+
+
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+\begin{circusaction}
+    	\t1 A \circdef c \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 B \circdef d \then \Skip \\
+\end{circusaction}        
+      
+\begin{circusaction}
+     \t1 \circspot A \circseq B\\
+\end{circusaction}
+
+
+\begin{circus}
+    \circend
+\end{circus}
+
+
+   
