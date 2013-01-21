@@ -1248,22 +1248,22 @@ public Object visitTimedinterruptAction(TimedinterruptAction term) {
         return null;
     }
 
+public Object visitWaitAction(WaitAction term) {
+    printLPAREN(term);
+    print(CircusTimeKeyword.CIRCWAIT);
+    visit(term.getExpr());
+    printRPAREN(term);
+    return null;
+}
 
 public Object visitWaitExprAction(WaitExprAction term) {
         printLPAREN(term);
         print(CircusTimeKeyword.CIRCWAIT);
-        if (term.isBasicWaitAction())
-        {
-        	visit(term.getExpr());
-        }
-        else if (term.isWaitExprAction())
-        {
-        	visit(term.getName());
-        	print(ZKeyword.COLON);
-            visit(term.getExpr());
-            print(CircusKeyword.CIRCSPOT);
-            visit(term.getCircusAction());
-        }
+        visit(term.getName());
+        print(ZKeyword.COLON);
+        visit(term.getExpr());
+        print(CircusKeyword.CIRCSPOT);
+        visit(term.getCircusAction());
         printRPAREN(term);
         return null;
     }

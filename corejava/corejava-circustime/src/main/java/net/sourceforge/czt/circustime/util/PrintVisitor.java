@@ -24,6 +24,7 @@ import net.sourceforge.czt.circustime.ast.TimedinterruptAction;
 import net.sourceforge.czt.circustime.ast.TimedinterruptProcess;
 import net.sourceforge.czt.circustime.ast.TimeoutAction;
 import net.sourceforge.czt.circustime.ast.TimeoutProcess;
+import net.sourceforge.czt.circustime.ast.WaitAction;
 import net.sourceforge.czt.circustime.ast.WaitExprAction;
 import net.sourceforge.czt.circustime.visitor.CircusTimeVisitor;
 
@@ -97,5 +98,11 @@ public class PrintVisitor
 		return null;
 	}
 
+
+	@Override
+	public String visitWaitAction(WaitAction term) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

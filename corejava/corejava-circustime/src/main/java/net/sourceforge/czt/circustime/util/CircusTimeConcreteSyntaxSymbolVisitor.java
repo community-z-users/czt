@@ -81,17 +81,16 @@ public CircusTimeConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process
     return CircusTimeConcreteSyntaxSymbol.TIMEDINTERRUPT_ACTION;
   }
 
- public CircusTimeConcreteSyntaxSymbol visitWaitExprAction(WaitExprAction action) 
+ public CircusTimeConcreteSyntaxSymbol visitWaitAction(WaitAction action) 
  {
-	 if (action.isBasicWaitAction())
-		    return CircusTimeConcreteSyntaxSymbol.WAIT_BASIC_ACTION;
-	 else if (action.isWaitExprAction())
-		    return CircusTimeConcreteSyntaxSymbol.WAIT_EXPR_ACTION;
-	 else
-		// TODO: think about a better exception to raise than this. Or perhaps something general coded up within PrefixingTimeAction?
-			throw new IllegalArgumentException("Wait action doesn't have the right shape!");
+	 return CircusTimeConcreteSyntaxSymbol.WAIT_BASIC_ACTION;
   }
 
+ public CircusTimeConcreteSyntaxSymbol visitWaitExprAction(WaitExprAction action) 
+ {
+	 return CircusTimeConcreteSyntaxSymbol.WAIT_EXPR_ACTION;
+  }
+ 
 public CircusTimeConcreteSyntaxSymbol visitPrefixingTimeAction(PrefixingTimeAction action) {
 	if (action.isAtPrefixingAction())
 		return CircusTimeConcreteSyntaxSymbol.AT_PREFIX_ACTION;
