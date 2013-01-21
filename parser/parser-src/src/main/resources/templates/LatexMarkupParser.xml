@@ -337,22 +337,25 @@ public class <class/>
       // to handle anything and cancel failed transaction.
       startLmfTransaction(sectName_);
 
+	// For anonymous sections, the default parents depend on the extension. 
+	// They all take standard_toolkit as a default parent plus their language toolkit
       parents_ = Section.STANDARD_TOOLKIT.getName()
-        <add:oz>+", oz_toolkit"</add:oz>
-        <add:circus>+", circus_prelude"</add:circus>
-        <add:zeves>+", zeves_prelude"</add:zeves>;
+        <add:oz>+", "+Section.OZ_TOOLKIT.getName()</add:oz>
+        <add:circus>+", "+Section.CIRCUS_TOOLKIT.getName()</add:circus>
+        <add:circustime>+", "+Section.CIRCUSTIME_TOOLKIT.getName()</add:circustime>
+        <add:zeves>+", "+Section.ZEVES_TOOLKIT.getName()</add:zeves>;
       addMarkupFunction(Section.PRELUDE.getName());
 <add:oz>
-      addMarkupFunction("oz_toolkit");
+      addMarkupFunction(Section.OZ_TOOLKIT.getName());
 </add:oz>
 <add:circus>
-      addMarkupFunction(Section.CIRCUS_PRELUDE.getName());
+      addMarkupFunction(Section.CIRCUS_TOOLKIT.getName());
 </add:circus>
 <add:circustime>
-      addMarkupFunction(Section.CIRCUSTIME_PRELUDE.getName());
+      addMarkupFunction(Section.CIRCUSTIME_TOOLKIT.getName());
 </add:circustime>
 <add:zeves>
-      addMarkupFunction(Section.ZEVES_PRELUDE.getName());
+      addMarkupFunction(Section.ZEVES_TOOLKIT.getName());
 </add:zeves>
       addMarkupFunction(Section.STANDARD_TOOLKIT.getName());
       
@@ -373,42 +376,52 @@ public class <class/>
         markupFunction_ = new LatexMarkupFunction(sectName_);
         markupFunctions_.put(sectName_, markupFunction_);
         lexer_.setMarkupFunction(markupFunction_);
-        if (! sectName_.equals("prelude")) {
-          addMarkupFunction("prelude");
-        }
+        
+        // At this low-level scanning, we need to ensure the order of transactions is right
+        // (i.e. outwards-in from the most specific to the most general). Otherwise, the 
+        // transaction stack will get confused and a scanning exception will happen. This 
+        // is particularly important for extensions that are more than one-level deep
+        // (e.g circustime - circus - prelude).
+        // 
+        // The code below has a neat (if hard to debug) recursive pattern that needs to be
+        // right iun order to avoid ScanException to happen due to transaction stack errors.
+        
 <add:oz>
-        if (! sectName_.equals("prelude") &amp;&amp;
-            ! sectName_.equals("oz_toolkit")) {
-          addMarkupFunction("oz_toolkit");
+        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
+            ! sectName_.equals(Section.OZ_TOOLKIT.getName())) {
+          addMarkupFunction(Section.OZ_TOOLKIT.getName());
         }
 </add:oz>
-<add:circus>
-        /* Educated guess that it is needed based on Circus code */
-        if (! sectName_.equals("prelude") &amp;&amp;
-            ! sectName_.equals("circus_prelude")) {
-          addMarkupFunction("circus_prelude");
-        }
-</add:circus>
 <add:circustime>
-        /* Educated guess that it is needed based on Circus Time code */
-        if (! sectName_.equals("prelude") &amp;&amp;
-            ! sectName_.equals("circustime_prelude")) {
-          addMarkupFunction("circustime_prelude");
+        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
+            ! sectName_.equals(Section.CIRCUS_PRELUDE.getName()) &amp;&amp;
+            ! sectName_.equals(Section.CIRCUSTIME_PRELUDE.getName())) {
+          addMarkupFunction(Section.CIRCUSTIME_PRELUDE.getName());
         }
 </add:circustime>
+<add:circus>
+        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
+            ! sectName_.equals(Section.CIRCUS_PRELUDE.getName())) {
+          addMarkupFunction(Section.CIRCUS_PRELUDE.getName());
+        }
+</add:circus>
 <add:zeves>
-        /* Educated guess that it is needed based on Oz code */
-        if (! sectName_.equals("prelude") &amp;&amp;
-            ! sectName_.equals("zeves_prelude")) {
-          addMarkupFunction("zeves_prelude");
+        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
+            ! sectName_.equals(Section.ZEVES_PRELUDE.getName())) {
+          addMarkupFunction(Section.ZEVES_PRELUDE.getName());
         }
 
         // extra elements for zeves_toolkit implicitly added
-        if (sectName_.equals("zeves_toolkit"))
+        if (sectName_.equals(Section.ZEVES_TOOLKIT.getName()))
         {
           addZEvesImplicitMarkupDirectives(token);
         }
 </add:zeves>
+        if (! sectName_.equals(Section.PRELUDE.getName())) {
+          addMarkupFunction(Section.PRELUDE.getName());
+        }
+
+		// now process each collected parent.
         if (parents_ != null) {
           String[] parents = parents_.split(",");
           List&lt;String&gt; parentList = new ArrayList&lt;String&gt;();
