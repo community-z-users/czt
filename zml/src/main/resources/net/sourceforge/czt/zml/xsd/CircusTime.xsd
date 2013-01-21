@@ -112,6 +112,28 @@
   <!-- ********************************************************************* -->
   
 
+  <!-- CSP Process :: Basic -->
+  <!-- Wait Action -->
+  <xs:element name="WaitAction" type="CT:WaitAction" substitutionGroup="CIRCUS:BasicAction">
+    <xs:annotation>
+      <xs:documentation>
+        Wait action of Circus Time as a basic action.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- Wait Action -->
+  <xs:complexType name="WaitAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:BasicAction">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+
   <!-- CSP Process :: Unary -->  
   
   

@@ -7,6 +7,3 @@ PrefixingTimeAction createPrefixingExprAction( CircusAction  circusAction, Commu
 
 //c?x --expr--> A
 PrefixingTimeAction createAtPrefixingExprAction( CircusAction  circusAction, Communication  communication, net.sourceforge.czt.z.ast.Name name, net.sourceforge.czt.z.ast.Expr expr);
-
-// wait Expr
-WaitExprAction createWaitAction(net.sourceforge.czt.z.ast.Expr expr);

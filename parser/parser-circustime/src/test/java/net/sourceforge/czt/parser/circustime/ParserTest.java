@@ -44,7 +44,7 @@ public class ParserTest extends AbstractParserTest
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
     ParserTest parserTests = new ParserTest();
-    //parserTests.collectTests(suite, TESTS_SOURCEDIR);        
+    parserTests.collectTests(suite, TESTS_SOURCEDIR);        
     if (VERBOSE) { System.out.println("Number of successful tests to run: " + suite.countTestCases()); }
     return suite;
   }

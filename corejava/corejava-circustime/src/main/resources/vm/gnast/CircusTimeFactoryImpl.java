@@ -16,9 +16,3 @@ public PrefixingTimeAction createAtPrefixingExprAction( CircusAction  circusActi
 {
 	return createPrefixingTimeAction(circusAction, communication, name, expr);
 }
-
-// wait Expr: This just creates wait dummy: Expr @ Skip
-public WaitExprAction createWaitAction(net.sourceforge.czt.z.ast.Expr expr)
-{
-	return createWaitExprAction(createSkipAction(), expr, net.sourceforge.czt.circus.util.CircusUtils.createAnonymousZName());
-}

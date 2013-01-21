@@ -1,3 +1,1 @@
-  boolean isBasicWaitAction();
-  boolean isWaitExprAction();
  
