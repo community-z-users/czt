@@ -560,32 +560,6 @@
         <module>eclipse</module>
       </modules>
 
-      <!-- Sonatype OSS Maven repositories for reflow-maven-skin (not published into Central yet) -->
-      <repositories>
-        <repository>
-          <id>snapshots-repo</id>
-          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>snapshots-plugin-repo</id>
-          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
-
       <build>
         <plugins>
 
@@ -642,7 +616,7 @@
               <dependency>
                 <groupId>lt.velykis.maven.skins</groupId>
                 <artifactId>reflow-velocity-tools</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
               </dependency>
               <dependency>
                 <!-- Reflow skin requires velocity 1.7 -->
