@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.print.circus;
+package net.sourceforge.czt.print.circustime;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.BasicProcess;
@@ -29,23 +29,28 @@ public class WarningManager extends
         super(forLogger);
     }
     
-    public void warn(CircusPrintMessage cpm, Object... arguments) {
+
+
+    public void warn(CircusTimePrintMessage cpm, Object... arguments) {
         warn(cpm.getMessage(), arguments);
     }
+
     
     public void warnMissingFor(String msg, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
     }
     
     public void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
     }
     
     public void warnLocalOnTheFly(Term para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
     }
     
     public void warnDuplicatedState(Term term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
-    }    
+        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
+    }
+
+    
 }

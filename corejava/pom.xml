@@ -221,7 +221,7 @@
             <configuration>
               <schemaDirectory>${jaxb.xsd.dir}</schemaDirectory>
               <!-- Each Corejava project must indicate their XSD schema using <includes> so that
-                   only the required schema JAXB is generated (without including child schemas), e.g.:
+		only the required schema JAXB is generated (without including child schemas), e.g.:
               <schemaIncludes>
                 <include>Z.xsd</include>
               </schemaIncludes>

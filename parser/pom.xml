@@ -39,7 +39,7 @@
     <module>parser-oz</module>
     <module>parser-ozpatt</module>
     <module>parser-circus</module>
-<!--  uncomment when ready   <module>parser-circustime</module> -->
+    <module>parser-circustime</module>
   </modules>
 
   <build>

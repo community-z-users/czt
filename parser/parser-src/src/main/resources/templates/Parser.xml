@@ -43,14 +43,21 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 <add:circus>
 import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
+<add:circuscore>
+import net.sourceforge.czt.circus.util.Factory;
+</add:circuscore>
 <add:circustime>
 import net.sourceforge.czt.circustime.ast.*;
-import net.sourceforge.czt.circustime.util.Factory;
 import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+
+import net.sourceforge.czt.parser.circus.CircusParseError;
+import net.sourceforge.czt.parser.circus.CircusParseMessage;
 </add:circustime>
+<add:circustimecore>
+import net.sourceforge.czt.circustime.util.Factory;
+</add:circustimecore>
 import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -675,6 +682,7 @@ action code
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:circus>
+
 <add:pattern>
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
@@ -2657,11 +2665,16 @@ terminal LocInfo
         // acording to how it is expected to be in CSP_M.
         // USE _RENAME :)
 
+        
 </add:circus>
-<add:circustime>
-        /* Support for Circus Time */
-        LCIRCTIMEOUT, RCIRCTIMEOUT, CIRCWAIT, CIRCDEADLINE,
-</add:circustime>
+
+
+ <add:circustime>
+   	/* Support Circus time for Action and Process */ 
+        CIRCWAIT, ATTIME, CIRCENDBY, CIRCSTARTBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, LCIRCTIME, RCIRCTIME,
+ </add:circustime>
+ 
+
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
@@ -3088,7 +3101,7 @@ non terminal CircusProcess
     parenthesisedProcess,
     //renamingProcesses,
     process;
-
+    
 non terminal BasicProcess
     circusBasicProcess;
 
@@ -3132,7 +3145,8 @@ non terminal CircusAction
     parenthesisedAction,
     circusBasicProcessMainAction,
     cspAction;
-
+   
+    
 /// Circus guard //////////////////////////////////////////////////////////
 non terminal Pred
     guard;
@@ -3170,6 +3184,15 @@ non terminal NameSet
     nameSet;
 
 </add:circus>
+
+
+<add:circustime>
+/* Support  Circus Time for Process and Action */
+
+//non terminal CircusAction circusTimedCSPActions;
+//non terminal CircusProcess  circusTimedCSPProcess;
+</add:circustime>
+
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
@@ -3297,10 +3320,15 @@ precedence right        PREFIXTHEN;
 //CIRCSKIP, CIRCSTOP, CIRCCHAOS,
 //LCIRCCHANSET, RCIRCCHANSET,
 </add:circus>
+
 <add:circustime>
-/* Support for Circus Time */
-precedence left         CIRCDEADLINE;
+/* Support  Circus Time for Process and Action */
+
+precedence left  CIRCENDBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, ATTIME;
+precedence right CIRCSTARTBY;
 </add:circustime>
+
+
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -3355,14 +3383,18 @@ precedence left         LSQUARE, RSQUARE;
 precedence nonassoc     LCIRCRENAME, RCIRCRENAME; // it doesn't matter if put before _RENAME
 precedence nonassoc     LSCHEXPRACT, RSCHEXPRACT;
 precedence nonassoc     LCIRCGUARD, RCIRCGUARD;
-</add:circus>
-<add:circustime>
-/* Support for Circus Time: TODO: are these right for Circus time? */
-precedence nonassoc     LCIRCTIMEOUT, RCIRCTIMEOUT;
-precedence nonassoc     CIRCWAIT;
+
 precedence nonassoc     CIRCLINST, CIRCRINST;
 precedence nonassoc     CIRCASSIGN;
-</add:circustime>
+</add:circus>
+
+ <add:circustime>
+   /* Support  Circus Time for Process and Action */
+precedence nonassoc  LCIRCTIME, RCIRCTIME;
+precedence nonassoc     CIRCWAIT;
+ </add:circustime>
+
+
 <add:zeves>
 precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
 </add:zeves>
@@ -3447,10 +3479,14 @@ emptySectionHeader ::=
 <add:circus>
            final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
+<add:circustime>
+           final Parent pcircustime = factory_.createParent(CircusTimeUtils.CIRCUSTIME_PRELUDE);
+</add:circustime>
 
            startZSectTransaction(name);
            
-           final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
+           final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz>
+           					<add:circus>, pcircus</add:circus><add:circustime>, pcircustime</add:circustime>);
            resetInfoTables(name, parents, eleft, eright);
            
            RESULT = createZSect(name, parents);
@@ -3536,6 +3572,16 @@ sectionHeader ::=
              p.add(circusParent);
            }
 </add:circus>
+<add:circustime>
+           final Parent circusTimeParent = factory_.createParent(CircusTimeUtils.CIRCUSTIME_PRELUDE);
+           if ((! name.equals(CircusTimeUtils.CIRCUSTIME_PRELUDE)) &amp;&amp;
+           	   (! name.equals(CircusUtils.CIRCUS_PRELUDE)) &amp;&amp;
+               (! p.contains(circusTimeParent)) &amp;&amp;
+               (! name.equals(Section.PRELUDE.getName()))) {
+             p.add(circusTimeParent);
+           }
+</add:circustime>
+
            startZSectTransaction(name);
            
            resetInfoTables(name, p, pleft, pright);
@@ -5918,7 +5964,7 @@ processDesc ::=
         {:
            RESULT = p;
         :}
-        ;
+	;
 
 // DESIGN:
 /* Moved replicated productions out of process because they are not
@@ -6157,6 +6203,20 @@ process ::=
            RESULT = factory_.createHideProcess(p, cs);
            addLocAnn(RESULT, getLocation(hleft, hright, p, cs));
         :}
+        <add:circustime>
+        |
+        process:pl CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+        {:
+	    RESULT = factory_.createTimeEndByProcess(pl, e);
+	    addLocAnn(RESULT, getLocation(pl,e));
+        :}
+		|
+        LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY process:pr
+        {:
+		    RESULT = factory_.createTimeStartByProcess(pr, e);
+		    addLocAnn(RESULT, getLocation(pr,e));
+        :}
+        </add:circustime>
         |
         process:pl INTERLEAVE:in process:pr
         {:
@@ -6187,7 +6247,21 @@ process ::=
             RESULT = factory_.createSeqProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));
         :}
-        |
+        <add:circustime>
+		|
+        process:pl CIRCTIMEOUT  LCIRCTIME expression:e RCIRCTIME  process:pr
+        {:
+		    RESULT = factory_.createTimeoutProcess(factory_.list(pl, pr), e);
+		    addLocAnn(RESULT, getLocation(pl, pr));
+        :}
+		|
+        process:pl CIRCTIMEDINTERRUPT:ti  LCIRCTIME expression:e RCIRCTIME  process:pr
+        {:
+		    RESULT = factory_.createTimedinterruptProcess(factory_.list(pl, pr),e);
+		    addLocAnn(RESULT, getLocation(pl, pr));
+		:}
+        </add:circustime>
+		|
         /* Process calls */
         processCall:pc
         {:
@@ -6855,15 +6929,6 @@ cspAction ::=
           RESULT = factory_.createChaosAction();
           addLocAnn(RESULT, cc);
         :}
- <add:circustime>
-        |
-        /* Support for Circus Time; TODO: check if precedences are right here */
-        CIRCWAIT:cw expression:e
-        {:
-            RESULT = factory_.createWaitAction(e);
-            addLocAnn(RESULT, getLocation(cw, e));
-        :}
- </add:circustime>
         |
         CIRCMU:cm name:n CIRCSPOT circusAction:ca
         {:
@@ -6877,6 +6942,27 @@ cspAction ::=
            RESULT = factory_.createHideAction(ca, cs);
            addLocAnn(RESULT, getLocation(ca, cs));
         :}
+        <add:circustime>
+		|
+		/* Support for Circus Time; TODO: check if precedences are right here */
+        CIRCWAIT:cw expression:e
+        {:
+            RESULT = factory_.getCircusTimeFactory().createWaitAction(e);
+            addLocAnn(RESULT, getLocation(cw, e));
+        :}
+		|
+		// you cannot use a refName here, as it expects a DECORWORD.
+		// the presence of "COLON" here makes this a DECLWORD instead.
+		// so you really need is either a bindDecl or just DECLWORD.
+		// given bindDecl also allows opName, I am leaving just DECLWORD here (Leo to Neeraj)
+		//CIRCWAIT refName:na COLON expression:e CIRCSPOT circusAction:ac
+		CIRCWAIT DECLWORD:dw COLON expression:e CIRCSPOT circusAction:ac
+		{:
+			ZName zn = createZName(dw);
+		    RESULT = factory_.createWaitExprAction(ac, e, zn);
+		    addLocAnn(RESULT, getLocation(zn, ac));
+		:}
+		</add:circustime>
         |
         circusAction:cal LINTER:li nameSet:nsl BAR nameSet:nsr RINTER:ri circusAction:car
         {:
@@ -6942,23 +7028,32 @@ cspAction ::=
             RESULT = factory_.createSeqAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
- <add:circustime>
+        <add:circustime>
         |
-        /* Support for Circus Time; TODO: check if precedences are right here */
-        circusAction:ca CIRCDEADLINE expression:e
+        circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
         {:
-            RESULT = factory_.createDeadlineAction(ca, e);
-            addLocAnn(RESULT, getLocation(ca, e));
+		    RESULT = factory_.createTimeEndByAction(ca, e);
+		    addLocAnn(RESULT, getLocation(ca,e));
         :}
-        |
-        //TODO: check if this is the right place, given chosen precedences!
-        /* Support for Circus Time */
-        circusAction:cal LCIRCTIMEOUT expression:e RCIRCTIMEOUT circusAction:car
+		|
+        LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
         {:
-            RESULT = factory_.createTimeoutAction(factory_.list(cal, car), e);
-            addLocAnn(RESULT, getLocation(cal, car));
+		    RESULT = factory_.createTimeStartByAction(ca, e);
+		    addLocAnn(RESULT, getLocation(ca,e));
         :}
-</add:circustime>
+		|
+        circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
+        {:
+		    RESULT = factory_.createTimeoutAction(factory_.list(al, ar), e);
+		    addLocAnn(RESULT, getLocation(al, ar));
+        :}
+		|
+        circusAction:al CIRCTIMEDINTERRUPT:ti LCIRCTIME expression:e RCIRCTIME circusAction:ar
+        {:
+		    RESULT = factory_.createTimedinterruptAction(factory_.list(al, ar),e);
+		    addLocAnn(RESULT, getLocation(al, ar));
+		:}
+		</add:circustime>
         |
         /* Due to a series of reasonable conflicts (listed below), we see that
          * the best choice is to introduce suitable notation (guard brackets,
@@ -6990,6 +7085,26 @@ cspAction ::=
             RESULT = factory_.createPrefixingAction(ca, comm);
             addLocAnn(RESULT, getLocation(comm, ca));
         :}
+        <add:circustime>
+        |
+		communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+        {:
+		    RESULT = factory_.getCircusTimeFactory().createPrefixingExprAction(ac,comm,e);
+		    addLocAnn(RESULT, getLocation(comm, ac));	    
+        :}
+		|
+		communication:comm ATTIME:at  refName:na  PREFIXTHEN:pt  circusAction:ac
+        {:
+		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingAction(ac,comm,na);
+		    addLocAnn(RESULT, getLocation(comm, ac));
+        :}
+		|
+		communication:comm ATTIME refName:na PREFIXTHEN:pt LCIRCTIME expression:e LCIRCTIME circusAction:ac
+        {:
+		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingExprAction(ac,comm,na,e);
+		    addLocAnn(RESULT, getLocation(comm, ac));
+		:}
+        </add:circustime>
         |
         actionCall:ac
         {:
@@ -10376,4 +10491,5 @@ deltaList ::=
         :}
         ;
 </add:oz>
+
 </parser>

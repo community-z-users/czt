@@ -16,11 +16,11 @@
   </description>
 
   <properties>
-    <parser.nodes>circustime</parser.nodes>
+    <parser.nodes>circus,circustime,circustimecore</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.circustime</parser.package>
     <printer.nodes>z,circus,circustime</printer.nodes>
     <printer.package>net.sourceforge.czt.print.circustime</printer.package>
-    <contextfree.nodes>circustime,circus,print</contextfree.nodes>
+    <contextfree.nodes>print,circus,circustime</contextfree.nodes>
   </properties>
 
 
@@ -52,11 +52,11 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-circustime</artifactId>
+      <artifactId>corejava-circus</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>corejava-circus</artifactId>
+      <artifactId>corejava-circustime</artifactId>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
@@ -135,51 +135,4 @@
 
     </plugins>
   </build>
-  
-<!--
-  <profiles>
-    <profile>
-      <id>netbeans-public</id>
-      <activation>
-        <property>
-          <name>netbeans.execution</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <configuration>
-              <archive>
-                <manifest>
-                  <addClasspath>true</addClasspath>
-                  <classpathPrefix>lib</classpathPrefix>
-                  <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexParser</mainClass>
-                </manifest>
-              </archive>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>nb</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>directory</goal>
-                </goals>
-                <configuration>
-                  <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
-                  <finalName>executable</finalName>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
--->
-  
 </project>

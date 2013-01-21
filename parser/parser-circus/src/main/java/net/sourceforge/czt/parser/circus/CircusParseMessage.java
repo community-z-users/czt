@@ -92,24 +92,24 @@ public enum CircusParseMessage {
     flagged_ = false;
   }
 
-  String getMessage()
+  public String getMessage()
   {
     return message_;
   }
 
-  String getExplanation()
+  public String getExplanation()
   {
     String result = explanation_;
     flagged_ = true;
     return result;
   }
   
-  boolean alreadyFlagged()
+  public boolean alreadyFlagged()
   {
     return flagged_;
   }
   
-  String getFullMessage()
+  public String getFullMessage()
   {
     String result = getMessage();
     if (!flagged_) result += getExplanation();

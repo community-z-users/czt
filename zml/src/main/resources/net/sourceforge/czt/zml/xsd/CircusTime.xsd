@@ -110,133 +110,18 @@
   <!-- ********************************************************************* -->
   <!-- Definitions of the elements in the order of appearance in the grammar -->
   <!-- ********************************************************************* -->
+  
 
-  <!-- Section level paragraphs -->
-  
-  
-  <!-- Section level declarations -->  
-  
-  <!-- NONE -->
-
-  <!-- Channel declaration -->
-  
-  <!-- NONE -->
-  
-  <!-- Processes -->    
-  
-  <!-- Process :: Unary with Declaration -->
-  <!-- Process :: Basic -->
-  <!-- Process :: Call -->
-  <!-- Process :: Unary  -->  
-  <!-- Process Definition :: Binary -->  
-  <!-- Process Definition :: Expressions -->
-  <!-- Process Definition :: Unary :: Declaration :: Iterated -->
-  <!-- Process Definition :: Unary :: Declaration :: Iterated :: Indexed -->
-  
-  <!-- Action Para -->
-  
-  <!-- Name Set Paragraphs -->
-  <!-- Name Set Expressions -->
-  
-  <!-- Action Description -->     
-  
-  <!-- Actions -->    
-  
-  <!-- Action :: Unary with Declaration -->
-  <!-- Action :: Commands (base class) -->
-  <!-- Action :: Schema-Exp -->  
-  <!-- Action :: Call -->  
-  <!-- CSP Action :: Basic -->      
-
+  <!-- CSP Process :: Basic -->
   <!-- Wait Action -->
   <xs:element name="WaitAction" type="CT:WaitAction" substitutionGroup="CIRCUS:BasicAction">
     <xs:annotation>
       <xs:documentation>
-        Wait action of Circus Time.
+        Wait action of Circus Time as a basic action.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
 
-
-  <!-- CSP Action :: Unary -->  
-  
-  <!-- Deadline Action -->
-  <xs:element name="DeadlineAction" type="CT:DeadlineAction" substitutionGroup="CIRCUS:Action1">
-    <xs:annotation>
-      <xs:documentation>
-        Deadline action of Circus Time.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  <!-- CSP Action :: Binary -->
-
-  <!-- Timeout Action -->
-  <xs:element name="TimeoutAction" type="CT:TimeoutAction" substitutionGroup="CIRCUS:Action2">
-    <xs:annotation>
-      <xs:documentation>
-        Timeout action of Circus Time.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  <!-- LF: Neeraj, add the other productions here -->
-  
-  <!-- CSP Action :: Unary :: Declaration :: Iterated -->
-  
-  <!-- Communication --> 
-  <!-- Communication Fields --> 
-  
-  <!-- Circus declarations -->  
-  <!-- Circus Commands -->
-  
-  <!-- Circus predicates -->
-  
-  
-  <!-- Additional top-level types in Circus -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add new types here -->
-  
-  <!-- Additional process-level types in Circus -->
-
-  <!-- Additional top-level signatures in Circus -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add new signatures here -->
-  
-  <!-- Additional process-level signatures in Circus -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add new signatures here -->
-    
-  <!-- Lists used by Circus elements -->
-  
-  <!-- LF: Neeraj, when you do the typechecker you need to add circus time lists here -->
-    
-  <!-- Term Annotations defined by Circus -->
-  
-  
-  <!-- ***************************************************************** -->
-  <!-- Definitions of complexTypes in the order of usage by the elements -->
-  <!-- ***************************************************************** -->
-
-  <!-- Outermost Paragraph Types -->
-  
-  <!-- Channel Set Expression complexTypes -->
-  <!-- Process Definition complexType -->
-  <!-- Bssic Process -->
-  <!-- Process Definition :: Calls --> 
-  <!-- Process Definition :: Binary -->
-  
-  <!-- Process Definition :: Unary :: Declaration :: Iterated -->
-  
-  <!-- Process Definition :: Unary :: Declaration :: Iterated :: Indexed -->
-
-  <!-- Process Paragraphs complexTypes -->
-
-  <!-- Name Set Expression complexTypes -->
-
-  <!-- Action complexType -->    
-  
-  <!-- CSP Action complexType -->
   <!-- Wait Action -->
   <xs:complexType name="WaitAction">
     <xs:complexContent>
@@ -247,11 +132,99 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
 
-  <!-- CSP Action complexType :: Unary -->
+  <!-- CSP Process :: Unary -->  
+  
+  
+   <xs:element name="ProcessTime1" type="CT:ProcessTime1" substitutionGroup="CIRCUS:Process1" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+	Base class for unary Circus time processes
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
-  <!-- Deadline Action -->
-  <xs:complexType name="DeadlineAction">
+  <xs:complexType name="ProcessTime1">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:Process1">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+ 
+  <xs:element name="TimeEndByProcess" type="CT:ProcessTime1" substitutionGroup="CT:ProcessTime1">
+    <xs:annotation>
+      <xs:documentation>
+        Deadline process of Circus Time (End).
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+ <xs:element name="TimeStartByProcess" type="CT:ProcessTime1" substitutionGroup="CT:ProcessTime1">
+    <xs:annotation>
+      <xs:documentation>
+        Deadline process of Circus Time (Start).
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  
+   <!-- CSP Process :: Binary -->  
+
+  <xs:element name="ProcessTime2" type="CT:ProcessTime2" substitutionGroup="CIRCUS:Process2" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+	Base class for binary Circus time processes
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="ProcessTime2">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:Process2">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+   
+<xs:element name="TimeoutProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
+    <xs:annotation>
+      <xs:documentation>
+        Timeout process of the Circus Time.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  
+  <xs:element name="TimedinterruptProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
+    <xs:annotation>
+      <xs:documentation>
+        Timed Interrupt process of the Circus Time.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+ 
+    <!-- CSP Action :: Unary -->  
+  
+  
+   <xs:element name="ActionTime1" type="CT:ActionTime1" substitutionGroup="CIRCUS:Action1" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+	Base class for unary Circus time action
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="ActionTime1">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
@@ -261,11 +234,57 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <!-- CSP Action complexType :: Unary :: Declaration :: Iterated -->
-  <!-- CSP Action complexType :: Binary -->
+  
+  <xs:element name="TimeEndByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
+    <xs:annotation>
+      <xs:documentation>
+        Deadline process of Circus Time (End). This is for (P |&gt; e)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
-  <!-- Timout Action -->
-  <xs:complexType name="TimeoutAction">
+ <xs:element name="TimeStartByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
+    <xs:annotation>
+      <xs:documentation>
+        Deadline process of Circus Time (Start). This is for (e &lt;| P)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+ <xs:element name="WaitExprAction" type="CT:WaitExprAction" substitutionGroup="CT:ActionTime1">
+    <xs:annotation>
+      <xs:documentation>
+        Timed Range action. This AST encompases the three cases of wait operators,
+        where the use of the AST determines which one is the case. Whenever N is null (or ???)
+        then we have the first two cases (wait Expr; wait Expr .. Expr), whereas when N is not null
+        we have (wait N: Expr .. Expr). In any case the upto expression only allows Arithmos type, so
+        it's not quite needed anyway in so far as the AST is concerned.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:complexType name="WaitExprAction">
+    <xs:complexContent>
+      <xs:extension base="CT:ActionTime1">
+        <xs:sequence>
+          <xs:element ref="Z:Name"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+   <!-- CSP Action :: Binary -->  
+    
+  
+   <xs:element name="ActionTime2" type="CT:ActionTime2" substitutionGroup="CIRCUS:Action2" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+	Base class for binary Circus time action
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="ActionTime2">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action2">
         <xs:sequence>
@@ -275,22 +294,67 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <!-- Lists used by Circus terms --> 
+   
+<xs:element name="TimeoutAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
+    <xs:annotation>
+      <xs:documentation>
+        Timeout action.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   
   
-  <!-- CSP Communication complexType -->
-  
-  <!-- CSP Communication parameters complexType -->
-  
-  <!-- Parameterised Commands complextype -->  
-  <!-- Circus Commands complextype -->
-  <!-- Circus predicates -->
-  
-  <!-- Additional Circus actions for Local Environments of the operational semantics -->
-  
-  <!-- Circus Types and Signatures -->  
+  <xs:element name="TimedinterruptAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
+    <xs:annotation>
+      <xs:documentation>
+        Timed Interrupt action.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   
   
-  <!-- Term annotation complex types -->
-  
+  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
+    <xs:annotation>
+      <xs:documentation>
+		 <p>
+		 Common AST for all Circus Time actions. This include the three productions for prefixing as
+		 at prefixing action (Comm@N prefix Act); prefixing expression action (Comm prefix expr act);
+		 at prefixing expr action (Comm@N prefix expr Act). The first would have a null expr?, the second
+		 a null N, the third a non null N and expr. and so on...
+		 </p>
+		 <p>
+		 It's up to the programmer using/creating the AST to differentiate between these three cases.
+		 It's worth NOT having explicit AST productions for each as they have too much in common and that
+		 would lead to much repeated code and higher maintainence effort.
+		 </p> 
+		 <p>
+		 DESIGN DECISION: we have decided against having something like a <code>TimedCommunication</code>
+		 encompasing the channel elapsed time variable as this would greatly increase the complexity of the
+		 grammar when handling Circus communication, which is already complex. This would also entail needs
+		 for SmartScanning updates and potential conflicts. Given the elapsed time variable is not referenciable
+		 within the communication (i.e. we cannot have c?x!y+u@u), then it is okay to keep it within the prefixing
+		 itself.
+		 </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="PrefixingTimeAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:PrefixingAction">
+        <xs:sequence>
+          <xs:element ref="Z:Name">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ChannelElapsedTime"
+                               generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+    
 </xs:schema>

@@ -2,17 +2,22 @@
 <CIRCUSCHAR>
   <SPECIAL>    
     <BRACKET>
-      <!-- Support for Circus Time -->
-      <char id="LCIRCTIMEOUT" hex="21BB" description="left timeout bracket"/>
-      <char id="RCIRCTIMEOUT" hex="22B3" description="right timeout bracket"/>
+      <char id="LCIRCTIME" hex="27EC" description="left time bracket"/>
+      <char id="RCIRCTIME" hex="27ED" description="right time bracket"/>
     </BRACKET>    
   </SPECIAL>
   <SYMBOL>
-    <!-- Neeraj add new core symbols here 
+     
     <CORESYMBOL>
-    </CORESYMBOL>
-    <CIRCUSTOOLKITSYMBOL>      
+      <char id="CIRCENDBY" hex="25B6" description="Time end by operator"/>
+      <char id="CIRCSTARTBY" hex="25C0" description="Time start by operator"/>
+      <char id="CIRCTIMEOUT" hex="25B9" description="Timeout operator"/>
+      <char id="CIRCTIMEDINTERRUPT" hex="25B5" description="Timedinterrupt operator"/>
+       <char id="ATTIME" hex="0040" description="AT-Time symbol"/>
+     </CORESYMBOL>
+
+     <CIRCUSTOOLKITSYMBOL>      
     </CIRCUSTOOLKITSYMBOL>
-     -->
+     
   </SYMBOL>
 </CIRCUSCHAR>

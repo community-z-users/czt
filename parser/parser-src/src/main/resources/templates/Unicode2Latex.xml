@@ -50,8 +50,10 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 <add:circustime>
-import net.sourceforge.czt.circus.util.CircusTimeString;
+import net.sourceforge.czt.circustime.util.CircusTimeString;
 </add:circustime>
+
+
 <add:zeves>
 import net.sourceforge.czt.zeves.util.ZEvesString;
 </add:zeves>
@@ -658,13 +660,14 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    //CIRCCHANSET, CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL,
                    //CIRCRES, CIRCVRES, CIRCNAMESET, CIRCASSERTREF,
                    //CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
+
+                 
 </add:circus>
 <add:circustime>
+    /* Support for Circus Time */
+                   LCIRCTIME, RCIRCTIME,
+ </add:circustime> 
 
-                   /* Support for Circus Time */
-                   LCIRCTIMEOUT, RCIRCTIMEOUT,
-
-</add:circustime>
 <add:zeves>
                    // Proof environment chars and specific proof words
         ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, 
@@ -1511,19 +1514,24 @@ zStInfo   ::=
                 RESULT = resultTT("~\\rinter~", CircusString.RINTER);
              :}
 </add:circus>
-<add:circustime>
-			|
-			 /* Support for Circus Time */
-             LCIRCTIMEOUT
-             {:
-                RESULT = resultTT("~\\lcirctimeout~", CircusTimeString.LCIRCTIMEOUT);
-             :}
-             |
-             RCIRCTIMEOUT
-             {:
-                RESULT = resultTT("~\\rcirctimeout~", CircusTimeString.RCIRCTIMEOUT);
-             :}
-</add:circustime>
+
+ <add:circustime>
+ 
+	     |
+             /* Support for Circus Time */
+             LCIRCTIME
+	     {:
+	        RESULT = resultTT("~\\lcirctime~", CircusTimeString.LCIRCTIME);
+	     :}
+	     |
+	     RCIRCTIME
+	     {:
+	        RESULT = resultTT("~\\rcirctime~", CircusTimeString.RCIRCTIME);
+	     :}	
+  </add:circustime>
+ 
+
+
 <add:zeves>
              |
              LLABEL

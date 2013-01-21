@@ -16,7 +16,7 @@
   </description>
 
   <properties>
-    <parser.nodes>circus</parser.nodes>
+    <parser.nodes>circuscore,circus</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.circus</parser.package>
     <printer.nodes>z,circus</printer.nodes>
     <printer.package>net.sourceforge.czt.print.circus</printer.package>
@@ -121,51 +121,4 @@
 
     </plugins>
   </build>
-  
-<!--
-  <profiles>
-    <profile>
-      <id>netbeans-public</id>
-      <activation>
-        <property>
-          <name>netbeans.execution</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <configuration>
-              <archive>
-                <manifest>
-                  <addClasspath>true</addClasspath>
-                  <classpathPrefix>lib</classpathPrefix>
-                  <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexParser</mainClass>
-                </manifest>
-              </archive>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>nb</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>directory</goal>
-                </goals>
-                <configuration>
-                  <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
-                  <finalName>executable</finalName>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
--->
-  
 </project>

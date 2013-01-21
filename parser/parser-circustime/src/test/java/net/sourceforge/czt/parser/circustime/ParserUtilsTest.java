@@ -5,7 +5,7 @@ JUnit based test
  *
 Created on 15 February 2007, 10:11
  */
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 //~--- non-JDK imports --------------------------------------------------------
 

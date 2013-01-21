@@ -7,19 +7,19 @@
  * and open the template in the editor.
  */
 
-package net.sourceforge.czt.parser.circus;
+package net.sourceforge.czt.parser.circustime;
 
 import java.util.ListResourceBundle;
 
-public class CircusParseResources extends ListResourceBundle
+public class CircusTimeParseResources extends ListResourceBundle
 {
   private static final Object[][] contents_ = computeContents();
 
   private static Object[][] computeContents()
   {
-    Object[][] result = new Object[CircusParseMessage.values().length][2];
+    Object[][] result = new Object[CircusTimeParseMessage.values().length][2];
     int i = 0;
-    for (CircusParseMessage msg : CircusParseMessage.values()) {
+    for (CircusTimeParseMessage msg : CircusTimeParseMessage.values()) {
       result[i][0] = msg.toString();
       result[i][1] = msg.getFullMessage();
       i++;

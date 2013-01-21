@@ -39,7 +39,12 @@ import net.sourceforge.czt.circustime.util.CircusTimeString;
 public enum CircusTimeKeyword implements Token {  
   /* Support for Circus Time */
   CIRCWAIT(CircusTimeString.CIRCWAIT, NewlineCategory.AFTER),
-  CIRCDEADLINE(CircusTimeString.CIRCDEADLINE, NewlineCategory.BOTH);
+  CIRCENDBY(CircusTimeString.CIRCENDBY, NewlineCategory.BOTH),
+  CIRCSTARTBY(CircusTimeString.CIRCSTARTBY, NewlineCategory.BOTH),
+  CIRCTIMEOUT(CircusTimeString.CIRCTIMEOUT, NewlineCategory.BOTH),
+  CIRCTIMEDINTERRUPT(CircusTimeString.CIRCTIMEDINTERRUPT, NewlineCategory.BOTH),
+  ATTIME(CircusTimeString.ATTIME, NewlineCategory.BOTH); 
+
  
   private String spelling_;
   private NewlineCategory newlineCategory_;
