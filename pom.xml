@@ -22,10 +22,10 @@
     with some support for Z extensions such as Object-Z and Circus.
   </description>
 
-  <url>http://czt.sourceforge.net</url>
-
 
   <properties>
+    <site.url>http://czt.sourceforge.net</site.url>
+
     <czt.version>1.6-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
     <czt.dev.groupId>net.sourceforge.czt.dev</czt.dev.groupId>
@@ -42,6 +42,8 @@
     <site.deploy.id>czt-sf</site.deploy.id>
     <site.deploy.url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs</site.deploy.url>
   </properties>
+
+  <url>${site.url}</url>
 
 
   <modules>

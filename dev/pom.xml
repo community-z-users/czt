@@ -81,4 +81,15 @@
     </dependencies>
   </dependencyManagement>
 
+
+  <!-- Put site under /dev -->
+  <url>${site.url}/dev</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/dev</url>
+    </site>
+  </distributionManagement>
+
 </project>

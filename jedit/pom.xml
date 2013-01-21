@@ -119,4 +119,15 @@
     </repository>
   </repositories>
 
+
+  <!-- Put site under /jedit -->
+  <url>${site.url}/jedit</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/jedit</url>
+    </site>
+  </distributionManagement>
+
 </project>

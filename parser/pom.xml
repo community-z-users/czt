@@ -201,4 +201,16 @@
      </plugins>
     </pluginManagement>
   </build>
+
+
+  <!-- Put site under /parser -->
+  <url>${site.url}/parser</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/parser</url>
+    </site>
+  </distributionManagement>
+
 </project>
