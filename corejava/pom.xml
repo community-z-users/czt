@@ -343,4 +343,16 @@
     </plugins>
     </pluginManagement>
   </build>
+
+
+  <!-- Put site under /corejava -->
+  <url>${site.url}/corejava</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/corejava</url>
+    </site>
+  </distributionManagement>
+
 </project>
