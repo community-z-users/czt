@@ -82,6 +82,18 @@
   </dependencyManagement>
 
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <!-- Generate plugin usage reports -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+      </plugin>
+    </plugins>
+  </reporting>  
+
+
   <!-- Put site under /dev -->
   <url>${site.url}/dev</url>
 
