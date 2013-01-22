@@ -22,6 +22,20 @@
       <artifactId>java-cup-runtime</artifactId>
     </dependency>
   </dependencies>
+  
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Apache Commons -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.1</version>
+        <scope>test</scope>
+      </dependency>
+      
+    </dependencies>
+  </dependencyManagement>
 
   <properties>
     <!-- /templates is a classpath resource directory in `parser-src` JAR -->
