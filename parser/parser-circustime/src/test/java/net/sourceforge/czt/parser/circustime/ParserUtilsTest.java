@@ -20,7 +20,7 @@ import junit.framework.*;
  */
 public class ParserUtilsTest extends TestCase {
 
-    // private static SectionManager sm_ = new SectionManager("circus");
+    // private static SectionManager sm_ = new SectionManager("circustime");
     public ParserUtilsTest(String testName) {
         super(testName);
     }
@@ -29,7 +29,7 @@ public class ParserUtilsTest extends TestCase {
 
     public void testParsingZ() {
 
-        // String filename = "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\target\\test-classes\\tests\\circus\\debug";
+        // String filename = "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\target\\test-classes\\tests\\circustime\\debug";
         // Term term = net.sourceforge.czt.parser.z.ParseUtils.parse(new FileSource(filename), sm_);
     }
 }

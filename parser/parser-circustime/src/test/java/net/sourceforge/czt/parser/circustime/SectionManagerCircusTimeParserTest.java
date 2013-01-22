@@ -27,8 +27,8 @@ import net.sourceforge.czt.session.SectionManager;
 public class SectionManagerCircusTimeParserTest extends TestCase
 {
   
- // true => looks into tests/circus/debug/*.tex;
-  // false=> looks into tests/circus/*.tex
+ // true => looks into tests/circustime/debug/*.tex;
+  // false=> looks into tests/circustime/*.tex
   protected static boolean DEBUG_TESTING = true;
   
   // true => executes the printing tests, which will reparse and print files.
@@ -42,9 +42,9 @@ public class SectionManagerCircusTimeParserTest extends TestCase
       if (DEBUG_TESTING) {
         //pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
         //pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
-        TESTS_SOURCEDIR.add("tests/circus/debug");        
+        TESTS_SOURCEDIR.add("tests/circustime/debug");        
       } else {
-        TESTS_SOURCEDIR.add("tests/circus");
+        TESTS_SOURCEDIR.add("tests/circustime");
         // If not debugging testing, then do not do logging.
         pel_ = null;
         pelsm_ = null;
@@ -124,7 +124,7 @@ public class SectionManagerCircusTimeParserTest extends TestCase
   protected void setUp() throws Exception
   {
     files_ = new ArrayList<File>();
-    manager_ = new SectionManager("circus");
+    manager_ = new SectionManager("circustime");
     //collectTestFiles(TESTS_SOURCEDIR);
   }
   

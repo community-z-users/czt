@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
