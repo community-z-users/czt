@@ -305,21 +305,6 @@
       <!-- ************** -->
       <!-- external stuff -->
       <!-- ************** -->
-
-      <!-- Bsf -->
-      <dependency>
-        <groupId>bsf</groupId>
-        <artifactId>bsf</artifactId>
-        <version>2.4.0</version>
-      </dependency>
-
-      <!-- Rhino -->
-
-      <dependency>
-        <groupId>org.mozilla</groupId>
-        <artifactId>rhino</artifactId>
-        <version>1.7R4</version>
-      </dependency>
       
       <!-- Apache Commons -->
       <dependency>
