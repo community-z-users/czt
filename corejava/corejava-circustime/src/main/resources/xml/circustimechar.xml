@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CIRCUSCHAR>
+<CIRCUSTIMECHAR>
   <SPECIAL>    
     <BRACKET>
       <char id="LCIRCTIME" hex="27EC" description="left time bracket"/>
@@ -20,4 +20,4 @@
     </CIRCUSTOOLKITSYMBOL>
      
   </SYMBOL>
-</CIRCUSCHAR>
+</CIRCUSTIMECHAR>

@@ -25,8 +25,8 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -87,9 +87,9 @@ public abstract class AbstractParserTest extends TestCase
   protected final SectionManager manager_ = new SectionManager("circustime");
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
    
-  public URL getCircusExample(String name)
+  public URL getCircusTimeExample(String name)
   {
-    URL result = Resources.getCircusExample(name);
+    URL result = Resources.getCircusTimeExample(name);
     if (result == null)
     {
       throw new CztException("Cannot find example " + name);
@@ -97,7 +97,7 @@ public abstract class AbstractParserTest extends TestCase
     return result;
   }
   
-  public URL getCircusTestExample(String name)
+  public URL getCircusTimeTestExample(String name)
   {
     URL result = getClass().getResource("/tests/circustime/" + name);
     if (result == null)
@@ -138,7 +138,7 @@ public abstract class AbstractParserTest extends TestCase
     }
   }
   
-  public void compareCircus(URL url, URL zmlURL)
+  public void compareCircusTime(URL url, URL zmlURL)
   throws Exception
   {
     JaxbXmlReader reader = new JaxbXmlReader();
@@ -159,13 +159,13 @@ public abstract class AbstractParserTest extends TestCase
     {
       String message = "For " + url.toString();
       JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
-      File expected = File.createTempFile("cztCircusParser", "test.zml");
+      File expected = File.createTempFile("cztCircusTimeParser", "test.zml");
       Writer out =
           new OutputStreamWriter(new FileOutputStream(expected), "UTF-8");
       xmlWriter.write(zmlSpec, out);
       out.close();
       message += lineSeparator_ + "expected: " + expected.getAbsolutePath();
-      File got = File.createTempFile("cztCircusParser", "test.zml");
+      File got = File.createTempFile("cztCircusTimeParser", "test.zml");
       out = new OutputStreamWriter(new FileOutputStream(got), "UTF-8");
       xmlWriter.write(parsedSpec, out);
       out.close();

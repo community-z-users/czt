@@ -35,13 +35,13 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
-import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 
-import net.sourceforge.czt.print.circus.PrintUtils;
+import net.sourceforge.czt.print.circustime.PrintUtils;
 import net.sourceforge.czt.session.Key;
 
 /**
@@ -63,7 +63,7 @@ public class SpecialLatexParser {
         boolean SHOW_SOURCE_METHOD = false;
         boolean SHOW_DIRECTORY = false;
         boolean SHOW_STACK_TRACE = true;
-        SimpleFormatterForCircus sfc = new SimpleFormatterForCircus(
+        SimpleFormatterForCircusTime sfc = new SimpleFormatterForCircusTime(
                 SHOW_TIMESTAMP, SHOW_RECORDED_MESSAGE,
                 SHOW_SOURCE_METHOD, SHOW_DIRECTORY, SHOW_STACK_TRACE);
         ConsoleHandler ch = new ConsoleHandler();
@@ -102,7 +102,7 @@ public class SpecialLatexParser {
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
       
-      logger = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
+      logger = CztLogger.getLogger(net.sourceforge.czt.print.circustime.Unicode2Latex.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
@@ -114,7 +114,7 @@ public class SpecialLatexParser {
       
       sm = new SectionManager("circustime");  
       sm.setProperty("czt.path", "/Users/nljsf/Local/reps/git/czt/parser/parser-z/src/main/resources/lib/:" +
-          "/Users/nljsf/Local/reps/git/czt/parser/parser-circus/src/main/resources/lib/:" +
+          "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/:" +
     	  "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/");
     }
     
@@ -178,7 +178,7 @@ public class SpecialLatexParser {
     }
     
     public static void printZML(Term term, String filename) throws IOException {
-      JaxbXmlWriter writer = new net.sourceforge.czt.circus.jaxb.JaxbXmlWriter();
+      JaxbXmlWriter writer = new net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter();
       System.out.println("Printing ZML of term of to " + filename + PRINT_ZML_EXT);
       StringWriter stw = new StringWriter();
       writer.write(term, stw);      
@@ -194,7 +194,7 @@ public class SpecialLatexParser {
      * Converts latex to zml.
      */
     public static void main(String[] args) {
-        String usage = "\nUsage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
+        String usage = "\nUsage: net.sourceforge.czt.parser.circustime.SpecialLatexParser"
                 + " [ -in <texInputfile>] [ -tokenise] [ -printLatex] [ -printUnicode] [ -reparseLatex] [ -printZML]";
         long time = System.currentTimeMillis();       
         try {
@@ -331,7 +331,7 @@ public class SpecialLatexParser {
         }
     }
     
-    public static class SimpleFormatterForCircus extends Formatter {
+    public static class SimpleFormatterForCircusTime extends Formatter {
         
         Date dat = new Date();
         private final static String format = "{0,date} {0,time}";
@@ -351,7 +351,7 @@ public class SpecialLatexParser {
         //        new sun.security.action.GetPropertyAction("line.separator"));
         private String lineSeparator = "\r\n";//System.getProperty("line.separator");
         
-        public SimpleFormatterForCircus(boolean showTimeStamp, boolean showRecordedMessage,
+        public SimpleFormatterForCircusTime(boolean showTimeStamp, boolean showRecordedMessage,
                 boolean showSourceMethod, boolean showDirectory, boolean showStackTrace) {
             fShowTimeStamp = showTimeStamp;
             fShowRecordedMessage = showRecordedMessage;

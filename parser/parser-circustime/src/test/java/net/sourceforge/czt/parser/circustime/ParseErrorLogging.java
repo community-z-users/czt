@@ -11,8 +11,8 @@ package net.sourceforge.czt.parser.circustime;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import net.sourceforge.czt.parser.circus.SpecialLatexParser
-    .SimpleFormatterForCircus;
+import net.sourceforge.czt.parser.circustime.SpecialLatexParser
+    .SimpleFormatterForCircusTime;
 import net.sourceforge.czt.util.CztLogger;
 
 //~--- JDK imports ------------------------------------------------------------
@@ -46,7 +46,7 @@ public class ParseErrorLogging {
     private Level                          logLevel_;
     private Logger                         logger_;
     private final Filter                   nameFilter_;
-    private final SimpleFormatterForCircus sfc_;
+    private final SimpleFormatterForCircusTime sfc_;
 
     //~--- constructors -------------------------------------------------------
 
@@ -59,7 +59,7 @@ public class ParseErrorLogging {
      * @param logLevel
      */
     public ParseErrorLogging(Class<?> parserCls, Level logLevel) {
-        sfc_ = new SimpleFormatterForCircus(SHOW_TIMESTAMP,
+        sfc_ = new SimpleFormatterForCircusTime(SHOW_TIMESTAMP,
                 SHOW_RECORDED_MESSAGE, SHOW_SOURCE_METHOD, SHOW_DIRECTORY,
                 SHOW_STACK_TRACE);
         nameFilter_     = new NameFilter();
@@ -73,7 +73,7 @@ public class ParseErrorLogging {
          * logger_ = CztLogger.getLogger(LatexMarkupParser.class);
          * logger_ = CztLogger.getLogger(LatexParser.class);
          * logger_ = CztLogger.getLogger(Parser.class);
-         * logger_ = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
+         * logger_ = CztLogger.getLogger(net.sourceforge.czt.print.circustime.Unicode2Latex.class);
          * logger_ = CztLogger.getLogger(UnicodeParser.class);
          */
     }

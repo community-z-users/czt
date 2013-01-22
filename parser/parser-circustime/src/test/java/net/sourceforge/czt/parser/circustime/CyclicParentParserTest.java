@@ -14,6 +14,6 @@ public class CyclicParentParserTest extends net.sourceforge.czt.parser.z.CyclicP
   @Override
   protected SectionManager createSectionManager()
   {
-    return new SectionManager("circus");
+    return new SectionManager("circustime");
   }
 }
