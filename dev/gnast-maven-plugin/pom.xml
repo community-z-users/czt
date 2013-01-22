@@ -12,6 +12,9 @@
   <packaging>maven-plugin</packaging>
 
   <name>CZT GnAST Maven Plugin</name>
+  <description>
+    Maven plug-in for CZT GnAST generator. Generates AST classes from XML schema files.
+  </description>
   
   <prerequisites>
     <maven>${mavenVersion}</maven>
