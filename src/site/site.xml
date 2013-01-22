@@ -74,6 +74,14 @@
             <columns>3</columns>
           </sections> -->
         </index>
+
+        <!-- Disable ToC for some Maven reports -->
+        <project-info>
+          <toc>false</toc>
+        </project-info>
+        <dependencies>
+          <tocTopMax>4</tocTopMax>
+        </dependencies>
       </pages>
     </reflowSkin>
   </custom>
