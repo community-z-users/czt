@@ -1271,17 +1271,32 @@ public Object visitWaitExprAction(WaitExprAction term) {
 public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
         printLPAREN(term);
         visit(term.getCommunication());
-        // TODO: check what is what and then add the right output...
-   //     if (term.isAtPrefixingAction())
-        print(CircusKeyword.PREFIXTHEN);
-        print(CircusTimeToken.LCIRCTIME);
-        //visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);       
-        visit(term.getCircusAction());
-        printRPAREN(term);
-        return null;
+	if(term.isAtPrefixingAction())
+	{
+		print(CircusTimeKeyword.ATTIME);
+	        print(CircusKeyword.PREFIXTHEN);       
+	        visit(term.getCircusAction());
+	}
+	else if (term.isPrefixingExprAction())
+	{
+		print(CircusKeyword.PREFIXTHEN);
+	        print(CircusTimeToken.LCIRCTIME);
+	        visit(term.getExpr());
+        	print(CircusTimeToken.RCIRCTIME);       
+        	visit(term.getCircusAction());
+	}
+	else if (term.isAtPrefixingExprAction())
+	{	
+		print(CircusTimeKeyword.ATTIME);
+	        print(CircusKeyword.PREFIXTHEN);
+	        print(CircusTimeToken.LCIRCTIME);
+	        visit(term.getExpr());
+	        print(CircusTimeToken.RCIRCTIME);       
+	        visit(term.getCircusAction());
+	}
+	printRPAREN(term);
+	return null;
     }
-
 
 //public Object visitAtPrefixingAction(AtPrefixingAction term) {
 //        printLPAREN(term);
