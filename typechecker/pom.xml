@@ -23,4 +23,15 @@
     <module>typechecker-zeves</module>
   </modules>
 
+
+  <!-- Put site under /typechecker -->
+  <url>${site.url}/typechecker</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/typechecker</url>
+    </site>
+  </distributionManagement>
+
 </project>
