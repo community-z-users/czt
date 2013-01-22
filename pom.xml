@@ -260,6 +260,12 @@
             </execution>
           </executions>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -270,14 +276,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.6</version>
         <configuration>
           <anonymousConnection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</anonymousConnection>
         </configuration>
         <reportSets>
           <reportSet>
+            <!-- Placeholder for index report: child modules can generate the report and it
+                 will be placed at the top. -->
+            <id>project-index</id>
+            <reports />
+          </reportSet>
+          <reportSet>
             <reports>
-              <report>index</report>
               <report>summary</report>
               <report>license</report>
               <!-- Modules report gives incorrect links when URL is renamed, 
