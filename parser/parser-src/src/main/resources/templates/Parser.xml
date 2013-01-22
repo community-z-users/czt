@@ -7030,17 +7030,18 @@ cspAction ::=
         :}
         <add:circustime>
         |
-        circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
-        {:
-		    RESULT = factory_.createTimeEndByAction(ca, e);
-		    addLocAnn(RESULT, getLocation(ca,e));
-        :}
-		|
         LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
         {:
 		    RESULT = factory_.createTimeStartByAction(ca, e);
 		    addLocAnn(RESULT, getLocation(ca,e));
         :}
+        |
+        circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+        {:
+		    RESULT = factory_.createTimeEndByAction(ca, e);
+		    addLocAnn(RESULT, getLocation(ca,e));
+        :}
+		      
 		|
         circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
         {:

@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.circus.ParserTest;
+import net.sourceforge.czt.parser.circustime.ParserTest;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -33,7 +33,7 @@ public class PrintTest  extends ParserTest
     printTests.collectTests(suite, TESTS_SOURCEDIR);        
     if (VERBOSE) { System.out.println("Number of successful tests to run: " + suite.countTestCases()); }
     //if (VERBOSE) {
-    System.out.println("\t\tCircus printing testing skipped - AST2PrintTree not yet complete");
+    System.out.println("\t\tCircustime printing testing skipped - AST2PrintTree not yet complete");
             //}
     return suite;
   }
