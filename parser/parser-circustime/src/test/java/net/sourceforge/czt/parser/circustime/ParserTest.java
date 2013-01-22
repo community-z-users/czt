@@ -27,10 +27,10 @@ import java.util.logging.Level;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 
 /**
  * A (JUnit) test class for testing the Z parser.
@@ -103,8 +103,7 @@ public class ParserTest extends AbstractParserTest
           File f = new File(xmlFile);
           f.delete();
           FileWriter fw = new FileWriter(f);          
-          // TODO: XML parsing/transformation still not working! Neeraj, have a look...
-          //writer_.write(term_, fw);          
+          writer_.write(term_, fw);          
           fw.close();          
         }
       }
