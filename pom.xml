@@ -202,7 +202,9 @@
               <report>index</report>
               <report>summary</report>
               <report>license</report>
-              <report>modules</report>
+              <!-- Modules report gives incorrect links when URL is renamed, 
+                   e.g. /dev-parent into /dev -->
+              <!-- <report>modules</report> -->
               <report>project-team</report>
               <report>scm</report>
               <report>issue-tracking</report>
