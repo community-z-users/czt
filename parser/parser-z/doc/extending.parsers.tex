@@ -13,15 +13,15 @@
 \begin{document}
 
 \title{Extending CZT parsers}
-\author{Leonardo Freitas}
-\date{March 2006}
+\author{Leo Freitas}
+\date{March 2006, January 2013}
 
 \maketitle
 
 \begin{abstract}
     \noindent This article documents the process of extending the CZT parsing architecture
-    for a new Z extension. In particular, it uses \Circus\ as a target language
-    example.
+    for a new Z extension. In particular, it uses \Circus\ and Circus time as target language
+    examples.
 \end{abstract}
 
 \section{Introduction}\label{introduction}
@@ -34,8 +34,8 @@ the appropriate markup for each different language. Thus, we allow some reuse
 within the rather usually monolithic structure of parsing tools.
 
 The main tools generated are usually related to \LaTeX\ and Unicode. At the
-moment we have three extensions for Z, Object-Z and TCOZ. New languages can be
-added as needed. For instance, in this document we use \Circus\ as the new
+moment we have  extensions for Z, Object-Z and TCOZ, Z/EVES, \Circus, and Circus time. 
+New languages can be added as needed. For instance, in this document we use \Circus\ as the new
 language we are extending the CZT parsing architecture for. Furthermore, we
 assume the paths given are relative to the value of the \texttt{CZT\_HOME}
 environment variable.
@@ -51,8 +51,10 @@ hence leaving room for better maintenance and extensibility.
 
 \subsection{Dependencies}
 
-The parsing architecture depends on \texttt{corejava.jar}, and
-\texttt{session.jar}. Therefore, to extend a parser one should be aware of the
+The parsing architecture depends on other projects like \texttt{corejava}, and
+\texttt{session}. It's important to understand how these dependencies work, and
+the best way to do that is to look at the Maven dependency graphs of each project
+involved. Therefore, to extend a parser one should be aware of the
 dependencies and documentation of those two packages. Moreover, the JWSP files
 might be necessary if one want to read/write XML files using JAXB.
 
