@@ -14,8 +14,9 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zlive</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

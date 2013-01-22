@@ -18,8 +18,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zml</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

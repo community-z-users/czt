@@ -20,6 +20,7 @@
     <dependency>
       <groupId>${czt.dev.groupId}</groupId>
       <artifactId>java-cup-runtime</artifactId>
+      <version>0.11-a-czt01-SNAPSHOT</version>
     </dependency>
   </dependencies>
   
@@ -159,9 +160,9 @@
           <dependencies>
             <dependency>
               <!-- Depend on parser-src to locate parser template files -->
-              <groupId>${czt.groupId}</groupId>
+              <groupId>${project.groupId}</groupId>
               <artifactId>parser-src</artifactId>
-              <version>${czt.version}</version>
+              <version>${project.version}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -193,7 +194,7 @@
         <plugin>
           <groupId>${czt.dev.groupId}</groupId>
           <artifactId>cup-maven-plugin</artifactId>
-          <version>${czt.version}</version>
+          <version>1.6-SNAPSHOT</version>
           <executions>
             <execution>
               <phase>process-sources</phase>

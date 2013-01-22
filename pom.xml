@@ -76,234 +76,17 @@
     </dependency>
   </dependencies>
 
-  <dependencyManagement>
-    <dependencies>
-      <!-- ********* -->
-      <!-- CZT stuff -->
-      <!-- ********* -->
-
-      <!-- CZT ZML -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>zml</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT Util -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>util</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT Corejava -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-z</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-z</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-zpatt</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-oz</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-circus</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-circustime</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-circuspatt</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>corejava-zeves</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- Java CUP -->
-      <dependency>
-        <groupId>${czt.dev.groupId}</groupId>
-        <artifactId>java-cup-runtime</artifactId>
-        <version>0.11-a-czt01-SNAPSHOT</version>
-      </dependency>
-
-      <!-- CZT Session -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>session</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT Parser -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-z</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-z</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-zpatt</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-oz</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-oz</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-     </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-ozpatt</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-ozpatt</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-     </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-circus</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-circus</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-     </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-circustime</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-circustime</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-     </dependency>
-     
-     
-     
-
-      <!-- CZT Typechecker -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker-z</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker-z</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency>      
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker-oz</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker-oz</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker-circus</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>typechecker-circus</artifactId>
-        <version>${czt.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency>
-
-      <!-- CZT Z VCG -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>vcg</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- Z/EVES -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>zeves</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-zeves</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-      
-      <!-- CZT Rules -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>rules</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT ZLive -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>zlive</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <!-- CZT Gaffe -->
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>gaffe</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
+  <!-- Note that CZT dependencies are no longer managed via dependencyManagement. This is to
+       avoid inheriting the dependency management in /dev plugins, as well as other submodules
+       where it is not needed.
+       
+       To ensure the correct versions are used, we now rely on all CZT sibling projects having
+       the same version. So when writing a dependency on CZT module, use
+       <version>${project.version}</version> as the version.
+       
+       See http://www.sonatype.com/books/mvnex-book/reference/optimizing-sect-dependencies.html
+       for more details. -->
+  <dependencyManagement />
 
   <build>
     <plugins>
@@ -500,9 +283,9 @@
             <artifactId>maven-checkstyle-plugin</artifactId>
             <dependencies>
               <dependency>
-                <groupId>${czt.groupId}</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>checkstyle</artifactId>
-                <version>${czt.version}</version>
+                <version>${project.version}</version>
               </dependency>
             </dependencies>
           </plugin>

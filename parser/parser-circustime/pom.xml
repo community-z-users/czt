@@ -26,37 +26,44 @@
 
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>parser-circus</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>parser-circus</artifactId>
+      <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>parser-z</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>parser-z</artifactId>
+      <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zml</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>corejava-circus</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>corejava-circustime</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>

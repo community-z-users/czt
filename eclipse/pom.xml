@@ -43,70 +43,87 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>util</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-z</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-circus</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-circuspatt</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-oz</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-zeves</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-zpatt</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-z</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-circus</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-ozpatt</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-zpatt</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>session</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker-z</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker-circus</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker-oz</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>vcg</artifactId>
+      <version>${czt.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zeves</artifactId>
+      <version>${czt.version}</version>
     </dependency>
   </dependencies>
   

@@ -15,8 +15,9 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>util</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <url>http://czt.sourceforge.net/session/</url>
