@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.resource.DefaultResourceManager;
 import org.codehaus.plexus.resource.PlexusResource;
@@ -43,12 +47,13 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 /**
- * @goal generate
- * @phase generate-sources
- * @description CZT Parser Generator Maven Plugin
- * 
+ * Goal which generates source files for different CZT parser generators by splitting the
+ * corresponding XML definition files.
+ *
  * @author Andrius Velykis
  */
+@Mojo(name = "generate", threadSafe = false, 
+      defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class ParserGenMojo
   extends AbstractMojo
 {
@@ -56,63 +61,88 @@ public class ParserGenMojo
   private static final String TRANSFORMER_SOURCE = "/transformer/template2text.xsl";
   
   /**
-   * @parameter expression="${project.build.directory}/generated-sources/parsergen"
-   * @required
+   * The directory where ParserGen should place the generated files.
    */
+  @Parameter( property = "parsergen.outputDirectory",
+              defaultValue = "${project.build.directory}/generated-sources/parsergen" )
   private File outputDirectory;
   
   /**
-   * @parameter
-   * @required
+   * The list of ParserGen XML template directory paths.
+   * <p>
+   * The files in template paths are sources from which files are generated.
+   * </p>
+   * <p>
+   * Potential values are filesystem paths, URLs, or classpath resources.
+   * This parameter is resolved as resource, URL, then file.
+   * </p>
+   * @see org.codehaus.plexus.resource.ResourceManager
    */
+  @Parameter( required = true )
   private List<String> templates = new ArrayList<String>();
   
   /**
-   * Comma-separated list of add: nodes
-   * @parameter
-   * @required
+   * The parts of XML templates that will constitute the generated files.
+   * <p>
+   * Comma-separated list of add: nodes, e.g. to use content of
+   * {@code <add:zeves>..</add:zeves>}, use {@code zeves} here.
+   * </p>
    */
+  @Parameter( property = "parsergen.addNodes", required = true )
   private String addNodes;
   
   /**
-   * @parameter
-   * @required
+   * The package name for generated files: the files are nested in directory matching the parser
+   * and the package property is used for XML transformer. 
    */
+  @Parameter( property = "parsergen.packageName", required = true )
   private String packageName;
   
   /**
-   * @parameter
-   * @required
+   * The file extension of generated files. It will be used instead of *.xml of source file.
+   * <p>
+   * Use this parameter to indicate whether it is Java, CUP, JFlex or other file being generated.
+   * </p>
    */
+  @Parameter( property = "parsergen.fileExtension", required = true )
   private String fileExtension;
   
   /**
-   * @parameter
+   * The explicit class name of generated file.
+   * <p>
+   * If not set, the generated file will match source template file name.
+   * </p>
    */
+  @Parameter( property = "parsergen.className" )
   private String className;
   
   /**
-   * @parameter
+   * Add the output directory as compile source to the Maven project.
+   * <p>
+   * Use this when generating Java files using ParserGen.
+   * </p>
    */
-  private boolean compileSource = false;
+  @Parameter( property = "parsergen.compileSource", defaultValue = "false" )
+  private boolean compileSource;
   
   /**
-   * @parameter expression="${project}"
-   * @required
+   * The Maven project (used to add generated sources for compilation).
    */
+  @Component
   private MavenProject project;
   
-  /** 
-   * Injected by Maven
-   * @component
+  /**
+   * The build context, for incremental build support.
    */
+  @Component
   private BuildContext buildContext;
   
   /**
-   * Injected by Maven
-   * @component
+   * The resource locator for finding classpath or URL resources.
    */
+  @Component
   private ResourceManager locator;
+
 
   // lazily initialised to avoid if nothing is generated
   private volatile TransformerFactory factory;
@@ -129,6 +159,9 @@ public class ParserGenMojo
     return factory;
   }
 
+  /**
+   * Transforms the source templates into generated files.
+   */
   @Override
   public void execute()
     throws MojoExecutionException

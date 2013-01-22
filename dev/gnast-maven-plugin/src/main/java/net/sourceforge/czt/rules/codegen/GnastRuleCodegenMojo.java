@@ -47,6 +47,10 @@ import org.apache.xerces.xs.*;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.resource.DefaultResourceManager;
 import org.codehaus.plexus.resource.PlexusResource;
@@ -55,59 +59,84 @@ import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
 
 
 /**
- * @goal rulecodegen
+ * Goal which generates CZT Rules prover classes from XML Schema file..
+ * <p>
+ * The template and schema paths can be indicated as filesystem paths, URLs, or classpath
+ * resources. Refer to Plexus {@link ResourceManager} for more details.
+ * </p>
  *
+ * @see org.codehaus.plexus.resource.ResourceManager
  * @author Petra Malik
  * @author Andrius Velykis
  */
+@Mojo(name = "rulecodegen", threadSafe = false, 
+      defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class GnastRuleCodegenMojo
   extends AbstractMojo 
 {
 
   /**
-   * @parameter expression="${project.build.directory}/generated-sources/gnast"
+   * The directory where GnAST should generate Rule files.
    */
+  @Parameter( property = "gnast.rules.outputDirectory", 
+              defaultValue = "${project.build.directory}/generated-sources/gnast" )
   private File outputDirectory;
 
   /**
-   * @parameter expression="${project.basedir}/src/main/resources/vm/gnast/"
-   * @required
+   * The path to Velocity templates directory, used in rule generation.
+   * <p>
+   * Potential values are a filesystem path, URL, or a classpath resource.
+   * This parameter is resolved as resource, URL, then file.
+   * </p>
+   * @see org.codehaus.plexus.resource.ResourceManager
    */
+  @Parameter( property = "gnast.rules.templateDirectory", required = true,
+              defaultValue = "${project.basedir}/src/main/resources/vm/gnast/" )
   private String templateDirectory;
   
   /**
-   * @parameter
-   * @required
+   * The path of XML Schema source file used in generation.
+   * <p>
+   * Potential values are a filesystem path, a URL, or a classpath resource.
+   * This parameter is resolved as resource, URL, then file.
+   * </p>
+   * @see org.codehaus.plexus.resource.ResourceManager
    */
+  @Parameter( property = "gnast.rules.sourceSchemaLocation", required = true )
   private String sourceSchemaLocation;
   
   /**
-   * @parameter
+   * The name of package to place generated rule files in.
    */
-  private String packageName = "";
+  @Parameter( property = "gnast.rules.packageName", defaultValue = "" )
+  private String packageName;
 
+  
   /**
-   * @parameter expression="${project}"
-   * @required
+   * The Maven project (used to add generated sources for compilation).
    */
+  @Component
   private MavenProject project;
   
-  
-  /** 
-   * Injected by Maven
-   * @component
+  /**
+   * The build context, for incremental build support.
    */
+  @Component
   private BuildContext buildContext;
   
   /**
-   * Injected by Maven
-   * @component
+   * The resource locator for finding classpath or URL resources.
    */
+  @Component
   private ResourceManager locator;
+  
   
   private Set<String> changedFiles = Collections.emptySet();
   private boolean generateAll = true;
   
+  /**
+   * Generates rule prover files.
+   */
   public void execute()
     throws MojoExecutionException
   {

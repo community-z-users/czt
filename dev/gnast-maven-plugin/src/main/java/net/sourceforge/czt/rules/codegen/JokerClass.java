@@ -21,7 +21,7 @@ package net.sourceforge.czt.rules.codegen;
 
 import org.apache.xerces.xs.XSComplexTypeDefinition;
 
-public class JokerClass
+class JokerClass
 {
 //  /*@ non_null */
 //  private XSComplexTypeDefinition typeDef_;
