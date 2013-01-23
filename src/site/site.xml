@@ -27,6 +27,7 @@
       <protocolRelativeURLs>false</protocolRelativeURLs>
       <smoothScroll>true</smoothScroll>
       <theme>bootswatch-spacelab</theme>
+      <highlightJsTheme>github</highlightJsTheme>
       <absoluteResourceURL>http://czt.sourceforge.net/</absoluteResourceURL>
       <brand>
         <!-- Brand text in top-left part of the site -->
