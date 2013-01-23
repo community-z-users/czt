@@ -6,7 +6,7 @@ The CUP parser and lexer are already generated.
 This library requires [Java CUP Runtime][cup-runtime], which is split off to allow
 lighter deployment of generated parsers: they only need to depend on the runtime.
 
-The code is taken from the [CUP TUM][cup-tum] [SVN repository][cup-svn],
+The original code was taken from the [CUP TUM][cup-tum] [SVN repository][cup-svn],
 corresponding to the released CUP version **0.11a**.
 
 [cup-tum]: http://www2.cs.tum.edu/projects/cup/

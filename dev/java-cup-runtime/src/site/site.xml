@@ -11,20 +11,16 @@
           <shortTitle>Introduction</shortTitle>
           <toc>false</toc>
         </index>
-        <manual>
-          <highlightJs>true</highlightJs>
-        </manual>
       </pages>
     </reflowSkin>
   </custom>
 
   <body>
 
-    <menu name="CUP Parser Generator" ref="module-menu">
+    <menu name="CUP Runtime" ref="module-menu">
       <item name="Introduction" href="index.html"/>
       <item name="Release Notes" ref="changes-report"/>
-      <item name="User Manual" href="manual.html"/>
-      <item name="CUP Runtime" href="../java-cup-runtime/"/>
+      <item name="CUP Parser Generator" href="../java-cup/"/>
       <item name="CUP Maven Plugin" href="../cup-maven-plugin/"/>
     </menu>
 
