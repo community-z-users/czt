@@ -1,8 +1,12 @@
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="../../doc/tools/faq2html.xsl"?>
-<document>
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs xmlns="http://maven.apache.org/FML/1.0.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+  title="Frequently Asked Questions">
 
-  <faqsection title="General Questions">
+  <part id="general">
+    <title>General</title>
+
     <faq id="latest-version">
       <question>
         Where do I find the latest version of this document?
@@ -39,9 +43,12 @@
         <p>Gnast is short for GeNerate AST.</p>
       </answer>
     </faq>
-  </faqsection>
 
-  <faqsection title="How does Gnast work">
+  </part>
+
+  <part id="how">
+    <title>How Gnast works</title>
+
     <faq id="diff">
       <question>
         How is Gnast different from other source code generators
@@ -138,5 +145,6 @@
         </p>
       </answer>
     </faq>
-  </faqsection>
-</document>
+  </part>
+
+</faqs>
