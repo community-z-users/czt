@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import java.util.Collections;
 
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.DefaultSectionParents;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -157,6 +161,23 @@ public class DefaultCircusTimeSectionParentsTest {
 									Section.CIRCUSTIME_PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 									));
+		
+		try
+		{
+			Key<DefaultSectionParents> k = new Key<DefaultSectionParents>("my_sect", DefaultSectionParents.class);
+			SectionManager sm_ = new SectionManager("circustime");
+			DefaultSectionParents cmd2_ = sm_.get(k);
+			
+			assertEquals(cmd2_.defaultParents("my_sect"), 
+					ZUtils.parentsAsSet(Section.PRELUDE.getName(), 
+										Section.CIRCUS_PRELUDE.getName(),
+										Section.CIRCUSTIME_PRELUDE.getName()
+										));
+		}
+		catch (CommandException e)
+		{
+			fail("Shouldn't have thrown CommandException " + e.toString());
+		}
 	}
-
+	
 }
