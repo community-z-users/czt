@@ -11,6 +11,9 @@
           <shortTitle>Introduction</shortTitle>
           <toc>false</toc>
         </index>
+        <manual>
+          <highlightJs>true</highlightJs>
+        </manual>
       </pages>
     </reflowSkin>
   </custom>
