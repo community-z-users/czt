@@ -140,6 +140,8 @@ action code
    /** Section information. */
     protected SectionInfo sectInfo_;
 
+	protected DefaultSectionParents defaultSP_;
+
     /** The operator scanner. */
     protected OperatorScanner opScanner_;
     protected NewlineScanner nlScanner_;
@@ -2233,6 +2235,8 @@ parser code
     /** Section information. */
     protected SectionInfo sectInfo_;
 
+	protected DefaultSectionParents defaultSP_;
+
     /**
      * The list of parse errors.
      */
@@ -2319,20 +2323,41 @@ parser code
       super(scanner);
       source_ = source;
       sectInfo_ = sectInfo;
+      assert sectInfo_ != null;
       errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
       explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
       parseException_ = null;
+      defaultSP_ = null;
       if (source != null) {
         try {
           parseException_ =
             sectInfo_.get(new Key&lt;ParseException&gt;(source.getName(),
                                   ParseException.class));
           errorList_ = parseException_.getErrors();
+          
+          defaultSP_ =
+          	sectInfo_.get(new Key&lt;DefaultSectionParents&gt;(source.getName(),
+          							DefaultSectionParents.class));
         }
         catch (CommandException e) {
           e.printStackTrace();
+          //TODO: check this. why not report the error?
+          //report_error(e.toString(), e);
         }
       }
+      else {
+      	try {
+          defaultSP_ =
+          	sectInfo_.get(new Key&lt;DefaultSectionParents&gt;(Section.ANONYMOUS.getName(),
+          							DefaultSectionParents.class));
+        }
+        catch (CommandException e) {
+          e.printStackTrace();
+          //TODO: check this. why not report the error?
+          //report_error(e.toString(), e);
+        } 
+      }
+      assert defaultSP_ != null;
       opScanner_ = new OperatorScanner(getScanner(), properties);
 <add:pattern>
       jokerScanner_ = new JokerScanner(getScanner());
@@ -2556,6 +2581,7 @@ init with
     //share the operator table between the action code and the parser code
     action_obj.source_ = source_;
     action_obj.sectInfo_ = sectInfo_;
+    action_obj.defaultSP_ = defaultSP_;
     action_obj.opScanner_ = opScanner_;
     action_obj.nlScanner_ = nlScanner_;
     action_obj.parserState_ = createParserState(source_);
@@ -3471,24 +3497,9 @@ emptySectionHeader ::=
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
            final String name = Section.ANONYMOUS.getName();
-           final Parent p =
-             factory_.createParent(Section.STANDARD_TOOLKIT.getName());
-<add:oz>
-           final Parent poz = factory_.createParent(OZ_TOOLKIT);
-</add:oz>
-<add:circus>
-           final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
-</add:circus>
-<add:circustime>
-           final Parent pcircustime = factory_.createParent(CircusTimeUtils.CIRCUSTIME_PRELUDE);
-</add:circustime>
-
            startZSectTransaction(name);
-           
-           final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz>
-           					<add:circus>, pcircus</add:circus><add:circustime>, pcircustime</add:circustime>);
+           final List&lt;Parent&gt; parents = ZUtils.parentsAsList(defaultSP_.defaultParents(name));
            resetInfoTables(name, parents, eleft, eright);
-           
            RESULT = createZSect(name, parents);
 <add:circus>
            parserState_.clearAllProcessInformation();
@@ -3551,41 +3562,10 @@ sectionHeader ::=
            String name = dw.getName();
            checkName(dw);
 
-           if (! name.equals(Section.PRELUDE.getName())
-               &amp;&amp; p.isEmpty()) {
-             Parent parent = factory_.createParent(Section.PRELUDE.getName());
-             p.add(parent);
-           }
-<add:oz>
-           final Parent ozParent = factory_.createParent(OZ_TOOLKIT);
-           if ((! name.equals(OZ_TOOLKIT)) &amp;&amp;
-               (! p.contains(ozParent)) &amp;&amp;
-               (! name.equals(Section.PRELUDE.getName()))) {
-             p.add(ozParent);
-           }
-</add:oz>
-<add:circus>
-           final Parent circusParent = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
-           if ((! name.equals(CircusUtils.CIRCUS_PRELUDE)) &amp;&amp;
-               (! p.contains(circusParent)) &amp;&amp;
-               (! name.equals(Section.PRELUDE.getName()))) {
-             p.add(circusParent);
-           }
-</add:circus>
-<add:circustime>
-           final Parent circusTimeParent = factory_.createParent(CircusTimeUtils.CIRCUSTIME_PRELUDE);
-           if ((! name.equals(CircusTimeUtils.CIRCUSTIME_PRELUDE)) &amp;&amp;
-           	   (! name.equals(CircusUtils.CIRCUS_PRELUDE)) &amp;&amp;
-               (! p.contains(circusTimeParent)) &amp;&amp;
-               (! name.equals(Section.PRELUDE.getName()))) {
-             p.add(circusTimeParent);
-           }
-</add:circustime>
-
+		   final List&lt;Parent&gt; sectParents = ZUtils.parentsAsList(defaultSP_.defaultParents(name));
+		   p.addAll(sectParents);
            startZSectTransaction(name);
-           
            resetInfoTables(name, p, pleft, pright);
-           
            RESULT = createZSect(name, p);
 <add:circus>
            parserState_.clearAllProcessInformation();
