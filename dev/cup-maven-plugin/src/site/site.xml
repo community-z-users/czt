@@ -21,7 +21,7 @@
 
     <menu name="CUP Maven Plugin" ref="module-menu">
       <item name="Introduction" href="index.html"/>
-      <item name="Goals" href="plugin-info.html"/>
+      <item name="Goals" ref="plugin-info"/>
       <item name="CUP Parser Generator" href="../java-cup/"/>
       <item name="CUP Runtime" href="../java-cup-runtime/"/>
     </menu>
