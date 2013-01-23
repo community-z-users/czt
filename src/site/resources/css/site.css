@@ -28,3 +28,13 @@ body {
 h3, h4, h5, h6 {
   margin-top: 20px;
 }
+
+/* Ident second line of navigation if needed. */
+footer .nav-list li {
+  text-indent: -5px;
+}
+
+footer .nav-list > li > a, footer .nav-header {
+  padding-left: 20px;
+}
+
