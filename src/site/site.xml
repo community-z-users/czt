@@ -85,6 +85,11 @@
         <dependencies>
           <tocTopMax>4</tocTopMax>
         </dependencies>
+
+        <!-- Use "Release Notes" as title for all changes reports -->
+        <changes-report>
+          <shortTitle>Release Notes</shortTitle>
+        </changes-report>
       </pages>
     </reflowSkin>
   </custom>
