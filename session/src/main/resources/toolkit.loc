@@ -4,6 +4,7 @@
   <comment>Locations of Z Toolkit file providers (as classes from different JARs possibly). They will be used to resolve the resources from the different JARs.</comment>
   <entry key="net.sourceforge.czt.parser.z.ParserState"></entry>
   <entry key="net.sourceforge.czt.parser.circus.ParserState"></entry>
+  <entry key="net.sourceforge.czt.parser.circustime.ParserState"></entry>
   <entry key="net.sourceforge.czt.parser.oz.ParserState"></entry>
   <entry key="net.sourceforge.czt.parser.ozpatt.JokerScanner"></entry>
   <entry key="net.sourceforge.czt.parser.zeves.ParserState"></entry>
