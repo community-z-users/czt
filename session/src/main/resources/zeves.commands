@@ -3,6 +3,7 @@
 <properties>
   <comment>Default commands for Z/EVES proofs processing</comment>
   <entry key="net.sourceforge.czt.session.Source">net.sourceforge.czt.session.SourceLocator</entry>
+  <entry key="net.sourceforge.czt.session.DefaultSectionParents">net.sourceforge.czt.parser.zeves.DefaultZEvesSectionParentsCommand</entry>
   <entry key="net.sourceforge.czt.z.ast.Spec">net.sourceforge.czt.parser.zeves.ParseUtils</entry>
   <entry key="net.sourceforge.czt.z.ast.ZSect">net.sourceforge.czt.parser.zeves.ParseUtils</entry>
   <entry key="net.sourceforge.czt.parser.util.ParseException">net.sourceforge.czt.parser.util.ParseExceptionCommand</entry>
