@@ -32,6 +32,7 @@ import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProofObligationAnn;
 import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.PowerType;
@@ -75,9 +76,9 @@ public final class CircusUtils
   }
   public static final Factory FACTORY = new Factory();
   /** The name of the basic Circus toolkit. */
-  public static final String CIRCUS_TOOLKIT = "circus_toolkit";
+  public static final String CIRCUS_TOOLKIT = Section.CIRCUS_TOOLKIT.getName();
   /** The name of the Circus prelude. */
-  public static final String CIRCUS_PRELUDE = "circus_prelude";
+  public static final String CIRCUS_PRELUDE = Section.CIRCUS_PRELUDE.getName();
   
   /**
    * Every basic process main action is named with this internal name.

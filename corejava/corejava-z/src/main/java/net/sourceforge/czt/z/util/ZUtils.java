@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.TermImpl;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public final class ZUtils
@@ -118,6 +118,39 @@ public final class ZUtils
     return Section.ANONYMOUS.getName().equals(name) &&
       parents.size() == 1 &&
       Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
+  }
+  
+  public static String parentsAsString(Set<String> parents)
+  {
+		StringBuilder result = new StringBuilder();
+		String sep = "";
+		for(String p : parents)
+		{
+		  result.append(sep);
+		  result.append(p);
+		  sep = ",";
+		}
+		return result.toString();
+	}
+	
+  public static List<Parent> parentsAsList(Set<String> parents)
+  {
+	  List<Parent> result = FACTORY.list();
+	  for (String p : parents)
+	  {
+		  result.add(FACTORY.createParent(p));
+	  }
+	  return result;
+  }
+  
+  public static Set<String> parentsAsSet(String... p)
+  {
+	  Set<String> result = new java.util.HashSet<String>();
+	  for(String s : p)
+	  {
+		  result.add(s);
+	  }
+	  return result;
   }
 
   /** 
