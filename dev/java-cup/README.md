@@ -39,12 +39,12 @@ This fork features several updates added by the Community Z Tools project:
 
 ## Usage
 
-CUP parser generator can be used standalone. Refer to the [original user manual][cup-manual]
+CUP parser generator can be used standalone. Refer to the [user manual][cup-manual]
 for details on usage, configuration options and writing CUP specifications.
 
 [CUP Maven plugin][cup-maven] allows using this CUP parser generator within Maven build.
 
-[cup-manual]: http://www2.cs.tum.edu/projects/cup/manual.html
+[cup-manual]: manual.html
 [cup-maven]: ../cup-maven-plugin/
 
 

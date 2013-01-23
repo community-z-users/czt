@@ -66,7 +66,7 @@ Include the matching CUP runtime dependency where parser is generated:
 
 
 [cup]: http://www2.cs.tum.edu/projects/cup/
-[cup-manual]: http://www2.cs.tum.edu/projects/cup/manual.html
+[cup-manual]: ../java-cup/manual.html
 [cup-lib]: ../java-cup/
 [cup-runtime]: ../java-cup-runtime/
 [cup:generate]: generate-mojo.html

@@ -23,7 +23,7 @@
     <menu name="CUP Parser Generator" ref="module-menu">
       <item name="Introduction" href="index.html"/>
       <item name="Release Notes" ref="changes-report"/>
-      <item name="User Manual" href="http://www2.cs.tum.edu/projects/cup/manual.html"/>
+      <item name="User Manual" href="manual.html"/>
       <item name="CUP Maven Plugin" href="../cup-maven-plugin/"/>
       <item name="CUP Runtime" href="../java-cup-runtime/"/>
     </menu>
