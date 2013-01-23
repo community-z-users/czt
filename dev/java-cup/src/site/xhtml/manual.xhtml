@@ -1,23 +1,32 @@
-<html><head>
-<title>CUP User's Manual</title></head><body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<hr>
-<img src="manual_dateien/cup_logo.gif" alt="[CUP Logo Image]">
-<hr>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>CUP User's Manual</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+
+<hr />
+<img src="manual_dateien/cup_logo.gif" alt="[CUP Logo Image]" />
+<hr />
 <h1>CUP User's Manual</h1>
 <h3><a href="http://www.cc.gatech.edu/gvu/people/Faculty/Scott.E.Hudson.html">
-Scott E. Hudson</a><br> 
+Scott E. Hudson</a><br /> 
 <a href="http://www.cc.gatech.edu/gvu/gvutop.html">
-Graphics Visualization and Usability Center</a><br> 
+Graphics Visualization and Usability Center</a><br /> 
 <a href="http://www.gatech.edu/TechHome.html">
 Georgia Institute of Technology</a></h3>
 Modified by <a href="http://www.princeton.edu/%7Efrankf">Frank
 Flannery</a>, <a href="http://www.pdos.lcs.mit.edu/%7Ecananian/">C. Scott Ananian</a>, 
 <a href="http://www.cs.princeton.edu/%7Edanwang">Dan Wang</a> with advice from 
-<a href="http://www.cs.princeton.edu/%7Eappel">Andrew W. Appel</a><br>
-Now actualized by <a href="http://www2.cs.tum.edu/%7Epetter">Michael Petter</a><br>
+<a href="http://www.cs.princeton.edu/%7Eappel">Andrew W. Appel</a><br />
+Now actualized by <a href="http://www2.cs.tum.edu/%7Epetter">Michael Petter</a><br />
 Last updated March 2006 (v0.11a)
-<hr>
+<hr />
 
 <h3>Table of Contents</h3>
 <dl compact="compact">
@@ -40,9 +49,9 @@ Last updated March 2006 (v0.11a)
   </dd><dt> E.  </dt><dd> <a href="#version">Change log</a>
 </dd></dl>
 
-<a name="about">
-<h3>i. About CUP Version 0.10</h3>
-</a> Version
+
+<h3>i. About CUP Version 0.10<a name="about" /></h3>
+Version
 0.10 of CUP adds many new changes and features over the previous releases
 of version 0.9.  These changes attempt to make CUP more like its
 predecessor, YACC.  As a result, the old 0.9 parser specifications for CUP are
@@ -55,8 +64,8 @@ in version 0.11 the TUM team tries to continue the success story of CUP 0.10,
 beginning with the introduction of generic data types for non-terminal symbols
 as well as a modernisation of the user interface with a comfortable ANT plugin 
 structure.
-<a name="intro">
-<h3>1. Introduction and Example</h3></a>
+
+<h3>1. Introduction and Example<a name="intro" /></h3>
 
 This manual describes the basic operation and use of the 
 Java<a href="#trademark">(tm)</a>
@@ -106,8 +115,8 @@ The experienced user will note a problem with the above grammar.  It is
 ambiguous.  An ambiguous grammar is a grammar which, given a certain
 input, can reduce the parts of the input in two different ways such as
 to give two different answers.  Take the above grammar, for
-example. given the following input: <br>
-<tt>3 + 4 * 6</tt><br>
+example. given the following input: <br />
+<tt>3 + 4 * 6</tt><br />
 The grammar can either evaluate the <tt>3 + 4</tt> and then multiply
 seven by six, or it can evaluate <tt>4 * 6</tt> and then add three.
 Older versions of CUP forced the user to write unambiguous grammars, but
@@ -117,8 +126,8 @@ grammar can be used, after specifying precedences and associativities.
 There is more explanation later.
 
 Based on these namings we can construct a small CUP specification 
-as follows:<br>
-<hr>
+as follows:<br />
+<hr />
 <pre><tt>// CUP specification for a simple expression evaluator (no actions)
 
 import java_cup.runtime.*;
@@ -155,7 +164,7 @@ expr      ::= expr PLUS expr
 	    | NUMBER
 	    ;
 </tt></pre>
-<hr><br>
+<hr /><br />
 We will consider each part of the specification syntax in detail later.  
 However, here we can quickly see that the specification contains four 
 main parts.  The first part provides preliminary and miscellaneous declarations
@@ -201,8 +210,8 @@ system records all characters within the delimiters, but does not try to check
 that it contains valid Java code.</p><p>
 
 A more complete CUP specification for our example system (with actions 
-embedded at various points in the grammar) is shown below:<br>
-</p><hr>
+embedded at various points in the grammar) is shown below:<br />
+</p><hr />
 <pre><tt>// CUP specification for a simple expression evaluator (w/ actions)
 
 import java_cup.runtime.*;
@@ -261,11 +270,11 @@ expr      ::= expr:e1 PLUS expr:e2
 	      {: RESULT = e; :} 
 	      ;
 </tt></pre>
-<hr><br>
+<hr /><br />
 Here we can see several changes.  Most importantly, code to be executed at 
 various points in the parse is included inside code strings delimited by 
 <tt>{:</tt> and <tt>:}</tt>.  In addition, labels have been placed on various 
-symbols in the right hand side of productions.  For example in:<br>
+symbols in the right hand side of productions.  For example in:<br />
 <pre>  expr:e1 PLUS expr:e2    
 	{: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
 </pre>
@@ -338,11 +347,11 @@ CUP system.  <a href="#parser">Section 4</a> discusses the details
 of how to customize a CUP parser, while <a href="#scanner">section 5</a>
 discusses the scanner interface added in CUP 0.10j. <a href="#errors">Section
  6</a> considers error recovery.  Finally, <a href="#conclusion">Section 7</a> 
-provides a conclusion.
+provides a conclusion.</p>
 
-<a name="spec">
-<h3>2. Specification Syntax</h3></a>
-Now that we have seen a small example, we present a complete description of all 
+
+<h3>2. Specification Syntax<a name="spec" /></h3>
+<p>Now that we have seen a small example, we present a complete description of all 
 parts of a CUP specification.  A specification has four sections with 
 a total of eight specific parts (however, most of these are optional).  
 A specification consists of:
@@ -358,7 +367,7 @@ grammar for the specification language is given in
 <a href="#appendixa">Appendix A</a>.)  The particulars of each part of
 the specification are described in the subsections below.<p>
 
-</p><h5><a name="package_spec">Package and Import Specifications</a></h5>
+</p><h5>Package and Import Specifications<a name="package_spec" /></h5>
 
 A specification begins with optional <tt>package</tt> and <tt>import</tt> 
 declarations.  These have the same syntax, and play the same 
@@ -389,7 +398,7 @@ Any import declarations that appear in the specification will also appear
 in the source file for the <tt>parser</tt> class allowing various names from
 that package to be used directly in user supplied action code.
 
-<h5><a name="code_part">User Code Components</a></h5>
+<h5>User Code Components<a name="code_part" /></h5>
 
 Following the optional <tt>package</tt> and <tt>import</tt> declarations
 are a series of optional declarations that allow user code to be included
@@ -453,7 +462,7 @@ As of CUP 0.10j the action code, parser code, init code, and scan with
 sections may appear in any order. They must, however, precede the
 symbol lists.</p><p>
 
-</p><h5><a name="symbol_list">Symbol Lists</a></h5>
+</p><h5>Symbol Lists<a name="symbol_list" /></h5>
 
 Following user supplied code comes the first required part of the 
 specification: the symbol lists.  These declarations are responsible 
@@ -496,7 +505,7 @@ these include "code", "action", "parser", "terminal", "non",
 "nonterminal", "init", "scan", "with", "start", "precedence", "left",
 "right", "nonassoc", "import", and "package".</p><p>
 
-</p><h5><a name="precedence">Precedence and Associativity declarations</a></h5>
+</p><h5>Precedence and Associativity declarations<a name="precedence" /></h5>
 
 The third section, which is optional, specifies the precedences and
 associativity of terminals.  This is useful for parsing with ambiguous
@@ -560,7 +569,7 @@ treated as lowest precedence.  If a shift/reduce error results,
 involving two such terminals, it cannot be resolved, as the above
 conflicts are, so it will be reported.</p><p>
 
-</p><h5><a name="production_list">The Grammar</a></h5>
+</p><h5>The Grammar<a name="production_list" /></h5>
 
 The final section of a CUP declaration provides the grammar.  This 
 section optionally starts with a declaration of the form:
@@ -631,8 +640,8 @@ shown in the above sample parser specification:
 Hence, the parser can give the MINUS sign two different precedences,
 depending on whether it is a unary minus or a subtraction operation. 
 
-</a><a name="running">
-<h3>3. Running CUP</h3></a>
+</a>
+<h3>3. Running CUP<a name="running" /></h3>
 <h4>3.1 Command line interface</h4>
 As mentioned above, CUP is written in Java.  To invoke it, one needs
 to use the Java interpreter to invoke the static method 
@@ -708,7 +717,7 @@ by passing various options to it.  Legal options are documented in
       the error, so this can degrade the parser's ability to do 
       <a href="#errors">error recovery</a>.
       (Refer to reference [2] pp. 244-247 or reference [3] pp. 190-194 for a 
-      complete explanation of this compaction technique.) <br><br>
+      complete explanation of this compaction technique.) <br /><br />
 
       This option is typically used to work-around the java bytecode
       limitations on table initialization code sizes.  However, CUP
@@ -776,10 +785,10 @@ by passing various options to it.  Legal options are documented in
   automated CUP version checking for Makefiles, install scripts and
   other applications which may require it.
 </dd></dl>
-<a name="ant">
+
 <h4>3.2 Integrating CUP into an <a href="http://ant.apache.org/">ANT</a>
-script</h4>
-</a>
+script<a name="ant" /></h4>
+
 To use cup in an ANT script, You have to add the following task definition to
 Your <tt>build.xml</tt> file:
 <pre>&lt;taskdef name="cup"
@@ -796,12 +805,12 @@ from within ANT. Such a generation statement could look like:
 /&gt;
 &lt;/target&gt;
 </pre>
-You can specify all commandline flags from chapter <bf>3.1</bf> as boolean
+You can specify all commandline flags from chapter <strong>3.1</strong> as boolean
 parameters to Your cuptask to achieve a similar behaviour (as done with
 <tt>-interface</tt> in this little example).
 
-<a name="parser">
-<h3>4. Customizing the Parser</h3></a>
+
+<h3>4. Customizing the Parser<a name="parser" /></h3>
 
 Each generated parser consists of three generated classes.  The 
 <tt>sym</tt> class (which can be renamed using the <tt>-symbols</tt>
@@ -924,11 +933,11 @@ with code such as:
       }
 </pre>
 
-<a name="scanner" />
-<h3>5. Scanner Interface</h3></a>
 
-<a name="basic-symbols" />
-<h4>5.1 Basic Symbol management</h4>
+<h3>5. Scanner Interface<a name="scanner" /></h3>
+
+
+<h4>5.1 Basic Symbol management<a name="basic-symbols" /></h4>
 
 In CUP 0.10j, scanner integration was improved according to
 suggestions made by <a href="http://www.smartsc.com/">David MacMahon</a>.
@@ -996,10 +1005,10 @@ where <code>sym</code> is the name of the symbol class for your
 generated parser.<p>
 
 The simple_calc example in the CUP distribution illustrates the use of
-the scanner integration features with a hand-coded scanner.</p><p>
+the scanner integration features with a hand-coded scanner.</p>
 
-<a name="advanced-symbols" />
-<h4>5.2 Advanced Symbol management</h4>
+
+<h4>5.2 Advanced Symbol management<a name="advanced-symbols" /></h4>
 
 <p>Since CUP v11a we offer the possibility of advanced symbol handling in CUP.
 Therefore, You can implement Your own SymbolFactory, derived from
@@ -1030,10 +1039,10 @@ public Symbol newSymbol(String name, Symbol left, Symbol right, Object value){
 }
 </pre>
 
-<a name="errors" />
-<h3>6. Error Recovery</h3></a>
 
-A final important aspect of building parsers with CUP is 
+<h3>6. Error Recovery<a name="errors" /></h3>
+
+<p>A final important aspect of building parsers with CUP is 
 support for syntactic error recovery.  CUP uses the same 
 error recovery mechanisms as YACC.  In particular, it supports
 a special error symbol (denoted simply as <tt>error</tt>).
@@ -1080,12 +1089,12 @@ If the parse cannot be continued far enough, then another token is
 discarded and the parser again tries to parse ahead.  If the end of
 input is reached without making a successful recovery (or there was no
 suitable error recovery state found on the parse stack to begin with)
-then error recovery fails.
+then error recovery fails.</p>
 
-<a name="conclusion">
-<h3>7. Conclusion</h3></a>
 
-This manual has briefly described the CUP LALR parser generation system.
+<h3>7. Conclusion<a name="conclusion" /></h3>
+
+<p>This manual has briefly described the CUP LALR parser generation system.
 CUP is designed to fill the same role as the well known YACC parser
 generator system, but is written in and operates entirely with Java code 
 rather than C or C++.  Additional details on the operation of the system can 
@@ -1115,11 +1124,11 @@ Frank Flannery</a>, in July of 1996.</p><p>
 On-going improvements have been done by
 <a href="http://www.pdos.lcs.mit.edu/%7Ecananian">
 C. Scott Ananian</a>, the CUP maintainer, from December of 1997 to the
-present.</p><p>
+present.</p>
 
-<a name="refs">
-<h3>References</h3></a>
-</p><dl compact="compact">
+
+<h3>References<a name="refs" /></h3>
+<dl compact="compact">
 
 <dt><a name="YACCref">[1]</a> 
 </dt><dd>S. C. Johnson, 
@@ -1145,9 +1154,9 @@ Redwood City, CA,
 
 </dd></dl>
 
-<h3><a name="appendixa">
-Appendix A. Grammar for CUP Specification Files</a> (0.10j)</h3>
-<hr><br>
+<h3>
+Appendix A. Grammar for CUP Specification Files (0.10j)<a name="appendixa" /></h3>
+<hr /><br />
 <pre><tt>java_cup_spec      ::= package_spec import_list code_parts
 		       symbol_list precedence_list start_spec 
 		       production_list
@@ -1201,11 +1210,11 @@ label_id           ::= ID
 opt_semi	   ::= SEMI | empty
 
 </tt></pre>
-<hr><p></p><p>
+<hr /><p></p><p>
 
-</p><h3><a name="appendixb">Appendix B. A Very Simple Example Scanner</a><a></a></h3>
-<hr><a><br>
-</a><pre><a><tt>// Simple Example Scanner Class
+</p><h3>Appendix B. A Very Simple Example Scanner<a name="appendixb" /></h3>
+<hr /><br />
+<pre><tt>// Simple Example Scanner Class
 
 import java_cup.runtime.*;
 import sym;
@@ -1261,11 +1270,10 @@ public class scanner {
 	  }
     }
 };
-</tt></a></pre>
+</tt></pre>
 
 
-<a name="changes">
-</a><h3><a name="changes">Appendix C:  Incompatibilites between CUP 0.9 and CUP 0.10</a></h3>
+<h3>Appendix C:  Incompatibilites between CUP 0.9 and CUP 0.10<a name="changes" /></h3>
 
 CUP version 0.10a is a major overhaul of CUP.  The changes are severe,
 meaning no backwards compatibility to older versions.
@@ -1282,7 +1290,7 @@ The changes consist of:
 </li><li> <a href="#con_prec">Rule contextual precedence assignment</a>
 </li></ul>
 
-<h5><a name="lex_inter">Lexical Interface</a></h5>
+<h5>Lexical Interface<a name="lex_inter" /></h5>
 
 CUP now interfaces with the lexer in a completely different
 manner.  In the previous releases, a new class was used for every
@@ -1300,7 +1308,7 @@ where in the input file, character-wise, that terminal was found.<p>
 
 For more information, refer to the manual on <a href="#lex_part">scanners</a>.
 
-</p><h5><a name="new_dec">Terminal/Non-Terminal Declarations</a></h5>
+</p><h5>Terminal/Non-Terminal Declarations<a name="new_dec" /></h5>
 
 Terminal and non-terminal declarations now can be declared in two
 different ways to indicate the values of the terminals or
@@ -1324,7 +1332,7 @@ indicates the terminals in the list hold no value.<p>
 
 For more information, refer to the manual on <a href="#symbol_list">declarations</a>.
 
-</p><h5><a name="label_ref">Label References</a></h5>
+</p><h5>Label References<a name="label_ref" /></h5>
 
 Label references do not refer to the object on the parse stack, as in
 the old CUP, but rather to the value of the <tt>value</tt> 
@@ -1336,7 +1344,7 @@ of the terminal or non-terminal.<p>
 
 For more information, refer to the manual on <a href="#label_part">labels</a>.
 
-</p><h5><a name="RESULT_pass">RESULT Value</a></h5>
+</p><h5>RESULT Value<a name="RESULT_pass" /></h5>
 
 The <tt>RESULT</tt> variable refers directly to the value of the 
 non-terminal
@@ -1348,7 +1356,7 @@ direct, rather than to something that will contain the data.<p>
 
 For more information, refer to the manual on <a href="#RES_part">RESULT</a>.
 
-</p><h5><a name="pos_prop">Position Propagation</a></h5>
+</p><h5>Position Propagation<a name="pos_prop" /></h5>
 
 For every label, two more variables are declared, which are the label
 plus <tt>left</tt> or the label plus <tt>right</tt>.  These correspond 
@@ -1360,13 +1368,13 @@ terminals, so that the starting non-terminal should have a left value of
 
 For more information, refer to the manual on <a href="#label_part">positions</a>. 
 
-</p><h5><a name="ret_val">Return Value</a></h5>
+</p><h5>Return Value<a name="ret_val" /></h5>
 
 A call to <tt>parse()</tt> or <tt>debug_parse()</tt> returns a
 Symbol.  This Symbol is the start non-terminal, so the <tt>value</tt> 
 instance variable contains the final <tt>RESULT</tt> assignment. 
 
-<h5><a name="prec_add">Precedence</a></h5>
+<h5>Precedence<a name="prec_add" /></h5>
 
 CUP now has precedenced terminals.  a new declaration section,
 occurring between the terminal and non-terminal declarations and the
@@ -1390,7 +1398,7 @@ grammars may now be used.<p>
 
 For more information, refer to the manual on <a href="#precedence">precedence</a>.
 
-</p><h5><a name="con_prec">Contextual Precedence</a></h5>
+</p><h5>Contextual Precedence<a name="con_prec" /></h5>
 
 Finally the new CUP adds contextual precedence.  A production may be
 declare as followed:
@@ -1411,12 +1419,12 @@ precedence</a>.
 
 These changes implemented by:
 </p><h3>
-<a href="http://www.princeton.edu/%7Efrankf">Frank Flannery</a><br>
-<a href="http://www.cs.princeton.edu/">Department of Computer Science</a><br>
-<a href="http://www.princeton.edu/">Princeton University</a><br>
+<a href="http://www.princeton.edu/%7Efrankf">Frank Flannery</a><br />
+<a href="http://www.cs.princeton.edu/">Department of Computer Science</a><br />
+<a href="http://www.princeton.edu/">Princeton University</a><br />
 </h3>
-<a name="bugs">
-</a><h3><a name="bugs">Appendix D:  Bugs</a></h3>
+
+<h3>Appendix D:  Bugs<a name="bugs" /></h3>
 In this version of CUP it's difficult for the semantic action phrases (Java code attached
 to productions) to access the <tt>report_error</tt> method and other similar methods and
 objects defined in the <tt>parser code</tt> directive.
@@ -1444,8 +1452,8 @@ For a list of any other currently known bugs in CUP, see
 <a href="http://www.cs.princeton.edu/%7Eappel/modern/java/CUP/bugs.html">
 http://www.cs.princeton.edu/~appel/modern/java/CUP/bugs.html</a>.
 
-<a name="version">
-</a></p><h3><a name="version">Appendix E:  Change log</a></h3>
+
+</p><h3>Appendix E:  Change log<a name="version" /></h3>
 
 <dl>
 <dt>0.9e</dt><dd>March 1996, Scott Hudson's original version.
@@ -1481,7 +1489,7 @@ internet to sustain a more up-to-date state.
 </dl>
 
 
-<hr>
+<hr />
 
 <a name="trademark">
 Java and HotJava are
@@ -1490,7 +1498,7 @@ and refer to Sun's Java programming language and HotJava browser
 technologies.
 CUP is not sponsored by or affiliated with Sun Microsystems, Inc.
 
-<hr>
+<hr />
 
 
 </body></html>
