@@ -90,15 +90,17 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 		
 		// only calculate default parents for the corresponding section manager dialect?
 		// (i.e. Z section manager cannot use a Circus default section parents command).
-		if (manager.getDialect().equals(getDialect().dialect()))
+		if (!manager.getDialect().equals(getDialect().dialect()))
+		{
 			throw new CommandException("Cannot resolve default section parents for " + getDialect().dialect() + ". Section manager dialect is " + manager.getDialect());
+		}
 		
 		// calculate the default parents for the given section name.
 		// this adds to the underlying map the default parents for the given section name.
 		calculateDefaultParents(name);
 
 		// update the manager with the information required.
-		manager.put(new Key<DefaultSectionParents>(name, DefaultSectionParents.class), this);
+		manager.endTransaction(new Key<DefaultSectionParents>(name, DefaultSectionParents.class), this);
 		return true;
 	}
 	
