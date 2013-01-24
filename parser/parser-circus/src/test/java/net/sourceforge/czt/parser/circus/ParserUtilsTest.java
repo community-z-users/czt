@@ -20,7 +20,7 @@ import junit.framework.*;
  */
 public class ParserUtilsTest extends TestCase {
 
-    // private static SectionManager sm_ = new SectionManager("circus");
+    // private static SectionManager sm_ = new SectionManager(Dialect.CIRCUS);
     public ParserUtilsTest(String testName) {
         super(testName);
     }

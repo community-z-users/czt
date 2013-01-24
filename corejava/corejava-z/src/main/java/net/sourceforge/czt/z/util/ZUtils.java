@@ -131,9 +131,19 @@ public final class ZUtils
 		  sep = ",";
 		}
 		return result.toString();
-	}
-	
-  public static List<Parent> parentsAsList(Set<String> parents)
+  }
+
+  public static Set<Parent> parentsAsSetOfParent(Set<String> parents)
+  {
+	  Set<Parent> result = new java.util.HashSet<Parent>();
+	  for (String p : parents)
+	  {
+		  result.add(FACTORY.createParent(p));
+	  }
+	  return result;
+  }
+
+  public static List<Parent> parentsAsListOfParent(Set<String> parents)
   {
 	  List<Parent> result = FACTORY.list();
 	  for (String p : parents)
@@ -143,7 +153,7 @@ public final class ZUtils
 	  return result;
   }
   
-  public static Set<String> parentsAsSet(String... p)
+  public static Set<String> parentsArgListAsSetOfString(String... p)
   {
 	  Set<String> result = new java.util.HashSet<String>();
 	  for(String s : p)

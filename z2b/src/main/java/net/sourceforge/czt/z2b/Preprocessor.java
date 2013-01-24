@@ -26,6 +26,7 @@ import net.sourceforge.czt.rules.rewriter.RewriteUtils;
 import net.sourceforge.czt.rules.rewriter.Strategies;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 
@@ -37,7 +38,7 @@ class Preprocessor
     throws UnfoldException
   {
     try {
-      SectionManager manager = new SectionManager("zpatt");
+      SectionManager manager = new SectionManager(Dialect.ZPATT);
       rules_ = (RuleTable)
         manager.get(new Key("expansion_rules", RuleTable.class));
       RuleTable simplificationRules = (RuleTable)

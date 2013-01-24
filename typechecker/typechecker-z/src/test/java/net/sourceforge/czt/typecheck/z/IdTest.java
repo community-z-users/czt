@@ -62,7 +62,7 @@ public class IdTest
   @Override
   protected void setUp()
   {
-    manager_ = new SectionManager();
+    manager_ = new SectionManager(Dialect.Z);
   }
 
   @Override

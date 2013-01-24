@@ -21,6 +21,7 @@ package net.sourceforge.czt.vcg.z.feasibility;
 
 import junit.framework.Test;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.util.VCGTest;
 import net.sourceforge.czt.vcg.z.VCGException;
 
@@ -36,14 +37,14 @@ public class FeasibilityMondexTest extends FeasibilityTest
 
   public static Test suite() throws VCGException
   {
-    SectionManager manager =  FeasibilityUtils.getFeasibilityUtils().createSectionManager("zeves");
+    SectionManager manager =  FeasibilityUtils.getFeasibilityUtils().createSectionManager(Dialect.ZEVES);
     VCGTest test = new FeasibilityMondexTest(manager, DEBUG_TESTING);
     Test result = test.suite(TEST_MONDEX_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }
 
-  protected FeasibilityMondexTest(String extension, boolean debug)
+  protected FeasibilityMondexTest(Dialect extension, boolean debug)
   {
     super(extension, debug);
   }

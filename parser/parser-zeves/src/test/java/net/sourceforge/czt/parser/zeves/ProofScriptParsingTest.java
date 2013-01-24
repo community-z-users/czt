@@ -28,6 +28,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -47,7 +48,7 @@ public class ProofScriptParsingTest
 
   protected ProofScriptParsingTest(boolean debug)
   {
-    super("zeves", debug);
+    super(Dialect.ZEVES, debug);
   }
 
   protected ProofScriptParsingTest(SectionManager manager, boolean debug)

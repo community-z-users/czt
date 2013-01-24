@@ -37,7 +37,7 @@ public class OnTheFlyParsingTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-   // manager_ = new SectionManager("zeves");
+   // manager_ = new SectionManager(Dialect.ZEVES);
   }
 
   @Override

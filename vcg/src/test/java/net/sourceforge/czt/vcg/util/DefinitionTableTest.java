@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
@@ -53,7 +54,7 @@ public class DefinitionTableTest extends VCGTest
     return result;
   }
 
-  protected DefinitionTableTest(String extension, boolean debug)
+  protected DefinitionTableTest(Dialect extension, boolean debug)
   {
     super(extension, debug);
   }

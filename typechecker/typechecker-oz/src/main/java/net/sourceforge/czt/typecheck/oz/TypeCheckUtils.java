@@ -173,7 +173,7 @@ public class TypeCheckUtils
 
   protected SectionManager getSectionManager()
   {
-    SectionManager sectionManager = new SectionManager();
+    SectionManager sectionManager = new SectionManager(Dialect.OZ);
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     sectionManager.setProperties(System.getProperties());
     return sectionManager;

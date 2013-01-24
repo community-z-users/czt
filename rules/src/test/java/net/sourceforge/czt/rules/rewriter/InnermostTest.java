@@ -43,6 +43,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
@@ -67,8 +68,8 @@ public class InnermostTest
   private static void collectTests(TestSuite suite, String resource)
     throws Exception
   {
-    SectionManager manager = new SectionManager();
-    manager.putCommands("zpatt");
+    SectionManager manager = new SectionManager(Dialect.ZPATT);
+    manager.putCommands(Dialect.ZPATT);
     Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
     manager.put(new Key("unfold", Source.class), unfoldSource);
     URL url = InnermostTest.class.getResource(resource);

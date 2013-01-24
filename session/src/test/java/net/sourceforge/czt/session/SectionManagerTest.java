@@ -29,7 +29,7 @@ public class SectionManagerTest
   @Override
   protected void setUp()
   {
-    manager_ = new SectionManager();
+    manager_ = new SectionManager(Dialect.Z);
     manager_.putCommand(String.class, this);
   }
 

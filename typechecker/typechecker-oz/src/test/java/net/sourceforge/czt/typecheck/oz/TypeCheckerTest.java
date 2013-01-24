@@ -26,6 +26,7 @@ import junit.framework.TestSuite;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -97,7 +98,7 @@ public class TypeCheckerTest
 
   protected SectionManager getManager()
   {
-    return new SectionManager("oz");
+    return new SectionManager(Dialect.OZ);
   }
 
   protected List typecheck(Term term, SectionManager manager)

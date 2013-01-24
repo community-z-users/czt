@@ -32,6 +32,7 @@ import net.sourceforge.czt.parser.circus.ParseUtils;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -320,7 +321,7 @@ public class TypeCheckUtils
     } catch (IOException e) {
 
     }
-    SectionManager manager = new SectionManager("circus");    
+    SectionManager manager = new SectionManager(Dialect.CIRCUS);    
     
     java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());    
     logger.addHandler(ch);
@@ -365,7 +366,7 @@ public class TypeCheckUtils
 
   protected SectionManager getSectionManager()
   {
-    SectionManager sectionManager = new SectionManager("circus");
+    SectionManager sectionManager = new SectionManager(Dialect.CIRCUS);
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     sectionManager.setProperties(System.getProperties());
     return sectionManager;

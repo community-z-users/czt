@@ -50,6 +50,7 @@ import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.print.zeves.Unicode2Latex;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -107,7 +108,7 @@ public class LatexScannerDebugger {
 
   public static void debugScanner(Writer writer, Source source) throws IOException, Exception
   {
-    SectionManager sectInfo_ = new SectionManager("zeves");
+    SectionManager sectInfo_ = new SectionManager(Dialect.ZEVES);
     //sectInfo_.setProperty("czt.debug.LatexToUnicode", "true");
     //sectInfo_.setProperty("czt.debug.ContextFreeScanner", "true");
     //sectInfo_.setProperty("czt.debug.UnicodeScanner", "false");
@@ -211,7 +212,7 @@ public class LatexScannerDebugger {
   protected static void debugParser(Source source, boolean print,
           Integer width, boolean formatGoal, boolean isDebugging) throws CommandException, ParseException, IOException, UnmarshalException
   {
-      SectionManager sectInfo_ = new SectionManager("zeves");
+      SectionManager sectInfo_ = new SectionManager(Dialect.ZEVES);
       //sectInfo_.setTracing(true, Level.ALL);
       sectInfo_.setProperty(PrintPropertiesKeys.PROP_TXT_WIDTH, width.toString());
       sectInfo_.setProperty(PrintPropertiesKeys.PROP_PRINTING_STRUCTURED_GOAL,

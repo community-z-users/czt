@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
@@ -50,7 +51,7 @@ public abstract class VCGTest extends CztManagedTest
    * @param extension usually "z" or "circus"
    * @param debug true or false
    */
-  protected VCGTest(String extension, boolean debug)
+  protected VCGTest(Dialect extension, boolean debug)
   {
     super(extension, debug);
   }

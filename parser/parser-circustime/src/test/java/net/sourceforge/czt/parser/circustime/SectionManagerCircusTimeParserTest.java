@@ -18,6 +18,7 @@ import junit.framework.*;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -124,7 +125,7 @@ public class SectionManagerCircusTimeParserTest extends TestCase
   protected void setUp() throws Exception
   {
     files_ = new ArrayList<File>();
-    manager_ = new SectionManager("circustime");
+    manager_ = new SectionManager(Dialect.CIRCUSTIME);
     //collectTestFiles(TESTS_SOURCEDIR);
   }
   

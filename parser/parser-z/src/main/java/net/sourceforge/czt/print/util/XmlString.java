@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.print.util;
 
+import net.sourceforge.czt.session.Dialect;
+
 public class XmlString extends CztPrintString
 {
 
@@ -33,7 +35,7 @@ public class XmlString extends CztPrintString
   /**
    * @throws NullPointerException if value or extension is <code>null</code>.
    */
-  public XmlString(String value, String extension)
+  public XmlString(String value, Dialect extension)
   {
     super(value, extension);
   }

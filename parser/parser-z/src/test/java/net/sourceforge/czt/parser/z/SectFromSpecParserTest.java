@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Section;
@@ -37,7 +38,7 @@ public class SectFromSpecParserTest
   @BeforeClass
   public static void setUpManager() throws Exception
   {
-    manager = new SectionManager();
+    manager = new SectionManager(Dialect.Z);
   }
 
   @AfterClass

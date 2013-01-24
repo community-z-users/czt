@@ -84,4 +84,11 @@ public class ZmlPrinterTest
     manager.put(new Key<Source>(name, Source.class), source);
     return manager.get(new Key<Spec>(name, Spec.class));
   }
+
+@Override
+protected Dialect getDialect() {
+	return Dialect.Z;
+}
+  
+  
 }

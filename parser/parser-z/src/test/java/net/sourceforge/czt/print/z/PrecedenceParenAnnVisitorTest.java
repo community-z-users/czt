@@ -38,7 +38,7 @@ public class PrecedenceParenAnnVisitorTest
   extends TestCase
 {
   Factory factory_ = new Factory();
-  SectionManager manager_ = new SectionManager();
+  SectionManager manager_ = new SectionManager(Dialect.Z);
 
   public void testApplExpr()
   {

@@ -22,6 +22,7 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.util.VCGTest;
 import net.sourceforge.czt.z.ast.Pred;
@@ -47,7 +48,7 @@ public class DomainCheckerTest extends VCGTest implements DomainCheckPropertyKey
     return result;
   }
 
-  protected DomainCheckerTest(String extension, boolean debug)
+  protected DomainCheckerTest(Dialect extension, boolean debug)
   {
     super(extension, debug);
   }

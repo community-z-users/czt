@@ -27,6 +27,7 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.FileSource;
@@ -112,7 +113,7 @@ public class SpecialLatexParser {
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
       
-      sm = new SectionManager("circustime");  
+      sm = new SectionManager(Dialect.CIRCUSTIME);  
       sm.setProperty("czt.path", "/Users/nljsf/Local/reps/git/czt/parser/parser-z/src/main/resources/lib/:" +
           "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/:" +
     	  "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/");

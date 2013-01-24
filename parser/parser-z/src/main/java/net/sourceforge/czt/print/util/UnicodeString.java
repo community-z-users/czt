@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.print.util;
 
+import net.sourceforge.czt.session.Dialect;
+
 public class UnicodeString extends CztPrintString
 {
   /**
@@ -32,7 +34,7 @@ public class UnicodeString extends CztPrintString
   /**
    * @throws NullPointerException if value or extension is <code>null</code>.
    */
-  public UnicodeString(String value, String extension)
+  public UnicodeString(String value, Dialect extension)
   {
     super(value, extension);
   }

@@ -137,7 +137,7 @@ public class TypeCheckUtils
 
   protected SectionManager getSectionManager()
   {
-    SectionManager sectionManager = new SectionManager();
+    SectionManager sectionManager = new SectionManager(Dialect.Z???);
     sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
     sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
     sectionManager.putCommand(LatexMarkupFunction.class,

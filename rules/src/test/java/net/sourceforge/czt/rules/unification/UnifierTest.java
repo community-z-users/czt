@@ -32,6 +32,7 @@ import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
@@ -48,7 +49,7 @@ public class UnifierTest extends TestCase
   /** A string representation of the expected result */
   private List<String> positions;
 
-  private SectionManager sectman_ = new SectionManager("zpatt");
+  private SectionManager sectman_ = new SectionManager(Dialect.ZPATT);
 
   /** Convenience method for creating expressions for testing.
    *  It uses the ZPattern parser, so that it can parse jokers.

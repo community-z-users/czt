@@ -29,6 +29,7 @@ import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -106,7 +107,7 @@ public class Main
    */
   public static Z2Alloy translate (File input, boolean unfolding) throws Exception {
     FileSource source = new FileSource(input);
-    SectionManager manager = new SectionManager("zpatt");
+    SectionManager manager = new SectionManager(Dialect.ZPATT);
     String name = "spec";
     manager.put(new Key(name, Source.class), source);
     Spec spec = (Spec) manager.get(new Key(name, Spec.class));

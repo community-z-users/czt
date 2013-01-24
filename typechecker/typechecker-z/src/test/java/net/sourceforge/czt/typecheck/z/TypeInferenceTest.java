@@ -61,7 +61,7 @@ public class TypeInferenceTest
   protected void setUp()
   {
     factory_ = new Factory(new ZFactoryImpl());
-    manager_ = new SectionManager();
+    manager_ = new SectionManager(Dialect.Z);
     spec_ = null;
   }
 

@@ -25,9 +25,15 @@ package net.sourceforge.czt.session;
  */
 public class Session
 {
-  private SectionManager manager_ = new SectionManager();
+  private final SectionManager manager_;
   private String section_ = "";
 
+  public Session(Dialect dialect)
+  {
+	  section_ = ""; // TODO: shouldn't is be ANONYMNOUS?
+	  manager_ = new SectionManager(dialect);
+  }
+  
   public <T> T get(Class<T> c)
     throws CommandException
   {
@@ -64,7 +70,7 @@ public class Session
     manager_.setProperty("czt.path", path);
   }
 
-  public void setExtension(String extension)
+  public void putCommands(Dialect extension)
   {
     manager_.putCommands(extension);
   }
