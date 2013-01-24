@@ -427,7 +427,15 @@ parser code {:
   public static final Map&lt;String, Object&gt; symbolMap2_= DebugUtils.getFieldMap2(Sym.class);
 
   private Writer writer_ = new OutputStreamWriter(System.out);
-  protected SectionInfo sectInfo_ = new SectionManager();
+  protected SectionInfo sectInfo_ = new SectionManager(
+  	<add:zcore>Dialect.Z</add:zcore>
+  	<add:oldz>Dialect.Z</add:oldz>
+  	<add:ozcore>Dialect.OZ</add:ozcore>
+  	<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+  	<add:circuscore>Dialect.CIRCUS</add:circuscore>
+  	<add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+  	<add:zevescore>Dialect.ZEVES</add:zevescore>
+  	);
   protected String sectionName_;
   protected int tabSize_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
 
@@ -670,14 +678,20 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
 
 <add:zeves>
                    // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, 
-        THMREPLACEMENT, QNTINSTANTIATION,
-        LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
-        PROOFWORD, THMNAME, THMRULE, THMGRULE, THMFRULE, THMAXIOM,
+        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, LLABEL, RLABEL, 
+        DISABLEDTHMTAG, DISABLEDDEFTAG, ENABLED, DISABLED, 
+        THMNAME, THMRULE, THMGRULE, THMFRULE, THMAXIOM,
+        
+        LZNOTE, RZNOTE, 
+        PROOFWORD,
 
+        /*
+        THMREPLACEMENT,  
+        QNTINSTANTIATION,
+        
         APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
         INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
-        SPLIT, USE, WITH, BY, ENABLED, EXPRESSION, DISABLED, LEMMA,
+        SPLIT, USE, WITH, BY, EXPRESSION, LEMMA,
         NORMALIZATION, PREDICATE, SUBSTITUTE, TO, SORRY, OOPS,
 
         CHECK, DECLARE, HELP, PARENT, PRINT, QUIT, READ, RESET, RETRY,
@@ -685,6 +699,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
 
         ABOUT, DECLARATION, FORMULA, HISTORY, PROOF, SCRIPT, STATUS,
         SUMMARY, THROUGH,
+        */
         
 </add:zeves>
 <add:zpatt>

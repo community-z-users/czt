@@ -2617,9 +2617,12 @@ terminal LocInfo
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, THMREPLACEMENT, QNTINSTANTIATION,
-        LLABEL, RLABEL, LZNOTE, RZNOTE, DISABLEDTHMTAG, DISABLEDDEFTAG,
+        ZPROOF, ZPROOFSECTION, 
+        ZPROOFCOMMANDSEP, THMREPLACEMENT, QNTINSTANTIATION,
+        LLABEL, RLABEL, DISABLEDTHMTAG, DISABLEDDEFTAG,
         THMRULE, THMGRULE, THMFRULE, THMAXIOM, 
+        
+        LZNOTE, RZNOTE, PROOFWORD,
         
         APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
         INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
@@ -2737,8 +2740,8 @@ terminal Decorword
         DECORWORD, DECLWORD;
 
 <add:zeves>
-terminal Proofword
-        PROOFWORD;
+//terminal Proofword
+//        PROOFWORD;
 
 terminal LocInfo
       REDUCE, REWRITE, SIMPLIFY;
@@ -3048,8 +3051,8 @@ non terminal LabelUsage
 non terminal ZEvesLabel
     optAxLabel;
 
-non terminal ZEvesNote
-    optZNote;
+//non terminal ZEvesNote
+//    optZNote;
 </add:zeves>
 
 <add:circus>
@@ -3498,7 +3501,8 @@ emptySectionHeader ::=
            // Apply Syntactic Transformation Rule 12.2.1.1
            final String name = Section.ANONYMOUS.getName();
            startZSectTransaction(name);
-           final List&lt;Parent&gt; parents = ZUtils.parentsAsList(defaultSP_.defaultParents(name));
+           final Set&lt;String&gt; parentSet = defaultSP_.defaultParents(name);
+           final List&lt;Parent&gt; parents = ZUtils.parentsAsListOfParent(parentSet);
            resetInfoTables(name, parents, eleft, eright);
            RESULT = createZSect(name, parents);
 <add:circus>
@@ -3562,8 +3566,24 @@ sectionHeader ::=
            String name = dw.getName();
            checkName(dw);
 
-		   final List&lt;Parent&gt; sectParents = ZUtils.parentsAsList(defaultSP_.defaultParents(name));
-		   p.addAll(sectParents);
+			// add default parents only if given parents are empty
+			// this includes explicitly given NON-PARENTS (i.e. SECTION name PARENTS _empty_ ; SECTION name).
+			// in both cases we override to add default parents. 
+			//
+			// This is as prescribed by the Z Standard (see the Section production in Appendix C.3)
+           if (p.isEmpty())
+           {
+			   // add to the set to avoid repetition of parents
+	           //final Set&lt;String&gt; parentStrSet = defaultSP_.defaultParents(name);
+	           final Set&lt;Parent&gt; parentSet = ZUtils.parentsAsSetOfParent(defaultSP_.defaultParents(name));
+	           parentSet.addAll(p);
+	           
+	           // make it back into list of Parent cleared of duplicates
+	           p.clear();
+	           p.addAll(parentSet);
+           }
+		   
+           // update the parsed section information
            startZSectTransaction(name);
            resetInfoTables(name, p, pleft, pright);
            RESULT = createZSect(name, p);
@@ -4043,6 +4063,7 @@ optUsage ::=
         ;
 
 // ZNote is generating out-of-memory errors... TODO:check later... Remove for now.
+/*
 optZNote ::=
         LZNOTE:lzn DECORWORD:note RZNOTE:rzn
         {:
@@ -4055,6 +4076,7 @@ optZNote ::=
           RESULT = factory_.createZEvesNote();
         :}
         ;
+*/
 </add:zeves>
 
 

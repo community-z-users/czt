@@ -52,6 +52,7 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.session.DefaultSectionParents;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -108,7 +109,6 @@ public class <class/> extends AbstractCommand
   {
     return parse0(source, sectInfo, properties, Collections.&lt;Key&lt;?&gt;&gt;emptySet());
   }
-
 
   private static Term parse0(Source source,
                            SectionInfo sectInfo,
@@ -170,6 +170,18 @@ public class <class/> extends AbstractCommand
     traceLog("PU-parse-result = " + result.getClass().getSimpleName());
     return result;
   }
+  
+  private static final Key&lt;DefaultSectionParents&gt; defaultSPKey_ = 
+  		new Key&lt;DefaultSectionParents&gt;(Section.ANONYMOUS.getName(),
+        		DefaultSectionParents.class);
+  
+  public static String getDefaultAnonymousParentsAsString(SectionManager sectman)
+  	throws CommandException
+  {
+  	 DefaultSectionParents dsp = sectman.get(defaultSPKey_);
+     Set&lt;String&gt; parentSet = dsp.defaultParents(defaultSPKey_.getName());
+     return ZUtils.parentsAsString(parentSet);
+  }
 
   /** Parse a Source string/file as a Z Predicate.
    *  @param src The String or File etc. to be parsed.
@@ -190,8 +202,10 @@ public class <class/> extends AbstractCommand
     String name = "CZT_parsePred_tmp1433589372849";
     StringBuilder buf = new StringBuilder();
     if (src.getMarkup() == Markup.LATEX) {
-      if (parent == null)
-        parent = "standard_toolkit";
+      if (parent == null || parent.isEmpty())
+      {
+        parent = getDefaultAnonymousParentsAsString(sectman);
+      }
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
@@ -211,8 +225,10 @@ public class <class/> extends AbstractCommand
       buf.append("\n\\end{axdef}\n");
     }
     else {
-      if (parent == null)
-        parent = "standard_toolkit";
+      if (parent == null || parent.isEmpty())
+      {
+        parent = getDefaultAnonymousParentsAsString(sectman);
+      }
       buf.append(ZString.ZED);
       buf.append(" section ");
       buf.append(name);
@@ -279,8 +295,10 @@ public class <class/> extends AbstractCommand
     String name = "CZT_parseExpr_tmp1433589372849";
     StringBuilder buf = new StringBuilder();
     if (src.getMarkup() == Markup.LATEX) {
-      if (parent == null)
-        parent = "standard_toolkit";
+      if (parent == null || parent.isEmpty())
+      {
+        parent = getDefaultAnonymousParentsAsString(sectman);
+      }
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
@@ -300,8 +318,10 @@ public class <class/> extends AbstractCommand
       buf.append("\n\\end{axdef}\n");
     }
     else {
-      if (parent == null)
-        parent = "standard_toolkit";
+      if (parent == null || parent.isEmpty())
+      {
+        parent = getDefaultAnonymousParentsAsString(sectman);
+      }
       buf.append(ZString.ZED);
       buf.append(" section ");
       buf.append(name);
@@ -361,8 +381,10 @@ public class <class/> extends AbstractCommand
     String name = "CZT_parseParas_tmp1433589372849";
     StringBuilder buf = new StringBuilder();
     if (src.getMarkup() == Markup.LATEX) {
-      if (parent == null)
-        parent = "standard_toolkit";
+      if (parent == null || parent.isEmpty())
+      {
+        parent = getDefaultAnonymousParentsAsString(sectman);
+      }
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
@@ -380,8 +402,10 @@ public class <class/> extends AbstractCommand
       }
     }
     else {
-      if (parent == null)
-        parent = "standard_toolkit";
+      if (parent == null || parent.isEmpty())
+      {
+        parent = getDefaultAnonymousParentsAsString(sectman);
+      }
       buf.append(ZString.ZED);
       buf.append(" section ");
       buf.append(name);
