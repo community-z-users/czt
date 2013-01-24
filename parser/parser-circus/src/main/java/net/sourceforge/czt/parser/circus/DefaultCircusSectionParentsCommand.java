@@ -7,9 +7,9 @@ import net.sourceforge.czt.parser.z.DefaultZSectionParentsCommand;
 
 public class DefaultCircusSectionParentsCommand extends DefaultZSectionParentsCommand {
 	  
-	private boolean isCircusStandardToolkit(String sectName)
+	private boolean isAnyOfCircusStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.CIRCUS.dialect()).contains(sectName);
+		return knownToolkits(Dialect.CIRCUS.asString()).contains(sectName);
 	}
 	
 	@Override
@@ -18,7 +18,6 @@ public class DefaultCircusSectionParentsCommand extends DefaultZSectionParentsCo
 		boolean shouldStop = super.doCalculateDefaultAnonymousParents(result);
 		if (!shouldStop)
 		{
-			result.add(Section.CIRCUS_PRELUDE.getName());
 			result.add(Section.CIRCUS_TOOLKIT.getName());
 		}
 		return shouldStop;
@@ -30,13 +29,15 @@ public class DefaultCircusSectionParentsCommand extends DefaultZSectionParentsCo
 		
 		if (!shouldStop)
 		{
+			// this is different from the Z_PRELUDE treatment, which is only
+			// added in case of an empty set of parents (i.e. we need the Circus prelude to account for the language extension)
 			shouldStop = sectName.equals(Section.CIRCUS_PRELUDE.getName()); 
 			if (!shouldStop)
 			{
 				result.add(Section.CIRCUS_PRELUDE.getName());
 			}
 		}
-		return shouldStop || isCircusStandardToolkit(sectName);
+		return shouldStop || isAnyOfCircusStandardToolkits(sectName);
 	}
 
 	@Override

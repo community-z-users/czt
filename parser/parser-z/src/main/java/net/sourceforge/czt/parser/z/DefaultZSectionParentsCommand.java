@@ -14,9 +14,9 @@ public class DefaultZSectionParentsCommand extends DefaultSectionParentsCommand 
 	 * @param sectName
 	 * @return
 	 */
-	private boolean isZStandardToolkit(String sectName)
+	private boolean isAnyOfZStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.Z.dialect()).contains(sectName);
+		return knownToolkits(Dialect.Z.asString()).contains(sectName);
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class DefaultZSectionParentsCommand extends DefaultSectionParentsCommand 
 	@Override
 	protected boolean doCalculateDefaultAnonymousParents(Set<String> result)
 	{
-		result.add(Section.PRELUDE.getName());
+		// leave just standard toolkit as default (no prelude)
 		result.add(Section.STANDARD_TOOLKIT.getName());
 		return false;
 	}
@@ -41,14 +41,15 @@ public class DefaultZSectionParentsCommand extends DefaultSectionParentsCommand 
 		boolean isPrelude = sectName.equals(Section.PRELUDE.getName()); 
 		
 		// for Z, the only default section is the prelude; except for prelude itself, which doesn't have a parent
-		if (!isPrelude)
+		// yet, only add it explicitly if no parent is given to avoid explicit mention of it in XML or pretty-printed files, say.
+		if (!isPrelude && result.isEmpty())
 		{	
 			result.add(Section.PRELUDE.getName());
 		}
 		
 		// we finished the calculation in the case of the section name given is prelude or any of the standard Z toolkit 
 		// sections (i.e. don't process default parents for set_toolkit at other lang. extension commands).
-		return isPrelude || isZStandardToolkit(sectName);
+		return isPrelude || isAnyOfZStandardToolkits(sectName);
 	}
 
 	@Override

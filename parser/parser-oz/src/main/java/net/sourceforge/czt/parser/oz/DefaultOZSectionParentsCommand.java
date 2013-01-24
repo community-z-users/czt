@@ -7,9 +7,9 @@ import net.sourceforge.czt.parser.z.DefaultZSectionParentsCommand;
 
 public class DefaultOZSectionParentsCommand extends DefaultZSectionParentsCommand {
 	  
-	private boolean isOZStandardToolkit(String sectName)
+	private boolean isAnyOfOZStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.OZ.dialect()).contains(sectName);
+		return knownToolkits(Dialect.OZ.asString()).contains(sectName);
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class DefaultOZSectionParentsCommand extends DefaultZSectionParentsComman
 				result.add(Section.OZ_TOOLKIT.getName());
 			}
 		}
-		return shouldStop || isOZStandardToolkit(sectName);
+		return shouldStop || isAnyOfOZStandardToolkits(sectName);
 	}
 
 	@Override

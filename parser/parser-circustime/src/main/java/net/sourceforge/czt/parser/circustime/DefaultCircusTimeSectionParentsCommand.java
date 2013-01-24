@@ -7,9 +7,9 @@ import net.sourceforge.czt.parser.circus.DefaultCircusSectionParentsCommand;
 
 public class DefaultCircusTimeSectionParentsCommand extends DefaultCircusSectionParentsCommand {
 	  
-	private boolean isCircusTimeStandardToolkit(String sectName)
+	private boolean isAnyOfCircusTimeStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.CIRCUSTIME.dialect()).contains(sectName);
+		return knownToolkits(Dialect.CIRCUSTIME.asString()).contains(sectName);
 	}
 	
 	@Override
@@ -18,7 +18,6 @@ public class DefaultCircusTimeSectionParentsCommand extends DefaultCircusSection
 		boolean shouldStop = super.doCalculateDefaultAnonymousParents(result);
 		if (!shouldStop)
 		{
-			result.add(Section.CIRCUSTIME_PRELUDE.getName());
 			result.add(Section.CIRCUSTIME_TOOLKIT.getName());
 		}
 		return shouldStop;
@@ -39,7 +38,7 @@ public class DefaultCircusTimeSectionParentsCommand extends DefaultCircusSection
 				result.add(Section.CIRCUSTIME_PRELUDE.getName());
 			}
 		}
-		return shouldStop || isCircusTimeStandardToolkit(sectName);
+		return shouldStop || isAnyOfCircusTimeStandardToolkits(sectName);
 	}
 
 	@Override

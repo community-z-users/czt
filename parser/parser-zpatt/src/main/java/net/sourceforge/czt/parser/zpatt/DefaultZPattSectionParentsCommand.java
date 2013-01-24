@@ -9,9 +9,9 @@ import net.sourceforge.czt.util.Section;
 
 public class DefaultZPattSectionParentsCommand extends DefaultZSectionParentsCommand {
 	  
-	private boolean isZPattStandardToolkit(String sectName)
+	private boolean isAnyOfZPattStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.ZPATT.dialect()).contains(sectName);
+		return knownToolkits(Dialect.ZPATT.asString()).contains(sectName);
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class DefaultZPattSectionParentsCommand extends DefaultZSectionParentsCom
 	@Override
 	protected boolean doCalculateDefaultParents(String sectName, Set<String> result) {
 		boolean shouldStop = super.doCalculateDefaultParents(sectName, result);
-		return shouldStop || isZPattStandardToolkit(sectName);
+		return shouldStop || isAnyOfZPattStandardToolkits(sectName);
 	}
 
 	@Override

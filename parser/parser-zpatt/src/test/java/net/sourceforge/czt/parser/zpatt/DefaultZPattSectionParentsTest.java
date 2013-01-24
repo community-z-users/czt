@@ -34,19 +34,19 @@ public class DefaultZPattSectionParentsTest {
 	@Test
 	public void testSetToolkit() {
 		assertEquals(cmd_.defaultParents(Section.SET_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()));
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()));
 	}
 
 	@Test
 	public void testNumberToolkit() {
 		assertEquals(cmd_.defaultParents(Section.NUMBER_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()));
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()));
 	}
 
 	@Test
 	public void testRelationToolkit() {
 		assertEquals(cmd_.defaultParents(Section.RELATION_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()
 								//,Section.SET_TOOLKIT.getName()
 								));
 	}
@@ -54,7 +54,7 @@ public class DefaultZPattSectionParentsTest {
 	@Test
 	public void testFunctionToolkit() {
 		assertEquals(cmd_.defaultParents(Section.FUNCTION_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()
 						//, Section.RELATION_TOOLKIT.getName()
 						));
 	}
@@ -62,7 +62,7 @@ public class DefaultZPattSectionParentsTest {
 	@Test
 	public void testSequenceToolkit() {
 		assertEquals(cmd_.defaultParents(Section.SEQUENCE_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()
 						//,
 									//Section.FUNCTION_TOOLKIT.getName(),
 									//Section.NUMBER_TOOLKIT.getName()
@@ -73,7 +73,7 @@ public class DefaultZPattSectionParentsTest {
 	public void testFuzzToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd_.defaultParents(Section.FUZZ_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()//, 
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 						));
 	}
@@ -82,14 +82,14 @@ public class DefaultZPattSectionParentsTest {
 	public void testWhitespaceToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd_.defaultParents(Section.WHITESPACE.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()));
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()));
 	}
 
 	@Test
 	public void testZStateToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd_.defaultParents(Section.ZSTATE_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()//, 
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 						));
 	}
@@ -98,7 +98,7 @@ public class DefaultZPattSectionParentsTest {
 	public void testZPatternToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd_.defaultParents(Section.ZPATT_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()//, 
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 						));
 	}
@@ -107,7 +107,7 @@ public class DefaultZPattSectionParentsTest {
 	public void testOracleToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd_.defaultParents(Section.ORACLE_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()//, 
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 						));
 	}
@@ -116,7 +116,7 @@ public class DefaultZPattSectionParentsTest {
 	public void testStandardToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd_.defaultParents(Section.STANDARD_TOOLKIT.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()//, 
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
 									//Section.SEQUENCE_TOOLKIT.getName()
 						));
 	}
@@ -124,7 +124,7 @@ public class DefaultZPattSectionParentsTest {
 		@Test
 	public void testAnonymous() {
 		assertEquals(cmd_.defaultParents(Section.ANONYMOUS.getName()), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName(), 
+				ZUtils.parentsArgListAsSetOfString( 
 									Section.STANDARD_TOOLKIT.getName(),
 									Section.ORACLE_TOOLKIT.getName()));
 	}
@@ -132,7 +132,7 @@ public class DefaultZPattSectionParentsTest {
 	@Test
 	public void testMySect() {
 		assertEquals(cmd_.defaultParents("my_sect"), 
-				ZUtils.parentsAsSet(Section.PRELUDE.getName()//, 
+				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 									));
 	}

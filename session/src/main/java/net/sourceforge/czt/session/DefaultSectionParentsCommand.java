@@ -40,7 +40,7 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 	 */
 	protected Set<String> knownToolkits()
 	{
-		return Section.standardSections(getDialect().dialect());
+		return Section.standardSections(getDialect().asString());
 	}
 	
 	protected Set<String> knownToolkits(String dialect)
@@ -90,9 +90,10 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 		
 		// only calculate default parents for the corresponding section manager dialect?
 		// (i.e. Z section manager cannot use a Circus default section parents command).
-		if (!manager.getDialect().equals(getDialect().dialect()))
+		if (!manager.getDialect().isExtensionOf(getDialect()))
 		{
-			throw new CommandException("Cannot resolve default section parents for " + getDialect().dialect() + ". Section manager dialect is " + manager.getDialect());
+			throw new CommandException("Command cannot resolve default section parents for dialect " + getDialect().asString() + 
+					". Section manager dialect is " + manager.getDialect());
 		}
 		
 		// calculate the default parents for the given section name.
@@ -125,7 +126,7 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 		
 		return Collections.unmodifiableSet(result);
 	}
-
+	
 	/**
 	 * Dialect of this default parents section calculator command
 	 */

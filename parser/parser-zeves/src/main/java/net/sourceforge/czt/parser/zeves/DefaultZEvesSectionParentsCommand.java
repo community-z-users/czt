@@ -7,9 +7,9 @@ import net.sourceforge.czt.parser.z.DefaultZSectionParentsCommand;
 
 public class DefaultZEvesSectionParentsCommand extends DefaultZSectionParentsCommand {
 	  
-	private boolean isZEvesStandardToolkit(String sectName)
+	private boolean isAnyOfZEvesStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.ZEVES.dialect()).contains(sectName);
+		return knownToolkits(Dialect.ZEVES.asString()).contains(sectName);
 	}
 	
 	@Override
@@ -18,7 +18,6 @@ public class DefaultZEvesSectionParentsCommand extends DefaultZSectionParentsCom
 		boolean shouldStop = super.doCalculateDefaultAnonymousParents(result);
 		if (!shouldStop)
 		{
-			result.add(Section.ZEVES_PRELUDE.getName());
 			result.add(Section.ZEVES_TOOLKIT.getName());
 		}
 		return shouldStop;
@@ -37,6 +36,8 @@ public class DefaultZEvesSectionParentsCommand extends DefaultZSectionParentsCom
 		if (!shouldStop)
 		{
 			// if not the ZEVES_PRELUDE itself, add it as a default.
+			// this is different from the Z_PRELUDE treatment, which is only
+			// added in case of an empty set of parents (i.e. we need the ZEves prelude to account for the language extension)
 			shouldStop = sectName.equals(Section.ZEVES_PRELUDE.getName()); 
 			if (!shouldStop)
 			{
@@ -44,7 +45,7 @@ public class DefaultZEvesSectionParentsCommand extends DefaultZSectionParentsCom
 			}
 		}
 		// stop when requested by Z dialect, or if found ZEVES_PRELUDE, or if any of the ZEVES Standard toolkits of interest
-		return shouldStop || isZEvesStandardToolkit(sectName);
+		return shouldStop || isAnyOfZEvesStandardToolkits(sectName);
 	}
 
 	@Override
