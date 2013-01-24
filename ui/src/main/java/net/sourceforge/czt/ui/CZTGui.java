@@ -53,6 +53,7 @@ import net.sourceforge.czt.base.util.TermTreeNode;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
@@ -110,7 +111,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
   private JPanel languagePanel = new JPanel();
   private JLabel languageLabel = new JLabel("Language: ");
-  private String[] languageOptions = {"Standard Z","Object Z","Circus","Z Rules", "Z/EVES"};
+  private String[] languageOptions = {"Standard Z","Object Z","Circus","Circus Time","Z Rules", "Z/EVES"};
   private JComboBox languageCombo = new JComboBox(languageOptions);
 
   private JPanel markupPanel = new JPanel();
@@ -472,7 +473,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
     reload.setEnabled(true);
     close.setEnabled(true);
 
-    String selectedLanguage = "";
+    Dialect selectedLanguage = SectionManager.DEFAULT_EXTENSION;
 //    String selectedEncoding = "";
     int nrOfZSects = 0;
 
@@ -488,19 +489,22 @@ public class CZTGui implements ActionListener,HyperlinkListener
 
     //obtain language selection
     if(((String)languageCombo.getSelectedItem()).equals("Standard Z"))
-      selectedLanguage = "z";
+      selectedLanguage = Dialect.Z;
     else
       if(((String)languageCombo.getSelectedItem()).equals("Object Z"))
-        selectedLanguage = "oz";
+        selectedLanguage = Dialect.OZ;
       else
         if(((String)languageCombo.getSelectedItem()).equals("Circus"))
-          selectedLanguage = "circus";
+          selectedLanguage = Dialect.CIRCUS;
         else
           if(((String)languageCombo.getSelectedItem()).equals("Z Rules"))
-            selectedLanguage = "zpatt";
+            selectedLanguage = Dialect.ZPATT;
           else
             if(((String)languageCombo.getSelectedItem()).equals("Z/EVES"))
-              selectedLanguage = "zeves";
+              selectedLanguage = Dialect.ZEVES;
+      else
+        if(((String)languageCombo.getSelectedItem()).equals("Circus Time"))
+          selectedLanguage = Dialect.CIRCUSTIME;
 
     manager = new SectionManager(selectedLanguage);
     BaseFactory.resetInstanceCounter();
