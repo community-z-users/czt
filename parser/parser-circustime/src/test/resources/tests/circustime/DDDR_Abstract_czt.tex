@@ -1,0 +1,421 @@
+\begin{zsection}
+  \SECTION\ DDDR\_DDIR\_Section \parents\ circustime\_toolkit
+\end{zsection}
+
+
+\hline
+\textbf{Type Definition}
+\hline
+
+\begin{zed}
+  BOOL ::= ON | OFF \\
+  OpMode ::= DDDR | DDIR
+\end{zed}
+
+\hline
+\textbf{Range value of the different configuration parameters}
+\hline
+
+\begin{axdef}
+  LRIRange == 350 \upto 2000\\            %\t2 \textit{Lower Rate Interval (in ms.)} \\
+  AVIRange == 100 \upto 150\\             %\t2 \textit{Atria-Ventricle Interval (in ms.) }\\
+  MSRRange == 350 \upto 1200\\            %\t2 \textit{Maximum Sensor Rate Interval (in ms.) }\\
+  PVARPRange == 150 \upto 500\\           %\t2 \textit{Post Ventricle Atria Refectory Period (in ms.) }\\ 
+  SlopRange == 1 \upto 16\\               %\t3 \textit{slop range for changing pacing length during rate modulation mode}\\
+  PacingLengthRange == 1 \upto 3\\        %\t2 \textit {time duration for current discharging in both chambers (in ms.)} \\
+  SenseARange == 25 \upto 75\\            %\t2 \textit{Atrium Sense range 0.25, 0.5, 0.75mV  (Volt * 100) (threshold) }\\
+  SenseVRange == 100 \upto 1000\\         %\t2 \textit{Ventricle Sense range 1.0-10 mV (Volt * 100) (threshold)}\\
+  MSRange == 2 \upto 10                   %\t3 \textit{motion sensor .2 to 1.0, sensing activity}
+\end{axdef}
+
+
+\hline
+\textbf{A set of channels declaration }
+\hline
+
+\begin{circus}
+  %\textit{Output Channel for Pacing} \\
+  \circchannel paceA, paceV : BOOL\\
+
+  \\
+
+  %\textit{Channel for pacemaker cycle } \\
+  \circchannel startCycle \\
+
+  \\
+
+  %\textit{Input channel for sensing in atrium chamber}\\
+  \circchannel senseA :  SenseARange\\
+
+  \\
+
+  %\textit{Input channel for sensing in ventricle chamber}\\
+  \circchannel senseV :  SenseVRange\\
+
+  \\
+    
+  %\textit{Input channel for motion sensor} \\
+  \circchannel inMotionSensor : MSRange\\
+  
+  \\
+
+  %\textit{Environment channels to start and stop the pacemaker.}\\
+  \circchannel startPacemaker \\
+  \circchannel stopPacemaker \\
+
+  \\
+  
+  %\textit{Emergency channel is used to stop the pacemaker due to environment interruption.}\\ 
+  \circchannel emergencyStop \\
+  
+  %\textit{Extra channels to synchronize timing and pacemaker behavior}\\
+  \circchannel timeoutA, timeoutV, noPaceA, noPaceV\\
+  
+  \circchannel\ [X] c, d: X 
+  
+\end{circus}
+
+
+
+
+
+\hline
+\textbf{A set of global constants of the cardiac pacemaker}
+\hline
+\begin{axdef}
+  paceLength : PacingLengthRange\\
+  AVI : AVIRange \\
+  MSR : MSRRange \\
+  PVARP : PVARPRange \\
+  slop  : SlopRange  \\
+  timeDuration : \nat
+  \where \\
+  MSR \geq PVARP+AVI
+\end{axdef}
+
+
+\textbf{Mode and Counter state}
+
+\begin{schema}{ModeCounterState}
+  currentMode : OpMode\\
+  PCount : \nat \\
+\end{schema}
+
+
+\hline
+\textbf{To begin \Circus processes }
+\hline
+
+
+\begin{circus}
+	\circprocess\ Pacemaker\_DDDR\_DDIR \circdef \circbegin
+\end{circus}
+
+
+
+\textbf {Pacing in the atrium chamber}
+
+\begin{circusaction}
+  PaceA \circdef \\
+  \t1 paceA!ON \then paceA!OFF \then  c!ON \then  \Skip 
+\end{circusaction}
+
+
+\textbf {Pacing in the ventricle chamber}
+
+\begin{circusaction}
+  PaceV \circdef \\
+  \t1 paceV!ON \then paceV!OFF \then \Skip
+\end{circusaction}
+
+\textbf {Sensing process in the atrium chamber}
+
+
+%\begin{circusaction}
+%SenseAtrium \circdef \\ 
+%\t1 senseA?THR \then 
+    %(\circif  THR \geq 25 \circthen \Skip \\
+    %\circelse \lnot THR \geq 25 \circthen SenseAtrium \\
+    %\circfi) \extchoice timeoutA \then  PaceA 
+%\end{circusaction}
+
+
+\begin{circusaction}
+SenseAtrium \circdef \\ 
+\t1 senseA?THR \then 
+    ( noPaceA \then \Skip \\
+      \extchoice SenseAtrium) \extchoice timeoutA \then  PaceA 
+\end{circusaction}
+
+
+
+
+\textbf {Sensing process in the ventricle chamber}
+
+
+%\begin{circusaction}
+%SenseVentricle \circdef \\
+%\t1 senseV?THR \then 
+ %  ( \circif  THR \geq 100 \circthen \Skip \\
+ %  \circelse \lnot THR \geq 100 \circthen SenseVentricle \\
+ %  \circfi) \extchoice timeoutV \then PaceV
+%\end{circusaction}
+
+\begin{circusaction}
+SenseVentricle \circdef \\
+\t1 senseV?THR \then 
+   ( noPaceV \then \Skip \\
+   \extchoice SenseVentricle) \extchoice timeoutV \then PaceV
+\end{circusaction}
+
+
+
+
+\textbf {Pacing cycle in pacemaker in any mode(DDDR or DDIR)}
+\begin{circusaction}
+PacemakerOperation \circdef\\
+  \t1 SenseAtrium \circseq \\
+  \t1 SenseVentricle
+\end{circusaction}
+
+\begin{circusaction}
+Pacemaker \circdef \\
+\t1 \circmu X \circspot startCycle \then PacemakerOperation \circseq X 
+\end{circusaction}
+
+
+\textbf{ Main \Circus~ action }\\
+
+\begin{circusaction}
+  \circspot \circmu X \circspot (startPacemaker \then Pacemaker \\ 
+   \circinterrupt \\
+   (stopPacemaker \then X \\ 
+  \extchoice \\
+  emergencyStop \then \Stop)) 
+\end{circusaction}
+
+\begin{circus}
+  \circend
+\end{circus}
+
+
+
+
+
+\hline
+\textbf{To begin \Circus processes Timing Requirements}
+\hline
+
+\begin{circus}
+	\circprocess\ PMTReq \circdef \circbegin
+\end{circus}
+
+\begin{schema}{PacemakerState}
+  paceInterval : LRIRange  \\
+  \where
+  paceInterval > PVARP + AVI \\
+  paceInterval > MSR \\
+\end{schema}
+
+
+\textbf{State components of the cardiac pacemaker, which are modified during system operations}
+
+\begin{circusaction}
+  \circstate ~ PacemakerState
+\end{circusaction}
+
+\begin{circusaction}
+TReq \circdef \\
+\t1 \circvres PCount,iteration : \nat ; \circvres currentMode : OpMode \\
+\t2 \circspot \circmu X \circspot (TReqCycle(PCount, currentMode) \\
+\linter \{PCount,currentMode \} | \{paceInterval,iteration\}  \rinter \\
+RateModulation(iteration)) \circseq X \\
+\end{circusaction}
+
+
+
+\begin{circusaction}
+	TReqCycle \circdef \circvres PCount : \nat ; \circvres currentMode : OpMode \circspot\\
+	startCycle \then TReqSelection(PCount, currentMode)\\
+\end{circusaction}
+
+
+\textbf{ Timing requirement selection according to operating mode}\\
+\begin{circusaction}
+TReqSelection \circdef \\
+\t1 \circvres PCount : \nat; \circvres currentMode : OpMode \circspot \\
+\t2 \circif  currentMode = DDDR \circthen \\
+\t3 DDDR\_TReq (PCount,0,0,currentMode) \\ 
+\t2 \circelse currentMode = DDIR \circthen \\
+\t3 DDIR\_TReq (PCount,0,currentMode)  \\ 
+\t2 \circfi
+\end{circusaction}
+
+
+
+
+\textbf{Mode changing schema : DDDR $\leftrightarrow$ DDIR}
+
+\begin{schema}{ModeSwitching}
+ \Delta ModeCounterState\\
+  passedTime? : \nat 
+\where
+(passedTime? > MSR \land PCount \notin \{5,8\} \land PCount'= PCount + 1 \land currentMode' = currentMode)\\
+\lor \\
+(passedTime? \leq MSR \land PCount'= 0 \land currentMode' = currentMode)\\
+\lor \\
+(passedTime? > MSR \land PCount = 5 \land currentMode = DDDR \land currentMode' = DDIR \land PCount' = 0) \\
+\lor \\
+(passedTime? > MSR \land PCount = 8 \land currentMode = DDIR \land currentMode' = DDDR \land PCount' = 0) \\
+\end{schema}
+
+
+\textbf{DDDR timing cycle}
+
+\begin{circusaction}
+DDDR\_TReq \circdef \\
+\t1 \circvres PCount, passedTime, atriumSenseTime : \nat; \circvres currentMode : OpMode \\
+  \t2 \circspot (
+  \circwait(PVARP) \circseq \\
+   passedTime := passedTime + PVARP \circseq \\
+   SenseAtrium\_DDDR\_DDIR\_TReq(passedTime) \circseq \\
+   atriumSenseTime := passedTime \circseq \\
+   SensepaceVentricle\_DDDR(passedTime, atriumSenseTime) \circseq \\  
+   ModeSwitching) \\ 
+\end{circusaction}
+
+
+% might be parametric error 
+\begin{circusaction}
+SenseAtrium\_DDDR\_DDIR\_TReq \circdef \\
+\t1\circvres passedTime : \nat \\
+\t2 \circspot senseA?THR \then \\
+\t1 \circif  THR \geq 25 \circthen\\
+\t2 noPaceA \then \Skip \\
+\t1 \circelse \lnot  THR \geq 25 \circthen\\
+\t2 \circif  (passedTime \geq (paceInterval - AVI) ) \circthen \\
+\t3 timeoutA \then TReqPaceA(passedTime) \\
+\t2 \circelse \lnot (passedTime \geq (paceInterval - AVI)) \circthen \\
+\t3 \circwait(1) \circseq passedTime := passedTime + 1 \circseq\\
+\t3 SenseAtrium\_DDDR\_DDIR\_TReq(passedTime) \\
+\t2 \circfi\\ 
+\t1 \circfi \\ 
+\end{circusaction}
+
+\begin{circusaction}
+	TReqPaceA \circdef \circvres passedTime : \nat \circspot \\
+	paceA?x \then \circwait(paceLength) \circseq paceA?y \then passedTime := passedTime + paceLength 
+\end{circusaction}
+
+
+
+\begin{circusaction}
+SensepaceVentricle\_DDDR \circdef \\
+\t1 \circvres passedTime, atriumSenseTime : \nat \\
+\t2\circspot senseV?THR \then \\
+\t1 \circif  THR \geq 100 \circthen\\
+\t2 noPaceV \then \Skip \\
+\t1 \circelse \lnot  THR \geq 100 \circthen\\
+\t2 \circif  ( passedTime \geq (atriumSenseTime + AVI) ) \circthen \\
+\t3 timeoutV \then TReqPaceV(passedTime) \\
+\t2 \circelse \lnot (passedTime \geq (atriumSenseTime + AVI)) \circthen \\
+\t3  \circwait(1) \circseq passedTime := passedTime + 1 \circseq\\
+\t3  SensepaceVentricle\_DDDR(passedTime,atriumSenseTime) \\
+\t2 \circfi\\ 
+\t1 \circfi \\ 
+\end{circusaction}
+
+
+
+\begin{circusaction}
+	TReqPaceV \circdef \circvres passedTime : \nat \circspot \\
+	paceV?x \then \circwait(paceLength) \circseq paceV?y \then passedTime := passedTime + paceLength 
+\end{circusaction}
+
+
+
+
+\textbf{DDIR timing cycle}
+
+\begin{circusaction}
+	DDIR\_TReq \circdef \\
+  \t1 \circvres PCount, passedTime : \nat ; \circvres currentMode : OpMode \\
+  \t2 \circspot 
+  \circwait(PVARP) \circseq \\
+   passedTime := passedTime + PVARP \circseq \\
+   SenseAtrium\_DDDR\_DDIR\_TReq(passedTime) \circseq \\
+   SensepaceVentricle\_DDIR(passedTime) \circseq \\
+   ModeSwitching  
+\end{circusaction}
+
+
+\textbf {Sensing process in the ventricle chamber : DDIR}\\
+
+\begin{circusaction}
+SensepaceVentricle\_DDIR \circdef \\
+\t1 \circvres passedTime : \nat \\
+\t2 \circspot senseV?THR \then \\
+\t1 \circif  THR \geq 100 \circthen\\
+\t2 noPaceV \then \Skip \\
+\t1 \circelse \lnot  THR \geq 100 \circthen\\
+\t2 \circif  (passedTime \geq paceInterval ) \circthen \\
+\t3 timeoutV \then TReqPaceV(passedTime)\\
+\t2 \circelse \lnot (passedTime \geq paceInterval ) \circthen \\
+\t3 \circwait(1) \circseq passedTime := passedTime + 1 \circseq \\
+\t3 SensepaceVentricle\_DDIR(passedTime) \\
+\t2 \circfi\\ 
+\t1 \circfi \\ 
+\end{circusaction}
+
+
+%%%% rate modulation section
+
+
+\textbf{Motion sensor schema to update the pace interval} 
+
+\begin{schema}{ChangePaceInterval}
+\Delta PacemakerState \\
+iteration : \nat \\
+iteration' : \nat \\
+motionSensorValue? : MSRange 
+\where
+(motionSensorValue? > 5 \land paceInterval'= 60000 \div (60 + slop * iteration))\\
+\lor \\
+(motionSensorValue? \leq 5 \land paceInterval'= 60000 \div (120 - slop * iteration))\\
+\land \\
+(iteration < ((120-60) \div slop) \land iteration' = iteration + 1)   \\
+\lor \\
+(iteration \geq ((120-60) \div slop) \land iteration'= 0 \land paceInterval'=paceInterval ) \\  
+\end{schema}
+
+\textbf{Motion sensor process of the pacemaker} 
+
+\begin{circusaction}
+RateModulation \circdef \\
+\t1 \circvres\ iteration :\nat  \circspot \\
+\t2 inMotionSensor~?~motionSensorValue \then ChangePaceInterval
+\end{circusaction}
+
+
+
+\textbf{ Main \Circus~ action }\\
+
+\begin{circusaction}
+	\circspot \circmu X \circspot paceInterval := 1000 \circseq ( startPacemaker \then TReq(0,0,DDDR) \\ 
+   \circinterrupt \\
+  (stopPacemaker \then \circwait(0..timeDuration) \circseq X \\ 
+  \extchoice \\
+  emergencyStop \then \Stop))
+\end{circusaction}
+
+
+\begin{circus}
+  \circend
+\end{circus}
+
+
+\textbf{The requirements of the abstract system are specified by the system process below. }\\
+
+\begin{circus}
+\circprocess PacemakerAbstract \circdef  Pacemaker\_DDDR\_DDIR \lpar \lchanset startCycle, senseA, senseV, noPaceA, noPaceV, timeoutA, timeoutV \rchanset \rpar PMTReq
+\end{circus}

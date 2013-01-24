@@ -39,8 +39,8 @@ public class JaxbXmlWriter
       JAXB_CONTEXT = JAXBContext.newInstance(toJaxbContextPath(
               net.sourceforge.czt.z.jaxb.gen.ObjectFactory.class,
               net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory.class,
-              net.sourceforge.czt.circus.jaxb.gen.ObjectFactory.class),
-          net.sourceforge.czt.circus.jaxb.gen.ObjectFactory.class.getClassLoader());
+              net.sourceforge.czt.circustime.jaxb.gen.ObjectFactory.class),
+          net.sourceforge.czt.circustime.jaxb.gen.ObjectFactory.class.getClassLoader());
     } catch (JAXBException e) {
       throw new RuntimeException(e);
     }

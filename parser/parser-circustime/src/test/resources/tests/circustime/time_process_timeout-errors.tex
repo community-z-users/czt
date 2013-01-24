@@ -1,0 +1,77 @@
+\begin{zsection}
+   \SECTION time\_process\_timeout \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+
+%Process P with circus action A 
+
+\begin{circus}
+    \circprocess\ P \circdef  \circbegin  \\
+    \t1 A \circdef c1 \then \Skip \\
+    \t1 \circspot A \\
+    \circend
+\end{circus}
+
+
+%Process Q with circus action B
+
+\begin{circus}
+    \circprocess\ Q \circdef  \circbegin  \\
+    \t1 B \circdef c2 \then \Skip \\
+    \t1 \circspot B \\
+    \circend
+\end{circus}
+
+
+%Interface parallelism with explicit name sets.
+
+\begin{circus}
+    \circprocess Pro16 \circdef P \circtimeout \lcirctime 20 \rcirctime Q \lpar \{~ tval ~\} | \lchanset c, d \rchanset | \{~ tval ~\} \rpar P \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+    \circprocess Pro17 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \lpar \{~ tval ~\} | \lchanset c, d \rchanset | \{~ tval ~\} \rpar (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+
+
+%Alphabetised parallelism with default (empty) name sets for both sides. Notice the required extra BAR (\verb'|') after/before the parallel brackets.
+
+\begin{circus}
+    \circprocess Pro18 \circdef P \circtimeout \lcirctime 20 \rcirctime Q [ | \lchanset c \rchanset || \lchanset c, d \rchanset | ] P \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+ 
+\begin{circus}
+    \circprocess Pro19 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) [ | \lchanset c \rchanset || \lchanset c, d \rchanset | ] (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+
+
+
+\begin{circus}
+    \circprocess Pro20 \circdef \circvres tvar : \nat  \circspot P \circtimeout \lcirctime tvar \rcirctime Q\\
+\end{circus}   
+
+
+\begin{circus}
+    \circprocess Pro12 \circdef (c \then P \circtimeout \lcirctime 10 \rcirctime Q) \circhide c \\
+\end{circus} 
+     
+\begin{circus}
+    \t1 Pro26 \circdef P \circtimeout \lcirctime X : 0 \upto 10 \rcirctime Q\\
+\end{circus}        
+
+\begin{circus}
+    \t1 Pro27 \circdef P \circtimeout \lcirctime X : 0 \upto tval \rcirctime Q \\
+\end{circus} 
