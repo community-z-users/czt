@@ -59,7 +59,7 @@ import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
 
 
 /**
- * Goal which generates CZT Rules prover classes from XML Schema file..
+ * Goal which generates CZT Rules prover classes from XML Schema file.
  * <p>
  * The template and schema paths can be indicated as filesystem paths, URLs, or classpath
  * resources. Refer to Plexus {@link ResourceManager} for more details.
