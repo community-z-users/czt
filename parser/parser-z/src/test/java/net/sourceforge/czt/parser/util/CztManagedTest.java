@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -71,7 +72,7 @@ public abstract class CztManagedTest extends TestCase
    * @param extension usually "z" or "circus"
    * @param debug true or false
    */
-  protected CztManagedTest(String extension, boolean debug)
+  protected CztManagedTest(Dialect extension, boolean debug)
   {
     this(new SectionManager(extension), debug);
   }
