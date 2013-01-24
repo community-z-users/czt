@@ -47,10 +47,10 @@
       <topNav>Documentation|modules|module-menu</topNav>
       <!-- Split menus in the bottom navigation -->
       <bottomNav maxSpan="9" >
-        <column>Main|Download|parent</column>
+        <column>Main|Download</column>
         <column>Documentation</column>
         <!-- Placeholder for module-specific menus (need to have ref module-menu) -->
-        <column>module-menu</column>
+        <column>module-menu|parent</column>
         <column>reports</column>
       </bottomNav>
       <bottomDescription>
