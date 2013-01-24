@@ -7,7 +7,7 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 typecheck()
 {
-  manager = new SectionManager();
+  manager = new SectionManager(Dialect.Z);
   return typecheck(manager);
 }
 
@@ -21,7 +21,7 @@ typecheck(SectionInfo manager)
 
 typecheck(String filename)
 {
-  manager = new SectionManager();
+  manager = new SectionManager(Dialect.Z);
   term = typecheck(filename, manager);
 }
 
@@ -35,7 +35,7 @@ typecheck(String filename, SectionInfo manager)
 
 typecheck(Term term)
 {
-  manager = new SectionManager();
+  manager = new SectionManager(Dialect.Z);
   typecheck(term, manager);
 }
 
