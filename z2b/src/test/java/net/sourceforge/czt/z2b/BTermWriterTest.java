@@ -30,6 +30,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z2b.*;
 
@@ -49,7 +50,7 @@ public class BTermWriterTest
 
   public void setUp()
   {
-    sectman_ = new SectionManager();
+    sectman_ = new SectionManager(Dialect.Z);
     output_ = new StringWriter();
     writer_ = new BWriter(output_, "UnitTest");
     termwriter_ = new BTermWriter(writer_);

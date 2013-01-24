@@ -26,6 +26,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 
@@ -37,7 +38,7 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
 
   protected CZT2ZEvesPrintingTest(boolean debug)
   {
-    super("zeves", debug);
+    super(Dialect.ZEVES, debug);
   }
 
   protected CZT2ZEvesPrintingTest(SectionManager manager, boolean debug)

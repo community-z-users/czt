@@ -296,7 +296,7 @@ public class CztUIPlugin extends AbstractUIPlugin
   {
     SectionManager sectManager = new SectionManager(dialect);
 
-    //System.out.println("Created new SectionManager("+dialect+") -> "+sectManager.hashCode());
+    //System.out.println("Created new SectionManager(Dialect) -> "+sectManager.hashCode());
     IPreferenceStore store = getPreferenceStore();
     /**
      * Sets the properties of the section manager

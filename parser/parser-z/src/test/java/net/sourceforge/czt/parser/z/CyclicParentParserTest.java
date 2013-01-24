@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import net.sourceforge.czt.parser.util.AbstractCyclicParentTest;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -38,7 +39,7 @@ public class CyclicParentParserTest extends AbstractCyclicParentTest
   }
 
   protected SectionManager createSectionManager() {
-    return new SectionManager();
+    return new SectionManager(Dialect.Z);
   }
   
   protected SectionManager getSectionManager() {
