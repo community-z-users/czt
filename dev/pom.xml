@@ -20,11 +20,11 @@
     <module>gnast</module>
     <module>gnast-maven-plugin</module>
 
+    <module>parsergen-maven-plugin</module>
+
     <module>java-cup-runtime</module>
     <module>java-cup</module>
     <module>cup-maven-plugin</module>
-
-    <module>parsergen-maven-plugin</module>
   </modules>
 
   <dependencyManagement>
