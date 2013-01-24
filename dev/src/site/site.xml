@@ -10,6 +10,10 @@
         <index combine.self="override">
           <shortTitle>Introduction</shortTitle>
           <toc>false</toc>
+          <sections>
+            <body />
+            <sidebar />
+          </sections>
         </index>
       </pages>
     </reflowSkin>
