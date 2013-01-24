@@ -1,7 +1,10 @@
-## Using Eclipse IDE
+# Setup CZT in Eclipse
 
 These instructions outline steps how to develop CZT source code using
 [Eclipse IDE][eclipse]. Information is based on Eclipse Juno (4.2).
+
+Refer to [general setup instructions][setup] for more details on CZT
+development setup.
 
 We recommend using [Eclipse m2e][m2e] for building CZT using Eclipse and Maven.
 It is available as part of [Eclipse RCP/RAP or Classic][eclipse-download]
@@ -10,9 +13,10 @@ packages. Download one of these packages to use with CZT development.
 [eclipse]: http://www.eclipse.org
 [m2e]: http://www.eclipse.org/m2e/
 [eclipse-download]: http://www.eclipse.org/downloads
+[setup]: ../setup.html
 
 
-### Clone CZT source code Git repository
+## Clone Git repository
 
 Eclipse provides a Git client - [EGit][egit] - as part of IDE. It can be used
 to clone CZT Git repository. If you have already checked out CZT source code,
@@ -36,45 +40,46 @@ to [its user guide][egit-usage].
 [egit]: http://www.eclipse.org/egit/
 [egit-usage]: http://wiki.eclipse.org/EGit/User_Guide
 
-### m2e support
+## m2e support
 
 The [Maven integration with Eclipse (m2e)][m2e] project aims to provide
 first-class Apache Maven support in Eclipse IDE. However, it also aims to
 participate in Eclipse automatic builds, which causes problems with certain
-Maven plug-ins. See [M2E wiki][m2e-cover] for more details on that.
+Maven plugins. See [M2E wiki][m2e-cover] for more details on that.
 
 If this is the first time you built CZT, you need to build it from the
 command line before importing into Eclipse. This is necessary because
-of CZT-specific Maven plug-ins, which are built on-the-fly. You can
+of CZT-specific Maven plugins, which are built on-the-fly. You can
 import them into Eclipse after everything is built first.
 
-Furthermore, you need to install m2e connectors for CZT build plug-ins
-before importing the projects.
+Furthermore, you need to install m2e connectors for CZT build
+before importing the projects (see below).
 
-#### m2e connectors for CZT build plug-ins
+[m2e-cover]: http://wiki.eclipse.org/M2E_plugin_execution_not_covered
 
-Basic m2e connectors are available to handle "lifecycle mapping" for CZT Maven
-plug-ins (i.e. `gnast-maven-plugin`, `cup-maven-plugin` and `parser-src`).
+
+### m2e connectors for CZT build
+
+Several Maven plugins used by CZT require installing m2e connectors from
+3rd party update sites (namely `maven-jflex-plugin` and `xml-maven-plugin`).
 They are not available in the official m2e marketplace and should be installed
-from [CZT developer update site][czt-dev-p2]:
+from [CZT developer Eclipse update site][czt-dev-p2]:
 
     http://czt.sourceforge.net/dev/eclipse/updates/latest
 
-[Install the connectors][eclipse-update] (_m2e support for building CZT_)
-before importing CZT Maven projects. Also install other related plug-ins
-from the update site:
+[Install the connectors][eclipse-update] before importing CZT Maven projects:
 
 -    _m2e connector for `maven-jflex-plugin`_, version `>= 1.1.0`
 -    _m2e Connector for XML Transform_ (`xml-maven-plugin`), version `>= 0.6.0`
 
-Several other Maven plug-ins have m2e connectors available in m2e marketplace.
+Several other Maven plugins have m2e connectors available in m2e marketplace.
 Install them when asked during CZT project import.
 
 [czt-dev-p2]: http://czt.sourceforge.net/dev/eclipse/updates/latest
 [eclipse-update]: http://www.vogella.com/articles/Eclipse/article.html#plugin_installation
 
 
-#### Import CZT Maven projects into workspace
+### Import CZT Maven projects into workspace
 
 After installing all prerequisites and building everything from command line
 the first time, you can import the CZT projects into Eclipse IDE.
@@ -92,21 +97,7 @@ To do that, follow these steps:
 6.    Done - this should get CZT projects built successfully.
 
 
-#### Building CZT m2e connectors
-
-The m2e connectors for CZT Maven plug-ins are also available as Eclipse plug-ins
-in CZT repository: `<CZT_HOME>/eclipse/m2e`. When the full CZT build is
-performed, e.g. via `mvn clean install`, the plug-ins are built and packaged
-into CZT p2 repository. To install them from your local source code, add it
-as Eclipse update site with the following address:
-	
-	file:<CZT_HOME>/eclipse/net.sourceforge.czt.eclipse.repository/target/repository/
-
-
-[m2e-cover]: http://wiki.eclipse.org/M2E_plugin_execution_not_covered
-
-
-### Link projects to EGit
+## Link projects to EGit
 
 Each imported project can now be linked to [EGit][egit] to display changes and
 allow version control functionality on the source code. To link projects with
@@ -123,7 +114,7 @@ EGit follow these steps:
 Now EGit actions/decorations can be used on the projects.
 
 
-### Use CZT code style
+## CZT code style
 
 CZT code style file is available for Eclipse IDE to provide common code
 formatting. [Download it][czt-style] and import in Eclipse Preferences >
@@ -132,11 +123,11 @@ Java > Code Style > Formatter tab.
 [czt-style]: doc/eclipse-code-format-style.xml
 
 
-### Alternative: using Apache Maven Eclipse
+## Using Maven `eclipse:eclipse`
 
-An alternative way of working with CZT in Eclipse is to convert the Maven
-plug-ins to separate Eclipse projects. For that we can use
-[Apache Maven Eclipse][mvn-eclipse] plug-in. 
+An **alternative** way of working with CZT in Eclipse is to convert the Maven
+plugins to separate Eclipse projects. For that we can use
+[Apache Maven Eclipse][mvn-eclipse] plugin. 
 
 First of all, add Maven repository variable to workspace classpath. Eclipse
 projects will need to reference libraries in the local Maven repository.
@@ -172,7 +163,7 @@ Then rerun the initial command:
 
 When building `ui` project, it can fail with the following error:
 `Request to merge when 'filtering' is not identical`. It seems to be an issue
-with Maven Eclipse plug-in. A workaround is to use version 2.6 of the plugin.
+with Maven Eclipse plugin. A workaround is to use version 2.6 of the plugin.
 So resume the build with this plugin version:
 
 	mvn org.apache.maven.plugins:maven-eclipse-plugin:2.6:eclipse -DdownloadSources -DdownloadJavadocs -rf :ui
@@ -216,6 +207,6 @@ It is possible to simplify this a little and define Maven as an _external tool_
 in Eclipse IDE. Then specific commands can be run based on the selection in
 Eclipse, e.g. select a project and then run `clean install` on the selection.
 For more information on configuring Maven as an _external tool_ in Eclipse
-see the [plug-in usage documentation][mvn-eclipse-usage].
+see the [plugin usage documentation][mvn-eclipse-usage].
 
 [mvn-eclipse-usage]: http://maven.apache.org/plugins/maven-eclipse-plugin/usage.html
