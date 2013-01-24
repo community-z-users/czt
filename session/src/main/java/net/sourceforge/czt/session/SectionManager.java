@@ -88,7 +88,7 @@ import net.sourceforge.czt.util.Pair;
  * <p>
  * There are currently three ways of getting/reusing a section manager object.
  * <ol>
- * <li>{@code new SectionManager()} - which starts with an empty cache, so gives you the overhead of
+ * <li>{@code new SectionManager(Dialect)} - which starts with an empty cache, so gives you the overhead of
  * parsing toolkits again.</li>
  * <li>{@code oldSectMan.reset()} - this clears everything in the cache, except for the prelude and
  * any sections called *_toolkit.</li>
@@ -142,13 +142,13 @@ import net.sourceforge.czt.util.Pair;
 public class SectionManager
   implements Cloneable, SectionInfo
 {
-  public static final String DEFAULT_EXTENSION = "z";
+  public static final Dialect DEFAULT_EXTENSION = Dialect.Z;
   public static final boolean DEFAULT_TRACING = false;
   public static final Level DEFAULT_LOGLEVEL = Level.CONFIG;
   public static final Level DEFAULT_TRACELEVEL = Level.FINE;
   public static final Level EXTRA_TRACELEVEL = Level.FINER;
 
-  private String dialect_ = DEFAULT_EXTENSION;
+  private Dialect dialect_ = DEFAULT_EXTENSION;
   
   public static final String  SECTION_MANAGER_LIST_PROPERTY_SEPARATOR = File.pathSeparator;
   
@@ -301,21 +301,28 @@ public class SectionManager
   private final Set<String> permanentKeys_ = new HashSet<String>();
 
 
-  public SectionManager()
+  /**
+   * DESIGN-DECISION: having "default" dialects create problems when trying to resolve default
+   * 				  section parent for multi-layered language extensions. In any case, this
+   * 				  should be declared from the begingging anyway.
+  
+  */
+  @Deprecated
+  private SectionManager()
   {
-    this(DEFAULT_EXTENSION);
+    throw new UnsupportedOperationException("Cannot have a section manager for a unknown dialect");
   }
-
+  
   /** Creates a new section manager for a given Z extension/dialect.
    *  It calls putCommands(extension) to 
    * @param extension  A Z dialect ("z", "zpatt", "oz", "circus", etc.)
    */
-  public SectionManager(String extension)
+  public SectionManager(Dialect extension)
   {
     this(extension, DEFAULT_TRACING, DEFAULT_LOGLEVEL, DEFAULT_TRACELEVEL);
   }
 
-  public SectionManager(String extension, boolean doTrace, Level logLevel, Level tracingLevel)
+  public SectionManager(Dialect extension, boolean doTrace, Level logLevel, Level tracingLevel)
   {
     // create a console handler for tracing with simple formatting
     consoleHandler_.setLevel(tracingLevel);
@@ -335,7 +342,7 @@ public class SectionManager
     registerDefaultPermanentKeys();
   }
 
-  public String getDialect()
+  public Dialect getDialect()
   {
     return dialect_;
   }
@@ -586,10 +593,10 @@ public class SectionManager
    * "/XYZ.commands" file (see session/src/main/resources).
    * @param extension 
    */
-  public final void putCommands(String extension)
+  public final void putCommands(Dialect extension)
   {
     getLogger().log(Level.FINEST, "Set extension to ''{0}''", extension);
-    URL url = getClass().getResource("/" + extension + ".commands");
+    URL url = getClass().getResource("/" + extension.asString() + ".commands");
     if (url != null) {
       putCommands(url);
       return;
