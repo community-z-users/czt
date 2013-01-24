@@ -120,12 +120,14 @@ CZT code style file is available for Eclipse IDE to provide common code
 formatting. [Download it][czt-style] and import in Eclipse Preferences >
 Java > Code Style > Formatter tab.
 
-[czt-style]: doc/eclipse-code-format-style.xml
+[czt-style]: czt-code-style.xml
 
 
 ## Using Maven `eclipse:eclipse`
 
-An **alternative** way of working with CZT in Eclipse is to convert the Maven
+_(This is an alternative way of using CZT in Eclipse and not needed if m2e is used.)_
+
+An alternative way of working with CZT in Eclipse is to convert the Maven
 plugins to separate Eclipse projects. For that we can use
 [Apache Maven Eclipse][mvn-eclipse] plugin. 
 
