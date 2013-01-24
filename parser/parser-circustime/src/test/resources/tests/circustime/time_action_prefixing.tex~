@@ -33,14 +33,14 @@
 
 
 %c@N -> A
-\begin{circusaction}
-        \t1 Act2 \circdef d \circat~N  \then A \\
-\end{circusaction}
+%\begin{circusaction}
+%        \t1 Act2 \circdef c \circat N  \then A \\
+%\end{circusaction}
 
 %c@N -> exp A
-\begin{circusaction}
-        \t1 Act3 \circdef  c~\circat~N \then \lcirctime 20 \rcirctime A  \\
-\end{circusaction}
+%\begin{circusaction}
+ %       \t1 Act3 \circdef  c~\circat~N \then \lcirctime 20 \rcirctime A  \\
+%\end{circusaction}
 
 
 

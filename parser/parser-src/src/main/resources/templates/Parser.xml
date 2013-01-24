@@ -7100,7 +7100,7 @@ cspAction ::=
 		    addLocAnn(RESULT, getLocation(comm, ac));
         :}
 	|
-		communication:comm ATTIME refName:na PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+		communication:comm ATTIME  refName:na PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
         {:
 		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingExprAction(ac,comm,na,e);
 		    addLocAnn(RESULT, getLocation(comm, ac));
