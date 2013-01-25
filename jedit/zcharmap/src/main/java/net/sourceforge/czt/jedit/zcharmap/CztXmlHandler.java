@@ -1,3 +1,5 @@
+package net.sourceforge.czt.jedit.zcharmap;
+
 import java.util.ArrayList;
 import java.util.List;
 
