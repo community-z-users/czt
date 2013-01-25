@@ -15,6 +15,7 @@ import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -90,7 +91,7 @@ public enum ZCompiler
       // do the parsing
       parsed = sectMan.get(new Key<Spec>(this.getCurrentSection(), Spec.class));
     } catch (CommandException ce) {
-      errors.addAll(handleException(ce));
+      errors.addAll(handleException(ce, sectMan.getDialect()));
     }
 
     if (parsed != null) {
@@ -103,7 +104,7 @@ public enum ZCompiler
             // typecheck sections
             sectMan.get(new Key<SectTypeEnvAnn>(zSect.getName(), SectTypeEnvAnn.class));
           } catch (CommandException ce) {
-            errors.addAll(handleException(ce));
+            errors.addAll(handleException(ce, sectMan.getDialect()));
           }
           
           // check for warnings after typechecking
@@ -131,7 +132,7 @@ public enum ZCompiler
       }
     } catch (CommandException ce) {
       // TODO Is ignoring OK?
-      CztUIPlugin.log("Unexpected error in Z compiler: " + ce.getMessage(), ce);
+      CztUIPlugin.log("Unexpected error in " + sectMan.getDialect().toString() + " compiler : " + ce.getMessage(), ce);
     }
 
     parsedData.setErrors(errors);
@@ -139,7 +140,7 @@ public enum ZCompiler
     return parsedData;
   }
 
-  private List<? extends CztError> handleException(CommandException ex)
+  private List<? extends CztError> handleException(CommandException ex, Dialect dialect)
   {
 
 	  Throwable cause = ex.getCause();
@@ -164,7 +165,7 @@ public enum ZCompiler
       CztUIPlugin.log("Input output error: " + cause.getMessage(), cause);
     }
     else {
-      CztUIPlugin.log("Unknown error in Z compiler: " + String.valueOf(cause), cause);
+      CztUIPlugin.log("Unknown error in " + dialect.toString() + " compiler: " + String.valueOf(cause), cause);
     }
 
     return Collections.<CztError> emptyList();

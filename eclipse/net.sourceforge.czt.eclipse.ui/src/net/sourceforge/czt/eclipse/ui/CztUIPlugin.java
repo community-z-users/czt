@@ -115,7 +115,7 @@ public class CztUIPlugin extends AbstractUIPlugin
     super.start(context);
     String defaultDialect = getPreferenceStore().getString(
               PreferenceConstants.PROP_DIALECT);
-    initSectionManager(Dialect.valueOf(defaultDialect));
+    initSectionManager(Dialect.valueOf(defaultDialect.toUpperCase()));
 
     fPropertyChangeListener= new IPropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent event) {
@@ -127,7 +127,7 @@ public class CztUIPlugin extends AbstractUIPlugin
         }
         else if (PreferenceConstants.PROP_DIALECT.equals(property)) {
           String dialect = String.valueOf(event.getNewValue());
-          initSectionManager(Dialect.valueOf(dialect));
+          initSectionManager(Dialect.valueOf(dialect.toUpperCase()));
         }
       }
     };
@@ -289,7 +289,7 @@ public class CztUIPlugin extends AbstractUIPlugin
     return (SectionManager) fSectionManager.clone();
   }
   
-  public static final String ZECLIPSE_DEFAULT_SECTION = "ZEclipseDefault";
+  public static final String ZECLIPSE_LATEX_DEFAULT_SECTION = "ZEclipseDefault";
 
   /** Initialises fSectionManager, which is the default internal section
    *  manager that is available via getSectionManager.
@@ -319,20 +319,21 @@ public class CztUIPlugin extends AbstractUIPlugin
       //sectManager.setTracing(true);
     	
        // get default parents for the same as ANONYMOUS sections (i.e. most encompasing possible, per dialect).
-      DefaultSectionParents dsp = sectManager.get(new Key<DefaultSectionParents>(ZECLIPSE_DEFAULT_SECTION, DefaultSectionParents.class));
-      final String defaultParents = ZUtils.parentsAsString(dsp.defaultParents(Section.ANONYMOUS.getName()));
+      DefaultSectionParents dsp = sectManager.get(new Key<DefaultSectionParents>(ZECLIPSE_LATEX_DEFAULT_SECTION, DefaultSectionParents.class));
+      String defaultParents = ZUtils.parentsAsString(dsp.defaultParents(Section.ANONYMOUS.getName()));
+      defaultParents = defaultParents.replaceAll("_", "\\\\_");
       
       Source source = new StringSource("\\begin{zsection} "
-          + "\\SECTION " + ZECLIPSE_DEFAULT_SECTION + "\\parents " + defaultParents
+          + "\\SECTION " + ZECLIPSE_LATEX_DEFAULT_SECTION + "\\parents " + defaultParents
           + "\\end{zsection}");
       
       source.setMarkup(Markup.LATEX);
-      sectManager.put(new Key<Source>(ZECLIPSE_DEFAULT_SECTION, Source.class), source);
+      sectManager.put(new Key<Source>(ZECLIPSE_LATEX_DEFAULT_SECTION, Source.class), source);
       // make sure it (and the standard toolkit) are parsed
-      sectManager.get(new Key<Spec>(ZECLIPSE_DEFAULT_SECTION, Spec.class));
+      sectManager.get(new Key<Spec>(ZECLIPSE_LATEX_DEFAULT_SECTION, Spec.class));
       //System.out.println("GOT TO PARSING");
       // and typechecked
-      sectManager.get(new Key<SectTypeEnvAnn>(ZECLIPSE_DEFAULT_SECTION,
+      sectManager.get(new Key<SectTypeEnvAnn>(ZECLIPSE_LATEX_DEFAULT_SECTION,
                                               SectTypeEnvAnn.class));
     } catch (CommandException ce) {
 	  if (ce.getCause() instanceof TypeErrorException)

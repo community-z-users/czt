@@ -6,6 +6,7 @@ import java.util.List;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A factory for visitors that retrieve term labels (e.g. name or description). The returned
@@ -17,6 +18,7 @@ import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
  * passed or is read from preferences.
  * 
  * @author Andrius Velykis
+ * @author Leo Freitas
  */
 public class TermLabelVisitorFactory
 {
@@ -99,8 +101,11 @@ public class TermLabelVisitorFactory
   private static TermVisitor<String> getShortDescVisitor(String dialect)
   {
 
-    if ("circus".equals(dialect)) {
+    if (Dialect.CIRCUS.toString().equals(dialect)) {
       return CIRCUS_SHORT_DESC_VISITOR;
+    }
+    else if (Dialect.CIRCUSTIME.toString().equals(dialect)) {
+      return CIRCUSTIME_SHORT_DESC_VISITOR;
     }
 
     return Z_SHORT_DESC_VISITOR;
