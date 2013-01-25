@@ -56,6 +56,70 @@
   </dependencyManagement>
 
 
+  <profiles>
+    <profile>
+      <!-- A special profile to regenerate composite p2 repository for m2e plugins, which are
+           required to build CZT. This should be done when the repositories change - it will
+           generate repository which will be committed to repository.
+
+           Running the script requires having an Eclipse installation. Run it with the following
+           command:
+
+           mvn generate-sources -P regenerate-p2-repo -N -Declipse.dir=ECLIPSE_DIR
+
+           -->
+      <id>regenerate-p2-repo</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <p2exec.dir>${project.basedir}/src/site/eclipse-dev-p2</p2exec.dir>
+        <repo.targetDir>${project.basedir}/src/site/resources/eclipse/updates/</repo.targetDir>
+        <repo.name>CZT m2e Support</repo.name>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <version>1.7</version>
+              <executions>
+                <execution>
+                  <id>regenerate-p2-repo</id>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                    <tasks>
+                      <delete dir="${repo.targetDir}"/>
+                      <mkdir dir="${repo.targetDir}"/>
+                      <fail unless="eclipse.dir">Eclipse path property 'eclipse.dir' not set. Indicate path to Eclipse directory using -Declipse.dir=ECLIPSE_DIR</fail>
+                      <exec executable="${p2exec.dir}/comp-repo.sh"
+                            dir="${p2exec.dir}">
+                        <arg value="${repo.targetDir}"/>
+                        <arg value="--eclipse"/>
+                        <arg value="${eclipse.dir}"/>
+                        <arg value="--name"/>
+                        <arg value="${repo.name}"/>
+                        <arg value="add"/>
+                        <arg value="http://objectledge.github.com/maven-extensions/connectors/updates/development"/>
+                        <arg value="add"/>
+                        <arg value="http://nl-mwensveen-m2e-extras.googlecode.com/svn/trunk/p2"/>
+                      </exec>
+                    </tasks>
+                  </configuration>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+
+
   <!-- Put site under /dev -->
   <url>${site.url}/dev</url>
 

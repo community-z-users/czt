@@ -7,22 +7,24 @@ manually - they can all be retrieved from the update site.
 
 [p2-comp]: http://wiki.eclipse.org/Equinox/p2/Composite_Repositories_(new)
 
+
 ## Running the script
 
-The `comp-repo.sh` shell script builds (or modifies) a composite p2 repository.
-Below is a sample execution that produces the 'latest' composite repository
-that contains the CZT m2e update site together with related m2e connector
-update sites, which are not part of the m2e marketplace.
+To run the script, use Maven build in /dev subdirectory with the following command:
 
-The assumption here is that this composite repository is placed under
-`http://czt.sourceforge.net/dev/eclipse/updates/latest`
-and the actual CZT m2e repository is under
-`http://czt.sourceforge.net/dev/eclipse/updates/latest/czt`.
+    mvn generate-sources -P regenerate-p2-repo -N -Declipse.dir=ECLIPSE_DIR
+
+
+## Running the script standalone
+
+The `comp-repo.sh` shell script builds (or modifies) a composite p2 repository.
+Below is a sample execution that produces a composite repository
+that contains the m2e connector updates sites required for building CZT,
+which are not part of the m2e marketplace.
 
 
     ./comp-repo.sh <REPO_DIR> --eclipse <ECLIPSE_DIR> \
-    --name "CZT m2e Support p2 Composite Repository" \
-    add http://czt.sourceforge.net/dev/eclipse/updates/latest/czt \
+    --name "CZT m2e Support" \
     add http://objectledge.github.com/maven-extensions/connectors/updates/development \
     add http://nl-mwensveen-m2e-extras.googlecode.com/svn/trunk/p2
 

@@ -65,7 +65,7 @@ Several Maven plugins used by CZT require installing m2e connectors from
 They are not available in the official m2e marketplace and should be installed
 from [CZT developer Eclipse update site][czt-dev-p2]:
 
-    http://czt.sourceforge.net/dev/eclipse/updates/latest
+    http://czt.sourceforge.net/dev/eclipse/updates/
 
 [Install the connectors][eclipse-update] before importing CZT Maven projects:
 
@@ -75,7 +75,7 @@ from [CZT developer Eclipse update site][czt-dev-p2]:
 Several other Maven plugins have m2e connectors available in m2e marketplace.
 Install them when asked during CZT project import.
 
-[czt-dev-p2]: http://czt.sourceforge.net/dev/eclipse/updates/latest
+[czt-dev-p2]: http://czt.sourceforge.net/dev/eclipse/updates/
 [eclipse-update]: http://www.vogella.com/articles/Eclipse/article.html#plugin_installation
 
 
