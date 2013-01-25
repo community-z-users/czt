@@ -105,4 +105,14 @@ public class DialectTest {
 		assertTrue(Dialect.CIRCUSTIME.isExtensionOf(Dialect.CIRCUS));
 		assertTrue(Dialect.CIRCUSTIME.isExtensionOf(Dialect.CIRCUSTIME));
 	}
+	
+	@Test
+	public void testKnownDialects() {
+		String[] exptected = new String[] { Dialect.Z.toString(), Dialect.ZPATT.toString(),
+				 Dialect.OZ.toString(), Dialect.OZPATT.toString(),	
+				 Dialect.ZEVES.toString(), Dialect.CIRCUSPATT.toString(),
+				 Dialect.CIRCUS.toString(), Dialect.CIRCUSTIME.toString()
+				 };
+		assertArrayEquals("", exptected, Dialect.knownDialectsAsStringArray());
+	}
 }

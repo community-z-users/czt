@@ -11,6 +11,25 @@ public enum Dialect {
    CIRCUS,			//6
    CIRCUSTIME;		//7
    
+   private static final int NUM_OF_DIALECTS = CIRCUSTIME.ordinal()+1;
+   
+   private static String[] known_ = null;
+   public static String[] knownDialectsAsStringArray()
+   {
+	   if (known_ == null)
+	   {
+		   int i = 0;
+		   known_ = new String[NUM_OF_DIALECTS];
+		   for(Dialect d : values())
+		   {
+			   known_[i] = d.toString();
+			   i++;
+		   }
+	   }
+	   assert known_ != null && known_.length == NUM_OF_DIALECTS;
+	   return known_;
+   }
+   
    /**
     * Matrix where rows are for THIS enum in comparison to given dialect.
     * TODO: find a more compact (yet clear) way of describing this. Perhaps BitSet?
