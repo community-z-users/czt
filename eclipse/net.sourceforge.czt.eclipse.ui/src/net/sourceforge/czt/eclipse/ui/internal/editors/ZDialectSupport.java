@@ -33,7 +33,8 @@ public enum ZDialectSupport {
   public enum ZDialect {
     Z(Dialect.Z.toString(), "Z", "etc/ZTable.xml"), 
     OBJECT_Z(Dialect.OZ.toString(), "Object Z", "etc/ObjectZTable.xml"), 
-    CIRCUS(Dialect.CIRCUS.toString(), "Circus", "etc/CircusTable.xml"), 
+    CIRCUS(Dialect.CIRCUS.toString(), "Circus", "etc/CircusTable.xml"),  
+    CIRCUSTIME(Dialect.CIRCUSTIME.toString(), "Circus Time", "etc/CircusTimeTable.xml"), 
     ZEVES(Dialect.ZEVES.toString(), "Z/EVES", "etc/ZEvesTable.xml");
 
     private final String dialect;
