@@ -9,7 +9,7 @@ public class DefaultZEvesSectionParentsCommand extends DefaultZSectionParentsCom
 	  
 	private boolean isAnyOfZEvesStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.ZEVES.asString()).contains(sectName);
+		return knownToolkits(Dialect.ZEVES.toString()).contains(sectName);
 	}
 	
 	@Override

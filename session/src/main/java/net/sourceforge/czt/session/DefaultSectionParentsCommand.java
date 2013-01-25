@@ -40,7 +40,7 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 	 */
 	protected Set<String> knownToolkits()
 	{
-		return Section.standardSections(getDialect().asString());
+		return Section.standardSections(getDialect().toString());
 	}
 	
 	protected Set<String> knownToolkits(String dialect)
@@ -92,7 +92,7 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 		// (i.e. Z section manager cannot use a Circus default section parents command).
 		if (!manager.getDialect().isExtensionOf(getDialect()))
 		{
-			throw new CommandException("Command cannot resolve default section parents for dialect " + getDialect().asString() + 
+			throw new CommandException("Command cannot resolve default section parents for dialect " + getDialect().toString() + 
 					". Section manager dialect is " + manager.getDialect());
 		}
 		

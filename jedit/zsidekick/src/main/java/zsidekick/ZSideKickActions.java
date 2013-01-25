@@ -88,7 +88,7 @@ public class ZSideKickActions
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding",
                                System.getProperty( "file.encoding"));
-      buffer.setMode(latex.getExtension().asString() + "latex");
+      buffer.setMode(latex.getExtension().toString() + "latex");
       buffer.insert(0, latex.toString());
     }
   }
@@ -104,7 +104,7 @@ public class ZSideKickActions
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding",
                                System.getProperty( "file.encoding"));
-      buffer.setMode(latex.getExtension().asString() + "latex");
+      buffer.setMode(latex.getExtension().toString() + "latex");
       buffer.insert(0, latex.toString());
     }
   }
@@ -119,7 +119,7 @@ public class ZSideKickActions
       UnicodeString unicode = manager.get(key);
       Buffer buffer = jEdit.newFile(view);
       buffer.setStringProperty("encoding", "UTF-16");
-      buffer.setMode(unicode.getExtension().asString());
+      buffer.setMode(unicode.getExtension().toString());
       buffer.insert(0, unicode.toString());
     }
   }

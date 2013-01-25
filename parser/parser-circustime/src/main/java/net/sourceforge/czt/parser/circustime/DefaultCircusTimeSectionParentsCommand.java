@@ -9,7 +9,7 @@ public class DefaultCircusTimeSectionParentsCommand extends DefaultCircusSection
 	  
 	private boolean isAnyOfCircusTimeStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.CIRCUSTIME.asString()).contains(sectName);
+		return knownToolkits(Dialect.CIRCUSTIME.toString()).contains(sectName);
 	}
 	
 	@Override

@@ -9,7 +9,7 @@ public class DefaultOZSectionParentsCommand extends DefaultZSectionParentsComman
 	  
 	private boolean isAnyOfOZStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.OZ.asString()).contains(sectName);
+		return knownToolkits(Dialect.OZ.toString()).contains(sectName);
 	}
 	
 	@Override

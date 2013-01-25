@@ -16,7 +16,7 @@ public class DefaultZSectionParentsCommand extends DefaultSectionParentsCommand 
 	 */
 	private boolean isAnyOfZStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.Z.asString()).contains(sectName);
+		return knownToolkits(Dialect.Z.toString()).contains(sectName);
 	}
 	
 	/**

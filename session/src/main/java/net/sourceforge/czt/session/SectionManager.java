@@ -596,7 +596,7 @@ public class SectionManager
   public final void putCommands(Dialect extension)
   {
     getLogger().log(Level.FINEST, "Set extension to ''{0}''", extension);
-    URL url = getClass().getResource("/" + extension.asString() + ".commands");
+    URL url = getClass().getResource("/" + extension.toString() + ".commands");
     if (url != null) {
       putCommands(url);
       return;

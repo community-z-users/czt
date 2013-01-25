@@ -9,7 +9,7 @@ public class DefaultCircusSectionParentsCommand extends DefaultZSectionParentsCo
 	  
 	private boolean isAnyOfCircusStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.CIRCUS.asString()).contains(sectName);
+		return knownToolkits(Dialect.CIRCUS.toString()).contains(sectName);
 	}
 	
 	@Override

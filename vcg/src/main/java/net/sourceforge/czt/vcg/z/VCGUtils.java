@@ -773,7 +773,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     }
     catch (VCGException e)
     {
-      commandException("VCGU-SM-CREATE", e, getExtension().asString(), debug_);
+      commandException("VCGU-SM-CREATE", e, getExtension().toString(), debug_);
       System.exit(-1);
     }
     assert manager != null && isConfigured();

@@ -34,11 +34,6 @@ public enum Dialect {
    
    public String toString()
    {
-	   return asString();
-   }
-   
-   public String asString()
-   {
 	   return name().toLowerCase();
-   }   
+   }
 }

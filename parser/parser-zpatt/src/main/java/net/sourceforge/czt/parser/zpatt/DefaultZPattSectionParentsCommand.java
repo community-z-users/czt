@@ -11,7 +11,7 @@ public class DefaultZPattSectionParentsCommand extends DefaultZSectionParentsCom
 	  
 	private boolean isAnyOfZPattStandardToolkits(String sectName)
 	{
-		return knownToolkits(Dialect.ZPATT.asString()).contains(sectName);
+		return knownToolkits(Dialect.ZPATT.toString()).contains(sectName);
 	}
 	
 	@Override
