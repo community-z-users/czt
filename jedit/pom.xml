@@ -21,6 +21,8 @@
     <console.artifactId>Console</console.artifactId>
     <errorlist.artifactId>ErrorList</errorlist.artifactId>
     <sidekick.artifactId>SideKick</sidekick.artifactId>
+
+    <jedit.dir>${project.basedir}</jedit.dir>
   </properties>
 
   <modules>
@@ -36,22 +38,22 @@
       <dependency>
         <groupId>${jedit.groupId}</groupId>
         <artifactId>${jedit.artifactId}</artifactId>
-        <version>4.3pre4</version>
+        <version>5.0.0</version>
       </dependency>
       <dependency>
         <groupId>${jedit.plugin.groupId}</groupId>
         <artifactId>${console.artifactId}</artifactId>
-        <version>4.2.6.3</version>
+        <version>5.0</version>
       </dependency>
       <dependency>
         <groupId>${jedit.plugin.groupId}</groupId>
         <artifactId>${errorlist.artifactId}</artifactId>
-        <version>1.4</version>
+        <version>2.1</version>
       </dependency>
       <dependency>
         <groupId>${jedit.plugin.groupId}</groupId>
         <artifactId>${sidekick.artifactId}</artifactId>
-        <version>0.6.2</version>
+        <version>1.4</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -105,11 +107,14 @@
   </build>
 
   <repositories>
-    <!-- CZT repository for jEdit libraries, because they are not available in Maven Central -->
+    <!-- Local Maven repository for jEdit libraries, because they are not available in
+         Maven Central.
+
+         See http://devcenter.heroku.com/articles/local-maven-dependencies for details. -->
     <repository>
-      <id>czt</id>
-      <name>CZT repository</name>
-      <url>http://czt.sourceforge.net/maven/repository</url>
+      <id>jedit.local</id>
+      <name>jEdit local</name>
+      <url>file:${jedit.dir}/jedit-mvn-repo</url>
       <releases>
         <updatePolicy>never</updatePolicy>
       </releases>

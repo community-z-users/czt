@@ -12,6 +12,11 @@
   <description>
     jEdit Plugin for parsing and typechecking Z specifications.
   </description>
+
+  <properties>
+    <jedit.dir>${project.basedir}/..</jedit.dir>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
