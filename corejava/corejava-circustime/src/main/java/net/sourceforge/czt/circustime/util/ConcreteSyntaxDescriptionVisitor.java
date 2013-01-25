@@ -29,10 +29,10 @@ import net.sourceforge.czt.util.Visitor;
  * @author Petra Malik
  */
 public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor
+  extends net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
-    "net.sourceforge.czt.circus.util.LongDescriptionResourceBundle";
+    "net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle";
 
   private Visitor<CircusTimeConcreteSyntaxSymbol> visitor_ =
     new CircusTimeConcreteSyntaxSymbolVisitor();
@@ -43,10 +43,11 @@ public class ConcreteSyntaxDescriptionVisitor
   }
 
   public ConcreteSyntaxDescriptionVisitor(String resourceName,
-                                          String circusResourceName)
+                                          String circusResourceName,
+                                          String circustimeResourceName)
   {
-    super(resourceName);
-    resourceName_ = circusResourceName;
+    super(resourceName, circusResourceName);
+    resourceName_ = circustimeResourceName;
     setNameVisitor(new GetNameVisitor());
  }
 
