@@ -372,7 +372,7 @@ public class <class/>
     }
     if (sectHead_) { // we are just parsing a section header
       if (is(token, LatexSym.END)) { // end of section header
-        sectName_ = trim(sectName_);
+        sectName_ = ZUtils.trimNLCharAware(sectName_);
 
 		try {
           defaultSP_ =
@@ -407,7 +407,7 @@ public class <class/>
           String[] parents = parents_.split(",");
           List&lt;String&gt; parentList = new ArrayList&lt;String&gt;();
           for (String parent : parents) {
-            parent = trim(parent);
+            parent = ZUtils.trimNLCharAware(parent);
             if (parent != null &amp;&amp; ! parent.equals("")) {
               parentList.add(parent);
             }
@@ -520,21 +520,6 @@ public class <class/>
       CyclicParentError.reportCyclicParent(sectInfo_, getSource(), cycleStr, 
           new LocInfoImpl(getSource().getName(), 0, 0));
     }
-  }
-
-  /*
-   * Removes spaces and newlines before and after.
-   */
-  private String trim(String string)
-  {
-    String result = string.trim();
-    while (result.startsWith(ZString.NLCHAR)) {
-      result = result.substring(1).trim();
-    }
-    while(result.endsWith(ZString.NLCHAR)) {
-      result = result.substring(0, result.length() - 1).trim();
-    }
-    return result;
   }
 
   private void check(LocToken t1, LocToken t2)
