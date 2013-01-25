@@ -111,10 +111,12 @@
     <dependency>
     	<groupId>${czt.groupId}</groupId>
     	<artifactId>corejava-circustime</artifactId>
+        <version>${czt.version}</version>
     </dependency>
     <dependency>
     	<groupId>${czt.groupId}</groupId>
     	<artifactId>parser-circustime</artifactId>
+  	    <version>${czt.version}</version>
     </dependency>
   </dependencies>
   
