@@ -24,6 +24,6 @@ public class CommunityZToolsPlugin
   extends EditPlugin
 {
   public static final String NAME = "czt";
-  public static final String OPTION_PREFIX = "options.czt.";
+  public static final String OPTION_PREFIX = "options.net.sourceforge.czt.jedit.zcharmap.";
 //  private static final String LOGGER_NAME = "net.sourceforge.czt";
 }
