@@ -12,6 +12,11 @@
   <description>
     jEdit Plugin that that embeds the Z/EVES theorem prover command line in a console window
   </description>
+
+  <properties>
+    <jedit.dir>${project.basedir}/..</jedit.dir>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>

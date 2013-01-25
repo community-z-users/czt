@@ -8,9 +8,9 @@ plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.version=${project.version}
 plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.docs=zeves.html
 
 # Plugin dependency properties
-plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.0=jdk 1.5
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.0=jdk 1.6
 plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.1=jedit 04.00.04.00
-plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.2=plugin zsidekick.ZSideKickPlugin ${project.version}
+plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.depend.2=plugin net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin ${project.version}
 
 # Plugin menu item properties
 plugin.net.sourceforge.czt.jedit.zeves.ZEvesPlugin.menu=zeves.eval-current-line

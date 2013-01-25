@@ -12,6 +12,11 @@
   <description>
     jEdit Plugin that gives a palette for Z characters and formulae
   </description>
+
+  <properties>
+    <jedit.dir>${project.basedir}/..</jedit.dir>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${jedit.groupId}</groupId>
