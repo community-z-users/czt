@@ -42,3 +42,7 @@ footer .nav-list > li > a, footer .nav-header {
   padding-left: 20px;
 }
 
+/* Reinstate extra spacing in nested lists */
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 10.5px;
+}
