@@ -115,4 +115,12 @@ public class DialectTest {
 				 };
 		assertArrayEquals("", exptected, Dialect.knownDialectsAsStringArray());
 	}
+	
+	@Test
+	public void testDialectFromString() {
+		// don't use toString as it puts enum in lower-case
+		Dialect s2 = Dialect.valueOf(Dialect.Z.name());
+		Dialect s1 = Dialect.valueOf("Z");
+		assertEquals(s1, s2);
+	}
 }

@@ -192,7 +192,7 @@ public class Main
         {
           if (i + 1 < args.length)
           {
-            extension = Dialect.valueOf(args[++i]);
+            extension = Dialect.valueOf(args[++i].toUpperCase());
           }
           else
           {
