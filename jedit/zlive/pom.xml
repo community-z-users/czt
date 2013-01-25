@@ -16,6 +16,7 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zlive</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${jedit.groupId}</groupId>

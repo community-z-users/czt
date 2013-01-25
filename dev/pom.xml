@@ -20,41 +20,15 @@
     <module>gnast</module>
     <module>gnast-maven-plugin</module>
 
+    <module>parsergen-maven-plugin</module>
+
     <module>java-cup-runtime</module>
     <module>java-cup</module>
     <module>cup-maven-plugin</module>
-
-    <module>parsergen-maven-plugin</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
-
-      <!-- Maven Plugin API -->
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-plugin-api</artifactId>
-        <version>2.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-project</artifactId>
-        <version>2.0.4</version>
-      </dependency>
-
-      <!-- Velocity -->
-      <dependency>
-        <groupId>org.apache.velocity</groupId>
-        <artifactId>velocity</artifactId>
-        <version>1.7</version>
-      </dependency>
-
-      <!-- Xerces-->
-      <dependency>
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.8.0</version>
-      </dependency>
 
       <!-- Plexus Build API -->
       <dependency>
@@ -80,18 +54,6 @@
 
     </dependencies>
   </dependencyManagement>
-
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <!-- Generate plugin usage reports -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.2</version>
-      </plugin>
-    </plugins>
-  </reporting>  
 
 
   <!-- Put site under /dev -->

@@ -39,32 +39,41 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
+
 /**
- * @goal generate
- * @phase generate-sources
- * @description Java CUP Maven Plugin
- * 
+ * Goal which generates parser source files from the given CUP parser specifications (*.cup).
+ * <p>
+ * Can be configured using all standalone CUP parser generator options.
+ * </p>
+ *
  * @author Andrius Velykis
  */
+@Mojo(name = "generate", threadSafe = false, 
+      defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CupGenerateMojo extends AbstractMojo
 {
   
   private static final String CUP_EXTENSION = ".cup";
   
   /**
-   * @parameter expression="${project.basedir}/src/main/cup"
-   * @required
+   * The directory containing CUP specification files (*.cup).
    */
+  @Parameter( property = "cup.sourceDirectory", defaultValue = "${project.basedir}/src/main/cup" )
   private File sourceDirectory;
 
   /**
-   * @parameter expression="${project.build.directory}/generated-sources/cup"
-   * @required
+   * The directory where CUP should generate parser and symbol files.
    */
+  @Parameter( property = "cup.outputDirectory",
+              defaultValue = "${project.build.directory}/generated-sources/cup" )
   private File outputDirectory;
   
   /**
@@ -74,9 +83,8 @@ public class CupGenerateMojo extends AbstractMojo
    * package specification is put in the generated code (hence the classes default to the special
    * "unnamed" package).
    * </p>
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.packageName" )
   private String packageName;
   
   /**
@@ -85,16 +93,14 @@ public class CupGenerateMojo extends AbstractMojo
    * Output parser and action code into a file (and class) with the given name. If not given, CUP
    * file name will be used as the class name.
    * </p>
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.className" )
   private String className;
   
   /**
    * Specify type arguments for parser class.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.typeArgs" )
   private String typeArgs;
   
   /**
@@ -103,25 +109,22 @@ public class CupGenerateMojo extends AbstractMojo
    * Output the symbol constant code into a class with the given name instead of the default of
    * "Sym".
    * </p>
-   * 
-   * @parameter default-value="Sym"
    */
+  @Parameter( property = "cup.symbolsName", defaultValue = "Sym" )
   private String symbolsName;
 
   /**
    * Outputs the symbol constant code as an {@code interface} rather than as a {@code class}.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.symbolsInterface", defaultValue = "false" )
   private boolean symbolsInterface;
   
   /**
    * Place constants for non-terminals into the symbol constant class. The parser does not need
    * these symbol constants, so they are not normally output. However, it can be very helpful to
    * refer to these constants when debugging a generated parser.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.nontermsToSymbols", defaultValue = "false" )
   private boolean nontermsToSymbols;
   
   /**
@@ -137,9 +140,8 @@ public class CupGenerateMojo extends AbstractMojo
    * one declared first in the specification). In order to enable automatic breaking of conflicts
    * the -expect option must be given indicating exactly how many conflicts are expected. Conflicts
    * resolved by precedences and associativities are not reported.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.expectedConflicts", defaultValue = "0" )
   private int expectedConflicts;
   
   /**
@@ -160,68 +162,59 @@ public class CupGenerateMojo extends AbstractMojo
    * tables which is not subject to the standard method-size limitations. Consequently, use of this
    * option should no longer be required for large grammars.
    * </p>
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.compactRed", defaultValue = "false" )
   private boolean compactRed;
 
   /**
    * Suppress all warning messages (as opposed to error messages) produced by the system.
-   * 
-   * @parameter 
    */
+  @Parameter( property = "cup.noWarn", defaultValue = "false" )
   private boolean noWarn;
   
   /**
    * Suppress printing a summary listing such things as the number of terminals, non-terminals,
    * parse states, etc. at the end of the generation.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.noSummary", defaultValue = "false" )
   private boolean noSummary;
 
   /**
    * Print short messages indicating progress through various parts of the parser generation
    * process.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.showProgress", defaultValue = "false" )
   private boolean showProgress;
   
   /**
    * Output a human readable dump of the grammar. 
-   * 
-   * @parameter 
    */
+  @Parameter( property = "cup.dumpGrammar", defaultValue = "false" )
   private boolean dumpGrammar;
   
   /**
    * Output a human readable dump of the constructed parse states (often needed to resolve parse
    * conflicts).
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.dumpStates", defaultValue = "false" )
   private boolean dumpStates;
 
   /**
    * Output a human readable dump of the parse tables (rarely needed).
-   * 
-   * @parameter 
    */
+  @Parameter( property = "cup.dumpTables", defaultValue = "false" )
   private boolean dumpTables;
   
   /**
    * Add detailed timing statistics to the normal summary of results.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.timeSummary", defaultValue = "false" )
   private boolean timeSummary;
   
   /**
    * Output internal debugging information about the system as it runs.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.debug", defaultValue = "false" )
   private boolean debug;
   
   /**
@@ -230,9 +223,8 @@ public class CupGenerateMojo extends AbstractMojo
    * used by the parser, then it will save some runtime computation to not generate these position
    * propagations. This option also keeps the left and right label variables from being generated,
    * so any reference to these will cause an error.
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.noPositions", defaultValue = "false" )
   private boolean noPositions;
   
   /**
@@ -245,9 +237,8 @@ public class CupGenerateMojo extends AbstractMojo
    * {@link java_cup.runtime.Scanner} references and allow compatibility with old runtimes. Not many
    * people should have reason to do this.
    * </p>
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.noScanner", defaultValue = "false" )
   private boolean noScanner;
   
   /**
@@ -255,7 +246,7 @@ public class CupGenerateMojo extends AbstractMojo
    * <p>
    * The external parser tables are normally encoded in the generated parser file. This option
    * allows outputting them to an external file, which is loaded by the generated parser
-   * during runtime. The files are named as the parser tables, e.g. "action_table".
+   * during runtime. The files are named as the parser tables, e.g. "action_table.dat".
    * </p>
    * <p>
    * If the parser tables are too large, they are always written to an external file, despite
@@ -263,24 +254,26 @@ public class CupGenerateMojo extends AbstractMojo
    * the initialisation code (the parser table String) being too large. This option allows
    * outputting all tables to external files, thus minimising parser class footprint.
    * </p>
-   * 
-   * @parameter
    */
+  @Parameter( property = "cup.externalTables", defaultValue = "false" )
   private boolean externalTables;
   
   /**
-   * @parameter expression="${project}"
-   * @required
+   * The Maven project (used to add generated sources for compilation).
    */
+  @Component
   private MavenProject project;
   
-  /** 
-   * Injected by Maven
-   * @component
+  /**
+   * The build context, for incremental build support.
    */
+  @Component
   private BuildContext buildContext;
 
 
+  /**
+   * Generates parser files for all CUP specifications found in source directory.
+   */
   @Override
   public void execute()
     throws MojoExecutionException

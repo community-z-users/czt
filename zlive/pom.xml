@@ -14,12 +14,14 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>parser-z</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>rules</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <!-- ModelJUnit from modeljunit.sourceforge.net -->
     <dependency>

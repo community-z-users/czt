@@ -16,18 +16,22 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>corejava-circus</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>rules</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker-oz</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>vcg</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${jedit.groupId}</groupId>

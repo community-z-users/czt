@@ -159,7 +159,7 @@ public class Gnast implements GlobalProperties
     }
     
     // put the property into context
-    defaultContext_.put(AST_FINALISER_PROP, AST_FINALISER_DEFAULT);
+    defaultContext_.put(AST_FINALISER_PROP, config.addAstFinalizer);
     
     if (config.verbosity.intValue() < Level.INFO.intValue())
     {
