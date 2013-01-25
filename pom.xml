@@ -183,6 +183,15 @@
         <version>3.2</version>
         <dependencies>
           <dependency>
+            <!-- Use Doxia 1.4 SNAPSHOT, because it has the fix for DOXIA-480. Without the
+                 fix, some Markdown symbols are not output at all (e.g. quotes).
+
+                 See http://jira.codehaus.org/browse/DOXIA-480 for details. -->
+            <groupId>org.apache.maven.doxia</groupId>
+            <artifactId>doxia-core</artifactId>
+            <version>1.4-SNAPSHOT</version>
+          </dependency>
+          <dependency>
             <!-- Markdown support for writing website content -->
             <groupId>org.apache.maven.doxia</groupId>
             <artifactId>doxia-module-markdown</artifactId>
