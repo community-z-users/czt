@@ -20,7 +20,9 @@ package net.sourceforge.czt.util;
 
 import java.util.Collections;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Common section names.
@@ -119,12 +121,36 @@ public enum Section
   {
     if (stdSect_ == null)
     {
-      stdSect_ = new TreeSet<String>();
+      stdSect_ = new HashSet<String>();
       for(Section s : values())
       {
         stdSect_.add(s.getName());
       }
     }
     return Collections.unmodifiableSet(stdSect_);
+  }
+  
+  private static Map<String, Set<String>> stdSectMap_ = null;
+  public static Set<String> standardSections(String dialect)
+  {
+	if (stdSectMap_ == null)
+    {
+      stdSectMap_ = new HashMap<String, Set<String>>();
+      for(Section s : values())
+      {
+    	  if (s.dialect_ != null)
+    	  {
+	    	  Set<String> sects = stdSectMap_.get(s.dialect_);
+	    	  if (sects == null)
+	    	  {
+	    		  sects = new HashSet<String>();
+	    		  stdSectMap_.put(s.dialect_, sects);
+	    	  }
+	    	  sects.add(s.getName());
+    	  }
+      }
+    }
+	assert stdSectMap_.containsKey(dialect);
+    return Collections.unmodifiableSet(stdSectMap_.get(dialect));
   }
 }

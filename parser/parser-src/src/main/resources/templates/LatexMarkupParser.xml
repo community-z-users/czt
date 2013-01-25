@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
+
 
 import net.sourceforge.czt.parser.util.CyclicParseManager;
 import net.sourceforge.czt.parser.util.ErrorType;
@@ -45,10 +47,12 @@ import net.sourceforge.czt.parser.z.CyclicParentError;
 import net.sourceforge.czt.parser.z.ZParseError;
 import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.DefaultSectionParents;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
@@ -80,6 +84,8 @@ public class <class/>
    * Section information.
    */
   private SectionInfo sectInfo_;
+  
+  private DefaultSectionParents defaultSP_;
 
   /**
    * The markup function for the current section.
@@ -124,6 +130,7 @@ public class <class/>
   {
     lexer_ = lexer;
     sectInfo_ = sectInfo;
+    
   }
 
   @Override
@@ -330,34 +337,34 @@ public class <class/>
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = Section.ANONYMOUS.getName();
-
+      
+      	try {
+          defaultSP_ =
+          	sectInfo_.get(new Key&lt;DefaultSectionParents&gt;(sectName_,
+          							DefaultSectionParents.class));
+        }
+        catch (CommandException e) {
+          e.printStackTrace();
+          //TODO: check this. why not report the error as a scan exception?
+          return token;
+        } 
+      
       // start the LMF transaction, add necessary parents, and end the transaction
       // see comments on startLmfTransaction and endLmfTransaction for details
       // Note no unchecked exceptions until endLmfTransactions, so we do not need
       // to handle anything and cancel failed transaction.
       startLmfTransaction(sectName_);
 
-	// For anonymous sections, the default parents depend on the extension. 
-	// They all take standard_toolkit as a default parent plus their language toolkit
-      parents_ = Section.STANDARD_TOOLKIT.getName()
-        <add:oz>+", "+Section.OZ_TOOLKIT.getName()</add:oz>
-        <add:circus>+", "+Section.CIRCUS_TOOLKIT.getName()</add:circus>
-        <add:circustime>+", "+Section.CIRCUSTIME_TOOLKIT.getName()</add:circustime>
-        <add:zeves>+", "+Section.ZEVES_TOOLKIT.getName()</add:zeves>;
-      addMarkupFunction(Section.PRELUDE.getName());
-<add:oz>
-      addMarkupFunction(Section.OZ_TOOLKIT.getName());
-</add:oz>
-<add:circus>
-      addMarkupFunction(Section.CIRCUS_TOOLKIT.getName());
-</add:circus>
-<add:circustime>
-      addMarkupFunction(Section.CIRCUSTIME_TOOLKIT.getName());
-</add:circustime>
-<add:zeves>
-      addMarkupFunction(Section.ZEVES_TOOLKIT.getName());
-</add:zeves>
-      addMarkupFunction(Section.STANDARD_TOOLKIT.getName());
+      Set&lt;String&gt; parentSet = defaultSP_.defaultParents(sectName_);
+
+  	  // For anonymous sections, the default parents depend on the extension. 
+	  // They all take standard_toolkit as a default parent plus their language toolkit
+      parents_ = ZUtils.parentsAsString(parentSet);
+      
+      for(String parent : parentSet)
+      {
+      	addMarkupFunction(parent);
+      }
       
       // end transaction now - will fill the contents during lexing afterwards
       // see comments on startLmfTransaction and endLmfTransaction for details
@@ -365,7 +372,18 @@ public class <class/>
     }
     if (sectHead_) { // we are just parsing a section header
       if (is(token, LatexSym.END)) { // end of section header
-        sectName_ = trim(sectName_);
+        sectName_ = ZUtils.trimNLCharAware(sectName_);
+
+		try {
+          defaultSP_ =
+          	sectInfo_.get(new Key&lt;DefaultSectionParents&gt;(sectName_,
+          							DefaultSectionParents.class));
+        }
+        catch (CommandException e) {
+          e.printStackTrace();
+          //TODO: check this. why not report the error as a scan exception?
+          return token;
+        } 
 
         // start the LMF transaction, add necessary parents, and end the transaction
         // see comments on startLmfTransaction and endLmfTransaction for details
@@ -377,48 +395,11 @@ public class <class/>
         markupFunctions_.put(sectName_, markupFunction_);
         lexer_.setMarkupFunction(markupFunction_);
         
-        // At this low-level scanning, we need to ensure the order of transactions is right
-        // (i.e. outwards-in from the most specific to the most general). Otherwise, the 
-        // transaction stack will get confused and a scanning exception will happen. This 
-        // is particularly important for extensions that are more than one-level deep
-        // (e.g circustime - circus - prelude).
-        // 
-        // The code below has a neat (if hard to debug) recursive pattern that needs to be
-        // right iun order to avoid ScanException to happen due to transaction stack errors.
         
-<add:oz>
-        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
-            ! sectName_.equals(Section.OZ_TOOLKIT.getName())) {
-          addMarkupFunction(Section.OZ_TOOLKIT.getName());
-        }
-</add:oz>
-<add:circustime>
-        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
-            ! sectName_.equals(Section.CIRCUS_PRELUDE.getName()) &amp;&amp;
-            ! sectName_.equals(Section.CIRCUSTIME_PRELUDE.getName())) {
-          addMarkupFunction(Section.CIRCUSTIME_PRELUDE.getName());
-        }
-</add:circustime>
-<add:circus>
-        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
-            ! sectName_.equals(Section.CIRCUS_PRELUDE.getName())) {
-          addMarkupFunction(Section.CIRCUS_PRELUDE.getName());
-        }
-</add:circus>
-<add:zeves>
-        if (! sectName_.equals(Section.PRELUDE.getName()) &amp;&amp;
-            ! sectName_.equals(Section.ZEVES_PRELUDE.getName())) {
-          addMarkupFunction(Section.ZEVES_PRELUDE.getName());
-        }
-
-        // extra elements for zeves_toolkit implicitly added
-        if (sectName_.equals(Section.ZEVES_TOOLKIT.getName()))
+        Set&lt;String&gt; defaultParentSet = defaultSP_.defaultParents(sectName_);
+        for(String p : defaultParentSet)
         {
-          addZEvesImplicitMarkupDirectives(token);
-        }
-</add:zeves>
-        if (! sectName_.equals(Section.PRELUDE.getName())) {
-          addMarkupFunction(Section.PRELUDE.getName());
+        	addMarkupFunction(p);
         }
 
 		// now process each collected parent.
@@ -426,7 +407,7 @@ public class <class/>
           String[] parents = parents_.split(",");
           List&lt;String&gt; parentList = new ArrayList&lt;String&gt;();
           for (String parent : parents) {
-            parent = trim(parent);
+            parent = ZUtils.trimNLCharAware(parent);
             if (parent != null &amp;&amp; ! parent.equals("")) {
               parentList.add(parent);
             }
@@ -539,21 +520,6 @@ public class <class/>
       CyclicParentError.reportCyclicParent(sectInfo_, getSource(), cycleStr, 
           new LocInfoImpl(getSource().getName(), 0, 0));
     }
-  }
-
-  /*
-   * Removes spaces and newlines before and after.
-   */
-  private String trim(String string)
-  {
-    String result = string.trim();
-    while (result.startsWith(ZString.NLCHAR)) {
-      result = result.substring(1).trim();
-    }
-    while(result.endsWith(ZString.NLCHAR)) {
-      result = result.substring(0, result.length() - 1).trim();
-    }
-    return result;
   }
 
   private void check(LocToken t1, LocToken t2)

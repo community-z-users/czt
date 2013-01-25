@@ -28,6 +28,7 @@ import junit.framework.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.Examples;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -40,15 +41,27 @@ import net.sourceforge.czt.session.SectionManager;
 public abstract class AbstractParserFailTest
   extends TestCase
 {
-  protected static SectionManager manager_ = new SectionManager();
+  private SectionManager manager_;
 
+  protected SectionManager getManager()
+  {
+	  if (manager_ == null)
+	  {
+		  manager_ = new SectionManager(getDialect());
+	  }
+	  return manager_;
+  }
+  
   protected void setUp()
   {
-    manager_.reset();
+    getManager().reset();
+    getManager().putCommands(getDialect());
   }
 
   public abstract Term parse(URL url, SectionManager manager)
     throws Exception;
+  
+  protected abstract Dialect getDialect();
 
   private URL getTestExample(String name)
   {
@@ -59,7 +72,7 @@ public abstract class AbstractParserFailTest
     throws Exception
   {
     try {
-      Term term = parse(url, manager_);
+      Term term = parse(url, getManager());
       // A return value of null is also acceptable
       if (term == null) return;
       fail("Should throw parse exception!");

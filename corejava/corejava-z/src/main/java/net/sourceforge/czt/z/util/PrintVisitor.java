@@ -69,6 +69,7 @@ public class PrintVisitor
              ZExprListVisitor<String>,
              ZRefinesAnnVisitor<String>,
              ZStateAnnVisitor<String>,
+             ParentVisitor<String>,
              NameTypePairVisitor<String>
 {
   protected boolean printUnicode_;
@@ -156,6 +157,12 @@ public class PrintVisitor
   public String visitZStateAnn(ZStateAnn term)
   {
     return term.getInfo().toString();
+  }
+  
+  @Override
+  public String visitParent(Parent term)
+  {
+	  return term.getWord();
   }
 
   @Override

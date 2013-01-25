@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import junit.framework.*;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 
@@ -124,7 +125,7 @@ public class SectionManagerCircusParserTest extends TestCase
   protected void setUp() throws Exception
   {
     files_ = new ArrayList<File>();
-    manager_ = new SectionManager("circus");
+    manager_ = new SectionManager(Dialect.CIRCUS);
     //collectTestFiles(TESTS_SOURCEDIR);
   }
   

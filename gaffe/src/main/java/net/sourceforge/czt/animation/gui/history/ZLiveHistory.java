@@ -33,6 +33,7 @@ import net.sourceforge.czt.animation.gui.temp.ZBinding;
 import net.sourceforge.czt.animation.gui.temp.ZSet;
 import net.sourceforge.czt.animation.gui.temp.ZValue;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -74,7 +75,7 @@ public class ZLiveHistory extends BasicHistory
   {
     zLive_ = GaffeFactory.getZLive();
     sectman_ = zLive_.getSectionManager();
-    sectman_.putCommands("zpatt");
+    sectman_.putCommands(Dialect.ZPATT);
     try {
       Source specSource = new UrlSource(specURL);
       specSource.setMarkup(Markup.LATEX);

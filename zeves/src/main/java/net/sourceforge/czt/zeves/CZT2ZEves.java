@@ -28,6 +28,7 @@ import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -112,7 +113,7 @@ public class CZT2ZEves {
     public static List<String> runPrinter(String filename, boolean printNarrParaAsComment, boolean debug)
     throws CommandException, FileNotFoundException, ParseException, UnmarshalException, IOException
     {
-        SectionManager manager = new SectionManager("zeves");
+        SectionManager manager = new SectionManager(Dialect.ZEVES);
         List<String> result;
         Source source = new FileSource(filename);
         File file = new File(filename);

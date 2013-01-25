@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.parser.z.ParseUtils;
@@ -41,7 +42,7 @@ public class StrategiesTest
     throws Exception
   {
     final String section = "standard_toolkit";
-    SectionManager manager = new SectionManager("zpatt");
+    SectionManager manager = new SectionManager(Dialect.ZPATT);
     RuleTable rules = (RuleTable)
       manager.get(new Key("simplification_rules", RuleTable.class));
     StringSource source = new StringSource(pred1);

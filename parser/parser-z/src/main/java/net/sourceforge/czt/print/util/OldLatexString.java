@@ -18,6 +18,7 @@
 */
 
 package net.sourceforge.czt.print.util;
+import net.sourceforge.czt.session.Dialect;
 
 public class OldLatexString extends CztPrintString
 {
@@ -32,7 +33,7 @@ public class OldLatexString extends CztPrintString
   /**
    * @throws NullPointerException if value or extension is <code>null</code>.
    */
-  public OldLatexString(String value, String extension)
+  public OldLatexString(String value, Dialect extension)
   {
     super(value, extension);
   }

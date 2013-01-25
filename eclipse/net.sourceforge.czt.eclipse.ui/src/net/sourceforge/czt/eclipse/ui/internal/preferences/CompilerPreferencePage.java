@@ -6,6 +6,7 @@ package net.sourceforge.czt.eclipse.ui.internal.preferences;
 
 import java.util.ArrayList;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -13,8 +14,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -98,7 +97,7 @@ public class CompilerPreferencePage extends PreferencePage
     fDialectCombo = new Combo(result, SWT.NONE);
     GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
     fDialectCombo.setLayoutData(gd);
-    fDialectCombo.setItems(new String[]{"z", "oz", "circus", "zeves", "zpatt"});
+    fDialectCombo.setItems(Dialect.knownDialectsAsStringArray());
     fDialectCombo.setToolTipText(PreferencesMessages.CompilerPreferencePage_dialect_tooltip);
     fDialectCombo.select(fDialectCombo.indexOf(
         getPreferenceStore().getString(PreferenceConstants.PROP_DIALECT)));

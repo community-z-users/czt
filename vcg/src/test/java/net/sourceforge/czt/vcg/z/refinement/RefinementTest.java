@@ -23,6 +23,7 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityTest;
 import net.sourceforge.czt.z.ast.Pred;
@@ -44,7 +45,7 @@ public class RefinementTest extends FeasibilityTest implements RefinementPropert
     return result;
   }
 
-  protected RefinementTest(String extension, boolean debug)
+  protected RefinementTest(Dialect extension, boolean debug)
   {
     super(extension, debug);
   }

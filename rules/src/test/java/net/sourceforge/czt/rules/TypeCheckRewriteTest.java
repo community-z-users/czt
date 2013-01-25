@@ -65,8 +65,8 @@ public class TypeCheckRewriteTest
   @Override
   protected SectionManager getManager()
   {
-    SectionManager manager = new SectionManager();
-    manager.putCommands("zpatt");
+    SectionManager manager = new SectionManager(Dialect.ZPATT);
+    manager.putCommands(Dialect.ZPATT);
     manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
     loadRules(manager);
     return manager;

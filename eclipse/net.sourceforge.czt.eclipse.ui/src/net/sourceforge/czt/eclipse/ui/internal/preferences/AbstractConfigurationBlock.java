@@ -51,7 +51,7 @@ public abstract class AbstractConfigurationBlock
    * Use as follows:
    * 
    * <pre>
-   * SectionManager manager= new SectionManager();
+   * SectionManager manager= new SectionManager(Dialect.Z);
    * Composite composite= manager.createSectionComposite(parent);
    * 
    * Composite xSection= manager.createSection("section X"));

@@ -124,7 +124,7 @@ public class TypeCheckerTest
 
   protected SectionManager getManager()
   {
-    return new SectionManager();
+    return new SectionManager(Dialect.Z);
   }
 
   protected Term parse(URL url, SectionManager manager)

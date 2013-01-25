@@ -27,6 +27,7 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.FileSource;
@@ -112,7 +113,7 @@ public class SpecialLatexParser {
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
       
-      sm = new SectionManager();                                  
+      sm = new SectionManager(Dialect.CIRCUS);                                  
       sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\src\\main\\resources\\lib;" +
           "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser-circus\\src\\main\\resources\\lib");
     }

@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
@@ -50,7 +51,7 @@ public class XmlPrinterCommand
       xmlWriter.write(term, writer);
       writer.close();
       final Key<XmlString> xmlKey = new Key<XmlString>(name, XmlString.class);
-      final XmlString xmlStr = new XmlString(writer.toString(), "zeves");
+      final XmlString xmlStr = new XmlString(writer.toString(), Dialect.ZEVES);
       manager.endTransaction(xmlKey, xmlStr);
       return true;
     }

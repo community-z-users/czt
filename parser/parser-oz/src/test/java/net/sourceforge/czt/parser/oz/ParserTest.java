@@ -27,6 +27,7 @@ import junit.framework.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.oz.jaxb.*;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.util.CztException;
@@ -61,7 +62,7 @@ public class ParserTest
     throws Exception
   {
     try {
-      Term term = parse(getTestExample("test5.tex"), manager_);
+      Term term = parse(getTestExample("test5.tex"), getManager());
       // A return value of null is also acceptable
       if (term == null) return;
       fail("Should throw ParseException");
@@ -147,7 +148,7 @@ public class ParserTest
     }
     Spec zmlSpec = (Spec) zmlTerm.accept(visitor);
     Spec parsedSpec =
-      (Spec) parse(url, manager_).accept(visitor);
+      (Spec) parse(url, getManager()).accept(visitor);
     visitor = new DeleteMarkupParaVisitor();
     parsedSpec = (Spec) parsedSpec.accept(visitor);
     zmlSpec = (Spec) zmlSpec.accept(visitor);
@@ -179,6 +180,7 @@ public class ParserTest
   public static class ParserExceptionTest
     extends AbstractParserFailTest
   {
+	protected Dialect getDialect() { return Dialect.OZ; }
     public Term parse(URL url, SectionManager manager)
       throws Exception
     {
@@ -203,4 +205,10 @@ public class ParserTest
     }
     return result;
   }
+
+@Override
+protected Dialect getDialect() {
+	
+	return Dialect.OZ;
+}
 }

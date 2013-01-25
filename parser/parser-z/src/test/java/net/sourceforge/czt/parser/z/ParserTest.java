@@ -19,16 +19,12 @@
 
 package net.sourceforge.czt.parser.z;
 
-import java.io.IOException;
 import java.net.URL;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserFailTest;
-import net.sourceforge.czt.parser.util.AbstractParserTest;
-import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.UrlSource;
 
@@ -45,4 +41,9 @@ public class ParserTest
   {
     return ParseUtils.parse(new UrlSource(url), manager);
   }
+
+@Override
+protected Dialect getDialect() {
+	return Dialect.Z;
+}
 }

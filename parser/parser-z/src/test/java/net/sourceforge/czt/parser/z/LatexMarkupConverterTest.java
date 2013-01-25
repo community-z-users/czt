@@ -99,7 +99,7 @@ public class LatexMarkupConverterTest
   public Term parse(URL url, SectionManager manager)
     throws Exception
   {
-    manager = new SectionManager();
+    manager = new SectionManager(Dialect.Z);
     File tmpUnicodeFile = File.createTempFile("cztLatexMarkup", ".utf8");
     tmpUnicodeFile.deleteOnExit();
     File tmpLatexFile = File.createTempFile("cztLatexMarkup", ".tex");
@@ -138,7 +138,7 @@ public class LatexMarkupConverterTest
   private void unicodeToLatex(URL url, String latexFileName)
     throws Exception
   {
-    SectionManager manager = new SectionManager();
+    SectionManager manager = new SectionManager(Dialect.Z);
     String name = SourceLocator.getSourceName(url.toString());
     manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
     LatexString latex = manager.get(new Key<LatexString>(name, LatexString.class));
@@ -152,10 +152,15 @@ public class LatexMarkupConverterTest
     throws Exception
   {
     LatexToUnicode lexer =
-      new LatexToUnicode(source, new SectionManager(), new Properties());
+      new LatexToUnicode(source, new SectionManager(Dialect.Z), new Properties());
     LocToken s = null;
     while ( (s = lexer.next()) != null) {
       if (s.spelling() != null) writer.write(s.spelling());
     }
   }
+
+@Override
+protected Dialect getDialect() {
+	return Dialect.Z;
+}
 }

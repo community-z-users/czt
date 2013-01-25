@@ -2,6 +2,7 @@ package net.sourceforge.czt.typecheck.oz;
 
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.session.Dialect;
 
 public class CyclicParentTypeCheckerTest extends net.sourceforge.czt.typecheck.z.CyclicParentTypeCheckerTest
 {
@@ -14,6 +15,6 @@ public class CyclicParentTypeCheckerTest extends net.sourceforge.czt.typecheck.z
   @Override
   protected SectionManager createSectionManager()
   {
-    return new SectionManager("oz");
+    return new SectionManager(Dialect.OZ);
   }
 }

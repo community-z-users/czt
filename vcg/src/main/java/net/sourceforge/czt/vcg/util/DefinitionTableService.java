@@ -26,7 +26,7 @@ import java.util.SortedSet;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.KnownExtensions;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
@@ -168,7 +168,7 @@ public class DefinitionTableService
     DefinitionTableVisitor.DEFAULT_DEBUG_DEFTBL_VISITOR = true;
 
     String fileName = null;
-    String extension = "z";
+    Dialect extension = SectionManager.DEFAULT_EXTENSION;
     boolean debug = false;
     boolean printSchRefs = false;
     boolean hideWarnings = false;
@@ -197,7 +197,7 @@ public class DefinitionTableService
         final String ext = args[i].substring(2).toUpperCase();
         try
         {
-          extension = KnownExtensions.valueOf(ext).toString();
+          extension = Dialect.valueOf(ext);
         }
         catch (IllegalArgumentException e)
         {

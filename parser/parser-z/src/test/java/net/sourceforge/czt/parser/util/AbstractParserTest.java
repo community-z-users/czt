@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
@@ -43,11 +44,23 @@ import net.sourceforge.czt.z.util.DeleteNarrVisitor;
 public abstract class AbstractParserTest
   extends TestCase
 {
-  protected static SectionManager manager_ = new SectionManager();
+  private  SectionManager manager_ = null;
 
+  protected SectionManager getManager()
+  {
+	  if (manager_ == null)
+	  {
+		  manager_ = new SectionManager(getDialect());
+	  }
+	  return manager_;
+  }
+  
+  protected abstract Dialect getDialect();
+  
   protected void setUp() throws Exception
   {
-    manager_.reset();
+    getManager().reset();
+    getManager().putCommands(getDialect());
     /*
     // MarkU: Oct 2008
     // Parse standard toolkit once, to avoid doing it in every test.
@@ -178,7 +191,7 @@ public abstract class AbstractParserTest
   {
     Visitor<Term> visitor = new DeleteNarrVisitor();
     Spec parsedSpec =
-      (Spec) parse(getTestExample("conjectures.tex"), manager_).accept(visitor);
+      (Spec) parse(getTestExample("conjectures.tex"), getManager()).accept(visitor);
     assertEquals(1, parsedSpec.getSect().size());
     ZSect zsect = (ZSect) parsedSpec.getSect().get(0);
     ConjPara conj1 = null;
@@ -255,7 +268,7 @@ public abstract class AbstractParserTest
     }
     Spec zmlSpec = (Spec) zmlTerm.accept(visitor);
     Spec parsedSpec =
-      (Spec) parse(url, manager_).accept(visitor);
+      (Spec) parse(url, getManager()).accept(visitor);
     visitor = new DeleteMarkupParaVisitor();
     parsedSpec = (Spec) parsedSpec.accept(visitor);
     zmlSpec = (Spec) zmlSpec.accept(visitor);

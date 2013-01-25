@@ -18,7 +18,7 @@
   <properties>
     <parser.nodes>zeves</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.zeves</parser.package>
-    <printer.nodes>z,zeves</printer.nodes>
+    <printer.nodes>z,zevescore,zeves</printer.nodes>
     <printer.package>net.sourceforge.czt.print.zeves</printer.package>
     <contextfree.nodes>zeves,print</contextfree.nodes>
   </properties>

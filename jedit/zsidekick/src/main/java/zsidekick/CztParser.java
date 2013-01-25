@@ -42,16 +42,16 @@ public class CztParser
 {
   /* Z extension (dialect). */
 
-  private String extension_;
+  private Dialect extension_;
   private Markup markup_;
   private WffHighlight wffHighlight_ = new WffHighlight();
   private boolean debug_ = false;
   private SectionManager manager_ = null;
   private static final Logger logger_ = CztLogger.getLogger(SectionManager.class);
 
-  public CztParser(String extension, Markup markup)
+  public CztParser(Dialect extension, Markup markup)
   {
-    super(extension + (markup == Markup.UNICODE ? "" : "latex"));
+    super(extension.toString() + (markup == Markup.UNICODE ? "" : "latex"));
     extension_ = extension;
     markup_ = markup;
   }
@@ -85,7 +85,7 @@ public class CztParser
       jEdit.unsetProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_RESET_SM);
       if (debug_)
       {
-        JOptionPane.showMessageDialog(null, "Create new section manager for " + extension_ + "\n in " + buffer.getPath());
+        JOptionPane.showMessageDialog(null, "Create new section manager for " + extension_.toString() + "\n in " + buffer.getPath());
       }
     //}
     ZSideKickPlugin.setProperties(manager_);

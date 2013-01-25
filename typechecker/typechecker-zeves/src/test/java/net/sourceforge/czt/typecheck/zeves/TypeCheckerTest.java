@@ -39,6 +39,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -100,7 +101,7 @@ public class TypeCheckerTest
       DEBUG_LEVEL = Level.WARNING;
     }
   }
-  //private final SectionManager manager_ = new SectionManager("zeves");
+  //private final SectionManager manager_ = new SectionManager(Dialect.ZEVES);
 
   public static Test suite()
   {
@@ -221,7 +222,7 @@ public class TypeCheckerTest
   @Override
   protected SectionManager getManager()
   {
-    SectionManager result = new SectionManager("zeves");
+    SectionManager result = new SectionManager(Dialect.ZEVES);
     return result;
   }
   

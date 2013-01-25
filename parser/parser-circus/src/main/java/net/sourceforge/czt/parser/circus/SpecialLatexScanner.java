@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
@@ -99,7 +100,7 @@ public class SpecialLatexScanner {
 //      circusMap.keySet().removeAll(zMap.keySet());
 //      System.out.println("Circus only Symbol Table \n\t" + new TreeMap(flipMap(circusMap)));      
       
-      SectionInfo sectInfo_ = new SectionManager("circus");
+      SectionInfo sectInfo_ = new SectionManager(Dialect.CIRCUS);
       assert args[0].equals("-in");
       Source source = new FileSource(args[1]); // args[0] = -in
       source.setMarkup(Markup.LATEX);      

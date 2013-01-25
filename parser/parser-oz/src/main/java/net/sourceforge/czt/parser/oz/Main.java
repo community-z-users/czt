@@ -59,7 +59,7 @@ public class Main extends JPanel implements ActionListener
   {
     try {
       //parse the specification
-      SectionManager manager = new SectionManager("oz");
+      SectionManager manager = new SectionManager(Dialect.OZ);
       manager.put(new Key<Source>(file, Source.class), new FileSource(file));
       Spec spec =  manager.get(new Key<Spec>(file, Spec.class));
       if (spec != null) {

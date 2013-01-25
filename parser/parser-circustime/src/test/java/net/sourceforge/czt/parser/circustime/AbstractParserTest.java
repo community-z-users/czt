@@ -30,6 +30,7 @@ import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
@@ -84,7 +85,7 @@ public abstract class AbstractParserTest extends TestCase
       }
   }
   
-  protected final SectionManager manager_ = new SectionManager("circustime");
+  protected final SectionManager manager_ = new SectionManager(Dialect.CIRCUSTIME);
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
    
   public URL getCircusTimeExample(String name)

@@ -397,13 +397,13 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   protected List<String> toolkits()
   {
     List<String> toolkits = new java.util.ArrayList<String>();
-    toolkits.add("prelude");
-    toolkits.add("set_toolkit");
-    toolkits.add("relation_toolkit");
-    toolkits.add("function_toolkit");
-    toolkits.add("sequence_toolkit");
-    toolkits.add("number_toolkit");
-    toolkits.add("standard_toolkit");
+    toolkits.add(net.sourceforge.czt.util.Section.PRELUDE.getName());
+    toolkits.add(net.sourceforge.czt.util.Section.SET_TOOLKIT.getName());
+    toolkits.add(net.sourceforge.czt.util.Section.RELATION_TOOLKIT.getName());
+    toolkits.add(net.sourceforge.czt.util.Section.FUNCTION_TOOLKIT.getName());
+    toolkits.add(net.sourceforge.czt.util.Section.SEQUENCE_TOOLKIT.getName());
+    toolkits.add(net.sourceforge.czt.util.Section.NUMBER_TOOLKIT.getName());
+    toolkits.add(net.sourceforge.czt.util.Section.STANDARD_TOOLKIT.getName());
     return toolkits;
   }
 
@@ -525,7 +525,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
   /** @return a fresh new section manager. */
   protected SectionManager getSectionManager()
   {
-    SectionManager sectionManager = new SectionManager();
+    SectionManager sectionManager = new SectionManager(Dialect.Z);
     // do not reuse the method: getCommand is static
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     sectionManager.setProperties(System.getProperties());

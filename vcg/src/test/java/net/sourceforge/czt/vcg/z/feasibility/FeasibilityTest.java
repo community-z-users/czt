@@ -23,6 +23,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.util.VCGTest;
 import net.sourceforge.czt.vcg.z.refinement.RefinementPropertyKeys;
@@ -50,7 +51,7 @@ public class FeasibilityTest extends VCGTest
     return result;
   }
 
-  protected FeasibilityTest(String extension, boolean debug)
+  protected FeasibilityTest(Dialect extension, boolean debug)
   {
     super(extension, debug);
   }

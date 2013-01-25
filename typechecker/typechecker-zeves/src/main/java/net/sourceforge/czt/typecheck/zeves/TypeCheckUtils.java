@@ -31,7 +31,9 @@ import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -366,7 +368,7 @@ public class TypeCheckUtils
     catch (IOException e)
     {
     }
-    SectionManager manager = new SectionManager("zeves");
+    SectionManager manager = new SectionManager(Dialect.ZEVES);
 
     java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());
     logger.addHandler(ch);
@@ -394,12 +396,12 @@ public class TypeCheckUtils
 
   public void testOnTheFly()
   {
-    SectionManager sectManager = new SectionManager("zeves");
+    SectionManager sectManager = new SectionManager(Dialect.ZEVES);
     try
     {
       sectManager.setTracing(true);
       Source source = new StringSource("\\begin{zsection} "
-                                       + "\\SECTION ZEclipseDefault " + "\\parents standard\\_toolkit "
+                                       + "\\SECTION ZEclipseDefault " + "\\parents standard\\_toolkit, zeves\\_toolkit "
                                        + "\\end{zsection}");
       source.setMarkup(Markup.LATEX);
       sectManager.put(new Key<Source>("ZEclipseDefault", Source.class), source);
@@ -447,7 +449,7 @@ public class TypeCheckUtils
   @Override
   protected SectionManager getSectionManager()
   {
-    SectionManager sectionManager = new SectionManager("zeves");
+    SectionManager sectionManager = new SectionManager(Dialect.ZEVES);
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     sectionManager.setProperties(System.getProperties());
     return sectionManager;

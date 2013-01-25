@@ -9,6 +9,7 @@ import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
+import net.sourceforge.czt.session.Dialect;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ListenerList;
@@ -30,10 +31,10 @@ public enum ZDialectSupport {
   INSTANCE;
 
   public enum ZDialect {
-    Z("z", "Z", "etc/ZTable.xml"), 
-    OBJECT_Z("oz", "Object Z", "etc/ObjectZTable.xml"), 
-    CIRCUS("circus", "Circus", "etc/CircusTable.xml"), 
-    ZEVES("zeves", "Z/EVES", "etc/ZEvesTable.xml");
+    Z(Dialect.Z.toString(), "Z", "etc/ZTable.xml"), 
+    OBJECT_Z(Dialect.OZ.toString(), "Object Z", "etc/ObjectZTable.xml"), 
+    CIRCUS(Dialect.CIRCUS.toString(), "Circus", "etc/CircusTable.xml"), 
+    ZEVES(Dialect.ZEVES.toString(), "Z/EVES", "etc/ZEvesTable.xml");
 
     private final String dialect;
     private final String label;

@@ -47,6 +47,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
@@ -130,8 +131,8 @@ public class ZLive
     tmp.setToStringVisitor(new PrintVisitor(false));
     factory_ = new Factory(tmp);
     flatten_ = new Flatten(this);
-    sectman_ = new SectionManager();
-    sectman_.putCommands("zpatt");
+    sectman_ = new SectionManager(Dialect.ZPATT);
+    sectman_.putCommands(Dialect.ZPATT);
     // This prints IDs of ZNames, useful for debugging.
     //sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
     this.reset();
@@ -175,7 +176,7 @@ public class ZLive
     try {
       Source specSource = new StringSource("\\begin{zsection} "
                                            + "\\SECTION " + name + " "
-                                           + "\\parents standard\\_toolkit "
+                                           + "\\parents standard\\_toolkit"
                                            + "\\end{zsection}",
                                            name);
       specSource.setMarkup(Markup.LATEX);

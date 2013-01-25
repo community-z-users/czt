@@ -27,6 +27,7 @@ import java.net.URLDecoder;
 
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
@@ -60,7 +61,7 @@ public class Main
       final String input = args[0];
       File file = new File(input);
       FileSource source = new FileSource(input);
-      SectionManager manager = new SectionManager();
+      SectionManager manager = new SectionManager(Dialect.Z);
       manager.setProperty("czt.path", file.getParent());
       String name = "spec";
       manager.put(new Key(name, Source.class), source);

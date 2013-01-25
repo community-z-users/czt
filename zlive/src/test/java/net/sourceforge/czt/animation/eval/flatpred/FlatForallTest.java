@@ -26,6 +26,7 @@ import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.ForallPred;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.session.Dialect;
 
 
 /**
@@ -44,7 +45,7 @@ public class FlatForallTest
     // We have to typecheck it, so that ZNames are bound to ZDeclNames.
     zlive_.resetNewNames();
     SchExpr e = (SchExpr) parseExpr("[x,y,z:\\nat | \\forall i:x \\upto y @ i > z]");
-    TypeCheckUtils.typecheck(e, new SectionManager());
+    TypeCheckUtils.typecheck(e, new SectionManager(Dialect.ZPATT));
     ForallPred all = (ForallPred) e.getZSchText().getPred();
     FlatPredList stext = new FlatPredList(zlive_);
     stext.addDecl(all.getZSchText().getZDeclList().get(0));

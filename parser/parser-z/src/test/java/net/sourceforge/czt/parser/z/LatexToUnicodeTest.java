@@ -34,7 +34,7 @@ import net.sourceforge.czt.session.*;
 public class LatexToUnicodeTest
   extends AbstractLatexToUnicodeTest
 {
-  private static SectionManager manager_ = new SectionManager();
+  private static SectionManager manager_ = new SectionManager(Dialect.Z);
 
   private String lex(String string)
     throws Exception

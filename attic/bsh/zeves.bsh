@@ -1,7 +1,7 @@
 
 // x1 = parse("C:\\java\\czt\\czt0.4.2\\translators\\zeves\\examples\\AxPara.tex");
 // typecheck(x1);
-// manager = new SectionManager();
+// manager = new SectionManager(Dialect.ZEVES);
 // printer = new net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter(manager);
 // list1 = printer.printSpec(x1, manager);  
 // list1 = net.sourceforge.czt.zeves.CZT2ZEves.specToZEvesXML(x1, manager);

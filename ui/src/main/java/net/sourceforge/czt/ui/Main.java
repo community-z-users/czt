@@ -52,6 +52,7 @@ import net.sourceforge.czt.rules.prover.ProverUtils;
 
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -141,7 +142,7 @@ public class Main
     }
     else
     {
-      String extension = "z";
+      Dialect extension = SectionManager.DEFAULT_EXTENSION;
       String output = null;
       String cztpath = null;
       boolean syntaxCheckOnly = false;
@@ -168,7 +169,7 @@ public class Main
         else if ("-p".equals(args[i]))
         {
           prove = true;
-          extension = "zpatt";
+          extension = Dialect.ZPATT;
         }
         else if ("-dc".equals(args[i]))
         {
@@ -191,7 +192,7 @@ public class Main
         {
           if (i + 1 < args.length)
           {
-            extension = args[++i];
+            extension = Dialect.valueOf(args[++i]);
           }
           else
           {

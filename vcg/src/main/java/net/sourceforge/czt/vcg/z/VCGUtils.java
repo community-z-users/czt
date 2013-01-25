@@ -48,6 +48,7 @@ import net.sourceforge.czt.session.KnownExtensions;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
@@ -72,7 +73,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
   private VCG<R> vcg_;
   private boolean debug_;
-  private String extension_;
+  private Dialect extension_;
 
   protected VCGUtils()
   {
@@ -106,7 +107,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
    * @return a fresh new section manager.
    * @throws VCGException
    */
-  public SectionManager createSectionManager(String extension) throws VCGException
+  public SectionManager createSectionManager(Dialect extension) throws VCGException
   {
     // if null or for a different dialect, get a new one; CHANGED: even if same dialect, get new one to avoid duplicated entries?
     if (getVCG().getManager() == null /*|| (!getVCG().getManager().getDialect().equals(extension))*/)
@@ -236,9 +237,9 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return null;
   }
 
-  protected KnownExtensions cztExtensionDefault()
+  protected Dialect cztExtensionDefault()
   {
-    return KnownExtensions.Z;
+    return Dialect.Z;
   }
 
   protected Markup preferedMarkupDefault()
@@ -251,14 +252,15 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     return PROP_VCGU_LATEX_OUTPUT_WRAPPING_DEFAULT;
   }
 
-  public String getExtension()
+  public Dialect getExtension()
   {
     return extension_;
   }
 
-  public void setExtension(KnownExtensions ext)
+  public void setExtension(Dialect ext)
   {
-    extension_ = ext.toString();
+ 	assert ext != null;
+    extension_ = ext;
   }
 
   protected boolean isKnownArg(String arg)
@@ -713,7 +715,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
         final String ext = args[i].substring(2).toUpperCase();
         try
         {
-          setExtension(KnownExtensions.valueOf(ext));
+          setExtension(Dialect.valueOf(ext));
         }
         catch (IllegalArgumentException e)
         {
@@ -771,7 +773,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     }
     catch (VCGException e)
     {
-      commandException("VCGU-SM-CREATE", e, getExtension(), debug_);
+      commandException("VCGU-SM-CREATE", e, getExtension().toString(), debug_);
       System.exit(-1);
     }
     assert manager != null && isConfigured();

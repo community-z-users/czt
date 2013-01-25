@@ -39,6 +39,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.Spec;
 
@@ -49,7 +50,7 @@ import net.sourceforge.czt.z.ast.Spec;
 public final class SpecReaderSource implements SpecSource
 {
 
-  private SectionManager sectman_ = new SectionManager();
+  private SectionManager sectman_ = new SectionManager(Dialect.Z);
 
   public SectionManager getSectionManager()
   {

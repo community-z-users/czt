@@ -25,6 +25,7 @@ import org.gjt.sp.jedit.Buffer;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.*;
 import org.gjt.sp.jedit.jEdit;
 
@@ -63,11 +64,11 @@ public class CztTreeNode
 
   private Term term_;
 
-  public CztTreeNode(Term term, String dialect, Buffer buffer)
+  public CztTreeNode(Term term, Dialect dialect, Buffer buffer)
   {
     super(createAsset(term, dialect, buffer));
     term_ = term;
-    if (dialect.equals("circus") ||
+    if (dialect.isExtensionOf(Dialect.CIRCUS) || 
         jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE)) {
       Object[] children = term.getChildren();
       for (Object o : children) {
@@ -84,19 +85,19 @@ public class CztTreeNode
     }
   }
 
-  private static CztAsset createAsset(Term term, String dialect, Buffer buffer)
+  private static CztAsset createAsset(Term term, Dialect dialect, Buffer buffer)
   {
-    String name = term.accept("circus".equals(dialect) ?
+    String name = term.accept(Dialect.CIRCUS.equals(dialect) ?
                               circusShortDescriptionVisitor_ :
-                              ("zeves".equals(dialect) ?
+                              (Dialect.ZEVES.equals(dialect) ?
                               zevesShortDescriptionVisitor_ :
                               zShortDescriptionVisitor_));
     if (name == null) {
       name = term.getClass().toString();
     }
-    String description = term.accept("circus".equals(dialect) ?
+    String description = term.accept(Dialect.CIRCUS.equals(dialect) ?
                                      circusLongDescriptionVisitor_ :
-                                      ("zeves".equals(dialect) ?
+                                      (Dialect.ZEVES.equals(dialect) ?
                                     zevesLongDescriptionVisitor_ :
                                      zLongDescriptionVisitor_));
     if (term.hasAnn(TypeAnn.class))

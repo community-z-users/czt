@@ -29,6 +29,7 @@ import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.util.CztException;
@@ -84,7 +85,7 @@ public abstract class AbstractParserTest extends TestCase
       }
   }
   
-  protected final SectionManager manager_ = new SectionManager();
+  protected final SectionManager manager_ = new SectionManager(Dialect.CIRCUS);
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
    
   public URL getCircusExample(String name)

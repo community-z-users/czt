@@ -32,6 +32,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -88,7 +89,7 @@ public class TypeCheckerTest
       DEBUG_LEVEL = Level.WARNING;
     }
   }
-  private final SectionManager manager_ = new SectionManager("circus");
+  private final SectionManager manager_ = new SectionManager(Dialect.CIRCUS);
 
   public static Test suite()
   {

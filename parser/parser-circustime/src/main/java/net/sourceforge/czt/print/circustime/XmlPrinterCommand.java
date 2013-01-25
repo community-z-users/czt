@@ -28,6 +28,7 @@ import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 
@@ -46,7 +47,7 @@ public class XmlPrinterCommand
       xmlWriter.write(term, writer);
       writer.close();
       manager.endTransaction(new Key<XmlString>(name, XmlString.class),
-                  new XmlString(writer.toString(), "circus"));
+                  new XmlString(writer.toString(), Dialect.CIRCUSTIME));
       return true;
     }
     catch (IOException e) {

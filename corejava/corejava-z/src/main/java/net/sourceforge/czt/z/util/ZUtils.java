@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.TermImpl;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public final class ZUtils
@@ -118,6 +118,107 @@ public final class ZUtils
     return Section.ANONYMOUS.getName().equals(name) &&
       parents.size() == 1 &&
       Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
+  }
+  
+  /**
+   * Given a set of parent sections return it as a CSV string.
+   * Should satisfy the invariant akin to parentsAsString(parentsCSVAsSetOfString(s)) = s  (ignoring order)
+   * @param parents
+   * @return
+   */
+  public static String parentsAsString(Set<String> parents)
+  {
+		StringBuilder result = new StringBuilder();
+		String sep = "";
+		for(String p : parents)
+		{
+		  result.append(sep);
+		  result.append(p);
+		  sep = ",";
+		}
+		return result.toString();
+  }
+  
+  /**
+   * Trims the given string considering Z NLCHAR before and after.
+   * i.e. removes spaces and newlines before and after.
+   * @param string
+   * @return
+   */
+  public static String trimNLCharAware(String string)
+  {
+    String result = string.trim();
+    while (result.startsWith(ZString.NLCHAR)) {
+      result = result.substring(1).trim();
+    }
+    while(result.endsWith(ZString.NLCHAR)) {
+      result = result.substring(0, result.length() - 1).trim();
+    }
+    return result;
+  }
+
+  /**
+   * Gets a CSV string of Z section parents and transforms it back to a set of string
+   * Should satisfy the invariant akin parentsAsString(parentsCSVAsSetOfString(s)) = s (ignoring order).
+   * @param p
+   * @return
+   */
+  public static Set<String> parentsCSVAsSetOfString(String p)
+  {
+      String[] parents = p.split(",");
+      Set<String> parentSet = new java.util.HashSet<String>();
+      for (String parent : parents) {
+        parent = trimNLCharAware(parent);
+        if (parent != null && ! parent.equals("")) {
+          parentSet.add(parent);
+        }
+      }
+      return parentSet;
+  }
+
+  /**
+   * Transforms the set of string parents into set of AST Parents
+   * @param parents
+   * @return
+   */
+  public static Set<Parent> parentsAsSetOfParent(Set<String> parents)
+  {
+	  Set<Parent> result = new java.util.HashSet<Parent>();
+	  for (String p : parents)
+	  {
+		  result.add(FACTORY.createParent(p));
+	  }
+	  return result;
+  }
+
+  /**
+   * Transforms the set of string parents into list of AST Parents
+   * @param parents
+   * @return
+   */
+  public static List<Parent> parentsAsListOfParent(Set<String> parents)
+  {
+	  List<Parent> result = FACTORY.list();
+	  for (String p : parents)
+	  {
+		  result.add(FACTORY.createParent(p));
+	  }
+	  return result;
+  }
+  
+  /**
+   * Given a var-arg list of strings, transforms it into a set of strings (i.e. removes duplicates).
+   * @param parents
+   * @return
+   */
+  public static Set<String> parentsArgListAsSetOfString(String... p)
+  {
+	  Set<String> result = new java.util.HashSet<String>();
+	  for(String s : p)
+	  {
+		  result.add(s);
+	  }
+	  return result;
   }
 
   /** 

@@ -7,7 +7,7 @@
     <item name="Sect"
           description="Section Header"
           unicode="&#x2500; section NAME parents standard_toolkit &#x2514;&#xA;"
-          latex="\begin{zsection}&#xA;  \SECTION NAME \parents standard\_toolkit&#xA;\end{zsection}&#xA;"/>
+          latex="\begin{zsection}&#xA;  \SECTION NAME \parents circus\_toolkit&#xA;\end{zsection}&#xA;"/>
     <item name="Op"
           description="Operator Template"
           unicode="&#x2500;&#xA;  function 42 leftassoc ( _ OPERATOR _ )&#xA;&#x2514;&#xA;"

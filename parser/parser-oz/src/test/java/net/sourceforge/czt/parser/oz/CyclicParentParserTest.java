@@ -2,6 +2,7 @@ package net.sourceforge.czt.parser.oz;
 
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.session.Dialect;
 
 public class CyclicParentParserTest extends net.sourceforge.czt.parser.z.CyclicParentParserTest
 {
@@ -14,6 +15,6 @@ public class CyclicParentParserTest extends net.sourceforge.czt.parser.z.CyclicP
   @Override
   protected SectionManager createSectionManager()
   {
-    return new SectionManager("oz");
+    return new SectionManager(Dialect.OZ);
   }
 }

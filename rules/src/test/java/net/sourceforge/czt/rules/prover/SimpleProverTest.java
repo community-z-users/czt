@@ -36,6 +36,7 @@ import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -82,7 +83,7 @@ public class SimpleProverTest
   private void prove(String resource)
     throws Exception
   {
-    SectionManager manager = new SectionManager("zpatt");
+    SectionManager manager = new SectionManager(Dialect.ZPATT);
     URL url = getClass().getResource(resource);
     assertFalse(url == null);
     manager.put(new Key(url.toString(), Source.class), new UrlSource(url));

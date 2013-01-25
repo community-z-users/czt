@@ -18,7 +18,7 @@
   <properties>
     <parser.nodes>circuscore,circus</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.circus</parser.package>
-    <printer.nodes>z,circus</printer.nodes>
+    <printer.nodes>z,circus,circuscore</printer.nodes>
     <printer.package>net.sourceforge.czt.print.circus</printer.package>
     <contextfree.nodes>circus,print</contextfree.nodes>
   </properties>
