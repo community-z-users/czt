@@ -1,108 +1,108 @@
 # Plugin properties
 
 # Basic plugin information properties
-plugin.zsidekick.ZSideKickPlugin.activate=defer
-plugin.zsidekick.ZSideKickPlugin.name=ZSideKick
-plugin.zsidekick.ZSideKickPlugin.author=Petra Malik
-plugin.zsidekick.ZSideKickPlugin.version=${project.version}
-plugin.zsidekick.ZSideKickPlugin.jars=czt.jar
-plugin.zsidekick.ZSideKickPlugin.docs=zsidekick.html
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.activate=defer
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.name=ZSideKick
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.author=Petra Malik
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.version=${project.version}
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.jars=czt.jar
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.docs=zsidekick.html
 
 # Plugin dependency properties
-plugin.zsidekick.ZSideKickPlugin.depend.0=jdk 1.6
-plugin.zsidekick.ZSideKickPlugin.depend.1=jedit 04.00.04.00
-plugin.zsidekick.ZSideKickPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
-plugin.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.0=jdk 1.6
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.1=jedit 04.00.04.00
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
 
 # Plugin menu item properties
-plugin.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.menu=sidekick-tree \
                                       - \
-                                      zsidekick.toLatex \
-                                      zsidekick.toOldLatex \
-                                      zsidekick.toUnicode \
-                                      zsidekick.toXml \
-                                      zsidekick.domainCheck \
-                                      zsidekick.fsbCheck \
-                                      zsidekick.nextWff \
-                                      zsidekick.insertTypeForCurrentWff \
-                                      zsidekick.rewriteCurrentWff \
-                                      zsidekick.interactiveRewriteCurrentWff \
-                                      zsidekick.proveCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.toLatex \
+                                      net.sourceforge.czt.jedit.zsidekick.toOldLatex \
+                                      net.sourceforge.czt.jedit.zsidekick.toUnicode \
+                                      net.sourceforge.czt.jedit.zsidekick.toXml \
+                                      net.sourceforge.czt.jedit.zsidekick.domainCheck \
+                                      net.sourceforge.czt.jedit.zsidekick.fsbCheck \
+                                      net.sourceforge.czt.jedit.zsidekick.nextWff \
+                                      net.sourceforge.czt.jedit.zsidekick.insertTypeForCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.rewriteCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.interactiveRewriteCurrentWff \
+                                      net.sourceforge.czt.jedit.zsidekick.proveCurrentWff \
                                       - \
-                                      zsidekick.disableTypechecking \
-                                      zsidekick.show_current_sm_options \
-                                      zsidekick.reset_sm
-#                                      zsidekick.show_complete_tree
-#                                      zsidekick.gotoDefinition 
+                                      net.sourceforge.czt.jedit.zsidekick.disableTypechecking \
+                                      net.sourceforge.czt.jedit.zsidekick.show_current_sm_options \
+                                      net.sourceforge.czt.jedit.zsidekick.reset_sm
+#                                      net.sourceforge.czt.jedit.zsidekick.show_complete_tree
+#                                      net.sourceforge.czt.jedit.zsidekick.gotoDefinition 
 
 # action labels
 sidekick-tree.label=Structure Browser
-zsidekick.toLatex.label=Convert to Latex mark-up
-zsidekick.toOldLatex.label=Convert to old Latex mark-up
-zsidekick.toUnicode.label=Convert to Unicode mark-up
-zsidekick.toXml.label=Convert to XML
-zsidekick.domainCheck.label=Domain check buffer
-zsidekick.fsbCheck.label=Feasibility check buffer
-zsidekick.nextWff.label=Highlight next wff
-#zsidekick.gotoDefinition.label=Goto definition of selected referencing name
-zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
-zsidekick.proveCurrentWff.label=Prove selected predicate
-zsidekick.rewriteCurrentWff.label=Rewrite selected formula
-zsidekick.interactiveRewriteCurrentWff.label=Show proof tree for rewriting selected formula
-zsidekick.disableTypechecking.label=Disable Typechecking
-#zsidekick.showCompleteTree.label=Show complete syntax tree
-zsidekick.show_current_sm_options.label=Show section manager options
-zsidekick.reset_sm.label=Reset section manager
+net.sourceforge.czt.jedit.zsidekick.toLatex.label=Convert to Latex mark-up
+net.sourceforge.czt.jedit.zsidekick.toOldLatex.label=Convert to old Latex mark-up
+net.sourceforge.czt.jedit.zsidekick.toUnicode.label=Convert to Unicode mark-up
+net.sourceforge.czt.jedit.zsidekick.toXml.label=Convert to XML
+net.sourceforge.czt.jedit.zsidekick.domainCheck.label=Domain check buffer
+net.sourceforge.czt.jedit.zsidekick.fsbCheck.label=Feasibility check buffer
+net.sourceforge.czt.jedit.zsidekick.nextWff.label=Highlight next wff
+#net.sourceforge.czt.jedit.zsidekick.gotoDefinition.label=Goto definition of selected referencing name
+net.sourceforge.czt.jedit.zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
+net.sourceforge.czt.jedit.zsidekick.proveCurrentWff.label=Prove selected predicate
+net.sourceforge.czt.jedit.zsidekick.rewriteCurrentWff.label=Rewrite selected formula
+net.sourceforge.czt.jedit.zsidekick.interactiveRewriteCurrentWff.label=Show proof tree for rewriting selected formula
+net.sourceforge.czt.jedit.zsidekick.disableTypechecking.label=Disable Typechecking
+#net.sourceforge.czt.jedit.zsidekick.showCompleteTree.label=Show complete syntax tree
+net.sourceforge.czt.jedit.zsidekick.show_current_sm_options.label=Show section manager options
+net.sourceforge.czt.jedit.zsidekick.reset_sm.label=Reset section manager
 
 # Option defaults
-zsidekick.ignore_unknown_latex_commands=false
-zsidekick.print_name_ids=false
-zsidekick.print_z_eves=false
-zsidekick.txt_witdh=80
-zsidekick.typecheck_use_before_decl=false
-zsidekick.typecheck_raise_warnings=true
-zsidekick.typecheck_recursive_types=false
-zsidekick.typecheck_use_strong_typing=false
-zsidekick.vcg_process_parents=false
-zsidekick.vcg_add_trivial_vc=false
-zsidekick.vcg_apply_transformers=true
-#zsidekick.vcg_raise_type_warnings=true    - use just one raise-type-warning
-zsidekick.vcg_dc_use_infix_appliesto=true
-zsidekick.vcg_fsb_add_givenset_vcs=true
-zsidekick.vcg_fsb_create_zschemas=false
-zsidekick.debugZsideKick=false
-#zsidekick.czt.path=./
-zsidekick.show_complete_tree=false
+net.sourceforge.czt.jedit.zsidekick.ignore_unknown_latex_commands=false
+net.sourceforge.czt.jedit.zsidekick.print_name_ids=false
+net.sourceforge.czt.jedit.zsidekick.print_z_eves=false
+net.sourceforge.czt.jedit.zsidekick.txt_witdh=80
+net.sourceforge.czt.jedit.zsidekick.typecheck_use_before_decl=false
+net.sourceforge.czt.jedit.zsidekick.typecheck_raise_warnings=true
+net.sourceforge.czt.jedit.zsidekick.typecheck_recursive_types=false
+net.sourceforge.czt.jedit.zsidekick.typecheck_use_strong_typing=false
+net.sourceforge.czt.jedit.zsidekick.vcg_process_parents=false
+net.sourceforge.czt.jedit.zsidekick.vcg_add_trivial_vc=false
+net.sourceforge.czt.jedit.zsidekick.vcg_apply_transformers=true
+#net.sourceforge.czt.jedit.zsidekick.vcg_raise_type_warnings=true    - use just one raise-type-warning
+net.sourceforge.czt.jedit.zsidekick.vcg_dc_use_infix_appliesto=true
+net.sourceforge.czt.jedit.zsidekick.vcg_fsb_add_givenset_vcs=true
+net.sourceforge.czt.jedit.zsidekick.vcg_fsb_create_zschemas=false
+net.sourceforge.czt.jedit.zsidekick.debugZsideKick=false
+#net.sourceforge.czt.jedit.zsidekick.czt.path=./
+net.sourceforge.czt.jedit.zsidekick.show_complete_tree=false
 
 # Option pane
-plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick
-options.zsidekick.label=ZSideKick
-options.zsidekick.code=new zsidekick.OptionPane();
-options.zsidekick.standardConformance=<html><h2>Extensions to Z Standard</h2></html>
+plugin.net.sourceforge.czt.jedit.zsidekick.ZSideKickPlugin.option-pane=zsidekick
+options.net.sourceforge.czt.jedit.zsidekick.label=ZSideKick
+options.net.sourceforge.czt.jedit.zsidekick.code=new net.sourceforge.czt.jedit.zsidekick.OptionPane();
+options.net.sourceforge.czt.jedit.zsidekick.standardConformance=<html><h2>Extensions to Z Standard</h2></html>
 # Parser / printer properties
-options.zsidekick.show_complete_tree=Show complete syntax tree
-options.zsidekick.ignore_unknown_latex_commands=Allow latex commands that do not have mark-up directives
-options.zsidekick.print_name_ids=Print the Ids of names
-options.zsidekick.print_z_eves=Print using (old) Spivey's Z
-options.zsidekick.txt_witdh=Collumn to break line when printing
-#options.zsidekick.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
+options.net.sourceforge.czt.jedit.zsidekick.show_complete_tree=Show complete syntax tree
+options.net.sourceforge.czt.jedit.zsidekick.ignore_unknown_latex_commands=Allow latex commands that do not have mark-up directives
+options.net.sourceforge.czt.jedit.zsidekick.print_name_ids=Print the Ids of names
+options.net.sourceforge.czt.jedit.zsidekick.print_z_eves=Print using (old) Spivey's Z
+options.net.sourceforge.czt.jedit.zsidekick.txt_witdh=Collumn to break line when printing
+#options.net.sourceforge.czt.jedit.zsidekick.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
 # Typechecker properties
-options.zsidekick.typecheck_use_before_decl=Allow use of variables before their declaration
-options.zsidekick.typecheck_raise_warnings=Raise warnings as errors
-options.zsidekick.typecheck_recursive_types=Use recursive types
-options.zsidekick.typecheck_use_strong_typing=Use strong typing for typechecking Object-Z specifications
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_use_before_decl=Allow use of variables before their declaration
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_raise_warnings=Raise warnings as errors
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_recursive_types=Use recursive types
+options.net.sourceforge.czt.jedit.zsidekick.typecheck_use_strong_typing=Use strong typing for typechecking Object-Z specifications
 # VCG properties
-options.zsidekick.vcg_process_parents=Process parents during VCG
-options.zsidekick.vcg_add_trivial_vc=Add trivial VCs to VCG results
-options.zsidekick.vcg_apply_transformers=Apply term transformers during VCG
-#options.zsidekick.vcg_raise_type_warnings=Raise VCG warnings as errors
-options.zsidekick.vcg_dc_use_infix_appliesto=Use infix appliesTo for DC VCG
-options.zsidekick.vcg_fsb_add_givenset_vcs=Create VC for given sets for FSB VCG
-options.zsidekick.vcg_fsb_create_zschemas=Create extra schemas for PRE in FSB VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_process_parents=Process parents during VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_add_trivial_vc=Add trivial VCs to VCG results
+options.net.sourceforge.czt.jedit.zsidekick.vcg_apply_transformers=Apply term transformers during VCG
+#options.net.sourceforge.czt.jedit.zsidekick.vcg_raise_type_warnings=Raise VCG warnings as errors
+options.net.sourceforge.czt.jedit.zsidekick.vcg_dc_use_infix_appliesto=Use infix appliesTo for DC VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_fsb_add_givenset_vcs=Create VC for given sets for FSB VCG
+options.net.sourceforge.czt.jedit.zsidekick.vcg_fsb_create_zschemas=Create extra schemas for PRE in FSB VCG
 # jEdit related
-options.zsidekick.resetButton=Reset all options to be Z Standard conforming
-options.zsidekick.debugZsideKick=Switch to debug mode; it logs information on JEdit-SectionManager.log
-options.zsidekick.cztPathLabel=CZT search paths
+options.net.sourceforge.czt.jedit.zsidekick.resetButton=Reset all options to be Z Standard conforming
+options.net.sourceforge.czt.jedit.zsidekick.debugZsideKick=Switch to debug mode; it logs information on JEdit-SectionManager.log
+options.net.sourceforge.czt.jedit.zsidekick.cztPathLabel=CZT search paths
 #     vcg_parents_to_ignore
 #     vcgu_preferred_markup
  

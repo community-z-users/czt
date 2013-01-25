@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package zsidekick;
+package net.sourceforge.czt.jedit.zsidekick;
 
 import java.io.File;
 import java.io.IOException;
@@ -144,7 +144,7 @@ public class CztParser
       {
 
         data.addData(spec, manager, wffHighlight_, buffer);
-        boolean typeChecking = !buffer.getBooleanProperty("zsidekick.disable-typechecking");
+        boolean typeChecking = !buffer.getBooleanProperty("net.sourceforge.czt.jedit.zsidekick.disable-typechecking");
         if (typeChecking)
         {
           for (Sect sect : spec.getSect())

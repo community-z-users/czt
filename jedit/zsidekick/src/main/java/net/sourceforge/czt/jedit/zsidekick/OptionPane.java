@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package zsidekick;
+package net.sourceforge.czt.jedit.zsidekick;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -53,7 +53,7 @@ public class OptionPane extends AbstractOptionPane
   @Override
   protected void _init()
   {
-    addComponent(new JLabel(jEdit.getProperty("options.zsidekick.standardConformance")));
+    addComponent(new JLabel(jEdit.getProperty("options.net.sourceforge.czt.jedit.zsidekick.standardConformance")));
 
     String label  = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
               ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS);
@@ -160,18 +160,18 @@ public class OptionPane extends AbstractOptionPane
     vcgDCInfixApplies_.getModel().setSelected(value);
     addComponent(vcgDCInfixApplies_);
 
-    label = jEdit.getProperty("options.zsidekick.resetButton");
+    label = jEdit.getProperty("options.net.sourceforge.czt.jedit.zsidekick.resetButton");
     JButton resetButton = new JButton(label);
     resetButton.addActionListener(new ResetHandler());
     addComponent(resetButton);
 
-    label = jEdit.getProperty("options.zsidekick.debugZsideKick");
-    value = jEdit.getBooleanProperty("zsidekick.debugZsideKick");
+    label = jEdit.getProperty("options.net.sourceforge.czt.jedit.zsidekick.debugZsideKick");
+    value = jEdit.getBooleanProperty("net.sourceforge.czt.jedit.zsidekick.debugZsideKick");
     debug_ = new JCheckBox(label);
     debug_.getModel().setSelected(value);
     addComponent(debug_);
 
-    label = jEdit.getProperty("options.zsidekick.cztPathLabel");
+    label = jEdit.getProperty("options.net.sourceforge.czt.jedit.zsidekick.cztPathLabel");
     JButton cztPathButton = new JButton(label);
     cztPathButton.addActionListener(new CztPathListener());
     addComponent(cztPathButton);
@@ -242,7 +242,7 @@ public class OptionPane extends AbstractOptionPane
             ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO, value);
 
     value = debug_.getModel().isSelected();
-    jEdit.setBooleanProperty("zsidekick.debugZsideKick", value);
+    jEdit.setBooleanProperty("net.sourceforge.czt.jedit.zsidekick.debugZsideKick", value);
 
     String cztPath = cztPath_.buildPathList();
     jEdit.setProperty(ZSideKickPlugin.PROPERTY_PREFIX + 

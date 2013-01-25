@@ -3,7 +3,7 @@
  *
  * Created on 21 November 2008, 11:14
  */
-package zsidekick;
+package net.sourceforge.czt.jedit.zsidekick;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

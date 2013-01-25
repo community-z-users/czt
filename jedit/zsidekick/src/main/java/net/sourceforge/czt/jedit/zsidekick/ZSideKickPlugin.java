@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package zsidekick;
+package net.sourceforge.czt.jedit.zsidekick;
 
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.util.WarningManager;
@@ -72,7 +72,7 @@ public class ZSideKickPlugin
   public static final String PROP_SHOW_COMPLETE_TREE =
           "show_complete_tree";
 
-  public static final String PROPERTY_PREFIX = "zsidekick.";
+  public static final String PROPERTY_PREFIX = "net.sourceforge.czt.jedit.zsidekick.";
   public static final String OPTION_PREFIX = "options." + PROPERTY_PREFIX;
   
   // CZT Session related
@@ -143,7 +143,7 @@ public class ZSideKickPlugin
             ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO,
             ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
 
-    jEdit.setBooleanProperty("zsidekick.debugZsideKick", false);
+    jEdit.setBooleanProperty("net.sourceforge.czt.jedit.zsidekick.debugZsideKick", false);
 
     jEdit.setProperty(ZSideKickPlugin.PROPERTY_PREFIX +
             ZSideKickPlugin.PROP_CZTPATH, "");
@@ -204,7 +204,7 @@ public class ZSideKickPlugin
             ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO);
     manager.setProperty(ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO, String.valueOf(value));
 
-    value = jEdit.getBooleanProperty("zsidekick.debugZsideKick");
+    value = jEdit.getBooleanProperty("net.sourceforge.czt.jedit.zsidekick.debugZsideKick");
     debug_ = value;
     manager.setTracing(value);
 
