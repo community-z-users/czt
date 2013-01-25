@@ -55,6 +55,17 @@ public class CztParser
     extension_ = extension;
     markup_ = markup;
   }
+  
+  /**
+   * String-based constructor to allow for static invocation (needed by jEdit).
+   * 
+   * @param extension
+   * @param markup
+   */
+  public CztParser(String extension, Markup markup)
+  {
+    this(Dialect.valueOf(extension.toUpperCase()), markup);
+  }
 
   @Override
   public void activate(EditPane editPane)
