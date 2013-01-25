@@ -2,6 +2,7 @@ package net.sourceforge.czt.eclipse.ui.internal.preferences;
 
 import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -26,7 +27,7 @@ public class PreferenceConstants
    * A named preference that determines the parser and typechecker
    * that are used for all CZT buffers.
    * <p>
-   * Value can be "z", "oz", "circus" etc.
+   * Value can be any of Dialect enum/class.
    * </p>
    */
   public static final String PROP_DIALECT = "czt_dialect";
@@ -87,9 +88,9 @@ public class PreferenceConstants
    */
   public static void initializeDefaultValues(IPreferenceStore store)
   {
-
+	  
     // Compiler preference page
-    store.setDefault(PROP_DIALECT, "z");
+    store.setDefault(PROP_DIALECT, SectionManager.DEFAULT_EXTENSION.toString());
     
     store.setDefault(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, 
         ParsePropertiesKeys.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS_DEFAULT);

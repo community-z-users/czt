@@ -176,7 +176,7 @@ public class ZLive
     try {
       Source specSource = new StringSource("\\begin{zsection} "
                                            + "\\SECTION " + name + " "
-                                           + "\\parents standard\\_toolkit "
+                                           + "\\parents standard\\_toolkit"
                                            + "\\end{zsection}",
                                            name);
       specSource.setMarkup(Markup.LATEX);

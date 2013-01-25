@@ -11,15 +11,19 @@ import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.DefaultSectionParents;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.util.ZUtils;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -111,7 +115,7 @@ public class CztUIPlugin extends AbstractUIPlugin
     super.start(context);
     String defaultDialect = getPreferenceStore().getString(
               PreferenceConstants.PROP_DIALECT);
-    initSectionManager(defaultDialect);
+    initSectionManager(Dialect.valueOf(defaultDialect));
 
     fPropertyChangeListener= new IPropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent event) {
@@ -123,7 +127,7 @@ public class CztUIPlugin extends AbstractUIPlugin
         }
         else if (PreferenceConstants.PROP_DIALECT.equals(property)) {
           String dialect = String.valueOf(event.getNewValue());
-          initSectionManager(dialect);
+          initSectionManager(Dialect.valueOf(dialect));
         }
       }
     };
@@ -279,20 +283,22 @@ public class CztUIPlugin extends AbstractUIPlugin
   public SectionManager getSectionManager()
   {
     if (fSectionManager == null) {
-      initSectionManager("z");
+      initSectionManager(Dialect.Z);
     }
     //System.out.println("Cloning section manager "+fSectionManager.hashCode());
     return (SectionManager) fSectionManager.clone();
   }
+  
+  public static final String ZECLIPSE_DEFAULT_SECTION = "ZEclipseDefault";
 
   /** Initialises fSectionManager, which is the default internal section
    *  manager that is available via getSectionManager.
    *  This creates a new section manager for the given dialect of Z,
    *  then loads, parses and typechecks the standard toolkit.
    *
-   * @param dialect  "z", "zpatt", "oz" etc.
+   * @param dialect as in Dialect class.
    */
-  private void initSectionManager(String dialect)
+  private void initSectionManager(Dialect dialect)
   {
     SectionManager sectManager = new SectionManager(dialect);
 
@@ -310,17 +316,23 @@ public class CztUIPlugin extends AbstractUIPlugin
      */
     try {
     	// debug SM
-      //sectManager.setTracing(true);	
+      //sectManager.setTracing(true);
+    	
+       // get default parents for the same as ANONYMOUS sections (i.e. most encompasing possible, per dialect).
+      DefaultSectionParents dsp = sectManager.get(new Key<DefaultSectionParents>(ZECLIPSE_DEFAULT_SECTION, DefaultSectionParents.class));
+      final String defaultParents = ZUtils.parentsAsString(dsp.defaultParents(Section.ANONYMOUS.getName()));
+      
       Source source = new StringSource("\\begin{zsection} "
-          + "\\SECTION ZEclipseDefault " + "\\parents standard\\_toolkit "
+          + "\\SECTION " + ZECLIPSE_DEFAULT_SECTION + "\\parents " + defaultParents
           + "\\end{zsection}");
+      
       source.setMarkup(Markup.LATEX);
-      sectManager.put(new Key<Source>("ZEclipseDefault", Source.class), source);
+      sectManager.put(new Key<Source>(ZECLIPSE_DEFAULT_SECTION, Source.class), source);
       // make sure it (and the standard toolkit) are parsed
-      sectManager.get(new Key<Spec>("ZEclipseDefault", Spec.class));
+      sectManager.get(new Key<Spec>(ZECLIPSE_DEFAULT_SECTION, Spec.class));
       //System.out.println("GOT TO PARSING");
       // and typechecked
-      sectManager.get(new Key<SectTypeEnvAnn>("ZEclipseDefault",
+      sectManager.get(new Key<SectTypeEnvAnn>(ZECLIPSE_DEFAULT_SECTION,
                                               SectTypeEnvAnn.class));
     } catch (CommandException ce) {
 	  if (ce.getCause() instanceof TypeErrorException)
