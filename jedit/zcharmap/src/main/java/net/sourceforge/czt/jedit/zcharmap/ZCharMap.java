@@ -22,7 +22,6 @@ import java.awt.event.*;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -89,29 +88,7 @@ public class ZCharMap extends JPanel
 
     org.gjt.sp.jedit.textarea.TextAreaPainter textAreaPainter =
       mView.getTextArea().getPainter();
-    HashMap<RenderingHints.Key,Object> hints =
-      new HashMap<RenderingHints.Key,Object>();
-    if (textAreaPainter.isAntiAliasEnabled()) {
-      hints.put(RenderingHints.KEY_ANTIALIASING,
-		RenderingHints.VALUE_ANTIALIAS_ON);
-      hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-		RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-    }
-    else {
-      hints.put(RenderingHints.KEY_ANTIALIASING,
-		RenderingHints.VALUE_ANTIALIAS_OFF);
-      hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
-		RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-    }
-    if (textAreaPainter.isFractionalFontMetricsEnabled()) {
-      hints.put(RenderingHints.KEY_FRACTIONALMETRICS,
-		RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-    }
-    else {
-      hints.put(RenderingHints.KEY_FRACTIONALMETRICS,
-		RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-    }
-    renderingHints = new RenderingHints(hints);
+    renderingHints = textAreaPainter.getRenderingHints();
 
     zTableModel_ = new ZCharTable(getClass().getResource("/ZTable.xml"));
     objectZTableModel_ =
