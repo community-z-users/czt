@@ -4,6 +4,6 @@
 
 <DOCKABLES>
   <DOCKABLE NAME="zcharmap">
-    new ZCharMap(view);
+    new net.sourceforge.czt.jedit.zcharmap.ZCharMap(view);
   </DOCKABLE>
 </DOCKABLES>
