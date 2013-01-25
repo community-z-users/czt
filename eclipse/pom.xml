@@ -108,6 +108,14 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>zeves</artifactId>
     </dependency>
+    <dependency>
+    	<groupId>${czt.groupId}</groupId>
+    	<artifactId>corejava-circustime</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>${czt.groupId}</groupId>
+    	<artifactId>parser-circustime</artifactId>
+    </dependency>
   </dependencies>
   
   <build>

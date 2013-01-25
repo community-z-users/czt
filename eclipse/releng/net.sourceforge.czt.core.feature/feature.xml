@@ -176,4 +176,18 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="net.sourceforge.czt.corejava-circustime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.czt.parser-circustime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
