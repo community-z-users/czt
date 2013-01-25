@@ -15,6 +15,9 @@
             <sidebar />
           </sections>
         </index>
+        <eclipse-updates-index>
+          <toc>false</toc>
+        </eclipse-updates-index>
       </pages>
     </reflowSkin>
   </custom>
