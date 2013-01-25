@@ -8,7 +8,7 @@
           description="Section Header"
           unicode="&#x2500; section NAME parents standard_toolkit &#x2514;&#xA;"
           latex="\begin{zsection}&#xA;  \SECTION NAME \parents
-          standard\_toolkit&#xA;\end{zsection}&#xA;"/>
+          standard\_toolkit, oz\_toolkit&#xA;\end{zsection}&#xA;"/>
     <item name="Class"
           description="Class Paragraph"
           unicode="&#x250C; class NAME&#xA; &#xA;&#x2514;&#xA;"
