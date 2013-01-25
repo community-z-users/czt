@@ -18,8 +18,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>util</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
@@ -84,15 +85,15 @@
         <dependencies>
           <dependency>
             <!-- Depend on ZML to locate the ZML schema files -->
-            <groupId>${czt.groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>zml</artifactId>
-            <version>${czt.version}</version>
+            <version>${project.version}</version>
           </dependency>
           <dependency>
             <!-- Depend on corejava-src to locate template files and mapping.properties -->
-            <groupId>${czt.groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>corejava-src</artifactId>
-            <version>${czt.version}</version>
+            <version>${project.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -180,9 +181,9 @@
         <dependencies>
           <dependency>
             <!-- Depend on corejava-src to locate stylesheet -->
-            <groupId>${czt.groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>corejava-src</artifactId>
-            <version>${czt.version}</version>
+            <version>${project.version}</version>
           </dependency>
         </dependencies>
       </plugin>

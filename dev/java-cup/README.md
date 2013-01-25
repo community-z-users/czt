@@ -1,36 +1,51 @@
-# Java CUP Parser Generator
+# CUP parser generator
 
-This project contains classes of [CUP parser generator for Java][cup-tum].
+This project contains a fork of [CUP parser generator for Java][cup-tum].
 The CUP parser and lexer are already generated.
 
-This library requires Java CUP Runtime, which is split off the to allow
+This library requires [Java CUP Runtime][cup-runtime], which is split off to allow
 lighter deployment of generated parsers: they only need to depend on the runtime.
 
-The code is taken from the [CUP TUM][cup-tum] [SVN repository][cup-svn],
+The original code was taken from the [CUP TUM][cup-tum] [SVN repository][cup-svn],
 corresponding to the released CUP version **0.11a**.
 
 [cup-tum]: http://www2.cs.tum.edu/projects/cup/
 [cup-svn]: https://www2.in.tum.de/repos/cup/develop/
+[cup-runtime]: ../java-cup-runtime/
 
 
-## Community Z Tools updates
+## Community Z Tools updates (version 0.11-a-czt01)
 
-Changed the `java_cup.emit` class to break up each case in the switch statement
-(each case in the parse table) into its own method. Furthermore, very large
-parse table definitions (e.g. action_table) are written to an external file
-and loaded during runtime.
+The official [Java CUP parser generator][cup-tum] is no longer in active development.
+This fork features several updates added by the Community Z Tools project:
 
-These prevent `do_action()` method and static initialization from growing too large,
-thus avoiding the `code too large` Java compiler error. The error appears for very
-large grammars (e.g. in [CZT][czt] parsers).
+-   Changed the `java_cup.emit` class to break up each case in the switch statement
+    (each case in the parse table) into its own method. Furthermore, very large
+    parse table definitions (e.g. action_table) are written to external files
+    and loaded during runtime.
 
-Replaced `System.exit()` calls on fatal errors with unchecked exception. 
-This makes parser generation within IDEs better, since an error in generator no
-longer kills the IDE with it.
+    These prevent `do_action()` method and static initialization from growing too large,
+    thus avoiding the "`code too large`" Java compiler error. The error appears for very
+    large grammars (e.g. in [CZT][czt] parsers).
 
-Also updated to use Java Generics and avoid other warnings.
+-   Replaced `System.exit()` calls on fatal errors with unchecked exception. 
+    This makes parser generation within IDEs better, since an error in generator no
+    longer kills the IDE with it.
 
-[czt]: http://czt.sourceforge.net/parser
+-   Also updated to use Java Generics and avoid other warnings.
+
+[czt]: http://czt.sourceforge.net/parser/
+
+
+## Usage
+
+CUP parser generator can be used standalone. Refer to the [user manual][cup-manual]
+for details on usage, configuration options and writing CUP specifications.
+
+[CUP Maven plugin][cup-maven] allows using this CUP parser generator within Maven build.
+
+[cup-manual]: manual.html
+[cup-maven]: ../cup-maven-plugin/
 
 
 ## License

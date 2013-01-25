@@ -18,8 +18,9 @@
   
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>corejava-zpatt</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

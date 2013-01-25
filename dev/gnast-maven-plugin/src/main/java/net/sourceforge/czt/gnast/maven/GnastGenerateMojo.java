@@ -34,6 +34,10 @@ import net.sourceforge.czt.gnast.Gnast.GnastBuilder;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.resource.DefaultResourceManager;
 import org.codehaus.plexus.resource.PlexusResource;
@@ -42,38 +46,64 @@ import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
- * @goal generate
+ * Goal which generates AST classes from XML Schema files using GnAST.
+ * <p>
+ * The source XML Schema files can be provided by indicating a source directory or explicitly
+ * listing the paths.
+ * </p>
+ * <p>
+ * The template and schema paths can be indicated as filesystem paths, URLs, or classpath
+ * resources. Refer to Plexus {@link ResourceManager} for more details.
+ * </p>
  *
+ * @see net.sourceforge.czt.gnast.Gnast
+ * @see org.codehaus.plexus.resource.ResourceManager
  * @author Petra Malik
  * @author Andrius Velykis
  */
+@Mojo(name = "generate", threadSafe = false, 
+      defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class GnastGenerateMojo
   extends AbstractMojo 
 {
   /**
-   * @parameter expression="${project.build.directory}/generated-sources/gnast"
+   * The directory where GnAST should generate AST files.
    */
+  @Parameter( property = "gnast.outputDirectory", 
+              defaultValue = "${project.build.directory}/generated-sources/gnast" )
   private File outputDirectory;
 
   /**
-   * @parameter alias="templateDirectory"
-   * @required
+   * The list of Velocity template directory paths.
+   * <p>
+   * The files in template paths can be used in GnAST Velocity templates to drive AST generation.
+   * </p>
+   * <p>
+   * Potential values are filesystem paths, URLs, or classpath resources.
+   * This parameter is resolved as resource, URL, then file.
+   * </p>
+   * @see org.codehaus.plexus.resource.ResourceManager
    */
+  @Parameter( alias = "templateDirectory", required = true )
   private List<String> templates = new ArrayList<String>();
   
   /**
-   * @parameter
+   * The file defining mappings between XML Schema types and Java types. Follows Java Properties
+   * file format, e.g. {@code anyURI = String}.
    */
+  @Parameter( property = "gnast.mappingFileLocation", defaultValue = "mapping.properties" )
   private String mappingFileLocation;
   
   /**
-   * @parameter
+   * Add AST finalisers to count finalised AST objects (e.g. for metrics)
    */
+  @Parameter( property = "gnast.addAstFinaliser" )
   private Boolean addAstFinaliser;
   
   /**
-   * @parameter
+   * Sets whether the plugin runs in verbose mode.
    */
+  @Parameter( property = "gnast.verbose", defaultValue = "false" )
   private boolean verbose;
   
   /**
@@ -82,9 +112,8 @@ public class GnastGenerateMojo
    * At least one of {@link #sourceDirectory} or {@link #sourceSchemas} must
    * be set to find the schemas.
    * </p>
-   * 
-   * @parameter
    */
+  @Parameter( property = "gnast.sourceDirectory" )
   private File sourceDirectory;
   
   /**
@@ -97,36 +126,41 @@ public class GnastGenerateMojo
    * At least one of {@link #sourceDirectory} or {@link #sourceSchemas} must
    * be set to find the schemas.
    * </p>
-   * 
-   * @parameter alias="schemaLocation"
    */
+  @Parameter( alias = "schemaLocation" )
   private List<String> sourceSchemas = new ArrayList<String>();
   
   /**
-   * @parameter
-   * @required
+   * The namespace (as indicated in XML Schema file) to generate AST files for.
    */
+  @Parameter( property = "gnast.targetNamespace", required = true )
   private String targetNamespace;
 
+
   /**
-   * @parameter expression="${project}"
-   * @required
+   * The Maven project (used to add generated sources for compilation).
    */
+  @Component
   private MavenProject project;
   
-  /** 
-   * Injected by Maven
-   * @component
+  /**
+   * The build context, for incremental build support.
    */
+  @Component
   private BuildContext buildContext;
   
   /**
-   * Injected by Maven
-   * @component
+   * The resource locator for finding classpath or URL resources.
    */
+  @Component
   private ResourceManager locator;
   
 
+  /**
+   * Configures GnAST AST generator and generates AST files for given XML Schema namespace.
+   * 
+   * @see net.sourceforge.czt.gnast.Gnast
+   */
   @Override
   public void execute() throws MojoExecutionException
   {

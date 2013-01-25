@@ -14,38 +14,44 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zeves</artifactId>
-      <version>1.6-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zlive</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>typechecker-oz</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <version>1.6-SNAPSHOT</version>
+      <groupId>${project.groupId}</groupId>
       <artifactId>typechecker-circus</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>parser-ozpatt</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>vcg</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>corejava-circuspatt</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${czt.groupId}</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zml</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>

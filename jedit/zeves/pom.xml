@@ -10,12 +10,13 @@
   <packaging>jar</packaging>
   <name>CZT Z/EVES jEdit Plugin</name>
   <description>
-    jEdit Plugin that that embeddeds the Z/EVES theorem prover command line in a console window
+    jEdit Plugin that that embeds the Z/EVES theorem prover command line in a console window
   </description>
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zeves</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${jedit.groupId}</groupId>

@@ -1,21 +1,34 @@
-# Java CUP Runtime
+# CUP runtime
 
-This project contains runtime classes of [CUP parser generator for Java][cup-tum].
+This project contains runtime classes of [CUP parser generator for Java][cup].
 
-The source code is split off the main CUP library to allow lighter deployment
+The source code is split off the main [CUP library][cup] to allow lighter deployment
 of generated parsers: they only need to depend on the runtime.
 
-The code is taken from the [CUP TUM][cup-tum] repository, corresponding to the
+The original code was forked from the [CUP TUM][cup-tum] repository, corresponding to the
 released CUP version **0.11a**. Additional fixes are included (revision 20 of
 [CUP SVN repository][cup-svn]).
 
-[cup-tum]: http://www2.cs.tum.edu/projects/cup/
+[cup]: ../java-cup/
 [cup-svn]: https://www2.in.tum.de/repos/cup/develop/
 
 
-## Community Z Tools updates
+## Community Z Tools updates (version 0.11-a-czt01)
 
-Updated to use Java Generics and avoid other warnings.
+The official [Java CUP parser generator][cup-tum] is no longer in active development.
+This fork features updates added by the Community Z Tools project:
+
+-   Updated to use Java Generics and avoid other warnings.
+
+[cup-tum]: http://www2.cs.tum.edu/projects/cup/
+
+
+## Usage
+
+CUP runtime is required by parsers generated using [standalone CUP library][cup]
+or [CUP Maven plugin][cup-maven].
+
+[cup-maven]: ../cup-maven-plugin/
 
 
 ## License
