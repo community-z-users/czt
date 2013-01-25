@@ -114,7 +114,7 @@
     </menu>
     <menu name="Documentation" inherit="top">
       <item name="CZT Manual" href="http://czt.sourceforge.net/manual.html" />
-      <item name="CZT Developer Info" href="developer.html" />
+      <item name="Developer Info" href="dev/index.html" />
       <item name="CZT Design Info" href="design.html" />
       <item name="API documentation" href="./apidocs/index.html" />
     </menu>

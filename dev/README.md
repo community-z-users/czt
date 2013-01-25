@@ -25,6 +25,13 @@ or Eclipse IDE:
     -   [CZT code style]( eclipse/index.html#CZT_code_style )
     -   [Maven `eclipse:eclipse` (alternative)]( eclipse/index.html##Using_Maven_eclipseeclipse )
 
+-   [**Guidelines**]( guidelines.html )
+
+    -   [General]( guidelines.html#General_remarks )
+    -   [Committing]( guidelines.html#Committing_to_Git_repository )
+    -   [Project layout]( guidelines.html#CZT_project_layout )
+    -   [Code style]( guidelines.html#Java_style_guidelines )
+
 This part of website also hosts custom tools used to build CZT itself (see sidebar and modules).
 
 
