@@ -301,7 +301,9 @@
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.6</version>
         <configuration>
+          <webAccessUrl>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</webAccessUrl>
           <anonymousConnection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</anonymousConnection>
+          <developerConnection>scm:git:ssh://USERNAME@czt.git.sourceforge.net/gitroot/czt/czt</developerConnection>
         </configuration>
         <reportSets>
           <reportSet>
@@ -610,6 +612,7 @@
 
   <scm>
     <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
+    <developerConnection>scm:git:ssh://USERNAME@czt.git.sourceforge.net/gitroot/czt/czt</developerConnection>
     <url>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</url>
   </scm>
 
