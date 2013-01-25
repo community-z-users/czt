@@ -32,6 +32,9 @@ public class TermLabelVisitorFactory
   private final static String CIRCUS_SHORT_DESCRIPTION_RESOURCE = 
       "net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle";
 
+  private final static String CIRCUSTIME_SHORT_DESCRIPTION_RESOURCE = 
+	      "net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle";
+
   private final static TermVisitor<String> Z_SHORT_DESC_VISITOR = 
       new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor(
       SHORT_DESCRIPTION_RESOURCE, ZPATT_SHORT_DESCRIPTION_RESOURCE);
@@ -39,6 +42,10 @@ public class TermLabelVisitorFactory
   private final static TermVisitor<String> CIRCUS_SHORT_DESC_VISITOR = 
       new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor(
       SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE);
+
+  private final static TermVisitor<String> CIRCUSTIME_SHORT_DESC_VISITOR = 
+	      new net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor(
+	      SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE, CIRCUSTIME_SHORT_DESCRIPTION_RESOURCE);
 
   private final static TermVisitor<String> Z_LONG_DESC_VISITOR = 
       new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor();

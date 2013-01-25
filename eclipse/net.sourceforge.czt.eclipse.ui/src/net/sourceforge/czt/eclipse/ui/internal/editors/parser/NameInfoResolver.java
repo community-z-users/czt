@@ -346,4 +346,6 @@ public class NameInfoResolver
     
     visitChildrenOfTerm (existingNames, expr, section);
   }
+  
+  // TODO: for extending to Circus needs to add all the Expr / Decl / Para to resolve known names.
 }

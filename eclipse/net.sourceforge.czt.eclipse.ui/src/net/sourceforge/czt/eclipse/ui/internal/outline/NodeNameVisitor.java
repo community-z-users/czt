@@ -1,8 +1,20 @@
 
 package net.sourceforge.czt.eclipse.ui.internal.outline;
 
+import org.eclipse.jface.text.Position;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.circus.ast.ChannelDecl;
+import net.sourceforge.czt.circus.ast.ChannelPara;
+import net.sourceforge.czt.circus.ast.ChannelSetPara;
+import net.sourceforge.czt.circus.ast.ProcessPara;
+import net.sourceforge.czt.circus.ast.TransformerPara;
+import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
+import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
+import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.oz.ast.ClassPara;
 import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
 import net.sourceforge.czt.parser.util.OpTable;
@@ -103,7 +115,13 @@ public class NodeNameVisitor
       FreetypeVisitor<String>,
       ClassParaVisitor<String>,  // For Object-Z
       ProofScriptVisitor<String>, // For Z/EVES
-      ProofCommandVisitor<String> // For Z/EVES
+      ProofCommandVisitor<String>, // For Z/EVES
+      // Circus... TODO: add process / action support as well?
+      ChannelDeclVisitor<String>,
+      ChannelParaVisitor<String>,
+      ChannelSetParaVisitor<String>,
+      ProcessParaVisitor<String>,
+      TransformerParaVisitor<String>
 {
   
   /**
@@ -417,6 +435,8 @@ public class NodeNameVisitor
   {
     return para.getName().accept(new PrintVisitor());
   }
+  
+  // Z/EVES
 
   @Override
   public String visitProofScript(ProofScript term)
@@ -433,4 +453,32 @@ public class NodeNameVisitor
     // also compact all spaces into 1-space
     .replaceAll(" +", " ").trim();
   }
+  
+//Circus
+
+	@Override
+	public String visitTransformerPara(TransformerPara term) {
+		return term.getName().accept(this);
+	}
+
+	@Override
+	public String visitProcessPara(ProcessPara term) {
+		return term.getName().accept(this);
+	}
+
+	@Override
+	public String visitChannelSetPara(ChannelSetPara term) {
+		return term.getName().accept(this);
+	}
+
+   @Override
+   public String visitChannelDecl(ChannelDecl term)
+   {
+     return term.getZChannelNameList().accept(this);
+   }
+
+	@Override
+	public String visitChannelPara(ChannelPara term) {
+		return term.getZDeclList().accept(this);
+	}
 }

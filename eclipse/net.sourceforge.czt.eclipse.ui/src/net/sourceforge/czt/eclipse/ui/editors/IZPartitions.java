@@ -13,6 +13,7 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
  * 
  * @author Chengdong Xu
  */
+// TODO: all this is horrible... should reflect ZKeyword and samefor other extensions...
 public interface IZPartitions
 {
 

@@ -26,6 +26,7 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
   /** Taken from Section 7.4.2 of the Z standard.
    *  Plus "theorem", which is a CZT extension for named conjectures.
    */
+	// TODO: This is horrible. Use ZKeyword? Leo
   private static String[] fgAlphabeticKeywords = {"else", "false", "function",
       "generic", "if", "leftassoc", "let", "parents", "pre", "relation",
       "rightassoc", "section", "then", "true", "theorem"};

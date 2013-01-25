@@ -2,6 +2,18 @@ package net.sourceforge.czt.eclipse.ui.internal.outline;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.circus.ast.ChannelDecl;
+import net.sourceforge.czt.circus.ast.ChannelPara;
+import net.sourceforge.czt.circus.ast.ChannelSetPara;
+import net.sourceforge.czt.circus.ast.CircusConjPara;
+import net.sourceforge.czt.circus.ast.ProcessPara;
+import net.sourceforge.czt.circus.ast.TransformerPara;
+import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
+import net.sourceforge.czt.circus.visitor.CircusConjParaVisitor;
+import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
+import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.eclipse.ui.editors.IZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.oz.ast.ClassPara;
@@ -35,7 +47,7 @@ import org.eclipse.jface.text.Position;
 
 /**
  * A factory to create CztTreeNode item for a Term. The term's position and 
- * name position are also calculated.
+ * name position are also calculated. This is for top-level Para subclasses
  *  
  * @author Andrius Velykis
  */
@@ -129,7 +141,14 @@ public class CztTreeNodeFactory
         // Object-Z
         ClassParaVisitor<Position>,
         // Z/EVES
-        ProofScriptVisitor<Position>
+        ProofScriptVisitor<Position>,
+        // Circus
+        ChannelDeclVisitor<Position>,
+        ChannelParaVisitor<Position>,
+        ChannelSetParaVisitor<Position>,
+        ProcessParaVisitor<Position>,
+        TransformerParaVisitor<Position>
+  		// Circus Time has no Para or Decl
   {
     
     @Override
@@ -144,7 +163,7 @@ public class CztTreeNodeFactory
     {
       return getNamePosition(term.getNames());
     }
-
+    
     @Override
     public Position visitAxPara(AxPara term)
     {
@@ -230,13 +249,63 @@ public class CztTreeNodeFactory
     {
       return getPosition(term.getName());
     }
+    
+    // Z/EVES
 
     @Override
     public Position visitProofScript(ProofScript term)
     {
       return getPosition(term.getName());
     }
+    
+    // Circus
 
+	@Override
+	public Position visitTransformerPara(TransformerPara term) {
+		return getPosition(term.getName());
+	}
+
+	@Override
+	public Position visitProcessPara(ProcessPara term) {
+		return getPosition(term.getName());
+	}
+
+	@Override
+	public Position visitChannelSetPara(ChannelSetPara term) {
+		return getPosition(term.getName());
+	}
+
+    @Override
+    public Position visitChannelDecl(ChannelDecl term)
+    {
+      return getNamePosition(term.getZChannelNameList());
+    }
+
+	@Override
+	public Position visitChannelPara(ChannelPara term) {
+		ZDeclList declList = term.getZDeclList();
+		Position namePosition = null;
+
+	      for (Decl decl : declList) {
+	    	  // not sure, but think only the ChannelDecl is needed. see Parser.xml for channelPara ::= production
+	        //if (decl instanceof ConstDecl) {
+	        //  namePosition = getPosition(((ConstDecl) decl).getZName());
+	        //}
+	        //else if (decl instanceof VarDecl) {
+	        //  namePosition = getNamePosition(((VarDecl) decl).getName());
+	        //}
+	        //else 
+	    	if (decl instanceof ChannelDecl) {
+	          namePosition = getNamePosition(((ChannelDecl)decl).getZChannelNameList());
+	        }
+
+	        if (namePosition != null) {
+	          return namePosition;
+	        }
+	      }
+
+	      return null;
+	}
   }
 
 }

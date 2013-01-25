@@ -135,6 +135,8 @@ public class SelectZCharTableAction extends Action implements IMenuCreator
         return 'O';
       case CIRCUS :
         return 'C';
+      case CIRCUSTIME :
+          return 'T';
       case ZEVES :
         return 'E';
     }
