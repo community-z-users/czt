@@ -4,6 +4,7 @@ package net.sourceforge.czt.eclipse.ui.internal.editors.latex;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.eclipse.ui.internal.editors.AbstractZCodeScanner;
 import net.sourceforge.czt.eclipse.ui.internal.util.IColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZColorConstants;
@@ -26,7 +27,9 @@ public class ZLatexCodeScanner extends AbstractZCodeScanner
   /** Taken from Section 7.4.2 of the Z standard.
    *  Plus "theorem", which is a CZT extension for named conjectures.
    */
-  private static String[] fgAlphabeticKeywords = {"\\begin", "\\end", "else",
+	// TODO: this is horrible. Should reflect ZKeyword.values this whole set of classes needs refactoring...? Leo
+  private static String[] fgAlphabeticKeywords = //ZKeyword.values();
+	  {"\\begin", "\\end", "else",
       "false", "function", "generic", "if", "leftassoc", "let", "\\power",
       "parents", "pre", "relation", "rightassoc", "section", "then",
       "true", "theorem"};
