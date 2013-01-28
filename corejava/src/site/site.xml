@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/DECORATION/1.3.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd">
+
+  <custom>
+    <reflowSkin>
+      <pages>
+        <index combine.self="override">
+          <shortTitle>Introduction</shortTitle>
+          <toc>false</toc>
+          <highlightJs>true</highlightJs>
+        </index>
+        <changes-report>
+          <tocTopMax>4</tocTopMax>
+        </changes-report>
+      </pages>
+    </reflowSkin>
+  </custom>
+
+  <body>
+
+    <breadcrumbs>
+      <item name="Corejava" href="/" />
+    </breadcrumbs>
+
+    <menu name="Corejava" ref="module-menu">
+      <item name="Introduction" href="index.html"/>
+      <item name="Release Notes" ref="changes-report"/>
+    </menu>
+
+  </body>
+</project>
