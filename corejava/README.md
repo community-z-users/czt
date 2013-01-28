@@ -16,6 +16,23 @@ Features are:
 
 [czt]: http://czt.sourceforge.net
 
+
+## Dialects
+
+CZT provides tools for Z specification language and its extensions.
+The ASTs of Z extensions supplement the AST of core Z language. To provide modularity, each
+dialect gets its own Corejava project with appropriate dependencies between them.
+For your projects, select just the dialects you need as your dependencies:
+
+-   [**Z** (core): `corejava-z`]( corejava-z/ )
+-   [**Z Pattern** extension: `corejava-zpatt`]( corejava-zpatt/ )
+-   [**Z/EVES** extension: `corejava-zeves`]( corejava-zeves/ )
+-   [**Object-Z** extension: `corejava-oz`]( corejava-oz/ )
+-   [**Circus** extension: `corejava-circus`]( corejava-circus/ )
+-   [**Circus Pattern** extension: `corejava-circuspatt`]( corejava-circuspatt/ )
+-   [**Circus Time** extension: `corejava-circustime`]( corejava-circustime/ )
+
+
 ## Visitor support in Corejava
 
 Corejava provides a variant of the [default visitor][visitor-paper] introduced by
