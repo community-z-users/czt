@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <document>
   <body>
-    <release version="2.1.1" date="unreleased">
+    <release version="2.1.5" date="February 2009">
       <action dev="Petra" type="update">
         Improve the concrete syntax symbol visitor that returns the
         concrete syntax symbol associated to a given term.
