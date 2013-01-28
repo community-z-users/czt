@@ -6,13 +6,24 @@
     <title>Release Notes</title>
   </properties>
   <body>
-    <release version="2.1.5" date="February 2009">
+    <release version="2.0.0 (CZT)" date="unreleased">
+      <action dev="andriusvelykis" type="update">
+        CZT 2.0.0 release separates Corejava into dialect-specific libraries,
+        i.e. corejava-z, corejava-oz, corejava-circus, etc. Because of this, corejava module
+        is just a parent of these projects and does not contain AST classes itself. Use the
+        appropriate dialect-specific libraries as your dependencies.
+
+        As a result of this project restructure, Corejava (and its dialect projects) version
+        is aligned to that of the whole CZT project (2.0.0 as of this release).
+      </action>
+    </release>
+    <release version="2.1.5 (standalone)" date="February 2009">
       <action dev="Petra" type="update">
         Improve the concrete syntax symbol visitor that returns the
         concrete syntax symbol associated to a given term.
       </action>
     </release>
-    <release version="2.1.0" date="July 2007">
+    <release version="2.1.0 (standalone)" date="July 2007">
       <action dev="Petra" type="update">
         Remove interfaces and classes DeclName, ZDeclName, RefName,
         ZRefName, DeclNameList, ZDeclNameList, RefNameList, and ZRefNameList
@@ -45,7 +56,7 @@
         doesn't support that.
       </action>
     </release>
-    <release version="2.0.0" date="July 6, 2006">
+    <release version="2.0.0 (standalone)" date="July 6, 2006">
       <action dev="Petra" type="update">
         Remove interface
         net.sourceforge.czt.base.ast.TermA
@@ -124,7 +135,7 @@
         for more information.
       </action>
     </release>
-    <release version="1.4.1" date="September 2, 2005">
+    <release version="1.4.1 (standalone)" date="September 2, 2005">
       <action dev="Petra" type="update">
         Change the AST to use generic lists.  Remove now unused class
         net.sourceforge.czt.util.TypesafeList.
@@ -140,7 +151,7 @@
         according to the changes in the corresponding XML Schema files.
       </action>
     </release>
-    <release version="1.4.0" date="March 17, 2005">
+    <release version="1.4.0 (standalone)" date="March 17, 2005">
       <action dev="Petra" type="add">
         Add AST classes and interfaces for Circus, another extension of Z.
       </action>
@@ -187,7 +198,7 @@
         works quite well.
       </action>
     </release>
-    <release version="1.3.0" date="September 22, 2004">
+    <release version="1.3.0 (standalone)" date="September 22, 2004">
       <action dev="petra" type="add">
         Add new abstract Standard Z AST classes/interfaces
         Type2 and
@@ -302,7 +313,7 @@
       </action>
     </release>
 
-    <release version="1.2.0" date="April 8, 2004">
+    <release version="1.2.0 (standalone)" date="April 8, 2004">
       <action dev="Petra" type="add">
         Add interfaces
         net.sourceforge.czt.z.util.ZChar
@@ -385,7 +396,7 @@
       </action>
     </release>
 
-    <release version="1.1.2" date="January 6, 2004">
+    <release version="1.1.2 (standalone)" date="January 6, 2004">
       <action dev="Petra" type="add">
         Add support for Object Z
         (based on the Schema provided by Li Yuan Fang).
@@ -442,7 +453,7 @@
         which a programmer can choose when implementing a visitor.
       </action>
     </release>
-    <release version="1.1.1" date="October 3, 2003">
+    <release version="1.1.1 (standalone)" date="October 3, 2003">
       <action dev="Petra" type="update">
         Change all immutable properties of the AST classes to be mutable
         since immutable properties are no longer needed
@@ -490,7 +501,7 @@
         on its own line (indentation is still missing).
       </action>
     </release>
-    <release version="1.1.0" date="September 9, 2003">
+    <release version="1.1.0 (standalone)" date="September 9, 2003">
       <action dev="Petra" type="add" context="admin">
         Initial Release.
         This release contains java code for Z annotated syntax trees,
