@@ -46,3 +46,15 @@ footer .nav-list > li > a, footer .nav-header {
 ul ul, ul ol, ol ol, ol ul {
   margin-bottom: 10.5px;
 }
+
+
+/* Spacing for definition list items (used in CZT Eclipse help) */
+dl dt {
+  margin-top: 10.5px;
+}
+
+dl dt:first-child {
+  margin-top: 0;
+}
+
+
