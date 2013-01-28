@@ -12,7 +12,18 @@
 
   <name>CZT Verification Condition Generator Plugin</name>
 
+  <properties>
+    <docs.sourceDir>${project.basedir}/src/doxia</docs.sourceDir>
+    <docs.targetDir>${project.build.directory}/generated-docs</docs.targetDir>
+  </properties>
+
   <build>
+    <resources>
+     <resource>
+       <directory>${docs.targetDir}</directory>
+     </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
@@ -39,8 +50,8 @@
               <goal>site</goal>
             </goals>
             <configuration>
-              <siteDirectory>${project.basedir}/src/doxia</siteDirectory>
-              <outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
+              <siteDirectory>${docs.sourceDir}</siteDirectory>
+              <outputDirectory>${docs.targetDir}</outputDirectory>
               <generateReports>false</generateReports>
               <generateProjectInfo>false</generateProjectInfo>
               <relativizeDecorationLinks>false</relativizeDecorationLinks>
@@ -73,6 +84,36 @@
       </plugin>
 
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <versionRange>[3.2,)</versionRange>
+                    <goals>
+                      <goal>site</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <!-- Execute documentation generation -->
+                    <execute></execute>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
 </project>
