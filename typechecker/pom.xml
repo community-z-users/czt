@@ -18,9 +18,9 @@
   
   <modules>
     <module>typechecker-z</module>
+    <module>typechecker-zeves</module>
     <module>typechecker-oz</module>
     <module>typechecker-circus</module>
-    <module>typechecker-zeves</module>
   </modules>
 
   <dependencyManagement>
