@@ -16,7 +16,7 @@
   <version>1.6.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
-  <name>CZT Eclipse Parent</name>
+  <name>CZT Eclipse</name>
   
   <properties>
     <tycho-version>0.16.0</tycho-version>
