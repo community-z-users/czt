@@ -16,7 +16,7 @@
   <version>1.6.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
-  <name>CZT Eclipse Parent</name>
+  <name>CZT Eclipse</name>
   
   <properties>
     <tycho-version>0.16.0</tycho-version>
@@ -24,6 +24,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- The build ID - normally the qualifier, but can be e.g. "M2" for milestone builds -->
     <czt.buildId>${buildQualifier}</czt.buildId>
+
+    <czt.help.dir>net.sourceforge.czt.eclipse.doc/src/doxia</czt.help.dir>
   </properties>
 
   <!-- The default modules are defined in the "default" profile below.
@@ -139,7 +141,47 @@
   
   <build>
     <plugins>
+      <plugin>
+        <!-- Copy CZT Eclipse help documentation from /doc module. This allows sharing
+             documentation in website and deployed with Eclipse. -->
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources-markdown</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/markdown/help</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${czt.help.dir}/markdown</directory>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+          <execution>
+            <id>copy-resources-images</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/resources/help</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${czt.help.dir}/resources</directory>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+        <inherited>false</inherited>
+      </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
         <plugin>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/DECORATION/1.3.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd"
+  name="CZT Eclipse">
+
+  <custom>
+    <reflowSkin>
+      <pages>
+        <index combine.self="override">
+          <shortTitle>Introduction</shortTitle>
+          <toc>false</toc>
+        </index>
+      </pages>
+    </reflowSkin>
+  </custom>
+
+  <body>
+
+    <breadcrumbs>
+      <item name="CZT Eclipse" href="/" />
+    </breadcrumbs>
+
+    <menu name="CZT Eclipse" ref="module-menu">
+      <item name="Introduction" href="index.html"/>
+      <item name="Release Notes" ref="changes-report"/>
+      <item name="Help" collapse="true" href="help/toc.html">
+        <item name="Getting Started" collapse="true" href="help/getting-started/index.html">
+          <item name="CZT Editor" href="help/concepts/czt-editor.html" />
+          <item name="CZT Views" href="help/concepts/czt-views.html" />
+          <item name="CZT Perspective" href="help/concepts/czt-perspective.html" />
+          <item name="Folding" href="help/concepts/folding-para.html" />
+          <item name="Schema Box" href="help/concepts/schema-box.html" />
+        </item>
+        <item name="Concepts" collapse="true" href="help/concepts/index.html">
+          <item name="Creating a CZT project" href="help/getting-started/create-project.html"/>
+          <item name="Creating a Z specification" href="help/getting-started/create-spec.html"/>
+          <item name="Syntax coloring in your code" href="help/getting-started/syntax-coloring.html"/>
+          <item name="Identifying problems in your code" href="help/getting-started/identify-problem.html"/>
+          <item name="Navigate to a Z name's declaration" href="help/getting-started/go-to-declaration.html"/>
+          <item name="Highlight a term" href="help/getting-started/highlight-term.html"/>
+        </item>
+        <item name="Reference" collapse="true" href="help/reference/index.html">
+          <item name="Preferences" href="help/reference/preferences/index.html"> 
+            <item name="Compiler" href="help/reference/preferences/compiler.html" /> 
+            <item name="Editor" href="help/reference/preferences/editor-basic.html">
+              <item name="Annotation" href="help/reference/preferences/editor/annotation.html" />
+              <item name="Folding" href="help/reference/preferences/editor/folding.html" />
+              <item name="Syntax Coloring" href="help/reference/preferences/editor/syntax-coloring.html" />
+            </item>
+          </item>
+          <item name="Menu and Actions" href="help/reference/actions.html" /> 
+        </item>
+      </item>
+      <item name="Z/EVES Eclipse" href="zeves/"/>
+    </menu>
+
+  </body>
+</project>

@@ -9,13 +9,13 @@
             primary="true">
       </toc>
       <toc
-            file="topics_Concepts.xml">
+            file="topics-concepts.xml">
       </toc>
       <toc
-            file="topics_GettingStarted.xml">
+            file="topics-getting-started.xml">
       </toc>
       <toc
-            file="topics_Reference.xml">
+            file="topics-reference.xml">
       </toc>
    </extension>
 
