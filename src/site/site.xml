@@ -51,7 +51,7 @@
         <column>Documentation</column>
         <!-- Placeholder for module-specific menus (need to have ref module-menu) -->
         <column>module-menu|parent</column>
-        <column>reports</column>
+        <column>reports|help</column>
       </bottomNav>
       <bottomDescription>
         <!-- <blockquote>
@@ -113,13 +113,13 @@
       <item name="Download" href="http://sourceforge.net/projects/czt/files/czt" />
     </menu>
     <menu name="Documentation" inherit="top">
-      <item name="CZT Manual" href="http://czt.sourceforge.net/manual.html" />
+      <item name="User Manual" href="http://czt.sourceforge.net/manual.html" />
       <item name="Developer Info" href="dev/index.html" />
-      <item name="CZT Design Info" href="design.html" />
-      <item name="API documentation" href="./apidocs/index.html" />
+      <item name="Design Info" href="design.html" />
+      <item name="API Documentation" href="./apidocs/index.html" />
     </menu>
     <menu ref="modules" inherit="bottom" />
-    <menu name="Maven documentation" ref="reports" inherit="bottom"/>
+    <menu name="Maven Documentation" ref="reports" inherit="bottom"/>
     <menu ref="parent" inherit="bottom" />
   </body>
 </project>

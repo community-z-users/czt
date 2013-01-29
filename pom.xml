@@ -59,9 +59,9 @@
     <module>gaffe</module>
     <module>gaffe2</module>
     <module>vcg</module>
-    <module>ui</module>
     <module>z2b</module>
     <module>zeves</module>
+    <module>ui</module>
     <module>jedit</module>
   </modules>
 

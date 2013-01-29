@@ -11,9 +11,9 @@
   <artifactId>parser-parent</artifactId>
   <packaging>pom</packaging>
 
-  <name>CZT Parser</name>
+  <name>CZT Parsers</name>
   <description>
-    Provides classes for parsing and printing Z and Z extension specifications.
+    Parent of parsers for Z and Z extension specifications.
   </description>
 
   <dependencies>

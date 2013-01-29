@@ -10,8 +10,7 @@
   <packaging>jar</packaging>
   <name>CZT Gaffe</name>
   <description>
-    Provides classes for managing and caching Z sections and other
-    Z-related artifacts.
+    Customisable GUI front-end and designer to a Z animator.
   </description>
   <dependencies>
     <dependency>
@@ -30,4 +29,36 @@
       <version>1.7R4</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <!-- Copy PDF documentation to reuse in generated site. -->
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-pdf-docs</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/resources/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/doc/thesis</directory>
+                  <includes>
+                    <include>*.pdf</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+        <inherited>false</inherited>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
