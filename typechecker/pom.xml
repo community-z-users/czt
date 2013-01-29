@@ -11,9 +11,9 @@
   <artifactId>typechecker-parent</artifactId>
   <packaging>pom</packaging>
 
-  <name>CZT Typechecker</name>
+  <name>CZT Typecheckers</name>
   <description>
-    Provides classes for typechecking Z and Z extension specifications.
+    Parent of typecheckers for Z and Z extension specifications.
   </description>
   
   <modules>
