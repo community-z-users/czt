@@ -1,0 +1,114 @@
+\begin{zsection}
+   \SECTION time\_process\_timeout \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+
+%Process P with circus action A 
+
+\begin{circus}
+    \circprocess\ P \circdef  \circbegin  \\
+    \t1 A \circdef c1 \then \Skip \\
+    \t1 \circspot A \\
+    \circend
+\end{circus}
+
+
+%Process Q with circus action B
+
+\begin{circus}
+    \circprocess\ Q \circdef  \circbegin  \\
+    \t1 B \circdef c2 \then \Skip \\
+    \t1 \circspot B \\
+    \circend
+\end{circus}
+
+
+\begin{circus}
+    \circprocess Pro1 \circdef P \circtimeout  \lcirctime 20 \rcirctime Q\\
+\end{circus}
+
+\begin{circus}
+    \circprocess Pro2 \circdef P \circtimeout \lcirctime 20 \rcirctime Q \circseq P \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro3 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \circseq (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro4 \circdef P \circtimeout \lcirctime 20 \rcirctime Q \extchoice P \circtimeout \lcirctime 20 \rcirctime Q \\ 
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro5 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \extchoice (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+
+
+\begin{circus}
+    \circprocess Pro6 \circdef P \circtimeout \lcirctime 20 \rcirctime Q \intchoice P \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro7 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \intchoice (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro8 \circdef P \circtimeout \lcirctime 20 \rcirctime  Q \interleave P \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+    \circprocess Pro9 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \interleave (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+
+
+%Interface parallelism
+
+\begin{circus}
+    \circprocess Pro10 \circdef P \circtimeout \lcirctime 20 \rcirctime  Q \lpar  \lchanset c, d \rchanset  \rpar  P \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+    \circprocess Pro11 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \lpar  \lchanset c, d \rchanset  \rpar (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
+
+
+\begin{circus}
+    \circprocess Pro12 \circdef (P \circtimeout \lcirctime 10 \rcirctime Q) \circhide c \\
+\end{circus} 
+
+
+\begin{circus}
+    \circprocess Pro13 \circdef P \circtimeout \lcirctime tval \rcirctime Q\\
+\end{circus}        
+
+\begin{circus}
+   \circprocess Pro14 \circdef P \circtimeout \lcirctime tval*2+5 \rcirctime Q\\
+\end{circus}        
+
+\begin{circus}
+    \circprocess Pro15 \circdef P \circtimeout \lcirctime 0 \upto 10 \rcirctime Q\\
+\end{circus}        
+
+\begin{circus}
+    \circprocess Pro16 \circdef P \circtimeout \lcirctime 0 \upto tval \rcirctime  Q\\
+\end{circus} 
+
+
+
+
+
+
+

@@ -7032,17 +7032,18 @@ cspAction ::=
         :}
         <add:circustime>
         |
-        circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
-        {:
-		    RESULT = factory_.createTimeEndByAction(ca, e);
-		    addLocAnn(RESULT, getLocation(ca,e));
-        :}
-		|
         LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
         {:
 		    RESULT = factory_.createTimeStartByAction(ca, e);
 		    addLocAnn(RESULT, getLocation(ca,e));
         :}
+        |
+        circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+        {:
+		    RESULT = factory_.createTimeEndByAction(ca, e);
+		    addLocAnn(RESULT, getLocation(ca,e));
+        :}
+		      
 		|
         circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
         {:
@@ -7094,18 +7095,18 @@ cspAction ::=
 		    RESULT = factory_.getCircusTimeFactory().createPrefixingExprAction(ac,comm,e);
 		    addLocAnn(RESULT, getLocation(comm, ac));	    
         :}
-		|
-		communication:comm ATTIME:at  refName:na  PREFIXTHEN:pt  circusAction:ac
+	|
+		communication:comm  ATTIME refName:na  PREFIXTHEN:pt  circusAction:ac
         {:
 		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingAction(ac,comm,na);
 		    addLocAnn(RESULT, getLocation(comm, ac));
         :}
-		|
-		communication:comm ATTIME refName:na PREFIXTHEN:pt LCIRCTIME expression:e LCIRCTIME circusAction:ac
+	|
+		communication:comm ATTIME  refName:na PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
         {:
 		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingExprAction(ac,comm,na,e);
 		    addLocAnn(RESULT, getLocation(comm, ac));
-		:}
+	:}
         </add:circustime>
         |
         actionCall:ac

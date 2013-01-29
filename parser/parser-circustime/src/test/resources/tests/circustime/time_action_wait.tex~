@@ -30,6 +30,7 @@ tests production rule: CIRCWAIT refName:na COLON expression:e CIRCSPOT circusAct
 \end{circusaction}
 
 
+
 \begin{circus}
     \circend
 \end{circus}
