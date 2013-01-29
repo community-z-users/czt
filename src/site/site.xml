@@ -51,7 +51,7 @@
         <column>Documentation</column>
         <!-- Placeholder for module-specific menus (need to have ref module-menu) -->
         <column>module-menu|parent</column>
-        <column>reports</column>
+        <column>reports|help</column>
       </bottomNav>
       <bottomDescription>
         <!-- <blockquote>
