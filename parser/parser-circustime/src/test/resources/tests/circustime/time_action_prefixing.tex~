@@ -33,9 +33,9 @@
 
 
 %c@N -> A
-%\begin{circusaction}
-%        \t1 Act2 \circdef c \circat N  \then A \\
-%\end{circusaction}
+\begin{circusaction}
+        \t1 Act2 \circdef c \circat N  \then A \\
+\end{circusaction}
 
 %c@N -> exp A
 %\begin{circusaction}
