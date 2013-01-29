@@ -16,5 +16,15 @@
   <description>
     Provides templates to generate Corejava classes.
   </description>
+
+  <!-- Put site under /corejava, since it's parent is not corejava -->
+  <url>${site.url}/corejava/corejava-src</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/corejava/corejava-src</url>
+    </site>
+  </distributionManagement>
   
 </project>

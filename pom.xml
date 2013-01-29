@@ -48,21 +48,21 @@
 
   <modules>
     <module>dev</module>
+    <module>zml</module>
+    <module>session</module>
     <module>corejava</module>
+    <module>parser</module>
+    <module>typechecker</module>
+    <module>util</module>
+    <module>rules</module>
+    <module>zlive</module>
     <module>gaffe</module>
     <module>gaffe2</module>
-    <module>jedit</module>
-    <module>parser</module>
-    <module>session</module>
-    <module>typechecker</module>
-    <module>rules</module>
-    <module>ui</module>
-    <module>util</module>
     <module>vcg</module>
+    <module>ui</module>
     <module>z2b</module>
     <module>zeves</module>
-    <module>zlive</module>
-    <module>zml</module>
+    <module>jedit</module>
   </modules>
 
 
@@ -367,6 +367,9 @@
             </reports>
           </reportSet>
         </reportSets>
+        <configuration>
+          <detectLinks>true</detectLinks>
+        </configuration>
       </plugin>
 
     </plugins>
