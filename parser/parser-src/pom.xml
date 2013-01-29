@@ -16,5 +16,16 @@
   <description>
     Provides templates to generate Z parsers.
   </description>
+
+
+  <!-- Put site under /parser, since it's parent is not parser -->
+  <url>${site.url}/parser/parser-src</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/parser/parser-src</url>
+    </site>
+  </distributionManagement>
   
 </project>
