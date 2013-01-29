@@ -10,8 +10,7 @@
   <packaging>jar</packaging>
   <name>CZT Gaffe</name>
   <description>
-    Provides classes for managing and caching Z sections and other
-    Z-related artifacts.
+    Customisable GUI front-end and designer to a Z animator.
   </description>
   <dependencies>
     <dependency>
