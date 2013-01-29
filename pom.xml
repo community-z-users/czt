@@ -367,6 +367,9 @@
             </reports>
           </reportSet>
         </reportSets>
+        <configuration>
+          <detectLinks>true</detectLinks>
+        </configuration>
       </plugin>
 
     </plugins>
