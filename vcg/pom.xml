@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
   <name>CZT Z VCG</name>
   <description>
-    Verification Generator for Z Spec
+    Verification condition generator for Z specifications.
   </description>
   <dependencies>
     <dependency>
