@@ -18,6 +18,7 @@
   <body>
 
     <breadcrumbs>
+      <item name="Parsers" href="../" />
       <item name="Parsers Source" href="/" />
     </breadcrumbs>
 
