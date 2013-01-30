@@ -27,6 +27,20 @@
 
   <build>
     <plugins>
+
+      <plugin>
+        <!-- Skip deployment of z2alloy subproject to Maven Central for now.
+             This is because the core Alloy library is not in Central, and the transitive
+             dependencies thus unresolvable.
+             TODO: deploy if/when the Alloy library is in Central. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
