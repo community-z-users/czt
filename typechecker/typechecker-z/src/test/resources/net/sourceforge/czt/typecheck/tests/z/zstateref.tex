@@ -95,3 +95,33 @@ One schema with no z state info
 \where
    o! \in \ran~y'
 \end{schema}
+
+TODO: change VCG to this style. Much neater.
+
+\begin{schema}{AMachineDef}
+   state: AState \\
+   init: ASInit \\
+   op1: AOp1
+\end{schema}
+
+\begin{schema}{CMachineDef}
+   state: CState \\
+   init: CSInit \\
+   op1: COp1
+\end{schema}
+
+\begin{schema}{Refines1}
+   abs: AMachineDef \\
+   con: CMachineDef \\
+   ret: Retr \\
+   op1: AOp1 \cross COp1 \\
+   op2: AOp2 \cross COp2
+\end{schema}
+
+\begin{schema}{Refines2}
+   abs: CMachineDef \\
+   con: AMachineDef \\
+   ret: Retr \\
+   op1: COp1 \cross AOp1 \\
+   op2: COp2 \cross AOp2
+\end{schema}
