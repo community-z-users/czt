@@ -21,9 +21,10 @@
     <dependency>
       <groupId>alloy</groupId>
       <artifactId>alloy</artifactId>
-      <version>4.1.8</version>
+      <version>4.2.0</version>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -41,4 +42,23 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <!-- Local Maven repository for Alloy library, because it is not available in
+         Maven Central.
+
+         See http://devcenter.heroku.com/articles/local-maven-dependencies for details. -->
+    <repository>
+      <id>alloy.local</id>
+      <name>Alloy local</name>
+      <url>file:${project.basedir}/alloy-mvn-repo</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>
