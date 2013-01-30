@@ -25,6 +25,8 @@
     <module>java-cup-runtime</module>
     <module>java-cup</module>
     <module>cup-maven-plugin</module>
+
+    <module>checkstyle</module>
   </modules>
 
   <dependencyManagement>

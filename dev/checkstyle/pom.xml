@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <groupId>net.sourceforge.czt.dev</groupId>
+  <artifactId>checkstyle</artifactId>
+  <packaging>jar</packaging>
+
+  <name>CZT Checkstyle</name>
+  <description>
+    Provides CZT settings for checkstyle.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <!-- Copy Checkstyle config to reuse in generated site. -->
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-checkstyle-file</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/resources/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/resources/net/sourceforge/czt</directory>
+                  <includes>
+                    <include>checkstyle.xml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+        <inherited>false</inherited>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Put site under /dev, since it's parent is not dev-parent -->
+  <url>${site.url}/dev/checkstyle</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/dev/checkstyle</url>
+    </site>
+  </distributionManagement>
+</project>

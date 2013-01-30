@@ -101,8 +101,12 @@
           <property name="severity" value="info"/>
         </module>
 
-        <!-- File content must be kept within 80 columns. (rule 32) -->
-        <module name="LineLength"/>
+        <!-- File content must be kept within 100 columns. 
+             This is an exception from Geosoft rule 32, to allow better
+             formatting in modern high-resolution monitors. -->
+        <module name="LineLength">
+          <property name="max" value="100"/>
+        </module>
 
         <module name="MethodLength">
           <property name="severity" value="info"/>
