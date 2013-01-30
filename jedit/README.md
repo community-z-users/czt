@@ -100,8 +100,11 @@ To do this, edit Global Options/Docking and see the jEdit documentation for more
 Depending upon which font you use (to change the font, see
 `Utilities/Global Options/jEdit/Text Area/Text Font`), you may see some Z characters as empty
 boxes, because most fonts do not support all Unicode characters. You should install the
-[CZT font][../font.html] to get the best results.
+[CZT font][font] to get the best results.
 
 jEdit cannot distinguish UTF8 files from plain-ASCII files (they can be identical), so when you
 load an UTF8 file, you must **right-click** on the filename in the Open browser, then set the
 Encoding to UTF8 **before** opening it.
+
+[font]: ../font.html
+
