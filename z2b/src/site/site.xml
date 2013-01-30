@@ -18,12 +18,12 @@
   <body>
 
     <breadcrumbs>
-      <item name="Parsers" href="../" />
-      <item name="Parsers Source" href="/" />
+      <item name="Z to B" href="/" />
     </breadcrumbs>
 
-    <menu name="Parsers Source" ref="module-menu">
+    <menu name="Z to B" ref="module-menu">
       <item name="Introduction" href="index.html"/>
+      <item name="Javadoc" href="apidocs/index.html"/>
     </menu>
 
   </body>
