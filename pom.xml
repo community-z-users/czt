@@ -402,9 +402,6 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
-      <modules>
-        <module>checkstyle</module>
-      </modules>
       <build>
         <plugins>
           <plugin>
@@ -412,9 +409,9 @@
             <artifactId>maven-checkstyle-plugin</artifactId>
             <dependencies>
               <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>${czt.dev.groupId}</groupId>
                 <artifactId>checkstyle</artifactId>
-                <version>${project.version}</version>
+                <version>1.6-SNAPSHOT</version>
               </dependency>
             </dependencies>
           </plugin>
