@@ -60,6 +60,7 @@
     <module>gaffe2</module>
     <module>vcg</module>
     <module>z2b</module>
+    <module>z2alloy</module>
     <module>zeves</module>
     <module>ui</module>
     <module>jedit</module>
