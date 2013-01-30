@@ -17,4 +17,14 @@
   <description>
     Provides CZT settings for checkstyle.
   </description>
+
+  <!-- Put site under /dev, since it's parent is not dev-parent -->
+  <url>${site.url}/dev/checkstyle</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/dev/checkstyle</url>
+    </site>
+  </distributionManagement>
 </project>
