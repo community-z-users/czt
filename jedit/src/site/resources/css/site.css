@@ -1,0 +1,9 @@
+/* For larger screens, float the image on the right */
+@media (min-width: 980px) {
+
+  .body-content a[href="images/czt-jedit.png"] {
+    float: right;
+    display: block;
+  }
+
+}
