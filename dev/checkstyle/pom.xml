@@ -18,6 +18,37 @@
     Provides CZT settings for checkstyle.
   </description>
 
+  <build>
+    <plugins>
+      <plugin>
+        <!-- Copy Checkstyle config to reuse in generated site. -->
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-checkstyle-file</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/resources/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/resources/net/sourceforge/czt</directory>
+                  <includes>
+                    <include>checkstyle.xml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+        <inherited>false</inherited>
+      </plugin>
+    </plugins>
+  </build>
+
   <!-- Put site under /dev, since it's parent is not dev-parent -->
   <url>${site.url}/dev/checkstyle</url>
 
