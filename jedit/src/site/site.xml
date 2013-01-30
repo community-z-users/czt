@@ -17,6 +17,10 @@
 
   <body>
 
+    <head>
+      <link href="css/site.css" rel="stylesheet" />
+    </head>
+
     <breadcrumbs>
       <item name="CZT jEdit" href="/" />
     </breadcrumbs>
