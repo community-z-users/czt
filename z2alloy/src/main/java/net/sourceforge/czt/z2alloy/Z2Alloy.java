@@ -209,7 +209,7 @@ ZSectVisitor<AlloyExpr>
         Expr toBeNormalized = ParseUtils
         .parseExpr(exprSource, section_, manager_);
         result = (Expr) preprocess(toBeNormalized);
-        TypeCheckUtils.typecheck(result, manager_, false,
+        TypeCheckUtils.typecheck(result, manager_, false, false,
             section_);
       }
       // if (result instanceof ApplExpr) {
