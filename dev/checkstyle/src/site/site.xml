@@ -19,6 +19,7 @@
   <body>
 
     <breadcrumbs>
+      <item name="Developer" href="../" />
       <item name="CZT Checkstyle" href="/" />
     </breadcrumbs>
 
