@@ -45,4 +45,9 @@ The file and directory structure within each project directory should follow the
 In order to make it easier for other developers to read your Java source code, please follow the
 [Java Programming Style Guidelines from Geotechnical Software Services][java-style].
 
+Automatic checking of these guidelines is supported via [Checkstyle][checkstyle] tool.
+Refer to [CZT Checkstyle][czt-checkstyle] settings for more information.
+
 [java-style]: http://geosoft.no/development/javastyle.html
+[checkstyle]: http://checkstyle.sourceforge.net/
+[czt-checkstyle]: checkstyle/
