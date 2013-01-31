@@ -32,17 +32,45 @@
 \end{circusaction}
 
 
+\begin{circusaction}
+        \t1 Act1 \circdef  c?x \then \lcirctime 20 \rcirctime A  \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 Act1 \circdef  c?x!y \then \lcirctime 20 \rcirctime A  \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 Act1 \circdef  c.x \then \lcirctime 20 \rcirctime A  \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 Act1 \circdef  c?x \prefixcolon (x>10) \then  A  \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 Act1 \circdef  c?x \prefixcolon (x>10) \then \lcirctime 20 \rcirctime A  \\
+\end{circusaction}
+
+%c-> exp A 
+\begin{circusaction}
+       \t1 Act1 \circdef  c \then \lcirctime 20 \rcirctime A  \\
+\end{circusaction}
+
 %c@N -> A
 \begin{circusaction}
         \t1 Act2 \circdef c \circat N  \then A \\
 \end{circusaction}
 
+%c?x : (x>10) @N  -> A
+\begin{circusaction}
+        \t1 Act2 \circdef c?x \prefixcolon (x>10) \circat N  \then A \\
+\end{circusaction}
+
 %c@N -> exp A
-%\begin{circusaction}
- %       \t1 Act3 \circdef  c~\circat~N \then \lcirctime 20 \rcirctime A  \\
-%\end{circusaction}
-
-
+\begin{circusaction}
+        \t1 Act3 \circdef  c \circat N \then \lcirctime 20 \rcirctime A  \\
+\end{circusaction}
 
 
 \begin{circusaction}        

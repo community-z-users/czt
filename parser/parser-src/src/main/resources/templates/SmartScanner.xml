@@ -869,7 +869,15 @@ class <class/> implements java_cup.runtime.Scanner
                    previousSymbolOnStack.sym == Sym.LPAREN)
           {
             fieldCount--;
-          }              
+          }
+	  <add:circustime>
+	  // add a condition to look ahead the ATTIME (@) symbol for circus-time 
+	  else if (symbol.sym == Sym.ATTIME)
+          {
+            fieldCount--;
+          }
+	</add:circustime>
+	  
         }        
       }
       dumb_.push(symbol);
@@ -927,11 +935,12 @@ class <class/> implements java_cup.runtime.Scanner
     Symbol currsym = dumb_.pop();
     tokens.addLast(currsym);
   
+    // add a condition to look ahead the ATTIME (@) symbol for circus-time 
     // while finding non Circus symbols, then carry on looking ahead    
     // and also, in case of a quite messy spec that reaches EOF too early
     //
     // PREFIXCOLON is a special case: we still need to look forward
-    while (currsym.sym == Sym.PREFIXCOLON ||
+    while (currsym.sym == Sym.PREFIXCOLON || 
            (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
            currsym.sym != Sym.EOF))
     {    
