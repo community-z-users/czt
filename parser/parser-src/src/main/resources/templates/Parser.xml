@@ -6243,8 +6243,14 @@ process ::=
             RESULT = factory_.createExtChoiceProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));
         :}
-        |
-        process:pl CIRCSEQ:cs process:pr
+	|
+        process:pl CIRCINTERRUPT:cs process:pr
+        {:
+            RESULT = factory_.createInterruptProcess(factory_.list(pl, pr));
+            addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));
+        :}
+	|	
+	process:pl CIRCSEQ:cs process:pr
         {:
             RESULT = factory_.createSeqProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));

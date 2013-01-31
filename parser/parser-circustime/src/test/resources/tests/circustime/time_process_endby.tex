@@ -106,8 +106,15 @@
     \circprocess Pro16 \circdef P \circendby \lcirctime 0 \upto tval \rcirctime  \\
 \end{circus} 
 
+%Process Interrupt
 
+\begin{circus}
+    \circprocess Pro17 \circdef P \circendby \lcirctime 20 \rcirctime  \circinterrupt P \circendby \lcirctime 25 \rcirctime \\
+\end{circus}
 
+\begin{circus}
+    \circprocess Pro18 \circdef (P \circendby \lcirctime 20 \rcirctime ) \circinterrupt (P \circendby \lcirctime 20 \rcirctime ) \\
+\end{circus}
 
 
 

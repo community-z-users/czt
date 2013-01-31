@@ -106,7 +106,14 @@
     \circprocess Pro16 \circdef P \circtimedinterrupt \lcirctime 0 \upto tval \rcirctime  Q\\
 \end{circus} 
 
-
+%Process Inetrrupt
+\begin{circus}
+    \circprocess Pro17 \circdef P \circtimedinterrupt \lcirctime 20 \rcirctime Q \circinterrupt P \circtimedinterrupt \lcirctime 20 \rcirctime Q \\ 
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro18 \circdef (P \circtimedinterrupt \lcirctime 20 \rcirctime Q) \circinterrupt (P \circtimedinterrupt \lcirctime 25 \rcirctime Q) \\
+\end{circus}
 
 
 

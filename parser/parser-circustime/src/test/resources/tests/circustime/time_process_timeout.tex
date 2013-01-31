@@ -107,6 +107,14 @@
 \end{circus} 
 
 
+%Process Interrupt
+\begin{circus}
+    \circprocess Pro17 \circdef P \circtimeout \lcirctime 20 \rcirctime Q \circinterrupt P \circtimeout \lcirctime 20 \rcirctime Q \\ 
+\end{circus}
+    
+\begin{circus}
+    \circprocess Pro18 \circdef (P \circtimeout \lcirctime 20 \rcirctime Q) \circinterrupt (P \circtimeout \lcirctime 25 \rcirctime Q) \\
+\end{circus}
 
 
 

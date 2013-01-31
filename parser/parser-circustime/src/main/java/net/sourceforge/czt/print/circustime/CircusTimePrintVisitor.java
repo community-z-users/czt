@@ -348,6 +348,15 @@ public class CircusTimePrintVisitor
         printRPAREN(term);
         return null;
     }
+
+    public Object visitInterruptProcess(InterruptProcess term) {
+        printLPAREN(term);
+        visit(term.getLeftProcess());
+        print(CircusKeyword.CIRCSEQ);
+        visit(term.getRightProcess());
+        printRPAREN(term);
+        return null;
+    }
     
     public Object visitExtChoiceProcess(ExtChoiceProcess term) {
         printLPAREN(term);

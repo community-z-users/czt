@@ -416,6 +416,11 @@ public class CircusConcreteSyntaxSymbolVisitor
     return CircusConcreteSyntaxSymbol.SEQ_PROCESS;
   }
 
+  public CircusConcreteSyntaxSymbol visitInterruptProcess(InterruptProcess term)
+  {
+    return CircusConcreteSyntaxSymbol.INTERRUPT_PROCESS;
+  }
+
   public CircusConcreteSyntaxSymbol visitBasicProcess(BasicProcess term)
   {
     return CircusConcreteSyntaxSymbol.BASIC_PROCESS;

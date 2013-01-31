@@ -521,6 +521,13 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="InterruptProcess" type="CIRCUS:Process2" substitutionGroup="CIRCUS:Process2">
+    <xs:annotation>
+      <xs:documentation>
+        Interruption between two processes.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
   <xs:element name="ExtChoiceProcess" type="CIRCUS:Process2" substitutionGroup="CIRCUS:Process2">
     <xs:annotation>
       <xs:documentation>

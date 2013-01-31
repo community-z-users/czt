@@ -66,6 +66,7 @@ public enum CircusConcreteSyntaxSymbol
   
   /* (Concrete Binary) Process definitions */
   SEQ_PROCESS("Sequential composition process"),
+  INTERRUPT_PROCESS("Interrupt process"),
   EXTCH_PROCESS("External choice process"),
   INTCH_PROCESS("Internal choice process"),
   INTLV_PROCESS("Interleave process"),
