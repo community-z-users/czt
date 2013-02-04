@@ -8,7 +8,7 @@
         <Anns>
             <LocAnn Length="15" Start="271" Col="35" Line="5" Loc="./tests/zeves/refRulesEquiv.tex"/>
         </Anns>
-        <Word>zstate_toolkit</Word>
+        <Word>zeves_toolkit</Word>
     </Parent>
     <ZParaList>
         <LatexMarkupPara/>
@@ -34,7 +34,7 @@ Bla bla
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="63" Start="312" Col="0" Line="10" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="ASTATE"/>
+                
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -250,7 +250,6 @@ Bla bla
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="61" Start="477" Col="0" Line="20" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="CSTATE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -989,7 +988,6 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="77" Start="969" Col="0" Line="48" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="RETRIEVE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -1121,7 +1119,6 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="111" Start="1048" Col="0" Line="55" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="RETRIEVEIN"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -1313,7 +1310,6 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="114" Start="1161" Col="0" Line="63" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="RETRIEVEOUT"/>
             </Anns>
             <ZNameList/>
             <ZSchText>

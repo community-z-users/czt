@@ -1,8 +1,7 @@
-─ section genericSchemasUtf parents zstate_toolkit └ 
+─ section genericSchemasUtf parents zeves_toolkit └ 
 
 Warning about missing hard space. Good
 ┌═ S [ X ] 
-zstate 
 a : ℙ X 
 b : X |
  b ∈ a └ 
