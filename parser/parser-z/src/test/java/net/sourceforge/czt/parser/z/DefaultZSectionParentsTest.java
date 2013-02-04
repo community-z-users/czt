@@ -96,15 +96,6 @@ public class DefaultZSectionParentsTest {
 	}
 
 	@Test
-	public void testZStateToolkit() {
-		// don't include ZEVES prelude
-		assertEquals(cmd1_.defaultParents(Section.ZSTATE_TOOLKIT.getName()), 
-				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
-									//Section.STANDARD_TOOLKIT.getName()
-						));
-	}
-
-	@Test
 	public void testStandardToolkit() {
 		// don't include ZEVES prelude
 		assertEquals(cmd1_.defaultParents(Section.STANDARD_TOOLKIT.getName()), 
