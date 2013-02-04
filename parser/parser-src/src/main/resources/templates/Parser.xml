@@ -2608,10 +2608,10 @@ terminal LocInfo
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
 
-        ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
-        ZCSTATE, ZCSTINIT, ZRETRIEVE, ZASTFIN, ZCSTFIN,
-        ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT, ZRETRIEVEIN,
-        ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
+        //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
+        //ZCSTATE, ZCSTINIT, ZRETRIEVE, ZASTFIN, ZCSTFIN,
+        //ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT, ZRETRIEVEIN,
+        //ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
@@ -2788,11 +2788,11 @@ non terminal AxPara
     schema;
 
 //non terminal ZStateInfo
-non terminal Ann
-    optZStRefInfo;  // either ZStateAnn or ZRefinesAnn
-
-//non terminal ZRefines
-//    optZRefines;
+//non terminal Ann
+//    optZStRefInfo;  // either ZStateAnn or ZRefinesAnn
+//
+////non terminal ZRefines
+////    optZRefines;
 
 non terminal ConstDecl
     letDefinition;
@@ -4092,29 +4092,30 @@ schema ::=
         SCH:sch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL
-        optZStRefInfo:ozsi optNL
+        //optZStRefInfo:ozsi optNL
         schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, null, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(sch, end));
-           addZStateRefInfo(RESULT, ozsi, n);
+           //addZStateRefInfo(RESULT, ozsi, n);
         :}
         |
         GENSCH:gensch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL 
         formalParameters:fp
-        optZStRefInfo:ozsi optNL
+        //optZStRefInfo:ozsi optNL
         schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, fp, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(gensch, end));
-           addZStateRefInfo(RESULT, ozsi, n);
+           //addZStateRefInfo(RESULT, ozsi, n);
         :}
         ;
 
+/*
 optZStRefInfo ::=
         ZSTATE
         {:
@@ -4213,6 +4214,7 @@ optZStRefInfo ::=
            RESULT = null;
         :}
         ;
+*/
 
 <add:zeves>
 zProof ::=

@@ -198,6 +198,8 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     }
   }
 
+/* NEW-DESIGN: refactoring current VCG to have a multi-layered / better interface using meta-level schemas.
+
   // yytext() might contain {IGNORE}* tokens when starting with ZSTATE strings...?
   // put the longer strings first to avoid catching the smaller ones too early (e.g., retrievein before retrieve)
   private int retrieveZState(String yyt)
@@ -244,6 +246,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     else
       throw new ScanException("Unknown ZState " + yyt, getLocation());
   }
+*/
 %}
    
 /***********************************************************************
@@ -479,6 +482,8 @@ DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
 //ZPROOFCOMMANDSEP = {ZPCMDSEMICOLON} ({SPACE}|{NL})+
 </add:zeves>
 
+/*
+
 //NL_SPACE = ({NL}|{SPACE})
 ZREFIO = //{NL_SPACE}*
                      ("zretrievein" | "zretrieveout" |
@@ -495,6 +500,7 @@ ZSTATE = //{NL_SPACE}*
 
 ZREFINES = //{NL_SPACE}*
             ("zfsrefines" | "zbsrefines")
+*/
 
 
 %state Z
@@ -567,14 +573,10 @@ ZREFINES = //{NL_SPACE}*
   {END}         {  endZed(); inSchemaBox_ = false; return symbol(Sym.END); }
   {NL}          {  return symbol(Sym.NL); }
 
-  // IO must appear first to match zretrievein earlier (e.g., zretrieve in ZSTATE it smaller).
-  {ZREFIO}      { return symbol(retrieveZState(yytext())); }
-  {ZSTATE}      { return symbol(retrieveZState(yytext())); }
-  {ZREFINES} 
-                {
-                  return symbol(retrieveZState(yytext()));
-                }
-
+//  // IO must appear first to match zretrievein earlier (e.g., zretrieve in ZSTATE it smaller).
+//  {ZREFIO}      { return symbol(retrieveZState(yytext())); }
+//  {ZSTATE}      { return symbol(retrieveZState(yytext())); }
+//  {ZREFINES}    { return symbol(retrieveZState(yytext())); }
 
   <add:zeves>
 //  {ZPROOFCOMMANDSEP}  { return symbol(Sym.ZPROOFCOMMANDSEP); }
