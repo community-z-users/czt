@@ -33,12 +33,12 @@ import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCG;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinementKind;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZRefKind;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -125,7 +125,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     return PROP_VCG_REFINEMENT_ZSTATE_NAME_DEFAULT;
   }
 
-  protected ZRefKind defaultRefinementKind()
+  protected ZRefinementKind defaultRefinementKind()
   {
     return PROP_VCG_REFINEMENT_REFKIND_DEFAULT;
   }
@@ -154,8 +154,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
 //    boolean refIo = getManager().hasProperty(PROP_VCG_REFINEMENT_IO) ?
 //          manager.getBooleanProperty(PROP_VCG_REFINEMENT_IO) :
 //          defaultRefiningIO();
-    ZRefKind refKind = getManager().hasProperty(PROP_VCG_REFINEMENT_KIND) ?
-          ZRefKind.valueOf(manager.getProperty(PROP_VCG_REFINEMENT_KIND)) :
+  ZRefinementKind refKind = getManager().hasProperty(PROP_VCG_REFINEMENT_KIND) ?
+		  ZRefinementKind.valueOf(manager.getProperty(PROP_VCG_REFINEMENT_KIND)) :
           defaultRefinementKind();
     setConcreteStateName(concreteSt);
     setRetrieveName(ret);
@@ -259,7 +259,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
 ////    getRefVCCollector().setRefiningIO(v);
 //  }
 
-  protected final void setRefKindDefault(ZRefKind v)
+  protected final void setRefKindDefault(ZRefinementKind v)
   {
     getRefVCCollector().setRefKindDefault(v);
     
