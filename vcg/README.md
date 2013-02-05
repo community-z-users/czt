@@ -1,10 +1,10 @@
-# Verification condition generator for Z
+# CZT verification condition generators
 
-The CZT verification condition generator supports generating conjectures about Z specifications
-used to verify their correctness and consistency.
+CZT provides classes for creating VCs for Z and some Z extensions.
 
-The following verification conditions are supported:
+To provide modularity, each supported dialect gets its own VCG subproject.
+For your projects, select VCGs just for the dialects you need as your dependencies:
 
--   Domain checks (function application, axiomatic definitions, etc.)
--   Feasibility checks (operation preconditions)
--   Refinement checks (refinement correctness, **experimental**)
+-   [**Z** (core): `vcg-z`]( vcg-z/ )
+-   [**Z/EVES** extension: `vcg-zeves`]( vcg-zeves/ )
+-   [**Circus** extension: `vcg-circus`]( vcg-circus/ )
