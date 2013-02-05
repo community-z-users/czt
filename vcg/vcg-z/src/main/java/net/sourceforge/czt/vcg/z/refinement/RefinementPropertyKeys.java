@@ -21,7 +21,7 @@ package net.sourceforge.czt.vcg.z.refinement;
 
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.vcg.z.VCGPropertyKeys;
-import net.sourceforge.czt.z.ast.ZRefKind;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinementKind;
 import net.sourceforge.czt.util.Section;
 
 /**
@@ -66,7 +66,7 @@ public interface RefinementPropertyKeys extends VCGPropertyKeys
   boolean PROP_VCG_REFINEMENT_RAISE_TYPE_WARNINGS_DEFAULT     = false; 
   boolean PROP_VCG_REFINEMENT_IO_DEFAULT                      = false;
   Markup  PROP_VCG_REFINEMENT_PREFERRED_MARKUP_DEFAULT        = Markup.LATEX;
-  ZRefKind PROP_VCG_REFINEMENT_REFKIND_DEFAULT                = ZRefKind.FORWARD;
+  ZRefinementKind PROP_VCG_REFINEMENT_REFKIND_DEFAULT         = ZRefinementKind.FORWARD;
   String  PROP_VCG_REFINEMENT_PARENTS_TO_IGNORE_DEFAULT       = "";
   String  PROP_VCG_REFINEMENT_ZSTATE_NAME_DEFAULT             = "";
   String  PROP_VCG_REFINEMENT_CONCRETE_STATE_NAME_DEFAULT     = "";

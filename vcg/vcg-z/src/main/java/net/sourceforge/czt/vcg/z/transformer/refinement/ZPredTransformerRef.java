@@ -20,10 +20,10 @@
 package net.sourceforge.czt.vcg.z.transformer.refinement;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinementKind;
 import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.ZRefKind;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -43,7 +43,7 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
     super(factory, termV);
   }
 
-  public Pred createInitialisationVC(ZRefKind kind, Expr absStInit, Expr conStInit, Expr retrieveDash)
+  public Pred createInitialisationVC(ZRefinementKind kind, Expr absStInit, Expr conStInit, Expr retrieveDash)
   {
     Pred result;
     switch (kind)
@@ -82,7 +82,7 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
     return result;
   }
 
-  public Pred createInitialisationInputVC(ZRefKind kind, Expr absInitIn, Expr conInitIn, Expr retrieveIn)
+  public Pred createInitialisationInputVC(ZRefinementKind kind, Expr absInitIn, Expr conInitIn, Expr retrieveIn)
   {
     Pred result;
     switch (kind)
@@ -118,7 +118,7 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
     return result;
   }
 
-    public Pred createFinalisationVC(ZRefKind kind, Expr absStFin, Expr conStFin, Expr retrieve)
+    public Pred createFinalisationVC(ZRefinementKind kind, Expr absStFin, Expr conStFin, Expr retrieve)
   {
     Pred result;
     switch (kind)
@@ -158,7 +158,7 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
   }
 
 
-  public Pred createFinalisationOutputVC(ZRefKind kind, Expr absFinOut, Expr conFinOut, Expr retrieveOut)
+  public Pred createFinalisationOutputVC(ZRefinementKind kind, Expr absFinOut, Expr conFinOut, Expr retrieveOut)
   {
     Pred result;
     switch (kind)
@@ -211,7 +211,7 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
    * @param retrieveInputs
    * @return
    */
-  public Pred createFeasibilityVC(ZRefKind kind, Expr absOpSig, Expr absOp,
+  public Pred createFeasibilityVC(ZRefinementKind kind, Expr absOpSig, Expr absOp,
           Expr conOpSig, Expr conOp, Expr retrieve, Expr retrieveInputs)
   {
     Pred result;
@@ -298,7 +298,7 @@ public class ZPredTransformerRef extends ZPredTransformerFSB
    * @param retrieveOutputs
    * @return
    */
-  public Pred createCorrectnessVC(ZRefKind kind, Expr absState, Expr absStateDash,
+  public Pred createCorrectnessVC(ZRefinementKind kind, Expr absState, Expr absStateDash,
             Expr absOp, Expr conState, Expr conOp, Expr retrieve, Expr retrieveDash,
             Expr retrieveInputs, Expr retrieveOutputs)
   {

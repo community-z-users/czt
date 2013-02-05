@@ -1,5 +1,10 @@
 package net.sourceforge.czt.vcg.z.feasibility.util;
 
+/**
+ * Refactored from core java z
+ * @author Leo Freitas
+ *
+ */
 public enum ZStateInfo {
 	  NONE("Normal schema"),
 	  STATE("State schema"),

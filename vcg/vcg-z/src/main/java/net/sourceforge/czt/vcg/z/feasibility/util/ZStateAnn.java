@@ -5,6 +5,7 @@ import net.sourceforge.czt.z.ast.Ann;
 /**
  * Z state annotation. It contains information regarding the role a schema plays in refinement.
  *
+ * @author Leo Freitas
  */
 public interface ZStateAnn extends Ann {
 	  /**

@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.vcg.z.refinement;
 
-import net.sourceforge.czt.z.ast.ZRefKind;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinementKind;
 
 /**
  *
@@ -53,11 +53,11 @@ public enum ZRefVCKind
    */
   FIN_OUT;
   
-  public String getTypeId(ZRefKind rk) {
+  public String getTypeId(ZRefinementKind rk) {
     return "vc_ref_" + getRefKindStr(rk) + name().toLowerCase();
   }
   
-  private String getRefKindStr(ZRefKind rk) {
+  private String getRefKindStr(ZRefinementKind rk) {
     if (rk != null) {
       switch(rk) {
         case FORWARD: return "fs_";
