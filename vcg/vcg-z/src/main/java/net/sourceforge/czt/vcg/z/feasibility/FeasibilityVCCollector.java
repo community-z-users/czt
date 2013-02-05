@@ -38,6 +38,7 @@ import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.typecheck.z.ErrorMessage;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.BindingFilter;
@@ -63,16 +64,19 @@ import net.sourceforge.czt.z.util.ZUtils;
 
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 
+import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
-import net.sourceforge.czt.z.ast.ZStateAnn;
-import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
@@ -80,9 +84,11 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 
-import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZRefinesAnn;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
 
-import static net.sourceforge.czt.z.ast.ZStateInfo.*;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  *
@@ -138,7 +144,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   private final Map<ZStateInfo, ZName> stateSchemaNames_;
   private final Map<ZStateInfo, AxPara> stateSchemas_;
   private final Map<ZStateInfo, ZNameList> stateGenParams_;
-
+  
   /**
    * 
    */
@@ -247,6 +253,80 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected void setStateGenParams(ZStateInfo type, ZNameList genParams)
   {
     this.stateGenParams_.put(type, genParams);
+  }
+  
+  protected void checkZStateInfo(AxPara para)
+  {
+    if (para.hasAnn(ZStateAnn.class))
+    {
+      ZStateAnn zsi = para.getAnn(ZStateAnn.class);
+      ZStateInfo zsii = zsi.getInfo();
+      ZName name = stateSchemaNames_.get(zsii);
+      // take into account the common names for state and init when doing refinement
+      if (name == null)
+      {
+        if (zsii.equals(ZStateInfo.ASTATE))
+          name = stateSchemaNames_.get(ZStateInfo.STATE);
+        else if (zsii.equals(ZStateInfo.STATE))
+          name = stateSchemaNames_.get(ZStateInfo.ASTATE);
+        else if (zsii.equals(ZStateInfo.ASTINIT))
+          name = stateSchemaNames_.get(ZStateInfo.STINIT);
+        else if (zsii.equals(ZStateInfo.STINIT))
+          name = stateSchemaNames_.get(ZStateInfo.ASTINIT);
+        else if (zsii.equals(ZStateInfo.ASTFIN))
+          name = stateSchemaNames_.get(ZStateInfo.STFIN);
+        else if (zsii.equals(ZStateInfo.STFIN))
+          name = stateSchemaNames_.get(ZStateInfo.ASTFIN);
+      }
+
+      if (name == null && para.getBox().equals(Box.SchBox))
+      {
+        name = ZUtils.assertZName(ZUtils.getSchemaName(para));
+        Name old = stateSchemaNames_.put(zsi.getInfo(), name);
+        assert old == null;
+      }
+      // bad format or missing name
+      else
+      {
+        Name other = ZUtils.getAxParaSchOrAbbrName(para);
+        if (!ZUtils.namesEqual(name, other))
+        {
+          Object[] params = new Object[]
+                  {
+                    para, zsi, name, other
+                  };
+          //error(para, ErrorMessage.ZSTATEINFO_INCONSISTENCY, params);
+        }
+      }
+    }
+    else if (para.hasAnn(ZRefinesAnn.class))
+    {
+      ZRefinesAnn zra = para.getAnn(ZRefinesAnn.class);
+      Name abstractName = zra.getAbstractName();
+      //Type2 absType = unwrapType(getType(abstractName));
+      //if (!(absType instanceof PowerType &&
+      //    ((PowerType)absType).getType() instanceof SchemaType))
+      //{
+      //  // this error might happen if the abstract name within \zrefines{AbsName}
+      //  // isn't declared within the specification where the concrete name appears
+      //  error(para, ErrorMessage.ZREFINES_UNKNOWN_ABSNAME, new Object[] { para, abstractName, absType} );
+      //}
+
+      Name concreteName = zra.getConcreteName();
+      Name paraName = ZUtils.getAxParaSchOrAbbrName(para);
+      boolean namesEqual = ZUtils.namesEqual(paraName, concreteName);
+      // paraName and concreteName differ or if not for a SchBox
+      if (!namesEqual || !para.getBox().equals(Box.SchBox))
+      {
+        Object[] params = new Object[]
+                  {
+                    para, abstractName, concreteName, paraName
+                  };
+        // given the parser assigns the concrete name, this error can only
+        // happen if the ZRefinesAnn AST is created manually
+        //error(para, ErrorMessage.ZREFINES_INCONSISTENCY, params);
+      }
+    }
   }
 
   /** VC COLLECTOR METHODS

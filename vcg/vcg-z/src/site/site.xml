@@ -10,11 +10,7 @@
         <index combine.self="override">
           <shortTitle>Introduction</shortTitle>
           <toc>false</toc>
-          <highlightJs>true</highlightJs>
         </index>
-        <changes-report>
-          <tocTopMax>5</tocTopMax>
-        </changes-report>
       </pages>
     </reflowSkin>
   </custom>
@@ -22,12 +18,12 @@
   <body>
 
     <breadcrumbs>
-      <item name="VCGs" href="/" />
+      <item name="Z VCG" href="/" />
     </breadcrumbs>
 
-    <menu name="VCGs" ref="module-menu">
+    <menu name="Z VCG" ref="module-menu">
       <item name="Introduction" href="index.html"/>
-      <item name="Release Notes" ref="changes-report"/>
+      <item name="Javadoc" href="apidocs/index.html"/>
     </menu>
 
   </body>
