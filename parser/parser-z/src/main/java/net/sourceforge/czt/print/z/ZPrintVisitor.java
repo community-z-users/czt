@@ -1160,17 +1160,6 @@ public class ZPrintVisitor
     throw new PrintException("Unexpected term TypeAnn.");
   }
 
-  public Object visitZRefinesAnn(ZRefinesAnn term)
-  {
-    throw new PrintException("Unexpected term ZRefinesAnn");
-  }
-
-  public Object visitZStateAnn(ZStateAnn term)
-  {
-     throw new PrintException("Unexpected term ZStateAnn");
-
-  }
-
   public Object visitUnparsedPara(UnparsedPara unparsedPara)
   {
     // TODO: What to do with UnparsedPara?

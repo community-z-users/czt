@@ -115,7 +115,8 @@ public class ParaChecker
     //exit the variable scope
     typeEnv().exitScope();
 
-    checkZStateInfo(axPara);
+    //REFACTOR: moved to vcg-z/feasibility
+    //checkZStateInfo(axPara);
 
     return signature;
   }

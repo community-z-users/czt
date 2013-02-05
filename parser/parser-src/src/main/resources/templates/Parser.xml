@@ -1445,15 +1445,15 @@ action code
       parserState_.addLocAnn(term, locInfo);
     }
 
-    private void addZStateRefInfo(Term term, Ann ozsi, Name n)
-    {
-       if (ozsi != null)
-       {
-          if (ozsi instanceof ZRefinesAnn)
-            ((ZRefinesAnn)ozsi).setConcreteName(n);
-          term.getAnns().add(ozsi);
-       }
-    }
+    //private void addZStateRefInfo(Term term, Ann ozsi, Name n)
+    //{
+    //   if (ozsi != null)
+    //   {
+    //      if (ozsi instanceof ZRefinesAnn)
+    //        ((ZRefinesAnn)ozsi).setConcreteName(n);
+    //      term.getAnns().add(ozsi);
+    //   }
+    //}
 
     private int computeLength(LocInfo start, LocInfo end)
     {
