@@ -524,17 +524,6 @@ public class SyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.SECT;
   }
 
-  @Override public ConcreteSyntaxSymbol visitZRefinesAnn(ZRefinesAnn term)
-  {
-    return ConcreteSyntaxSymbol.ZREFINES;
-  }
-
-  @Override public ConcreteSyntaxSymbol visitZStateAnn(ZStateAnn term)
-  {
-    return ConcreteSyntaxSymbol.ZSTATE;
-  }
-
-
    public interface Utils
     extends IsEmptyNameList
   {
