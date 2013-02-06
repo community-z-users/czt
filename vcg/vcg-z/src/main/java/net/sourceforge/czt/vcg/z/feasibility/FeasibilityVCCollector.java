@@ -38,7 +38,6 @@ import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
-import net.sourceforge.czt.typecheck.z.ErrorMessage;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.BindingFilter;
@@ -52,6 +51,7 @@ import net.sourceforge.czt.vcg.z.VCConfig;
 import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.vcg.z.VCSource;
 import net.sourceforge.czt.vcg.z.VCType;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinesAnn;
 import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -84,7 +84,6 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 
-import net.sourceforge.czt.vcg.z.feasibility.util.ZRefinesAnn;
 import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
 import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
 
@@ -105,29 +104,6 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   BranchVisitor<Pred>,
   FeasibilityPropertyKeys
 {
-
-  public static final Map<ZStateInfo, String> ZSTATEINFO_EXPLANATION;
-
-  static {
-    ZSTATEINFO_EXPLANATION = new EnumMap<ZStateInfo, String>(ZStateInfo.class);
-    ZSTATEINFO_EXPLANATION.put(NONE, "Normal schema");
-    ZSTATEINFO_EXPLANATION.put(STATE, "State schema");
-    ZSTATEINFO_EXPLANATION.put(STINIT, "State initialisation schema");
-    ZSTATEINFO_EXPLANATION.put(ASTATE, "Abstract state schema");
-    ZSTATEINFO_EXPLANATION.put(CSTATE, "Concrete state schema");
-    ZSTATEINFO_EXPLANATION.put(ASTINIT, "Abstract state initialisation schema");
-    ZSTATEINFO_EXPLANATION.put(CSTINIT, "Concrete state initialisation schema");
-    ZSTATEINFO_EXPLANATION.put(ASTFIN, "Abstract state finalisation schema");
-    ZSTATEINFO_EXPLANATION.put(CSTFIN, "Concrete state finalisation schema");
-    ZSTATEINFO_EXPLANATION.put(AINITIN, "Abstract inputs initalisation schema");
-    ZSTATEINFO_EXPLANATION.put(AFINOUT, "Abstract output finalisation schema");
-    ZSTATEINFO_EXPLANATION.put(CINITIN, "Concrete inputs initialisation schema");
-    ZSTATEINFO_EXPLANATION.put(CFINOUT, "Concrete outputs finalisation schema");
-    ZSTATEINFO_EXPLANATION.put(RETRIEVE, "Retrieve schema");
-    ZSTATEINFO_EXPLANATION.put(RETRIEVEIN, "Retrieve inputs schema");
-    ZSTATEINFO_EXPLANATION.put(RETRIEVEOUT, "Retrieve outputs schema");
-  }
-
 
   protected ZPredTransformerFSB predTransformer_;
 
@@ -225,11 +201,11 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
     doCreateZSchemas_ = value;
   }
 
-  protected final void setStateSchema(ZStateInfo type, ZName n, AxPara para, ZNameList genParams)
+  protected final void setStateSchema(ZStateInfo stateInfo, ZName n, AxPara para, ZNameList genParams)
   {
-    setStateName(type, n);
-    this.stateSchemas_.put(type, para);
-    setStateGenParams(type, genParams);
+    setStateName(stateInfo, n);
+    this.stateSchemas_.put(stateInfo, para);
+    setStateGenParams(stateInfo, genParams);
   }
   
   protected final void setStateName(ZStateInfo type, ZName n) {
@@ -558,8 +534,6 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       
       if (zsi != null) {
         
-        String prefixMsg = ZSTATEINFO_EXPLANATION.get(zsi);
-        
         ZStateInfo type;
         BindingFilter filter;
         
@@ -586,7 +560,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         }
         
         if (type != null) {
-          markStateSchema(term, termDefName, termDefGenParams, prefixMsg, type, filter);
+          markStateSchema(term, termDefName, termDefGenParams, zsi.getDescription(), type, filter);
           result = true;
         }
       }

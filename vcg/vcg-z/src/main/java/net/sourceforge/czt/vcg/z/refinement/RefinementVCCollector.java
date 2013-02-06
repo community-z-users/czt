@@ -39,6 +39,10 @@ import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCCollector;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCNameFactory;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinementKind;
+import net.sourceforge.czt.vcg.z.refinement.util.ZRefinesAnn;
 import net.sourceforge.czt.vcg.z.transformer.refinement.ZPredTransformerRef;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Expr;
@@ -47,14 +51,8 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
-import net.sourceforge.czt.z.ast.ZRefKind;
-import net.sourceforge.czt.z.ast.ZRefinesAnn;
-import net.sourceforge.czt.z.ast.ZStateAnn;
-import net.sourceforge.czt.z.ast.ZStateInfo;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
-
-import static net.sourceforge.czt.z.ast.ZStateInfo.*;
 
 /**
  *
@@ -64,10 +62,10 @@ import static net.sourceforge.czt.z.ast.ZStateInfo.*;
 public class RefinementVCCollector extends FeasibilityVCCollector implements RefinementPropertyKeys
 {
   
-  private ZRefKind refKind_;
+  private ZRefinementKind refKind_;
 
   protected final Map<ZName, ZName> opsToRefineNamePairs_; // abs |-> con names
-  protected final Map<ZName, ZRefKind> absOpsRefKind_;     // abs |-> refKind
+  protected final Map<ZName, ZRefinementKind> absOpsRefKind_;     // abs |-> refKind
   protected final Map<ZName, Pair<Definition, AxPara>> definitions_;
   
   /**
@@ -86,7 +84,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     super(factory);
     definitions_ = new TreeMap<ZName, Pair<Definition, AxPara>>(ZUtils.ZNAME_COMPARATOR);
     opsToRefineNamePairs_ = new TreeMap<ZName, ZName>(ZUtils.ZNAME_COMPARATOR);
-    absOpsRefKind_ = new TreeMap<ZName, ZRefKind>(ZUtils.ZNAME_COMPARATOR);
+    absOpsRefKind_ = new TreeMap<ZName, ZRefinementKind>(ZUtils.ZNAME_COMPARATOR);
     predTransformer_ = new ZPredTransformerRef(factory, this);
     predTransformer_.setApplyTransformer(PROP_VCG_REFINEMENT_APPLY_TRANSFORMERS_DEFAULT);
 
@@ -118,12 +116,12 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
         || getState(RETRIEVEOUT) != null;
   }
 
-  protected final void setRefKindDefault(ZRefKind v)
+  protected final void setRefKindDefault(ZRefinementKind v)
   {
     refKind_ = v;
   }
 
-  protected ZRefKind getRefKindDefault()
+  protected ZRefinementKind getRefKindDefault()
   {
     return refKind_;
   }
@@ -161,19 +159,19 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       ZStateAnn zsi = term.getAnn(ZStateAnn.class);
       ZStateInfo zsii = zsi.getInfo();
       
-      if (zsii != null && zsii != NONE) {
+      if (zsii != null && zsii != ZStateInfo.NONE) {
         
-        String prefixMsg = ZSTATEINFO_EXPLANATION.get(zsii);
+        String prefixMsg = zsii.getDescription();
         BindingFilter filter = getStateFilter(zsii);
         
         markStateSchema(term, termDefName, termDefGenParams, prefixMsg, zsii, filter);
         
-        if (zsii == RETRIEVE) {
+        if (zsii == ZStateInfo.RETRIEVE) {
           
-          if (getState(STATE) == null)
+          if (getState(ZStateInfo.STATE) == null)
             throw new CztException(createVCCollectionException(
                     "No abstract state set for retrieve " + termDefName));
-          else if(getState(CSTATE) == null)
+          else if(getState(ZStateInfo.CSTATE) == null)
             throw new CztException(createVCCollectionException(
                     "No concrete state set for retrieve " + termDefName));
   
@@ -185,13 +183,13 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       }
     }
     // otherwise, update generic params in case the state was given via section manager properties
-    else if (isState(CSTATE, termDefName))
+    else if (isState(ZStateInfo.CSTATE, termDefName))
     {
-      setStateGenParams(CSTATE, termDefGenParams);
+      setStateGenParams(ZStateInfo.CSTATE, termDefGenParams);
     }
-    else if (isState(RETRIEVE, termDefName))
+    else if (isState(ZStateInfo.RETRIEVE, termDefName))
     {
-      setStateGenParams(RETRIEVE, termDefGenParams);
+      setStateGenParams(ZStateInfo.RETRIEVE, termDefGenParams);
       checkRetrieveGenParams();
     }
 
@@ -200,7 +198,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       ZRefinesAnn zra = term.getAnn(ZRefinesAnn.class);
       ZName old = opsToRefineNamePairs_.put(zra.getZAbstractName(), zra.getZConcreteName());
-      ZRefKind old2 = absOpsRefKind_.put(zra.getZAbstractName(), zra.getRefKind());
+      ZRefinementKind old2 = absOpsRefKind_.put(zra.getZAbstractName(), zra.getRefKind());
       if (old != null || old2 != null)
       {
         throw new CztException(createVCCollectionException(
@@ -242,10 +240,10 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     Throwable cause = null;
     try
     {
-      SortedSet<Definition> asStateBindings = getBindingsFor(getState(STATE));
-      SortedSet<Definition> csStateBindings = getBindingsFor(getState(CSTATE));
+      SortedSet<Definition> asStateBindings = getBindingsFor(getState(ZStateInfo.STATE));
+      SortedSet<Definition> csStateBindings = getBindingsFor(getState(ZStateInfo.CSTATE));
       // the result of getBindingsFor is unmodifiable!
-      SortedSet<Definition> retrieveBindings = new TreeSet<Definition>(getBindingsFor(getState(RETRIEVE)));
+      SortedSet<Definition> retrieveBindings = new TreeSet<Definition>(getBindingsFor(getState(ZStateInfo.RETRIEVE)));
 
       // check all concrete and abstract bindings are within the retrieve
       okay = retrieveBindings.containsAll(csStateBindings) &&
@@ -271,18 +269,18 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
 
   private void checkRetrieveGenParams() throws CztException
   {
-    ZNameList retrieveGenParams_ = getStateGenParams(RETRIEVE);
+    ZNameList retrieveGenParams_ = getStateGenParams(ZStateInfo.RETRIEVE);
     if (retrieveGenParams_ != null)
     {
       int rSize = retrieveGenParams_.size();
-      ZNameList concreteStateGenParams_ = getStateGenParams(CSTATE);
+      ZNameList concreteStateGenParams_ = getStateGenParams(ZStateInfo.CSTATE);
       if (concreteStateGenParams_ != null)
       {
         rSize -= concreteStateGenParams_.size();
         if (!retrieveGenParams_.containsAll(concreteStateGenParams_))
           throw new CztException(createVCCollectionException(""));
       }
-      ZNameList abstractStateGenParams_ = getStateGenParams(STATE);
+      ZNameList abstractStateGenParams_ = getStateGenParams(ZStateInfo.STATE);
       if (abstractStateGenParams_ != null)
       {
         rSize -= abstractStateGenParams_.size();
@@ -292,10 +290,10 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       if (rSize != 0)
       {
         final String message = "Retrieve schema '" 
-            + getState(RETRIEVE)
+            + getState(ZStateInfo.RETRIEVE)
             + "' contains '" + rSize + "' generic parameters " + "than the abstract ('"
-            + getState(STATE) + "') and concrete ('"
-            + getState(CSTATE)
+            + getState(ZStateInfo.STATE) + "') and concrete ('"
+            + getState(ZStateInfo.CSTATE)
             + "') states generic parameters put together.";
         getLogger().warning(message);
       }
@@ -314,8 +312,8 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> relevantBindings, boolean dashedState)
   {
     Pred result = predTransformer_.truePred();
-    ZName concreteState_ = getState(CSTATE);
-    ZNameList concreteStateGenParams_ = getStateGenParams(CSTATE);
+    ZName concreteState_ = getState(ZStateInfo.CSTATE);
+    ZNameList concreteStateGenParams_ = getStateGenParams(ZStateInfo.CSTATE);
     // if this is a concrete operation for refinement, then use concrete state
     if (opsToRefineNamePairs_.containsValue(schName))
     {
