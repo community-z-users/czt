@@ -283,7 +283,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   @Override
   protected ConjPara createVCConjPara(NameList genFormals, VC<Pred> vc)
   {
-    return getZFactory().createConjPara(genFormals, vc.getVC());
+    return getFactory().createConjPara(genFormals, vc.getVC());
   }
 
   @Override
