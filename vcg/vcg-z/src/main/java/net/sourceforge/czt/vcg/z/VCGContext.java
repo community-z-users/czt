@@ -3,6 +3,7 @@ package net.sourceforge.czt.vcg.z;
 import java.util.List;
 
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
@@ -50,6 +51,23 @@ public interface VCGContext<T, B>
 	 * @return
 	 */
 	ZName getInitName();
+	
+	/**
+	 * <p>
+	 * Determines whether the given paragraph is part of the VCG context or not.
+	 * By default this is false (i.e. always consider the paragraph). Different
+	 * contexts might want to ignore the paragraph, in which case it should be
+	 * marked as a VCG context para (i.e. meta-model paragraph), hence no VC for it.
+	 * </p>
+	 * <p>
+	 * For instance, DC VCs are calculated for all paragraphs (even meta-model ones),
+	 * whereas FSB/REF VCs are calculated only for relevant paragraphs as determined
+	 * by the VCG context paragraph, which itself doesn't have VCs generated for itself.
+	 * </p>
+	 * @param term
+	 * @return
+	 */
+	boolean isVCGContextPara(Para term);
 	
 	/**
 	 * For a given schema name representing an operation over the state schema, 

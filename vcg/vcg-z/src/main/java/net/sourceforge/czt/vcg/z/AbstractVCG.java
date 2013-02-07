@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -93,49 +94,90 @@ public abstract class AbstractVCG<R>
   protected static final String ONTHEFLY_ZSECT_NAME = "CZTtmpVCZSect$";
   protected static int onTheFlyNamesSeed_ = 0;
 
-
   /**
-   * Usual toolkits to ignore whilst generating VCs - use Section.java instead
+   * Flag for adding or not trivial VCs (i.e. those that are tantamount to true like (true or a)).
+   * Each VCG extension has a predicate transformer class that simplifies/normalises the predicates.
+   * For a strict set of VCs keep addTrivialVC on.
    */
-//  protected static final String[] EXTENDED_TOOLKIT_NAMES =
-//  {
-//    "whitespace",
-//    "fuzz_toolkit",
-//    "zstate_toolkit"
-//  };
-//
-//  protected static final String[] STANDARD_TOOLKIT_NAMES =
-//  {
-//      "prelude",
-//      "number_toolkit",
-//      "set_toolkit",
-//      "relation_toolkit",
-//      "function_toolkit",
-//      "sequence_toolkit",
-//      "standard_toolkit"
-//  };
-
   private boolean addTrivialVC_;
+  
+  /**
+   * When generating VCs the VCG typechecks the new Z Section created. In some (complex) cases
+   * (e.g. involving generic types) VCs might not typecheck, although this is easily fixed manually.
+   * This flag controls whether or not 
+   */
   private boolean logTypeWarnings_;
+  
+  /**
+   * When generating VCs the VCG determine whether or not to process section parents for VCs depending
+   * on this flag. In many cases this is important, like in user defined section hierarchies. In other
+   * cases, like in standard toolkits, this is a waste to work and can be avoided.
+   */
   private boolean processParents_;
+  
+  /**
+   * Low-level flag determining whether the VCG is properly configured or not. This involves determining
+   * what kind of VC collector to use, attaching a section manager, adjust default properties according
+   * to user defined section manager properties, etc. The method isConfigured() does more than this low-level
+   * flag in the sense that it checks for collector and section manager as well. The method config() setup
+   * the VCG, whereas doConfig() is used by descending classes.
+   */
   private boolean isConfigured_;
+  
+  /**
+   * Set of section parents to ignore by default. Even if processParents_ is true, parents on this set
+   * are ignored. Usually they contain known / stable sections like toolkits.
+   */
   private SortedSet<String> parentsToIgnore_;
 
+  /**
+   * Flag determining whether or not to run a (memory expensive) check on the bindings of the definition table 
+   * created. It is useful to keep it on when dealing with more complicated specifications where the schema
+   * calculus might not have been fully covered yet. 
+   */
+  private boolean checkTblConsistency_;
+
+  /**
+   * Definition table for the current section. This is the extended Definition table from the VCG project,
+   * rather than the usual/default one from the parser-z project. It includes complex calculation of bindings.
+   */
   private DefinitionTable defTable_;
+  
+  /**
+   * Operator table for the current section.
+   */
   private OpTable opTable_;
+  
+  /**
+   * Section manager used by this VCG.
+   */
   private SectionManager sectManager_;
   
-  protected Factory factory_;
-  protected final Logger logger_;
-  protected boolean checkTblConsistency_;
+  /**
+   * Factory used by the VCG to create new VC predicates
+   */
+  private final Factory factory_;
+  
+  /**
+   * Logger used to report errors and warnings.
+   */
+  private final Logger logger_;
+  
+  /* CLASS SETUP AND FIELD ACCESS METHODS */
 
-  /* CLASS SETUP METHOS */
-
+  /**
+   * Creates a default VCG using a Z console factory (i.e. it produces console-friendly printouts of Logger messages).
+   */
   protected AbstractVCG()
   {
     this(ZUtils.createConsoleFactory());
   }
 
+  /**
+   * Creates a VCG with the given factory. This will be used to create all predicates within the VC collector.
+   * Different Z extensions can use different factories accordingly. Factory cannot be null.
+   * @param factory to create VC terms.
+   */
   protected AbstractVCG(Factory factory)
   {
     if (factory == null)
@@ -244,6 +286,31 @@ public abstract class AbstractVCG<R>
     return result;
   }
 
+  /* CLASS VCG interface methods */
+  /**
+   * True whenever section manager and VC collectors are not null, if the
+   * configuration flag is set as well.
+   * @return sectManager_ != null &amp;&amp; getVCCollector() != null &amp;&amp; isConfigured_
+   */
+  @Override
+  public boolean isConfigured()
+  {
+    return sectManager_ != null && getVCCollector() != null && isConfigured_;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public abstract VCCollector<R> getVCCollector();
+
+  @Override
+  public SectionManager getManager()
+  {
+    return sectManager_;
+  }
+
   /**
    *
    * @param parent
@@ -263,12 +330,6 @@ public abstract class AbstractVCG<R>
   {
     assert parent != null && !parent.isEmpty() : "Invalid (null or empty) section name.";
     parentsToIgnore_.add(parent);
-  }
-
-  @Override
-  public SectionManager getManager()
-  {
-    return sectManager_;
   }
 
   /**
@@ -366,7 +427,7 @@ public abstract class AbstractVCG<R>
   /* VCG CONFIGURATION METHODS */
 
    /**
-   * Checks whether there is a section manager or not, and raises the DC error
+   * Checks whether there is a section manager or not, and raises the error
    * wrapped up as a CztException.
    * @param info some data, usually ZSect Name, say
    * @throws VCGException  if there is no section manager
@@ -375,7 +436,7 @@ public abstract class AbstractVCG<R>
   {
     if (sectManager_ == null)
     {
-      final String msg = "VCG-PROCESS-ERROR = No SectMngr! Couldn't retrieve DefTbl for " + info;
+      final String msg = "VCG-PROCESS-ERROR = No SectMngr! " + info;
       getLogger().severe(msg);
       throw new VCGException(msg);
     }
@@ -436,8 +497,6 @@ public abstract class AbstractVCG<R>
   protected void doConfig() throws VCGException
   {
     assert sectManager_ != null && !isConfigured_;
-
-    // do nothing = for derived classes to use.
 
     // make sure all visiting is at least accounted for - kinda of redundant but leave it
     // (e.g., could remove after impl is more mature)
@@ -699,17 +758,22 @@ public abstract class AbstractVCG<R>
   /**
    * Retrieves any necessary section manager information like definition and operator tables.
    * Other tables might be configured at this point by derived classes. This is called right
-   * before visiting a ZSect. It requires a configured section manager.
+   * before visiting a ZSect. It requires a configured section manager. 
+   * 
+   * Table calculation is expensive, hence we keep it at higher level in the hierarchy (i.e.
+   * not per VC but per VCG-processed section session). Sometimes (i.e. because not yet calculated/
+   * parsed section), it's necessary to try again. More than twice failure is unrecoverable. We
+   * use the flags from the methods shouldTryAgain() to see whether to try or not.
    *
-   * @param sectName
+   * @param sect
    */
-  // TODO: should this be pushed down to derived classes? i.e., some VCG might not need then.
-  // THIS SHOULD BE REFACTORED TO beforeCalculateVC!
-  protected void retrieveTables(String sectName)
+  protected void retrieveTables(ZSect sect)
   {
-    // checkSectionManager(sectName); - assume it will be in place
+    //checkSectionManager("VCG-RETRIVE-TBLS- " + sectName); - assume it will be; assert it below.
     assert isConfigured();
 
+    String sectName = sect.getName();
+    
     DefinitionTable defTbl = null;
     Key<DefinitionTable> defTblKey = new Key<DefinitionTable>(sectName, DefinitionTable.class);
     // attempt retrieving defintion + operator tables.
