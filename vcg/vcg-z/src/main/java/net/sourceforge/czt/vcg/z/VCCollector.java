@@ -41,6 +41,8 @@ public interface VCCollector<R> extends TermVisitor<R>
   VCNameFactory getVCNameFactory();
   void setVCNameFactory(VCNameFactory vcf);
   
+  <T, B> VCGContext<T, B> getVCGContext();
+  
   /**
    * Calculate the verification condition for a given term in the context of
    * any available information tables. These tables <b>MUST</b> come from the

@@ -37,8 +37,6 @@ public interface VCG<R> {
    */
   boolean isConfigured();
 
-  VCCollector<R> getVCCollector();
-
   /**
    * Sets up available options according to the section manager's configuration.
    * It does nothing if no section manager is available.
@@ -49,9 +47,9 @@ public interface VCG<R> {
   void setSectionManager(SectionManager manager) throws VCGException;
   void setDefaultProperties(SectionManager manager);
   void reset();
+
   SectionManager getManager();
-
-
+  VCCollector<R> getVCCollector();
   Class<? extends VCEnvAnn<R>> getVCEnvAnnClass();
 
   void typeCheck(String sectName, boolean sourceSect) throws VCGException;

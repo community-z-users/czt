@@ -203,52 +203,16 @@ public abstract class AbstractVCG<R>
     return logger_;
   }
   
-  protected Factory getZFactory()
+  protected Factory getFactory()
   {
     return factory_;
   }
   
-  /**
-   * True whenever section manager and VC collectors are not null, if the
-   * configuration flag is set as well.
-   * @return sectManager_ != null &amp;&amp; getVCCollector() != null &amp;&amp; isConfigured_
-   */
-  @Override
-  public boolean isConfigured()
-  {
-    return sectManager_ != null && getVCCollector() != null && isConfigured_;
-  }
-
   protected OpTable getOpTable()
   {
     return opTable_;
   }
-
-  /**
-   *
-   * @return
-   */
-  @Override
-  public abstract VCCollector<R> getVCCollector();
-
-  /**
-   *
-   * @return
-   */
-//  @Override
-//  public VCNameFactory getVCNameFactory()
-//  {
-//    return getVCCollector().getVCNameFactory();
-//  }
-//
-//  @Override
-//  public void setVCNameFactory(VCNameFactory vcf)
-//  {
-//    getVCCollector().setVCNameFactory(vcf);
-//  }
-
-  /* CLASS PROPERTIES AND FIELDS */
-
+  
   protected boolean defaultAddTrivialVC()
   {
     return PROP_VCG_ADD_TRIVIAL_VC_DEFAULT;
@@ -476,13 +440,22 @@ public abstract class AbstractVCG<R>
       clearParentsToIgnore();
       parentsToIgnore_.addAll(parentsToIgnore);
 
-      if (getVCCollector() == null || getVCCollector().getTransformer() == null)
+      if (getVCCollector() == null)
       {
         throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR");
       }
+      else if (getVCCollector().getTransformer() == null)
+      {
+    	throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR-TRANSFORMER");  
+      }
+      else if (getVCCollector().getVCGContext() == null)
+      {
+      	throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR-VCG-CONTEXT");
+      }
       getVCCollector().getTransformer().setApplyTransformer(applyTransf);
 
-      // override the Z DefTable cmd
+      assert sectManager_ != null;
+      // override the Z DefTable cmd: use more advanced VCG definition table algorithm
       sectManager_.putCommand(DefinitionTable.class, DefinitionTableService.getCommand(sectManager_));
 
       doConfig();
@@ -852,10 +825,35 @@ public abstract class AbstractVCG<R>
     }
   }
   
-  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
+  protected void retrieveVCGContext(ZSect term)
+  {
+	  // populate the VCG Context with the given term meta-paragraphs if any
+	  throw new UnsupportedOperationException();
+  }
+  
+  protected static OpTable checkOpTableWithinListIfNeeded(List<? extends InfoTable> tables, boolean checkConsistency)
+		  throws VCCollectionException
+  {
+	  OpTable result = null;
+	  for (InfoTable t : tables)
+	  {
+		  if (t instanceof OpTable)
+		  {
+			  result = (OpTable)t;
+			  if (checkConsistency)
+			  {
+				  // do something here...
+			  }
+		  }
+	  }
+	  return result;
+  }
+  
+  protected void beforeCalculateVC(ZSect term, List<? extends InfoTable> tables)
       throws VCCollectionException
   {
-    defTable_ = AbstractVCCollector.getDefinitionTable(term, tables, checkTblConsistency_);
+    defTable_ = AbstractVCCollector.checkDefinitionTableWithinListIfNeeded(tables, checkTblConsistency_);
+    opTable_ = checkOpTableWithinListIfNeeded(tables, checkTblConsistency_);
   }
   
   protected void resetDefTable()
@@ -881,7 +879,7 @@ public abstract class AbstractVCG<R>
       result.add(opTable_);
     return result;
   }
-
+  
   /**
    * Retrieves for the given paragraph a corresponding VC
    * based over information on the current definition table.

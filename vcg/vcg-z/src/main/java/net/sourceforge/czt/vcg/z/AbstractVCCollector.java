@@ -46,6 +46,8 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   private final Logger logger_;
   protected boolean checkTblConsistency_;
   private long vcCnt_;
+  
+  private VCGContext<T, B> context_;
 
   /**
    * Definition table containing declared types of names. This is important
@@ -69,6 +71,8 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     logger_ = CztLogger.getLogger(getClass());
     
     setVCNameFactory(DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY);
+    
+    context_ = null;
     
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //
@@ -203,7 +207,7 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
 
     return defTable;
   }
-
+  
   protected void afterCalculateVC(VC<R> vc) throws VCCollectionException
   {
     resetDefTable();
@@ -274,5 +278,11 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
 
     // return result
     return result;
+  }
+  
+  @Override
+  public <T, B> VCGContext<T, B> getVCGContext()
+  {	
+	  return context_;
   }
 }
