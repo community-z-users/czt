@@ -565,6 +565,8 @@ public abstract class AbstractVCG<R>
   @Override
   public void typeCheck(String sectName, boolean sourceSect) throws VCGException
   {
+	checkSectionManager("VCG-TYPECHECK-ZSECT " + sectName);
+	
     // attempt to typecheck the DC Z section, which should succeed.
     // raise a warning if it doesn't.
     try
@@ -583,8 +585,8 @@ public abstract class AbstractVCG<R>
         if (e.getCause() instanceof TypeErrorException)
         {
           TypeErrorException typeErrorException = (TypeErrorException) e.getCause();
-          //final int i = printTypeErrors(typeErrorException.getErrors());
-          //getLogger().log(Level.WARNING, "VCG-TYPECHK-ZSECT-ERROR = ({0}, {1})", new Object[]{sectName, i});
+          final int i = printTypeErrors(typeErrorException.getErrors());
+          getLogger().log(Level.WARNING, "VCG-TYPECHK-ZSECT-ERROR = ({0}, {1})", new Object[]{sectName, i});
         }
       }
       throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
@@ -608,7 +610,7 @@ public abstract class AbstractVCG<R>
     for (ErrorAnn next : errors)
     {
       // raiseWarnings => next.getErrorType(ErrorType.ERROR) only
-      if (logTypeWarnings_ || next.getErrorType().equals(ErrorType.ERROR))
+      if (isRaisingTypeWarnings() || next.getErrorType().equals(ErrorType.ERROR))
       {
         // TODO: fix this? It might generate section management problems in case of
         //       systemic management error / failure :-( = toString uses the SectionManager
@@ -625,8 +627,11 @@ public abstract class AbstractVCG<R>
     //print any errors
     for (ErrorAnn next : tee.getErrors())
     {
-      //if (next.getErrorType().equals(ErrorType.ERROR))
-      result.add(next.toString());
+    	// raiseWarnings => next.getErrorType(ErrorType.ERROR) only
+        if (isRaisingTypeWarnings() || next.getErrorType().equals(ErrorType.ERROR))
+        {
+        	result.add(next.toString());
+        }
     }
     return result;
   }
@@ -638,12 +643,12 @@ public abstract class AbstractVCG<R>
    */
   protected void calculateThmTable(String sectNameVC) throws VCGException
   {
-    // attempt to collect the ThmTable for the DC Z section
-    // = double checking updateManager worked. TODO: remove? yes?
+	checkSectionManager("VCG-THMTABLE-ZSECT-VC " + sectNameVC);
+	  
+    // attempt to collect the ThmTable for the Z section
     try
     {
-      // ask section manager to calculate ThmTable for new VC ZSect
-      // it updates the manager as well.
+      // ask section manager to calculate ThmTable for new VC ZSect. it updates the manager as well.
       sectManager_.get(new Key<ThmTable>(sectNameVC, ThmTable.class));
     }
     catch (CommandException ex)
@@ -683,7 +688,7 @@ public abstract class AbstractVCG<R>
    * which MUST NOT be null ! If null, a proper exception is raised.
    * @param term term to visit
    */
-  public List<VC<R>> visit(Term term)
+  protected List<VC<R>> visit(Term term)
   {
     if (term == null)
       throw new CztException(new VCGException("VCG-VISIT-TOPLEVEL-NULL-TERM"));
@@ -801,13 +806,14 @@ public abstract class AbstractVCG<R>
       // otherwise, carry on silently
     }
     Key<OpTable> opTblKey = new Key<OpTable>(sectName, OpTable.class);
+    OpTable opTbl = null;
     try
     {
-      opTable_ = sectManager_.get(opTblKey);
+      opTbl = sectManager_.get(opTblKey);
     }
     catch (CommandException e)
     {
-      opTable_ = null;
+      opTbl = null;
       if (isTableMandatory(opTblKey))
       {
         raiseVCGExceptionWhilstVisiting("VCG-VISIT-ZSECT-ERROR = CmdExpt @ OpTable for: " + sectName,
@@ -816,7 +822,7 @@ public abstract class AbstractVCG<R>
     }
     try
     {
-      beforeCalculateVC(null, Arrays.asList(defTbl, opTable_));
+      beforeCalculateVC(sect, Arrays.asList(defTbl, opTbl));
     }
     catch(VCCollectionException e)
     {
@@ -895,24 +901,29 @@ public abstract class AbstractVCG<R>
     // checkSectionManager(sectName); - assume it will be in place
     assert isConfigured();
 
-    // collect VCs for the given ZSect paragraph. any tables available can be used.
-    // VCCollection exceptions are wrapped as CztError because of visiting protocol.
-    // method vcsOf will throw then appropriately
-    VC<R> vc;
-    try
+    // the meta-model paragraphs are not processed for VC calculation.
+    if (!getVCCollector().getVCGContext().isVCGContextPara(term))
     {
-      vc = getVCCollector().calculateVC(term, getAvailableSMTables());
+	    // collect VCs for the given ZSect paragraph. any tables available can be used.
+	    // VCCollection exceptions are wrapped as CztError because of visiting protocol.
+	    // method vcsOf will throw then appropriately
+	    VC<R> vc;
+	    try
+	    {
+	      // available tables must have been already calculated earlier. Otherwise, no tables returned.
+	      vc = getVCCollector().calculateVC(term, getAvailableSMTables());
+	    }
+	    catch (VCCollectionException ex)
+	    {
+	      throw new CztException(ex);
+	    }
+	    result.add(vc);
     }
-    catch (VCCollectionException ex)
-    {
-      throw new CztException(ex);
-    }
-    result.add(vc);
     return result;
   }
 
   /**
-   * For parent sections, calculate their dependant ZSect VCs by looking up the section manager,
+   * For parent sections, calculate their dependent ZSect VCs by looking up the section manager,
    * unless this parent is set to be ignored (see {@link #getParentsToIgnore() }).
    * @param term
    * @return
@@ -961,17 +972,33 @@ public abstract class AbstractVCG<R>
     return factory_.list();
   }
 
+  /**
+   * <p>
+   * Bootstraps the whole VC generation process by visiting the Z section parents and paragraphs systematically.
+   * It takes into account which parents to ignore and the default parents, both of which don't need VC generation.
+   * This is also the place where the necessary information tables (per section, namely definition and operator tables)
+   * are calculated. This is also the place where the VCG context is created. 
+   * </p>
+   * <p>
+   * The VCG context contains meta-model information extracted from a special Z sect parent: a Z schema with a specific
+   * format and shape. This is then used to guide what VCs are needed, depending on the kind of VCG context created.
+   * </p>
+   */
   @Override
   public List<VC<R>> visitZSect(ZSect term)
   {
-    String sectName = term.getName();
-    
     List<VC<R>> result = factory_.list();
     
     // process section parents, if needed
     result.addAll(collect(term.getParent().toArray(new Parent[0])));
     
-    retrieveTables(sectName);
+    // calculate necessary tables
+    retrieveTables(term);
+    
+    // creates the VCG context depending on the meta information provided within the Z Sect.
+    // if none is available, this might affect some VC generation protocols/algorithms
+    // (i.e. feasibility / refinement VCs demand extra context information; DC doesn't).
+    retrieveVCGContext(term);
     
     // collect all VCs from the declared paragraphs
     result.addAll(collect(term.getZParaList().toArray(new Para[0])));
