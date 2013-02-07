@@ -810,7 +810,10 @@ class <class/> implements java_cup.runtime.Scanner
         {
           // if it is a DECORWORRD, change it to a FIELDNAME
           // and process any strokes found
-          if (symbol.sym == Sym.DECORWORD)
+          // DECORWORD is not allowd to change into FIELDNAME, if current symbol   
+	      // is followed by a symbol ATTIEM (@)  
+          
+          if (symbol.sym == Sym.DECORWORD <add:circustime> &amp;&amp; tokens.get(i-1).sym != Sym.ATTIME </add:circustime> )
           {
             changed = true;
             // count field change
@@ -870,13 +873,7 @@ class <class/> implements java_cup.runtime.Scanner
           {
             fieldCount--;
           }
-	  <add:circustime>
-	  // add a condition to look ahead the ATTIME (@) symbol for circus-time 
-	  else if (symbol.sym == Sym.ATTIME)
-          {
-            fieldCount--;
-          }
-	</add:circustime>
+	  
 	  
         }        
       }
