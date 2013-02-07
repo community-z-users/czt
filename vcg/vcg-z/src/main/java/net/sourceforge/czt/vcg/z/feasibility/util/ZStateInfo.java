@@ -6,6 +6,19 @@ package net.sourceforge.czt.vcg.z.feasibility.util;
  *
  */
 public enum ZStateInfo {
+	  ASTATE(""),
+	  ASTINIT(""),
+	  ASTFIN(""),
+	  CSTATE(""),
+	  RETRIEVEIN(""),
+	  RETRIEVEOUT(""),
+	  CSTINIT(""),
+	  CSTFIN(""),
+	  AINITIN(""),
+	  CINITIN(""),
+	  AFINOUT(""),
+	  CFINOUT(""),
+	
 	  NONE("Normal schema"),
 	  STATE("State schema"),
 	  STINIT("State initialisation schema"),

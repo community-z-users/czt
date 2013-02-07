@@ -540,17 +540,17 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         switch (zsi) {
           case STATE:
           case ASTATE:
-            type = STATE;
+            type = ZStateInfo.STATE;
             filter = BindingUtils.STATE_FILTER;
             break;
           case STINIT:
           case ASTINIT:
-            type = STINIT;
+            type = ZStateInfo.STINIT;
             filter = BindingUtils.INIT_FILTER;
             break;
           case STFIN:
           case ASTFIN:
-            type = STFIN;
+            type = ZStateInfo.STFIN;
             filter = BindingUtils.FIN_FILTER;
             break;
           default:
@@ -566,8 +566,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       }
 
     }
-    else if (isState(STATE, termDefName)) {
-      setStateGenParams(STATE, termDefGenParams);
+    else if (isState(ZStateInfo.STATE, termDefName)) {
+      setStateGenParams(ZStateInfo.STATE, termDefGenParams);
     }
     return result;
   }
@@ -780,10 +780,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         {
           // for the state schema, if there is a init schema, then a vc \exists State' @ StInit is added in the end
           // otherwise, add the whole VC anyway as \exists State' @ true; similarly for init/fin schemas
-          if (isState(STINIT, schName) 
-              || isState(STFIN, schName) 
-              || isState(STATE, schName)
-                && (getState(STINIT) != null || getState(STFIN) != null))
+          if (isState(ZStateInfo.STINIT, schName) 
+              || isState(ZStateInfo.STFIN, schName) 
+              || isState(ZStateInfo.STATE, schName)
+                && (getState(ZStateInfo.STINIT) != null || getState(ZStateInfo.STFIN) != null))
           {
             result = predTransformer_.truePred();
           }
@@ -865,10 +865,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         {
           // for the state schema, if there is a init schema, then a vc \exists State' @ StInit is added in the end
           // otherwise, add the whole VC anyway as \exists State' @ true; similarly for init/fin schemas
-          if (isState(STINIT, schName) 
-              || isState(STFIN, schName) 
-              || isState(STATE, schName)
-                && (getState(STINIT) != null || getState(STFIN) != null))
+          if (isState(ZStateInfo.STINIT, schName) 
+              || isState(ZStateInfo.STFIN, schName) 
+              || isState(ZStateInfo.STATE, schName)
+                && (getState(ZStateInfo.STINIT) != null || getState(ZStateInfo.STFIN) != null))
           {
             result = predTransformer_.truePred();
           }
@@ -1001,8 +1001,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> relevantBindings, boolean dashedState)
   {
     Pred result = predTransformer_.truePred();
-    ZName stateSchema = getState(STATE);
-    ZNameList stateSchemaGenParams = getStateGenParams(STATE);
+    ZName stateSchema = getState(ZStateInfo.STATE);
+    ZNameList stateSchemaGenParams = getStateGenParams(ZStateInfo.STATE);
     if (stateSchema != null)
     {
       if (stateSchemaGenParams != null && genParams != null &&
@@ -1016,7 +1016,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       }
 
       // if state schema is not null but init schema is okay, then check it against the state init schema
-      if (isState(STINIT, schName))
+      if (isState(ZStateInfo.STINIT, schName))
       {
         // init schema has already checked the state bindings by using checkStateInfo upon assignment.
         // so, the only problem is to check whether the before bindings are inputs only
@@ -1031,7 +1031,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
           handleInclBindingsMismatch(message);
         }
       }
-      else if (isState(STFIN, schName))
+      else if (isState(ZStateInfo.STFIN, schName))
       {
         // init schema has already checked the state bindings by using checkStateInfo upon assignment.
         // so, the only problem is to check whether the before bindings are inputs only
@@ -1049,7 +1049,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       else
       {
         // otherwise check the before bindings for the given schema name
-        checkInclBindingsWithinGivenSchBindings(getState(STATE), schName, relevantBindings);
+        checkInclBindingsWithinGivenSchBindings(getState(ZStateInfo.STATE), schName, relevantBindings);
       }
 
       // if creating ZSchemas, then the name will already be within the ZDeclList
@@ -1061,9 +1061,9 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
         // mess up the VC itself (e.g., State having more bindings than we found for OpSig will lead to a type error).
         Expr schExpr;
         if (dashedState)
-          schExpr = predTransformer_.createDashedSchRef(getState(STATE), getStateGenParams(STATE));
+          schExpr = predTransformer_.createDashedSchRef(getState(ZStateInfo.STATE), getStateGenParams(ZStateInfo.STATE));
         else
-          schExpr = predTransformer_.createSchRef(getState(STATE), getStateGenParams(STATE));
+          schExpr = predTransformer_.createSchRef(getState(ZStateInfo.STATE), getStateGenParams(ZStateInfo.STATE));
         result = predTransformer_.asPred(schExpr);
 
       }
@@ -1109,10 +1109,10 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   {
     // if state inialisation is not present, we will have a VC like
     // \exists AState' @ true
-    ZName stateInitSchema = getState(STINIT);
-    ZName stateFinSchema = getState(STFIN);
-    ZName stateSchema = getState(STATE);
-    ZNameList stateSchemaGenParams = getStateGenParams(STATE);
+    ZName stateInitSchema = getState(ZStateInfo.STINIT);
+    ZName stateFinSchema = getState(ZStateInfo.STFIN);
+    ZName stateSchema = getState(ZStateInfo.STATE);
+    ZNameList stateSchemaGenParams = getStateGenParams(ZStateInfo.STATE);
     
     if (stateInitSchema != null)
     {
@@ -1124,7 +1124,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       Expr stateInit = predTransformer_.createSchRef(stateInitSchema, stateSchemaGenParams);
       Pred initVC = predTransformer_.createStateInitialisationVC(stateDash, stateInit);
 
-      addStateVC(vcList, getStateSchema(STINIT), initVC, ZFsbVCKind.INIT);
+      addStateVC(vcList, getStateSchema(ZStateInfo.STINIT), initVC, ZFsbVCKind.INIT);
     }
     if (stateFinSchema != null)
     {
@@ -1136,7 +1136,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
       Expr stateFin = predTransformer_.createSchRef(stateFinSchema, stateSchemaGenParams);
       Pred finVC    = predTransformer_.createStateFinalisationVC(state, stateFin);
 
-      addStateVC(vcList, getStateSchema(STFIN), finVC, ZFsbVCKind.FIN);
+      addStateVC(vcList, getStateSchema(ZStateInfo.STFIN), finVC, ZFsbVCKind.FIN);
     }
   }
 
@@ -1145,7 +1145,7 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   {
     assert para != null;
     
-    pred.getAnns().add(new VCConfig(kind.getTypeId(), Precedence.AFTER, getStateGenParams(STATE)));
+    pred.getAnns().add(new VCConfig(kind.getTypeId(), Precedence.AFTER, getStateGenParams(ZStateInfo.STATE)));
     
     stepVCCounter();
     VC<Pred> initStateVC = createVC(getVCCount(), para, VCType.NONE, pred);
@@ -1276,8 +1276,8 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
             }
           }
 
-          Expr schExpr = dashed ? predTransformer_.createDashedSchRef(entry.getKey(), getStateGenParams(STATE)) :
-                                        predTransformer_.createSchRef(entry.getKey(), getStateGenParams(STATE));
+          Expr schExpr = dashed ? predTransformer_.createDashedSchRef(entry.getKey(), getStateGenParams(ZStateInfo.STATE)) :
+                                        predTransformer_.createSchRef(entry.getKey(), getStateGenParams(ZStateInfo.STATE));
           InclDecl id = factory_.createInclDecl(schExpr);
           decls.add(id);
         }
