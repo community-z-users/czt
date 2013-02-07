@@ -181,10 +181,10 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
   protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
           throws VCCollectionException
   {
-    defTable_ = getDefinitionTable(term, tables, checkTblConsistency_);
+    defTable_ = checkDefinitionTableWithinListIfNeeded(tables, checkTblConsistency_);
   }
   
-  static DefinitionTable getDefinitionTable(Term term, List<? extends InfoTable> tables,
+  static DefinitionTable checkDefinitionTableWithinListIfNeeded(List<? extends InfoTable> tables,
       boolean checkTblConsistency) throws VCCollectionException
   {
     

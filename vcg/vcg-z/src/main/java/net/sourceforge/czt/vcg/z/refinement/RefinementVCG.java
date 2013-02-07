@@ -227,7 +227,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
         throw new CztException(new RefinementException("Cannot set Z concrete state name that contains prime decoration"));
       concreteStateName_ = name;
-      getRefVCCollector().setConcreteStateName(factory_.createZName(name));
+      getRefVCCollector().setConcreteStateName(getFactory().createZName(name));
     }
     else
     {
@@ -243,7 +243,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
         throw new CztException(new RefinementException("Cannot set Z retrieve schema name that contains prime decoration"));
       retrieveName_ = name;
-      getRefVCCollector().setRetrieveName(factory_.createZName(name));
+      getRefVCCollector().setRetrieveName(getFactory().createZName(name));
     }
     else
     {

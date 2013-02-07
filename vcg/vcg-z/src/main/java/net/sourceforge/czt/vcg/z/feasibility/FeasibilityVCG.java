@@ -194,7 +194,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
         throw new CztException(new FeasibilityException("Cannot set Z state name that contains prime decoration"));
       zStateName_ = name;
-      getFSBVCCollector().setStateName(ZStateInfo.STATE, factory_.createZName(name));
+      getFSBVCCollector().setStateName(ZStateInfo.STATE, getFactory().createZName(name));
     }
     else
     {
@@ -256,7 +256,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   @Override
   protected ConjPara createVCConjPara(NameList genFormals, VC<Pred> vc)
   {
-    return getZFactory().createConjPara(genFormals, vc.getVC());
+    return getFactory().createConjPara(genFormals, vc.getVC());
   }
 
   @Override
