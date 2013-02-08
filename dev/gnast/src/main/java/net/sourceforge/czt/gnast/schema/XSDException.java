@@ -27,7 +27,12 @@ package net.sourceforge.czt.gnast.schema;
  */
 public class XSDException extends Exception
 {
-  public XSDException()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6202243312829800156L;
+
+public XSDException()
   {
   }
 
