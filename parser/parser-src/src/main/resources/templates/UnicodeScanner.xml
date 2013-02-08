@@ -28,7 +28,6 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.CztScannerImpl;
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.session.*;
 
 /**

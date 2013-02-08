@@ -18,8 +18,6 @@
  */
 package net.sourceforge.czt.z.util.collector;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.ZName;
 
 /**
  *

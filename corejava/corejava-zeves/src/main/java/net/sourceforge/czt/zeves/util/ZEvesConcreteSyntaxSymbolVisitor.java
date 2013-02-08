@@ -50,17 +50,8 @@ import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
 public class ZEvesConcreteSyntaxSymbolVisitor
         implements ZEvesVisitor<ZEvesConcreteSyntaxSymbol>
 {
-
-  private Utils utils_;
-
   public ZEvesConcreteSyntaxSymbolVisitor()
   {
-    //utils_ = new UtilsImpl();
-  }
-
-  public ZEvesConcreteSyntaxSymbolVisitor(Utils utils)
-  {
-    utils_ = utils;
   }
 
   @Override

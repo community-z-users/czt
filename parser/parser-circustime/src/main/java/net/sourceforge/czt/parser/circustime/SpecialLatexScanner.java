@@ -6,13 +6,10 @@
 package net.sourceforge.czt.parser.circustime;
 
 
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;

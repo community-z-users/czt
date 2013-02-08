@@ -22,9 +22,6 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * <p>This class provides an example of a substitution visitor.
