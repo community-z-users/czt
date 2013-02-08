@@ -94,9 +94,9 @@ public class TermTreeNode
     return getChildCount() == 0;
   }
 
-  public Enumeration children()
+  public Enumeration<TreeNode> children()
   {
-    Vector childNodes = new Vector();
+    Vector<TreeNode> childNodes = new Vector<TreeNode>();
     for (int i = 0; i < getChildCount(); i++) {
       childNodes.add(getChildAt(i));
     }
