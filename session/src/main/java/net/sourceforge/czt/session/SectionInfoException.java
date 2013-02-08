@@ -29,6 +29,11 @@ import net.sourceforge.czt.util.CztException;
 public class SectionInfoException extends CztException
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4019642222369080113L;
+
+/**
    * Constructs a new CZT exception with <code>null</code> as its message.
    */
   public SectionInfoException()
