@@ -35,7 +35,11 @@ public class ParseException
   extends CommandException
   implements CztErrorList
 {
-  private final List<CztError> errorList_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2265450712247923060L;
+private final List<CztError> errorList_;
 
   public ParseException()
   {

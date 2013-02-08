@@ -687,7 +687,12 @@ public class OpTable extends InfoTable
   public static class OperatorException
     extends InfoTable.InfoTableException
   {
-    public OperatorException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5924881417952399985L;
+
+	public OperatorException(String message)
     {
       super(message);
     }

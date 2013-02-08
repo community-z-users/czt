@@ -34,7 +34,7 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.Source;
 
-import net.sourceforge.czt.z.util.ZString;
+//import net.sourceforge.czt.z.util.ZString;
 
 <add:zeves>
 import net.sourceforge.czt.parser.zeves.Proofword;
@@ -90,7 +90,9 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     reader_ = in;
   }
 
-  private boolean inSchemaBox_ = false;
+  // TODO: perhaps remove? was used by the low-level scanning tags for zstateinfo. yet it's nice piece of info?
+   @SuppressWarnings("unused")
+   private boolean inSchemaBox_ = false;
 
   <add:zeves>
   /**

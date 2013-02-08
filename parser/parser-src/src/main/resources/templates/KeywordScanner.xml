@@ -39,7 +39,6 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZString;
 
 <add:circustime>
   import net.sourceforge.czt.parser.circus.CircusKeyword;

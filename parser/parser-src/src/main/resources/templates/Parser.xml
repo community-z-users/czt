@@ -67,6 +67,8 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
 import net.sourceforge.czt.parser.util.*;
+
+// for Z core, it will generate a spurious warning.. argh...
 import net.sourceforge.czt.parser.z.*;
 <add:ozpatt>
 import net.sourceforge.czt.parser.oz.ParserState;
@@ -777,15 +779,17 @@ action code
       final Name rn = strListToZName(name, loc);
       Expr result = null;
 
+      // TODO: then do what with it? firstOperator is never used.
+      //
       //get the first operator in the name list, i.e. the first
       //item that is not an ARG_TOK or LISTARG_TOK.
-      String firstOperator = null;
-      for (String next : name) {
-        if (! next.equals(ARG_TOK) &amp;&amp; ! next.equals(LISTARG_TOK)) {
-          firstOperator = next;
-          break;
-        }
-      }
+      //String firstOperator = null;
+      //for (String next : name) {
+      //  if (! next.equals(ARG_TOK) &amp;&amp; ! next.equals(LISTARG_TOK)) {
+      //    firstOperator = next;
+      //    break;
+      //  }
+      //}
 
       if (opTable_.lookup(name) != null &amp;&amp;
           Cat.Function.equals(opTable_.lookup(name).getCat())) {
@@ -1516,11 +1520,20 @@ action code
       return getLocation(line, column, getLocation(start), end);
     }
 
+    <add:zpatt>
     private LocInfo getLocation(int line, int column,
                                 LocInfo start, Term end)
     {
       return getLocation(line, column, start, getLocation(end));
     }
+    </add:zpatt>
+    <add:ozpatt>
+    private LocInfo getLocation(int line, int column,
+                                LocInfo start, Term end)
+    {
+      return getLocation(line, column, start, getLocation(end));
+    }
+    </add:ozpatt>
 
     private LocInfo getLocation(int line, int column,
                                 Term start, Term end)
@@ -9686,7 +9699,7 @@ jokerPara ::=
         {:
            JokerType type = JokerType.Expr;
            try {
-             type = JokerType.fromString(dw.getName());
+             type = JokerType.valueOf(dw.getName());
            }
            catch (IllegalArgumentException e) {
              parser.report_error(ZpattParseMessage.MSG_UNKNOWN_JOKER_TYPE,

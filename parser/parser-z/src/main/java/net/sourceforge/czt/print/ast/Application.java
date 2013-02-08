@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.print.ast;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.Expr2Impl;

@@ -27,7 +27,6 @@ import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.zpatt.ast.JokerType;
 
 /**
@@ -38,7 +37,6 @@ public class JokerScanner
 {
   private Scanner scanner_;
   private JokerTable table_;
-  private Factory factory_;
 
   /**
    * Indicates whether to perform a requested lookup.
@@ -50,7 +48,6 @@ public class JokerScanner
   public JokerScanner(Scanner scanner)
   {
     scanner_ = scanner;
-    factory_ = new Factory();
   }
 
   public JokerTable getJokerTable()

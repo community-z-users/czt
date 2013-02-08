@@ -23,14 +23,9 @@
 package <package/>;
 
 import java.io.*;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -69,7 +64,6 @@ import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.parser.z.ZParseError;
 import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -182,8 +176,14 @@ import net.sourceforge.czt.z.util.ZString;
    * True iff within a axdef or gendef definition
    * It can be used to mark labelled predicates.
    */
+  <add:z>
+  @SuppressWarnings("unused")
+  </add:z> 
   private boolean inAxiomaticBox_ = false;
 
+  <add:z>
+  @SuppressWarnings("unused")
+  </add:z> 
   private boolean inSchemaBox_ = false;
 
   <add:zeves>
@@ -442,8 +442,9 @@ import net.sourceforge.czt.z.util.ZString;
   private void reportError(ErrorType type, ZParseMessage msg,
                            String arg0, String info)
   {
-    final Level level =
-      ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
+    // TODO: what's this? To be used somewhere?
+    //final Level level =
+    //  ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo };
     ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
@@ -453,8 +454,8 @@ import net.sourceforge.czt.z.util.ZString;
   private void reportError(ErrorType type, CircusParseMessage msg,
                            String arg0, String info)
   {
-    final Level level =
-      ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
+    //final Level level =
+    //  ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo };
     CircusParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);

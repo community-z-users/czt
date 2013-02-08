@@ -154,7 +154,12 @@ public class JokerTable
   public static class JokerException
     extends Exception
   {
-    public JokerException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4051027474679993397L;
+
+	public JokerException(String message)
     {
       super(message);
     }

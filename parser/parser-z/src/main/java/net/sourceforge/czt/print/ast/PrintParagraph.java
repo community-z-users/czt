@@ -21,9 +21,7 @@ package net.sourceforge.czt.print.ast;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Assoc;
 import net.sourceforge.czt.z.impl.ParaImpl;
 
 /**

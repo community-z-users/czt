@@ -686,7 +686,12 @@ public class AstToPrintTreeVisitor
   public static class CannotPrintAstException
     extends net.sourceforge.czt.util.CztException
   {
-    public CannotPrintAstException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8524879619891515616L;
+
+	public CannotPrintAstException(String message)
     {
       super(message);
     }

@@ -59,7 +59,6 @@ import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZChar;
-import net.sourceforge.czt.z.util.ZString;
 
 
 /**

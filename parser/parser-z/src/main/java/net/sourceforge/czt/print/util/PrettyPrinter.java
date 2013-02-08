@@ -45,11 +45,22 @@ public class PrettyPrinter
     term_ = term;
     lineWidth_ = initW;
   }
+  
+  public Term getTerm()
+  {
+	  return term_;
+  }
 
   public void setOffset(int offset)
   {
     offset_ = offset;
   }
+  
+  public int getOffSet()
+  {
+	  return offset_;
+  }
+  
 
   public void setLineWidth(int width)
   {

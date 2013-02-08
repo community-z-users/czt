@@ -165,7 +165,12 @@ public class LatexMarkupFunctionVisitor
   private static class LatexMarkupException
     extends net.sourceforge.czt.util.CztException
   {
-    private LatexMarkupException(Exception cause)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3780014359357207022L;
+
+	private LatexMarkupException(Exception cause)
     {
       super(cause);
     }

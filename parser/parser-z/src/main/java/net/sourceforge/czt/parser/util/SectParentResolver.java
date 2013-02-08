@@ -32,7 +32,11 @@ public class SectParentResolver
   public static class CyclicSectionsException extends Exception
   {
 
-    private final List<List<String>> cycles;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1095064817735467171L;
+	private final List<List<String>> cycles;
 
     public CyclicSectionsException(List<List<String>> cycles)
     {

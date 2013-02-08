@@ -8,7 +8,6 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.DefaultSectionParents;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
