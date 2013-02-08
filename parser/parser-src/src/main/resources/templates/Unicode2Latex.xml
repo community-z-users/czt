@@ -24,10 +24,8 @@ package <package/>;
 
 import java_cup.runtime.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -36,11 +34,12 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+<add:oldz>
 import net.sourceforge.czt.print.z.DefsWord;
+</add:oldz>
 import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.session.*;
 <add:oz>
@@ -619,7 +618,7 @@ parser code {:
         value += " at " +
           ((LocAnn)(((Term)s.value).getAnn(LocAnn.class))).toString();
       }
-      m.append(", Token(" + symbolMap_.get(s.sym) + "," + s.value + ")");
+      m.append(", Token(" + symbolMap_.get(s.sym) + "," + value + ")");
     }
     m.append(": " + message);
     System.err.println(m);
