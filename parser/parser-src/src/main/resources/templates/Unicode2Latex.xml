@@ -81,9 +81,9 @@ action code
   /**
    * An iterator over markup directives to be printed.
    */
-  protected Iterator markup_ = null;
+  protected Iterator&lt;Directive&gt; markup_ = null;
 
-  private Map addStandardMapping(Map&lt;String,Object&gt; map)
+  private Map&lt;String,Object&gt; addStandardMapping(Map&lt;String,Object&gt; map)
   {
     map.put(ZString.SPOT, resultTT("@", ZString.SPOT));
     map.put("+", resultTT("+", "+"));
@@ -199,7 +199,7 @@ action code
     return s.replaceAll("_", "\\\\_");
   }
 
-  private LatexCommand uniwordToLatex(String word, Map latexCommands,
+  private LatexCommand uniwordToLatex(String word, Map&lt;String, Object&gt; latexCommands,
                                       int line, int column)
     throws PrintException
   {
@@ -384,7 +384,7 @@ action code
   {
     unicode2latexMap_ = new HashMap&lt;String,Object&gt;();
     if (table != null) {
-      for (Iterator iter = table.iterator(); iter.hasNext();) {
+      for (Iterator&lt;MarkupDirective&gt; iter = table.iterator(); iter.hasNext();) {
         MarkupDirective directive = (MarkupDirective) iter.next();
         final String unicode = directive.getUnicode();
         <add:z>

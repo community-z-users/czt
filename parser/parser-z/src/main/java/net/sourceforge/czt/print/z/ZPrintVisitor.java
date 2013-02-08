@@ -146,7 +146,7 @@ public class ZPrintVisitor
     throw new PrintException("Unexpected term " + term);
   }
 
-  public Object visitListTerm(ListTerm listTerm)
+  public Object visitListTerm(ListTerm<?> listTerm)
   {
     for (Object o : listTerm) {
       if (o instanceof Term) {
@@ -1222,11 +1222,12 @@ public class ZPrintVisitor
    * they might be in fact different ones (with the same newline
    * category).
    */
-  private String printOperator(OperatorName op, Object arguments)
+@SuppressWarnings("unchecked")
+private String printOperator(OperatorName op, Object arguments)
   {
     List<Object> args = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     if (arguments instanceof List) {
-      args = (List) arguments;
+      args = (List<Object>) arguments; // unchecked warning 
     }
     else {
       if (op.isUnary()) {

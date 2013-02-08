@@ -53,7 +53,7 @@ public class SpecialLatexScanner {
     return result;
   }
   */
-  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
+  protected static <K, V> Map<V, K> flipMap(Map<K, V> m)
   {
     Map<V, K> result = new HashMap<V, K>();
     Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();

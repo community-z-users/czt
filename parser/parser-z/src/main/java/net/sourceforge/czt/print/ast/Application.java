@@ -32,11 +32,11 @@ public class Application
     super(factory);
   }
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof ApplicationVisitor)
     {
-      return ((ApplicationVisitor) visitor).visitApplication(this);
+      return ((ApplicationVisitor<R>) visitor).visitApplication(this);
     }
     return super.accept(visitor);
   }

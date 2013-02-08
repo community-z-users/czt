@@ -24,13 +24,12 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class SymMap
 {
   private static Map<String,Integer> MAP = createMap(Sym.class);
 
-  public static Map<String,Integer> createMap(Class symClass)
+  public static Map<String,Integer> createMap(Class<?> symClass)
   {
     try {
       Map<String,Integer> result = new HashMap<String,Integer>();

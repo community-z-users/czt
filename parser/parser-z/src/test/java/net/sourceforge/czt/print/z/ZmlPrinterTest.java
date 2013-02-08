@@ -59,7 +59,8 @@ public class ZmlPrinterTest
 
     // parse
     manager.put(new Key<Source>(name, Source.class), source);
-    Spec spec = manager.get(new Key<Spec>(name, Spec.class));
+    @SuppressWarnings("unused")
+	Spec spec = manager.get(new Key<Spec>(name, Spec.class));
     // We do not delete annotations, since conjecture names are
     // stored as annotations and we want to preserve those.
 

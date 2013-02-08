@@ -296,7 +296,7 @@ public class PrintVisitor
     return result.toString();
   }
 
-  protected String visitNarrText(String header, List text)
+  protected String visitNarrText(String header, List<?> text)
   {
     int size = text.size();
     StringBuilder result = new StringBuilder(header + "(" + size + ")={");

@@ -163,7 +163,7 @@ import net.sourceforge.czt.z.util.ZString;
    * All other "{"-token just push a
    * &lt;code&gt;BraceType.BRACE&lt;/code&gt; on the stack.
    */
-  private Stack braceStack_ = new Stack();
+  private Stack&lt;BraceType&gt; braceStack_ = new Stack&lt;BraceType&gt;();
 
   /**
    * A boolean indicating whether a space has to inserted after all
@@ -239,7 +239,7 @@ import net.sourceforge.czt.z.util.ZString;
    * provide an error message and warning if not). It is not needed
    * by the scanner itself.
    */
-  private Stack&lt;String&gt; openBeginCommands_ = new Stack();
+  private Stack&lt;String&gt; openBeginCommands_ = new Stack&lt;String&gt;();
 
   /**
    * Name of file from which source text originated.

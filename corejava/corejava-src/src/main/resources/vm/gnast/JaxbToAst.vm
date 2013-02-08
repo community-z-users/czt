@@ -32,6 +32,7 @@ package #package(${class.Package});
 import java.util.*;
 import java.util.logging.Logger;
 
+// added the supresswarnings restriction below. TODO: why this restricted class is needed?
 import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
 import javax.xml.bind.JAXBElement;
 
@@ -47,6 +48,7 @@ import ${p.AstPackage}.*;
 #if($author) * @author ${author}
 #end
  */
+ @SuppressWarnings("restriction")
 public class ${class.Name}#if($ImportProject)
  extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}
 #else
@@ -88,7 +90,7 @@ public class ${class.Name}#if($ImportProject)
                                             + object.getClass().getName());
   }
 
-  public Object visitJAXBElement(JAXBElement jaxbElement)
+  public Object visitJAXBElement(JAXBElement<?> jaxbElement)
   {
     return dispatch(jaxbElement.getValue());
   }
@@ -134,8 +136,8 @@ public class ${class.Name}#if($ImportProject)
 
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getAny() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getAny();
+      List<Object> annsList = erg.getAnns();
+      List<Object> anyList = jaxbObject.getAnns().getAny();
       for (Object obj : anyList) {
         Object o = dispatch(obj);
         annsList.add(o);

@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class JTreeVisitor
-  implements TermVisitor
+  implements TermVisitor<Object>
 {
   public Object visitTerm(Term term)
   {
@@ -46,7 +46,8 @@ public class JTreeVisitor
         list.add(((Term) child).accept(this));
       }
       else if (child instanceof List) {
-        for (Iterator iter = ((List) child).iterator(); iter.hasNext();) {
+        for (@SuppressWarnings("unchecked")
+		Iterator<Object> iter = ((List<Object>) child).iterator(); iter.hasNext();) {
           Object object = iter.next();
           if (object instanceof Term) {
             Term t = (Term) object;

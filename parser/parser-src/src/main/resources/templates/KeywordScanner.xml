@@ -156,7 +156,7 @@ public class KeywordScanner
     }
   }
 
-  private static Map symbolMap_ = null;
+  private static Map&lt;Object, String&gt; symbolMap_ = null;
 
   /**
    * &lt;p&gt;

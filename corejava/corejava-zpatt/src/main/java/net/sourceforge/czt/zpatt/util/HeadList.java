@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.ast.Term;
 public interface HeadList
   extends Term
 {
-  List getList();
+	// TODO: add a proper type here?
+  List<?> getList();
   Object getJoker();
 }

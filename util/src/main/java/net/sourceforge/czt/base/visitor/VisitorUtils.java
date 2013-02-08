@@ -91,7 +91,7 @@ public final class VisitorUtils
    *         the new children.
    * @throws NullPointerException if <code>term</code> is <code>null</code>.
    */
-  public static <T extends Term> T visitTerm(Visitor<T> visitor,
+  public static <T extends Term> T visitTerm(Visitor<?> visitor,
                                              T term,
                                              boolean share)
   {

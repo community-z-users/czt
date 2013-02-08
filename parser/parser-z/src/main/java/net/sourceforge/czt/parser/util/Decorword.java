@@ -137,6 +137,7 @@ public class Decorword
     extraInfo_ = o;
   }
   
+  @SuppressWarnings("unchecked")
   public <T> T getExtraInfo()
   {
      return (T)extraInfo_;

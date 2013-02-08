@@ -301,7 +301,7 @@ public class AstToPrintTreeVisitor
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
       OperatorName opName = refExpr.getZName().getOperatorName();
       Expr args = (Expr) visit(applExpr.getRightExpr());
-      List argList = new LinkedList();
+      List<Expr> argList = new LinkedList<Expr>();
       if (opName.isUnary()) {
         argList.add(args);
       }
@@ -326,7 +326,7 @@ public class AstToPrintTreeVisitor
 
   protected PrintParagraph handleOldZ(List<Object> anns, PrintParagraph pp)
   {
-    List newAnns = pp.getAnns();
+    List<Object> newAnns = pp.getAnns();
     if (oldZ_) {
       for (Object o : anns) {
         if (o instanceof AxPara) {
@@ -365,7 +365,6 @@ public class AstToPrintTreeVisitor
       throw new PrintException("preprocessing ability for AxPara and Pred only; " + term.getClass().getName());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Term visitAxPara(AxPara axPara)
   {
@@ -405,7 +404,7 @@ public class AstToPrintTreeVisitor
       list.add(ZToken.ZED);
       preprocessTerm(axPara, list);
       final List<Name> declNameList = axPara.getName();
-      final SchText schText = axPara.getSchText();
+      //final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
       for (Decl decl : decls) {
         final ConstDecl constDecl = (ConstDecl) decl;
@@ -463,7 +462,7 @@ public class AstToPrintTreeVisitor
 
   private PrintParagraph handleSchemaDefinition(AxPara axPara)
   {
-    List list = new LinkedList();
+    List<Object> list = new LinkedList<Object>();
     assert Box.SchBox.equals(axPara.getBox());
     if (isGeneric(axPara)) {
       list.add(ZToken.GENSCH);
@@ -526,7 +525,8 @@ public class AstToPrintTreeVisitor
         String message = "Unexpected Mixfix == true.";
         throw new CannotPrintAstException(message);
       }
-      List list = new LinkedList();
+      // TODO: perhaps this should be some better type ann?
+      List<Object> list = new LinkedList<Object>();
       list.add(firstExpr);
       list.add(ZKeyword.EQUALS);
       list.add(setExpr.getZExprList().get(0));
@@ -550,7 +550,7 @@ public class AstToPrintTreeVisitor
         throw new CannotPrintAstException(e.getMessage());
       }
     }
-    List list = new LinkedList();
+    List<Object> list = new LinkedList<Object>();
     list.add(visit(memPred.getLeftExpr()));
     list.add(ZKeyword.MEM);
     list.add(visit(memPred.getRightExpr()));
@@ -593,13 +593,13 @@ public class AstToPrintTreeVisitor
     final String name = zSect.getName();
     warningManager_.setCurrentSectName(name);
     try {
-      opTable_ = (OpTable) sectInfo_.get(new Key(name, OpTable.class));
+      opTable_ = sectInfo_.get(new Key<OpTable>(name, OpTable.class));
     }
     catch (CommandException exception) {      
       warningManager_.warn("Cannot get operator table for {0}; try to print anyway ... ", name);
     }
     if (opTable_ == null) {
-      List parentOpTables = new LinkedList();
+      List<OpTable> parentOpTables = new LinkedList<OpTable>();
       for (Parent parent : zSect.getParent()) {
         OpTable parentOpTable = getOpTable(parent.getWord());
         if (parentOpTable != null) {
@@ -644,7 +644,7 @@ public class AstToPrintTreeVisitor
    * @throws NullPointerException if <code>opName</code> is <code>null</code>.
    */
   private OperatorApplication createOperatorApplication(OperatorName opName,
-                                                        List argList,
+                                                        List<Expr> argList,
                                                         Precedence precedence)
   {
     Assoc assoc = null;
@@ -697,12 +697,13 @@ public class AstToPrintTreeVisitor
     }
   }
 
-  private List printOperator(OperatorName op, Object arguments)
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+private List<Object> printOperator(OperatorName op, Object arguments)
   {
-    List result = new LinkedList();
-    List args = new LinkedList();
+    List<Object> result = new LinkedList<Object>();
+    List<Object> args = new LinkedList<Object>();
     if (arguments instanceof List) {
-      args = (List) arguments;
+      args = (List<Object>) arguments; // unchecked here. 
     }
     else {
       if (op.isUnary()) {
@@ -714,7 +715,7 @@ public class AstToPrintTreeVisitor
           throw new CannotPrintAstException(message);
         }
         TupleExpr tuple = (TupleExpr) arguments;
-        args = tuple.getZExprList();
+        args = (List)tuple.getZExprList(); // raw type... TODO: remove?
       }
     }
     int pos = 0;

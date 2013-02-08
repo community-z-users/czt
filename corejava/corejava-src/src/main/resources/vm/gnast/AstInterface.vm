@@ -29,6 +29,7 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 package ${class.Package};
 
 import net.sourceforge.czt.base.ast.*;
+
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end
@@ -40,6 +41,8 @@ import ${p.AstPackage}.*;
 #if($author) * @author ${author}
 #end
  */
+ // add unused here because just a few need Term / ListTerm. Others don't. that's just for the import.
+@SuppressWarnings("unused")
 public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
 #if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
 #end#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end

@@ -114,7 +114,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
 
   private boolean debug_ = false ;
   private long i = 1;
-  private static final java.util.Map symbolMap_ = net.sourceforge.czt.parser.util.DebugUtils.getFieldMap(Sym.class);
+  private static final java.util.Map&lt;Object, String&gt; symbolMap_ = net.sourceforge.czt.parser.util.DebugUtils.getFieldMap(Sym.class);
   private void debug(int type, Object value)
   {
     System.out.println("ContextFreeScanner (" + i + ") : Sym=" + type + " val=" + symbolMap_.get(type) + " L" + getLine() + " C" + getColumn() + " is " + String.valueOf(value));

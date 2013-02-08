@@ -34,18 +34,18 @@ import net.sourceforge.czt.z.impl.ParaImpl;
 public class PrintParagraph
   extends ParaImpl
 {
-  List something_;
+  List<?> something_;
 
-  protected PrintParagraph(PrintFactory factory, List something)
+  protected PrintParagraph(PrintFactory factory, List<?> something)
   {
     super(factory);
     something_ = something;
   }
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof PrintParagraphVisitor) {
-      PrintParagraphVisitor v = (PrintParagraphVisitor) visitor;
+      PrintParagraphVisitor<R> v = (PrintParagraphVisitor<R>) visitor;
       return v.visitPrintParagraph(this);
     }
     return super.accept(visitor);

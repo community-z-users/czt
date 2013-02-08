@@ -30,7 +30,7 @@ public class AstTreeModel
   /**
    * The list of tree model listeners.
    */
-  private Vector treeModelListeners_ = new Vector();
+  private Vector<TreeModelListener> treeModelListeners_ = new Vector<TreeModelListener>();
 
   /**
    * The root of the AST.

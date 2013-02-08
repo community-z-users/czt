@@ -912,11 +912,11 @@ action code
      * @param opName 
      * @param es
      */
-    protected void addExpSepName(List&lt;String&gt; opName, List es)
+    protected void addExpSepName(List&lt;String&gt; opName, List&lt;?&gt; es)
     {
       for (int i = 0; i &lt; es.size(); i += 2) {
 
-        List list = (List) es.get(i);
+        List&lt;?&gt; list = (List&lt;?&gt;) es.get(i);
         if (list.size() == 1) {
           opName.add(ARG_TOK);
         }
@@ -933,9 +933,11 @@ action code
      * @param expList 
      * @param es 
      */
-    protected void addExpSepExp(List expList, List es)
+     @SuppressWarnings("unchecked")
+    protected void addExpSepExp(List&lt;? extends Object&gt; expList, List&lt;Object&gt; es)
     {
       for (int i = 0; i &lt; es.size(); i += 2) {
+      	// exprList is always called as ZExprList; but es can have expr or strings. argh... TODO: fix types?
         expList.addAll((List) es.get(i));
       }
     }

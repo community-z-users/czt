@@ -37,7 +37,7 @@ public class SyntaxSymbolVisitor
              ListTermVisitor<ConcreteSyntaxSymbol>
 {
   @Override
-  public ConcreteSyntaxSymbol visitListTerm(ListTerm term)
+  public ConcreteSyntaxSymbol visitListTerm(ListTerm<?> term)
   {
     return ConcreteSyntaxSymbol.LIST;
   }

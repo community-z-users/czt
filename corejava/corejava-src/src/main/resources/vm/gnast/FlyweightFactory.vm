@@ -59,7 +59,9 @@ public class ${class.Name}
 {
   private ${project.getObject("factory")} factory_ =
     new ${project.getObject("factoryImpl")}();
-  private Map<List,Term> terms_ = new HashMap<List,Term>();
+    
+    // TODO: couldn't this be ? extends Term? + String... ergh.
+  private Map<List<Object>,Term> terms_ = new HashMap<List<Object>,Term>();
   private int nCreates_ = 0;
 
   /**

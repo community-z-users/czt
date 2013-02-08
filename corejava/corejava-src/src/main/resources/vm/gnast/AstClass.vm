@@ -71,6 +71,8 @@ import ${project.VisitorPackage}.${class.Name}Visitor;
 #if(${class.isList()})
 #set($type = ${class.getAllProperties().get(0).getListType()})
 
+// for the various possibly spurious imports -- hard to predict in general during code generation. it's harmless.
+@SuppressWarnings("unused")
 public class ${class.ImplName}
   extends java.util.AbstractList<${type}>
   implements ${class.Name}
@@ -371,6 +373,8 @@ public class ${class.ImplName}
   }
 }
 #else
+// for the various possibly spurious imports -- hard to predict in general during code generation. it's harmless.
+@SuppressWarnings("unused")
 public#abstract($class) class ${class.ImplName}
 #if($class.Extends)  extends ${class.ImplExtends} #end
   implements ${class.Name}
@@ -448,6 +452,8 @@ public#abstract($class) class ${class.ImplName}
   {
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+      	// if foreach on meta-model (.vm) file is empty, this won't be used.
+      	@SuppressWarnings("unused")
         ${class.ImplName} object = (${class.ImplName}) obj;
 #foreach($prop in ${class.Properties})
         if (${prop.MemVarName} != null) {
@@ -509,7 +515,8 @@ public#abstract($class) class ${class.ImplName}
     try {
 #foreach($prop in $class.AllProperties)
 #set($counter = $velocityCount - 1)
-      ${prop.Type.FullName} ${prop.VarName} = (${prop.Type.FullName}) args[$counter];
+	  @SuppressWarnings("unchecked")
+	  ${prop.Type.FullName} ${prop.VarName} = (${prop.Type.FullName}) args[$counter];
 #end
       zedObject = new ${class.ImplName}(getFactory());
 #foreach($prop in $class.AllProperties)

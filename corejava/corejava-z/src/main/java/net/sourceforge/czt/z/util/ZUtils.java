@@ -1477,6 +1477,21 @@ public final class ZUtils
   }
   
   /**
+   * Transforms a list of strokes into a (unicode) string.
+   */
+  public static String strokeListToString(List<Stroke> strokes)
+  {
+    if (strokes == null) return "";
+    StringBuffer result = new StringBuffer();
+    for (Iterator<Stroke> iter = strokes.iterator(); iter.hasNext();)
+    {
+      Stroke stroke = iter.next();
+      result.append(stroke.toString());
+    }
+    return result.toString();
+  }
+  
+  /**
    * Test whether the base name and strokes of two ZNames are equal.
    * This ignores name ids. 
    */
