@@ -243,10 +243,10 @@ public class PrintVisitor
     builder.append(NLAndTabs());
   }
   
-  private void addTabs(StringBuilder builder)
-  {
-    builder.append(tabs());
-  }
+  //private void addTabs(StringBuilder builder)
+  //{
+  //  builder.append(tabs());
+  //}
 
   private void openTabScope(StringBuilder builder)
   {

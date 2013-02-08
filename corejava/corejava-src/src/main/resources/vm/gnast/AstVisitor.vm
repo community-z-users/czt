@@ -28,8 +28,6 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
-import ${project.AstPackage}.*;
-
 /**
  * An interface that collects all single visitor interfaces
  * contained in this package.

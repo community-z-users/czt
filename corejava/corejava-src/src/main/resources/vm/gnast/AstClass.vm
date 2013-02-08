@@ -44,7 +44,6 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 package ${class.ImplPackage};
 
 import java.util.*;
-import java.util.logging.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.impl.*;
@@ -479,13 +478,13 @@ public#abstract($class) class ${class.ImplName}
   @Override
   public int hashCode()
   {
-    final int constant = 31;
+    //final int constant = 31;
 
     int hashCode = super.hashCode();
     hashCode += "${class.ImplName}".hashCode();
 #foreach($prop in ${class.Properties})
     if (${prop.MemVarName} != null) {
-      hashCode += constant * ${prop.MemVarName}.hashCode();
+      hashCode += 31 * ${prop.MemVarName}.hashCode();
     }
 #end
     return hashCode;

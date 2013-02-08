@@ -122,7 +122,7 @@ public class ${class.Name}#if($ImportProject)
     ${prop.Type.FullName} ${prop.VarName} = null;
     if (jaxbObject.${prop.GetterName}() != null) {
       String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}().value();
-      ${prop.VarName} = ${prop.Type.FullName}.fromString(${prop.VarName}Jaxb);
+      ${prop.VarName} = ${prop.Type.FullName}.valueOf(${prop.VarName}Jaxb);
     }
 #elseif($prop.Type.Name == 'Boolean')
     ${prop.Type.FullName} ${prop.VarName} =

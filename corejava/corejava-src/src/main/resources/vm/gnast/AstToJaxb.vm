@@ -53,10 +53,10 @@ public class $class.Name
 #if($ImportPackage)
 #set($object = ${ImportProject.getObject("AstToJaxb")})
   extends ${object.Package}.${object.Name}
-  implements ${visitor.FullName}<Object>
+  implements ${visitor.FullName}<JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>
 #else
-  implements ${visitor.FullName}<Object>,
-             net.sourceforge.czt.base.visitor.TermVisitor<Object>
+  implements ${visitor.FullName}<JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>,
+             net.sourceforge.czt.base.visitor.TermVisitor<JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>
 #end
 {
   /**
@@ -77,12 +77,12 @@ public class $class.Name
     return Logger.getLogger(getClassName());
   }
 
-  private net.sourceforge.czt.z.jaxb.gen.Term.Anns visitAnnotations(List list)
+  private net.sourceforge.czt.z.jaxb.gen.Term.Anns visitAnnotations(List<Object> list)
     throws javax.xml.bind.JAXBException
   {
       net.sourceforge.czt.z.jaxb.gen.Term.Anns anns =
         annsObjectFactory_.createTermAnns();
-    List newlist = anns.getAny();
+    List<Object> newlist = anns.getAny();
     for (Object obj : list) {
       if (obj instanceof Term) {
         Term term = (Term) obj;
@@ -102,7 +102,7 @@ public class $class.Name
   }
 
 
-  public Object visitTerm(Term zedObject)
+  public JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> visitTerm(Term zedObject)
   {
     String message = "Unexpected element " + zedObject.getClass().getName();
     throw(new UnsupportedOperationException(message));
@@ -110,8 +110,7 @@ public class $class.Name
 
 #foreach($c in $classes)
 #if(! ${c.Abstract})
-
-  public Object visit${c.Name}(${project.AstPackage}.${c.Name} zedObject)
+  public JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> visit${c.Name}(${project.AstPackage}.${c.Name} zedObject)
   {
     getLogger().entering(getClassName(), "visit${c.Name}", zedObject);
     try {
@@ -146,11 +145,14 @@ public class $class.Name
       }
 #elseif($prop.isList())
       {
+    	// TODO: Fix this. Needs to be raw types because there is a mix-up of types here still... 
+        @SuppressWarnings("rawtypes")
         List newlist = jaxbObject.${prop.GetterName}();
         for (Object o : zedObject.${prop.GetterName}()) {
           if (o instanceof Term) {
             o = ((Term) o).accept(this);
           }
+          // TODO: this will still give a warning I won't be able to get rid of. Okay. argh...
           newlist.add(o);
         }
       }
@@ -162,8 +164,8 @@ public class $class.Name
         jaxbObject.${prop.SetterName}(${prop.Type.Name}.fromValue(zedObject.${prop.GetterName}().toString()));
 #else
         Term term = zedObject.${prop.GetterName}();
-        JAXBElement<${prop.Type.Name}> newValue = (JAXBElement)
-          term.accept(this);
+        @SuppressWarnings("unchecked")
+        JAXBElement<${prop.Type.Name}> newValue = (JAXBElement<${prop.Type.Name}>)term.accept(this);
         jaxbObject.${prop.SetterName}(newValue);
 #end
       }

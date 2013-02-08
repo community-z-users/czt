@@ -34,7 +34,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 
 import ${project.AstPackage}.*;
-import ${project.VisitorPackage}.*;
+//import ${project.VisitorPackage}.*;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end
