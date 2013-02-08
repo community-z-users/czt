@@ -76,7 +76,7 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
    */
   protected Pred truePred()
   {
-    return factory_.createTruePred();
+    return getFactory().createTruePred();
   }
 
   @Override
@@ -119,7 +119,7 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
   {
     final String msg = "VCG-NOVISITOR-ERROR(@trivial) = " +term.getClass().getSimpleName() + "; creating true VC";
     getLogger().warning(msg);
-    return factory_.createTruePred();
+    return getFactory().createTruePred();
     // don't raise exception to allow for completion of VCGing
     //throw new CztException(new VCGException(msg));
   }

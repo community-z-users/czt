@@ -49,6 +49,7 @@ import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCConfig;
 import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
+import net.sourceforge.czt.vcg.z.VCGContext;
 import net.sourceforge.czt.vcg.z.VCSource;
 import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.refinement.util.ZRefinesAnn;
@@ -94,7 +95,7 @@ import net.sourceforge.czt.z.util.ZString;
  * @author leo
  * @since Jan 02, 2011
  */
-public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implements
+public class FeasibilityVCCollector extends AbstractFeasibilityVCCollector implements
   GivenParaVisitor<Pred>,
   FreeParaVisitor<Pred>,
   AxParaVisitor<Pred>,
@@ -105,28 +106,15 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   FeasibilityPropertyKeys
 {
 
-  protected ZPredTransformerFSB predTransformer_;
-
-  private boolean nonEmptyGivenSets_;
-  private boolean doCreateZSchemas_;
-
-  private ZName currentName_;
-  private final ZName setInterName_;
-  private final ZName freeTypeCtorOpName_;
-
-  protected final Map<ZName, AxPara> addedSigSchemas_;
-  protected final Map<ZName, SortedSet<Definition>> computedBindings_;
-  
-  private final Map<ZStateInfo, ZName> stateSchemaNames_;
-  private final Map<ZStateInfo, AxPara> stateSchemas_;
-  private final Map<ZStateInfo, ZNameList> stateGenParams_;
-  
+	private VCGContext<SchemaType, SortedSet<Definition>> context_;
   /**
    * 
    */
   public FeasibilityVCCollector()
   {
     this(ZUtils.createConsoleFactory());
+    
+    context_ = new FeasibilityVCGContext();
   }  
   
   /** Creates a new instance of DCTerm
@@ -135,71 +123,21 @@ public class FeasibilityVCCollector extends TrivialFeasibilityVCCollector implem
   public FeasibilityVCCollector(Factory factory)
   {
     super(factory);
-    predTransformer_ = new ZPredTransformerFSB(factory, this);
-    predTransformer_.setApplyTransformer(PROP_VCG_FEASIBILITY_APPLY_TRANSFORMERS_DEFAULT);
-    setNonemptyGivenSetVC(PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT);
-    setCreateZSchemas(PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT);
-    currentName_ = null;
-    setInterName_ = factory_.createZName(ZString.ARG_TOK+ZString.CAP+ZString.ARG_TOK);
-    freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
-    addedSigSchemas_ = new TreeMap<ZName, AxPara>(ZUtils.ZNAME_COMPARATOR);
-    computedBindings_ = new TreeMap<ZName, SortedSet<Definition>>(ZUtils.ZNAME_COMPARATOR);
-    
-    stateSchemaNames_ = new EnumMap<ZStateInfo, ZName>(ZStateInfo.class);
-    stateSchemas_ = new EnumMap<ZStateInfo, AxPara>(ZStateInfo.class);
-    stateGenParams_ = new EnumMap<ZStateInfo, ZNameList>(ZStateInfo.class);
-  }
-
-  protected void clearAddedPara()
-  {
-    addedSigSchemas_.clear();
-    computedBindings_.clear();
-    stateSchemaNames_.clear();
-    stateSchemas_.clear();
-    stateGenParams_.clear();
-  }
-
-  @Override
-  public List<? extends Para> addedPara()
-  {
-    return new ArrayList<Para>(addedSigSchemas_.values());
-  }
-
-  protected VCCollectionException createVCCollectionException(final String message)
-  {
-    return new FeasibilityException(message);
   }
   
-  protected VCCollectionException createVCCollectionException(final String message, Throwable e)
-  {
-    return new FeasibilityException(message, e);
-  }
-
+  
   @Override
-  public TermTransformer<Pred> getTransformer()
+  public VCGContext<SchemaType, SortedSet<Definition>> getVCGContext()
   {
-    return predTransformer_;
+	  return context_;
   }
-
-  public boolean isAddingNonemptyGivenSetVC()
-  {
-    return nonEmptyGivenSets_;
-  }
-
-  public boolean isCreatingZSchemas()
-  {
-    return doCreateZSchemas_;
-  }
-
-  protected final void setNonemptyGivenSetVC(boolean value)
-  {
-    nonEmptyGivenSets_ = value;
-  }
-
-  protected final void setCreateZSchemas(boolean value)
-  {
-    doCreateZSchemas_ = value;
-  }
+  
+	protected void clearAddedPara() {
+		super.clearAddedPara();
+		
+		stateSchemas_.clear();
+		stateGenParams_.clear();
+	}
 
   protected final void setStateSchema(ZStateInfo stateInfo, ZName n, AxPara para, ZNameList genParams)
   {

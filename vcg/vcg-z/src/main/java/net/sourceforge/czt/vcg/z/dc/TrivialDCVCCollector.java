@@ -19,8 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.vcg.z.dc;
 
+import java.util.SortedSet;
+
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.TrivialVCCollector;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCConfig;
@@ -36,6 +39,7 @@ import net.sourceforge.czt.z.ast.Oper;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ThetaExpr;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZNumeral;
@@ -58,7 +62,9 @@ import net.sourceforge.czt.z.visitor.ZNumeralVisitor;
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
-public abstract class TrivialDCVCCollector extends TrivialVCCollector implements
+public abstract class TrivialDCVCCollector extends 
+			// ContextType, ContextBindingType
+			TrivialVCCollector<Type2, SortedSet<Definition>> implements
         DomainCheckPropertyKeys,
         LatexMarkupParaVisitor<Pred>,
         GivenParaVisitor<Pred>,

@@ -41,20 +41,23 @@ import net.sourceforge.czt.z.util.ZUtils;
  */
 public abstract class AbstractVCCollector<R> implements VCCollector<R>
 {  
-  protected Factory factory_;
   private VCNameFactory vcNameFactory_;
+  private final Factory factory_;
   private final Logger logger_;
-  protected boolean checkTblConsistency_;
+  private boolean checkTblConsistency_;
   private long vcCnt_;
   
-  private VCGContext<T, B> context_;
-
   /**
    * Definition table containing declared types of names. This is important
    * to query known names to see weather they are partial functions that
    * require domain check predicates or not.
    */
   private DefinitionTable defTable_;
+  
+  protected AbstractVCCollector()
+  {
+	  this(ZUtils.createConsoleFactory());
+  }
 
   /** Creates a new instance of AbstractVCCollector
    * @param factory 
@@ -72,8 +75,6 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     
     setVCNameFactory(DefaultVCNameFactory.DEFAULT_VCNAME_FACTORY);
     
-    context_ = null;
-    
     // NOTE: not effective to change this factory, since it won't have LocAnn! Change the LocAnn factory directly instead. :-(
     //
     // get underlying ToStringVisitor of the Z factory of the given factory and set LocAnn offsets.
@@ -81,6 +82,11 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     //        ZUtils.assertZFactoryImpl(
     //          factory_.getZFactory()).getToStringVisitor()).setOffset(1, 1);
    // VisitorUtils.checkVisitorRules(this);
+  }
+  
+  protected Factory getFactory()
+  {
+	  return factory_;
   }
 
   @Override
@@ -278,11 +284,5 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
 
     // return result
     return result;
-  }
-  
-  @Override
-  public <T, B> VCGContext<T, B> getVCGContext()
-  {	
-	  return context_;
   }
 }
