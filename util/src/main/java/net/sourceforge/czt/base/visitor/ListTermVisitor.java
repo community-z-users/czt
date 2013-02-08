@@ -34,5 +34,5 @@ public interface ListTermVisitor<R> extends Visitor<R>
    * @param  zedObject the Term to be visited.
    * @return some kind of <code>Object</code>.
    */
-  R visitListTerm(ListTerm zedObject);
+  R visitListTerm(ListTerm<?> zedObject);
 }

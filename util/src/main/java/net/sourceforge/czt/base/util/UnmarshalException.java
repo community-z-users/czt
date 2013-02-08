@@ -29,6 +29,11 @@ public class UnmarshalException
   extends Exception
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2910534124299309092L;
+
+/**
    * Construct an UnmarshalException with the specified detail message.
    */
   public UnmarshalException(String message)

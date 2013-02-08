@@ -26,7 +26,12 @@ package net.sourceforge.czt.base.util;
 public class UnsupportedAstClassException
   extends net.sourceforge.czt.util.CztException
 {
-  public UnsupportedAstClassException()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6247636028827356285L;
+
+public UnsupportedAstClassException()
   {
   }
 

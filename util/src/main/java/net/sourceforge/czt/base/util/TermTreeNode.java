@@ -109,7 +109,7 @@ public class TermTreeNode
       return ((Term) node_).accept(toStringVisitor_);
     }
     if (node_ instanceof List) {
-      return "List[" + ((List) node_).size() + "]";
+      return "List[" + ((List<?>) node_).size() + "]";
     }
     if (node_ != null) {
       return node_.toString();
