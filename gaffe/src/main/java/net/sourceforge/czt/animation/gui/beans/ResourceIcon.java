@@ -44,12 +44,12 @@ public final class ResourceIcon implements Icon
   public ResourceIcon(File resource, Toolkit toolkit)
       throws MalformedURLException
   {
-    this(resource.toURL(), toolkit);
+    this(resource.toURI().toURL(), toolkit);
   };
 
   public ResourceIcon(File resource) throws MalformedURLException
   {
-    this(resource.toURL());
+    this(resource.toURI().toURL());
   };
 
   public ResourceIcon(String resource, Toolkit toolkit)

@@ -31,7 +31,12 @@ import net.sourceforge.czt.animation.gui.temp.ZBinding;
  */
 public class BindingModel extends AbstractTableModel
 {
-  private ZBinding binding_ = new ZBinding();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3806474933101234111L;
+
+private ZBinding binding_ = new ZBinding();
 
   private Vector<String> keys_ = new Vector<String>();
 

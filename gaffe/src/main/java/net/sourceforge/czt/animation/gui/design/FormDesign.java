@@ -92,6 +92,11 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 public class FormDesign extends JFrame implements ToolChangeListener
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6363568716435250126L;
+
+/**
    * The form being designed by this window.
    */
   protected Form form;
@@ -137,7 +142,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
 
   private class FDGlassPane extends JPanel
   {
-    private int eventLinkHighlightingStatus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7503034169683032338L;
+
+	private int eventLinkHighlightingStatus;
 
     private int beanHighlightingStatus;
 
@@ -185,8 +195,8 @@ public class FormDesign extends JFrame implements ToolChangeListener
     public String getToolTipText(MouseEvent event)
     {
       if (eventLinkHighlightingStatus != DesignerCore.ELHS_HIGHLIGHT_NO_LINKS) {
-        for (Iterator i = eventLinks.iterator(); i.hasNext();) {
-          BeanLink bl = (BeanLink) i.next();
+        for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();) {
+          BeanLink bl =  i.next();
           if ((eventLinkHighlightingStatus & DesignerCore.ELHS_HIGHLIGHT_CURRENT_ALL_LINKS) != 0
               && bl.listener == getCurrentBean()
               || eventLinkHighlightingStatus == DesignerCore.ELHS_HIGHLIGHT_ALL_LINKS) {
@@ -280,8 +290,8 @@ public class FormDesign extends JFrame implements ToolChangeListener
 
       if (eventLinkHighlightingStatus != DesignerCore.ELHS_HIGHLIGHT_NO_LINKS
           || eventLinkHighlightingOverride) {
-        for (Iterator i = eventLinks.iterator(); i.hasNext();) {
-          BeanLink bl = (BeanLink) i.next();
+        for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();) {
+          BeanLink bl =  i.next();
           if (eventLinkHighlightingStatus == DesignerCore.ELHS_HIGHLIGHT_ALL_LINKS
               || eventLinkHighlightingOverride)
             highlight(bl, Color.red, g);
@@ -345,7 +355,7 @@ public class FormDesign extends JFrame implements ToolChangeListener
   };
 
   public void addEventLink(Component source, Component listener,
-      Class listenerType)
+      Class<?> listenerType)
   {
     addEventLink(new BeanLink(BeanWrapper.getBean(source), BeanWrapper
         .getBean(listener), listenerType));
@@ -358,7 +368,7 @@ public class FormDesign extends JFrame implements ToolChangeListener
    *          wasn't reached via an iterator.  This is to get around the pesky
    *          <code>ConcurrentModificationException</code>.
    */
-  private void removeEventLink(BeanLink bl, Iterator i)
+  private void removeEventLink(BeanLink bl, Iterator<?> i)
   {
     //Object sourceBean = bl.source;
     Object listenerBean = bl.listener;
@@ -429,7 +439,11 @@ public class FormDesign extends JFrame implements ToolChangeListener
       implements
         PropertyChangeListener
   {
-    private FormDesign fd_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5105614330565272103L;
+	private FormDesign fd_;
 
     public RaiseAction(FormDesign fd)
     {
@@ -464,7 +478,8 @@ public class FormDesign extends JFrame implements ToolChangeListener
       return false;
     };
 
-    public int hashCode(Object obj)
+    @SuppressWarnings("unused")
+	public int hashCode(Object obj)
     {
       return fd_.hashCode();
     };
@@ -504,7 +519,11 @@ public class FormDesign extends JFrame implements ToolChangeListener
    */
   protected static class StatusBar extends JPanel
   {
-    private JLabel beanLabel_, toolLabel_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4334194925101490436L;
+	private JLabel beanLabel_, toolLabel_;
 
     public StatusBar()
     {
@@ -762,7 +781,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
     Action action_delete_form;
     action_delete_form = new AbstractAction("Delete Form")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3903403283659546338L;
+
+	public void actionPerformed(ActionEvent e)
       {
         int result = JOptionPane.showConfirmDialog(null,
             "This action will delete the current " + "form.\n"
@@ -779,7 +803,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
     Action action_delete_bean;
     action_delete_bean = new AbstractAction("Delete Current Bean")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2995505038301887588L;
+
+	public void actionPerformed(ActionEvent e)
       {
         if (getCurrentBean() != null)
           if (!removeCurrentBean())
@@ -792,7 +821,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
     Action action_down_bean;
     action_down_bean = new AbstractAction("Down Bean")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2583484566930557210L;
+
+	public void actionPerformed(ActionEvent e)
       {
         Container bp = getBeanPane();
         if (bp.getComponentCount() == 0) {
@@ -818,7 +852,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
     Action action_up_bean;
     action_up_bean = new AbstractAction("Up Bean")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 5080644801640953278L;
+
+	public void actionPerformed(ActionEvent e)
       {
         Container bp = getBeanPane();
         if (bp.getComponentCount() == 0) {
@@ -841,7 +880,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
     Action action_next_bean;
     action_next_bean = new AbstractAction("Next Bean")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -3161253664494362266L;
+
+	public void actionPerformed(ActionEvent e)
       {
         Container bp = getBeanPane();
         if (bp.getComponentCount() == 0) {
@@ -868,7 +912,12 @@ public class FormDesign extends JFrame implements ToolChangeListener
     Action action_previous_bean;
     action_previous_bean = new AbstractAction("Previous Bean")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -3188247410256181475L;
+
+	public void actionPerformed(ActionEvent e)
       {
         Container bp = getBeanPane();
         if (bp.getComponentCount() == 0) {
@@ -1128,30 +1177,31 @@ public class FormDesign extends JFrame implements ToolChangeListener
     raiseAction = new RaiseAction(this);
   };
 
-  public static FormDesign loadDesign(XMLDecoder decoder, ActionMap am,
+public static FormDesign loadDesign(XMLDecoder decoder, ActionMap am,
       InputMap im, JMenu windowMenu, DesignerCore desCore)
   {
     Form form;
-    Vector beanWrappers;
-    Vector eventLinks;
     form = (Form) decoder.readObject();
-    beanWrappers = (Vector) decoder.readObject();
-    eventLinks = (Vector) decoder.readObject();
+    @SuppressWarnings("unchecked")
+	Vector<BeanWrapper> beanWrappers = (Vector<BeanWrapper>) decoder.readObject();
+    @SuppressWarnings("unchecked")
+    Vector<BeanLink> eventLinks = (Vector<BeanLink>) decoder.readObject();
 
     FormDesign fd = new FormDesign(form, am, im, windowMenu, desCore);
 
-    for (Iterator it = ((BeanContext) form.getBeanContextProxy()).iterator(); it
+    for (@SuppressWarnings("unchecked")
+	Iterator<? extends Component> it = ((BeanContext) form.getBeanContextProxy()).iterator(); it
         .hasNext();)
       try { //Add handle sets for all of the beans already added into the form.
-        fd.newHandleSet((Component) it.next());
+        fd.newHandleSet(it.next());
       } catch (ClassCastException ex) {
         //Ignore exceptions from trying to cast for non-component beans.
       };
 
-    for (Iterator i = eventLinks.iterator(); i.hasNext();)
-      fd.addEventLink((BeanLink) i.next());
-    for (Iterator i = beanWrappers.iterator(); i.hasNext();) {
-      BeanWrapper bw = (BeanWrapper) i.next();
+    for (Iterator<BeanLink> i = eventLinks.iterator(); i.hasNext();)
+      fd.addEventLink( i.next());
+    for (Iterator<BeanWrapper> i = beanWrappers.iterator(); i.hasNext();) {
+      BeanWrapper bw = i.next();
       fd.getBeanPane().add(bw);
       fd.newHandleSet(bw);
     };

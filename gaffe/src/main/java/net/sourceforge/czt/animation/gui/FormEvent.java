@@ -28,6 +28,11 @@ import java.util.EventObject;
 public class FormEvent extends EventObject
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6064692693347880232L;
+
+/**
    * Value for <code>id_</code> indicating whether this event shows that a bean
    *  was added.
    */
