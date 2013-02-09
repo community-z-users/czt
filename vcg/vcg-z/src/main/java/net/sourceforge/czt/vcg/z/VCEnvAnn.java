@@ -83,11 +83,11 @@ public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
    * @param v
    */
   @Override
-  public <R> R accept(Visitor<R> v)
+  public <A> A accept(Visitor<A> v)
   {
     if (v instanceof VCEnvAnnVisitor)
     {
-      VCEnvAnnVisitor<R> visitor = (VCEnvAnnVisitor<R>) v;
+      VCEnvAnnVisitor<A> visitor = (VCEnvAnnVisitor<A>) v;
       return visitor.visitVCGEnvAnn((VCEnvAnn<R>) this);
     }
     return super.accept(v);

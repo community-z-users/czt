@@ -44,7 +44,6 @@ import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.KnownExtensions;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -66,12 +65,12 @@ import net.sourceforge.czt.z.util.WarningManager.WarningOutput;
  * @author Leo Freitas
  * @date Dec 25, 2010
  */
-public abstract class VCGUtils<R> implements VCGPropertyKeys
+public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
 {
 
   /* UTILITY CLASS SETUP METHODS */
 
-  private VCG<R> vcg_;
+  private VCG<R, T, B> vcg_;
   private boolean debug_;
   private Dialect extension_;
 
@@ -82,9 +81,9 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     extension_ = SectionManager.DEFAULT_EXTENSION;
   }
 
-  protected abstract VCG<R> createVCG();
+  protected abstract VCG<R, T, B> createVCG();
 
-  public final VCG<R> getVCG()
+  public final VCG<R, T, B> getVCG()
   {
     if (vcg_ == null)
     {
@@ -287,9 +286,9 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
    * @param type
    * @return
    */
-  protected <T> Key<T> createSMKey(String originalSectName, Class<T> type)
+  protected <K> Key<K> createSMKey(String originalSectName, Class<K> type)
   {
-    return new Key<T>(originalSectName, type);
+    return new Key<K>(originalSectName, type);
   }
 
   protected void printBenchmarks(int exitCode, long totalNumberErrors, SortedMap<String, List<Long>> timesPerFile)
@@ -638,7 +637,6 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
     Boolean raiseWarnings = null;
     Boolean hideWarnings = null;
-    Boolean showWarnings = null;
     Boolean processParents = null;
     Boolean addTrivialVC = null;
     Boolean checkDefTblConsistency = null;
@@ -779,7 +777,7 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
     assert manager != null && isConfigured();
 
     // collect default.
-    VCG<?> vcg = getVCG();
+    VCG<?, ?, ?> vcg = getVCG();
 
 
     raiseWarnings = raiseWarnings == null ? vcg.isRaisingTypeWarnings() : raiseWarnings;
@@ -808,7 +806,6 @@ public abstract class VCGUtils<R> implements VCGPropertyKeys
 
     manager.setTracing(debug_);
 
-    // add a potentially old czt path (? TODO: decide to add this or not ?)
     String localcztpath = "";
     if (cztpath != null && !cztpath.trim().isEmpty())
     {

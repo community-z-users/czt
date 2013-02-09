@@ -25,10 +25,21 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
- *
+ * <p>
+ * A Verification Condition Generator interface implemented by various tools to generate VC conjectures 
+ * enforcing specific consistency properties of specifications. Known implementations are for domain
+ * checking (or well-formedness) conditions, feasibility of operations, and refinement simulations.
+ * </p>
+ * <p>
+ * We make use of generic types to maximize reuse of structure, if with different underlying types.
+ * The generic type R is used by the VCs to determine what kind of term it's being used. It gets 
+ * instantiated mostly to Pred terms. Generic T and B are used by the VCG context to enforce the 
+ * meta-specification protocol to be used by the specific VCGs. See Feasibility and Refinement VCGs
+ * for an example.
+ * </p>
  * @author Leo Freitas
  */
-public interface VCG<R> {
+public interface VCG<R, T, B> {
 
   /**
    * True whenever section manager and VC collectors are not null, if the
@@ -49,7 +60,7 @@ public interface VCG<R> {
   void reset();
 
   SectionManager getManager();
-  VCCollector<R> getVCCollector();
+  VCCollector<R, T, B> getVCCollector();
   Class<? extends VCEnvAnn<R>> getVCEnvAnnClass();
 
   void typeCheck(String sectName, boolean sourceSect) throws VCGException;

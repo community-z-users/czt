@@ -30,18 +30,19 @@ import net.sourceforge.czt.z.ast.Para;
  * Interface characterising VC collection semantics for CZT Terms.
  * It is a kind of term visitor.
  *
- * TODO: What else should a collector contain?
- * @param <R> WHAT SHOULD THIS BE FOR VCs?
+ * @param <R> Pred for most VCs
+ * @param <T>
+ * @param <B>
  * @author Leo Freitas
  * @date Dec 24, 2010
  */
-public interface VCCollector<R> extends TermVisitor<R>
+public interface VCCollector<R, T, B> extends TermVisitor<R>
 {
 
   VCNameFactory getVCNameFactory();
   void setVCNameFactory(VCNameFactory vcf);
   
-  <T, B> VCGContext<T, B> getVCGContext();
+  VCGContext<T, B> getVCGContext();
   
   /**
    * Calculate the verification condition for a given term in the context of
