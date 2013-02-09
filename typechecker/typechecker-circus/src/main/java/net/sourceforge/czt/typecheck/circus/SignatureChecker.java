@@ -169,7 +169,8 @@ public class SignatureChecker
 
   public Signature visitUnknownType(UnknownType unknownType)
   {
-    Signature result = visitType2(unknownType); // ?
+//    Signature result =
+    		visitType2(unknownType); // ?
     throw new UndeterminedTypeException();
     //return result;
   }  

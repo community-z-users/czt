@@ -603,13 +603,13 @@ public final class ZUtils
    * @param o the reference to search for.
    * @return true if and only if the reference is in the list.
    */
-  public static boolean containsObject(List<?> list, Object o)
+  public static boolean containsObject(List<Term> list, Object o)
   {
     boolean result = false;
-    Iterator<?> iter = list.iterator();
+    Iterator<Term> iter = list.iterator();
     while (iter.hasNext())
     {
-      Object next = iter.next();
+      Term next = iter.next();
       if (next == o)
       {
         result = true;

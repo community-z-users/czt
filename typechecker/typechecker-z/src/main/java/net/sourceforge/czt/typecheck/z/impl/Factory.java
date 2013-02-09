@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static net.sourceforge.czt.z.util.ZUtils.*;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.impl.ListTermImpl;

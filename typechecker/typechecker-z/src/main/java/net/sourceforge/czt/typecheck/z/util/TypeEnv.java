@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z.util;
 
-import java.io.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +25,8 @@ import java.util.Map;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
-import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**

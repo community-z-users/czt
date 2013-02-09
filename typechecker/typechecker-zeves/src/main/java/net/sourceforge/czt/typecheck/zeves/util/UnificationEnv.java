@@ -20,7 +20,6 @@
 package net.sourceforge.czt.typecheck.zeves.util;
 
 import net.sourceforge.czt.typecheck.z.util.UResult;
-import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type2;
 
 /**

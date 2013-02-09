@@ -26,7 +26,12 @@ public class UndeterminedTypeException
   extends net.sourceforge.czt.util.CztException
 {
 
-  public UndeterminedTypeException(Throwable cause)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8096239002003351253L;
+
+public UndeterminedTypeException(Throwable cause)
   {
     super(cause);
   }

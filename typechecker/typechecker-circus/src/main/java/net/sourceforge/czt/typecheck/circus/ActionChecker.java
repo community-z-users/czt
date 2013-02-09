@@ -353,7 +353,8 @@ public class ActionChecker
     // null for interleaving
     if (cs != null)
     {
-      ChannelSetType cst = typeCheckChannelSet(cs, getChannelSetErrorParams());        
+      @SuppressWarnings("unused")
+	ChannelSetType cst = typeCheckChannelSet(cs, getChannelSetErrorParams());        
     }
     
     // typecheck inner action
@@ -400,7 +401,8 @@ public class ActionChecker
         lit.hasPrevious() ; ) 
     {
       ChannelSet cs = lit.previous();
-      ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
+      @SuppressWarnings("unused")
+	ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
       GlobalDefs.addNoDuplicates(0, cs, actionSignature_.getUsedChannelSets());      
     }    
         
@@ -655,7 +657,7 @@ public class ActionChecker
     ZRenameList zrl = term.getZRenameList();
     int i = 1;
     SubstResolution resolution;
-    boolean hasError = false;
+    //boolean hasError = false;
     for (NewOldPair nop : zrl)
     {
       // check both ln1 and ln2 are known local variables,   
@@ -694,6 +696,9 @@ public class ActionChecker
             name = newName.toString() + " and " +
               oldName.toString();
             break;
+          case Go:
+        	name = "??? shouldn't be this value Go??? ";
+        	break;
         }
         Object[] params = { getCurrentProcessName(), getCurrentActionName(), name, i, resolution };
         error(term, ErrorMessage.NOT_LOCAL_VAR_NAME_IN_SUBST_ACTION, params);
@@ -837,7 +842,8 @@ public class ActionChecker
     checkActionParaScope(term, null);
 
     ChannelSet cs = term.getChannelSet();
-    ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
+    @SuppressWarnings("unused")
+	ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
 
     // check the action itself and add signature
     CircusCommunicationList commList = visit(term.getCircusAction());

@@ -24,7 +24,6 @@ import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -33,7 +32,6 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
-import net.sourceforge.czt.typecheck.z.*;
 
 /**
  * An <code>ExprChecker</code> instance visits the Exprs instances in
@@ -140,7 +138,8 @@ public class ExprChecker
 
     //if the left expr is not a class description, raise an error
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = strongUnify(vPowerType, exprType);
+    //UResult unified = 
+    		strongUnify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&

@@ -20,15 +20,8 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
-
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * A <code>CharTuple</code> instance visits a ZSchText instances in an
@@ -62,7 +55,7 @@ public class CharTupleChecker
     //get the type of the name from the expression
     List<Type2> result = factory().list();
     ZNameList zNameList = varDecl.getName();
-    for (Name name : zNameList) {
+    for (@SuppressWarnings("unused") Name name : zNameList) {
       Type2 type = getType2FromAnns(varDecl.getExpr());
 
       //if the type is a PowerType, take the inner type
@@ -137,7 +130,7 @@ public class CharTupleChecker
       SchemaType schemaType = (SchemaType) type;
 
       DecorExpr decorExpr = (DecorExpr) expr;
-      Stroke stroke = decorExpr.getStroke();
+      //Stroke stroke = decorExpr.getStroke();
 
       Signature signature = schemaType.getSignature();
       List<NameTypePair> newPairs = factory().list();

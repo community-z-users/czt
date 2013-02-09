@@ -21,7 +21,6 @@ package net.sourceforge.czt.typecheck.z;
 import java.io.Writer;
 import java.io.StringWriter;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -472,7 +471,7 @@ abstract public class Checker<R>
   /**
    * Returns the visitors used to typechecker a spec.
    */
-  protected Checker<Object> specChecker()
+  protected Checker<List<NameSectTypeTriple>> specChecker()
   {
     return typeChecker_.specChecker_;
   }
