@@ -1335,7 +1335,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return (name.indexOf(ZString.ARG) != -1);
   }
 
-  private boolean hasOpArg(ZName name)
+  @SuppressWarnings("unused")
+private boolean hasOpArg(ZName name)
   {
     return hasOpArg(name.getWord());
   }
@@ -1397,7 +1398,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return getZEvesName(name, false, false, keepOpArgs);
   }
 
-  private String getDeclName(ZName name)
+  @SuppressWarnings("unused")
+private String getDeclName(ZName name)
   {
     return getZEvesName(name, true, false, null);
   }

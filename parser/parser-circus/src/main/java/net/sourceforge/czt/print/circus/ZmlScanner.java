@@ -27,7 +27,6 @@ import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
-import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
 
 /**
  * This Scanner uses the print visitor to tokenize a

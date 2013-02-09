@@ -173,9 +173,9 @@ public abstract class EvalTest extends TestCase
     try {
       SectionManager sectman = animator.getSectionManager();
       URL url = getTestExample(filename);
-      sectman.put(new Key(filename,Source.class),
+      sectman.put(new Key<Source>(filename,Source.class),
 		  new UrlSource(url));
-      spec = (Spec)sectman.get(new Key(filename,Spec.class));
+      spec = sectman.get(new Key<Spec>(filename,Spec.class));
       //System.out.println("parsing '"+url+"' gives: " + spec);
       String sectName = null;
       // set zlive to use the first Z section in the file.

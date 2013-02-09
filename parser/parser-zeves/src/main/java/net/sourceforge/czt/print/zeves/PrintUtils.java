@@ -31,7 +31,6 @@ import net.sourceforge.czt.util.Section;
  *
  * @author Petra Malik
  */
-@SuppressWarnings("FinalClass")
 public final class PrintUtils 
 {
   /**

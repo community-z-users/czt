@@ -43,13 +43,13 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class LookupOracle
   extends AbstractOracle
 {
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
-    Key key = new Key(section, DefinitionTable.class);
+    Key<DefinitionTable> key = new Key<DefinitionTable>(section, DefinitionTable.class);
     DefinitionTable table;
     try {
-      table = (DefinitionTable) manager.get(key);
+      table = manager.get(key);
     }
     catch (CommandException e) {
       table = null;

@@ -69,7 +69,7 @@ public class ZSetTest extends TestCase
    */
   public void testIterator()
   {
-    ListIterator it = sc.iterator();
+    ListIterator<ZValue> it = sc.iterator();
     Assert.assertTrue(it.hasNext());
     Assert.assertFalse(it.hasPrevious());
     Assert.assertEquals(it.next(),sa);

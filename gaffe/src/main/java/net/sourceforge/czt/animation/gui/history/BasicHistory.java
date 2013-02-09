@@ -46,7 +46,7 @@ public class BasicHistory extends HistorySupport
    * BasicHistory would do better to go through the public functions
    * <code>BasicHistory</code> provides.
    */
-  protected ListIterator currentSolution;
+  protected ListIterator<SolutionSet> currentSolution;
 
   //Constructors
   /**

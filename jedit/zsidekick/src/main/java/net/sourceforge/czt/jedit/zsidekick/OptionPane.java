@@ -26,7 +26,11 @@ import org.gjt.sp.jedit.*;
 
 public class OptionPane extends AbstractOptionPane
 {
-  private JCheckBox ignoreUnknownLatexCommands_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8263809384758327653L;
+private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox showCompleteTree_;
   private JCheckBox printIds_;
   private JCheckBox printZEves_;

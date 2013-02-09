@@ -74,7 +74,7 @@ public class CopyVisitor
    */
   private Map<ZName, Expr> generalize_;
   
-  private String generalizing_;
+  //private String generalizing_;
   
   public Map<ZName, Expr> getGeneralize()
   {
@@ -90,7 +90,7 @@ public class CopyVisitor
    */
   public void setGeneralize(String why, Map<ZName, Expr> generalize)
   {
-    this.generalizing_ = why;
+    //this.generalizing_ = why;
     this.generalize_ = generalize;
   }
 
@@ -248,8 +248,8 @@ public class CopyVisitor
       ZName name = (ZName) expr.getName();
       if (generalize_ != null && generalize_.containsKey(name)) {
         Expr result = generalize_.get(name);
-        String msg = "copy visitor for " + generalizing_ +
-          " transforms type " + name + " to expr "+result;
+        //String msg = "copy visitor for " + generalizing_ +
+        //  " transforms type " + name + " to expr "+result;
         // System.out.println(msg);
         return result; 
       }

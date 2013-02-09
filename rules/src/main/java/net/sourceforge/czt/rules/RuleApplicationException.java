@@ -29,7 +29,11 @@ import net.sourceforge.czt.zpatt.ast.RulePara;
 public class RuleApplicationException
   extends Exception
 {
-  private RulePara rulePara_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8156684409766561167L;
+private RulePara rulePara_;
   private Sequent sequent_;
 
   public RuleApplicationException(RulePara rulePara,

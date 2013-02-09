@@ -58,7 +58,7 @@ public class BindExpr_JTextAreaAdapter extends BindExpr_DefaultAdapter
     ZDeclList declList = expr.getZDeclList();
     component.setText("");
     String temp = "";
-    int i = 0;
+    //int i = 0;
     for (Decl decl : declList) {
       ConstDecl tempDecl = (ConstDecl) decl;
       temp = tempDecl.getZName().toString();
@@ -66,7 +66,7 @@ public class BindExpr_JTextAreaAdapter extends BindExpr_DefaultAdapter
       temp += GaffeUtil.encodeExpr(tempDecl.getExpr());
       temp += System.getProperty("line.separator");
       component.append(temp);
-      i++;
+      //i++;
     }
     return component;
   }

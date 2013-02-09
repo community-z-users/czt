@@ -86,12 +86,11 @@ public class SimpleProverTest
     SectionManager manager = new SectionManager(Dialect.ZPATT);
     URL url = getClass().getResource(resource);
     assertFalse(url == null);
-    manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
-    Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
+    manager.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
+    Term term =  manager.get(new Key<Spec>(url.toString(), Spec.class));
     String sectname = term.accept(new GetZSectNameVisitor());
-    manager.get(new Key(sectname, SectTypeEnvAnn.class));
-    RuleTable rules =
-      (RuleTable) manager.get(new Key(sectname, RuleTable.class));
+    manager.get(new Key<SectTypeEnvAnn>(sectname, SectTypeEnvAnn.class));
+    RuleTable rules = manager.get(new Key<RuleTable>(sectname, RuleTable.class));
     
     // turn rules logging on
     Logger LOG = Logger.getLogger("net.sourceforge.czt.rules");

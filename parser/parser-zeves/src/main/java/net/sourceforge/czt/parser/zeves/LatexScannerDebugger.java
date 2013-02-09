@@ -67,7 +67,7 @@ import net.sourceforge.czt.zeves.util.PrintVisitor;
  * @date Jun 22, 2011
  */
 public class LatexScannerDebugger {
- private static Set< String > collectZEvesProofSymbolNames()
+ public static Set< String > collectZEvesProofSymbolNames()
   {
     Set< String > result = new HashSet<String>();
     EnumSet<ZEvesProofToken> ZEVESPROOF_TOKENS = EnumSet.allOf(ZEvesProofToken.class);
@@ -91,7 +91,7 @@ public class LatexScannerDebugger {
     return result;
   }
 
-  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
+  public static <K, V> Map<V, K> flipMap(Map<K, V> m)
   {
     Map<V, K> result = new HashMap<V, K>();
     Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();
@@ -169,7 +169,7 @@ public class LatexScannerDebugger {
 
       if (isDebugging)
       {
-        System.out.println("SM " + source.getMarkup() + " printing of " + source.getName());
+        System.out.println("SM " + source.getMarkup() + " printing of " + source.getName() + " = " + s);
       }
 
       List<Markup> markups = new ArrayList<Markup>(Arrays.asList(Markup.values()));
@@ -252,7 +252,6 @@ public class LatexScannerDebugger {
         debugPrinter(source, sectInfo_, term, isDebugging);
   }
 
-  @SuppressWarnings("CallToThreadDumpStack")
   public static void main(String[] args)
   {
     try {

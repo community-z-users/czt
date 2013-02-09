@@ -98,7 +98,7 @@ public class ZEvesPrintVisitor
     withinZEvesBindExpr_ = new Stack<Boolean>();
     currInstKind_ = new Stack<InstantiationKind>();
   }
-
+  
   public ZEvesPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm)
   {
     super(printer, properties);
@@ -106,6 +106,12 @@ public class ZEvesPrintVisitor
     withinZEvesBindExpr_ = new Stack<Boolean>();
     currInstKind_ = new Stack<InstantiationKind>();
   }
+  
+  protected WarningManager getWarningManager()
+  {
+	  return warningManager_;
+  }
+
 
   private void checkStack(InstantiationKind expected)
   {

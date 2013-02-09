@@ -64,8 +64,7 @@ public class AstToPrintTreeVisitor extends
    * @param list
    */
   @Override
-  @SuppressWarnings("unchecked")
-  protected void preprocessTerm(Term term, List list)
+  protected void preprocessTerm(Term term, List<Object> list)
   {
     super.preprocessTerm(term, list);
     // within AxPara

@@ -81,7 +81,7 @@ public class SimpleProver
   private void typecheck(String section, SectionManager manager)
     throws CommandException
   {
-    manager.get(new Key(section, SectTypeEnvAnn.class));
+    manager.get(new Key<SectTypeEnvAnn>(section, SectTypeEnvAnn.class));
   }
 
   private Map<String,AbstractOracle> createOracleMap()
@@ -220,7 +220,8 @@ public class SimpleProver
     if (answer instanceof CheckPassed) return true;
     AbstractOracle checker = oracles_.get(oracleAppl.getName());
     if (checker != null) {
-      List args = oracleAppl.getAnn(List.class);
+      @SuppressWarnings("unchecked")
+	List<? extends Term> args = (List<? extends Term>)oracleAppl.getAnn(List.class);
       Set<Binding> bindings;
       try {
         bindings = checker.check(args, manager_, section_);

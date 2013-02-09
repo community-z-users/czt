@@ -81,7 +81,7 @@ public class ZTupleTest extends TestCase
    */
   public void testIterator()
   {
-    ListIterator it = tc.iterator();
+    ListIterator<ZValue> it = tc.iterator();
     Assert.assertTrue(it.hasNext());
     Assert.assertFalse(it.hasPrevious());
     Assert.assertEquals(it.next(),ta);

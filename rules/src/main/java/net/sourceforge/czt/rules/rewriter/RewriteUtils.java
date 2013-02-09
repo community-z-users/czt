@@ -50,14 +50,14 @@ public class RewriteUtils
   public static Term rewrite(Term term, SectionManager manager, String section)
     throws CommandException, UnboundJokerException
   {
-    RuleTable rules = (RuleTable)
-      manager.get(new Key(section, RuleTable.class));
+    RuleTable rules = 
+      manager.get(new Key<RuleTable>(section, RuleTable.class));
     return Strategies.innermost(term, rules, manager, section);
   }
 
   public static ApplExpr createNormalizeAppl(Expr expr)
   {
-    final Factory factory = new Factory();
+//    final Factory factory = new Factory();
     final List<Expr> exprList = new ArrayList<Expr>();
     final Name name = factory_.createZName("normalize",
                                           factory_.createZStrokeList(),

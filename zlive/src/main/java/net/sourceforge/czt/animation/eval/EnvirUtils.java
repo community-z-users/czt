@@ -37,11 +37,11 @@ public class EnvirUtils {
             env = env.nextEnv;
         }
         assert n.size() == e.size();
-        for(ListIterator li = n.listIterator(n.size()),
-                         lj = e.listIterator(e.size());
-                li.hasPrevious() && lj.hasPrevious(); ) {
-            ZName name = (ZName)li.previous();
-            Expr expr = (Expr)lj.previous();
+        ListIterator<ZName> li = n.listIterator(n.size());
+        ListIterator<Expr> lj = e.listIterator(e.size());
+        while (li.hasPrevious() && lj.hasPrevious()) {
+            ZName name = li.previous();
+            Expr expr = lj.previous();
             result = result.plus(name, expr);
         }
         return result;

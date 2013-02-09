@@ -19,17 +19,6 @@
 
 package net.sourceforge.czt.print.zeves;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.Parent;
-import net.sourceforge.czt.z.ast.Sect;
-import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.visitor.ParentVisitor;
-import net.sourceforge.czt.z.visitor.SpecVisitor;
-import net.sourceforge.czt.z.visitor.ZSectVisitor;
-
 /**
  *
  * @author Leo Freitas

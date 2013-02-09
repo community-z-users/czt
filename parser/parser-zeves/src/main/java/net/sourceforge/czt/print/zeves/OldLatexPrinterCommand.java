@@ -19,21 +19,15 @@
 
 package net.sourceforge.czt.print.zeves;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.util.OldLatexString;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.ToSpiveyZVisitor;
 import net.sourceforge.czt.print.z.Unicode2OldLatex;
 import net.sourceforge.czt.session.Command;
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.Section;
 
 /**
  *

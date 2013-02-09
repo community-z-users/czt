@@ -159,7 +159,7 @@ public abstract class HistorySupport implements History
   public void addInput(ZLocator variable, BeanContext beanContext,
                        String beanName, String property)
   {
-    Iterator i = beanContext.iterator();
+    Iterator<?> i = beanContext.iterator();
     Object bean = null;
     while (i.hasNext()) {
       Object currBean;

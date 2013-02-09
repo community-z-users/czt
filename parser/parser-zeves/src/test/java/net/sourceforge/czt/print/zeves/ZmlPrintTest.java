@@ -24,16 +24,7 @@ import java.net.URL;
 import org.junit.Ignore;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.AbstractParserTest;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.StringSource;
-import net.sourceforge.czt.session.UrlSource;
-import net.sourceforge.czt.z.ast.Spec;
 
 /**
  *

@@ -87,6 +87,11 @@ public final class PropertiesWindow extends JFrame
       BeanSelectedListener
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4532211069430536158L;
+
+/**
    * The bean that properties are being shown for.
    */
   private Object bean_ = null;
@@ -248,7 +253,12 @@ public final class PropertiesWindow extends JFrame
     Action action_show_hidden_descriptors = new AbstractAction(
         "Show hidden descriptors")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -8445096317956137024L;
+
+	public void actionPerformed(ActionEvent e)
       {
         if (e.getSource() instanceof AbstractButton)
           setHiddenShown(((AbstractButton) e.getSource()).isSelected());
@@ -262,7 +272,12 @@ public final class PropertiesWindow extends JFrame
     Action action_show_expert_descriptors = new AbstractAction(
         "Show expert descriptors")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1761858462024879226L;
+
+	public void actionPerformed(ActionEvent e)
       {
         if (e.getSource() instanceof AbstractButton)
           setExpertShown(((AbstractButton) e.getSource()).isSelected());
@@ -276,7 +291,12 @@ public final class PropertiesWindow extends JFrame
     Action action_show_onlyPreferred_descriptors = new AbstractAction(
         "Only show preferred descriptors")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -1905918719614412375L;
+
+	public void actionPerformed(ActionEvent e)
       {
         if (e.getSource() instanceof AbstractButton) {
           AbstractButton ab = (AbstractButton) e.getSource();
@@ -293,7 +313,12 @@ public final class PropertiesWindow extends JFrame
     Action action_show_transient_descriptors = new AbstractAction(
         "Show transient descriptors")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3123607846797724566L;
+
+	public void actionPerformed(ActionEvent e)
       {
         if (e.getSource() instanceof AbstractButton)
           setTransientShown(((AbstractButton) e.getSource()).isSelected());
@@ -307,7 +332,12 @@ public final class PropertiesWindow extends JFrame
     Action action_show_onlyEditable_descriptors = new AbstractAction(
         "Only show editable properties")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 639388793374507061L;
+
+	public void actionPerformed(ActionEvent e)
       {
         if (e.getSource() instanceof AbstractButton) {
           AbstractButton ab = (AbstractButton) e.getSource();
@@ -381,7 +411,7 @@ public final class PropertiesWindow extends JFrame
         //    setBean instead.
         Customizer customiser;
         try {
-          Class customiserClass = beanInfo_.getBeanDescriptor()
+          Class<?> customiserClass = beanInfo_.getBeanDescriptor()
               .getCustomizerClass();
           customiser = (Customizer) customiserClass.newInstance();
         } catch (Exception ex) {
@@ -414,7 +444,13 @@ public final class PropertiesWindow extends JFrame
     propertiesTable_ = new PropertiesTable(this);
     propertiesTableT_ = new JTable(propertiesTable_)
     {
-      protected void createDefaultEditors()
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3624800651478485823L;
+
+	@SuppressWarnings("rawtypes")
+	protected void createDefaultEditors()
       {
         defaultEditorsByColumnClass = new Hashtable();
       };
@@ -768,22 +804,26 @@ public final class PropertiesWindow extends JFrame
       cellEditorListeners.remove(CellEditorListener.class, l);
     };
 
-    public Object[] getListenerList()
+    @SuppressWarnings("unused")
+	public Object[] getListenerList()
     {
       return cellEditorListeners.getListenerList();
     };
 
+    @SuppressWarnings("unused")
     public EventListener[] getListeners(Class<EventListener> t)
     {
       return cellEditorListeners.getListeners(t);
     };
 
+    @SuppressWarnings("unused")
     public int getListenerCount()
     {
       return cellEditorListeners.getListenerCount();
     };
 
-    public int getListenerCount(Class t)
+    @SuppressWarnings("unused")
+    public int getListenerCount(Class<?> t)
     {
       return cellEditorListeners.getListenerCount(t);
     };
@@ -796,7 +836,12 @@ public final class PropertiesWindow extends JFrame
    */
   private class OtherRenderer extends DefaultTableCellRenderer
   {
-    public Component getTableCellRendererComponent(JTable table, Object value,
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7919753638859608807L;
+
+	public Component getTableCellRendererComponent(JTable table, Object value,
         boolean isSelected, boolean hasFocus, int row, int column)
     {
       int valueColumn = table.getColumn("Value").getModelIndex();

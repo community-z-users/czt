@@ -133,7 +133,7 @@ public class EvalSetTest
     if ( ! (resultSet instanceof SetComp))
       Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
     Assert.assertEquals(0, resultSet.size());
-    Iterator it = resultSet.iterator();
+    Iterator<Expr> it = resultSet.iterator();
     Assert.assertTrue(it != null);
     Assert.assertFalse(it.hasNext());
     Assert.assertFalse(resultSet.contains(i10));
@@ -158,7 +158,7 @@ public class EvalSetTest
       Assert.assertTrue(resultSet.estSize() <= 4.0);
     //Checking the freeVars() method
     //Some subclasses may not use j.
-    Set temp = set.freeVars();
+    Set<ZName> temp = set.freeVars();
     Assert.assertTrue(temp.contains(i));
     Assert.assertTrue(temp.contains(k));
     Assert.assertTrue(temp.contains(s));

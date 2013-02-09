@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.ui;
 
-import static junit.framework.Assert.*;
 import junit.framework.*;
 
 public class MainTest extends TestCase

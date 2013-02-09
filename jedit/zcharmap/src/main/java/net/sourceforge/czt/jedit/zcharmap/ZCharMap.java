@@ -51,6 +51,11 @@ public class ZCharMap extends JPanel
   //############################################################
 
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3854731389073765118L;
+
+/**
    * The jedit view.
    */
   private View mView;
@@ -152,7 +157,7 @@ public class ZCharMap extends JPanel
 
   private static final int MIN_STR_WIDTH = 50;
   private final List<String> widestCollumn = new ArrayList<String>();
-  private static int check = 1;
+//  private static int check = 1;
   
   private void setTableModel()
   {
@@ -182,7 +187,7 @@ public class ZCharMap extends JPanel
       ex.printStackTrace();
     }
      */    
-    check++;
+    //check++;
     FontMetrics fm = mView.getFontMetrics(mView.getTextArea().getPainter().getFont());
     for(int colIdx = 0; colIdx < mTable.getColumnModel().getColumnCount(); colIdx++) {
       int strWidth = fm.stringWidth(widestCollumn.get(colIdx));
@@ -202,6 +207,10 @@ public class ZCharMap extends JPanel
   class ZCharTable extends AbstractTableModel
   {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 207544765485161935L;
+	/**
      * An array of objects where the first column contains strings
      * (the heading for the corresponding row) and all other columns
      * contain ZChar objects.
@@ -412,7 +421,12 @@ public class ZCharMap extends JPanel
    * A string renderer which centers the given string onto a JLabel.
    */
   class StringRenderer extends DefaultTableCellRenderer {
-    public StringRenderer(boolean centered)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7753366536461217359L;
+
+	public StringRenderer(boolean centered)
     {
       super();
       setFont(mView.getTextArea().getPainter().getFont());
@@ -449,7 +463,12 @@ public class ZCharMap extends JPanel
    * A string renderer which centers the given string onto a JLabel.
    */
   class StatusRenderer extends JLabel {
-    public StatusRenderer(String string)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3835501190046105676L;
+
+	public StatusRenderer(String string)
     {
       super(string);
       setFont(mView.getTextArea().getPainter().getFont());

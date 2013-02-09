@@ -633,7 +633,8 @@ ZSectVisitor<AlloyExpr>
     }
   }
 
-  private void debug(Term t) {
+  @SuppressWarnings("unused")
+private void debug(Term t) {
     StringWriter foo = new StringWriter();
     PrintUtils.print(t, foo, manager_, section_, Markup.UNICODE);
     System.out.println("Debug: " + foo);

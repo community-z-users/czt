@@ -82,7 +82,8 @@ public class ZSideKickPlugin
 
   public static boolean debug_ = false;
 
-  public static void setDefaultProperties()
+//  @SuppressWarnings("unused")
+public static void setDefaultProperties()
   {
     jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
             ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
