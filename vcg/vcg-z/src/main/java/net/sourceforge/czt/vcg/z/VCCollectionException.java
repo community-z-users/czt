@@ -26,7 +26,12 @@ package net.sourceforge.czt.vcg.z;
  */
 public class VCCollectionException extends VCGException
 {
- /** Creates a new instance of VCGException
+ /**
+	 * 
+	 */
+	private static final long serialVersionUID = -495171216536668777L;
+
+/** Creates a new instance of VCGException
    * @param message
    */
   public VCCollectionException(String message)

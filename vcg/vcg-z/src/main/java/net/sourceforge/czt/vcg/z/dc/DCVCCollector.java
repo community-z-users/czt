@@ -20,6 +20,8 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedSet;
+
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
@@ -52,6 +54,7 @@ import net.sourceforge.czt.z.ast.QntPred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZExprList;
@@ -65,6 +68,7 @@ import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCGContext;
 import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.transformer.dc.ZPredTransformerDC;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -224,7 +228,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public DCVCCollector(Factory factory)
   {
     super(factory);
-    domName_ = factory_.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
+    domName_ = factory.createZName(DOM_NAME); // not an operator (see relation_toolkit.tex)!
     setInfixAppliesTo(PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
     predTransformer_ = new ZPredTransformerDC(factory, this);
     predTransformer_.setApplyTransformer(PROP_VCG_DOMAINCHECK_APPLY_TRANSFORMERS_DEFAULT);
@@ -245,7 +249,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   {
     infixAppliesTo_ = value;
     // is it (f appliesTo x) or (f, x) \in appliesToNoFix?
-    appliesToOpName_ = factory_.createZName(infixAppliesTo_ ? APPLIESTO_NAME_INFIX : APPLIESTO_NAME_NOFIX);
+    appliesToOpName_ = getZFactory().createZName(infixAppliesTo_ ? APPLIESTO_NAME_INFIX : APPLIESTO_NAME_NOFIX);
   }
   
   /** AUXILIARY TERM FACTORY METHODS */
@@ -369,6 +373,12 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    * @return
    * @throws VCCollectionException
    */
+  
+  @Override
+  public VCGContext<Type2, SortedSet<Definition>> getVCGContext()
+  {
+	  return super.getVCGContext();
+  }
 
   @Override
   protected VCType getVCType(Pred vc) throws VCCollectionException
@@ -791,24 +801,24 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         break;
       case PARTIAL:
         // args \in \dom~f
-        Expr domF = factory_.createApplication(domName_, name);        
-        applPred = factory_.createMemPred(packedArgs, domF, Boolean.FALSE);
+        Expr domF = getFactory().createApplication(domName_, name);        
+        applPred = getFactory().createMemPred(packedArgs, domF, Boolean.FALSE);
         break;
       case RELATIONAL:
         // f applies$to a, which is defined as \_ \appliesTo \_ -> (\exists_1 y: Y @ (a, y) \in f) in dc\_toolkit    
-        TupleExpr appliesToArgs = factory_.createTupleExpr(name, packedArgs);
+        TupleExpr appliesToArgs = getFactory().createTupleExpr(name, packedArgs);
         
         if (isAppliesToInfix())
         {        
           // this format is like f \appliesTo args (i.e. infix operator template)
-          applPred = factory_.createRelOpAppl(appliesToArgs, appliesToOpName_); // as an operator
+          applPred = getFactory().createRelOpAppl(appliesToArgs, appliesToOpName_); // as an operator
         }
         else
         {
           // Create the appliesTo name exlression 
-          Expr appliesToRefExpr = factory_.createRefExpr(appliesToOpName_);
+          Expr appliesToRefExpr = getFactory().createRefExpr(appliesToOpName_);
           // this format is like (f, args) \in \appliesTo (i.e. membership predicate)
-          applPred = factory_.createMemPred(appliesToArgs, appliesToRefExpr, Boolean.FALSE);
+          applPred = getFactory().createMemPred(appliesToArgs, appliesToRefExpr, Boolean.FALSE);
         }
         break;
       default:
@@ -1020,9 +1030,9 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     Pred dce = visit(term.getExpr());// DC(E)
     
     // (\LET x == E1, ... @ DC(E)), as an expression to be transformed in a predicate
-    LetExpr letexpr = factory_.createLetExpr(term.getZSchText(),
+    LetExpr letexpr = getFactory().createLetExpr(term.getZSchText(),
             predTransformer_.predAsSchExpr(dce));
-    Pred letpred = factory_.createExprPred(letexpr);
+    Pred letpred = getFactory().createExprPred(letexpr);
     
     // DC(D) \land (\LET x == E1, ... @ DC(E))
     return predTransformer_.andPred(dcd, letpred);
@@ -1066,7 +1076,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     //Pred dcp = visit(pred); // DC(P)
 
     // \exists_1 D | true @ P
-    Pred exists1 = factory_.createExists1Pred(factory_.createZSchText(decl, predTransformer_.truePred()), pred);
+    Pred exists1 = getFactory().createExists1Pred(getFactory().createZSchText(decl, predTransformer_.truePred()), pred);
 
     // (\forall D @ DC(P) \land (P \implies DC(E))) ; term.getExpr() may be null for true when D is simple (not a schema, say).
     //Pred dcAI = predTransformer_.impliedZSchTextDC(term.getZSchText(), visit(term.getExpr()));
@@ -1101,10 +1111,10 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     Pred dce2 = visit(expr2); // DC(E2);
     
     // (\IF P \THEN DC(E1) \ELSE DC(E2)), as a schema expression
-    Expr condExpr = factory_.createCondExpr(pred, 
+    Expr condExpr = getFactory().createCondExpr(pred, 
             predTransformer_.predAsSchExpr(dce1),
             predTransformer_.predAsSchExpr(dce2));
-    Pred ifpred = factory_.createExprPred(condExpr);
+    Pred ifpred = getFactory().createExprPred(condExpr);
     
     return predTransformer_.andPred(dcp, ifpred);
   }

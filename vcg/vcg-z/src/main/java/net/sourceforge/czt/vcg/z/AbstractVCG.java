@@ -79,13 +79,13 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
-public abstract class AbstractVCG<R>
+public abstract class AbstractVCG<R, T, B>
         implements VCGPropertyKeys, 
         ParaVisitor<List<VC<R>>>,
         ParentVisitor<List<VC<R>>>,
         SectVisitor<List<VC<R>>>,
         ZSectVisitor<List<VC<R>>>,
-        VCG<R>
+        VCG<R, T, B>
 {
   /**
    * Prefixes for named terms created during VC processing.
@@ -267,7 +267,7 @@ public abstract class AbstractVCG<R>
    * @return
    */
   @Override
-  public abstract VCCollector<R> getVCCollector();
+  public abstract VCCollector<R, T, B> getVCCollector();
 
   @Override
   public SectionManager getManager()
@@ -671,11 +671,11 @@ public abstract class AbstractVCG<R>
    * @param list
    * @return
    */
-  protected <T extends Term> /*List<Pair<Para, Pred>>*/ List<VC<R>> collect(T... list)
+  protected <M extends Term> /*List<Pair<Para, Pred>>*/ List<VC<R>> collect(M... list)
   {
     /*List<Pair<Para, Pred>> result = factory_.list();*/
     List<VC<R>> result = factory_.list();
-    for (T term : list)
+    for (M term : list)
     {
       result.addAll(visit(term));
     }
@@ -706,14 +706,14 @@ public abstract class AbstractVCG<R>
 
   /**
    *
-   * @param <T>
+   * @param <K>
    * @param originalZSectName
    * @param type
    * @return
    */
-  private <T> Key<T> createSMKey(String originalZSectName, Class<T> type)
+  private <K> Key<K> createSMKey(String originalZSectName, Class<K> type)
   {
-    return new Key<T>(originalZSectName, type);
+    return new Key<K>(originalZSectName, type);
   }
 
   /**
@@ -1428,7 +1428,6 @@ public abstract class AbstractVCG<R>
         sectManager_.get(new Key<ZSect>(parent.getWord(), ZSect.class));
       }
       catch (CommandException e) {
-        // TODO add additional info?
         throw new VCGException(e);
       }
     }
@@ -1462,7 +1461,7 @@ public abstract class AbstractVCG<R>
     typeCheck(sectNameVC, false);
 
     // calculate ThmTable for new VC ZSect
-    // TODO: why calculate? if someone needs them, will calculate themselves
+    // why calculate? if someone needs them, will calculate themselves
     // calculateThmTable(sectNameVC);
 
     // create the result environment - only the original name is needed, but we also given the created name

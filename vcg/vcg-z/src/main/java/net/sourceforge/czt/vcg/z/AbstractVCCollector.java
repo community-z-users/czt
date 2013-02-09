@@ -39,13 +39,20 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @param <R>
  * @author Leo Freitas
  */
-public abstract class AbstractVCCollector<R> implements VCCollector<R>
+public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, B>
 {  
   private VCNameFactory vcNameFactory_;
   private final Factory factory_;
   private final Logger logger_;
   private boolean checkTblConsistency_;
   private long vcCnt_;
+  
+  private VCGContext<T, B> context_ =null;
+  
+  public VCGContext<T, B> getVCGContext()
+  {
+	  return context_;
+  }
   
   /**
    * Definition table containing declared types of names. This is important
@@ -168,28 +175,6 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     throw new CztException(new VCGException(msg));
   }
 
-  /**
-   * Calculate the verification condition for a given term in the context of
-   * any available information tables. These tables <b>MUST</b> come from the
-   * section manager of this collector. They could be, for instance, tables for
-   * definitions, operators, and other related conjectures.
-   * @param term
-   * @param tables
-   * @throws VCCollectionException
-   */
-  //public VC<R> calculateVC(Term term, List<? extends InfoTable> tables)
-  //        throws VCCollectionException
-  //{
-  //  term.accept(this);
-  //  return ?;
-  //}
-
-  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
-          throws VCCollectionException
-  {
-    defTable_ = checkDefinitionTableWithinListIfNeeded(tables, checkTblConsistency_);
-  }
-  
   static DefinitionTable checkDefinitionTableWithinListIfNeeded(List<? extends InfoTable> tables,
       boolean checkTblConsistency) throws VCCollectionException
   {
@@ -212,6 +197,12 @@ public abstract class AbstractVCCollector<R> implements VCCollector<R>
     }
 
     return defTable;
+  }
+  
+  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
+          throws VCCollectionException
+  {
+    defTable_ = checkDefinitionTableWithinListIfNeeded(tables, checkTblConsistency_);
   }
   
   protected void afterCalculateVC(VC<R> vc) throws VCCollectionException

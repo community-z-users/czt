@@ -51,7 +51,7 @@ import net.sourceforge.czt.z.visitor.ZStrokeListVisitor;
  *
  * @author leo
  */
-public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
+public abstract class TrivialVCCollector<T, B> extends AbstractVCCollector<Pred, T, B>
         implements
         UnparsedParaVisitor<Pred>,
         NarrParaVisitor<Pred>,
@@ -123,12 +123,6 @@ public abstract class TrivialVCCollector extends AbstractVCCollector<Pred>
     // don't raise exception to allow for completion of VCGing
     //throw new CztException(new VCGException(msg));
   }
-
-  //@Override
-  //public Pred visitProofScript(ProofScript term)
-  //{
-  //  return truePred();
-  //}
 
   @Override
   public Pred visitOptempPara(OptempPara term)
