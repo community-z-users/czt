@@ -11,17 +11,11 @@ package net.sourceforge.czt.circuspatt.impl;
 
 import java.util.List;
 import junit.framework.*;
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.ast.TermTest;
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.Transformation;
 import net.sourceforge.czt.circus.ast.TransformerPred;
-import net.sourceforge.czt.circuspatt.util.CircusLaw;
-import net.sourceforge.czt.circuspatt.util.CircusLawVisitor;
-import net.sourceforge.czt.circuspatt.util.CircusPattUtils;
-import net.sourceforge.czt.circuspatt.util.Factory;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.zpatt.ast.JokerPred;
@@ -156,7 +150,7 @@ public class MockActionLawsTest extends TestCase {
              * This shall becomea parsing ambiguity for the grammar,
              * whenever the parser is implemented.
              */            
-            CircusAction alternative = factory_.createJokerAction("SExpr", null);            
+            //CircusAction alternative = factory_.createJokerAction("SExpr", null);            
                         
             // NOTE: 
             //     In fact, as you want to use it within the 
