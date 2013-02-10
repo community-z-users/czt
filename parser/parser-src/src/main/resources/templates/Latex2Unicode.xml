@@ -25,7 +25,7 @@ package <package/>;
 import java.io.*;
 import java.util.Properties;
 import java.util.Stack;
-import java.util.logging.Level;
+//import java.util.logging.Level;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -102,6 +102,7 @@ import net.sourceforge.czt.z.util.ZString;
  *   &lt;/li&gt;
  * &lt;/ul&gt;
  */
+@SuppressWarnings("unused") 
 %%
 
 /* -----------------Options and Declarations Section----------------- */
@@ -177,12 +178,12 @@ import net.sourceforge.czt.z.util.ZString;
    * It can be used to mark labelled predicates.
    */
   <add:z>
-  @SuppressWarnings("unused")
+  //@SuppressWarnings("unused")
   </add:z> 
   private boolean inAxiomaticBox_ = false;
 
   <add:z>
-  @SuppressWarnings("unused")
+  //@SuppressWarnings("unused")
   </add:z> 
   private boolean inSchemaBox_ = false;
 

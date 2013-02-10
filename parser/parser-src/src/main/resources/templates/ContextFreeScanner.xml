@@ -46,7 +46,9 @@ import net.sourceforge.czt.parser.zeves.Proofword;
  * @author Petra Malik
  * @see net.sourceforge.czt.parser.z
  */
-
+// this is because of dangling fields from JFlex like zzAtBOL, zzEOFDone, etc 
+// that are never used in certain kind of lexers created
+@SuppressWarnings("unused")
 %%
 /* -----------------Options and Declarations Section----------------- */
 %class <class/>
@@ -91,7 +93,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
   }
 
   // TODO: perhaps remove? was used by the low-level scanning tags for zstateinfo. yet it's nice piece of info?
-   @SuppressWarnings("unused")
+   //@SuppressWarnings("unused") // added globally.
    private boolean inSchemaBox_ = false;
 
   <add:zeves>
