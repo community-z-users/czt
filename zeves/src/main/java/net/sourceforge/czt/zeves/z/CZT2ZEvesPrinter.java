@@ -2157,7 +2157,7 @@ private String getDeclName(ZName name)
             boolean lhsIsUnaryMinus = argLHS.startsWith(ZString.NEG);
             boolean rhsIsUnaryMinus = argRHS.startsWith(ZString.NEG);
             // (-1 + i) for i - 1; (-1 * x + i) for (i - x); (-1 * f(x) + i) for (i - f(x))
-            boolean unaryMinusRewritePattern = (op.startsWith(ZString.PLUS) || op.startsWith(ZString.MULT)) && lhsIsUnaryMinus;
+            //boolean unaryMinusRewritePattern = (op.startsWith(ZString.PLUS) || op.startsWith(ZString.MULT)) && lhsIsUnaryMinus;
 
             // parenthesise depending on what kind of param this is: operators need paren explicit applexpr don't
             // ex: ((a \cup b) \cup c) x (f~x \cup c)  [if it was ((f~x) \cup c) ZEves doesn't like it]
