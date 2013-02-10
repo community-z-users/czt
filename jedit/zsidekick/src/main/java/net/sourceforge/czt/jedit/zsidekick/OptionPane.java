@@ -163,6 +163,24 @@ private JCheckBox ignoreUnknownLatexCommands_;
     vcgDCInfixApplies_ = new JCheckBox(label);
     vcgDCInfixApplies_.getModel().setSelected(value);
     addComponent(vcgDCInfixApplies_);
+    
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS);
+  value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS);
+  vcgFSBAddGSetVC_ = new JCheckBox(label);
+  vcgFSBAddGSetVC_.getModel().setSelected(value);
+  addComponent(vcgFSBAddGSetVC_);
+
+
+  label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+          ZSideKickPlugin.PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS);
+	value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+	          ZSideKickPlugin.PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS);
+	vcgFSBAddSchema_ = new JCheckBox(label);
+	vcgFSBAddSchema_.getModel().setSelected(value);
+	addComponent(vcgFSBAddSchema_);
+
 
     label = jEdit.getProperty("options.net.sourceforge.czt.jedit.zsidekick.resetButton");
     JButton resetButton = new JButton(label);

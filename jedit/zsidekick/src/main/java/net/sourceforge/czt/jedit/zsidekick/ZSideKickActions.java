@@ -162,7 +162,8 @@ public class ZSideKickActions
     }
   }
 
-  private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG errors");
+  @SuppressWarnings("deprecation")
+private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG errors");
 
   /**
    *
@@ -184,7 +185,7 @@ public class ZSideKickActions
       final String bufferPath = buffer.getPath(); // full qualified file name
       final File file = new File(bufferPath);
       final String name = file.getName(); // just last name of file
-      final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
+      //final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
       try
       {
         final String dcFileName = VCGUtils.getVCFileName(name, vcFileNameSuffix);
