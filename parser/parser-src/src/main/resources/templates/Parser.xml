@@ -937,7 +937,7 @@ action code
      * @param expList 
      * @param es 
      */
-     @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected void addExpSepExp(List&lt;? extends Object&gt; expList, List&lt;Object&gt; es)
     {
       for (int i = 0; i &lt; es.size(); i += 2) {

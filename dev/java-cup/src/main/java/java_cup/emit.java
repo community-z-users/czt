@@ -370,6 +370,11 @@ public class emit {
       out.println(
        "/** Cup generated class to encapsulate user supplied action code.*/"
       );  
+      /* 
+       * Leo: added an unused warning flag to avoid the many warnings
+       *      about added left/right fields not used 
+       */
+      out.println("@SuppressWarnings(\"unused\")");
       /* TUM changes; proposed by Henning Niss 20050628: added type arguement */
       out.println("class " +  pre("actions") + typeArgument() + " {");
       /* user supplied code */
@@ -483,7 +488,7 @@ public class emit {
                       emit.pre("stack") + 
                       // TUM 20050917
                       ((lastResult==1)?".peek()":(".elementAt(" + emit.pre("top") + "-" + (lastResult-1) + ")"))+
-                      ".value";
+                      ".value /* 3*/";
               }
           }
 
@@ -493,7 +498,7 @@ public class emit {
 	    6/13/96 frankf */
           out.println("      java_cup.runtime.Symbol " + pre("result") + ";");
 	  out.println("      " +  prod.lhs().the_symbol().stack_type() +
-		      " RESULT ="+result+";");
+		      " RESULT ="+result+";  // 1");
 
 	  /* Add code to propagate RESULT assignments that occur in
 	   * action code embedded in a production (ie, non-rightmost
@@ -526,7 +531,7 @@ public class emit {
 	      emit.pre("stack") + 
 			// TUM 20050917
 			((index==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + index + ")"))+
-			".value;");
+			".value; /* 2 */");
             break;
 	  }
 
@@ -1031,6 +1036,11 @@ public class emit {
       out.println("/** "+version.title_str+" generated parser.");
       out.println("  * @version " + new Date());
       out.println("  */");
+      /* 
+       * Leo: added an unused warning flag to avoid the many warnings
+       *      about added left/right fields not used 
+       */
+      out.println("@SuppressWarnings(\"unused\")");
       /* TUM changes; proposed by Henning Niss 20050628: added typeArgument */
       out.println("public class " + parser_class_name + typeArgument() +
 		  " extends java_cup.runtime.lr_parser {");
