@@ -478,7 +478,7 @@ public class emit {
 		out.println("        }");
 
 		/* end of method */
-		out.println("    }");
+		out.println("    }/*1*/");
 
 		/* emit the methods for each production. */
 		for (Enumeration<production> p = production.all(); p.hasMoreElements();) {
@@ -512,7 +512,7 @@ public class emit {
 							((lastResult == 1) ? ".peek()"
 									: (".elementAt(" + emit.pre("top") + "-"
 											+ (lastResult - 1) + ")"))
-							+ ".value /* 3*/";
+							+ ".value /*2*/";
 				}
 			}
 
@@ -523,7 +523,7 @@ public class emit {
 			 */
 			out.println("      java_cup.runtime.Symbol " + pre("result") + ";");
 			out.println("      " + prod.lhs().the_symbol().stack_type()
-					+ " RESULT =" + result + ";  // 1");
+					+ " RESULT =" + result + ";/*3*/");
 
 			/*
 			 * Add code to propagate RESULT assignments that occur in action
@@ -568,14 +568,14 @@ public class emit {
 						// TUM 20050917
 						((index == 0) ? ".peek()" : (".elementAt("
 								+ emit.pre("top") + "-" + index + ")"))
-						+ ".value; /* 2 */");
+						+ ".value; /*4*/");
 				break;
 			}
 
 			/* if there is an action string, emit it */
 			if (prod.action() != null && prod.action().code_string() != null
 					&& !prod.action().equals(""))
-				out.println(prod.action().code_string());
+				out.println(prod.action().code_string() + "/*5*/");
 
 			/*
 			 * here we have the left and right values being propagated. must
@@ -614,18 +614,18 @@ public class emit {
 						+ " = parser.getSymbolFactory().newSymbol(" + "\""
 						+ prod.lhs().the_symbol().name() + "\","
 						+ prod.lhs().the_symbol().index() + ", " + leftstring
-						+ ", " + rightstring + ", RESULT);");
+						+ ", " + rightstring + ", RESULT); /*6*/");
 			} else {
 				// out.println("              " + pre("result") +
 				// " = new java_cup.runtime.Symbol(" +
 				out.println("              " + pre("result")
 						+ " = parser.getSymbolFactory().newSymbol(" + "\""
 						+ prod.lhs().the_symbol().name() + "\","
-						+ prod.lhs().the_symbol().index() + ", RESULT);");
+						+ prod.lhs().the_symbol().index() + ", RESULT); /*7*/");
 			}
 
 			/* code to return lhs symbol */
-			out.println("      return " + pre("result") + ";");
+			out.println("      return " + pre("result") + ";/*8*/");
 			out.println();
 
 			/* end of method */
