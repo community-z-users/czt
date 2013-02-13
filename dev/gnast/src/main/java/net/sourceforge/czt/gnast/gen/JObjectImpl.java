@@ -94,8 +94,9 @@ public class JObjectImpl implements JObject
 
   public String getFullName()
   {
+	  // for some reason (dunno exactly) in some ListType cases packageName is already in Name.
     String packageName = getPackage();
-    if ("".equals(packageName)) return getName();
+    if ("".equals(packageName) || getName().startsWith(packageName)) return getName();
     else return packageName + "." + getName();
   }
 

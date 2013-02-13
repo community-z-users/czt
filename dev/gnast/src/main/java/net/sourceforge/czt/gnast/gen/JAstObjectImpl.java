@@ -58,7 +58,9 @@ public abstract class JAstObjectImpl implements JAstObject
 
   public String getFullName()
   {
-    return getPackage() + "." + getName();
+    String packageName = getPackage();
+    if ("".equals(packageName) || getName().startsWith(packageName)) return getName();
+    else return packageName + "." + getName();
   }
 
   /**
