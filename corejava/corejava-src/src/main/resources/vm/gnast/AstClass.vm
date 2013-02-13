@@ -147,20 +147,20 @@ public class ${class.ImplName}
     this(null);
   }
 
-  protected ${class.ImplName}(BaseFactory factory)
+  protected ${class.ImplName}(net.sourceforge.czt.base.impl.BaseFactory factory)
   {
     super();
     factory_ = factory;
     anns_ = null;
-    list_ = null;//new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    list_ = null;
     #if(! ${class.Abstract})
     instanceCount_++;
   #end
   }
   
-  protected List<${type}> getList()
+  protected java.util.List<${type}> getList()
   {
-    if (list_ == null) list_ = new ArrayList<${type}>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    if (list_ == null) list_ = new java.util.ArrayList<${type}>(net.sourceforge.czt.base.util.PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     return list_;
   }
 
@@ -183,12 +183,12 @@ public class ${class.ImplName}
    * Returns a list of annotiations.
    */
   @Override
-  public List<Object> getAnns()
+  public java.util.List<Object> getAnns()
   {
     // synchronise the creation bit to avoid races - rare cases? TODO-CHECK
     //synchronized(this)
     //{
-      if (anns_ == null) anns_ = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      if (anns_ == null) anns_ = new java.util.ArrayList<Object>(net.sourceforge.czt.base.util.PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     //}
     assert anns_ != null;
     return anns_;
@@ -206,7 +206,7 @@ public class ${class.ImplName}
     return annsSize() > 0;
   }
 
-  public ${class.Name} ${class.getAllProperties().get(0).GetterName}()
+  public ${class.getPackage()}.${class.Name} ${class.getAllProperties().get(0).GetterName}()
   {
     return this;
   }
@@ -235,8 +235,8 @@ public class ${class.ImplName}
   public <T> void removeAnn(Class<T> aClass)
   {
     if (hasAnn()) {
-      List<Object> anns = getAnns();
-      Iterator<Object> iter = anns.iterator();
+      java.util.List<Object> anns = getAnns();
+      java.util.Iterator<Object> iter = anns.iterator();
       
       while (iter.hasNext()) {
         Object ann = iter.next();
@@ -253,8 +253,8 @@ public class ${class.ImplName}
   {
     boolean result = false;
     if (hasAnn()) {
-      List<Object> anns = getAnns();
-      Iterator<Object> iter = anns.iterator();
+      java.util.List<Object> anns = getAnns();
+      java.util.Iterator<Object> iter = anns.iterator();
       
       while (iter.hasNext() && !result) {
         Object ann = iter.next();
@@ -342,14 +342,15 @@ public class ${class.ImplName}
   }
 
   @Override
-  public <R> R accept(Visitor<R> v)
+  public <R> R accept(${baseVisitor}<R> v)
   {
-    if (v instanceof ${class.Name}Visitor) {
-      ${class.Name}Visitor<R> visitor = (${class.Name}Visitor<R>) v;
+    if (v instanceof ${class.VisitorPackage}.${class.Name}Visitor) {
+      ${class.VisitorPackage}.${class.Name}Visitor<R> visitor = 
+      		(${class.VisitorPackage}.${class.Name}Visitor<R>) v;
       return visitor.visit${class.Name}(this);
     }
-    if (v instanceof TermVisitor) {
-      TermVisitor<R> visitor = (TermVisitor<R>) v;
+    if (v instanceof net.sourceforge.czt.base.visitor.TermVisitor) {
+      net.sourceforge.czt.base.visitor.TermVisitor<R> visitor = (net.sourceforge.czt.base.visitor.TermVisitor<R>) v;
       return visitor.visitTerm(this);
     }
     return null;
@@ -432,7 +433,7 @@ public#abstract($class) class ${class.ImplName}
     this(null);
   }
 
-  protected ${class.ImplName}(BaseFactory factory)
+  protected ${class.ImplName}(net.sourceforge.czt.base.impl.BaseFactory factory)
   {
     super(factory);
 #if(! ${class.Abstract})
@@ -496,8 +497,9 @@ public#abstract($class) class ${class.ImplName}
   @Override
   public <R> R accept(${baseVisitor}<R> v)
   {
-    if (v instanceof ${class.Name}Visitor) {
-      ${class.Name}Visitor<R> visitor = (${class.Name}Visitor<R>) v;
+    if (v instanceof ${class.VisitorPackage}.${class.Name}Visitor) {
+      ${class.VisitorPackage}.${class.Name}Visitor<R> visitor = 
+      	  (${class.VisitorPackage}.${class.Name}Visitor<R>) v;
       return visitor.visit${class.Name}(this);
     }
     return super.accept(v);
@@ -551,14 +553,14 @@ public#abstract($class) class ${class.ImplName}
     return instanceCount_;
   }
 #end##end if not abstract
-#foreach($prop in $class.Properties)
+#foreach($prop in ${class.Properties})
 
 #if(${prop.isList()})
 
-  private ListTerm<${prop.ListType.FullName}> ${prop.MemVarName} =
-    new ListTermImpl<${prop.ListType.FullName}>();
+  private net.sourceforge.czt.base.ast.ListTerm<${prop.ListType.FullName}> ${prop.MemVarName} =
+    new net.sourceforge.czt.base.impl.ListTermImpl<${prop.ListType.FullName}>();
 
-  public ListTerm<${prop.ListType.FullName}> ${prop.GetterName}()
+  public net.sourceforge.czt.base.ast.ListTerm<${prop.ListType.FullName}> ${prop.GetterName}()
   {
     return ${prop.MemVarName};
   }
