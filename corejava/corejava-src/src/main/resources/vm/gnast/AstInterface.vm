@@ -39,11 +39,27 @@ import ${p.AstPackage}.*;
 #if($author) * @author ${author}
 #end
  */
- // add unused here because just a few need Term / ListTerm. Others don't. that's just for the import.
-@SuppressWarnings("unused")
-public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
-#if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
-#end#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end
+##// ${class}
+##// ${class.getName()}
+##// ${class.getClass()} 
+##// ${class.getImplExtends()}
+##// ${class.getPackage()}
+##// ${class.getImplPackage()}
+##// ${class.getBasePackage()}
+##// ${class.getAstClass(${class.getName()})}
+##// ${class.getAstClass(${class.getName()}).getImplPackage()}
+##// ${class.getAstClass(${class.getName()}).getProperties()}
+##// ${class.getAstClasses()}
+
+ 
+public interface ${class.Name} #if($class.Extends)extends #if(${class.Extends.endsWith("Term")}) 
+  		net.sourceforge.czt.base.ast.${class.Extends}
+	#else
+		${class.getPackage()}.${class.Extends}
+	#end
+	#if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
+	#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end
+#end
 {
 #if(${class.isList()})
   ${class.Name} ${class.getAllProperties().get(0).GetterName}();
