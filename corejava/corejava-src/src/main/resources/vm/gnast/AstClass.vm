@@ -43,51 +43,90 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${class.ImplPackage};
 
-import java.util.*;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.impl.*;
-import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.base.util.TermInstanceCountManager;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.util.Visitor;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 import ${p.ImplPackage}.*;
 #end
-import ${project.AstPackage}.*;
-import ${project.VisitorPackage}.*;
 
-import ${project.VisitorPackage}.${class.Name}Visitor;
+// --------------------------------------
+// ALL PROPERTIES
+// class = ${class}
+// class.getClass       = ${class.getClass()}
+// class.getPackage     = ${class.getPackage()}
+// class.getImplPackage = ${class.getImplPackage()}
+// class.getVisitorPack = ${class.getVisitorPackage()}
+// class.getAllProps    = ${class.getAllProperties()}
+// --------------------------------------
+// forall(prop in class getAllProperties) {
+// #foreach($prop in ${class.getAllProperties()})
+//		prop 									  = ${prop}
+//		#if(${prop.isList()})
+//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+//
+//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+//		#else
+//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+//
+//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+//		#end
+// --------------------------------------
+// #end
+// class.getProps       =${class.getProperties()}
+// --------------------------------------
+// forall(prop in class getProperties) {
+// #foreach($prop in ${class.getProperties()})
+//		prop 		       = ${prop}
+//		prop.getClass      = ${prop.getClass()}
+//		prop.getVarName    = ${prop.VarName}
+//		prop.getMemVarName = ${prop.MemVarName}
+//		prop.getGetterName = ${prop.GetterName}
+//		prop.SetterName    = ${prop.SetterName}
+//		prop.getType	   = ${prop.getType().getClass()}
+
+//		prop.Type.FullName       			  = ${prop.Type.FullName}
+//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+
+//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+// --------------------------------------
+// #end
 
 /**
  * An implementation of the interface
- * {@link ${class.Name}}.
+ * {@link ${class.getPackage()}.${class.Name}}.
  *
 #if($author) * @author ${author}
 #end
  */
 #if(${class.isList()})
 #set($type = ${class.getAllProperties().get(0).getListType()})
+#set($typePack = ${class.getAllProperties().get(0).getListType().getPackage()})
+// ${type} + ${typePack}
 
-// for the various possibly spurious imports -- hard to predict in general during code generation. it's harmless.
-@SuppressWarnings("unused")
 public class ${class.ImplName}
   extends java.util.AbstractList<${type}>
-  implements ${class.Name}
+  implements ${class.getPackage()}.${class.Name}
 {
-  private BaseFactory factory_;
+  private net.sourceforge.czt.base.impl.BaseFactory factory_;
 
   /**
    * The list containing the data.
    */
   /*@ non_null @*/
-  private List<${type}> list_;
+  private java.util.List<${type}> list_;
 
   /**
    * A list of annotations.
    */
-  private List<Object> anns_;
+  private java.util.List<Object> anns_;
   
   #if(! ${class.Abstract})
   /**
@@ -373,11 +412,15 @@ public class ${class.ImplName}
   }
 }
 #else
-// for the various possibly spurious imports -- hard to predict in general during code generation. it's harmless.
-@SuppressWarnings("unused")
 public#abstract($class) class ${class.ImplName}
-#if($class.Extends)  extends ${class.ImplExtends} #end
-  implements ${class.Name}
+#if($class.Extends)extends 
+	#if(${class.ImplExtends.endsWith("Term")}) 
+  		net.sourceforge.czt.base.impl.${class.ImplExtends}
+	#else
+		${class.getImplPackage()}.${class.ImplExtends}
+	#end
+#end
+  implements ${class.getPackage()}.${class.Name}
 {
 
 #if(! ${class.Abstract})
