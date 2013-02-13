@@ -121,7 +121,7 @@ public class CircusPrintVisitor
       warn(CircusPrintMessage.MSG_UNEXPECTED_TERM, term);
     }
     
-    // TODO: what's happenning with these warnings?
+    // what's happenning with these warnings? See commented code below. TODO: fix circus print visitor!
     private void warnMissingFor(String msg, BasicProcess term) {
         warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
     }

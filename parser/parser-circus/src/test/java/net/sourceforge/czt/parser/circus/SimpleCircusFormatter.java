@@ -37,7 +37,6 @@ public class SimpleCircusFormatter extends Formatter {
     private boolean    fShowStackTrace      = true;
     private boolean    fShowSourceMethod    = true;
     private boolean    fShowRecordedMessage = true;
-    private boolean    fShowDirectory       = true;
 
     // Line separator string.  This is the value of the line.separator
     // property at the moment that the SimpleFormatter was created.
@@ -59,12 +58,10 @@ public class SimpleCircusFormatter extends Formatter {
     public SimpleCircusFormatter(boolean showTimeStamp,
                                  boolean showRecordedMessage,
                                  boolean showSourceMethod,
-                                 boolean showDirectory,
                                  boolean showStackTrace) {
         fShowTimeStamp       = showTimeStamp;
         fShowRecordedMessage = showRecordedMessage;
         fShowSourceMethod    = showSourceMethod;
-        fShowDirectory       = showDirectory;
         fShowStackTrace      = showStackTrace;
     }
 
