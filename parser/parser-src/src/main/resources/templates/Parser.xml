@@ -3314,7 +3314,8 @@ non terminal InitialState
 non terminal Para
     innerPara;
 
-non terminal List&lt;Para&gt;
+// TODO: why not make this Para?
+non terminal List&lt;Term&gt;
     innerParaList;
 
 non terminal DeltaList
@@ -9949,8 +9950,8 @@ class ::=
            State s = null;
            InitialState is = null;
            // after making InitialState/State a PARA! (Leo)
-           for (Iterator&lt;Para&gt; iter = ipl.iterator(); iter.hasNext(); ) {
-             Object next = iter.next();
+           for (Iterator&lt;Term&gt; iter = ipl.iterator(); iter.hasNext(); ) {
+             Term next = iter.next();
              if (next instanceof State) {
                if (s != null) {
                  parser.report_error(ZParseMessage.MSG_DUPLICATE_STATE,
@@ -9970,9 +9971,15 @@ class ::=
                iter.remove();
              }
            }
+           ZParaList zpl = factory_.createZParaList();
+           for (Term t : ipl)
+           {
+           	  if (t instanceof Para) zpl.add((Para)t);
+           }
+           assert ipl.size() == zpl.size();
            Name dn = ch.getFirst();
            ZNameList ofp = ch.getSecond();
-           RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
+           RESULT = factory_.createClassPara(dn, ofp, vl, il, zpl, s, is, ol);
            addLocAnn(RESULT, getLocation(ch.getFirst(), end));
            assert parserState_.isOpExpr() == false;
         :}
