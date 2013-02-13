@@ -99,6 +99,7 @@ import net.sourceforge.czt.zpatt.ast.*;
 
 </add:pattern>
 <add:zpatt>
+import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 </add:zpatt>
 
