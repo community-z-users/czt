@@ -28,8 +28,6 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${class.Package};
 
-import net.sourceforge.czt.base.ast.*;
-
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end
