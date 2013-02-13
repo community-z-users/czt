@@ -496,16 +496,16 @@ public#abstract($class) class ${class.ImplName}
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
       	// if foreach on meta-model (.vm) file is empty, this won't be used.
-      	@SuppressWarnings("unused")
-        ${class.ImplName} object = (${class.ImplName}) obj;
+      	//@SuppressWarnings("unused")
+        //${class.ImplName} object = ((${class.ImplName}) obj);
 #foreach($prop in ${class.Properties})
         if (${prop.MemVarName} != null) {
-          if (!${prop.MemVarName}.equals(object.${prop.MemVarName})) {
+          if (!${prop.MemVarName}.equals(((${class.ImplName}) obj).${prop.MemVarName})) {
             return false;
           }
         }
         else {
-          if (object.${prop.MemVarName} != null) {
+          if (((${class.ImplName}) obj).${prop.MemVarName} != null) {
             return false;
           }
         }
@@ -557,10 +557,17 @@ public#abstract($class) class ${class.ImplName}
   {
     ${class.ImplName} zedObject = null;
     try {
-#foreach($prop in $class.AllProperties)
+#foreach($prop in ${class.AllProperties})
 #set($counter = $velocityCount - 1)
-	  @SuppressWarnings("unchecked")
+	  #if(${prop.Type.FullName.endsWith(">")})
+		  @SuppressWarnings("unchecked")
+	  #end
+	  #if(${prop.isList()})
+	  java.util.List<${prop.ListType.FullName}>
+	  	${prop.VarName} = (java.util.List<${prop.ListType.FullName}>) args[$counter];
+	  #else
 	  ${prop.Type.FullName} ${prop.VarName} = (${prop.Type.FullName}) args[$counter];
+	  #end
 #end
       zedObject = new ${class.ImplName}(getFactory());
 #foreach($prop in $class.AllProperties)
