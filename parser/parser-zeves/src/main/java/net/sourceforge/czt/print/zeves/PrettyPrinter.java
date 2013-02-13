@@ -24,9 +24,9 @@ import net.sourceforge.czt.z.ast.Pred;
 public class PrettyPrinter 
         extends net.sourceforge.czt.print.util.PrettyPrinter
 {
-  private boolean seenZProof_ = false;
-  private static final List<? extends Token>
-          ZEVES_HEAD_PROOF_WORDS = Arrays.asList(ZEvesProofKeyword.headProofWordsOnly());
+  //private boolean seenZProof_ = false;
+  //private static final List<? extends Token>
+  //        ZEVES_HEAD_PROOF_WORDS = Arrays.asList(ZEvesProofKeyword.headProofWordsOnly());
 
   private static final List<? extends Token>
           ZEVES_USAGE_WORDS = Arrays.asList(ZEvesProofKeyword.usageWordsOnly());
