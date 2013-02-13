@@ -58,11 +58,35 @@ public abstract class JAstObjectImpl implements JAstObject
 
   public String getFullName()
   {
+	  // for some reason (dunno exactly) in some ListType cases packageName is already in Name.
     String packageName = getPackage();
-    if ("".equals(packageName) || getName().startsWith(packageName)) return getName();
-    else return packageName + "." + getName();
+    String result;
+    // if package already in name, return the name
+    if (getName().startsWith(packageName))
+    	result = getName();
+    // if no package
+    else if ("".equals(packageName)) 
+    {
+    	// check project: if present extract package
+    	if (getProject() != null)
+    	{
+    		// extract the appropriate package depending on the name
+    		result = (getName().endsWith("Impl") ? 
+    					getProject().getImplPackage() :
+    					getProject().getAstPackage()) + "." + getName();
+    	}
+    	// otherwise just use the name
+    	else
+    		result = getName();
+    }
+    // if some package, then set that to the result directly
+    else 
+    {
+    	result = packageName + "." + getName();
+    }
+    return result;
   }
-
+  
   /**
    * Returns the same as {@link #getName}.
    *
