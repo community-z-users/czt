@@ -451,6 +451,8 @@ public class production {
 		/* otherwise, just declare label. */
 		return ret
 				+ "\t\t"
+				// add supress warning, if needed
+				+ addSuppressWarning(stack_type, "unchecked")
 				+ stack_type
 				+ " "
 				+ labelname
@@ -463,6 +465,13 @@ public class production {
 				((offset == 0) ? ".peek()" : (".elementAt(" + emit.pre("top")
 						+ "-" + offset + ")")) + ".value;\n";
 
+	}
+	
+	private String addSuppressWarning(String stack_type, String warning)
+	{
+		// if the stack type has a generic parameter bracket anywhere, just add the suppress warnings check
+		return (emit.suppress_generated_java_warnings ?
+				(stack_type.indexOf("<") != -1 ? "@SuppressWarnings(\"" + warning + "\") " : "") : "");
 	}
 
 	/* . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
