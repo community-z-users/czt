@@ -1,9 +1,9 @@
 
-  public ZName getZName()
+  public net.sourceforge.czt.z.ast.ZName getZName()
   {
-    Name declName = getName();
-    if (declName instanceof ZName) {
-      return (ZName) declName;
+	  net.sourceforge.czt.z.ast.Name declName = getName();
+    if (declName instanceof net.sourceforge.czt.z.ast.ZName) {
+      return (net.sourceforge.czt.z.ast.ZName) declName;
     }
     final String message = "Expected the default (Z) implementation of Name" +
       " but found " + String.valueOf(declName);

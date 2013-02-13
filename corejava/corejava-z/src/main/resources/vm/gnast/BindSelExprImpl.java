@@ -1,7 +1,7 @@
 
-  public ZName getZName()
+  public net.sourceforge.czt.z.ast.ZName getZName()
   {
-    Name refName = getName();
+	  net.sourceforge.czt.z.ast.Name refName = getName();
     if (refName instanceof ZName) {
       return (ZName) refName;
     }

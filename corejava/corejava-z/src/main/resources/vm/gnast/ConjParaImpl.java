@@ -12,23 +12,23 @@
    */
   public String getName()
   {
-    Name name = this.getAnn(Name.class);
-    if (name instanceof ZName) {
-      return ((ZName) name).getWord();
+	  net.sourceforge.czt.z.ast.Name name = this.getAnn(Name.class);
+    if (name instanceof net.sourceforge.czt.z.ast.ZName) {
+      return ((net.sourceforge.czt.z.ast.ZName) name).getWord();
     }
     return null;
   }
   
-  public void setName(Name name)
+  public void setName(net.sourceforge.czt.z.ast.Name name)
   {
-    Name zname = this.getAnn(Name.class);
+	  net.sourceforge.czt.z.ast.Name zname = this.getAnn(net.sourceforge.czt.z.ast.Name.class);
     if (zname != null)
     {      
       java.util.List anns = getAnns();
       for (java.util.Iterator iter = anns.iterator(); iter.hasNext(); )
       {
         Object ann = iter.next();
-        if (Name.class.isInstance(ann))
+        if (net.sourceforge.czt.z.ast.Name.class.isInstance(ann))
         {
           iter.remove();
         }
