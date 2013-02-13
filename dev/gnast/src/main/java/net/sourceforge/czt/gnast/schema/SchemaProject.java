@@ -596,7 +596,23 @@ public class SchemaProject
     if (project != null) {
       return project.getObject(type);
     }
-    return new JObjectImpl(type);
+    String typePackage = "";
+    //System.err.println("getObject with no project for " + type);
+    if (getAstClass(type) != null)
+    {
+	    //System.err.println("\tgetAstClass(" + type + ") = " + getAstClass(type));
+    	//System.err.println("\t\tgetName       = " + getAstClass(type).getName());
+	    //System.err.println("\t\tgetPackage    = " + getAstClass(type).getPackage());
+	    //System.err.println("\t\tgetProperties = " + getAstClass(type).getProperties());
+	    typePackage = getAstClass(type).getPackage();
+	}    
+    //System.err.println("\tgetAstClasses()     = " + getAstClasses().keySet());
+    //System.err.println("\tobjectProjectProps_ = " + objectProjectProps_);
+    //System.err.println("\tprops_ 			  = " + props_.keySet());
+    
+    // we might not know whether the given type is within this
+    // project ast/impl package, so pass it empty. but pass  the project?
+    return new JObjectImpl(type, typePackage, getProject());
   }
 
   // ############################################################
@@ -698,7 +714,7 @@ public class SchemaProject
 
     public JProject getProject()
     {
-      return null;
+      return SchemaProject.this.getProject(); //null;
     }
 
     public boolean getNameEqualsType()
