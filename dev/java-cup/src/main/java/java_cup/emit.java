@@ -149,7 +149,8 @@ public class emit {
 	 * during runtime? If the tables are too large, they are output to external
 	 * file anyway. THIS IS A NEW FLAG (added for CZT)
 	 */
-	public static boolean suppress_generated_java_warnings = false;
+	public static boolean suppress_generated_java_warnings_unchecked = false;
+	public static boolean suppress_generated_java_warnings_unused = false;
 	
 	/* . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
 
@@ -393,9 +394,18 @@ public class emit {
 		out.println("/** Cup generated class to encapsulate user supplied action code.*/");
 		/*
 		 * Leo: added an unused warning flag to avoid the many warnings about
-		 * added left/right fields not used
+		 *      added left/right fields not used. Ideally, these should be 
+		 *      added to the actual equalities during the construction of the
+		 *      production class. Unfortunately, this is not as easy as it would
+		 *      demand much error prone string manipulations. TODO-fUTURE
+		 *      
+		 *      for now, we have a half-way compromise where all unused are elided away.
+		 *      this can be easily removed (by the command line flag) to retain these warnings.
 		 */
-		out.println("@SuppressWarnings(\"unused\")");
+		if (emit.suppress_generated_java_warnings_unused)
+		{
+			out.println("@SuppressWarnings(\"unused\")");
+		}
 		/* TUM changes; proposed by Henning Niss 20050628: added type arguement */
 		out.println("class " + pre("actions") + typeArgument() + " {");
 		/* user supplied code */
@@ -1104,10 +1114,13 @@ public class emit {
 		out.println("  * @version " + new Date());
 		out.println("  */");
 		/*
-		 * Leo: added an unused warning flag to avoid the many warnings about
-		 * added left/right fields not used
+		 * Leo: Don't add it to the global parser, but just CUP$actions class? 
+		 *      minimise eliding unused warnings globally until we get a local solution.
 		 */
-		out.println("@SuppressWarnings(\"unused\")");
+		//if (emit.suppress_generated_java_warnings_unused)
+		//{
+		//	out.println("@SuppressWarnings(\"unused\")");
+		//}
 		/* TUM changes; proposed by Henning Niss 20050628: added typeArgument */
 		out.println("public class " + parser_class_name + typeArgument()
 				+ " extends java_cup.runtime.lr_parser {");

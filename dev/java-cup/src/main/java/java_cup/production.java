@@ -470,7 +470,7 @@ public class production {
 	private String addSuppressWarning(String stack_type, String warning)
 	{
 		// if the stack type has a generic parameter bracket anywhere, just add the suppress warnings check
-		return (emit.suppress_generated_java_warnings ?
+		return (emit.suppress_generated_java_warnings_unchecked ?
 				(stack_type.indexOf("<") != -1 ? "@SuppressWarnings(\"" + warning + "\") " : "") : "");
 	}
 

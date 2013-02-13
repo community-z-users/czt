@@ -259,7 +259,7 @@ public class CupGenerateMojo extends AbstractMojo
   private boolean externalTables;
   
   /**
-   * Suppress Java warnings in parser generated code when needed.
+   * Suppress Java warnings in parser generated code locally when needed.
    * <p>
    * CUP produces generic Java code, some of which doesn't get used. For instance, the left/right
    * integer location information for every terminal in productions are always generated, even if
@@ -271,11 +271,21 @@ public class CupGenerateMojo extends AbstractMojo
    * <p>
    * By default this flag is false, and all warnings are added. If set to true, our specific warning
    * suppression is added instead. Warning suppression is added locally, so as to not hide any dead
-   * code or unchecked warning from user code. 
+   * code or unchecked warning from user code. This is a local warning suppression.
    * </p>
    */
-  @Parameter( property = "cup.suppressGeneratedJavaWarnings", defaultValue = "false" )
-  private boolean suppressGeneratedJavaWarnings;
+  @Parameter( property = "cup.suppressGeneratedJavaWarningsUnchecked", defaultValue = "false" )
+  private boolean suppressGeneratedJavaWarningsUnchecked;
+  
+  /**
+   * Suppress Java warnings in parser generated code globally.
+   * <p>
+   * Suppress any unused code warnings from CUP action class globally. 
+   * TODO: make it local to each left/right assignment eventually
+   * </p>
+   */
+  @Parameter( property = "cup.suppressGeneratedJavaWarningsUnused", defaultValue = "false" )
+  private boolean suppressGeneratedJavaWarningsUnused;
   
   /**
    * The Maven project (used to add generated sources for compilation).
@@ -484,9 +494,13 @@ public class CupGenerateMojo extends AbstractMojo
     if (externalTables) {
       args.add("-external_tables");
     }
-    if (suppressGeneratedJavaWarnings)
+    if (suppressGeneratedJavaWarningsUnchecked)
     {
-      args.add("-suppress_generated_java_warnings");
+      args.add("-suppress_generated_java_warnings_unchecked");
+    }
+    if (suppressGeneratedJavaWarningsUnused)
+    {
+      args.add("-suppress_generated_java_warnings_unused");
     }
 
     // target directory path
