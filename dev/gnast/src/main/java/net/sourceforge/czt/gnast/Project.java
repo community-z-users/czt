@@ -77,7 +77,7 @@ public class Project
     global_ = global;
 
     try {
-      project_ = new SchemaProject(url, mapping, global_);
+      project_ = new SchemaProject(url, mapping, global_, this);
     }
     catch (javax.xml.parsers.ParserConfigurationException exception) {
       logSevere("Parse error while parsing " + url);

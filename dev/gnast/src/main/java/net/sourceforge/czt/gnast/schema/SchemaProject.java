@@ -138,6 +138,12 @@ public class SchemaProject
   private Map<String, List<Object>> props_ =
     new HashMap<String, List<Object>>();
 
+  /**
+   * Give access to the underlying JProject...
+   * TODO: what isn't SchemaProject a Project extension?
+   */
+  private JProject jproject_;
+  
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -148,7 +154,8 @@ public class SchemaProject
    */
   public SchemaProject(URL url,
                        Properties mapping,
-                       GlobalProperties globalProperties)
+                       GlobalProperties globalProperties,
+                       Project proj)
     throws ParserConfigurationException,
            SAXException, IOException, XSDException
   {
@@ -170,7 +177,7 @@ public class SchemaProject
     if (schemaNode != null) {
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
     }
-    
+    jproject_ = proj;
   }
   
   private void ensureInit() {
@@ -279,7 +286,12 @@ public class SchemaProject
                                + packageName
                                + "']/@name");
   }
-
+  
+  public JProject getProject()
+  {
+  	return jproject_;
+  }
+  
   public String getPackageDocumentation(String packageName)
   {
     String result =
