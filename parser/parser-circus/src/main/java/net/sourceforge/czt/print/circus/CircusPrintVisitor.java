@@ -122,23 +122,23 @@ public class CircusPrintVisitor
     }
     
     // what's happenning with these warnings? See commented code below. TODO: fix circus print visitor!
-    private void warnMissingFor(String msg, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
-    }
-    
-    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
-    }
-    
-    private void warnLocalOnTheFly(Term para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
-    }
-    
-    private void warnDuplicatedState(Term term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
-    }
-    
-    private boolean processedState_ = false;
+//    private void warnMissingFor(String msg, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+//    }
+//    
+//    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
+//    }
+//    
+//    private void warnLocalOnTheFly(Term para, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
+//    }
+//    
+//    private void warnDuplicatedState(Term term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
+//    }
+//    
+//    private boolean processedState_ = false;
     
     /***********************************************************
      * Channel related

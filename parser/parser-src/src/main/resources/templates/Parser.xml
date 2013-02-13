@@ -35,57 +35,73 @@ import java.util.Properties;
 import java.util.Collection;
 import java.util.Collections;
 
+import java_cup.runtime.*;
 
 import net.sourceforge.czt.util.CztException;
-
 import net.sourceforge.czt.util.Section;
+import net.sourceforge.czt.util.CztLogger;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
+
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.*;
+
+import net.sourceforge.czt.session.*;
+
+import net.sourceforge.czt.parser.util.*;
+
 <add:circus>
+import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
 <add:circuscore>
 import net.sourceforge.czt.circus.util.Factory;
 </add:circuscore>
-<add:circustime>
-import net.sourceforge.czt.circustime.ast.*;
-import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 
+<add:circustime>
+//import net.sourceforge.czt.circustime.ast.*;
+//import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+
+//import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.circus.CircusParseError;
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
 </add:circustime>
 <add:circustimecore>
 import net.sourceforge.czt.circustime.util.Factory;
 </add:circustimecore>
-import java_cup.runtime.*;
+
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
+
+import net.sourceforge.czt.parser.z.*;
 </add:oz>
 <add:ozz>
 import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
-import net.sourceforge.czt.parser.util.*;
 
-// for Z core, it will generate a spurious warning.. argh...
-import net.sourceforge.czt.parser.z.*;
 <add:ozpatt>
+import net.sourceforge.czt.parser.z.*;
+
 import net.sourceforge.czt.parser.oz.ParserState;
 import net.sourceforge.czt.parser.zpatt.JokerTable;
 import net.sourceforge.czt.parser.zpatt.ZpattParseError;
 import net.sourceforge.czt.parser.zpatt.ZpattParseMessage;
 </add:ozpatt>
-import net.sourceforge.czt.session.*;
+
 <add:tcoz>
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.tcoz.util.Factory;
+
+import net.sourceforge.czt.parser.z.*;
 </add:tcoz>
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.*;
+
 <add:pattern>
 import net.sourceforge.czt.zpatt.ast.*;
+
+import net.sourceforge.czt.parser.z.*;
 </add:pattern>
 <add:zpatt>
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -96,6 +112,9 @@ import net.sourceforge.czt.zeves.ast.*;
 import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.Factory;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
+
+import net.sourceforge.czt.parser.z.*;
+
 import net.sourceforge.czt.parser.zeves.ProofTable;
 </add:zeves>
 
