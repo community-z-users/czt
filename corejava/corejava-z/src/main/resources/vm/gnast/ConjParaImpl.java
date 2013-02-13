@@ -24,8 +24,8 @@
 	  net.sourceforge.czt.z.ast.Name zname = this.getAnn(net.sourceforge.czt.z.ast.Name.class);
     if (zname != null)
     {      
-      java.util.List anns = getAnns();
-      for (java.util.Iterator iter = anns.iterator(); iter.hasNext(); )
+      java.util.List<Object> anns = getAnns();
+      for (java.util.Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
       {
         Object ann = iter.next();
         if (net.sourceforge.czt.z.ast.Name.class.isInstance(ann))

@@ -38,8 +38,8 @@
   }
 
    private static java.util.Set<String> idPool_ = null;	
-   private static java.util.Map<String, Set<String>> nameIdPool_ = new java.util.TreeMap<String, Set<String>>(); 
-   public static java.util.Map<String, Set<String>> nameIdPool()
+   private static java.util.Map<String, java.util.Set<String>> nameIdPool_ = new java.util.TreeMap<String, java.util.Set<String>>(); 
+   public static java.util.Map<String, java.util.setSet<String>> nameIdPool()
    {
      return java.util.Collections.unmodifiableMap(nameIdPool_);
    }

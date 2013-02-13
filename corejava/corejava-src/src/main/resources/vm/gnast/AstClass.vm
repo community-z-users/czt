@@ -642,13 +642,13 @@ public#abstract($class) class ${class.ImplName}
    * returns an instance of Z${prop.Type.Name}
    * and throws an UnsupportedAstClassException otherwise.
    */
-  public Z${prop.Type.Name} getZ${prop.Type.Name}()
+  public ${prop.Type.Package}.Z${prop.Type.Name} getZ${prop.Type.Name}()
   {
-    ${prop.Type.Name} object = ${prop.GetterName}();
-    if (object instanceof Z${prop.Type.Name}) {
-      return (Z${prop.Type.Name}) object;
+    ${prop.Type.Package}.${prop.Type.Name} object = ${prop.GetterName}();
+    if (object instanceof ${prop.Type.Package}.Z${prop.Type.Name}) {
+      return (${prop.Type.Package}.Z${prop.Type.Name}) object;
     }
-    final String message = "Expected the Z implementation of ${prop.Type.Name}" +
+    final String message = "Expected the Z implementation of ${prop.Type.Package}.${prop.Type.Name}" +
       " but found " + String.valueOf(object);
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
