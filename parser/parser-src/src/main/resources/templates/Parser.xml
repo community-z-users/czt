@@ -600,6 +600,29 @@ action code
         return null;
       }
     }
+    
+    /**
+     * Converts a name list into a list of strings. This methods is called by complex operator template
+     * patterns that eventually call strListToZName(List&lt;String&gt;, LocInfo). Earlier versions of 
+     * parser mixed up list of names within the list of strings... This method flattens these names to strings.
+     */
+    protected List&lt;String&gt; extractNamesFromNameList(List&lt;Name&gt; list)
+    {
+    	List&lt;String&gt; result = factory_.list();
+    	for(Name n : list)
+    	{
+    		if (n instanceof ZName)
+    			result.add(ZUtils.assertZName(n).getWord());
+    		<add:zpatt>
+    		else if (n instanceof net.sourceforge.czt.zpatt.ast.JokerName)
+    			result.add(((net.sourceforge.czt.zpatt.ast.JokerName)n).getName());
+    		</add:zpatt>
+    		else
+    			result.add(n.toString());
+    	}
+    	return result;
+    }
+    
 
     protected List&lt;String&gt; toStringList(List&lt;LocString&gt; list)
     {
@@ -2818,8 +2841,11 @@ non terminal Freetype freeTypeDefinition;
 non terminal List&lt;LocString&gt;
     narrWordList;
 
-non terminal OptempPara operatorTemplate;
-non terminal List /*StringAndOperand?*/
+non terminal OptempPara 
+	operatorTemplate;
+	
+// this list includes both operator and operands
+non terminal List&lt;Oper&gt;
     template,
     prefixTemplate,
     postfixTemplate,
@@ -8201,7 +8227,7 @@ prefixGenName ::=
            LocInfo loc = getLocation(formalParameterleft,
                                      formalParameterright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, decls);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, decls);
         :}
         |
         L:l optNameEsSsList:onesl name:fpn1
@@ -8209,7 +8235,14 @@ prefixGenName ::=
         {:
            //construct the name
            List&lt;String&gt; name = factory_.list(l.getString());
-           name.addAll((List) onesl.getSecond());
+           
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
            name.add(ARG_TOK);
            name.add(eos.getString());
            name.add(ARG_TOK);
@@ -8220,7 +8253,7 @@ prefixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         ;
 
@@ -8232,7 +8265,7 @@ postfixGenName ::=
            decls.add(fpn);
            LocInfo loc = getLocation(pleft, pright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, decls);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, decls);
         :}
         |
         name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 erOrSr:eos
@@ -8240,7 +8273,15 @@ postfixGenName ::=
            //construct the name
            List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(el.getString());
-           name.addAll((List) onesl.getSecond());
+
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
+
            name.add(ARG_TOK);
            name.add(eos.getString());
 
@@ -8251,7 +8292,7 @@ postfixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(eosleft, eosright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
          :}
         ;
 
@@ -8269,7 +8310,7 @@ infixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         |
         name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 ereOrSre:eos name:fpn3
@@ -8277,7 +8318,15 @@ infixGenName ::=
            //construct the name
            List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(el.getString());
-           name.addAll((List) onesl.getSecond());
+
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
+
            name.add(ARG_TOK);
            name.add(eos.getString());
            name.add(ARG_TOK);
@@ -8289,7 +8338,7 @@ infixGenName ::=
            fps.add(fpn3);
            LocInfo loc = getLocation(fpn3left, fpn3right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         ;
 
@@ -8298,7 +8347,15 @@ nofixGenName ::=
         {:
            //construct the name
            List&lt;String&gt; name = factory_.list(l.getString());
-           name.addAll((List) onesl.getSecond());
+           
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
+           
            name.add(ARG_TOK);
            name.add(eos.getString());
 
@@ -8307,7 +8364,7 @@ nofixGenName ::=
            fps.add(fpn);
            LocInfo loc = getLocation(eosleft, eosright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         ;
 
@@ -8316,20 +8373,31 @@ nofixGenName ::=
 //list comprising the name
 optNameEsSsList ::=
         //empty
-        {: RESULT = new Pair(factory_.createZNameList(),
+        {: RESULT = new Pair&lt;ZNameList, ZNameList&gt;(factory_.createZNameList(),
                              factory_.createZNameList()); :}
         |
         optNameEsSsList:ouesl name:fpn esOrSs:eos
         {:
            ZNameList gens = ouesl.getFirst();
            gens.add(fpn);
-           List name = factory_.list(ouesl.getSecond());
-           name.add(ARG_TOK);
-           name.add(eos.getString());
+           List&lt;ZNameList&gt; name = factory_.list(ouesl.getSecond());
+           // BUG?/TODO: This can't be right. The result is a list of ZNameLists and
+           //			 the code just adds two strings to the list?
+           //
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.add(ARG_TOK);
+           //name.add(eos.getString());
+           name.add(factory_.createZNameList(
+ 		  		factory_.list(factory_.createZName(ARG_TOK), 
+   					  factory_.createZName(eos.getString()))));
            RESULT = ouesl;
         :}
         ;
 
+// these results are LocString
 esOrSs ::=
         ES:es
         {: RESULT = es; :}
