@@ -51,6 +51,9 @@ public interface JAstObject extends JObject
    */
   boolean getNameEqualsType();
 
+
+  String getVisitorPackage();
+  
   /**
    * <p>Returns the class (or implementation) name
    * of this Gnast class.</p>

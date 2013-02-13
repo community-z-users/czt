@@ -718,7 +718,12 @@ public class SchemaProject
 
     public String getPackage()
     {
-      return getAstPackage();
+      return SchemaProject.this.getAstPackage();
+    }
+    
+    public String getVisitorPackage()
+    {
+      return SchemaProject.this.getVisitorPackage();
     }
 
     public String getImplPackage()
