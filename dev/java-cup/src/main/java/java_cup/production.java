@@ -105,6 +105,9 @@ public class production {
 		/* get the generated declaration code for the necessary labels. */
 		declare_str = declare_labels(rhs_parts, rightlen, action_str);
 
+		//System.out.println("\n-------DECLARE-STR---------\n" + String.valueOf(declare_str));
+		//System.out.println("\n-------ACTION-STR---------\n" + String.valueOf(action_str));
+
 		if (action_str == null)
 			action_str = declare_str;
 		else
@@ -145,6 +148,9 @@ public class production {
 			}
 		}
 
+		//System.out.println("\n-------TAILA-STR---------\n" + 
+		//		(tail_action !=null && tail_action.code_string() != null ? tail_action.code_string() : "null"));
+		
 		/*
 		 * now action string is really declaration string, so put it in front!
 		 * 6/14/96 frankf
