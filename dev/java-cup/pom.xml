@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>java-cup</artifactId>
-  <version>0.11-a-czt01-SNAPSHOT</version>
+  <version>0.12-a-czt01-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Java CUP Parser Generator</name>
@@ -31,7 +31,7 @@
     <dependency>
       <groupId>net.sourceforge.czt.dev</groupId>
       <artifactId>java-cup-runtime</artifactId>
-      <version>0.12-a-czt01-SNAPSHOT</version>
+      <version>0.11-a-czt01-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
