@@ -153,7 +153,7 @@ public class production {
 			action_str = "";
 		if (tail_action != null && tail_action.code_string() != null)
 			action_str = action_str + "\t\t" + tail_action.code_string();
-
+	
 		/* stash the action */
 		_action = new action_part(action_str);
 
@@ -500,6 +500,7 @@ public class production {
 				}
 			}
 		}
+		
 		return declaration;
 	}
 

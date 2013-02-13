@@ -259,6 +259,25 @@ public class CupGenerateMojo extends AbstractMojo
   private boolean externalTables;
   
   /**
+   * Suppress Java warnings in parser generated code when needed.
+   * <p>
+   * CUP produces generic Java code, some of which doesn't get used. For instance, the left/right
+   * integer location information for every terminal in productions are always generated, even if
+   * they are never used. This creates a series of unused warnings that need removing. Another 
+   * example is when some of the terminal symbols contain elements with generic types. This creates
+   * unchecked warnings at various places where such generic non-terminal types appear. At this 
+   * stage it is needed to add an unchecked cast warning suppression. 
+   * </p>
+   * <p>
+   * By default this flag is false, and all warnings are added. If set to true, our specific warning
+   * suppression is added instead. Warning suppression is added locally, so as to not hide any dead
+   * code or unchecked warning from user code. 
+   * </p>
+   */
+  @Parameter( property = "cup.suppressGeneratedJavaWarnings", defaultValue = "false" )
+  private boolean suppressGeneratedJavaWarnings;
+  
+  /**
    * The Maven project (used to add generated sources for compilation).
    */
   @Component
@@ -461,8 +480,13 @@ public class CupGenerateMojo extends AbstractMojo
     if (noScanner) {
       args.add("-noscanner");
     }
+    // CZT extra flags
     if (externalTables) {
       args.add("-external_tables");
+    }
+    if (suppressGeneratedJavaWarnings)
+    {
+      args.add("-suppress_generated_java_warnings");
     }
 
     // target directory path

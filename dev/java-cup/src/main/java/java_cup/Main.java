@@ -259,7 +259,8 @@ public class Main {
 "    -destdir name  specify the destination directory, to store the generated files in\n" +
 "    -parser name   specify parser class name [default \"parser\"]\n" +
 "    -typearg args  specify type arguments for parser class\n" + 
-"    -external_tables  output parser tables to external file\n" + 
+"    -external_tables  output parser tables to external file\n" +
+"    -suppress_generated_java_warnings add suppress warnings for unused code/unchecked type conversion\n" +
 "    -symbols name  specify name for symbol constant class [default \"sym\"]\n"+
 "    -interface     put symbols in an interface, rather than a class\n" +
 "    -nonterms      put non terminals in symbol constant class\n" + 
@@ -387,7 +388,7 @@ public class Main {
       }
 
           else if (argv[i].equals("-external_tables")) emit.external_tables = true;
-
+          else if (argv[i].equals("-suppress_generated_java_warnings")) emit.suppress_generated_java_warnings = true;
 	  /* CSA 24-Jul-1999; suggestion by Jean Vaucher */
 	  else if (!argv[i].startsWith("-") && i==len-1) {
 	      /* use input from file. */

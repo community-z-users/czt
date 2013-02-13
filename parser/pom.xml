@@ -205,6 +205,7 @@
                 <dumpGrammar>true</dumpGrammar>              
                 <dumpTables>false</dumpTables>
                 -->
+                <suppressGeneratedJavaWarnings>true</suppressGeneratedJavaWarnings>
               </configuration>
               <goals>
                 <goal>generate</goal>

@@ -140,10 +140,17 @@ public class emit {
 	/**
 	 * User option -- output parser tables to external files, which are loaded
 	 * during runtime? If the tables are too large, they are output to external
-	 * file anyway.
+	 * file anyway. THIS IS A NEW FLAG (added for CZT)
 	 */
 	public static boolean external_tables = false;
 
+	/**
+	 * User option -- output parser tables to external files, which are loaded
+	 * during runtime? If the tables are too large, they are output to external
+	 * file anyway. THIS IS A NEW FLAG (added for CZT)
+	 */
+	public static boolean suppress_generated_java_warnings = false;
+	
 	/* . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . */
 
 	/** User declarations for direct inclusion in user action class. */
