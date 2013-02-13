@@ -64,7 +64,6 @@ import net.sourceforge.czt.circus.util.Factory;
 //import net.sourceforge.czt.circustime.ast.*;
 //import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 
-//import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.circus.CircusParseError;
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
 </add:circustime>
@@ -83,8 +82,6 @@ import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
 
 <add:ozpatt>
-import net.sourceforge.czt.parser.z.*;
-
 import net.sourceforge.czt.parser.oz.ParserState;
 import net.sourceforge.czt.parser.zpatt.JokerTable;
 import net.sourceforge.czt.parser.zpatt.ZpattParseError;
