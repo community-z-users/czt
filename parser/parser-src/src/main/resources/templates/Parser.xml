@@ -92,13 +92,11 @@ import net.sourceforge.czt.parser.zpatt.ZpattParseMessage;
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.tcoz.util.Factory;
 
-import net.sourceforge.czt.parser.z.*;
 </add:tcoz>
 
 <add:pattern>
 import net.sourceforge.czt.zpatt.ast.*;
 
-import net.sourceforge.czt.parser.z.*;
 </add:pattern>
 <add:zpatt>
 import net.sourceforge.czt.zpatt.util.Factory;
