@@ -97,6 +97,9 @@
     </xs:annotation>
   </xs:element>
 
+<!-- TODO: various of these type hierarchies are incomplete/incompatible to what ASTs look like today
+			(i.e. we use ExprList, NameList, DeclList, etc rather than all deriving from Term directly).
+ -->
   <!-- Extending the Type hierarchy -->
   <xs:element name="ClassType" type="OZ:ClassType"
     abstract="true" substitutionGroup="Z:Type2">
@@ -190,10 +193,12 @@
     </xs:annotation>
   </xs:element>
   <xs:element name="VisibilityList" type="OZ:VisibilityList"/>
-  <xs:element name="State" type="OZ:State"/>
   <xs:element name="PrimaryDecl" type="OZ:PrimaryDecl"/>
   <xs:element name="SecondaryDecl" type="OZ:SecondaryDecl"/>
-  <xs:element name="InitialState" type="OZ:InitialState"/>
+
+  <!-- Made these two para as this seems the most natural from both parser-oz and typechecker-oz code. -->
+  <xs:element name="State" type="OZ:State" substitutionGroup="Z:Para"/>
+  <xs:element name="InitialState" type="OZ:InitialState" substitutionGroup="Z:Para"/>
   <xs:element name="Operation" type="OZ:Operation"/>
   <xs:element name="DeltaList" type="OZ:DeltaList"/>
 
@@ -276,7 +281,7 @@
   </xs:complexType>
   <xs:complexType name="State">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="Z:Para">
         <xs:sequence>
           <xs:element ref="OZ:PrimaryDecl" minOccurs="0">
             <xs:annotation>
@@ -318,7 +323,7 @@
   </xs:complexType>
   <xs:complexType name="InitialState">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="Z:Para">
         <xs:sequence>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
