@@ -414,7 +414,7 @@ public class ${class.ImplName}
 #else
 public#abstract($class) class ${class.ImplName}
 #if($class.Extends)extends 
-	#if(${class.ImplExtends.endsWith("Term")}) 
+	#if(${class.ImplExtends.startsWith("Term")}) 
   		net.sourceforge.czt.base.impl.${class.ImplExtends}
 	#else
 		${class.getImplPackage()}.${class.ImplExtends}
