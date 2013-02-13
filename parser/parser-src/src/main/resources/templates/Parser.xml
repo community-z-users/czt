@@ -3309,7 +3309,7 @@ non terminal InitialState
 // Inner para was Term because InitialState and State were Terms, but this 
 // doesn't seem right given they are a "innerPara" and are treated as such
 // both here and in typechecker-oz/ParaChecker.java. So changed them to Para.
-non terminal Para
+non terminal Term
     innerPara;
 
 // TODO: why not make this Para?
