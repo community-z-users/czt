@@ -11,12 +11,12 @@ call set MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=512m
 :: Step 1: Build the CZT core
 :: Note a check for errors, which stops the execution if Maven fails
 
-call mvn clean install
+call mvn clean install -U
 if not "%ERRORLEVEL%" == "0" pause & exit /b
 
 :: Step 2: Build the CZT Eclipse plug-ins
 
-call mvn -f eclipse/pom.xml clean install
+call mvn -f eclipse/pom.xml clean install -U
 if not "%ERRORLEVEL%" == "0" pause & exit /b
 
 :: pause to prevent window closing

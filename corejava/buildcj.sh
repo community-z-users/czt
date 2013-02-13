@@ -9,8 +9,10 @@ set -e
 
 echo Build corjava $1
 
+# -U = force snapshot updates
+
 # Step 1: Build the CZT corejava source core
-mvn -f corejava-src/pom.xml clean install
+mvn -f corejava-src/pom.xml clean install -U
 
 # Step 2: Build the CZT corejava chosen by the given parameter
-mvn -f corejava-$1/pom.xml clean install
+mvn -f corejava-$1/pom.xml clean install -U
