@@ -5,6 +5,19 @@
     <title>Java CUP Parser Generator</title>
   </properties>
   <body>
+    <release version="0.12-a-czt01" date="2013-03-01" description="CZT updates">
+      <action type="update" dev="leouk">
+        Added two new flags for suppressing warnings of generated code, specifically
+        unchecked and unused. The former is local to all non-terminals declared with
+        generic types, whereas the latter is global on cUP$actions class for now. Later,
+        we wanted to make them local to every int left/right for terminals, but that's 
+        tricky string manipulation and rather error prone.  
+      </action>
+      <action type="update" dev="leouk">
+        emit.java to contain flags at places to show what part of the code generates what bits.
+        also reformatted the source for both production and emit. java
+      </action>
+    </release>
     <release version="0.11-a-czt01" date="2012-10-19" description="CZT updates">
       <action type="fix" dev="andriusvelykis">
         Further changes to java_cup.emit class to avoid "code too large" Java compiler
