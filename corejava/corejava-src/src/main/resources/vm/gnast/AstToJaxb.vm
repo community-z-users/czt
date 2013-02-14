@@ -375,26 +375,46 @@ public class $class.Name
 #elseif($prop.isList())
       {
     	// TODO: Fix this. Needs to be raw types because there is a mix-up of types here still... 
-        @SuppressWarnings("rawtypes")
-        List newlist = jaxbObject.${prop.GetterName}();
-        for (Object o : zedObject.${prop.GetterName}()) {
-          if (o instanceof Term) {
-            o = ((Term) o).accept(this);
-          }
-          // TODO: this will still give a warning I won't be able to get rid of. Okay. argh...
-          newlist.add(o);
+        //@SuppressWarnings("rawtypes")
+        //java.util.List newlist = jaxbObject.${prop.GetterName}();
+        //for (Object o : zedObject.${prop.GetterName}()) {
+        //  if (o instanceof net.sourceforge.czt.base.ast.Term) {
+        //    o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
+        //  }
+        //  // TODO: this will still give a warning I won't be able to get rid of. Okay. argh...
+        //  newlist.add(o);
+        //}
+        for (net.sourceforge.czt.z.ast.Pred o : zedObject.getPred()) 
+        {
+		  javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> r = o.accept(this);
+          if (r instanceof javax.xml.bind.JAXBElement<?>) 
+        	  try {
+        		  @SuppressWarnings("unchecked")
+        		  javax.xml.bind.JAXBElement<net.sourceforge.czt.z.jaxb.gen.Pred> t = 
+        		  	(javax.xml.bind.JAXBElement<net.sourceforge.czt.z.jaxb.gen.Pred>)r;
+        		  jaxbObject.getPred().add(t);
+        	  } 
+          	  catch (ClassCastException e)
+        	  {
+          		throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to net.sourceforge.czt.z.jaxb.gen.Pred");
+        	  }
+          else
+        	  throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to net.sourceforge.czt.z.jaxb.gen.Pred");
         }
       }
 #else
       if (zedObject.${prop.GetterName}() != null) {
-#if($prop.Type.FullName == 'net.sourceforge.czt.base.ast.Digit' || $prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar' || $prop.Type.FullName == 'javax.xml.datatype.XMLGregorianCalendar')
+#if($prop.Type.FullName == 'net.sourceforge.czt.base.ast.Digit' || $prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Calendar' || $prop.Type.FullName == 'javax.xml.datatype.XMLGregorianCalendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
 #elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || $prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || $prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || $prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || $prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || $prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
-        jaxbObject.${prop.SetterName}(${prop.Type.Name}.fromValue(zedObject.${prop.GetterName}().toString()));
+        jaxbObject.${prop.SetterName}(${project.JaxbGenPackage}.${prop.Type.Name}.fromValue(zedObject.${prop.GetterName}().toString()));
 #else
-        Term term = zedObject.${prop.GetterName}();
-        @SuppressWarnings("unchecked")
-        JAXBElement<${prop.Type.Name}> newValue = (JAXBElement<${prop.Type.Name}>)term.accept(this);
+        net.sourceforge.czt.base.ast.Term term = zedObject.${prop.GetterName}();
+        ##// (project.JaxbGenPackage).(prop.Type.Name) = ${project.JaxbGenPackage}.${prop.Type.Name}
+        ##// @SuppressWarnings("unchecked")
+        ##// (prop.Type.FullName)						 = ${prop.Type.FullName}
+        javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.Type.Name}> newValue = 
+        	(javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.Type.Name}>)term.accept(this);
         jaxbObject.${prop.SetterName}(newValue);
 #end
       }
