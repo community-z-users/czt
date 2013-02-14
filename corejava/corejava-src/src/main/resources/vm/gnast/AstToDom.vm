@@ -30,6 +30,123 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
+// --------------------------------------
+// ALL PROPERTIES
+// class 				= ${class}
+// class.getName		= ${class.getName()}
+// class.getClass       = ${class.getClass()}
+// class.getPackage     = ${class.getPackage()}
+// class.getImplPackage = ${class.getImplPackage()}
+// class.getVisitorPack = ${class.getVisitorPackage()}
+// class.getAllProps    = ${class.getAllProperties()}
+// --------------------------------------
+// forall(prop in class getAllProperties) 
+// #foreach($prop in ${class.getAllProperties()})
+//		prop 									  = ${prop}
+//		prop.getName							  = ${prop.getName()}
+//		#if(${prop.isList()})
+//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+//
+//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+//		#else
+//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+//
+//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+//		#end
+// --------------------------------------
+// #end
+// class.getProps       =${class.getProperties()}
+// --------------------------------------
+// forall(prop in class getProperties) 
+// #foreach($prop in ${class.getProperties()})
+//		prop 		       = ${prop}
+//		prop.getName	   = ${prop.getName()}
+//		prop.getClass      = ${prop.getClass()}
+//		prop.getVarName    = ${prop.VarName}
+//		prop.getMemVarName = ${prop.MemVarName}
+//		prop.getGetterName = ${prop.GetterName}
+//		prop.SetterName    = ${prop.SetterName}
+//		prop.getType	   = ${prop.getType().getClass()}
+//
+//		prop.Type.FullName       			  = ${prop.Type.FullName}
+//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+//
+//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+// --------------------------------------
+// #end
+// #if(${ImportProject})
+// ImportProject             = ${ImportProject}
+// ImportProject.BasePackage = ${ImportProject.BasePackage}
+// #end
+// --------------------------------------
+//
+// #foreach($c in $classes)
+// #if(!$c.Abstract)
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	// ALL PROPERTIES
+	// c 				= ${c}
+	// c.getName		= ${c.getName()}
+	// c.getClass       = ${c.getClass()}
+	// c.getPackage     = ${c.getPackage()}
+	// c.getImplPackage = ${c.getImplPackage()}
+	// c.getVisitorPack = ${c.getVisitorPackage()}
+	// c.getAllProps    = ${c.getAllProperties()}
+	// --------------------------------------
+	// forall(prop in c getAllProperties) 
+	// #foreach($prop in ${c.getAllProperties()})
+	//		prop 									  = ${prop}
+	//		prop.getName  							  = ${prop.getName()}
+	//		#if(${prop.isList()})
+	//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+	//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+	//
+	//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+	//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+	//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+	//		#else
+	//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	//
+	//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	//		#end
+	// --------------------------------------
+	// #end
+	// c.getProps       =${c.getProperties()}
+	// --------------------------------------
+	// forall(prop in c getProperties) 
+	// #foreach($prop in ${c.getProperties()})
+	//		prop 		       = ${prop}
+	//		prop.getName	   = ${prop.getName()}
+	//		prop.getClass      = ${prop.getClass()}
+	//		prop.getVarName    = ${prop.VarName}
+	//		prop.getMemVarName = ${prop.MemVarName}
+	//		prop.getGetterName = ${prop.GetterName}
+	//		prop.SetterName    = ${prop.SetterName}
+	//		prop.getType	   = ${prop.getType().getClass()}
+	//
+	//		prop.Type.FullName       			  = ${prop.Type.FullName}
+	//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	//
+	//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	// #end
+// #end
+// #end
+// --------------------------------------
+
 import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
