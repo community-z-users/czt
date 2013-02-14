@@ -195,12 +195,13 @@ public class ${class.Name}#if($ImportProject)
                                             + object.getClass().getName());
   }
 
-  public Object visitJAXBElement(JAXBElement<?> jaxbElement)
+  public Object visitJAXBElement(javax.xml.bind.JAXBElement<?> jaxbElement)
   {
     return dispatch(jaxbElement.getValue());
   }
 
-  public Object visitElementNSImpl(ElementNSImpl obj)
+  // TODO: why this restricted class is needed?
+  public Object visitElementNSImpl(@SuppressWarnings("restriction") com.sun.org.apache.xerces.internal.dom.ElementNSImpl obj)
   {
     return obj;
   }
@@ -213,13 +214,15 @@ public class ${class.Name}#if($ImportProject)
     getLogger().entering("${class.Name}", "visit${c.Name}", jaxbObject);
 #foreach($prop in $c.AllProperties)
 #if(${prop.Name} == 'Content')
-    List<Object> content = new Vector<Object>();
+    java.util.List<Object> content = new java.util.Vector<Object>();
     if (jaxbObject.getContent() != null) {
       content.add(dispatch(jaxbObject.getContent()));
     }
 #elseif(${prop.isList()})
-    ${prop.Type.FullName} ${prop.VarName} = new Vector<${prop.ListType.FullName}>();
-    for (Object obj : jaxbObject.${prop.GetterName}()) {
+    //${prop.Type.FullName} ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>();
+    //${prop.ListType.FullName} ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>(); // TODO: why Vector? any concurrency going on JAXB?
+    java.util.List<${prop.ListType.FullName}> ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>();
+    for (javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.ListType.Name}> obj : jaxbObject.${prop.GetterName}()) {
       ${prop.ListType.FullName} o = (${prop.ListType.FullName}) dispatch(obj);
       ${prop.VarName}.add(o);
     }
