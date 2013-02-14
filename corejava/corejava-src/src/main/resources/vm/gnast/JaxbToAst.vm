@@ -154,14 +154,13 @@ package #package(${class.Package});
 #if($author) * @author ${author}
 #end
  */
- @SuppressWarnings("restriction")
 public class ${class.Name}#if($ImportProject)
  extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}
 #else
- extends ReflectiveVisitor
+ extends net.sourceforge.czt.util.ReflectiveVisitor
 #end
 {
-  protected ${factory.Name} m${factory.Name}_;
+  protected ${factory.FullName} m${factory.Name}_;
 
   public ${class.Name}()
   {
@@ -169,16 +168,16 @@ public class ${class.Name}#if($ImportProject)
       new ${project.getGenObject("factoryImpl").FullName}();
   }
 
-  public ${class.Name}(#foreach($p in $projects)${p.getGenObject("factory").FullName} v${p.getGenObject("factory").Name}, #end${project.getGenObject("factory").Name} v${factory.Name})
+  public ${class.Name}(#foreach($p in $projects)${p.getGenObject("factory").FullName} v${p.getGenObject("factory").Name}, #end${project.getGenObject("factory").FullName} v${factory.Name})
   {
 #if(${ImportProject})    super(#foreach($p in $projects)#if($velocityCount == 1)v${p.getGenObject("factory").Name}#else, v${p.getGenObject("factory").Name}#end#end);
 #end
     m${factory.Name}_ = v${factory.Name};
   }
 
-  private static Logger getLogger()
+  private static java.util.logging.Logger getLogger()
   {
-    return Logger.getLogger("#package(${class.Package}).${class.Name}");
+    return java.util.logging.Logger.getLogger("#package(${class.Package}).${class.Name}");
   }
 
   public Object visitObject(Object object)
@@ -186,7 +185,7 @@ public class ${class.Name}#if($ImportProject)
     getLogger().fine("Visit " + object.getClass().toString());
     if (object instanceof String
         || object instanceof Boolean
-        || object instanceof List
+        || object instanceof java.util.List
         || object instanceof Integer
         || object instanceof java.math.BigInteger
         || object instanceof net.sourceforge.czt.base.ast.Digit) {
@@ -238,12 +237,12 @@ public class ${class.Name}#if($ImportProject)
       (${prop.Type.FullName}) dispatch(jaxbObject.${prop.GetterName}());
 #end
 #end
-    ${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
+    ${c.Package}.${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
 
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getAny() != null) {
-      List<Object> annsList = erg.getAnns();
-      List<Object> anyList = jaxbObject.getAnns().getAny();
+      java.util.List<Object> annsList = erg.getAnns();
+      java.util.List<Object> anyList = jaxbObject.getAnns().getAny();
       for (Object obj : anyList) {
         Object o = dispatch(obj);
         annsList.add(o);

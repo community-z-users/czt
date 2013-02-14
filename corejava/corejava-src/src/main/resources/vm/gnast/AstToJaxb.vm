@@ -162,10 +162,130 @@ public class $class.Name
 #if($ImportPackage)
 #set($object = ${ImportProject.getObject("AstToJaxb")})
   extends ${object.Package}.${object.Name}
-  implements ${visitor.FullName}<JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>
+  implements ${visitor.FullName}<javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>
+  
+// --------------------------------------
+// ALL PROPERTIES
+// class 				= ${class}
+// class.getName		= ${class.getName()}
+// class.getClass       = ${class.getClass()}
+// class.getPackage     = ${class.getPackage()}
+// class.getImplPackage = ${class.getImplPackage()}
+// class.getVisitorPack = ${class.getVisitorPackage()}
+// class.getAllProps    = ${class.getAllProperties()}
+// --------------------------------------
+// forall(prop in class getAllProperties) 
+// #foreach($prop in ${class.getAllProperties()})
+//		prop 									  = ${prop}
+//		prop.getName							  = ${prop.getName()}
+//		#if(${prop.isList()})
+//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+//
+//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+//		#else
+//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+//
+//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+//		#end
+// --------------------------------------
+// #end
+// class.getProps       =${class.getProperties()}
+// --------------------------------------
+// forall(prop in class getProperties) 
+// #foreach($prop in ${class.getProperties()})
+//		prop 		       = ${prop}
+//		prop.getName	   = ${prop.getName()}
+//		prop.getClass      = ${prop.getClass()}
+//		prop.getVarName    = ${prop.VarName}
+//		prop.getMemVarName = ${prop.MemVarName}
+//		prop.getGetterName = ${prop.GetterName}
+//		prop.SetterName    = ${prop.SetterName}
+//		prop.getType	   = ${prop.getType().getClass()}
+//
+//		prop.Type.FullName       			  = ${prop.Type.FullName}
+//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+//
+//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+// --------------------------------------
+// #end
+// #if(${ImportProject})
+// ImportProject             = ${ImportProject}
+// ImportProject.BasePackage = ${ImportProject.BasePackage}
+// #end
+// --------------------------------------
+//
+// #foreach($c in $classes)
+// #if(!$c.Abstract)
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	// ALL PROPERTIES
+	// c 				= ${c}
+	// c.getName		= ${c.getName()}
+	// c.getClass       = ${c.getClass()}
+	// c.getPackage     = ${c.getPackage()}
+	// c.getImplPackage = ${c.getImplPackage()}
+	// c.getVisitorPack = ${c.getVisitorPackage()}
+	// c.getAllProps    = ${c.getAllProperties()}
+	// --------------------------------------
+	// forall(prop in c getAllProperties) 
+	// #foreach($prop in ${c.getAllProperties()})
+	//		prop 									  = ${prop}
+	//		prop.getName  							  = ${prop.getName()}
+	//		#if(${prop.isList()})
+	//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+	//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+	//
+	//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+	//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+	//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+	//		#else
+	//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	//
+	//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	//		#end
+	// --------------------------------------
+	// #end
+	// c.getProps       =${c.getProperties()}
+	// --------------------------------------
+	// forall(prop in c getProperties) 
+	// #foreach($prop in ${c.getProperties()})
+	//		prop 		       = ${prop}
+	//		prop.getName	   = ${prop.getName()}
+	//		prop.getClass      = ${prop.getClass()}
+	//		prop.getVarName    = ${prop.VarName}
+	//		prop.getMemVarName = ${prop.MemVarName}
+	//		prop.getGetterName = ${prop.GetterName}
+	//		prop.SetterName    = ${prop.SetterName}
+	//		prop.getType	   = ${prop.getType().getClass()}
+	//
+	//		prop.Type.FullName       			  = ${prop.Type.FullName}
+	//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	//
+	//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	// #end
+// #end
+// #end
+// --------------------------------------
+
+  
+  
 #else
-  implements ${visitor.FullName}<JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>,
-             net.sourceforge.czt.base.visitor.TermVisitor<JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>
+  implements ${visitor.FullName}<javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>,
+             net.sourceforge.czt.base.visitor.TermVisitor<javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>
 #end
 {
   /**
@@ -181,20 +301,20 @@ public class $class.Name
     return "#package(${class.Package}).${class.Name}";
   }
 
-  private Logger getLogger()
+  private java.util.logging.Logger getLogger()
   {
-    return Logger.getLogger(getClassName());
+    return java.util.logging.Logger.getLogger(getClassName());
   }
 
-  private net.sourceforge.czt.z.jaxb.gen.Term.Anns visitAnnotations(List<Object> list)
+  private net.sourceforge.czt.z.jaxb.gen.Term.Anns visitAnnotations(java.util.List<Object> list)
     throws javax.xml.bind.JAXBException
   {
       net.sourceforge.czt.z.jaxb.gen.Term.Anns anns =
         annsObjectFactory_.createTermAnns();
-    List<Object> newlist = anns.getAny();
+    java.util.List<Object> newlist = anns.getAny();
     for (Object obj : list) {
-      if (obj instanceof Term) {
-        Term term = (Term) obj;
+      if (obj instanceof net.sourceforge.czt.base.ast.Term) {
+        net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) obj;
         try {
           Object visitedTerm = term.accept(this);
           newlist.add(visitedTerm);
@@ -203,7 +323,7 @@ public class $class.Name
           String message = "Annotation " + term + " cannot be handled; " +
             "drop it.";
           getLogger().warning(message);
-          throw new CztException(message, e);
+          throw new net.sourceforge.czt.util.CztException(message, e);
         }
       }
     }
@@ -211,7 +331,7 @@ public class $class.Name
   }
 
 
-  public JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> visitTerm(Term zedObject)
+  public javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
   {
     String message = "Unexpected element " + zedObject.getClass().getName();
     throw(new UnsupportedOperationException(message));
@@ -219,13 +339,13 @@ public class $class.Name
 
 #foreach($c in $classes)
 #if(! ${c.Abstract})
-  public JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> visit${c.Name}(${project.AstPackage}.${c.Name} zedObject)
+  public javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> visit${c.Name}(${project.AstPackage}.${c.Name} zedObject)
   {
     getLogger().entering(getClassName(), "visit${c.Name}", zedObject);
     try {
-      $c.Name jaxbObject = objectFactory_.create${c.Name}();
+      ${project.JaxbGenPackage}.$c.Name jaxbObject = objectFactory_.create${c.Name}();
       if (zedObject.hasAnn()) {
-        List<Object> list = zedObject.getAnns();
+        java.util.List<Object> list = zedObject.getAnns();
         if (list.size() > 0) {
           jaxbObject.setAnns(visitAnnotations(list));
         }
@@ -233,19 +353,19 @@ public class $class.Name
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       {
-        List<? extends Object> list = zedObject.getContent();
+        java.util.List<? extends Object> list = zedObject.getContent();
         if (list.size() == 1) {
           Object o = list.get(0);
-          if (o instanceof Term) {
-            o = ((Term) o).accept(this);
+          if (o instanceof net.sourceforge.czt.base.ast.Term) {
+            o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
           }
           jaxbObject.setContent(o);
         }
         else if (list.size() > 1) {
-          List<Object> newlist = new java.util.ArrayList<Object>();
+          java.util.List<Object> newlist = new java.util.ArrayList<Object>();
           for (Object o : list) {
-            if (o instanceof Term) {
-              o = ((Term) o).accept(this);
+            if (o instanceof net.sourceforge.czt.base.ast.Term) {
+              o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
             }
             newlist.add(o);
           }
@@ -288,7 +408,7 @@ public class $class.Name
         "class AstToJaxb: "
         + "Cannot transform a ${c.Name} to the corresponding "
         + "Jaxb class";
-      throw new CztException(message, exception);
+      throw new net.sourceforge.czt.util.CztException(message, exception);
     }
   }
 #end
