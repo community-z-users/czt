@@ -48,56 +48,56 @@ import ${p.AstPackage}.*;
 import ${p.ImplPackage}.*;
 #end
 
-// --------------------------------------
-// ALL PROPERTIES
-// class = ${class}
-// class.getClass       = ${class.getClass()}
-// class.getPackage     = ${class.getPackage()}
-// class.getImplPackage = ${class.getImplPackage()}
-// class.getVisitorPack = ${class.getVisitorPackage()}
-// class.getAllProps    = ${class.getAllProperties()}
-// --------------------------------------
-// forall(prop in class getAllProperties) {
-// #foreach($prop in ${class.getAllProperties()})
-//		prop 									  = ${prop}
-//		#if(${prop.isList()})
-//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
-//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
-//
-//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
-//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
-//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
-//		#else
-//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
-//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
-//
-//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
-//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
-//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
-//		#end
-// --------------------------------------
-// #end
-// class.getProps       =${class.getProperties()}
-// --------------------------------------
-// forall(prop in class getProperties) {
-// #foreach($prop in ${class.getProperties()})
-//		prop 		       = ${prop}
-//		prop.getClass      = ${prop.getClass()}
-//		prop.getVarName    = ${prop.VarName}
-//		prop.getMemVarName = ${prop.MemVarName}
-//		prop.getGetterName = ${prop.GetterName}
-//		prop.SetterName    = ${prop.SetterName}
-//		prop.getType	   = ${prop.getType().getClass()}
-
-//		prop.Type.FullName       			  = ${prop.Type.FullName}
-//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
-//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
-
-//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
-//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
-//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
-// --------------------------------------
-// #end
+##// --------------------------------------
+##// ALL PROPERTIES
+##// class = ${class}
+##// class.getClass       = ${class.getClass()}
+##// class.getPackage     = ${class.getPackage()}
+##// class.getImplPackage = ${class.getImplPackage()}
+##// class.getVisitorPack = ${class.getVisitorPackage()}
+##// class.getAllProps    = ${class.getAllProperties()}
+##// --------------------------------------
+##// forall(prop in class getAllProperties) {
+##// #foreach($prop in ${class.getAllProperties()})
+##//		prop 									  = ${prop}
+##//		#if(${prop.isList()})
+##//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+##//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+##//
+##//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+##//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+##//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+##//		#else
+##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+##//
+##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+##//		#end
+##// } --------------------------------------
+##// #end
+##// class.getProps       =${class.getProperties()}
+##// --------------------------------------
+##// forall(prop in class getProperties) {
+##// #foreach($prop in ${class.getProperties()})
+##//		prop 		       = ${prop}
+##//		prop.getClass      = ${prop.getClass()}
+##//		prop.getVarName    = ${prop.VarName}
+##//		prop.getMemVarName = ${prop.MemVarName}
+##//		prop.getGetterName = ${prop.GetterName}
+##//		prop.SetterName    = ${prop.SetterName}
+##//		prop.getType	   = ${prop.getType().getClass()}
+##//
+##//		prop.Type.FullName       			  = ${prop.Type.FullName}
+##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+##//
+##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+##// } --------------------------------------
+##// #end
 
 /**
  * An implementation of the interface
@@ -566,7 +566,20 @@ public#abstract($class) class ${class.ImplName}
 	  java.util.List<${prop.ListType.FullName}>
 	  	${prop.VarName} = (java.util.List<${prop.ListType.FullName}>) args[$counter];
 	  #else
-	  ${prop.Type.FullName} ${prop.VarName} = (${prop.Type.FullName}) args[$counter];
+		#if(${prop.getType().getPackage().isEmpty()})
+			#if(${prop.getType().getProject()} && 
+				${class.isKnownEnumeration(${prop.getType().getFullName()})})
+				${prop.getType().getProject().getAstPackage()}.
+			#end
+		#end
+	  	${prop.Type.FullName} ${prop.VarName} = (
+			#if(${prop.getType().getPackage().isEmpty()})
+				#if(${prop.getType().getProject()} && 
+					${class.isKnownEnumeration(${prop.getType().getFullName()})})
+					${prop.getType().getProject().getAstPackage()}.
+				#end
+			#end
+			${prop.Type.FullName}) args[$counter];
 	  #end
 #end
       zedObject = new ${class.ImplName}(getFactory());
@@ -615,14 +628,43 @@ public#abstract($class) class ${class.ImplName}
     return ${prop.MemVarName};
   }
 #else
-  private ${prop.Type.FullName} ${prop.MemVarName};
 
-  public ${prop.Type.FullName} ${prop.GetterName}()
+## for enumerations, package is empty, but the project AstPackage is available.
+  private
+    ## if no package, check project is on and get to see if this is 
+    ## a known enumeration or not (i.e. could be Boolean or String).
+    ## only add the AstPackage if the enum is known
+	#if(${prop.getType().getPackage().isEmpty()})
+		#if(${prop.getType().getProject()} && 
+			${class.isKnownEnumeration(${prop.getType().getFullName()})})
+			${prop.getType().getProject().getAstPackage()}.
+		#end
+	#end
+	${prop.getType().getFullName()}
+  ${prop.MemVarName};
+
+  public 
+	#if(${prop.getType().getPackage().isEmpty()})
+		#if(${prop.getType().getProject()} && 
+			${class.isKnownEnumeration(${prop.getType().getFullName()})})
+			${prop.getType().getProject().getAstPackage()}.
+		#end
+	#end
+	${prop.getType().getFullName()}
+  ${prop.GetterName}()
   {
     return ${prop.MemVarName};
   }
 
-  public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName})
+  public void ${prop.SetterName}(
+	#if(${prop.getType().getPackage().isEmpty()})
+		#if(${prop.getType().getProject()} && 
+			${class.isKnownEnumeration(${prop.getType().getFullName()})})
+			${prop.getType().getProject().getAstPackage()}.
+		#end
+	#end
+	${prop.getType().getFullName()}
+	${prop.VarName})
   {
     ##// ${class.ImplName}
     ##// ${prop.MemVarName}
