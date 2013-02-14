@@ -12,7 +12,7 @@
    */
   public String getName()
   {
-	  net.sourceforge.czt.z.ast.Name name = this.getAnn(Name.class);
+	  net.sourceforge.czt.z.ast.Name name = this.getAnn(net.sourceforge.czt.z.ast.Name.class);
     if (name instanceof net.sourceforge.czt.z.ast.ZName) {
       return ((net.sourceforge.czt.z.ast.ZName) name).getWord();
     }
