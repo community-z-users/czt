@@ -129,4 +129,11 @@ public interface JAstObject extends JObject
   boolean isList();
 
   String getNamespace();
+  
+  /**
+   * Check whether the enum name type given is known within the name space or not.
+   * @param type
+   * @return
+   */
+  boolean isKnownEnumeration(String type);
 }

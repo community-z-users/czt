@@ -77,7 +77,10 @@ public abstract class JAstObjectImpl implements JAstObject
     	}
     	// otherwise just use the name
     	else
+    	{
     		result = getName();
+    	}
+    	//System.err.println("JObject getFullName() = " + result);
     }
     // if some package, then set that to the result directly
     else 

@@ -746,6 +746,11 @@ public class SchemaProject
     {
       return SchemaProject.this.getImplPackage();
     }
+    
+    public boolean isKnownEnumeration(String type)
+    {	
+      return SchemaProject.this.getEnumerations().containsKey(type);
+    }
 
     public String getNamespace()
     {
