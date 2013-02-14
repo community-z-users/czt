@@ -14,13 +14,13 @@
    * Creates the synchronisation channel name. This creates a ZName without strokes or ID
    * and with CircusString.CIRCUSSYNCH string as the name.
    */
-  ZName createSynchName();
+  net.sourceforge.czt.z.ast.ZName createSynchName();
 
   /**
    * Creates the synchronisation channel type. It creates a power type of a given type 
    * containing createSynchName() as the given type name.
    */
-  PowerType createSynchType();
+  net.sourceforge.czt.z.ast.PowerType createSynchType();
 
   /**
    * Convenience method that creates a DotField and annotates it with an OutputFieldAnn

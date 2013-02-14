@@ -1,11 +1,11 @@
   /** Creates a parameterless call action. This is a convenience method */
-  public CallAction createCallAction(net.sourceforge.czt.z.ast.Name name)
+  public net.sourceforge.czt.circus.ast.CallAction createCallAction(net.sourceforge.czt.z.ast.Name name)
   {
     return createCallAction(name, createZExprList());
   }
 
   /** Creates a parameterless call process with empty generic actuals. This is a convenience method */
-  public CallProcess createCallProcess(net.sourceforge.czt.z.ast.Name name)
+  public net.sourceforge.czt.circus.ast.CallProcess createCallProcess(net.sourceforge.czt.z.ast.Name name)
   {
     return createCallProcess(createRefExpr(name, createZExprList(),
       Boolean.FALSE, Boolean.TRUE),
@@ -13,13 +13,13 @@
   }
 
   /** Creates an empty BasicNameSet. This is a convenience method */
-  public CircusNameSet createEmptyCircusNameSet()
+  public net.sourceforge.czt.circus.ast.CircusNameSet createEmptyCircusNameSet()
   {
     return createCircusNameSet(createSetExpr(createZExprList()));
   }
 
   /** Creates an empty BasicChannelSet. This is a convenience method */
-  public CircusChannelSet createEmptyCircusChannelSet()
+  public net.sourceforge.czt.circus.ast.CircusChannelSet createEmptyCircusChannelSet()
   {
     return createCircusChannelSet(createSetExpr(createZExprList()));
   }
@@ -34,44 +34,44 @@
     net.sourceforge.czt.circus.util.CircusString.CIRCUSSYNCH,
     createZStrokeList(), null);
 
-  public ZName createSynchName()
+  public net.sourceforge.czt.z.ast.ZName createSynchName()
   {
     return synchNameWithoutID_;
   }
 
-  public PowerType createSynchType()
+  public net.sourceforge.czt.z.ast.PowerType createSynchType()
   {
-    PowerType result = createPowerType(createGivenType(createSynchName()));
+	  net.sourceforge.czt.z.ast.PowerType result = createPowerType(createGivenType(createSynchName()));
     return result;
   }
 
-  public DotField createOutputField(net.sourceforge.czt.z.ast.Expr e)
+  public net.sourceforge.czt.circus.ast.DotField createOutputField(net.sourceforge.czt.z.ast.Expr e)
   {
-    DotField result = createDotField(e);
+	  net.sourceforge.czt.circus.ast.DotField result = createDotField(e);
     result.getAnns().add(createOutputFieldAnn());
     return result;
   }
   
-  public ActionSignature createCompleteActionSignature(
+  public net.sourceforge.czt.circus.ast.ActionSignature createCompleteActionSignature(
     net.sourceforge.czt.z.ast.Name actionName,
     net.sourceforge.czt.z.ast.Signature formals,
     net.sourceforge.czt.z.ast.Signature localVars,
     net.sourceforge.czt.z.ast.Signature usedChannels,
-    CommunicationList usedComms,
-    ChannelSetList usedChannelSets,
-    NameSetList usedNameSets)
+    net.sourceforge.czt.circus.ast.CommunicationList usedComms,
+    net.sourceforge.czt.circus.ast.ChannelSetList usedChannelSets,
+    net.sourceforge.czt.circus.ast.NameSetList usedNameSets)
   {
-    ActionSignature result = createActionSignature(
-      actionName,
-      createZSignatureList(newList(formals, localVars, usedChannels)),
-      usedComms, usedChannelSets, usedNameSets);
+	  net.sourceforge.czt.circus.ast.ActionSignature result = 
+			  createActionSignature(actionName, 
+					  createZSignatureList(newList(formals, localVars, usedChannels)),
+					  	usedComms, usedChannelSets, usedNameSets);
     return result;
   }
 
-  public ActionSignature createEmptyActionSignature()
+  public net.sourceforge.czt.circus.ast.ActionSignature createEmptyActionSignature()
   {
     // create an empty signature, but with the right place holders.
-    ActionSignature result = createCompleteActionSignature(
+	  net.sourceforge.czt.circus.ast.ActionSignature result = createCompleteActionSignature(
       null,                              // null action name
       createSignature(),                 // empty formal paramenters
       createSignature(),                 // empty local variables
@@ -83,7 +83,7 @@
     return result;
   }
   
-  public ActionSignature createInitialMuActionSignature(net.sourceforge.czt.z.ast.Name actionName)
+  public net.sourceforge.czt.circus.ast.ActionSignature createInitialMuActionSignature(net.sourceforge.czt.z.ast.Name actionName)
   {
     if (actionName == null)
     {
@@ -99,31 +99,31 @@
       );
   }  
 
-  public ActionSignature createActionSignature(
+  public net.sourceforge.czt.circus.ast.ActionSignature createActionSignature(
     net.sourceforge.czt.z.ast.Name actionName,
     net.sourceforge.czt.z.ast.Signature formals,
     net.sourceforge.czt.z.ast.Signature localVars,
     net.sourceforge.czt.z.ast.Signature usedChannels,
-    CommunicationList usedComms,
-    ChannelSetList usedChannelSets,
-    NameSetList usedNameSets)
+    net.sourceforge.czt.circus.ast.CommunicationList usedComms,
+    net.sourceforge.czt.circus.ast.ChannelSetList usedChannelSets,
+    net.sourceforge.czt.circus.ast.NameSetList usedNameSets)
   {
     return createCompleteActionSignature(actionName, formals, 
         localVars, usedChannels, usedComms, usedChannelSets, 
         usedNameSets);
   }
 
-  public ProcessSignature createCompleteProcessSignature(
+  public net.sourceforge.czt.circus.ast.ProcessSignature createCompleteProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
-    ProcessSignatureList processSignatures,
-    ActionSignatureList actionSignatures,
-    ZSignatureList basicProcessLocalZSignatures,
-    ChannelSetList parallelProcessChannelSets,
-    StateUpdate stateUpdate,
-    CallUsage usage)
+    net.sourceforge.czt.circus.ast.ProcessSignatureList processSignatures,
+    net.sourceforge.czt.circus.ast.ActionSignatureList actionSignatures,
+    net.sourceforge.czt.circus.ast.ZSignatureList basicProcessLocalZSignatures,
+    net.sourceforge.czt.circus.ast.ChannelSetList parallelProcessChannelSets,
+    net.sourceforge.czt.circus.ast.StateUpdate stateUpdate,
+    net.sourceforge.czt.circus.ast.CallUsage usage)
   {
     return createProcessSignature(name, genFormals,
       newList(
@@ -144,7 +144,7 @@
       usage);
   }
 
-  public ProcessSignature createEmptyProcessSignature()
+  public net.sourceforge.czt.circus.ast.ProcessSignature createEmptyProcessSignature()
   {
     return createCompleteProcessSignature(null, createZNameList(),
       createSignature(),
@@ -154,12 +154,12 @@
       CallUsage.Parameterised);
   }
 
-  public ProcessSignature createProcessSignature(
+  public net.sourceforge.czt.circus.ast.ProcessSignature createProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-    ProcessSignatureList processSignatures,
-    CallUsage usage)
+    net.sourceforge.czt.circus.ast.ProcessSignatureList processSignatures,
+    net.sourceforge.czt.circus.ast.CallUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       createSignature(), processSignatures, createActionSignatureList(),
@@ -167,42 +167,42 @@
       createStateUpdate(), usage);
   }
 
-  public ProcessSignature createChannelSetProcessSignature(
+  public net.sourceforge.czt.circus.ast.ProcessSignature createChannelSetProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
-    ProcessSignatureList processSignatures,
-    ChannelSetList channelSets,
-    CallUsage usage)
+    net.sourceforge.czt.circus.ast.ProcessSignatureList processSignatures,
+    net.sourceforge.czt.circus.ast.ChannelSetList channelSets,
+    net.sourceforge.czt.circus.ast.CallUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       createSignature(), processSignatures, createActionSignatureList(),
       createZSignatureList(), channelSets, createStateUpdate(), usage);
   }
 
-  public ProcessSignature createBasicProcessSignature(
+  public net.sourceforge.czt.circus.ast.ProcessSignature createBasicProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
-    ActionSignatureList actionSignatures,
-    ZSignatureList basicProcessLocalZSignatures,
-    StateUpdate stateUpdate,
-    CallUsage usage)
+    net.sourceforge.czt.circus.ast.ActionSignatureList actionSignatures,
+    net.sourceforge.czt.circus.ast.ZSignatureList basicProcessLocalZSignatures,
+    net.sourceforge.czt.circus.ast.StateUpdate stateUpdate,
+    net.sourceforge.czt.circus.ast.CallUsage usage)
   {
     return createCompleteProcessSignature(name, genFormals, paramOrIndexes,
       stateSignature, createProcessSignatureList(), actionSignatures,
       basicProcessLocalZSignatures, createCircusChannelSetList(), stateUpdate, usage);
   }
 
-  public ProcessSignature createBasicProcessSignature(
+  public net.sourceforge.czt.circus.ast.ProcessSignature createBasicProcessSignature(
     net.sourceforge.czt.z.ast.Name name,
     net.sourceforge.czt.z.ast.ZNameList genFormals,
     net.sourceforge.czt.z.ast.Signature paramOrIndexes,
     net.sourceforge.czt.z.ast.Signature stateSignature,
-    ActionSignatureList actionSignatures,
-    ZSignatureList basicProcessLocalZSignatures,
-    CallUsage usage)
+    net.sourceforge.czt.circus.ast.ActionSignatureList actionSignatures,
+    net.sourceforge.czt.circus.ast.ZSignatureList basicProcessLocalZSignatures,
+    net.sourceforge.czt.circus.ast.CallUsage usage)
   {
     return createBasicProcessSignature(name, genFormals, paramOrIndexes,
       stateSignature, actionSignatures, basicProcessLocalZSignatures, 

@@ -1,13 +1,13 @@
-  public CircusAction getSpec()
+  public net.sourceforge.czt.circus.ast.CircusAction getSpec()
   {
-    CircusAction result = null;
+	  net.sourceforge.czt.circus.ast.CircusAction result = null;
     if (getCircusAction().size() > 0) {
       result = getCircusAction().get(0);
     }
     return result;
   }
 
-  public void setSpec(CircusAction action)
+  public void setSpec(net.sourceforge.czt.circus.ast.CircusAction action)
   {
     if (getCircusAction().size() > 0) {
       getCircusAction().set(0, action);
@@ -17,7 +17,7 @@
     }
   }
 
-  public CircusAction getImpl()
+  public net.sourceforge.czt.circus.ast.CircusAction getImpl()
   {
     CircusAction result = null;
     if (getCircusAction().size() > 1) {
@@ -26,7 +26,7 @@
     return result;
   }
 
-  public void setImpl(CircusAction action)
+  public void setImpl(net.sourceforge.czt.circus.ast.CircusAction action)
   {
     if (getCircusAction().size() == 0) {
       getCircusAction().add(null);
