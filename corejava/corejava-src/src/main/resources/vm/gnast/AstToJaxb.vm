@@ -419,6 +419,8 @@ public class $class.Name
         ##// (project.JaxbGenPackage).(prop.Type.Name) = ${project.JaxbGenPackage}.${prop.Type.Name}
         ##// @SuppressWarnings("unchecked")
         ##// (prop.Type.FullName)						 = ${prop.Type.FullName}
+        
+        @SuppressWarnings("unchecked")
         javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.Type.Name}> newValue = 
         	(javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.Type.Name}>)term.accept(this);
         jaxbObject.${prop.SetterName}(newValue);
