@@ -4,7 +4,7 @@
     // NOTE: this doesn't resolve ParamCommand with jokers
     if (getDeclList() instanceof net.sourceforge.czt.z.ast.ZDeclList)
     {
-      for(Decl d : getZDeclList())
+      for(net.sourceforge.czt.z.ast.Decl d : getZDeclList())
       {
         // if not qualified decl, it must be ParamAction - return false
         if (!(d instanceof net.sourceforge.czt.circus.ast.QualifiedDecl))

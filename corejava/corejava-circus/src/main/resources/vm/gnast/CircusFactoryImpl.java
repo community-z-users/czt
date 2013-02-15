@@ -30,7 +30,7 @@
     result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
-  private final ZName synchNameWithoutID_ = createZName(
+  private final net.sourceforge.czt.z.ast.ZName synchNameWithoutID_ = createZName(
     net.sourceforge.czt.circus.util.CircusString.CIRCUSSYNCH,
     createZStrokeList(), null);
 
@@ -126,7 +126,7 @@
     net.sourceforge.czt.circus.ast.CallUsage usage)
   {
     return createProcessSignature(name, genFormals,
-      newList(
+   		this.<net.sourceforge.czt.circus.ast.SignatureList>newList(
         // list0 = ZSignatureList getMainSignatures()
         createZSignatureList(
           // list0.0 = Signature paramOrIndexes          

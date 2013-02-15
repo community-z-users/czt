@@ -19,7 +19,7 @@
 
   public net.sourceforge.czt.circus.ast.CircusAction getImpl()
   {
-    CircusAction result = null;
+	  net.sourceforge.czt.circus.ast.CircusAction result = null;
     if (getCircusAction().size() > 1) {
       result = getCircusAction().get(1);
     }
