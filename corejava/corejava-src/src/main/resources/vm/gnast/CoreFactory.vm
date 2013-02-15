@@ -27,9 +27,10 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 ******************************************************************************/
 
 package ${project.BasePackage}.${class.Package};
-#foreach($p in $projects)
-import ${p.AstPackage}.*;
-#end
+
+##//#foreach($p in $projects)
+##//import ${p.AstPackage}.*;
+##//#end
 
 /**
  * <p>The object factory for the AST.
@@ -53,7 +54,7 @@ public interface ${class.Name}
 {
 #foreach($c in $classes)
 #if(!$c.Abstract)
-#set($head = "${c.Name} create${c.Name}")
+#set($head = "${c.getPackage()}.${c.Name} create${c.Name}")
   /**
    * Creates an instance of {@link ${c.Name}}.
    *

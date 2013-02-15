@@ -29,12 +29,10 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
-#foreach($p in $projects)
-import ${p.AstPackage}.*;
-#end
-import ${project.AstPackage}.*;
-import ${project.BasePackage}.util.PrintVisitor;
-import net.sourceforge.czt.util.Visitor;
+##//#foreach($p in $projects)
+##//import ${p.AstPackage}.*;
+##//#end
+##//import ${project.AstPackage}.*;
 
 /**
  * <p>An implementation of the object factory for constructing
