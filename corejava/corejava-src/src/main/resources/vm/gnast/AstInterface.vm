@@ -217,7 +217,7 @@ public interface ${class.Name} #if($class.Extends)extends #if(${class.Extends.en
    * returns an instance of Z${prop.Type.Name}
    * and throws an UnsupportedAstClassException otherwise.
    */
-  Z${prop.Type.Name} getZ${prop.Type.Name}();
+  ${prop.Type.Package}.Z${prop.Type.Name} getZ${prop.Type.Name}();
 #end
 #end
 #end
