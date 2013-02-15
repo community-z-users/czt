@@ -374,32 +374,38 @@ public class $class.Name
       }
 #elseif($prop.isList())
       {
-    	// TODO: Fix this. Needs to be raw types because there is a mix-up of types here still... 
-        //@SuppressWarnings("rawtypes")
-        //java.util.List newlist = jaxbObject.${prop.GetterName}();
-        //for (Object o : zedObject.${prop.GetterName}()) {
-        //  if (o instanceof net.sourceforge.czt.base.ast.Term) {
-        //    o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
-        //  }
-        //  // TODO: this will still give a warning I won't be able to get rid of. Okay. argh...
-        //  newlist.add(o);
-        //}
-        for (net.sourceforge.czt.z.ast.Pred o : zedObject.getPred()) 
+    	##// TODO: Fix this. Needs to be raw types because there is a mix-up of types here still... 
+        ##//@SuppressWarnings("rawtypes")
+        ##//java.util.List newlist = jaxbObject.${prop.GetterName}();
+        ##//for (Object o : zedObject.${prop.GetterName}()) {
+        ##//  if (o instanceof net.sourceforge.czt.base.ast.Term) {
+        ##//    o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
+        ##//  }
+        ##//  newlist.add(o);
+        ##//  // TODO: this will still give a warning I won't be able to get rid of. Okay. argh...
+        ##//}
+        
+        for (${prop.getListType().getFullName()} o : zedObject.${prop.GetterName}()) 
         {
 		  javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> r = o.accept(this);
           if (r instanceof javax.xml.bind.JAXBElement<?>) 
         	  try {
+        	  	  // NOTE:
+        	  	  // although this cast should always be safe, I am  playing defensively by having 
+        	  	  // the try/catch. This may make transformation slightly slower. Perhaps remove it
+        	  	  // if exception never happens. Still to fully understand the hierarchy of JAXB well.
+        	  	  // This is better than the previous solution with rawtypes and confused generic types. 
         		  @SuppressWarnings("unchecked")
-        		  javax.xml.bind.JAXBElement<net.sourceforge.czt.z.jaxb.gen.Pred> t = 
-        		  	(javax.xml.bind.JAXBElement<net.sourceforge.czt.z.jaxb.gen.Pred>)r;
-        		  jaxbObject.getPred().add(t);
+        		  javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.getListType().getName()}> t = 
+        		  	(javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.getListType().getName()}>)r;
+        		  jaxbObject.${prop.GetterName}().add(t);
         	  } 
           	  catch (ClassCastException e)
         	  {
-          		throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to net.sourceforge.czt.z.jaxb.gen.Pred");
+          		throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to ${project.JaxbGenPackage}.${prop.getName()}");
         	  }
           else
-        	  throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to net.sourceforge.czt.z.jaxb.gen.Pred");
+        	  throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to ${project.JaxbGenPackage}.${prop.getName()}");
         }
       }
 #else

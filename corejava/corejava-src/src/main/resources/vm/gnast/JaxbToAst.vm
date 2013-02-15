@@ -220,18 +220,18 @@ public class ${class.Name}#if($ImportProject)
       content.add(dispatch(jaxbObject.getContent()));
     }
 #elseif(${prop.isList()})
-    //${prop.Type.FullName} ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>();
-    //${prop.ListType.FullName} ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>(); // TODO: why Vector? any concurrency going on JAXB?
+    ##//${prop.Type.FullName} ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>();
+    ##//${prop.ListType.FullName} ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>(); // TODO: why Vector? any concurrency going on JAXB?
     java.util.List<${prop.ListType.FullName}> ${prop.VarName} = new java.util.Vector<${prop.ListType.FullName}>();
-    for (javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.ListType.Name}> obj : jaxbObject.${prop.GetterName}()) {
+    for (javax.xml.bind.JAXBElement<? extends ${project.JaxbGenPackage}.${prop.ListType.Name}> obj : jaxbObject.${prop.GetterName}()) {
       ${prop.ListType.FullName} o = (${prop.ListType.FullName}) dispatch(obj);
       ${prop.VarName}.add(o);
     }
 #elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || $prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || $prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || $prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || $prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || $prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
-    ${prop.Type.FullName} ${prop.VarName} = null;
+    ${c.Package}.${prop.Type.FullName} ${prop.VarName} = null;
     if (jaxbObject.${prop.GetterName}() != null) {
       String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}().value();
-      ${prop.VarName} = ${prop.Type.FullName}.valueOf(${prop.VarName}Jaxb);
+      ${prop.VarName} = ${c.Package}.${prop.Type.FullName}.valueOf(${prop.VarName}Jaxb);
     }
 #elseif($prop.Type.Name == 'Boolean')
     ${prop.Type.FullName} ${prop.VarName} =
