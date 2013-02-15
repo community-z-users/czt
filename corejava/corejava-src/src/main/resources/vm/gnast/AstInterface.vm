@@ -83,6 +83,7 @@ package ${class.Package};
 ##// #end
 ##// #if(${ImportProject})
 ##// ImportProject             = ${ImportProject}
+##// ImportProject.Name		 = ${ImportProject.getName()}	
 ##// ImportProject.BasePackage = ${ImportProject.BasePackage}
 ##// #end
 ##// --------------------------------------
@@ -153,6 +154,23 @@ package ${class.Package};
 #if($author) * @author ${author}
 #end
  */ 
+ 
+ 
+// class.Extends				= ${class.getExtends()}
+// class.getProject 			= ${class.getProject()}
+// class.getProject.getNameSpace= ${class.getProject().getNameSpace()}
+// class.getProject.getObject(e)= ${class.getProject().getObject(${class.getExtends()})} 
+
+// class.getProject.getAstClass(e)			      = ${class.getProject().getAstClass(${class.getExtends()})}
+// class.getProject.getAstClass(e).getPackage     = ${class.getProject().getAstClass(${class.getExtends()}).getPackage()}
+// class.getProject.getAstClass(e).getImplPackage = ${class.getProject().getAstClass(${class.getExtends()}).getImplPackage()}
+// class.getProject.getInheritedProps = ${class.getProject().getInheritedProperties()}
+
+// projects = ${projects}
+// #foreach($p in $projects)
+//      ${p}
+//	#end
+
 public interface ${class.Name} #if($class.Extends)extends #if(${class.Extends.endsWith("Term")}) 
   		net.sourceforge.czt.base.ast.${class.Extends}
 	#else
