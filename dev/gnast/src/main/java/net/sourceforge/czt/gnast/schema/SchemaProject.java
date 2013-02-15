@@ -754,7 +754,12 @@ public class SchemaProject
 
     public String getNamespace()
     {
-      return getTargetNamespace();
+      return SchemaProject.this.getTargetNamespace();
+    }
+    
+    public JObject getObject(String type)
+    {
+      return SchemaProject.this.getObject(type);
     }
 
     /**
