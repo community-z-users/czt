@@ -35,11 +35,11 @@
 ## This is used to build an argument list for the create methods
 ## in the factory class.
 ## ******************************
-#macro(factoryTypeVarList $varList)
+#macro(factoryTypeVarList $varList $class)
 #foreach($var in $varList)
 #if($velocityCount != 1),#end
 #if($var.isList())java.util.List<? extends ${var.getListType()}>
-#else ${var.Type.FullName} #end ${var.VarName}#end#end
+#else #enumAwareFullName($var $class)${var.Type.FullName} #end ${var.VarName}#end#end
 
 ## ******************************
 ## varList
@@ -76,6 +76,17 @@
 #macro(getterList $propList)
 #foreach($prop in $propList)
 #if($velocityCount == 1)${prop.GetterName}()#else, ${prop.GetterName}()$#end#end#end
+
+## ********************************
+## enumAwareFullName
+## -------
+## Given a prop and class parameter get the full package name of known enums
+## ********************************
+#macro(enumAwareFullName $prop $class)
+#if(${prop.getType().getPackage().isEmpty()})
+#if(${prop.getType().getProject()} && 
+${class.isKnownEnumeration(${prop.getType().getFullName()})})
+${prop.getType().getProject().getAstPackage()}.#end#end#end
 
 ## ##################################################
 ## Making class and interface generation easier

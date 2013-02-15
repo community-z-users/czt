@@ -103,7 +103,7 @@ public class ${class.Name}
    *
    * @return the new instance of ${c.Name}.
    */
-  public ${head}(#factoryTypeVarList(${c.AllProperties}))
+  public ${head}(#factoryTypeVarList(${c.AllProperties} ${c}))
   {
     return factory_.create${c.Name}(#varList(${c.AllProperties}));
   }

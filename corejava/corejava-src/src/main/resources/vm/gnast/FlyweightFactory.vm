@@ -104,7 +104,7 @@ public class ${class.Name}
    *
    * @return the new instance of ${c.Name}.
    */
-  public ${head}(#factoryTypeVarList(${c.AllProperties}))
+  public ${head}(#factoryTypeVarList(${c.AllProperties} ${c}))
   {
     nCreates_++;
     List<Object> argList = new ArrayList<Object>($c.AllProperties.size());

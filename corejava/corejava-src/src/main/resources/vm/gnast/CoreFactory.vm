@@ -67,7 +67,7 @@ public interface ${class.Name}
    *
    * @return the new instance of ${c.Name}.
    */
-  ${head}(#factoryTypeVarList(${c.AllProperties}));
+  ${head}(#factoryTypeVarList(${c.AllProperties} ${c}));
 
 #end
 #end
