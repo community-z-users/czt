@@ -48,5 +48,8 @@ public interface JProject
   String getImplPackage();
 
   String getAstJavadoc();
+  
+  /** Tells whether the given class name is known within this project AST classes */
+  boolean isKnownClass(String type);
 }
 

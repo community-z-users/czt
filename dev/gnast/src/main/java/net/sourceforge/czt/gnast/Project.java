@@ -299,6 +299,16 @@ public class Project
     return concat.toString();
   }
   
+  public Map<String, ? extends JAstObject> getAstClasses()
+  {
+  	return Collections.unmodifiableMap(project_.getAstClasses());
+  }
+  
+  public boolean isKnownClass(String type)
+  {
+  	return getAstClasses().containsKey(type);
+  }
+  
   /**
    * Generates all classes for this project.
    *
