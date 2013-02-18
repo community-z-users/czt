@@ -88,6 +88,24 @@
 ${class.isKnownEnumeration(${prop.getType().getFullName()})})
 ${prop.getType().getProject().getAstPackage()}.#end#end#end
 
+## ********************************
+## findRightAncestorPackage
+## -------
+## Given a prop and class parameter get the full package name of known enums
+## ********************************
+#macro(findRightAncestorPackageExtends $projects $class)
+ #if(${class.getProject().isKnownClass(${class.getExtends()})})
+		${class.getProject().getAstPackage()}.${class.getExtends()}
+ #else
+	#foreach($p in $projects)
+		#if(${p.isKnownClass(${class.getExtends()})})
+			${p.getAstPackage()}.${class.getExtends()}
+		#end	
+	#end
+ #end
+#end
+
+
 ## ##################################################
 ## Making class and interface generation easier
 ## ##################################################

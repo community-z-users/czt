@@ -155,26 +155,33 @@ package ${class.Package};
 #end
  */ 
  
- 
-// class.Extends				= ${class.getExtends()}
-// class.getProject 			= ${class.getProject()}
-// class.getProject.getNameSpace= ${class.getProject().getNameSpace()}
-// class.getProject.getObject(e)= ${class.getProject().getObject(${class.getExtends()})} 
+## // class						= ${class}
+##// class.Extends				= ${class.getExtends()}
+##// class.getProject 			= ${class.getProject()}
+##// class.getProject.getNameSpace= ${class.getProject().getNameSpace()}
+##// class.getProject.getObject(e)= ${class.getProject().getObject(${class.getExtends()})} 
 
-// class.getProject.getAstClass(e)			      = ${class.getProject().getAstClass(${class.getExtends()})}
-// class.getProject.getAstClass(e).getPackage     = ${class.getProject().getAstClass(${class.getExtends()}).getPackage()}
-// class.getProject.getAstClass(e).getImplPackage = ${class.getProject().getAstClass(${class.getExtends()}).getImplPackage()}
-// class.getProject.getInheritedProps = ${class.getProject().getInheritedProperties()}
+##// class.getProject.getAstClass(e)			      = ${class.getProject().getAstClass(${class.getExtends()})}
+##// class.getProject.getAstClass(e).getPackage     = ${class.getProject().getAstClass(${class.getExtends()}).getPackage()}
+##// class.getProject.getAstClass(e).getImplPackage = ${class.getProject().getAstClass(${class.getExtends()}).getImplPackage()}
+##// class.getProject.getInheritedProps = ${class.getProject().getInheritedProperties()}
 
-// projects = ${projects}
-// #foreach($p in $projects)
-//      ${p}
-//	#end
+##// #if(${ImportProject})
+##// ImportProject             = ${ImportProject}
+##// ImportProject.Name		 = ${ImportProject.getName()}	
+##// ImportProject.BasePackage = ${ImportProject.BasePackage}
+##// IP.getAstClasses().containsKey(e) = ${ImportProject.getAstClasses().containsKey(${class.getExtends()})}
+##// #if(!${ImportProject.getAstClasses().containsKey(e)} && ${ImportProject.getImportProject()})
+##//	  IP.IP.Name     =  ${ImportProject.getImportProject().getName()}
+##//	  IP.IP.Base     =  ${ImportProject.getImportProject().getBasePackage()}
+##//    IP.IP.contains = ${ImportProject.getImportProject().getAstClasses().containsKey(${class.getExtends()})}
+##// #end 
+##// #end
 
 public interface ${class.Name} #if($class.Extends)extends #if(${class.Extends.endsWith("Term")}) 
   		net.sourceforge.czt.base.ast.${class.Extends}
 	#else
-		${class.getPackage()}.${class.Extends}
+		#findRightAncestorPackageExtends($projects, $class)
 	#end
 	#if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
 	#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end
