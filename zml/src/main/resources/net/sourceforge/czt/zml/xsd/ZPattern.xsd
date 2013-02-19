@@ -211,7 +211,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="P:Sequent"  minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="P:Sequent"  minOccurs="0" maxOccurs="unbounded">
+          	<xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -261,7 +267,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="Kind" type="P:JokerType"/>
       </xs:extension>
