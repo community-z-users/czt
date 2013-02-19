@@ -178,9 +178,9 @@
   {
     assert !map.containsKey(key) : "Illegal value for " + getProcessName() + ". " + "The key " + key + " already had a previous value assigned.";
     V old = map.put(key, value);
-//    if (old != null)      
-//      throw new net.sourceforge.czt.util.CztException("Illegal value for " + getProcessName() + ". " + 
-//        "The key " + key + " already had a previous value assigned.");
+    if (old != null)      
+      throw new net.sourceforge.czt.util.CztException("Illegal value for " + getProcessName() + ". " + 
+        "The key " + key + " already had a previous value assigned.");
   }
   
   /**
