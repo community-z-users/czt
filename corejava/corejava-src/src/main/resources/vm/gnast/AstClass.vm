@@ -475,15 +475,48 @@ public class ${class.ImplName}
 }
 #else
 public#abstract($class) class ${class.ImplName}
-#if($class.Extends)extends 
-	#if(${class.ImplExtends.startsWith("Term")}) 
+#if($class.Extends)extends #if(${class.Extends.startsWith("Term")}) 
   		net.sourceforge.czt.base.impl.${class.ImplExtends}
 	#else
-		${class.getImplPackage()}.${class.ImplExtends}
+		#findRightAncestorPackageImplExtends($projects, $class)
 	#end
 #end
   implements ${class.getPackage()}.${class.Name}
 {
+
+##// class						= ${class}
+##// class.ImplExtends			= ${class.getImplExtends()}
+##// class.getProject 			= ${class.getProject()}
+##// class.getProject.getNameSpace= ${class.getProject().getNameSpace()}
+##// class.getProject.getObject(e)= ${class.getProject().getObject(${class.getImplExtends()})} 
+
+##// class.getProject.getAstClass(e)			      = ${class.getProject().getAstClass(${class.getImplExtends()})}
+##// class.getProject.getAstClass(e).getPackage     = ${class.getProject().getAstClass(${class.getImplExtends()}).getPackage()}
+##// class.getProject.getAstClass(e).getImplPackage = ${class.getProject().getAstClass(${class.getImplExtends()}).getImplPackage()}
+##// class.getProject.getInheritedProps = ${class.getProject().getInheritedProperties()}
+
+##// #if(${ImportProject})
+##// ImportProject             = ${ImportProject}
+##// ImportProject.Name		 = ${ImportProject.getName()}	
+##// ImportProject.BasePackage = ${ImportProject.BasePackage}
+##// IP.getAstClasses().containsKey(e) = ${ImportProject.getAstClasses().containsKey(${class.getImplExtends()})}
+##// #if(!${ImportProject.getAstClasses().containsKey(e)} && ${ImportProject.getImportProject()})
+##//	  IP.IP.Name     =  ${ImportProject.getImportProject().getName()}
+##//	  IP.IP.Base     =  ${ImportProject.getImportProject().getBasePackage()}
+##//    IP.IP.contains = ${ImportProject.getImportProject().getAstClasses().containsKey(${class.getImplExtends()})}
+##// #end 
+##// #end
+
+##// class.getProject().isKnownClass(e) = ${class.getProject().isKnownClass(${class.getImplExtends()})}
+##// #if(${class.getProject().isKnownClass(${class.getImplExtends()})})
+##//		${class.getProject().getImplPackage()}.${class.getImplExtends()}
+##// #else
+##//	#foreach($p in $projects)
+##//		## #if(${p.isKnownClass(${class.getImplExtends()})})
+##//		${p.getImplPackage()}.${class.getImplExtends()}
+##//		## #end	
+##//	#end
+##// #end
 
 #if(! ${class.Abstract})
   /**
