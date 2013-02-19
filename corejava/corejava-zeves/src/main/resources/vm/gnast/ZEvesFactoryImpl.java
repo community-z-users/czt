@@ -110,7 +110,7 @@ public net.sourceforge.czt.zeves.ast.NormalizationCommand createRearrangeCommand
 	return createNormalizationCommand(proofStep_, null, net.sourceforge.czt.zeves.ast.NormalizationKind.Rearrange);
 }
 
-public net.sourceforge.czt.zeves.ast.NormalizationCommand createWithNormalizationCommand(ProofCommand cmd)
+public net.sourceforge.czt.zeves.ast.NormalizationCommand createWithNormalizationCommand(net.sourceforge.czt.zeves.ast.ProofCommand cmd)
 {
 	countStep();
 	return createNormalizationCommand(proofStep_, cmd, net.sourceforge.czt.zeves.ast.NormalizationKind.Command);
@@ -206,7 +206,7 @@ public net.sourceforge.czt.zeves.ast.UseCommand createUseCommand(net.sourceforge
 	return createUseCommand(proofStep_, null, thmRef);
 }
 
-public UseCommand createUseCommand(net.sourceforge.czt.z.ast.RefExpr thmRef, net.sourceforge.czt.zeves.ast.InstantiationList inst)
+public net.sourceforge.czt.zeves.ast.UseCommand createUseCommand(net.sourceforge.czt.z.ast.RefExpr thmRef, net.sourceforge.czt.zeves.ast.InstantiationList inst)
 {
 	countStep();
 	return createUseCommand(proofStep_, inst, thmRef);
