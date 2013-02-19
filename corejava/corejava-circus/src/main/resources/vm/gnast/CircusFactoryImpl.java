@@ -9,7 +9,7 @@
   {
     return createCallProcess(createRefExpr(name, createZExprList(),
       Boolean.FALSE, Boolean.TRUE),
-      createZExprList(), CallUsage.Parameterised);
+      createZExprList(), net.sourceforge.czt.circus.ast.CallUsage.Parameterised);
   }
 
   /** Creates an empty BasicNameSet. This is a convenience method */
@@ -151,7 +151,7 @@
       createSignature(), createProcessSignatureList(),
       createActionSignatureList(), createZSignatureList(),
       createCircusChannelSetList(), createStateUpdate(),
-      CallUsage.Parameterised);
+      net.sourceforge.czt.circus.ast.CallUsage.Parameterised);
   }
 
   public net.sourceforge.czt.circus.ast.ProcessSignature createProcessSignature(
