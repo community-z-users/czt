@@ -322,7 +322,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="ZEVES:ProofCommandInfo"  minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="ZEVES:ProofCommandInfo"  minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
