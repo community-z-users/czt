@@ -390,39 +390,92 @@ public class $class.Name
 		  javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term> r = o.accept(this);
           if (r instanceof javax.xml.bind.JAXBElement<?>) 
         	  try {
-        	  	  // NOTE:
-        	  	  // although this cast should always be safe, I am  playing defensively by having 
-        	  	  // the try/catch. This may make transformation slightly slower. Perhaps remove it
-        	  	  // if exception never happens. Still to fully understand the hierarchy of JAXB well.
-        	  	  // This is better than the previous solution with rawtypes and confused generic types. 
+        	  	  ##// NOTE:
+        	  	  ##// although this cast should always be safe, I am  playing defensively by having 
+        	  	  ##// the try/catch. This may make transformation slightly slower. Perhaps remove it
+        	  	  ##// if exception never happens. Still to fully understand the hierarchy of JAXB well.
+        	  	  ##// This is better than the previous solution with rawtypes and confused generic types. 
+        		  
         		  @SuppressWarnings("unchecked")
-        		  javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.getListType().getName()}> t = 
-        		  	(javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.getListType().getName()}>)r;
+        		  javax.xml.bind.JAXBElement<#findRightAncestorJAXBPackage($projects $c ${prop.getListType().getName()})> t = 
+        		  	(javax.xml.bind.JAXBElement<#findRightAncestorJAXBPackage($projects $c ${prop.getListType().getName()})>)r;
         		  jaxbObject.${prop.GetterName}().add(t);
         	  } 
           	  catch (ClassCastException e)
         	  {
-          		throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to ${project.JaxbGenPackage}.${prop.getName()}");
+        	    final String s = "#findRightAncestorJAXBPackage($projects $c ${prop.getListType().getName()})";
+          		throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term " + s);
         	  }
           else
-        	  throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to ${project.JaxbGenPackage}.${prop.getName()}");
+          {
+        	  final String s = "#findRightAncestorJAXBPackage($projects $c ${prop.getListType().getName()})";
+        	  throw new net.sourceforge.czt.base.util.UnsupportedAstClassException("Could not cast JAXB result from JAXB.Term to " + s);
+          }
         }
       }
 #else
       if (zedObject.${prop.GetterName}() != null) {
-#if($prop.Type.FullName == 'net.sourceforge.czt.base.ast.Digit' || $prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Calendar' || $prop.Type.FullName == 'javax.xml.datatype.XMLGregorianCalendar')
+#if($prop.Type.FullName == 'net.sourceforge.czt.base.ast.Digit' || 
+	$prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || 
+	$prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName == 'java.lang.Integer' || 
+	$prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || 
+	$prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Calendar' || 
+	$prop.Type.FullName == 'javax.xml.datatype.XMLGregorianCalendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
-#elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || $prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || $prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || $prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || $prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || $prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
-        jaxbObject.${prop.SetterName}(${project.JaxbGenPackage}.${prop.Type.Name}.fromValue(zedObject.${prop.GetterName}().toString()));
+#elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || 
+		$prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || 
+		$prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || 
+		$prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || 
+		$prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || 
+		$prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || 
+		$prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || 
+		$prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || 
+		$prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || 
+		$prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
+		
+		## NOTE: maybe TODO: add a known in c + projects for the list of enum above?
+        ##// prop.Type.FullName = ${prop.Type.FullName}
+        ##// known in c? 	  = ${c.isKnownEnumeration(${prop.getType().getFullName()})}
+        
+        // prop.Type.Name     = ${prop.Type.Name}
+        // prop.Type.FullName = ${prop.Type.FullName}
+        
+        
+        // c.getClass 		  = ${c.getClass()}
+        // c.getProject.class = ${c.getProject().getClass()}
+        //
+        // c.getName	  	  = ${c.getName()}
+        // right import  [N]  = #findRightAncestorJAXBPackage($projects $c ${prop.getType().getName()})
+        // right import  [F]  = #findRightAncestorJAXBPackage($projects $c ${prop.getType().getFullName()})
+		
+		//  known class in c? [N]= ${c.getProject().isKnownClass(${prop.getType().getName()})}
+		//  known enum in c?  [N]= ${c.getProject().isKnownEnumeration(${prop.getType().getName()})}
+		//  known class in c? [F]= ${c.getProject().isKnownClass(${prop.getType().getFullName()})}
+		//  known enum in c?  [F]= ${c.getProject().isKnownEnumeration(${prop.getType().getFullName()})}
+		//	package in c	     = ${c.getProject().getJaxbGenPackage()}.${prop.getType().getName()}
+		//
+		//  c enums = ${c.getProject().getEnumerations().keySet()}
+		//
+		//	#foreach($p in $projects)
+		//		p 				  = ${p.getName()}
+		//	 	p.getClass()	  = ${p.getClass()}
+		//
+		//		known class in p? [N]= ${p.isKnownClass(${prop.getType().getName()})}
+		//		known enum in p?  [N]= ${p.isKnownEnumeration(${prop.getType().getName()})}
+		//		known class in p? [F]= ${p.isKnownClass(${prop.getType().getFullName()})}
+		//		known enum in p?  [F]= ${p.isKnownEnumeration(${prop.getType().getFullName()})}
+		//		package in p	     = ${p.getJaxbGenPackage()}.${prop.getType().getName()}
+		//
+		//		p enums				 = ${p.getProject().getEnumerations().keySet()}
+		//	#end
+		
+        jaxbObject.${prop.SetterName}(${prop.getType().getFullName()}.fromValue(zedObject.${prop.GetterName}().toString()));
 #else
         net.sourceforge.czt.base.ast.Term term = zedObject.${prop.GetterName}();
-        ##// (project.JaxbGenPackage).(prop.Type.Name) = ${project.JaxbGenPackage}.${prop.Type.Name}
-        ##// @SuppressWarnings("unchecked")
-        ##// (prop.Type.FullName)						 = ${prop.Type.FullName}
         
         @SuppressWarnings("unchecked")
-        javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.Type.Name}> newValue = 
-        	(javax.xml.bind.JAXBElement<${project.JaxbGenPackage}.${prop.Type.Name}>)term.accept(this);
+        javax.xml.bind.JAXBElement<#findRightAncestorJAXBPackage($projects $c ${prop.getType().getName()})> newValue = 
+        	(javax.xml.bind.JAXBElement<#findRightAncestorJAXBPackage($projects $c ${prop.getType().getName()})>)term.accept(this);
         jaxbObject.${prop.SetterName}(newValue);
 #end
       }
