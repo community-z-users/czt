@@ -1,10 +1,10 @@
 
-  public List getList()
+  public java.util.List<? extends net.sourceforge.czt.z.ast.Decl> getList()
   {
     return getZDeclList();
   }
 
-  public Object getJoker()
+  public net.sourceforge.czt.z.ast.DeclList getJoker()
   {
     return getJokerDeclList();
   }

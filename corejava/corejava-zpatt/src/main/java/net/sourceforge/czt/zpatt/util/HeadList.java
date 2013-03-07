@@ -27,6 +27,6 @@ public interface HeadList
   extends Term
 {
 	// TODO: add a proper type here?
-  List<?> getList();
-  Object getJoker();
+  List<? extends net.sourceforge.czt.z.ast.Decl> getList();
+  net.sourceforge.czt.z.ast.DeclList getJoker();
 }
