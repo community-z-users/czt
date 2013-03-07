@@ -267,13 +267,23 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded">
+        <!--  
+          TODO: What's this anomaly about? It creates a ListTerm<String> for AST
+          		and then a List<JAXBElement<String>> for JAXB. The elements of the
+          		former are not visitable! So what to do here? We are going for JokerName?
+          		hum... can't do that either. It's indeed a String... oh dear...
+          		
+          		It certainly can't be a JAXBElement wrapped thing
+          		
+          <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+        -->
+          <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="Kind" type="P:JokerType"/>
       </xs:extension>

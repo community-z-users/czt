@@ -133,7 +133,7 @@ ${prop.getType().getProject().getAstPackage()}.#end#end#end
 ## find among them the right extension package. Left in one line 
 ## because new strings were making string literals to fail. 
 ## ********************************
-#macro(findRightAncestorJAXBPackage $projects $class $propName)#if(${class.getProject().isKnownClass(${propName})})${class.getProject().getJaxbGenPackage()}.${propName}#else#foreach($p in $projects)#if(${p.isKnownClass(${propName})})${p.getJaxbGenPackage()}.${propName}#end#end#end#end
+#macro(findRightAncestorJAXBPackage $projects $class $propName)#if(${propName} == 'String')${propName}#elseif(${class.getProject().isKnownClass(${propName})})${class.getProject().getJaxbGenPackage()}.${propName}#else#foreach($p in $projects)#if(${p.isKnownClass(${propName})})${p.getJaxbGenPackage()}.${propName}#end#end#end#end
 
 ## ##################################################
 ## Making class and interface generation easier
