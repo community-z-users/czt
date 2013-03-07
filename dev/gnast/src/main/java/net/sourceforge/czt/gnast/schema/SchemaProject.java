@@ -594,21 +594,28 @@ public class SchemaProject
   {
     Project project = objectProjectProps_.get(type);
     if (project != null) {
-      return project.getObject(type);
+      //System.err.println("getObject with project " + project.getName() + " for " + type);  
+      JObject result = project.getObject(type);
+	  //System.err.println("\tresult.getPackage()   = " + result.getPackage());
+      //System.err.println("\tresult.getFullName()  = " + result.getFullName());
+	  //System.err.println("\tresult.getName()      = " + result.getName());
+	  //System.err.println("\tresult.getProject()   = " + result.getProject().getClass());
+	  //System.err.println("\tresult.getProjectAST()= " + result.getProject().getAstPackage());
+      return result;
     }
     String typePackage = "";
-    //System.err.println("getObject with no project for " + type);
+    //if (type.equals("JokerType"))System.err.println("getObject with no project for " + type);
     if (getAstClass(type) != null)
     {
-	    //System.err.println("\tgetAstClass(" + type + ") = " + getAstClass(type));
-    	//System.err.println("\t\tgetName       = " + getAstClass(type).getName());
-	    //System.err.println("\t\tgetPackage    = " + getAstClass(type).getPackage());
-	    //System.err.println("\t\tgetProperties = " + getAstClass(type).getProperties());
+    	//if (type.equals("JokerType"))System.err.println("\tgetAstClass(" + type + ") = " + getAstClass(type));
+    	//if (type.equals("JokerType"))System.err.println("\t\tgetName       = " + getAstClass(type).getName());
+    	//if (type.equals("JokerType"))System.err.println("\t\tgetPackage    = " + getAstClass(type).getPackage());
+    	//if (type.equals("JokerType"))System.err.println("\t\tgetProperties = " + getAstClass(type).getProperties());
 	    typePackage = getAstClass(type).getPackage();
 	}    
-    //System.err.println("\tgetAstClasses()     = " + getAstClasses().keySet());
-    //System.err.println("\tobjectProjectProps_ = " + objectProjectProps_);
-    //System.err.println("\tprops_ 			  = " + props_.keySet());
+    //if (type.equals("JokerType"))System.err.println("\tgetAstClasses()     = " + getAstClasses().keySet());
+    //if (type.equals("JokerType"))System.err.println("\tobjectProjectProps_ = " + objectProjectProps_);
+    //if (type.equals("JokerType"))System.err.println("\tprops_ 			  = " + props_.keySet());
     
     // we might not know whether the given type is within this
     // project ast/impl package, so pass it empty. but pass  the project?
@@ -1106,6 +1113,11 @@ public class SchemaProject
       }
       return typeAttributePresent;
     }
+    
+    public boolean isKnownEnumeration(String type)
+    {	
+      return SchemaProject.this.getEnumerations().containsKey(type);
+    }
 
     public String getName()
     {
@@ -1114,15 +1126,15 @@ public class SchemaProject
 
     public JObject getType()
     {
-      return getObject(type_);
+      return SchemaProject.this.getObject(type_);
     }
 
     public JObject getListType()
     {
       if (listType_ != null) {
-        return getObject(listType_);
+        return SchemaProject.this.getObject(listType_);
       }
-      return getObject("java.lang.Object");
+      return SchemaProject.this.getObject("java.lang.Object");
     }
 
     public boolean isReference()
