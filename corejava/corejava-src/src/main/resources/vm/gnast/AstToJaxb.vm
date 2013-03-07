@@ -148,9 +148,9 @@ package ${project.BasePackage}.${class.Package};
 ##// --------------------------------------
 
 
-#foreach($p in $projects)
-import ${p.JaxbGenPackage}.*;
-#end
+###foreach($p in $projects)
+##import ${p.JaxbGenPackage}.*;
+###end
 
 /**
  * The marshaller responsible for serializing XML data.
