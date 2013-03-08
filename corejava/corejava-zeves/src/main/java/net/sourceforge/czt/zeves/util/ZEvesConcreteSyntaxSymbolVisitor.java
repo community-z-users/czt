@@ -93,7 +93,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   @Override
   public ZEvesConcreteSyntaxSymbol visitNormalizationCommand(NormalizationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getNormalizationKind())
     {
       case Conjunctive: return ZEvesConcreteSyntaxSymbol.CONJUNCTIVE_CMD;
       case Disjunctive: return ZEvesConcreteSyntaxSymbol.DISJUNCTIVE_CMD;
@@ -142,7 +142,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   @Override
   public ZEvesConcreteSyntaxSymbol visitSubstitutionCommand(SubstitutionCommand term)
   {
-    switch (term.getKind())
+    switch (term.getSubstitutionKind())
     {
       case Invoke:
         if (term.getPred() != null)
@@ -178,10 +178,10 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   @Override
   public ZEvesConcreteSyntaxSymbol visitSimplificationCommand(SimplificationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getRewriteKind())
     {
       case Reduce  :
-         switch (term.getPower())
+         switch (term.getRewritePower())
          {
            case None:     return ZEvesConcreteSyntaxSymbol.REDUCE_CMD;
            case Prove:    return ZEvesConcreteSyntaxSymbol.PROVE_RD_CMD;
@@ -189,7 +189,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
            default: return null;
          }
       case Rewrite :
-         switch (term.getPower())
+         switch (term.getRewritePower())
          {
            case None:     return ZEvesConcreteSyntaxSymbol.REWRITE_CMD;
            case Prove:    return ZEvesConcreteSyntaxSymbol.PROVE_RW_CMD;
@@ -198,7 +198,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
          }
 
       case Simplify:
-         switch (term.getPower())
+         switch (term.getRewritePower())
          {
            case None:     return ZEvesConcreteSyntaxSymbol.SIMPLIFY_CMD;
            case Prove:    return null;
@@ -219,7 +219,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   @Override
   public ZEvesConcreteSyntaxSymbol visitCaseAnalysisCommand(CaseAnalysisCommand term)
   {
-    switch (term.getKind())
+    switch (term.getCaseAnalysisKind())
     {
       case Cases:   return ZEvesConcreteSyntaxSymbol.CASES_CMD;
       case Next:    return ZEvesConcreteSyntaxSymbol.NEXT_CMD;
@@ -251,7 +251,7 @@ public class ZEvesConcreteSyntaxSymbolVisitor
   @Override
   public ZEvesConcreteSyntaxSymbol visitInstantiation(Instantiation term)
   {
-    switch (term.getKind())
+    switch (term.getInstantiationKind())
     {
       case Quantifier:     return ZEvesConcreteSyntaxSymbol.INSTANTIATION;
       case ThmReplacement: return ZEvesConcreteSyntaxSymbol.THMREPLACEMENT;

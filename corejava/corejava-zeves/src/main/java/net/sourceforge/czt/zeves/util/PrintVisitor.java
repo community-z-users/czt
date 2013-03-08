@@ -159,7 +159,7 @@ public class PrintVisitor
   {
     ZEvesLabel label = ZEvesUtils.getLabel(term);
     result.append("\\begin");
-    if (label != null && label.getAbility().equals(LabelAbility.disabled))
+    if (label != null && label.getLabelAbility().equals(LabelAbility.disabled))
     {
       result.append("[disabled]");
     }
@@ -345,9 +345,9 @@ public class PrintVisitor
     if (term.getName() != null)
     {
       result.append("{");
-      if (label != null && !label.getUsage().equals(LabelUsage.none))
+      if (label != null && !label.getLabelUsage().equals(LabelUsage.none))
       {
-        result.append(label.getUsage());
+        result.append(label.getLabelUsage());
         result.append(" ");
       }
       result.append(term.getName());
@@ -375,7 +375,7 @@ public class PrintVisitor
     StringBuilder result = new StringBuilder();
     for (Directive d : term.getDirective())
     {
-      switch (d.getType())
+      switch (d.getDirectiveType())
       {
         case IN:
           result.append("Zin");
@@ -494,7 +494,7 @@ public class PrintVisitor
   @Override
   public String visitNormalizationCommand(NormalizationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getNormalizationKind())
     {
       case Conjunctive:
         return "conjunctive";
@@ -570,7 +570,7 @@ public class PrintVisitor
   {
     assert term.getProofCommand() == null
            && term.getNameList() == null || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
-    switch (term.getKind())
+    switch (term.getSubstitutionKind())
     {
       case Invoke:
         assert term.getExpr() == null : "invoke command cannot have an expression";
@@ -605,10 +605,10 @@ public class PrintVisitor
   @Override
   public String visitSimplificationCommand(SimplificationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getRewriteKind())
     {
       case Reduce:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             return "reduce";
@@ -620,7 +620,7 @@ public class PrintVisitor
             throw new Error();
         }
       case Rewrite:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             return "rewrite";
@@ -633,7 +633,7 @@ public class PrintVisitor
         }
 
       case Simplify:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             return "simplify";
@@ -653,7 +653,7 @@ public class PrintVisitor
   @Override
   public String visitCaseAnalysisCommand(CaseAnalysisCommand term)
   {
-    switch (term.getKind())
+    switch (term.getCaseAnalysisKind())
     {
       case Cases:
         return "cases";
@@ -714,11 +714,11 @@ public class PrintVisitor
   @Override
   public String visitInstantiation(Instantiation term)
   {
-    if (currInstKind_ != null && !term.getKind().equals(currInstKind_))
-      throw new IllegalArgumentException("Inconsistent known instantiation kind. Found " + term.getKind() + "; expected " + currInstKind_);
+    if (currInstKind_ != null && !term.getInstantiationKind().equals(currInstKind_))
+      throw new IllegalArgumentException("Inconsistent known instantiation kind. Found " + term.getInstantiationKind() + "; expected " + currInstKind_);
     StringBuilder result = new StringBuilder();
     result.append(visit(term.getZName()));
-    result.append(term.getKind().equals(InstantiationKind.Quantifier) ? " == " : " := ");
+    result.append(term.getInstantiationKind().equals(InstantiationKind.Quantifier) ? " == " : " := ");
     result.append(visit(term.getExpr()));
     return result.toString();
   }
@@ -803,14 +803,14 @@ public class PrintVisitor
   public String visitZEvesLabel(ZEvesLabel term)
   {
     StringBuilder result = new StringBuilder("\\Label{");
-    if (!term.getAbility().equals(LabelAbility.none))
+    if (!term.getLabelAbility().equals(LabelAbility.none))
     {
-      result.append(term.getAbility());
+      result.append(term.getLabelAbility());
       result.append(" ");
     }
-    if (!term.getUsage().equals(LabelUsage.none))
+    if (!term.getLabelUsage().equals(LabelUsage.none))
     {
-      result.append(term.getUsage());
+      result.append(term.getLabelUsage());
       result.append(" ");
     }
     result.append(visit(term.getName()));
