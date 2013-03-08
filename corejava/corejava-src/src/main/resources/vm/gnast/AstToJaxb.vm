@@ -351,6 +351,9 @@ public class $class.Name
         }
       }
 #foreach($prop in $c.AllProperties)
+// prop.Name   = ${prop.getName()}
+// prop.isList = ${prop.isList()}
+// prop.isEnum = ${prop.isEnum()} 
 #if($prop.Name == 'Content')
       {
         java.util.List<? extends Object> list = zedObject.getContent();
@@ -425,70 +428,33 @@ public class $class.Name
 	$prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Calendar' || 
 	$prop.Type.FullName == 'javax.xml.datatype.XMLGregorianCalendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
-#elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || 
-		$prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || 
-		$prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || 
-		$prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || 
-		$prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || 
-		$prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || 
-		$prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || 
-		$prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || 
-		$prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || 
-		$prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
-		
-		## NOTE: maybe TODO: add a known in c + projects for the list of enum above?
-        ##// prop.Type.FullName = ${prop.Type.FullName}
-        ##// known in c? 	  = ${c.isKnownEnumeration(${prop.getType().getFullName()})}
-        ##
-        ##// prop				    = ${prop.getClass()}
-        ##// prop.Type.Name       = ${prop.Type.Name}
-        ##// prop.Type.FullName   = ${prop.Type.FullName}
-        ##// prop.isKnownEnum [N] = ${prop.isKnownEnumeration(${prop.Type.Name})}
-        ##// prop.isKnownEnum [F] = ${prop.isKnownEnumeration(${prop.Type.FullName})}
-        ##
-        ##// c.getClass 		  = ${c.getClass()}
-        ##// c.getProject.class = ${c.getProject().getClass()}
-        ##//
-        ##// c.getName	  	  = ${c.getName()}
-        ##// right import  [N]  = #findRightAncestorJAXBPackage($projects $c ${prop.getType().getName()})
-        ##// right import  [F]  = #findRightAncestorJAXBPackage($projects $c ${prop.getType().getFullName()})
+#elseif($prop.isEnum())
+		##($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || 
+		##$prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || 
+		##$prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || 
+		##$prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || 
+		##$prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || 
+		##$prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || 
+		##$prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || 
+		##$prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || 
+		##$prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || 
+		##$prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
 		##
-		##//  known class in c? [N]= ${c.getProject().isKnownClass(${prop.getType().getName()})}
-		##//  known enum in c?  [N]= ${c.getProject().isKnownEnumeration(${prop.getType().getName()})}
-		##//  known class in c? [F]= ${c.getProject().isKnownClass(${prop.getType().getFullName()})}
-		##//  known enum in c?  [F]= ${c.getProject().isKnownEnumeration(${prop.getType().getFullName()})}
-		##//	package in c	     = ${c.getProject().getJaxbGenPackage()}.${prop.getType().getName()}
-		##//
-		##//  c enums = ${c.getProject().getEnumerations().keySet()}
-		##//
-		##//	#foreach($p in $projects)
-		##//		p 				  = ${p.getName()}
-		##//	 	p.getClass()	  = ${p.getClass()}
-		##//
-		##//		known class in p? [N]= ${p.isKnownClass(${prop.getType().getName()})}
-		##//		known enum in p?  [N]= ${p.isKnownEnumeration(${prop.getType().getName()})}
-		##//		known class in p? [F]= ${p.isKnownClass(${prop.getType().getFullName()})}
-		##//		known enum in p?  [F]= ${p.isKnownEnumeration(${prop.getType().getFullName()})}
-		##//		package in p	     = ${p.getJaxbGenPackage()}.${prop.getType().getName()}
-		##//
-		##//		p enums				 = ${p.getProject().getEnumerations().keySet()}
-		##//	#end
 		##
-        ##//jaxbObject.${prop.SetterName}(${prop.getType().getFullName()}.fromValue(zedObject.${prop.GetterName}().toString()));
-
-		// prop		 		 = ${prop.getClass()}
-	    // prop.Name 		 = ${prop.getName()}
-	    // prop.FullName	 = ${prop.getFullEnumName()}
-	    // prop.isEnum       = ${prop.isEnum()}
+		##// prop		 		 = ${prop.getClass()}
+	    ##// prop.Name 		 = ${prop.getName()}
+	    ##// prop.FullName	 = ${prop.getFullEnumName(true)}
+	    ##// prop.isEnum       = ${prop.isEnum()}
+	    ##
+	    ##// c				  = ${c.getClass()}
+	    ##// c.getProject()	  = ${c.getProject()}
+	    ##// c.getEnumPacks	  = ${c.getEnumerationsByPackage()}
+	    ##// c.getEnumPacks	  = ${c.getEnumerationsByPackage().keySet()}
+	    ##// c.getFullEnumName  = ${c.getFullEnumName(${prop.getName()}, true)}
 	    
-	    // c				  = ${c.getClass()}
-	    // c.getProject()	  = ${c.getProject()}
-	    // c.getEnumPacks	  = ${c.getEnumerationsByPackage()}
-	    // c.getEnumPacks	  = ${c.getEnumerationsByPackage().keySet()}
-	    // c.getFullEnumName  = ${c.getFullEnumName(${prop.getName()})}
+	    ## NOTE: call getFullEnumName(asJaxb=true)
 	    
-        
-        jaxbObject.${prop.SetterName}(${c.getProject().getJaxbGenPackage()}.${prop.getType().getName()}.fromValue(zedObject.${prop.GetterName}().toString()));
+        jaxbObject.${prop.SetterName}(${prop.getFullEnumName(true)}.fromValue(zedObject.${prop.GetterName}().toString()));
 #else
         net.sourceforge.czt.base.ast.Term term = zedObject.${prop.GetterName}();
         

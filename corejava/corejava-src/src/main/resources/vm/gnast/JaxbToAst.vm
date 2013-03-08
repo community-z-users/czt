@@ -241,24 +241,25 @@ public class ${class.Name}#if($ImportProject)
 	  ${prop.VarName}.add(o);
 	}
     
-#elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || 
-		$prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || 
-		$prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || 
-		$prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || 
-		$prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || 
-		$prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || 
-		$prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || 
-		$prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || 
-		$prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || 
-		$prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
-		
-		// prop		 		 = ${prop.getClass()}
-	    // prop.Name 		 = ${prop.getName()}
-	    // prop.FullName	 = ${prop.getFullEnumName()}
-	    // prop.isEnum       = ${prop.isEnum()}
-	    
-	    // c.getFullEnumName  = ${c.getFullEnumName(${prop.getName()})}
-	    
+#elseif($prop.isEnum())
+		##($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || 
+		##$prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommUsage' || 
+		##$prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || 
+		##$prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || 
+		##$prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || 
+		##$prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || 
+		##$prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || 
+		##$prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || 
+		##$prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || 
+		##$prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
+		##
+		##// prop		 		 = ${prop.getClass()}
+	    ##// prop.Name 		 = ${prop.getName()}
+	    ##// prop.FullName	 = ${prop.getFullEnumName(true)}
+	    ##// prop.isEnum       = ${prop.isEnum()}
+	    ##
+	    ##// c.getFullEnumName  = ${c.getFullEnumName(${prop.getName()}, true)}
+	    ##
 	    ##// prop.Type.FullName = ${prop.Type.FullName}
         ##// prop.Type.Name     = ${prop.Type.Name}
         ##// c.getFullName	  = ${c.getPackage()}.${c.getFullName()}
@@ -268,12 +269,15 @@ public class ${class.Name}#if($ImportProject)
 		
     ##  // NOTE: curiously, here FullName does include the right ancestor JAXB package...
     ## 	// ${prop.Type.FullName} ${prop.VarName} = null;
-    ${c.getProject().getAstPackage()}.${prop.getType().getName()} ${prop.VarName} = null;
+    ##
+    ##  // NOTE: call it with asJaxb=false to get AST package instead
+    
+    ${prop.getFullEnumName(false)} ${prop.VarName} = null;
     if (jaxbObject.${prop.GetterName}() != null) {
       String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}().value();
       ##//${prop.VarName} = ${prop.Type.FullName}.valueOf(${prop.VarName}Jaxb);
       
-      ${prop.VarName} = ${c.getProject().getAstPackage()}.${prop.getType().getName()}.valueOf(${prop.VarName}Jaxb);
+      ${prop.VarName} = ${prop.getFullEnumName(false)}.valueOf(${prop.VarName}Jaxb);
     }
 #elseif($prop.Type.Name == 'Boolean')
     ${prop.Type.FullName} ${prop.VarName} =

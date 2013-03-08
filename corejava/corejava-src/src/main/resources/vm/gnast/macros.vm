@@ -39,7 +39,8 @@
 #foreach($var in $varList)
 #if($velocityCount != 1),#end
 #if($var.isList())java.util.List<? extends ${var.getListType()}>
-#else #enumAwareFullName($var $class)${var.Type.FullName} #end ${var.VarName}#end#end
+#elseif($var.isEnum())${var.getFullEnumName(false)}
+#else ${var.Type.FullName} #end ${var.VarName}#end#end
 
 ## ******************************
 ## varList
