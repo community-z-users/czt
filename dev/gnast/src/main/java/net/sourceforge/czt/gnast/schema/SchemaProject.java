@@ -106,6 +106,8 @@ public class SchemaProject
    */
   private Map<String,List<String>> enum_ = new HashMap<String,List<String>>();
 
+  private Map<String, List<String>> enumPackage_ = new HashMap<String, List<String>>();
+  
   /**
    * The project imported from the XML Schema.
    */
@@ -176,6 +178,7 @@ public class SchemaProject
     Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
+      //System.err.println("XPath target name space = " + targetNamespace_);
     }
     jproject_ = proj;
   }
@@ -200,8 +203,9 @@ public class SchemaProject
         xPath_.getNodeValue(schemaNode, "xs:import/@namespace");      
       if (importNamespace != null) {
         importProject_ = global_.getProjectName(importNamespace);
+        //System.err.println("Import package = " + importProject_.getAstPackage());
       }
-
+      
       Node n;
 
       // collecting all enumerations
@@ -219,14 +223,30 @@ public class SchemaProject
           enumValues.add(xPath_.getNodeValue(valueNode, "@value"));
         }
         enum_.put(enumName, enumValues);
+    	System.err.println("Added enum for " + getAstPackage() + " = " + enumName);
+    	List<String> enums = null;
+    	if (enumPackage_.containsKey(getAstPackage()))
+    	{
+    		enums = enumPackage_.get(getAstPackage());
+    	}
+    	else
+    	{
+    		enums = new ArrayList<String>();
+        	enumPackage_.put(getAstPackage(), enums);
+    	}
+    	enums.add(enumName);
       }
-
+      
       // collecting all Ast classes
       nl = xPath_.selectNodeIterator(schemaNode, "xs:element");
       while ((n = nl.nextNode()) != null) {
         SchemaClass c = new SchemaClass(n, global_);
         map_.put(c.getName(), c);
       }
+      
+      //System.out.println("Enums       = " + enum_.toString());
+      //System.out.println("EnumPackage = " + enumPackage_.toString());
+      
     }
     
   }
@@ -456,7 +476,13 @@ public class SchemaProject
   public Map<String,List<String>> getEnumerations()
   {
     ensureInit();
-    return enum_;
+    return Collections.unmodifiableMap(enum_);
+  }
+  
+  public Map<String, List<String>> getEnumerationsByPackage()
+  {
+	ensureInit();
+	return Collections.unmodifiableMap(enumPackage_);
   }
 
   /**
@@ -757,6 +783,11 @@ public class SchemaProject
     public boolean isKnownEnumeration(String type)
     {	
       return SchemaProject.this.getEnumerations().containsKey(type);
+    }
+    
+    public String getAstPackageForEnum(String type)
+    {
+    	
     }
 
     public String getNamespace()
