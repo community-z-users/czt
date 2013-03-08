@@ -252,6 +252,13 @@ public class ${class.Name}#if($ImportProject)
 		$prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || 
 		$prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
 		
+		// prop		 		 = ${prop.getClass()}
+	    // prop.Name 		 = ${prop.getName()}
+	    // prop.FullName	 = ${prop.getFullEnumName()}
+	    // prop.isEnum       = ${prop.isEnum()}
+	    
+	    // c.getFullEnumName  = ${c.getFullEnumName(${prop.getName()})}
+	    
 	    ##// prop.Type.FullName = ${prop.Type.FullName}
         ##// prop.Type.Name     = ${prop.Type.Name}
         ##// c.getFullName	  = ${c.getPackage()}.${c.getFullName()}

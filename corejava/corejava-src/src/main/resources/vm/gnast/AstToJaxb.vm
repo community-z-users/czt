@@ -475,6 +475,18 @@ public class $class.Name
 		##//	#end
 		##
         ##//jaxbObject.${prop.SetterName}(${prop.getType().getFullName()}.fromValue(zedObject.${prop.GetterName}().toString()));
+
+		// prop		 		 = ${prop.getClass()}
+	    // prop.Name 		 = ${prop.getName()}
+	    // prop.FullName	 = ${prop.getFullEnumName()}
+	    // prop.isEnum       = ${prop.isEnum()}
+	    
+	    // c				  = ${c.getClass()}
+	    // c.getProject()	  = ${c.getProject()}
+	    // c.getEnumPacks	  = ${c.getEnumerationsByPackage()}
+	    // c.getEnumPacks	  = ${c.getEnumerationsByPackage().keySet()}
+	    // c.getFullEnumName  = ${c.getFullEnumName(${prop.getName()})}
+	    
         
         jaxbObject.${prop.SetterName}(${c.getProject().getJaxbGenPackage()}.${prop.getType().getName()}.fromValue(zedObject.${prop.GetterName}().toString()));
 #else
