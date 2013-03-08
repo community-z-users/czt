@@ -224,16 +224,16 @@ public class SchemaProject
           enumValues.add(xPath_.getNodeValue(valueNode, "@value"));
         }
         enum_.put(enumName, enumValues);
-    	//System.err.println("Added enum for " + getAstPackage() + " = " + enumName);
+    	//System.err.println("Added enum for " + getBasePackage() + " = " + enumName);
     	List<String> enums = null;
-    	if (enumPackage_.containsKey(getAstPackage()))
+    	if (enumPackage_.containsKey(getBasePackage()))
     	{
-    		enums = enumPackage_.get(getAstPackage());
+    		enums = enumPackage_.get(getBasePackage());
     	}
     	else
     	{
     		enums = new ArrayList<String>();
-        	enumPackage_.put(getAstPackage(), enums);
+        	enumPackage_.put(getBasePackage(), enums);
     	}
     	enums.add(enumName);
       }
@@ -502,8 +502,8 @@ public class SchemaProject
 	if (!result && importProject_ != null)
 	{
 		result = importProject_.isKnownEnumeration(type);
-		if (result)System.out.println("Couldn't find Enum, looked into parent and found " 
-									  + type + " " + importProject_.getName());
+		//if (result)System.out.println("Couldn't find Enum, looked into parent and found " 
+		//							  + type + " " + importProject_.getName());
 	}
 	//if (result)
 	//	System.out.println("Is enumeration " + type + " = " + pack);
