@@ -514,7 +514,16 @@ public class SchemaProject
 	return result;
   }
   
-  public String getFullEnumName(String type)
+  /**
+   * For a given Enum type name given, returns its full name by looking up
+   * the actual package of interest to add to the name. The package of interest
+   * is either the JAXB or the AST package, as controlled by the given flag.
+   * 
+   * @param type Enum type name
+   * @param asJaxb prepend JAXB or AST prefix 
+   * @return
+   */
+  public String getFullEnumName(String type, boolean asJaxb)
   {
 	boolean found = false;
 	String result = type;
@@ -527,7 +536,8 @@ public class SchemaProject
 			String pack = it.next();
 			if (getEnumerationsByPackage().get(pack).contains(type))
 			{
-				result = pack + "." + type;
+				assert pack.equals(getBasePackage());
+				result = (asJaxb ? getJaxbGenPackage() : getAstPackage()) + "." + type;
 				found = true;
 				System.out.println("Found full enum name = " + result + " for JProject AST = " + getProject().getAstPackage());
 				break;
@@ -1211,14 +1221,14 @@ public class SchemaProject
     public boolean isKnownEnumeration(String type)
     {	
     	boolean result = SchemaProject.this.isKnownEnumeration(type);
-    	if (result)System.out.println("Is known enumeration " + type + "? =" + result);
+    	//if (result)System.out.println("Is known enumeration " + type + "? =" + result);
       return result;
     }
     
-    public String getFullEnumName()
+    public String getFullEnumName(boolean asJaxb)
     {
     	assert isEnum();
-      return SchemaProject.this.getFullEnumName(name_);	
+      return SchemaProject.this.getFullEnumName(name_, asJaxb);	
     }
 
     public String getName()

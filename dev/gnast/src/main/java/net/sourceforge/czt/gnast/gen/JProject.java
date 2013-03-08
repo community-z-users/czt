@@ -54,6 +54,6 @@ public interface JProject
   
   boolean isKnownEnumeration(String type);
   
-  String getFullEnumName(String type);
+  String getFullEnumName(String type, boolean asJaxb);
 }
 

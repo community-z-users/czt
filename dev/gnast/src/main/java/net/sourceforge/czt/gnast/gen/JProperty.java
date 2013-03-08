@@ -105,5 +105,5 @@ public interface JProperty extends JVariable
   
   boolean isEnum();
   
-  String getFullEnumName();
+  String getFullEnumName(boolean asJaxb);
 }

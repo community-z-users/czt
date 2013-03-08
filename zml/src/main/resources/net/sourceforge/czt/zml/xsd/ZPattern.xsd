@@ -285,7 +285,7 @@
         -->
           <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="Kind" type="P:JokerType"/>
+        <xs:attribute name="JokerType" type="P:JokerType"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

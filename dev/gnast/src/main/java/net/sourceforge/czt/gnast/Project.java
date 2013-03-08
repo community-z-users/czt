@@ -314,9 +314,9 @@ public class Project
 	return project_.isKnownEnumeration(type);
   }
   
-  public String getFullEnumName(String type)
+  public String getFullEnumName(String type, boolean asJaxb)
   {
-	return project_.getFullEnumName(type);
+	return project_.getFullEnumName(type, asJaxb);
   }
   
   /**
