@@ -192,6 +192,7 @@
       <xs:documentation>An operation text.</xs:documentation>
     </xs:annotation>
   </xs:element>
+  <!-- TODO: Why aren't the substitution group for State and InitialState -->
   <xs:element name="VisibilityList" type="OZ:VisibilityList"/>
   <xs:element name="State" type="OZ:State"/>
   <xs:element name="PrimaryDecl" type="OZ:PrimaryDecl"/>
