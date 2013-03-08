@@ -313,9 +313,9 @@ public class PrintVisitor
   public String visitDirective(Directive term)
   {
     StringBuffer result = new StringBuffer("%%Z");
-    if (!term.getType().equals(DirectiveType.NONE))
+    if (!term.getDirectiveType().equals(DirectiveType.NONE))
     {
-      result.append(term.getType().toString().toLowerCase());
+      result.append(term.getDirectiveType().toString().toLowerCase());
     }
     result.append(term.getUnicode().length() == 1 || term.getUnicode().
       startsWith("U+") ? "char" : "word");
@@ -807,9 +807,9 @@ public class PrintVisitor
     StringBuilder result = new StringBuilder();
     result.append(term.getCallExpr());
     ZExprList actuals = term.getZActuals();
-    result.append(actuals.isEmpty() ? "" : (term.getUsage().equals(CallUsage.Parameterised) ? "(" : "|_"));    
+    result.append(actuals.isEmpty() ? "" : (term.getCallUsage().equals(CallUsage.Parameterised) ? "(" : "|_"));    
     result.append(visitList(term.getZActuals(), ", "));
-    result.append(actuals.isEmpty() ? "" : (term.getUsage().equals(CallUsage.Parameterised) ? ")" : "_|"));    
+    result.append(actuals.isEmpty() ? "" : (term.getCallUsage().equals(CallUsage.Parameterised) ? ")" : "_|"));    
     return result.toString();
   }
   
@@ -1013,7 +1013,7 @@ public class PrintVisitor
         if (!term.getFormalParamsOrIndexes().getNameTypePair().isEmpty())
         {  
           addNLAndTabs(result);
-          result.append(term.getUsage().equals(CallUsage.Indexed) ? "_I_(" : "(");        
+          result.append(term.getCallUsage().equals(CallUsage.Indexed) ? "_I_(" : "(");        
           result.append(visit(term.getFormalParamsOrIndexes()));//Signature
           result.append(") ");
         }
