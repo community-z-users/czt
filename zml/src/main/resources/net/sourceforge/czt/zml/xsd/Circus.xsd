@@ -2279,7 +2279,7 @@
             </xs:annotation>
           </xs:element>       
         </xs:sequence>
-        <xs:attribute name="Usage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>
+        <xs:attribute name="CallUsage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
@@ -3630,7 +3630,7 @@
         </xs:sequence>
   <!-- A process might have neither formal parameters nor indexes, hence minOccurs="0" for Signature below. 
         Or it might have either of them (i.e. formal parameters or indexes) but never both. -->
-        <xs:attribute name="Usage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>        
+        <xs:attribute name="CallUsage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>        
       </xs:extension>            
     </xs:complexContent>
   </xs:complexType>   

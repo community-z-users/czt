@@ -1446,7 +1446,7 @@ more detail.
           <xs:element name="Command" type="xs:string"/>
           <xs:element name="Unicode" type="xs:string"/>
         </xs:sequence>
-        <xs:attribute name="Type" type="Z:DirectiveType"
+        <xs:attribute name="DirectiveType" type="Z:DirectiveType"
           use="optional" default="NONE"/>
       </xs:extension>
     </xs:complexContent>

@@ -399,8 +399,8 @@
   <xs:complexType name="SimplificationCommand">
     <xs:complexContent>
       <xs:extension base="ZEVES:ProofCommand">
-        <xs:attribute name="Kind" type="ZEVES:RewriteKind" use="optional" default="Rewrite"/>
-        <xs:attribute name="Power" type="ZEVES:RewritePower" use="optional" default="None"/>
+        <xs:attribute name="RewriteKind" type="ZEVES:RewriteKind" use="optional" default="Rewrite"/>
+        <xs:attribute name="RewritePower" type="ZEVES:RewritePower" use="optional" default="None"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -428,7 +428,7 @@
             rearrange  : Kind==Rearrange  and CMD == null
             with normalization CMD: Kind==Command and CMD != null
         -->
-        <xs:attribute name="Kind" type="ZEVES:NormalizationKind" use="optional" default="Command"/>
+        <xs:attribute name="NormalizationKind" type="ZEVES:NormalizationKind" use="optional" default="Command"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -452,7 +452,7 @@
               next   : Kind=Next  and P == null
               split P: Kind=Split and P != null
         -->
-        <xs:attribute name="Kind" type="ZEVES:CaseAnalysisKind" use="optional" default="Cases"/>
+        <xs:attribute name="CaseAnalysisKind" type="ZEVES:CaseAnalysisKind" use="optional" default="Cases"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -485,7 +485,7 @@
           invoke [Name]             : Expr = null and Pred = null and (Name != null or INVOKE) [global invoke]
       -->
       <xs:extension base="ZEVES:ComplexCommand">
-        <xs:attribute name="Kind" type="ZEVES:SubstitutionKind" use="optional" default="Equality"/>
+        <xs:attribute name="SubstitutionKind" type="ZEVES:SubstitutionKind" use="optional" default="Equality"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -535,7 +535,7 @@
           <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
-        <xs:attribute name="Kind" type="ZEVES:InstantiationKind" use="required"/>
+        <xs:attribute name="InstantiationKind" type="ZEVES:InstantiationKind" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -607,8 +607,8 @@
         <xs:sequence>
           <xs:element ref="Z:Name"/>
         </xs:sequence>
-        <xs:attribute name="Ability" type="ZEVES:LabelAbility" use="optional" default="enabled"/>
-        <xs:attribute name="Usage" type="ZEVES:LabelUsage" use="optional" default="none"/>
+        <xs:attribute name="LabelAbility" type="ZEVES:LabelAbility" use="optional" default="enabled"/>
+        <xs:attribute name="LabelUsage" type="ZEVES:LabelUsage" use="optional" default="none"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
