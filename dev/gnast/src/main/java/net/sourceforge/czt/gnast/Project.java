@@ -309,6 +309,16 @@ public class Project
   	return getAstClasses().containsKey(type);
   }
   
+  public boolean isKnownEnumeration(String type)
+  {
+	return project_.isKnownEnumeration(type);
+  }
+  
+  public String getFullEnumName(String type)
+  {
+	return project_.getFullEnumName(type);
+  }
+  
   /**
    * Generates all classes for this project.
    *

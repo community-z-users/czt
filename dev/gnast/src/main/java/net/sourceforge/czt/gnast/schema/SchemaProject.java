@@ -188,6 +188,7 @@ public class SchemaProject
       init = true;
       try {
         doInit();
+        System.out.println("Initialised okay for " + getName());
       }
       catch (XSDException e) {
         throw new GnastException(e);
@@ -223,7 +224,7 @@ public class SchemaProject
           enumValues.add(xPath_.getNodeValue(valueNode, "@value"));
         }
         enum_.put(enumName, enumValues);
-    	System.err.println("Added enum for " + getAstPackage() + " = " + enumName);
+    	//System.err.println("Added enum for " + getAstPackage() + " = " + enumName);
     	List<String> enums = null;
     	if (enumPackage_.containsKey(getAstPackage()))
     	{
@@ -244,8 +245,8 @@ public class SchemaProject
         map_.put(c.getName(), c);
       }
       
-      //System.out.println("Enums       = " + enum_.toString());
-      //System.out.println("EnumPackage = " + enumPackage_.toString());
+      System.out.println("Enums       = " + enum_.toString());
+      System.out.println("EnumPackage = " + enumPackage_.toString());
       
     }
     
@@ -483,6 +484,62 @@ public class SchemaProject
   {
 	ensureInit();
 	return Collections.unmodifiableMap(enumPackage_);
+  }
+  
+  public boolean isKnownEnumeration(String type)
+  {
+	String pack = "";
+	boolean result = getEnumerations().containsKey(type);
+	if (!result)
+	{
+		Iterator<String> it = getEnumerationsByPackage().keySet().iterator();
+		while (!result && it.hasNext())
+		{	
+			pack = it.next();
+			result = getEnumerationsByPackage().get(pack).contains(type);
+		}
+	}
+	if (!result && importProject_ != null)
+	{
+		result = importProject_.isKnownEnumeration(type);
+		if (result)System.out.println("Couldn't find Enum, looked into parent and found " 
+									  + type + " " + importProject_.getName());
+	}
+	//if (result)
+	//	System.out.println("Is enumeration " + type + " = " + pack);
+	//else
+	//	System.out.println("Couldn't find if " + type + " is enum in " + pack +
+	//			" \n\twith importProj = " + importProject_.getClass().getName() +
+	//			" \n\tnamed as   	  = "  + importProject_.getName());
+	return result;
+  }
+  
+  public String getFullEnumName(String type)
+  {
+	boolean found = false;
+	String result = type;
+    if (isKnownEnumeration(type))
+    {
+    	// not very efficient because redoes the search, but that's okay for now.
+    	Iterator<String> it = getEnumerationsByPackage().keySet().iterator();
+		while (it.hasNext())
+		{	
+			String pack = it.next();
+			if (getEnumerationsByPackage().get(pack).contains(type))
+			{
+				result = pack + "." + type;
+				found = true;
+				System.out.println("Found full enum name = " + result + " for JProject AST = " + getProject().getAstPackage());
+				break;
+			}
+		}
+		
+		if (!found && importProject_ != null)
+		{
+			result = importProject_.getFullEnumName(type);
+		}
+    }
+    return result;
   }
 
   /**
@@ -782,12 +839,17 @@ public class SchemaProject
     
     public boolean isKnownEnumeration(String type)
     {	
-      return SchemaProject.this.getEnumerations().containsKey(type);
+      return SchemaProject.this.isKnownEnumeration(type);
     }
     
-    public String getAstPackageForEnum(String type)
+    public String getFullEnumName(String type)
     {
-    	
+    	return SchemaProject.this.getFullEnumName(type);	
+    }
+
+    public Map<String, List<String>> getEnumerationsByPackage()
+    {
+    	return SchemaProject.this.getEnumerationsByPackage();
     }
 
     public String getNamespace()
@@ -977,7 +1039,8 @@ public class SchemaProject
         if (startNode == null) {
           LOGGER.warning("Cannot find definition of complex type "
                          + typeName
-                         + "; proceeding anyway.");
+                         + "; proceeding anyway. For SchemaClass " 
+                         + name_ + " extends " + extends_);
           LOGGER.exiting(CLASS_NAME, methodName, erg);
           return erg;
         }
@@ -1147,12 +1210,23 @@ public class SchemaProject
     
     public boolean isKnownEnumeration(String type)
     {	
-      return SchemaProject.this.getEnumerations().containsKey(type);
+    	boolean result = SchemaProject.this.isKnownEnumeration(type);
+    	if (result)System.out.println("Is known enumeration " + type + "? =" + result);
+      return result;
+    }
+    
+    public String getFullEnumName()
+    {
+    	assert isEnum();
+      return SchemaProject.this.getFullEnumName(name_);	
     }
 
     public String getName()
     {
-      return name_;
+    	//if (isEnum())
+    	//	return getFullEnumName();
+    	//else
+    		return name_;
     }
 
     public JObject getType()
@@ -1176,6 +1250,11 @@ public class SchemaProject
     public boolean isList()
     {
       return listType_ != null;
+    }
+    
+    public boolean isEnum()
+    {
+      return isKnownEnumeration(name_);	
     }
   } // end class SchemaAttribute
 } // end class SchemaProject

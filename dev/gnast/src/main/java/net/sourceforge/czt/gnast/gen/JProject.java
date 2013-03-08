@@ -51,5 +51,9 @@ public interface JProject
   
   /** Tells whether the given class name is known within this project AST classes */
   boolean isKnownClass(String type);
+  
+  boolean isKnownEnumeration(String type);
+  
+  String getFullEnumName(String type);
 }
 
