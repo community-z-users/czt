@@ -546,7 +546,7 @@ public class SchemaProject
 		
 		if (!found && importProject_ != null)
 		{
-			result = importProject_.getFullEnumName(type);
+			result = importProject_.getFullEnumName(type, asJaxb);
 		}
     }
     return result;
@@ -852,9 +852,9 @@ public class SchemaProject
       return SchemaProject.this.isKnownEnumeration(type);
     }
     
-    public String getFullEnumName(String type)
+    public String getFullEnumName(String type, boolean asJaxb)
     {
-    	return SchemaProject.this.getFullEnumName(type);	
+    	return SchemaProject.this.getFullEnumName(type, asJaxb);	
     }
 
     public Map<String, List<String>> getEnumerationsByPackage()
