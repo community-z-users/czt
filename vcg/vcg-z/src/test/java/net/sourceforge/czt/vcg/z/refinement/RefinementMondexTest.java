@@ -57,7 +57,7 @@ public class RefinementMondexTest extends RefinementTest
   @Override
   protected boolean includeVCGTest(String name, boolean positive)
   {
-    return false && positive && name.equals("loadproofs.tex");
+    return false ; //&& positive && name.equals("loadproofs.tex");
   }
 
 }
