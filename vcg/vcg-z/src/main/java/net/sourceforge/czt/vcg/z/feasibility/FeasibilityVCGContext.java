@@ -1,17 +1,12 @@
 package net.sourceforge.czt.vcg.z.feasibility;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.vcg.util.Definition;
-import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
-import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZNameList;
 
 public class FeasibilityVCGContext extends 
 	AbstractFeasibilityVCGContext<SchemaType, SortedSet<Definition>> {

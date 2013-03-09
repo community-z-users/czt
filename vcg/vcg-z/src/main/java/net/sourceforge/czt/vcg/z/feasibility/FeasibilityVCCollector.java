@@ -18,33 +18,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.vcg.z.feasibility;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.logging.Level;
-import net.sourceforge.czt.vcg.util.Definition;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.AxPara;
-import net.sourceforge.czt.z.ast.Branch;
-import net.sourceforge.czt.z.ast.FreePara;
-import net.sourceforge.czt.z.ast.Freetype;
-import net.sourceforge.czt.z.ast.ZBranchList;
-import net.sourceforge.czt.z.ast.ZFreetypeList;
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.InfoTable;
+
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.BindingFilter;
 import net.sourceforge.czt.vcg.util.BindingUtils;
-import net.sourceforge.czt.vcg.util.DefinitionComparator;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.util.DefinitionException;
-import net.sourceforge.czt.vcg.z.TermTransformer;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCConfig;
@@ -52,43 +37,41 @@ import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.vcg.z.VCGContext;
 import net.sourceforge.czt.vcg.z.VCSource;
 import net.sourceforge.czt.vcg.z.VCType;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
+import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
 import net.sourceforge.czt.vcg.z.refinement.util.ZRefinesAnn;
-import net.sourceforge.czt.vcg.z.transformer.feasibility.ZPredTransformerFSB;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Box;
+import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.util.ZUtils;
-
-import net.sourceforge.czt.z.visitor.AxParaVisitor;
-
-import net.sourceforge.czt.z.ast.Box;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.TruePred;
-import net.sourceforge.czt.z.ast.Type;
-import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZBranchList;
 import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
-
-import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
-import net.sourceforge.czt.vcg.z.feasibility.util.ZStateInfo;
-
-import net.sourceforge.czt.z.util.ZString;
 
 /**
  *
