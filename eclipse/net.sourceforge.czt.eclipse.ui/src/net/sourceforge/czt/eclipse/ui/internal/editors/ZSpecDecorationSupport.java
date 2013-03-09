@@ -17,7 +17,6 @@ import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
-import net.sourceforge.czt.eclipse.ui.internal.util.IZAnnotationType;
 import net.sourceforge.czt.z.util.ZString;
 
 import org.eclipse.jface.preference.IPreferenceStore;

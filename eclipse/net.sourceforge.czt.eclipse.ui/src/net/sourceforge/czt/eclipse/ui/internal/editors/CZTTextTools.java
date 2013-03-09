@@ -7,7 +7,6 @@ import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartition
 import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
