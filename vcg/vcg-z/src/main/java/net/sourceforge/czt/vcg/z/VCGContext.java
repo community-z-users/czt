@@ -79,4 +79,6 @@ public interface VCGContext<T, B>
 	B getOpBindings(ZName operationName);
 	
 	List<? extends InfoTable> getInfoTables();
+	
+	void clear();
 }

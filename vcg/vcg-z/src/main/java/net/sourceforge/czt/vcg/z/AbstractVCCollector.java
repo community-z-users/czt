@@ -50,11 +50,17 @@ public abstract class AbstractVCCollector<//R,
   private boolean checkTblConsistency_;
   private long vcCnt_;
   
-  private VCGContext<T, B> context_ =null;
+  private VCGContext<T, B> context_ = null;
   
+  @Override
   public VCGContext<T, B> getVCGContext()
   {
 	  return context_;
+  }
+  
+  protected final void setVCGContext(VCGContext<T, B> c)
+  {
+	  context_ = c;
   }
   
   /**
