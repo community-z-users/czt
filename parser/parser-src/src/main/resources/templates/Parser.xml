@@ -9017,7 +9017,7 @@ inner_term ::=
            RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, getLocation(it, rsquare));
         :}
-<add:zpatt>
+<add:pattern>
         |
         inner_term:it LSQUARE JOKEREXPRLIST:elj RSQUARE:rsquare
         {:
@@ -9025,7 +9025,7 @@ inner_term ::=
            RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, getLocation(it, rsquare));
         :}
-</add:zpatt>
+</add:pattern>
         |
         /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE:rsquare
