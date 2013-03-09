@@ -109,10 +109,11 @@ public abstract class AbstractFeasibilityVCCollector extends
 		assert tt != null;
 		predTransformer_ = tt;
 	}
-	
+		
 	protected void clearAddedPara() {
 		addedSigSchemas_.clear();
 		computedBindings_.clear();
+		
 		stateSchemaNames_.clear();
 		stateSchemas_.clear();
 		stateGenParams_.clear();

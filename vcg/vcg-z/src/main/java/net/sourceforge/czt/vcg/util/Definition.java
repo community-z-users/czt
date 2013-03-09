@@ -375,7 +375,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
 
   protected void updateSpecialBindings(List<NewOldPair> bindings) throws DefinitionException
   {
-    if (bindings == null && bindings.isEmpty())
+    if (bindings == null || bindings.isEmpty())
     {
       throw new DefinitionException("Empty local bindings to modify for " + DefinitionTable.printTerm(getDefName()));
     }

@@ -241,12 +241,16 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
       }
       catch (CommandException e)
       {
-        if (dcToolkit_ == null)
-          throw new DomainCheckException("VCG-DC-TOOLKIT-PARSE-ERROR", e);
-        else if (type == null)
-          throw new DomainCheckException("VCG-DC-TOOLKIT-TYPE-ERROR", e);
-        else
-          throw new DomainCheckException("VCG-DC-TOOLKIT-CMD-ERROR", e);
+        if (dcToolkit_ == null) 
+        {
+			throw new DomainCheckException("VCG-DC-TOOLKIT-PARSE-ERROR", e);
+		} 
+        else if (type == null) 
+		{
+			throw new DomainCheckException("VCG-DC-TOOLKIT-TYPE-ERROR", e);
+		} 
+        // TODO: why is this dead code?
+        //else throw new DomainCheckException("VCG-DC-TOOLKIT-CMD-ERROR", e);
       }
       assert type != null : "Could not typecheck DC toolkit";
       assert dcToolkit_ != null : "Could not load DC toolkit";

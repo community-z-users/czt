@@ -28,7 +28,6 @@ import java.util.TreeSet;
  * @author Leo Freitas
  * @date Aug 31, 2011
  */
-@SuppressWarnings("FinalClass")
 public final class BindingUtils
 {
 

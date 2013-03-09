@@ -114,8 +114,6 @@ public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKey
   @Override
   public int hashCode()
   {
-    final int constant = 31;
-
     int hashCode = super.hashCode();
     hashCode += "DCVCEnvAnn".hashCode();
     return hashCode;

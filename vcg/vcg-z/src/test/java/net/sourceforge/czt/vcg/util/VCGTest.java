@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.util;
 
 import java.net.URL;
+
 import junit.framework.TestCase;
 import net.sourceforge.czt.parser.util.CztManagedTest;
 import net.sourceforge.czt.parser.util.ParseException;
