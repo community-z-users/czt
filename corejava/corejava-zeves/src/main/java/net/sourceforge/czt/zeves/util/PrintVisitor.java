@@ -714,6 +714,7 @@ public class PrintVisitor
   @Override
   public String visitInstantiation(Instantiation term)
   {
+	assert term != null && term.getInstantiationKind() != null;
     if (currInstKind_ != null && !term.getInstantiationKind().equals(currInstKind_))
       throw new IllegalArgumentException("Inconsistent known instantiation kind. Found " + term.getInstantiationKind() + "; expected " + currInstKind_);
     StringBuilder result = new StringBuilder();
