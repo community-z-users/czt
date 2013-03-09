@@ -25,7 +25,7 @@
    * that is an ApplExpr with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public net.sourceforge.czt.z.ast.ApplExpr createApplication(Name refName, Expr expr)
+  public net.sourceforge.czt.z.ast.ApplExpr createApplication(net.sourceforge.czt.z.ast.Name refName, net.sourceforge.czt.z.ast.Expr expr)
   {
     return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
   }
