@@ -23,10 +23,6 @@ public class FeasibilityVCGContext extends
 	public FeasibilityVCGContext()
 	{
 		super();
-		
-		stateSchemaNames_ = new EnumMap<ZStateInfo, ZName>(ZStateInfo.class);
-		stateSchemas_ = new EnumMap<ZStateInfo, AxPara>(ZStateInfo.class);
-		stateGenParams_ = new EnumMap<ZStateInfo, ZNameList>(ZStateInfo.class);
 	}
 	@Override
 	public ZName getStateName() {

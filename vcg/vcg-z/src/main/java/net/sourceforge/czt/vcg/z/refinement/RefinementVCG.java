@@ -76,8 +76,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   {
     return super.getVCGCreatedZSectTypeErrorWarningMessage(sectName, tee) +
             "\nFurthermore, it might happen when Z refinement relationships are not properly set. " +
-            "\nThe current concrete state name is set to '" + getRefVCCollector().getState(ZStateInfo.CSTATE) +
-            "'; retrieve name is set to '" + getRefVCCollector().getState(ZStateInfo.RETRIEVE) + "'.";
+            "\nThe current concrete state name is set to '" + getRefVCCollector().getStateName(ZStateInfo.CSTATE) +
+            "'; retrieve name is set to '" + getRefVCCollector().getStateName(ZStateInfo.RETRIEVE) + "'.";
   }
 
 
@@ -271,8 +271,8 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     super.beforeGeneratingVCG(zSect);
     assert getVCCollector() instanceof RefinementVCCollector;
 
-    assert getRefVCCollector().getState(ZStateInfo.CSTATE) == null;
-    assert getRefVCCollector().getState(ZStateInfo.RETRIEVE) == null;
+    assert getRefVCCollector().getStateName(ZStateInfo.CSTATE) == null;
+    assert getRefVCCollector().getStateName(ZStateInfo.RETRIEVE) == null;
 
     // in case the user explicitly define the Z state name
     if (concreteStateName_ != null)
@@ -299,9 +299,9 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
       // we ought to have found at least twice as many definitions of interest + AState + CState
       assert ((opRefPairs.size() * 2) + 2 <= defsOfInterest.size());
 
-      ZName aState = rvcc.getState(ZStateInfo.STATE);
-      ZName cState = rvcc.getState(ZStateInfo.CSTATE);
-      ZName retr = rvcc.getState(ZStateInfo.RETRIEVE);
+      ZName aState = rvcc.getStateName(ZStateInfo.STATE);
+      ZName cState = rvcc.getStateName(ZStateInfo.CSTATE);
+      ZName retr = rvcc.getStateName(ZStateInfo.RETRIEVE);
 
       // if we have any ref pair / def of interest information and not state/retrieve, raise an error
       if (aState == null || cState == null || retr == null)

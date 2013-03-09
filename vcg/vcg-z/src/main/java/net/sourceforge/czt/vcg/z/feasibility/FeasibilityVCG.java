@@ -218,7 +218,7 @@ public class FeasibilityVCG extends
 
     // this sets the ZState name within the collector to null.
     getFSBVCCollector().clearAddedPara();
-    assert getFSBVCCollector().getState(ZStateInfo.STATE) == null;
+    assert getFSBVCCollector().getStateName(ZStateInfo.STATE) == null;
 
     // in case the user explicitly define the Z state name 
     if (zStateName_ != null)
@@ -302,7 +302,7 @@ public class FeasibilityVCG extends
           ".\n\t" + printTypeErrors(tee).toString() +
           ".\nThis may happen if complex gneric types are involved" +
           (isCreatingZSchemas() ? " or the state schema (i.e., '"
-          + getFSBVCCollector().getState(ZStateInfo.STATE)  + "') is not properly set.": ".");
+          + getFSBVCCollector().getStateName(ZStateInfo.STATE)  + "') is not properly set.": ".");
   }
 
   @Override

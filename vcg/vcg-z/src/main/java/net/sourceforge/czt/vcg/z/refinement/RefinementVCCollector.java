@@ -112,8 +112,8 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
 
   protected boolean isRefiningIO()
   {
-    return getState(ZStateInfo.RETRIEVEIN) != null
-        || getState(ZStateInfo.RETRIEVEOUT) != null;
+    return getStateName(ZStateInfo.RETRIEVEIN) != null
+        || getStateName(ZStateInfo.RETRIEVEOUT) != null;
   }
 
   protected final void setRefKindDefault(ZRefinementKind v)
@@ -133,6 +133,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     opsToRefineNamePairs_.clear();
     absOpsRefKind_.clear();
     definitions_.clear();
+
   }
 
   @Override
@@ -168,10 +169,10 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
         
         if (zsii == ZStateInfo.RETRIEVE) {
           
-          if (getState(ZStateInfo.STATE) == null)
+          if (getStateName(ZStateInfo.STATE) == null)
             throw new CztException(createVCCollectionException(
                     "No abstract state set for retrieve " + termDefName));
-          else if(getState(ZStateInfo.CSTATE) == null)
+          else if(getStateName(ZStateInfo.CSTATE) == null)
             throw new CztException(createVCCollectionException(
                     "No concrete state set for retrieve " + termDefName));
   
@@ -240,10 +241,10 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     Throwable cause = null;
     try
     {
-      SortedSet<Definition> asStateBindings = getBindingsFor(getState(ZStateInfo.STATE));
-      SortedSet<Definition> csStateBindings = getBindingsFor(getState(ZStateInfo.CSTATE));
+      SortedSet<Definition> asStateBindings = getBindingsFor(getStateName(ZStateInfo.STATE));
+      SortedSet<Definition> csStateBindings = getBindingsFor(getStateName(ZStateInfo.CSTATE));
       // the result of getBindingsFor is unmodifiable!
-      SortedSet<Definition> retrieveBindings = new TreeSet<Definition>(getBindingsFor(getState(ZStateInfo.RETRIEVE)));
+      SortedSet<Definition> retrieveBindings = new TreeSet<Definition>(getBindingsFor(getStateName(ZStateInfo.RETRIEVE)));
 
       // check all concrete and abstract bindings are within the retrieve
       okay = retrieveBindings.containsAll(csStateBindings) &&
@@ -290,10 +291,10 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       if (rSize != 0)
       {
         final String message = "Retrieve schema '" 
-            + getState(ZStateInfo.RETRIEVE)
+            + getStateName(ZStateInfo.RETRIEVE)
             + "' contains '" + rSize + "' generic parameters " + "than the abstract ('"
-            + getState(ZStateInfo.STATE) + "') and concrete ('"
-            + getState(ZStateInfo.CSTATE)
+            + getStateName(ZStateInfo.STATE) + "') and concrete ('"
+            + getStateName(ZStateInfo.CSTATE)
             + "') states generic parameters put together.";
         getLogger().warning(message);
       }
@@ -312,7 +313,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   protected Pred handleStateSchemaInUserDefinedSchemaPRE(ZName schName, ZNameList genParams, SortedSet<Definition> relevantBindings, boolean dashedState)
   {
     Pred result = getPredTransformerRef().truePred();
-    ZName concreteState_ = getState(ZStateInfo.CSTATE);
+    ZName concreteState_ = getStateName(ZStateInfo.CSTATE);
     ZNameList concreteStateGenParams_ = getStateGenParams(ZStateInfo.CSTATE);
     // if this is a concrete operation for refinement, then use concrete state
     if (opsToRefineNamePairs_.containsValue(schName))
@@ -416,14 +417,14 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     //ZName aStateInit = getState(ZStateInfo.STINIT);
     // returns whether extra state was created or not
     boolean okay = checkNeedsComplementarySchema(ZStateInfo.STINIT, ZStateInfo.CSTINIT, ZRefVCKind.INIT);
-    assert getState(ZStateInfo.STINIT) == null && getState(ZStateInfo.CSTINIT) == null ||
-           getState(ZStateInfo.STINIT) != null && getState(ZStateInfo.CSTINIT) != null;
+    assert getStateName(ZStateInfo.STINIT) == null && getStateName(ZStateInfo.CSTINIT) == null ||
+           getStateName(ZStateInfo.STINIT) != null && getStateName(ZStateInfo.CSTINIT) != null;
 
-    if (getState(ZStateInfo.STINIT) != null && getState(ZStateInfo.CSTINIT) != null &&
-        containsRefPair(getState(ZStateInfo.STINIT), getState(ZStateInfo.CSTINIT)))
+    if (getStateName(ZStateInfo.STINIT) != null && getStateName(ZStateInfo.CSTINIT) != null &&
+        containsRefPair(getStateName(ZStateInfo.STINIT), getStateName(ZStateInfo.CSTINIT)))
     {
-      Expr absStInit = zptr.createSchRef(getState(ZStateInfo.STINIT), stateGenParams);
-      Expr conStInit = zptr.createSchRef(getState(ZStateInfo.CSTINIT), getStateGenParams(ZStateInfo.CSTATE));
+      Expr absStInit = zptr.createSchRef(getStateName(ZStateInfo.STINIT), stateGenParams);
+      Expr conStInit = zptr.createSchRef(getStateName(ZStateInfo.CSTINIT), getStateGenParams(ZStateInfo.CSTATE));
       Expr retrieveDashRef = zptr.createDashedSchRef(retr, getStateGenParams(ZStateInfo.RETRIEVE));
 
       // use RetrieveGenParams as it encompases both AS and CS; create a ConjPara for the VC as its "para"
@@ -442,17 +443,17 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     // Don't use as variable as the method might change its values
     //ZName aStateFin = getState(STFIN);
     okay = checkNeedsComplementarySchema(ZStateInfo.STFIN, ZStateInfo.CSTFIN, ZRefVCKind.FIN);
-    assert getState(ZStateInfo.STFIN) == null && getState(ZStateInfo.CSTFIN) == null ||
-           getState(ZStateInfo.STFIN) != null && getState(ZStateInfo.CSTFIN) != null;
+    assert getStateName(ZStateInfo.STFIN) == null && getStateName(ZStateInfo.CSTFIN) == null ||
+           getStateName(ZStateInfo.STFIN) != null && getStateName(ZStateInfo.CSTFIN) != null;
 
     // if there is any finalisation to do, create the VC for it
-    if (getState(ZStateInfo.STFIN) != null && getState(ZStateInfo.CSTFIN) != null &&
-        containsRefPair(getState(ZStateInfo.STFIN), getState(ZStateInfo.CSTFIN)))
+    if (getStateName(ZStateInfo.STFIN) != null && getStateName(ZStateInfo.CSTFIN) != null &&
+        containsRefPair(getStateName(ZStateInfo.STFIN), getStateName(ZStateInfo.CSTFIN)))
     {
-      Expr absStFin = zptr.createSchRef(getState(ZStateInfo.STFIN), stateGenParams);
-      Expr conStFin = zptr.createSchRef(getState(ZStateInfo.CSTFIN), getStateGenParams(ZStateInfo.CSTATE));
+      Expr absStFin = zptr.createSchRef(getStateName(ZStateInfo.STFIN), stateGenParams);
+      Expr conStFin = zptr.createSchRef(getStateName(ZStateInfo.CSTFIN), getStateGenParams(ZStateInfo.CSTATE));
       Expr retrieveRef = zptr.createSchRef(retr, getStateGenParams(ZStateInfo.RETRIEVE));
-      loc = getLocation(getState(ZStateInfo.CSTFIN), getState(ZStateInfo.STFIN), cState, aState);
+      loc = getLocation(getStateName(ZStateInfo.CSTFIN), getStateName(ZStateInfo.STFIN), cState, aState);
       Pred finVC = zptr.createFinalisationVC(rk, absStFin, conStFin, retrieveRef);
       addRefVC(vcList, getStateSchema(ZStateInfo.CSTATE), rk, ZRefVCKind.FIN, 
           getStateGenParams(ZStateInfo.RETRIEVE), finVC, cState, loc);
@@ -465,39 +466,39 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     }
 
     okay = checkNeedsComplementarySchema(ZStateInfo.AINITIN, ZStateInfo.CINITIN, ZRefVCKind.INIT_IN);
-    assert getState(ZStateInfo.AINITIN) == null && getState(ZStateInfo.CINITIN) == null ||
-           getState(ZStateInfo.AINITIN) != null && getState(ZStateInfo.CINITIN) != null;
+    assert getStateName(ZStateInfo.AINITIN) == null && getStateName(ZStateInfo.CINITIN) == null ||
+           getStateName(ZStateInfo.AINITIN) != null && getStateName(ZStateInfo.CINITIN) != null;
 
     // if got created and we don't have a retrieve for IO, add a default one
     if (okay)
     {
-      if (getState(ZStateInfo.RETRIEVEIN) == null)
+      if (getStateName(ZStateInfo.RETRIEVEIN) == null)
       {
         final String message = "Could not find retrieve input schema. Adding a default one";
         getLogger().warning(message);
       }
-      if (getState(ZStateInfo.STINIT) == null)
+      if (getStateName(ZStateInfo.STINIT) == null)
       {
         
       }
-      if (getState(ZStateInfo.CSTINIT) == null)
+      if (getStateName(ZStateInfo.CSTINIT) == null)
       {
 
       }
     }
 
-    if (getState(ZStateInfo.RETRIEVEIN) != null && definitions_.containsKey(getState(ZStateInfo.RETRIEVEIN)) &&
-        getState(ZStateInfo.AINITIN) != null && getState(ZStateInfo.CINITIN) != null &&
-        containsRefPair(getState(ZStateInfo.AINITIN), getState(ZStateInfo.CINITIN)))
+    if (getStateName(ZStateInfo.RETRIEVEIN) != null && definitions_.containsKey(getStateName(ZStateInfo.RETRIEVEIN)) &&
+        getStateName(ZStateInfo.AINITIN) != null && getStateName(ZStateInfo.CINITIN) != null &&
+        containsRefPair(getStateName(ZStateInfo.AINITIN), getStateName(ZStateInfo.CINITIN)))
     {
-      Expr absInitIn = zptr.createSchRef(getState(ZStateInfo.AINITIN), stateGenParams);
-      Expr conInitIn = zptr.createSchRef(getState(ZStateInfo.CINITIN), getStateGenParams(ZStateInfo.RETRIEVEIN));
-      Expr retIn =  zptr.createSchRef(getState(ZStateInfo.RETRIEVEIN), getStateGenParams(ZStateInfo.RETRIEVEIN));
+      Expr absInitIn = zptr.createSchRef(getStateName(ZStateInfo.AINITIN), stateGenParams);
+      Expr conInitIn = zptr.createSchRef(getStateName(ZStateInfo.CINITIN), getStateGenParams(ZStateInfo.RETRIEVEIN));
+      Expr retIn =  zptr.createSchRef(getStateName(ZStateInfo.RETRIEVEIN), getStateGenParams(ZStateInfo.RETRIEVEIN));
       
       Pred ioInit = zptr.createInitialisationInputVC(rk, absInitIn, conInitIn, retIn);
-      loc = getLocation(getState(ZStateInfo.CINITIN), getState(ZStateInfo.CSTINIT), getState(ZStateInfo.RETRIEVEIN), cState);
+      loc = getLocation(getStateName(ZStateInfo.CINITIN), getStateName(ZStateInfo.CSTINIT), getStateName(ZStateInfo.RETRIEVEIN), cState);
       addRefVC(vcList, getStateSchema(ZStateInfo.RETRIEVEIN), rk, ZRefVCKind.INIT_IN, 
-          getStateGenParams(ZStateInfo.RETRIEVEIN), ioInit, getState(ZStateInfo.RETRIEVEIN), loc);
+          getStateGenParams(ZStateInfo.RETRIEVEIN), ioInit, getStateName(ZStateInfo.RETRIEVEIN), loc);
     }
     else
     {
@@ -507,38 +508,38 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     }
 
     okay = checkNeedsComplementarySchema(ZStateInfo.AFINOUT, ZStateInfo.CFINOUT, ZRefVCKind.FIN_OUT);
-    assert getState(ZStateInfo.AFINOUT) == null && getState(ZStateInfo.CFINOUT) == null ||
-           getState(ZStateInfo.AFINOUT) != null && getState(ZStateInfo.CFINOUT) != null;
+    assert getStateName(ZStateInfo.AFINOUT) == null && getStateName(ZStateInfo.CFINOUT) == null ||
+           getStateName(ZStateInfo.AFINOUT) != null && getStateName(ZStateInfo.CFINOUT) != null;
 
     if (okay)
     {
-      if (getState(ZStateInfo.RETRIEVEOUT) == null)
+      if (getStateName(ZStateInfo.RETRIEVEOUT) == null)
       {
         final String message = "Could not find retrieve input schema. Adding a default one";
         getLogger().warning(message);
       }
-      if (getState(ZStateInfo.STFIN) == null)
+      if (getStateName(ZStateInfo.STFIN) == null)
       {
 
       }
-      if (getState(ZStateInfo.CSTFIN) == null)
+      if (getStateName(ZStateInfo.CSTFIN) == null)
       {
 
       }
     }
 
-    if (getState(ZStateInfo.RETRIEVEOUT) != null && definitions_.containsKey(getState(ZStateInfo.RETRIEVEOUT)) &&
-        getState(ZStateInfo.AFINOUT) != null && getState(ZStateInfo.CFINOUT) != null &&
-        containsRefPair(getState(ZStateInfo.AFINOUT), getState(ZStateInfo.CFINOUT)))
+    if (getStateName(ZStateInfo.RETRIEVEOUT) != null && definitions_.containsKey(getStateName(ZStateInfo.RETRIEVEOUT)) &&
+        getStateName(ZStateInfo.AFINOUT) != null && getStateName(ZStateInfo.CFINOUT) != null &&
+        containsRefPair(getStateName(ZStateInfo.AFINOUT), getStateName(ZStateInfo.CFINOUT)))
     {
-      Expr absFinOut = zptr.createSchRef(getState(ZStateInfo.AFINOUT), stateGenParams);
-      Expr conFinOut = zptr.createSchRef(getState(ZStateInfo.CFINOUT), getStateGenParams(ZStateInfo.RETRIEVEOUT));
-      Expr retOut = zptr.createSchRef(getState(ZStateInfo.RETRIEVEOUT), getStateGenParams(ZStateInfo.RETRIEVEOUT));
+      Expr absFinOut = zptr.createSchRef(getStateName(ZStateInfo.AFINOUT), stateGenParams);
+      Expr conFinOut = zptr.createSchRef(getStateName(ZStateInfo.CFINOUT), getStateGenParams(ZStateInfo.RETRIEVEOUT));
+      Expr retOut = zptr.createSchRef(getStateName(ZStateInfo.RETRIEVEOUT), getStateGenParams(ZStateInfo.RETRIEVEOUT));
 
       Pred ioFin  = zptr.createFinalisationOutputVC(rk, absFinOut, conFinOut, retOut);
-      loc = getLocation(getState(ZStateInfo.CFINOUT), getState(ZStateInfo.CSTFIN), getState(ZStateInfo.RETRIEVEOUT), cState);
+      loc = getLocation(getStateName(ZStateInfo.CFINOUT), getStateName(ZStateInfo.CSTFIN), getStateName(ZStateInfo.RETRIEVEOUT), cState);
       addRefVC(vcList, getStateSchema(ZStateInfo.RETRIEVEOUT), rk, ZRefVCKind.FIN_OUT, 
-          getStateGenParams(ZStateInfo.RETRIEVEOUT), ioFin, getState(ZStateInfo.RETRIEVEOUT), loc);
+          getStateGenParams(ZStateInfo.RETRIEVEOUT), ioFin, getStateName(ZStateInfo.RETRIEVEOUT), loc);
     }
     else
     {
@@ -561,8 +562,8 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   private boolean checkNeedsComplementarySchema(ZStateInfo absType, ZStateInfo conType, ZRefVCKind vckind)
   {
     
-    ZName abs = getState(absType);
-    ZName con = getState(conType);
+    ZName abs = getStateName(absType);
+    ZName con = getStateName(conType);
     
     boolean result = false;
     AxPara axPara;
@@ -571,16 +572,16 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       switch (vckind)
       {
         case INIT:
-          assert getState(ZStateInfo.CSTINIT) == null;
+          assert getStateName(ZStateInfo.CSTINIT) == null;
           con = getFactory().createZName(ZStateInfo.CSTINIT.toString());
           setStateName(ZStateInfo.CSTINIT, con);
           // CSInit == [ CState' | true ]
           axPara = getPredTransformerRef().createSchExpr(getStateGenParams(ZStateInfo.CSTATE), con,
                     getPredTransformerRef().createSchemaInclusion(
-                      getPredTransformerRef().createDashedSchRef(getState(ZStateInfo.CSTATE), getStateGenParams(ZStateInfo.CSTATE))));
+                      getPredTransformerRef().createDashedSchRef(getStateName(ZStateInfo.CSTATE), getStateGenParams(ZStateInfo.CSTATE))));
           break;
         case INIT_IN:
-          assert getState(ZStateInfo.CINITIN) == null;
+          assert getStateName(ZStateInfo.CINITIN) == null;
           con = getFactory().createZName(ZStateInfo.CINITIN.toString());
           setStateName(ZStateInfo.CINITIN, con);
           // CInitIn == [ inputs-from-CSInit | true ]
@@ -590,15 +591,15 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
           break;
         case FIN:
           // CSFin == [ CState | true ]
-          assert getState(ZStateInfo.CSTFIN) == null;
+          assert getStateName(ZStateInfo.CSTFIN) == null;
           con = getFactory().createZName(ZStateInfo.CSTFIN.toString());
           setStateName(ZStateInfo.CSTFIN, con);
           axPara = getPredTransformerRef().createSchExpr(getStateGenParams(ZStateInfo.CSTATE), con,
                     getPredTransformerRef().createSchemaInclusion(
-                      getPredTransformerRef().createSchRef(getState(ZStateInfo.CSTATE), getStateGenParams(ZStateInfo.CSTATE))));
+                      getPredTransformerRef().createSchRef(getStateName(ZStateInfo.CSTATE), getStateGenParams(ZStateInfo.CSTATE))));
           break;
         case FIN_OUT:
-          assert getState(ZStateInfo.CFINOUT) == null;
+          assert getStateName(ZStateInfo.CFINOUT) == null;
           con = getFactory().createZName(ZStateInfo.CSTINIT.toString());
           setStateName(ZStateInfo.CFINOUT, con);
           // CFinOut == [ outputs-from-CSInit | true ]
@@ -625,16 +626,16 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       switch (vckind)
       {
         case INIT:
-          assert getState(ZStateInfo.STINIT) == null;
+          assert getStateName(ZStateInfo.STINIT) == null;
           abs = getFactory().createZName(ZStateInfo.CSTINIT.toString());
           setStateName(ZStateInfo.STINIT, abs);
           // ASInit == [ AState' | true ]
           axPara = getPredTransformerRef().createSchExpr(getStateGenParams(ZStateInfo.STATE), abs,
                     getPredTransformerRef().createSchemaInclusion(
-                      getPredTransformerRef().createDashedSchRef(getState(ZStateInfo.STATE), getStateGenParams(ZStateInfo.STATE))));
+                      getPredTransformerRef().createDashedSchRef(getStateName(ZStateInfo.STATE), getStateGenParams(ZStateInfo.STATE))));
           break;
         case INIT_IN:
-          assert getState(ZStateInfo.AINITIN) == null;
+          assert getStateName(ZStateInfo.AINITIN) == null;
           abs = getFactory().createZName(ZStateInfo.CINITIN.toString());
           setStateName(ZStateInfo.AINITIN, abs);
           // AInitIn == [ inputs-from-ASInit | true ]
@@ -644,15 +645,15 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
           break;
         case FIN:
           // ASFin == [ AState | true ]
-          assert getState(ZStateInfo.STFIN) == null;
+          assert getStateName(ZStateInfo.STFIN) == null;
           abs = getFactory().createZName(ZStateInfo.CSTFIN.toString());
           setStateName(ZStateInfo.STFIN, abs);
           axPara = getPredTransformerRef().createSchExpr(getStateGenParams(ZStateInfo.STATE), abs,
                     getPredTransformerRef().createSchemaInclusion(
-                      getPredTransformerRef().createSchRef(getState(ZStateInfo.STATE), getStateGenParams(ZStateInfo.STATE))));
+                      getPredTransformerRef().createSchRef(getStateName(ZStateInfo.STATE), getStateGenParams(ZStateInfo.STATE))));
           break;
         case FIN_OUT:
-          assert getState(ZStateInfo.AFINOUT) == null;
+          assert getStateName(ZStateInfo.AFINOUT) == null;
           abs = getFactory().createZName(ZStateInfo.CSTINIT.toString());
           setStateName(ZStateInfo.AFINOUT, abs);
           // AFinOut == [ outputs-from-ASInit | true ]
@@ -686,11 +687,11 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     ZPredTransformerRef zptr = getPredTransformerRef();
 
     // states
-    ZName aState  = getState(ZStateInfo.STATE);
-    ZName cState  = getState(ZStateInfo.CSTATE);
-    ZName retr    = getState(ZStateInfo.RETRIEVE);
-    ZName retrIn  = getState(ZStateInfo.RETRIEVEIN);
-    ZName retrOut = getState(ZStateInfo.RETRIEVEOUT);
+    ZName aState  = getStateName(ZStateInfo.STATE);
+    ZName cState  = getStateName(ZStateInfo.CSTATE);
+    ZName retr    = getStateName(ZStateInfo.RETRIEVE);
+    ZName retrIn  = getStateName(ZStateInfo.RETRIEVEIN);
+    ZName retrOut = getStateName(ZStateInfo.RETRIEVEOUT);
     ZNameList absGenParams = getStateGenParams(ZStateInfo.STATE);
     ZNameList allGenParams = getStateGenParams(ZStateInfo.RETRIEVE);
     assert aState != null && cState != null && retr != null;
@@ -729,7 +730,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
       if (retrOut == null)
       {
         // TODO: generalise this naming convention? Or use the VC name factory?
-        retrOut = getFactory().createZName(getState(ZStateInfo.RETRIEVE).getWord() + "RIn");
+        retrOut = getFactory().createZName(getStateName(ZStateInfo.RETRIEVE).getWord() + "RIn");
         retrieveOutRef = zptr.createSchRef(retrOut, getStateGenParams(ZStateInfo.RETRIEVEOUT));
       }
       retrieveInRef = zptr.createSchRef(retrIn, getStateGenParams(ZStateInfo.RETRIEVEIN));
@@ -738,7 +739,7 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     {
       if (retrIn == null)
       {
-        retrIn = getFactory().createZName(getState(ZStateInfo.RETRIEVE).getWord() + "ROut");
+        retrIn = getFactory().createZName(getStateName(ZStateInfo.RETRIEVE).getWord() + "ROut");
         // TODO shouldn't it be RETRIEVEIN here?
         retrieveInRef = zptr.createSchRef(retrIn, getStateGenParams(ZStateInfo.RETRIEVEOUT));
       }
