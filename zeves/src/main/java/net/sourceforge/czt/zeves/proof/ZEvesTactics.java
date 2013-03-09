@@ -43,8 +43,8 @@ public class ZEvesTactics {
     	// check for proof commands (e.g. prove-by-rewrite, prove-by-reduce)
     	if (noModCommand instanceof SimplificationCommand) {
     		SimplificationCommand simplCommand = (SimplificationCommand) noModCommand;
-    		if (simplCommand.getPower() == RewritePower.Prove) {
-    			return createProveSeq(tactic, noModCommand, simplCommand.getKind(), printer);
+    		if (simplCommand.getRewritePower() == RewritePower.Prove) {
+    			return createProveSeq(tactic, noModCommand, simplCommand.getRewriteKind(), printer);
     		}
     	}
     	
@@ -63,7 +63,7 @@ public class ZEvesTactics {
     	
     	if (command instanceof NormalizationCommand) {
     		NormalizationCommand normCmd = (NormalizationCommand) command;
-    		if (normCmd.getKind() == NormalizationKind.Command) {
+    		if (normCmd.getNormalizationKind() == NormalizationKind.Command) {
     			return getCommandNoModifiers(normCmd.getProofCommand());
     		}
     	}

@@ -922,7 +922,7 @@ public abstract class Checker<R>
     
     ProcessSignature result = factory().getCircusFactory().createProcessSignature(
       signature.getProcessName(), genFormals, sigs, instChanSets, instStUpd, 
-      signature.getUsage());    
+      signature.getCallUsage());    
     return result;
   }
   
@@ -2028,13 +2028,13 @@ public abstract class Checker<R>
       // if the signature refers to the call name, we are on
       if (ZUtils.namesEqual(term.getCallExpr().getName(), pSig.getProcessName()))
       {        
-        if (!pSig.getUsage().equals(term.getUsage()))
+        if (!pSig.getCallUsage().equals(term.getCallUsage()))
         {
           Object[] params = {
             getCurrentProcessName(),            
             term.getCallExpr().getName(),
-            pSig.getUsage(),
-            term.getUsage()              
+            pSig.getCallUsage(),
+            term.getCallUsage()              
           };
           result.add(errorAnn(term, ErrorMessage.PROCESS_USAGE_INCONSISTENCY, params));
         }  
