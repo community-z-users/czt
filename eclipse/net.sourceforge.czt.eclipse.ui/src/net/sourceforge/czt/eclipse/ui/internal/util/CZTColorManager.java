@@ -54,9 +54,9 @@ public class CZTColorManager implements IColorManager
 
   public void dispose(Display display)
   {
-    Map colorTable = (Map) fDisplayTable.get(display);
+    Map<RGB, Color> colorTable = fDisplayTable.get(display);
     if (colorTable != null) {
-      Iterator e = colorTable.values().iterator();
+      Iterator<Color> e = colorTable.values().iterator();
       while (e.hasNext()) {
         Color color = (Color) e.next();
         if (color != null && !color.isDisposed())

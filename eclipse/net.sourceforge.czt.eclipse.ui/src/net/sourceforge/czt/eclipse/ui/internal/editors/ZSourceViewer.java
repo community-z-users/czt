@@ -556,7 +556,7 @@ public class ZSourceViewer extends ProjectionViewer
 //        document, IZPartitions.Z_PARTITIONING, lineOffset, line.getLength(),
 //        false);
 
-    List segmentation = new ArrayList();
+    List<ITypedRegion> segmentation = new ArrayList<ITypedRegion>();
     //    for (int i = 0; i < linePartitioning.length; i++) {
     //      if (IZPartitions.JAVA_STRING.equals(linePartitioning[i].getType()))
     //        segmentation.add(linePartitioning[i]);
@@ -570,7 +570,7 @@ public class ZSourceViewer extends ProjectionViewer
 
     int j = 0;
     for (int i = 0; i < size; i++) {
-      ITypedRegion segment = (ITypedRegion) segmentation.get(i);
+      ITypedRegion segment = segmentation.get(i);
 
       if (i == 0)
         segments[j++] = 0;

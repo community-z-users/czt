@@ -73,8 +73,8 @@ public class ImageDescriptorRegistry
    */
   public void dispose()
   {
-    for (Iterator iter = fRegistry.values().iterator(); iter.hasNext();) {
-      Image image = (Image) iter.next();
+    for (Iterator<Image> iter = fRegistry.values().iterator(); iter.hasNext();) {
+      Image image = iter.next();
       image.dispose();
     }
     fRegistry.clear();

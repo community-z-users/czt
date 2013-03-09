@@ -250,9 +250,10 @@ public class ProblemsLabelDecorator
       CztTreeNode sourceElement) throws CoreException
   {
     int info = 0;
-    Iterator iter = model.getAnnotationIterator();
+    @SuppressWarnings("unchecked")
+	Iterator<Annotation> iter = model.getAnnotationIterator();
     while ((info != ERRORTICK_ERROR) && iter.hasNext()) {
-      Annotation annot = (Annotation) iter.next();
+      Annotation annot = iter.next();
       if (annot instanceof MarkerAnnotation) {
         IMarker marker = ((MarkerAnnotation) annot).getMarker();
         if (isMarkerInRange(marker, sourceElement)
