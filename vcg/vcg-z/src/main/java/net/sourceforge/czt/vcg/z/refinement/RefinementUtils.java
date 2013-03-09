@@ -19,10 +19,13 @@
 
 package net.sourceforge.czt.vcg.z.refinement;
 
+import java.util.SortedSet;
+
 import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.VCG;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityUtils;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchemaType;
 
 /**
  *

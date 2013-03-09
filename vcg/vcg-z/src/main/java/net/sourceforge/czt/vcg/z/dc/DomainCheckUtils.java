@@ -19,10 +19,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.vcg.z.dc;
 
+import java.util.SortedSet;
+
 import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.VCG;
 import net.sourceforge.czt.vcg.z.VCGUtils;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Type2;
 
 /**
  * Utilities for domain checking Z specifications.

@@ -34,7 +34,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
-import net.sourceforge.czt.parser.util.InfoTable.InfoTableException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;

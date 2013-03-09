@@ -25,6 +25,7 @@ import java.util.List;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.impl.AnnImpl;
 
 /**

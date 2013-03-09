@@ -25,6 +25,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
 
 /**
  * Interface characterising VC collection semantics for CZT Terms.

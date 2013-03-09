@@ -19,15 +19,18 @@
 package net.sourceforge.czt.vcg.z.feasibility;
 
 import java.net.URL;
+import java.util.SortedSet;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
-import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
-import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Dialect;
-import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.util.VCGTest;
+import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.z.dc.DomainCheckPropertyKeys;
 import net.sourceforge.czt.vcg.z.refinement.RefinementPropertyKeys;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchemaType;
 
 /**
  *

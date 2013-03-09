@@ -29,6 +29,7 @@ import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
 

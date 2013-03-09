@@ -19,13 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.vcg.z.dc;
 
 import java.net.URL;
+import java.util.SortedSet;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCGException;
+import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.util.VCGTest;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.Type2;
 
 /**
  *
