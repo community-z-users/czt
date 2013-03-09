@@ -58,7 +58,7 @@ public class VCManager {
 	
 	private final VcgAnnotations markers;
 	
-	private VCEnvAnn<Pred> vcAnn = null;
+	private VCEnvAnn vcAnn = null;
 	private ZSect vcSect = null;
 	
 	private Map<String, Para> specParas = null;
