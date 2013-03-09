@@ -25,7 +25,7 @@
    * that is an ApplExpr with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public ApplExpr createApplication(Name refName, Expr expr)
+  public net.sourceforge.czt.z.ast.ApplExpr createApplication(Name refName, Expr expr)
   {
     return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
   }
@@ -35,7 +35,7 @@
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public ZName createZName(String word, StrokeList strokes)
+  public net.sourceforge.czt.z.ast.ZName createZName(String word, net.sourceforge.czt.z.ast.StrokeList strokes)
   {
     return createZName(word, strokes, null);
   }
@@ -47,15 +47,15 @@
    * name is returned.
    * This is a convenience method.
    */
-  public ZName createZName(String decorword)
+  public net.sourceforge.czt.z.ast.ZName createZName(String decorword)
   {
-    ZStrokeList strokes = createZStrokeList();
+    net.sourceforge.czt.z.ast.ZStrokeList strokes = createZStrokeList();
     final String word = getWordAndStrokes(decorword, strokes);
     return createZName(word, strokes, null);
   }
 
   public String getWordAndStrokes(String decorword,
-                                  ZStrokeList strokes)
+                                  net.sourceforge.czt.z.ast.ZStrokeList strokes)
   {
     net.sourceforge.czt.z.util.ZChar[] zchars =
       net.sourceforge.czt.z.util.ZChar.toZChars(decorword);
@@ -96,9 +96,9 @@
    * between the two given expressions.
    * This is a convenience method.
    */
-  public MemPred createEquality(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.MemPred createEquality(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    ZExprList zExprList = createZExprList();
+    net.sourceforge.czt.z.ast.ZExprList zExprList = createZExprList();
     zExprList.add(right);
     return createMemPred(left, createSetExpr(zExprList), Boolean.TRUE);
   }
@@ -108,7 +108,7 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public ApplExpr createFunOpAppl(Name refName, Expr expr)
+  public net.sourceforge.czt.z.ast.ApplExpr createFunOpAppl(net.sourceforge.czt.z.ast.Name refName, net.sourceforge.czt.z.ast.Expr expr)
   {
     return createApplExpr(createRefExpr(refName), expr, Boolean.TRUE);
   }
@@ -118,10 +118,10 @@
    * with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenInst(Name refName,
-                               java.util.List<? extends Expr> exprs)
+  public net.sourceforge.czt.z.ast.RefExpr createGenInst(net.sourceforge.czt.z.ast.Name refName,
+                               java.util.List<? extends net.sourceforge.czt.z.ast.Expr> exprs)
   {
-    ZExprList zExprList = createZExprList(exprs);
+    net.sourceforge.czt.z.ast.ZExprList zExprList = createZExprList(exprs);
     return createRefExpr(refName, zExprList, Boolean.FALSE);
   }
 
@@ -130,10 +130,10 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenOpApp(Name refName,
-                                java.util.List<? extends Expr> exprs)
+  public net.sourceforge.czt.z.ast.RefExpr createGenOpApp(net.sourceforge.czt.z.ast.Name refName,
+                                java.util.List<? extends net.sourceforge.czt.z.ast.Expr> exprs)
   {
-    ZExprList zExprList = createZExprList(exprs);
+    net.sourceforge.czt.z.ast.ZExprList zExprList = createZExprList(exprs);
     return createRefExpr(refName, zExprList, Boolean.TRUE);
   }
 
@@ -146,7 +146,7 @@
    * @param declName name of the schema.
    * @param expr an expression.
    */
-  public AxPara createHorizontalDef(Name declName, Expr expr)
+  public net.sourceforge.czt.z.ast.AxPara createHorizontalDef(net.sourceforge.czt.z.ast.Name declName, net.sourceforge.czt.z.ast.Expr expr)
   {
     return createHorizontalDef(declName, null, expr);
   }
@@ -161,17 +161,17 @@
    * @param formals a list of Name, the formal parameters.
    * @param expr an expression.
    */
-  public AxPara createHorizontalDef(Name declName,
-                                    java.util.List<? extends Name> formals,
-                                    Expr expr)
+  public net.sourceforge.czt.z.ast.AxPara createHorizontalDef(net.sourceforge.czt.z.ast.Name declName,
+                                    java.util.List<? extends net.sourceforge.czt.z.ast.Name> formals,
+                                    net.sourceforge.czt.z.ast.Expr expr)
   {
-    ZNameList zdnl = createZNameList();
+    net.sourceforge.czt.z.ast.ZNameList zdnl = createZNameList();
     if (formals != null) {
       zdnl.addAll(formals);
     }
-    Decl decl = createConstDecl(declName, expr);
-    SchText schText = createZSchText(createZDeclList(list(decl)), null);
-    return createAxPara(zdnl, schText, Box.OmitBox);
+    net.sourceforge.czt.z.ast.Decl decl = createConstDecl(declName, expr);
+    net.sourceforge.czt.z.ast.SchText schText = createZSchText(createZDeclList(list(decl)), null);
+    return createAxPara(zdnl, schText, net.sourceforge.czt.z.ast.Box.OmitBox);
   }
 
   /**
@@ -179,12 +179,12 @@
    * an expression, that is a MemPred with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public MemPred createMemPred(Name refName, Expr expr)
+  public net.sourceforge.czt.z.ast.MemPred createMemPred(net.sourceforge.czt.z.ast.Name refName, net.sourceforge.czt.z.ast.Expr expr)
   {
     return createMemPred(createRefExpr(refName), expr, Boolean.FALSE);
   }
   
-  public Pred createSetMembership(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.Pred createSetMembership(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
     return createMemPred(left, right, Boolean.FALSE);
   }
@@ -193,7 +193,7 @@
    * Creates a number expression with the given value.
    * This is a convenience method.
    */
-  public NumExpr createNumExpr(int value)
+  public net.sourceforge.czt.z.ast.NumExpr createNumExpr(int value)
   {
     return factory_.createNumExpr(createZNumeral(value));
   }
@@ -202,12 +202,12 @@
    * Creates a number expression with the given value.
    * This is a convenience method.
    */
-  public NumExpr createNumExpr(java.math.BigInteger bigInt)
+  public net.sourceforge.czt.z.ast.NumExpr createNumExpr(java.math.BigInteger bigInt)
   {
     return createNumExpr(factory_.createZNumeral(bigInt));
   }
 
-  public ZNumeral createZNumeral(int value)
+  public net.sourceforge.czt.z.ast.ZNumeral createZNumeral(int value)
   {
     return factory_.createZNumeral(java.math.BigInteger.valueOf(value));
   }
@@ -216,13 +216,13 @@
    * Creates a binary product expression.
    * This is a convenience method.
    */
-  public ProdExpr createProdExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.ProdExpr createProdExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
     return createProdExpr(createZExprList(list(left, right)));
   }
 
-  public RefExpr createRefExpr(Name refName,
-                               ZExprList zExprList,
+  public net.sourceforge.czt.z.ast.RefExpr createRefExpr(net.sourceforge.czt.z.ast.Name refName,
+                               net.sourceforge.czt.z.ast.ZExprList zExprList,
                                Boolean mixfix)
   {
     return factory_.createRefExpr(refName, zExprList, mixfix, false);
@@ -234,7 +234,7 @@
    * is <code>false</code> and the list of expressions is empty.
    * This is a convenience method.
    */
-  public RefExpr createRefExpr(Name refName)
+  public net.sourceforge.czt.z.ast.RefExpr createRefExpr(net.sourceforge.czt.z.ast.Name refName)
   {
     return createRefExpr(refName, createZExprList(), Boolean.FALSE);
   }
@@ -244,7 +244,7 @@
    * declaring name, i.e., just copies the given ZName.
    * This is a convenience method.
    */
-  public ZName createZName(ZName declName)
+  public net.sourceforge.czt.z.ast.ZName createZName(net.sourceforge.czt.z.ast.ZName declName)
   {
     return createZName(declName.getWord(),
                        declName.getStrokeList(),
@@ -256,7 +256,7 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public MemPred createRelOpAppl(Expr expr, Name refName)
+  public net.sourceforge.czt.z.ast.MemPred createRelOpAppl(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Name refName)
   {
     return createMemPred(expr, createRefExpr(refName), Boolean.TRUE);
   }
@@ -270,7 +270,7 @@
    * @param declName name of the schema.
    * @param schemaText the schema text.
    */
-  public AxPara createSchema(Name declName, SchText schemaText)
+  public net.sourceforge.czt.z.ast.AxPara createSchema(net.sourceforge.czt.z.ast.Name declName, net.sourceforge.czt.z.ast.SchText schemaText)
   {
     return createSchema(declName, null, schemaText);
   }
@@ -285,17 +285,17 @@
    * @param declName name of the schema.
    * @param schemaText the schema text.
    */
-  public AxPara createSchema(Name declName,
-                             java.util.List<? extends Name> formals,
-                             SchText schemaText)
+  public net.sourceforge.czt.z.ast.AxPara createSchema(net.sourceforge.czt.z.ast.Name declName,
+                             java.util.List<? extends net.sourceforge.czt.z.ast.Name> formals,
+                             net.sourceforge.czt.z.ast.SchText schemaText)
   {
-    ZNameList zdnl = createZNameList();
+    net.sourceforge.czt.z.ast.ZNameList zdnl = createZNameList();
     if (formals != null) {
       zdnl.addAll(formals);
     }
-    Decl decl = createConstDecl(declName, createSchExpr(schemaText));
-    SchText schText = createZSchText(createZDeclList(list(decl)), null);
-    return createAxPara(zdnl, schText, Box.SchBox);
+    net.sourceforge.czt.z.ast.Decl decl = createConstDecl(declName, createSchExpr(schemaText));
+    net.sourceforge.czt.z.ast.SchText schText = createZSchText(createZDeclList(list(decl)), null);
+    return createAxPara(zdnl, schText, net.sourceforge.czt.z.ast.Box.SchBox);
   }
 
   /**
@@ -313,11 +313,11 @@
    *
    * @param exprList a list of expressions (Expr).
    */
-  public SetExpr createSequence(java.util.List<? extends Expr> exprList)
+  public net.sourceforge.czt.z.ast.SetExpr createSequence(java.util.List<? extends net.sourceforge.czt.z.ast.Expr> exprList)
   {
-    ZExprList zExprList = createZExprList();
+    net.sourceforge.czt.z.ast.ZExprList zExprList = createZExprList();
     int count = 1;
-    for (java.util.Iterator<? extends Expr> i = exprList.iterator();
+    for (java.util.Iterator<? extends net.sourceforge.czt.z.ast.Expr> i = exprList.iterator();
          i.hasNext(); count++) {
       zExprList.add(createTupleExpr(createNumExpr(count), i.next()));
     }
@@ -328,7 +328,7 @@
    * Creates a pair, that is a tuple expression with two elements.
    * This is a convenience method.
    */
-  public TupleExpr createTupleExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.TupleExpr createTupleExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
     return createTupleExpr(createZExprList(list(left, right)));
   }
@@ -341,19 +341,19 @@
     return null;
   }
 
-  public NumStroke createNumStroke(int value)
+  public net.sourceforge.czt.z.ast.NumStroke createNumStroke(int value)
   {
     net.sourceforge.czt.base.ast.Digit digit =
       net.sourceforge.czt.base.ast.Digit.fromValue(value);
     return createNumStroke(digit);
   }
 
-  public LocAnn createLocAnn(String source, Integer line, Integer col)
+  public net.sourceforge.czt.z.ast.LocAnn createLocAnn(String source, Integer line, Integer col)
   {
     return createLocAnn(source, line, col, null, null);
   }
 
-  public LocAnn createLocAnn(String source,
+  public net.sourceforge.czt.z.ast.LocAnn createLocAnn(String source,
                              Integer line, Integer col,
                              Integer start, Integer length)
   {
@@ -362,125 +362,125 @@
                         toBig(start), toBig(length));
   }
 
-  public AndExpr createAndExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.AndExpr createAndExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    AndExpr result = createAndExpr();
+    net.sourceforge.czt.z.ast.AndExpr result = createAndExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public AndPred createAndPred(Pred left, Pred right, And and)
+  public net.sourceforge.czt.z.ast.AndPred createAndPred(net.sourceforge.czt.z.ast.Pred left, net.sourceforge.czt.z.ast.Pred right, net.sourceforge.czt.z.ast.And and)
   {
-    AndPred result = createAndPred();
+    net.sourceforge.czt.z.ast.AndPred result = createAndPred();
     result.getPred().add(left);
     result.getPred().add(right);
     result.setAnd(and);
     return result;
   }
 
-  public ApplExpr createApplExpr(Expr left, Expr right, Boolean  mixfix)
+  public net.sourceforge.czt.z.ast.ApplExpr createApplExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right, Boolean  mixfix)
   {
-    ApplExpr result = createApplExpr();
+    net.sourceforge.czt.z.ast.ApplExpr result = createApplExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     result.setMixfix(mixfix);
     return result;
   }
 
-  public CompExpr createCompExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.CompExpr createCompExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    CompExpr result = createCompExpr();
+    net.sourceforge.czt.z.ast.CompExpr result = createCompExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public CondExpr createCondExpr(Pred pred, Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.CondExpr createCondExpr(net.sourceforge.czt.z.ast.Pred pred, net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    CondExpr result = createCondExpr();
+    net.sourceforge.czt.z.ast.CondExpr result = createCondExpr();
     result.setPred(pred);
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public IffExpr createIffExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.IffExpr createIffExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    IffExpr result = createIffExpr();
+    net.sourceforge.czt.z.ast.IffExpr result = createIffExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public IffPred createIffPred(Pred left, Pred right)
+  public net.sourceforge.czt.z.ast.IffPred createIffPred(net.sourceforge.czt.z.ast.Pred left, net.sourceforge.czt.z.ast.Pred right)
   {
-    IffPred result = createIffPred();
+    net.sourceforge.czt.z.ast.IffPred result = createIffPred();
     result.getPred().add(left);
     result.getPred().add(right);
     return result;
   }
 
-  public ImpliesExpr createImpliesExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.ImpliesExpr createImpliesExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    ImpliesExpr result = createImpliesExpr();
+    net.sourceforge.czt.z.ast.ImpliesExpr result = createImpliesExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public ImpliesPred createImpliesPred(Pred left, Pred right)
+  public net.sourceforge.czt.z.ast.ImpliesPred createImpliesPred(net.sourceforge.czt.z.ast.Pred left, net.sourceforge.czt.z.ast.Pred right)
   {
-    ImpliesPred result = createImpliesPred();
+    net.sourceforge.czt.z.ast.ImpliesPred result = createImpliesPred();
     result.getPred().add(left);
     result.getPred().add(right);
     return result;
   }
 
-  public MemPred createMemPred(Expr left, Expr right, Boolean mixfix)
+  public net.sourceforge.czt.z.ast.MemPred createMemPred(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right, Boolean mixfix)
   {
-    MemPred result = createMemPred();
+    net.sourceforge.czt.z.ast.MemPred result = createMemPred();
     result.getExpr().add(left);
     result.getExpr().add(right);
     result.setMixfix(mixfix);
     return result;
   }
 
-  public OrExpr createOrExpr(Expr  left, Expr right)
+  public net.sourceforge.czt.z.ast.OrExpr createOrExpr(net.sourceforge.czt.z.ast.Expr  left, net.sourceforge.czt.z.ast.Expr right)
   {
-    OrExpr result = createOrExpr();
+    net.sourceforge.czt.z.ast.OrExpr result = createOrExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public OrPred createOrPred(Pred  left, Pred right)
+  public net.sourceforge.czt.z.ast.OrPred createOrPred(net.sourceforge.czt.z.ast.Pred  left, net.sourceforge.czt.z.ast.Pred right)
   {
-    OrPred result = createOrPred();
+    net.sourceforge.czt.z.ast.OrPred result = createOrPred();
     result.getPred().add(left);
     result.getPred().add(right);
     return result;
   }
 
-  public PipeExpr createPipeExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.PipeExpr createPipeExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    PipeExpr result = createPipeExpr();
+    net.sourceforge.czt.z.ast.PipeExpr result = createPipeExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public ProjExpr createProjExpr(Expr left, Expr right)
+  public net.sourceforge.czt.z.ast.ProjExpr createProjExpr(net.sourceforge.czt.z.ast.Expr left, net.sourceforge.czt.z.ast.Expr right)
   {
-    ProjExpr result = createProjExpr();
+    net.sourceforge.czt.z.ast.ProjExpr result = createProjExpr();
     result.getExpr().add(left);
     result.getExpr().add(right);
     return result;
   }
 
-  public NewOldPair createNewOldPair(Name newName, Name oldName)
+  public net.sourceforge.czt.z.ast.NewOldPair createNewOldPair(net.sourceforge.czt.z.ast.Name newName, net.sourceforge.czt.z.ast.Name oldName)
   {
-    NewOldPair result = createNewOldPair();
+    net.sourceforge.czt.z.ast.NewOldPair result = createNewOldPair();
     result.getName().add(newName);
     result.getName().add(oldName);
     return result;
