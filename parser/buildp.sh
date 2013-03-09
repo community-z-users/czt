@@ -10,7 +10,9 @@ set -e
 echo Build parser $1
 
 # Step 1: Build the CZT parser source core
-mvn -f parser-src/pom.xml clean install -U
+mvn -f parser-src/pom.xml clean install -U $2
 
 # Step 2: Build the CZT parser chosen by the given parameter
-mvn -f $1/pom.xml clean install -U
+mvn -f parser-$1/pom.xml clean install -U $2
+
+#-Dmaven.test.skip=true
