@@ -1444,7 +1444,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
     CztTreeNode segment = null;
 
     ISelection selection = event.getSelection();
-    Iterator iter = ((IStructuredSelection) selection).iterator();
+    Iterator<?> iter = ((IStructuredSelection) selection).iterator();
     while (iter.hasNext()) {
       Object o = iter.next();
       if (o instanceof CztTreeNode) {
