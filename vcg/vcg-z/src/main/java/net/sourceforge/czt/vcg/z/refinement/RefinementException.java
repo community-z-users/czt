@@ -28,7 +28,12 @@ import net.sourceforge.czt.vcg.z.VCCollectionException;
  */
 public class RefinementException  extends VCCollectionException
 {
-  /** Creates a new instance of VCGException
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8067404592451801586L;
+
+/** Creates a new instance of VCGException
    * @param message
    */
   public RefinementException(String message)

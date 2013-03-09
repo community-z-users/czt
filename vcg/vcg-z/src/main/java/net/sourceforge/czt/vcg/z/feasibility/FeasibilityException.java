@@ -28,7 +28,12 @@ import net.sourceforge.czt.vcg.z.VCCollectionException;
  */
 public class FeasibilityException extends VCCollectionException
 {
-  /** Creates a new instance of VCGException
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2544964586738689850L;
+
+/** Creates a new instance of VCGException
    * @param message
    */
   public FeasibilityException(String message)

@@ -28,7 +28,12 @@ import net.sourceforge.czt.vcg.z.VCCollectionException;
  */
 public class DomainCheckException extends VCCollectionException
 {
-  /** Creates a new instance of VCGException
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4980723800709426285L;
+
+/** Creates a new instance of VCGException
    * @param message
    */
   public DomainCheckException(String message)

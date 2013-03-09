@@ -33,7 +33,11 @@ public class DefinitionException extends InfoTable.InfoTableException
         implements CztErrorList, CztError
 {
 
-  private final LocAnn locAnn_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 966184787203124820L;
+private final LocAnn locAnn_;
   private final List<DefinitionException> exceptions_;
   private ErrorType errorType_ = ErrorType.ERROR;
   private int transitiveErrors_ = 0;
