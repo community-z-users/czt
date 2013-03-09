@@ -27,7 +27,11 @@ import net.sourceforge.czt.session.CommandException;
 public class VCGException extends CommandException
 {
 
-  private final String sectName_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5120063091231578155L;
+private final String sectName_;
 
   /** Creates a new instance of VCGException
    * @param message
