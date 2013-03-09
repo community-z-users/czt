@@ -97,11 +97,11 @@ public abstract class VCGTest extends CztManagedTest
    * Positive test case
    * @param <R>
    */
-  protected class NormalVCGTest<R> extends CztManagedTest.TestNormal
+  protected class NormalVCGTest<T, B> extends CztManagedTest.TestNormal
   {
-    private final VCGUtils<R> vcgu_;
+    private final VCGUtils<T, B> vcgu_;
 
-    public NormalVCGTest(URL url, VCGUtils<R> vcgu)
+    public NormalVCGTest(URL url, VCGUtils<T, B> vcgu)
     {
       super(url);
       assert vcgu != null;
@@ -136,10 +136,11 @@ public abstract class VCGTest extends CztManagedTest
         if (sect instanceof ZSect)
         {
           ZSect zSect = (ZSect)sect;
-          Key<VCEnvAnn<R>> vcKey = new Key(zSect.getName(), vcgu_.getVCG().getVCEnvAnnClass());
+          @SuppressWarnings({ "rawtypes", "unchecked" })
+		  Key<VCEnvAnn> vcKey = new Key/*VCEnvAnn*/(zSect.getName(), vcgu_.getVCG().getVCEnvAnnClass());
           SectionManager manager = vcgu_.getVCG().config();
           manager.startTransaction(vcKey);
-          VCEnvAnn<R> zSectVCEnvAnn = vcgu_.calculateZSectVCEnv(zSect);
+          VCEnvAnn zSectVCEnvAnn = vcgu_.calculateZSectVCEnv(zSect);
           manager.endTransaction(vcKey, zSectVCEnvAnn);
           
           vcgu_.printToFile(zSectVCEnvAnn, getTestsPath(), getMarkup());

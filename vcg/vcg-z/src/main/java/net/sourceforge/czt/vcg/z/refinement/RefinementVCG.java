@@ -197,7 +197,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   /* VC ZSect CREATION METHODS */
 
   @Override
-  public Class<? extends VCEnvAnn<Pred>> getVCEnvAnnClass()
+  public Class<? extends VCEnvAnn> getVCEnvAnnClass()
   {
     return RefinementVCEnvAnn.class;
   }
@@ -214,7 +214,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
   }
 
   @Override
-  protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
+  protected VCEnvAnn newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
     // Or get the getVCCollector().getVCNameFactory()?
     return new RefinementVCEnvAnn(originalSectName, vcList, getVCCollector().getVCNameFactory());

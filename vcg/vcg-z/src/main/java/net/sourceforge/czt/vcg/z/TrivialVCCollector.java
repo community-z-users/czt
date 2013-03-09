@@ -51,7 +51,8 @@ import net.sourceforge.czt.z.visitor.ZStrokeListVisitor;
  *
  * @author leo
  */
-public abstract class TrivialVCCollector<T, B> extends AbstractVCCollector<Pred, T, B>
+public abstract class TrivialVCCollector<T, B> extends AbstractVCCollector<//Pred, 
+																				T, B>
         implements
         UnparsedParaVisitor<Pred>,
         NarrParaVisitor<Pred>,

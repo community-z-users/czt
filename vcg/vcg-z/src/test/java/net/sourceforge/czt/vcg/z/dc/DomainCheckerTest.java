@@ -64,7 +64,7 @@ public class DomainCheckerTest extends VCGTest implements DomainCheckPropertyKey
   @Override
   protected TestCase createPositiveTest(URL url)
   {
-    return new NormalVCGTest<Pred>(url, DomainCheckUtils.getDCUtils());
+    return new NormalVCGTest<Type2, SortedSet<Definition>>(url, DomainCheckUtils.getDCUtils());
   }
 
   /**

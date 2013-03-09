@@ -40,7 +40,9 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @param <R>
  * @author Leo Freitas
  */
-public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, B>
+public abstract class AbstractVCCollector<//R, 
+											T, B> implements VCCollector<//R, 
+																			T, B>
 {  
   private VCNameFactory vcNameFactory_;
   private final Factory factory_;
@@ -157,7 +159,7 @@ public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, 
    * @param term term to visit
    */
   @Override
-  public abstract R visit(Term term);
+  public abstract Pred visit(Term term);
   
   /**
    * For terms in general, just assume nothing is known about them,
@@ -168,7 +170,7 @@ public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, 
    * @param term 
    */
   @Override
-  public R visitTerm(Term term)
+  public Pred visitTerm(Term term)
   { 
     final String msg = "VCG-NOVISITOR-ERROR = " +term.getClass().getSimpleName();
     getLogger().warning(msg);
@@ -206,17 +208,17 @@ public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, 
     defTable_ = checkDefinitionTableWithinListIfNeeded(tables, checkTblConsistency_);
   }
   
-  protected void afterCalculateVC(VC<R> vc) throws VCCollectionException
+  protected void afterCalculateVC(VC<Pred> vc) throws VCCollectionException
   {
     resetDefTable();
   }
 
-  protected abstract R calculateVC(Para term) throws VCCollectionException;
+  protected abstract Pred calculateVC(Para term) throws VCCollectionException;
 
-  protected abstract VCType getVCType(R vc) throws VCCollectionException;
+  protected abstract VCType getVCType(Pred vc) throws VCCollectionException;
 
   @Override
-  public abstract VC<R> createVC(long vcId, Para term, VCType type, R vc) throws VCCollectionException;
+  public abstract VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException;
 
   /**
    * Calculate the verification condition for a given term in the context of
@@ -238,7 +240,7 @@ public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, 
    * @return
    */
   @Override
-  public VC<R> calculateVC(Term term, List<? extends InfoTable> tables)
+  public VC<Pred> calculateVC(Term term, List<? extends InfoTable> tables)
           throws VCCollectionException
   {
     assert term != null : "Invalid term for DC";
@@ -254,7 +256,7 @@ public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, 
 
     // calculate the actual VC contents
     Para para = (Para)term;
-    R vc = null;
+    Pred vc = null;
     try
     {
       vc = calculateVC(para);
@@ -269,7 +271,7 @@ public abstract class AbstractVCCollector<R, T, B> implements VCCollector<R, T, 
 
     // create the result with a unique number for this collector
     stepVCCounter();
-    VC<R> result = createVC(vcCnt_, para, getVCType(vc), vc);
+    VC<Pred> result = createVC(vcCnt_, para, getVCType(vc), vc);
 
     // finalise the calculation
     afterCalculateVC(result);

@@ -55,8 +55,8 @@ import net.sourceforge.czt.z.visitor.ZNumeralVisitor;
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
-public abstract class TrivialFeasibilityVCCollector extends 
-			TrivialVCCollector implements
+public abstract class TrivialFeasibilityVCCollector<T, B> extends 
+			TrivialVCCollector<T, B> implements
         ConjParaVisitor<Pred>,
         LatexMarkupParaVisitor<Pred>,
         ThetaExprVisitor<Pred>,

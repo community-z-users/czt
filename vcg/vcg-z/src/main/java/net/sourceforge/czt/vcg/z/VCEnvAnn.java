@@ -30,15 +30,18 @@ import net.sourceforge.czt.z.impl.AnnImpl;
 
 /**
  *
- * @param <R>
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
-public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
+// NOTE: I removed the R type parameter since VCs are always a Pred (so far) anyway.
+//		 And even if they were to be something different, that would be strange. 
+//		 Go back to the generic version if needed. This was on "zvcg" branch on 9/3/2013
+//		 Sha1 @ git-rep = bad8c4d858ffaea2c4606aa7c0cf67e3b0a2b673
+public abstract class VCEnvAnn extends AnnImpl implements VCGPropertyKeys
 {
   private VCNameFactory vcNameFactory_;
   private String originalZSectName_;
-  private List<VC<R>> vcs_;
+  private List<VC<Pred>> vcs_;
   
   /**
    * Create the given environment as place holder a VC ZSect list of VCs per paragraph.
@@ -52,19 +55,19 @@ public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
    * @param vcs list of VC per paragraph.
    * @param vcf
    */
-  protected VCEnvAnn(String originalZSectName, List<VC<R>> vcs, VCNameFactory vcf)
+  protected VCEnvAnn(String originalZSectName, List<VC<Pred>> vcs, VCNameFactory vcf)
   {
     super();
     init(originalZSectName, vcs, vcf);
   }
 
-  protected VCEnvAnn(String originalZSectName, List<VC<R>> vcs, VCNameFactory vcf, BaseFactory factory)
+  protected VCEnvAnn(String originalZSectName, List<VC<Pred>> vcs, VCNameFactory vcf, BaseFactory factory)
   {
     super(factory);
     init(originalZSectName, vcs, vcf);
   }
 
-  protected final void init(String originalZSectName, List<VC<R>> vcs, VCNameFactory vcf)
+  protected final void init(String originalZSectName, List<VC<Pred>> vcs, VCNameFactory vcf)
   {
     assert vcs != null : "null list of vcs" ;
     assert vcf != null : "vc name factory is null";
@@ -85,12 +88,12 @@ public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
    * @param v
    */
   @Override
-  public <A> A accept(Visitor<A> v)
+  public <R> R accept(Visitor<R> v)
   {
     if (v instanceof VCEnvAnnVisitor)
     {
-      VCEnvAnnVisitor<A> visitor = (VCEnvAnnVisitor<A>) v;
-      return visitor.visitVCGEnvAnn((VCEnvAnn<R>) this);
+      VCEnvAnnVisitor<R> visitor = (VCEnvAnnVisitor<R>) v;
+      return visitor.visitVCGEnvAnn(this);
     }
     return super.accept(v);
   }
@@ -147,7 +150,7 @@ public abstract class VCEnvAnn<R> extends AnnImpl implements VCGPropertyKeys
 
   public abstract String getVCSectName();
 
-  public List<VC<R>> getVCs()
+  public List<VC<Pred>> getVCs()
   {
     return Collections.unmodifiableList(vcs_);
   }

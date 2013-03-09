@@ -61,16 +61,18 @@ import net.sourceforge.czt.z.util.WarningManager.WarningOutput;
 
 /**
  *
- * @param <R>
+ * @param <R> old parameter for VCEnvAnn. No longer needed.
  * @author Leo Freitas
  * @date Dec 25, 2010
  */
-public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
+public abstract class VCGUtils<//R,
+								T, B> implements VCGPropertyKeys
 {
 
   /* UTILITY CLASS SETUP METHODS */
 
-  private VCG<R, T, B> vcg_;
+  private VCG<//R, 
+  				T, B> vcg_;
   private boolean debug_;
   private Dialect extension_;
 
@@ -81,9 +83,11 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
     extension_ = SectionManager.DEFAULT_EXTENSION;
   }
 
-  protected abstract VCG<R, T, B> createVCG();
+  protected abstract VCG<//R, 
+  						T, B> createVCG();
 
-  public final VCG<R, T, B> getVCG()
+  public final VCG<//R, 
+  					T, B> getVCG()
   {
     if (vcg_ == null)
     {
@@ -337,7 +341,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
    * @param zSectVCEnv VC ZSect env to check
    * @throws VCGException if it is inconsistent.
    */
-  protected void checkVCZSectConsistency(VCEnvAnn<R> zSectVCEnv) throws VCGException
+  protected void checkVCZSectConsistency(VCEnvAnn zSectVCEnv) throws VCGException
   {
     assert zSectVCEnv != null;
 
@@ -353,7 +357,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
       manager.get(new Key<ZSect>(sectNameVC, ZSect.class));
 
       // make sure this is indeed a VC ZSect for it: returns zSectVCEnv
-      VCEnvAnn<R> there = manager.get(createSMKey(sectName, getVCG().getVCEnvAnnClass()));
+      VCEnvAnn there = manager.get(createSMKey(sectName, getVCG().getVCEnvAnnClass()));
       assert there != null;
     }
     catch (CommandException ex)
@@ -403,11 +407,11 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
    * @return ZSect DC environment
    * @throws VCGException if VC calculation throws an exception (e.g., if SectionManager is not set)
    */
-  public VCEnvAnn<R> calculateZSectVCEnv(ZSect zSect) throws VCGException
+  public VCEnvAnn calculateZSectVCEnv(ZSect zSect) throws VCGException
   {
     assert zSect != null;
     getVCG().config();
-    VCEnvAnn<R> result = getVCG().createVCEnvAnn(zSect);
+    VCEnvAnn result = getVCG().createVCEnvAnn(zSect);
 
     // check consistency between given z section and assigned name within the
     // environment created by the vcs calculator
@@ -424,11 +428,11 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
    * @return ZSect DC environment
    * @throws VCGException if DC calculation throws an exception
    */
-  public VCEnvAnn<R> calculateVCEnv(Term term) throws VCGException
+  public VCEnvAnn calculateVCEnv(Term term) throws VCGException
   {
     assert term != null && !(term instanceof Spec);
     getVCG().config();
-    VCEnvAnn<R> result = getVCG().createVCEnvAnn(term);
+    VCEnvAnn result = getVCG().createVCEnvAnn(term);
     return result;
   }
 
@@ -442,7 +446,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
    * @return
    * @throws VCGException
    */
-  public CztPrintString print(VCEnvAnn<R> zSectVCEnv, Markup markup) throws VCGException
+  public CztPrintString print(VCEnvAnn zSectVCEnv, Markup markup) throws VCGException
   {
     assert zSectVCEnv != null;
 
@@ -479,7 +483,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
    * @param markup which markup to printToFile the file into.
    * @throws VCGException if the file exists and cannot be deleted/rewritten or if other Commands (e.g., printing) fails.
    */
-  public void printToFile(VCEnvAnn<R> zSectVCEnv, String path, Markup markup) throws VCGException
+  public void printToFile(VCEnvAnn zSectVCEnv, String path, Markup markup) throws VCGException
   {
     assert zSectVCEnv != null && path != null;
 
@@ -575,7 +579,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
         if (sect instanceof ZSect)
         {
           ZSect zSect = (ZSect) sect;
-          VCEnvAnn<R> zSectDCEnvAnn = calculateZSectVCEnv(zSect);
+          VCEnvAnn zSectDCEnvAnn = calculateZSectVCEnv(zSect);
           output = print(zSectDCEnvAnn, markup);
           result.append(output.toString());
           result.append("\n");
@@ -777,7 +781,8 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
     assert manager != null && isConfigured();
 
     // collect default.
-    VCG<?, ?, ?> vcg = getVCG();
+    VCG<//?, 
+    	?, ?> vcg = getVCG();
 
 
     raiseWarnings = raiseWarnings == null ? vcg.isRaisingTypeWarnings() : raiseWarnings;
@@ -895,7 +900,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
       long printTime = 0;
       Spec spec = null;
       // OriginalSectName -> VCEnvAnn
-      SortedMap<String, VCEnvAnn<R>> vcs = new TreeMap<String, VCEnvAnn<R>>();
+      SortedMap<String, VCEnvAnn> vcs = new TreeMap<String, VCEnvAnn>();
       String specNameNoPath = null;
       try
       {
@@ -996,8 +1001,8 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
               {
 
                 ZSect zs = (ZSect) sect;
-                VCEnvAnn<R> vc = manager.get(createSMKey(zs.getName(), getVCG().getVCEnvAnnClass()));
-                VCEnvAnn<R> old = vcs.put(zs.getName(), vc);
+                VCEnvAnn vc = manager.get(createSMKey(zs.getName(), getVCG().getVCEnvAnnClass()));
+                VCEnvAnn old = vcs.put(zs.getName(), vc);
 
                 if (old != null)
                   SectionManager.traceWarning("VCGU-DUPLICATE-VCENVANN = " + zs.getName());
@@ -1091,7 +1096,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
           if (!vcs.isEmpty())
           {
             System.out.println("Printing VC ZSect(s) for " + file);
-            for (VCEnvAnn<R> zSectDC : vcs.values())
+            for (VCEnvAnn zSectDC : vcs.values())
             {
               try
               {
@@ -1143,7 +1148,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
     System.exit(exitCode);
   }
 
-  private void processParents(ZSect zs, SortedMap<String, VCEnvAnn<R>> vcs, SectionManager manager) throws CommandException
+  private void processParents(ZSect zs, SortedMap<String, VCEnvAnn> vcs, SectionManager manager) throws CommandException
   {
     for(Parent p : zs.getParent())
     {
@@ -1151,7 +1156,7 @@ public abstract class VCGUtils<R, T, B> implements VCGPropertyKeys
       // if the parent isn't to be ignored and hasn't yet been processed, process it
       if (!getVCG().getParentsToIgnore().contains(pName) && !vcs.containsKey(pName))
       {
-        VCEnvAnn<R> vc = manager.get(createSMKey(pName, getVCG().getVCEnvAnnClass()));
+        VCEnvAnn vc = manager.get(createSMKey(pName, getVCG().getVCEnvAnnClass()));
         vcs.put(pName, vc);
         ZSect parentZS = manager.get(new Key<ZSect>(pName, ZSect.class));
         processParents(parentZS, vcs, manager);

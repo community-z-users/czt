@@ -79,13 +79,15 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
-public abstract class AbstractVCG<R, T, B>
+public abstract class AbstractVCG<//R, 
+									T, B>
         implements VCGPropertyKeys, 
-        ParaVisitor<List<VC<R>>>,
-        ParentVisitor<List<VC<R>>>,
-        SectVisitor<List<VC<R>>>,
-        ZSectVisitor<List<VC<R>>>,
-        VCG<R, T, B>
+        ParaVisitor<List<VC<Pred>>>,//<List<VC<R>>>,
+        ParentVisitor<List<VC<Pred>>>,
+        SectVisitor<List<VC<Pred>>>,
+        ZSectVisitor<List<VC<Pred>>>,
+        VCG<//R, 
+        		T, B>
 {
   /**
    * Prefixes for named terms created during VC processing.
@@ -267,7 +269,8 @@ public abstract class AbstractVCG<R, T, B>
    * @return
    */
   @Override
-  public abstract VCCollector<R, T, B> getVCCollector();
+  public abstract VCCollector<//R, 
+  								T, B> getVCCollector();
 
   @Override
   public SectionManager getManager()
@@ -671,10 +674,10 @@ public abstract class AbstractVCG<R, T, B>
    * @param list
    * @return
    */
-  protected <M extends Term> /*List<Pair<Para, Pred>>*/ List<VC<R>> collect(M... list)
+  protected <M extends Term> /*List<Pair<Para, Pred>>*/ List<VC<Pred>> collect(M... list)
   {
     /*List<Pair<Para, Pred>> result = factory_.list();*/
-    List<VC<R>> result = factory_.list();
+    List<VC<Pred>> result = factory_.list();
     for (M term : list)
     {
       result.addAll(visit(term));
@@ -688,7 +691,7 @@ public abstract class AbstractVCG<R, T, B>
    * which MUST NOT be null ! If null, a proper exception is raised.
    * @param term term to visit
    */
-  protected List<VC<R>> visit(Term term)
+  protected List<VC<Pred>> visit(Term term)
   {
     if (term == null)
       throw new CztException(new VCGException("VCG-VISIT-TOPLEVEL-NULL-TERM"));
@@ -702,7 +705,7 @@ public abstract class AbstractVCG<R, T, B>
    * @return class for the kind of section management key to use.
    */
   @Override
-  public abstract Class<? extends VCEnvAnn<R>> getVCEnvAnnClass();
+  public abstract Class<? extends VCEnvAnn> getVCEnvAnnClass();
 
   /**
    *
@@ -894,9 +897,9 @@ public abstract class AbstractVCG<R, T, B>
    * @return
    */
   @Override
-  public List<VC<R>> visitPara(Para term)
+  public List<VC<Pred>> visitPara(Para term)
   {
-    List<VC<R>> result = factory_.list();
+    List<VC<Pred>> result = factory_.list();
     
     // checkSectionManager(sectName); - assume it will be in place
     assert isConfigured();
@@ -907,7 +910,7 @@ public abstract class AbstractVCG<R, T, B>
 	    // collect VCs for the given ZSect paragraph. any tables available can be used.
 	    // VCCollection exceptions are wrapped as CztError because of visiting protocol.
 	    // method vcsOf will throw then appropriately
-	    VC<R> vc;
+	    VC<Pred> vc;
 	    try
 	    {
 	      // available tables must have been already calculated earlier. Otherwise, no tables returned.
@@ -929,7 +932,7 @@ public abstract class AbstractVCG<R, T, B>
    * @return
    */
   @Override
-  public List<VC<R>> visitParent(Parent term)
+  public List<VC<Pred>> visitParent(Parent term)
   {
     String sectName = term.getWord();
     // if this is one known parent to ignore, raise an error
@@ -946,7 +949,7 @@ public abstract class AbstractVCG<R, T, B>
       {
         // calculate the VCs for the given section using VCGCommand. this updates the
         // section manager to contain the appropriate parent information.
-        VCEnvAnn<R> zsVCEnvAnn = sectManager_.get(createSMKey(sectName, getVCEnvAnnClass()));
+        VCEnvAnn zsVCEnvAnn = sectManager_.get(createSMKey(sectName, getVCEnvAnnClass()));
         assert zsVCEnvAnn != null;
       }
       catch (CommandException ex)
@@ -966,7 +969,7 @@ public abstract class AbstractVCG<R, T, B>
    * @return
    */
   @Override
-  public List<VC<R>> visitSect(Sect term)
+  public List<VC<Pred>> visitSect(Sect term)
   {
     // just ignore other types of Sect
     return factory_.list();
@@ -985,9 +988,9 @@ public abstract class AbstractVCG<R, T, B>
    * </p>
    */
   @Override
-  public List<VC<R>> visitZSect(ZSect term)
+  public List<VC<Pred>> visitZSect(ZSect term)
   {
-    List<VC<R>> result = factory_.list();
+    List<VC<Pred>> result = factory_.list();
     
     // process section parents, if needed
     result.addAll(collect(term.getParent().toArray(new Parent[0])));
@@ -1030,7 +1033,7 @@ public abstract class AbstractVCG<R, T, B>
    * @param vcList list of calculated vcs
    * @throws VCCollectionException
    */
-  protected void afterGeneratingVCG(ZSect zSect, List<VC<R>> vcList) throws VCCollectionException
+  protected void afterGeneratingVCG(ZSect zSect, List<VC<Pred>> vcList) throws VCCollectionException
   {
     getLogger().finer("VCG-AFTER-GENERATING-VCS = " + zSect.getName());
   }
@@ -1045,7 +1048,7 @@ public abstract class AbstractVCG<R, T, B>
    * @throws VCCollectionException
    */
   //TODO: This method is a good candidate to refactor the VCCollector calculateVC method?
-  protected List<VC<R>> calculateVCS(ZSect zSect)
+  protected List<VC<Pred>> calculateVCS(ZSect zSect)
           throws VCCollectionException
   {
     // reset VC collector VC count
@@ -1063,7 +1066,7 @@ public abstract class AbstractVCG<R, T, B>
       }
     }
 
-    List<VC<R>> result = null;
+    List<VC<Pred>> result = null;
     try
     {
       // process ZSect for VCs
@@ -1164,8 +1167,8 @@ public abstract class AbstractVCG<R, T, B>
    * @return
    */
   // for DC, these two names are trivial and could be just one parameter.
-  protected abstract VCEnvAnn<R> newVCEnvAnn(String vcSectName,
-          String originalSectName, List<VC<R>> vcList);
+  protected abstract VCEnvAnn newVCEnvAnn(String vcSectName,
+          String originalSectName, List<VC<Pred>> vcList);
 
 
   /**
@@ -1174,7 +1177,7 @@ public abstract class AbstractVCG<R, T, B>
    * @param vc
    * @return
    */
-  protected abstract ConjPara createVCConjPara(NameList genFormals, VC<R> vc);
+  protected abstract ConjPara createVCConjPara(NameList genFormals, VC<Pred> vc);
 
   /**
    * Default parents for on-the-fly ZSect to generate VC ZSect for.
@@ -1226,7 +1229,7 @@ public abstract class AbstractVCG<R, T, B>
    * @param vcList list of VCs for each paragraphs to be added to Z section result.
    * @throws VCGException
    */
-  public void populateResultsToVCZSect(ZSect result, List<VC<R>> vcList)
+  public void populateResultsToVCZSect(ZSect result, List<VC<Pred>> vcList)
           throws VCGException
   {
     assert result != null && vcList != null;
@@ -1256,7 +1259,7 @@ public abstract class AbstractVCG<R, T, B>
 
     int vcCount = 0;
     // process each Para DC
-    for (VC<R> vcI : vcList)
+    for (VC<Pred> vcI : vcList)
     {
       Para para = vcI.getVCPara();
       
@@ -1292,7 +1295,7 @@ public abstract class AbstractVCG<R, T, B>
     result.getZParaList().add(narrPara);
   }
 
-  protected ZNameList getGenFormals(Para para, VC<R> vc)
+  protected ZNameList getGenFormals(Para para, VC<Pred> vc)
   {
     ZNameList genFormals = factory_.createZNameList();
     
@@ -1324,7 +1327,7 @@ public abstract class AbstractVCG<R, T, B>
    * @return VC Z section as a list of VC conjectures
    * @throws VCGException
    */
-  public VCEnvAnn<R> createVCEnvAnn(Term term, List<? extends Parent> parents) throws VCGException
+  public VCEnvAnn createVCEnvAnn(Term term, List<? extends Parent> parents) throws VCGException
   {
     assert term != null : "invalid term for VCG";
 
@@ -1381,7 +1384,7 @@ public abstract class AbstractVCG<R, T, B>
     getManager().put(new Key<ZSect>(zsect.getName(), ZSect.class), zsect);
 
     // VC on-the-fly Z section with std_toolkit as parent
-    VCEnvAnn<R> result = createVCEnvAnn(zsect);
+    VCEnvAnn result = createVCEnvAnn(zsect);
     return result;
   }
 
@@ -1392,7 +1395,7 @@ public abstract class AbstractVCG<R, T, B>
    * @throws VCGException
    */
   @Override
-  public VCEnvAnn<R> createVCEnvAnn(Term term) throws VCGException
+  public VCEnvAnn createVCEnvAnn(Term term) throws VCGException
   {
     return createVCEnvAnn(term, getOnTheFlyZSectParents());
   }
@@ -1408,7 +1411,7 @@ public abstract class AbstractVCG<R, T, B>
    * @throws VCGException
    */
   @Override
-  public VCEnvAnn<R> createVCEnvAnn(ZSect term) throws VCGException
+  public VCEnvAnn createVCEnvAnn(ZSect term) throws VCGException
   {
     assert term != null;
     
@@ -1435,7 +1438,7 @@ public abstract class AbstractVCG<R, T, B>
     Key<ZSect> vcSectKey = new Key<ZSect>(sectNameVC, ZSect.class);
     sectManager_.startTransaction(vcSectKey);
 
-    List<VC<R>> vcList;
+    List<VC<Pred>> vcList;
     try {
       // get the VCs from term sectName
       vcList = calculateVCS(term);
@@ -1465,7 +1468,7 @@ public abstract class AbstractVCG<R, T, B>
     // calculateThmTable(sectNameVC);
 
     // create the result environment - only the original name is needed, but we also given the created name
-    VCEnvAnn<R> result = newVCEnvAnn(sectNameVC, sectName, vcList);
+    VCEnvAnn result = newVCEnvAnn(sectNameVC, sectName, vcList);
 
     return result;
   }

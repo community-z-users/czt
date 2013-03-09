@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.ast.Pred;
  * </p>
  * @author leo
  */
-public class DCVCEnvAnn extends VCEnvAnn<Pred> implements DomainCheckPropertyKeys {
+public class DCVCEnvAnn extends VCEnvAnn implements DomainCheckPropertyKeys {
   
   /**
    * Create the given environment as place holder for DC Z sect and its 

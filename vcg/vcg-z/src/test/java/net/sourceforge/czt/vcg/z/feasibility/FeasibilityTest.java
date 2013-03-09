@@ -67,7 +67,7 @@ public class FeasibilityTest extends VCGTest
   @Override
   protected TestCase createPositiveTest(URL url)
   {
-    return new NormalVCGTest<Pred>(url, FeasibilityUtils.getFeasibilityUtils());
+    return new NormalVCGTest<SchemaType, SortedSet<Definition>>(url, FeasibilityUtils.getFeasibilityUtils());
   }
 
   /**

@@ -49,7 +49,9 @@ import net.sourceforge.czt.z.util.ZUtils;
  *
  * @author Leo Freitas
  */
-public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pair<Para, Pred>>>
+public class FeasibilityVCG extends 
+		AbstractVCG<//Pred, 
+					SchemaType, SortedSet<Definition>> //AbstractTermVCG<List<Pair<Para, Pred>>>
         implements FeasibilityPropertyKeys
 {
   protected FeasibilityVCCollector fsbCheck_;
@@ -117,7 +119,8 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   }
 
   @Override
-  public final VCCollector<Pred> getVCCollector()
+  public final VCCollector<//Pred
+  						SchemaType, SortedSet<Definition>> getVCCollector()
   {
     return fsbCheck_;
   }
@@ -225,7 +228,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   /* VC ZSect CREATION METHODS */
 
   @Override
-  public Class<? extends VCEnvAnn<Pred>> getVCEnvAnnClass()
+  public Class<? extends VCEnvAnn> getVCEnvAnnClass()
   {
     return FeasibilityVCEnvAnn.class;
   }
@@ -249,7 +252,7 @@ public class FeasibilityVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pai
   }
 
   @Override
-  protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
+  protected VCEnvAnn newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
     // Or get the getVCCollector().getVCNameFactory()?
     return new FeasibilityVCEnvAnn(originalSectName, vcList, getVCCollector().getVCNameFactory());

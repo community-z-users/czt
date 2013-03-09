@@ -31,7 +31,9 @@ import net.sourceforge.czt.z.ast.SchemaType;
  *
  * @author leo
  */
-public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPropertyKeys
+public class FeasibilityUtils 
+	extends VCGUtils<//Pred
+					SchemaType, SortedSet<Definition>> implements FeasibilityPropertyKeys
 {
 
   private boolean nonEmptyGivenSets_;
@@ -54,7 +56,8 @@ public class FeasibilityUtils extends VCGUtils<Pred> implements FeasibilityPrope
   }
 
   @Override
-  protected VCG<Pred> createVCG()
+  protected VCG<//Pred
+  				SchemaType, SortedSet<Definition>> createVCG()
   {
     return new FeasibilityVCG();
   }

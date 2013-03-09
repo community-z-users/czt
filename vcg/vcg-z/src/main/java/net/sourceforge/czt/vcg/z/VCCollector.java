@@ -37,7 +37,8 @@ import net.sourceforge.czt.z.ast.Pred;
  * @author Leo Freitas
  * @date Dec 24, 2010
  */
-public interface VCCollector<R, T, B> extends TermVisitor<R>
+public interface VCCollector<//R, 
+								T, B> extends TermVisitor<Pred>//<R>
 {
 
   VCNameFactory getVCNameFactory();
@@ -55,7 +56,7 @@ public interface VCCollector<R, T, B> extends TermVisitor<R>
    * @throws VCCollectionException
    * @return
    */
-  VC<R> calculateVC(Term term, List<? extends InfoTable> tables) throws VCCollectionException;
+  VC<Pred> calculateVC(Term term, List<? extends InfoTable> tables) throws VCCollectionException;
 
   /**
    * Given a paragraph and a VC, creates the underlying VC object.
@@ -66,7 +67,7 @@ public interface VCCollector<R, T, B> extends TermVisitor<R>
    * @return
    * @throws VCCollectionException
    */
-  VC<R> createVC(long vcId, Para term, VCType type, R vc) throws VCCollectionException;
+  VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException;
 
   /**
    * Visits a given term.  As some Z productions have null terms, like
@@ -75,9 +76,9 @@ public interface VCCollector<R, T, B> extends TermVisitor<R>
    * @param term
    * @return
    */
-  R visit(Term term);
+  Pred visit(Term term);
 
-  TermTransformer<R> getTransformer();
+  TermTransformer<Pred> getTransformer();
 
   long getVCCount();
 

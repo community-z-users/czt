@@ -95,7 +95,8 @@ import net.sourceforge.czt.z.util.ZString;
  * @author leo
  * @since Jan 02, 2011
  */
-public class FeasibilityVCCollector extends AbstractFeasibilityVCCollector implements
+public class FeasibilityVCCollector extends 
+	AbstractFeasibilityVCCollector<SchemaType, SortedSet<Definition>> implements
   GivenParaVisitor<Pred>,
   FreeParaVisitor<Pred>,
   AxParaVisitor<Pred>,

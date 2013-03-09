@@ -90,7 +90,7 @@ public abstract class VCGCommand<R> extends AbstractCommand
     typeCheck(name, manager);
 
     // generate any necessary VCs for zSect - it must update the manager as well
-    VCEnvAnn<R> vcg = generateVCS(zSect, manager);
+    VCEnvAnn vcg = generateVCS(zSect, manager);
     assert vcg != null : "VCG/CmdException should had been thrown!";
 
     // just double check this is the right kind of VCEnvAnn -> DCEnvAnn
@@ -103,8 +103,12 @@ public abstract class VCGCommand<R> extends AbstractCommand
     typeCheck(vcg.getVCSectName(), manager);
 
     // update the manager with results, depending on the kind of VCEnvAnn
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    Key<VCEnvAnn<R>> vcKey = new Key/*<VCEnvAnn<R>>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass());
+    
+    // NOTE: because the different kind of VCEnvAnn (e.g. DC / FSB) determine what kind
+    //		 of command to use, and this is determined dynamically (e.g. getVCEnvAnnClass())
+    //		 we can't put the explicit generic, but it will resolve to the appropriate kind.
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	Key<VCEnvAnn> vcKey = (Key<VCEnvAnn>)new Key/*<VCEnvAnn>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass());
     manager.endTransaction(vcKey, vcg);
     
     return true;
@@ -120,7 +124,7 @@ public abstract class VCGCommand<R> extends AbstractCommand
    * added to the manager with a key according to this class.
    * @return
    */
-  protected abstract Class<? extends VCEnvAnn<R>> getVCEnvAnnClass();
+  protected abstract Class<? extends VCEnvAnn> getVCEnvAnnClass();
 
   /**
    * After parsing and type checking, generate VCs for the given zSect accordingly.
@@ -130,5 +134,5 @@ public abstract class VCGCommand<R> extends AbstractCommand
    * @return environment with generated VCs
    * @throws VCGException
    */
-  protected abstract VCEnvAnn<R> generateVCS(ZSect zSect, SectionManager manager) throws VCGException;
+  protected abstract VCEnvAnn generateVCS(ZSect zSect, SectionManager manager) throws VCGException;
 }

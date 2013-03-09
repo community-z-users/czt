@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.ZSect;
 public class FeasibilityCommand extends VCGCommand<Pred>
 {
   @Override
-  protected Class<? extends VCEnvAnn<Pred>> getVCEnvAnnClass()
+  protected Class<? extends VCEnvAnn> getVCEnvAnnClass()
   {
     return FeasibilityVCEnvAnn.class;
   }
@@ -46,7 +46,7 @@ public class FeasibilityCommand extends VCGCommand<Pred>
    * @throws VCGException
    */
   @Override
-  protected VCEnvAnn<Pred> generateVCS(ZSect zSect, SectionManager manager) throws VCGException
+  protected VCEnvAnn generateVCS(ZSect zSect, SectionManager manager) throws VCGException
   {
     // config the domain checker according to the given section manager 
     traceLog("FBCmd-ZSECT-CONFIG");
@@ -56,7 +56,7 @@ public class FeasibilityCommand extends VCGCommand<Pred>
     //    a) assume zSect is: parsed, type correct, and with all SM tables in place
     //    b) create ZSect term; adds DefTable, OpTable, etc to SM
     traceLog("DC-ZSECT-COMPUTE = " + zSect.getName());
-    VCEnvAnn<Pred> result = FeasibilityUtils.getFeasibilityUtils().calculateZSectVCEnv(zSect);
+    VCEnvAnn result = FeasibilityUtils.getFeasibilityUtils().calculateZSectVCEnv(zSect);
     return result;
   }
 }

@@ -69,7 +69,8 @@ import net.sourceforge.czt.z.util.ZUtils;
  * 
  * @author leo
  */
-public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<Pair<Para, Pred>>>
+public class DomainCheckerVCG extends 
+			AbstractVCG<Type2, SortedSet<Definition>> //<Pred> //AbstractTermVCG<List<Pair<Para, Pred>>>
         implements DomainCheckPropertyKeys
 {
 
@@ -127,7 +128,8 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   }
 
   @Override
-  public VCCollector<Pred> getVCCollector()
+  public VCCollector<//Pred,
+  					 Type2, SortedSet<Definition>> getVCCollector()
   {
     return domainCheck_;
   }
@@ -262,7 +264,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   /* VC ZSect CREATION METHODS */
 
   @Override
-  public Class<? extends VCEnvAnn<Pred>> getVCEnvAnnClass()
+  public Class<? extends VCEnvAnn> getVCEnvAnnClass()
   {
     return DCVCEnvAnn.class;
   }
@@ -280,7 +282,7 @@ public class DomainCheckerVCG extends AbstractVCG<Pred> //AbstractTermVCG<List<P
   }
 
   @Override
-  protected VCEnvAnn<Pred> newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
+  protected VCEnvAnn newVCEnvAnn(String vcSectName, String originalSectName, List<VC<Pred>> vcList)
   {
     // Or get the getVCCollector().getVCNameFactory()?
     return new DCVCEnvAnn(originalSectName, vcList, getVCCollector().getVCNameFactory());

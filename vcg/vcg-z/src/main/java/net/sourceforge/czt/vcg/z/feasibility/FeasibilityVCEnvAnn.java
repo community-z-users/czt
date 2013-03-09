@@ -22,7 +22,7 @@ import net.sourceforge.czt.z.ast.Pred;
  * </p>
  * @author leo
  */
-public class FeasibilityVCEnvAnn extends VCEnvAnn<Pred> implements FeasibilityPropertyKeys {
+public class FeasibilityVCEnvAnn extends VCEnvAnn implements FeasibilityPropertyKeys {
   
   protected FeasibilityVCEnvAnn(String originalZSectName, List<VC<Pred>> dcs, VCNameFactory vcf)
   {

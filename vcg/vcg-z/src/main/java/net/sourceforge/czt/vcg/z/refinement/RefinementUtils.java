@@ -52,7 +52,10 @@ public class RefinementUtils extends FeasibilityUtils implements RefinementPrope
   }
 
   @Override
-  protected VCG<Pred> createVCG()
+  protected VCG<//Pred
+  				// TODO:URGENT: should this be SchemaType, Pair<SortedSet<Definition>, SortedSet<Definition>>
+  				//				to account for the two refinement mappings?
+  				SchemaType, SortedSet<Definition>> createVCG()
   {
     return new RefinementVCG();
   }

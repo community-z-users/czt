@@ -61,7 +61,7 @@ public class RefinementTest extends FeasibilityTest implements RefinementPropert
   @Override
   protected TestCase createPositiveTest(URL url)
   {
-    return new NormalVCGTest<Pred>(url, RefinementUtils.getRefinementUtils());
+    return new NormalVCGTest<SchemaType, SortedSet<Definition>>(url, RefinementUtils.getRefinementUtils());
   }
 
 }

@@ -39,7 +39,8 @@ import net.sourceforge.czt.z.ast.ZSect;
  * </p>
  * @author Leo Freitas
  */
-public interface VCG<R, T, B> {
+public interface VCG<//R, 
+					T, B> {
 
   /**
    * True whenever section manager and VC collectors are not null, if the
@@ -60,8 +61,9 @@ public interface VCG<R, T, B> {
   void reset();
 
   SectionManager getManager();
-  VCCollector<R, T, B> getVCCollector();
-  Class<? extends VCEnvAnn<R>> getVCEnvAnnClass();
+  VCCollector<//R, 
+  				T, B> getVCCollector();
+  Class<? extends VCEnvAnn> getVCEnvAnnClass();
 
   void typeCheck(String sectName, boolean sourceSect) throws VCGException;
 
@@ -74,7 +76,7 @@ public interface VCG<R, T, B> {
    * @return Z section as a list of VC conjectures
    * @throws VCGException
    */
-  VCEnvAnn<R> createVCEnvAnn(ZSect term) throws VCGException;
+  VCEnvAnn createVCEnvAnn(ZSect term) throws VCGException;
 
   /**
    * VC calculation for the given term, presuming it is a ZSect, Para, Pred,
@@ -87,7 +89,7 @@ public interface VCG<R, T, B> {
    * @return VC Z section as a list of VC conjectures
    * @throws VCGException
    */
-  VCEnvAnn<R> createVCEnvAnn(Term term) throws VCGException;
+  VCEnvAnn createVCEnvAnn(Term term) throws VCGException;
 
   /**
    *

@@ -35,7 +35,7 @@ import net.sourceforge.czt.z.ast.Type2;
  *
  * @author leo
  */
-public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPropertyKeys
+public class DomainCheckUtils extends VCGUtils<Type2, SortedSet<Definition>> implements DomainCheckPropertyKeys
 {
 
   /* CLASS SETUP METHODS */
@@ -58,7 +58,7 @@ public class DomainCheckUtils extends VCGUtils<Pred> implements DomainCheckPrope
   }
 
   @Override
-  protected VCG<Pred> createVCG()
+  protected VCG<Type2, SortedSet<Definition>> createVCG()
   {
     return new DomainCheckerVCG();
   }
