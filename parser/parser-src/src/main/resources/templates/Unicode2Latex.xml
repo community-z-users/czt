@@ -726,6 +726,7 @@ non terminal String       markup, para, zpara, zedPara,
 <add:oz>
 non terminal LatexCommand innerPara;
 </add:oz>
+non terminal Decorword parentsHead;
 non terminal LatexCommand token, tokenSeq,
                           specialSeq, sectHeadSeq,
      <add:zeves>optDefAbility, optThmAbility, labelAbility,
@@ -804,7 +805,19 @@ precedence nonassoc INDENT;
              :}
              ;
 
-   sectHeadSeq ::= sectHeadSeq:s DECORWORD:dw
+   parentsHead ::= 
+   			 PARENTS
+   			 {:
+   			 	RESULT = new Decorword("parents");
+   			 :}
+   			 |
+   			 DECORWORD:dw
+   			 {:
+   			 	RESULT = dw;
+   			 :}
+   			 ;
+
+   sectHeadSeq ::= sectHeadSeq:s parentsHead:dw
              {:
                 if ("parents".equals(dw.getName())) {
                   RESULT = concate(s, resultFF("\\parents", dw.getName()));
@@ -1122,6 +1135,22 @@ precedence nonassoc INDENT;
              labelAbility:l
              {:
                 RESULT = l;
+             :}
+             |
+             // NOTE: These two productions are spurious and should never be reached.
+             //       They are handled by the smart scanner and is needed by the 
+             //		  ContextFreeScanner. PROOFWORD/THMNAME are declared as bare terminal
+             //		  instead of Decorword/Proofword. So try and capture locinfo if possible.
+             PROOFWORD:p
+             {:
+             	parser.report_fatal_error(net.sourceforge.czt.parser.zeves.ZEvesParseMessage.MSG_UNHANDLED_PROOFWORD.getMessage(), p);
+             	//RESULT = p; // PROOWORD is not LatexCommand, but just Object. Retun NULL instead. But say it's a fatal error.
+             :}
+             |
+             THMNAME:t
+             {:
+             	parser.report_fatal_error(net.sourceforge.czt.parser.zeves.ZEvesParseMessage.MSG_UNHANDLED_PROOFWORD.getMessage(), t);
+             	//RESULT = t;
              :}
  </add:zeves>
              ;

@@ -2796,8 +2796,8 @@ terminal Decorword
         DECORWORD, DECLWORD;
 
 <add:zeves>
-//terminal Proofword
-//        PROOFWORD;
+terminal Proofword
+        PROOFWORD; // Needed for the ContextFreeScanner. Should be dealt with by SmartScanner, though. see below.
 
 terminal LocInfo
       REDUCE, REWRITE, SIMPLIFY;
@@ -4468,6 +4468,16 @@ zsectionProofCommands ::=
         |
         ZSECTION DECORWORD:path nameList:nl
         {:
+        :}
+        |
+        // NOTE: Added this (spurious) production here to avoid the warning about
+        // 	     PROOFWORD terminal, which needs to be declared, but was never used
+        //		 by the Parser; it's used by the ContextFreeScanner and SmartScanner.
+        PROOFWORD:dw
+        {:
+	        parser.report_error(ZEvesParseMessage.MSG_UNHANDLED_PROOFWORD,
+                               new Object[] { dw.toString() }, dw.getLocation());
+                               // error should be fatal, but that's okay. Just return NULL.
         :}
         ;
         
