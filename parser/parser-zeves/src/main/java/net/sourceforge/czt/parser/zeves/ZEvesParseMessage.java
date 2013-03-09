@@ -24,7 +24,9 @@ public enum ZEvesParseMessage {
   MSG_WARNING_VDASH_IN_CONJECTURE("Z/EVES conjectures do not have (the need for) '\\vdash?' symbol: on theorem named {0} at {1}."),
   MSG_WARNING_OPNAME_IN_REFNAME("Cannot use operator name in Z/EVES instantiation or renaming: on name {0} at {1}."),
   MSG_UNBOXED_CONJPARA("Invalid Z/EVES conjectures as unboxed para with '\\vdash?' symbols. Z/EVES conjectures can appear within 'theorem' environments only: on theorem named {0} as {1}."),
-  MSG_UMATCHED_SYNDEFOPNAME("Unmatched Z/EVES operator name within operator template class lexing - {0}")
+  MSG_UMATCHED_SYNDEFOPNAME("Unmatched Z/EVES operator name within operator template class lexing - {0}"),
+  
+  MSG_UNHANDLED_PROOFWORD("Proof word is to be dealt with by the SmartScanner! - {0}")
 
   ;
 
@@ -44,7 +46,7 @@ public enum ZEvesParseMessage {
     flagged_ = false;
   }
 
-  String getMessage()
+  public String getMessage()
   {
     return message_;
   }

@@ -317,7 +317,7 @@ BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {L
  </add:circustime>
 
 <add:zeves>
-          | {LLABEL} | {RLABEL} | {LZNOTE} | {RZNOTE}
+          | {LLABEL} | {RLABEL} // | {LZNOTE} | {RZNOTE}
 </add:zeves>
 LPAREN = "\u0028"  /* left parenthesis */
 RPAREN = "\u0029"  /* right parenthesis */
@@ -354,8 +354,8 @@ RCIRCTIME = "\u27ED" /* right time bracket */
 
 
 <add:zeves>
-LZNOTE = "\u231C" /* znote comment */
-RZNOTE = "\u231D"
+//LZNOTE = "\u231C" /* znote comment */
+//RZNOTE = "\u231D"
 LLABEL = "\u300A" //"\u2329" /* labelled predicate */
 RLABEL = "\u300B" //"\u232A"
 </add:zeves>
@@ -365,7 +365,8 @@ BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
     <add:pattern> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:pattern>    
     <add:circuspatt> | {CIRCUSJOKERCHAR} | {CIRCUSACTIONLAWCHAR} | {CIRCUSPROCESSLAWCHAR}</add:circuspatt>
     <add:circus> | {CIRCUSCHAR} | {CIRCUSACTIONCHAR} </add:circus>
-    <add:zeves> | {ZPROOFCHAR} | {ZPROOFSECTIONCHAR} | {DISABLEDTHMTAGCHAR} | {DISABLEDDEFTAGCHAR}</add:zeves>
+    <add:zeves> | {ZPROOFCHAR} | //{ZPROOFSECTIONCHAR} | 
+    			  {DISABLEDTHMTAGCHAR} | {DISABLEDDEFTAGCHAR}</add:zeves>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
@@ -388,7 +389,7 @@ CIRCUSACTIONCHAR = "\u2576"
 </add:circus>
 <add:zeves>
 ZPROOFCHAR = "\u251C"  /* big turnstyle not bold */
-ZPROOFSECTIONCHAR ="\u2523" /* big turnstyle BOLD */
+//ZPROOFSECTIONCHAR ="\u2523" /* big turnstyle BOLD */
 ZPROOFDOLLARCHAR = "\u0024" /* $ for 'special' thm names*/
 DISABLEDTHMTAGCHAR = "\u2612" /* boxed cross for disabled theorem */
 DISABLEDDEFTAGCHAR = "\u2613" /* unboxed cross for disabled (unboxed/boxed) paragraphs */
@@ -478,7 +479,7 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
 </add:circus>
 <add:zeves>
 ZPROOF = {ZPROOFCHAR}
-ZPROOFSECTION = {ZPROOFSECTIONCHAR}
+//ZPROOFSECTION = {ZPROOFSECTIONCHAR}
 ZPROOFDOLLAR = {ZPROOFDOLLARCHAR}
 DISABLEDTHMTAG = {DISABLEDTHMTAGCHAR}
 DISABLEDDEFTAG = {DISABLEDDEFTAGCHAR}
@@ -541,7 +542,7 @@ ZREFINES = //{NL_SPACE}*
 
   <add:zeves>
   {ZPROOF}            { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOF); }
-  {ZPROOFSECTION}     { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOFSECTION); }
+  //{ZPROOFSECTION}     { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOFSECTION); }
   </add:zeves>
   
   <add:oz>
@@ -669,8 +670,8 @@ ZREFINES = //{NL_SPACE}*
   <add:zeves>
   {LLABEL}      { return symbol(Sym.LLABEL); }
   {RLABEL}      { return symbol(Sym.RLABEL); }
-  {LZNOTE}      { return symbol(Sym.LZNOTE); }
-  {RZNOTE}      { return symbol(Sym.RZNOTE); }
+  //{LZNOTE}      { return symbol(Sym.LZNOTE); }
+  //{RZNOTE}      { return symbol(Sym.RZNOTE); }
   </add:zeves>
   {INSTROKE}    {  return symbol(Sym.INSTROKE); }
   {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }

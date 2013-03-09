@@ -362,7 +362,7 @@ class <class/> implements java_cup.runtime.Scanner
 </add:oz>
 <add:zeves>
              result.sym == Sym.ZPROOF ||
-             result.sym == Sym.ZPROOFSECTION ||
+             //result.sym == Sym.ZPROOFSECTION ||
 </add:zeves>
              result.sym == Sym.GENSCH) 
     {

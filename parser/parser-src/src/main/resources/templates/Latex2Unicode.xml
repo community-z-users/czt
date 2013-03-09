@@ -658,7 +658,7 @@ COMMENT = "%" ~{NL}
 IGNORE = {WS} | {COMMENT}
 
 LETTER = [a-zA-Z]
-NOT_LETTER = !(![^] | {LETTER})
+// NOT_LETTER = !(![^] | {LETTER}) // DECLARED BUT NEVER USED, COMMENTED FOR NOW. TODO: remove?
 
 COMMAND = "\\" . | "\\" {LETTER}*
 SCRIPT = "^" | "_"

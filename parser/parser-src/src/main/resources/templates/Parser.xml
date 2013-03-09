@@ -2670,12 +2670,14 @@ terminal LocInfo
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, 
+        ZPROOF, //ZPROOFSECTION, 
         ZPROOFCOMMANDSEP, THMREPLACEMENT, QNTINSTANTIATION,
         LLABEL, RLABEL, DISABLEDTHMTAG, DISABLEDDEFTAG,
         THMRULE, THMGRULE, THMFRULE, THMAXIOM, 
         
-        LZNOTE, RZNOTE, PROOFWORD,
+        // LZNOTE, RZNOTE, 
+        
+        // PROOFWORD, // Needed for ContextFreeScanner, but given as ProofWord (Decorword)
         
         APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
         INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
@@ -2760,7 +2762,8 @@ terminal LocInfo
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
-        DCNJ, DGCH, DSQC, PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
+        DCNJ, DGCH, // DSQC, 
+        PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
@@ -3371,7 +3374,7 @@ precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL <add:circus>, CIRCDEF</add:circus>;
 precedence left         ALL, EXI, EXIONE, SPOT <add:circus>, CIRCSPOT, CIRCINDEX </add:circus>;
 <add:oz>
-precedence left         DCNJ, DGCH, DSQC;
+precedence left         DCNJ, DGCH; //, DSQC;
 precedence left         ASSOPARALLEL;
 <add:tcoz>
 precedence left         DIC, DIL;
@@ -3485,7 +3488,7 @@ precedence nonassoc     CIRCWAIT;
 
 
 <add:zeves>
-precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
+precedence nonassoc     LLABEL, RLABEL; //, LZNOTE, RZNOTE;
 </add:zeves>
 precedence left         DECORWORD
                         <add:circus>

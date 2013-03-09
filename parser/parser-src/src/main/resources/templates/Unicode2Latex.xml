@@ -679,10 +679,12 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    // Proof environment chars and specific proof words
         ZPROOF, ZPROOFSECTION, ZPROOFCOMMANDSEP, LLABEL, RLABEL, 
         DISABLEDTHMTAG, DISABLEDDEFTAG, ENABLED, DISABLED, 
-        THMNAME, THMRULE, THMGRULE, THMFRULE, THMAXIOM,
+        THMNAME, // Needed for ContextFreeScanner
         
-        LZNOTE, RZNOTE, 
-        PROOFWORD,
+        THMRULE, THMGRULE, THMFRULE, THMAXIOM,
+        
+        //LZNOTE, RZNOTE, 
+        PROOFWORD, // Needed for ContextFreeScanner
 
         /*
         THMREPLACEMENT,  
