@@ -479,11 +479,13 @@ public class ZSourceViewer extends ProjectionViewer
    * @param listener the text presentation listener
    * @since 3.0
    */
-  public void prependTextPresentationListener(ITextPresentationListener listener)
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public void prependTextPresentationListener(ITextPresentationListener listener)
   {
 
     Assert.isNotNull(listener);
 
+    // TODO: uses an eclipse class with RAW TYPES! 
     if (fTextPresentationListeners == null)
       fTextPresentationListeners = new ArrayList();
 

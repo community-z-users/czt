@@ -161,7 +161,8 @@ public abstract class AbstractConfigurationBlock
      */
     public Composite createSectionComposite(Composite parent)
     {
-      Assert.isTrue(fBody == null);
+      //org.eclipse.jface.text.Assert.isTrue(fBody == null);
+      org.eclipse.core.runtime.Assert.isTrue(fBody == null);
       boolean isNested = isNestedInScrolledComposite(parent);
       Composite composite;
       if (isNested) {
@@ -188,7 +189,7 @@ public abstract class AbstractConfigurationBlock
      */
     public Composite createSection(String label)
     {
-      Assert.isNotNull(fBody);
+    	org.eclipse.core.runtime.Assert.isNotNull(fBody);
       final ExpandableComposite excomposite = new ExpandableComposite(fBody,
           SWT.NONE, ExpandableComposite.TWISTIE
               | ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
@@ -296,7 +297,7 @@ public abstract class AbstractConfigurationBlock
    */
   public AbstractConfigurationBlock(OverlayPreferenceStore store)
   {
-    Assert.isNotNull(store);
+	  org.eclipse.core.runtime.Assert.isNotNull(store);
     fStore = store;
     fMainPage = null;
   }
@@ -304,8 +305,8 @@ public abstract class AbstractConfigurationBlock
   public AbstractConfigurationBlock(OverlayPreferenceStore store,
       PreferencePage mainPreferencePage)
   {
-    Assert.isNotNull(store);
-    Assert.isNotNull(mainPreferencePage);
+	  org.eclipse.core.runtime.Assert.isNotNull(store);
+	  org.eclipse.core.runtime.Assert.isNotNull(mainPreferencePage);
     fStore = store;
     fMainPage = mainPreferencePage;
   }
@@ -439,7 +440,7 @@ public abstract class AbstractConfigurationBlock
 
   protected void createDependency(final Button master, final Control[] slaves)
   {
-    Assert.isTrue(slaves.length > 0);
+	  org.eclipse.core.runtime.Assert.isTrue(slaves.length > 0);
     for (Control slave : slaves)
       indent(slave);
     SelectionListener listener = new SelectionListener()

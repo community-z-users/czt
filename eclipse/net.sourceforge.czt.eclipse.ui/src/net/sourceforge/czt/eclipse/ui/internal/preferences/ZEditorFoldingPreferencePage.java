@@ -208,7 +208,9 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
   /*
    * @see @see org.eclipse.jface.preference.PreferencePage#performOk()
    */
-  public boolean performOk()
+  @SuppressWarnings("deprecation")
+  // TODO: deprecated!!
+public boolean performOk()
   {
     IPreferenceStore store = getPreferenceStore();
     store.setValue((String)fEnableFoldingButton.getData(), fEnableFoldingButton.getSelection());

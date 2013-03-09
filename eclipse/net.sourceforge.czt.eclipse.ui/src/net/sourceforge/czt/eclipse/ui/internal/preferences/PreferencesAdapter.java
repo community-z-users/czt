@@ -15,7 +15,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
  *
  * @author Chengdong Xu
  */
-
+@SuppressWarnings("deprecation")
 public class PreferencesAdapter implements IPreferenceStore
 {
 
@@ -25,15 +25,16 @@ public class PreferencesAdapter implements IPreferenceStore
    * a {@link org.eclipse.jface.util.PropertyChangeEvent} on the
    * adapter with arguments from the received event.
    */
-  private class PropertyChangeListener
+private class PropertyChangeListener
       implements
-        Preferences.IPropertyChangeListener
+        org.eclipse.core.runtime.Preferences.IPropertyChangeListener
+        // TODO: deprecated! FIX!
   {
 
     /*
      * @see org.eclipse.core.runtime.Preferences.IPropertyChangeListener#propertyChange(org.eclipse.core.runtime.Preferences.PropertyChangeEvent)
      */
-    public void propertyChange(Preferences.PropertyChangeEvent event)
+    public void propertyChange(org.eclipse.core.runtime.Preferences.PropertyChangeEvent event)
     {
       firePropertyChangeEvent(event.getProperty(), event.getOldValue(), event
           .getNewValue());
@@ -47,7 +48,7 @@ public class PreferencesAdapter implements IPreferenceStore
   private PropertyChangeListener fListener = new PropertyChangeListener();
 
   /** Adapted Preferences */
-  private Preferences fPreferences;
+private org.eclipse.core.runtime.Preferences fPreferences;
 
   /** True iff no events should be forwarded */
   private boolean fSilent;
@@ -57,15 +58,15 @@ public class PreferencesAdapter implements IPreferenceStore
    */
   public PreferencesAdapter()
   {
-    this(new Preferences());
+    this(new org.eclipse.core.runtime.Preferences());
   }
 
   /**
-   * Initialize with the given Preferences.
+   * Initialize with the given org.eclipse.core.runtime.Preferences.
    *
    * @param preferences The preferences to wrap.
    */
-  public PreferencesAdapter(Preferences preferences)
+  public PreferencesAdapter(org.eclipse.core.runtime.Preferences preferences)
   {
     fPreferences = preferences;
   }

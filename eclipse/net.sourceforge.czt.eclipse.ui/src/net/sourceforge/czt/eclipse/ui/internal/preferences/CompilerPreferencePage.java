@@ -149,7 +149,10 @@ public class CompilerPreferencePage extends PreferencePage
   /*
    * @see @see org.eclipse.jface.preference.PreferencePage#performOk()
    */
-  public boolean performOk()
+  @SuppressWarnings("deprecation")
+  
+  // TODO: Deporecated!
+public boolean performOk()
   {
     IPreferenceStore store = getPreferenceStore();
     for (int i = 0; i < fCheckBoxes.size(); i++) {
