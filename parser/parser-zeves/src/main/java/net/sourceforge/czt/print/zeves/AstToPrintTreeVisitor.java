@@ -75,7 +75,7 @@ public class AstToPrintTreeVisitor extends
       if (label != null)
       {
         // check what kind of para for just ability or label
-        boolean hasAbility = label.getAbility().equals(LabelAbility.disabled);
+        boolean hasAbility = label.getLabelAbility().equals(LabelAbility.disabled);
         if (term instanceof AxPara)
         {
           // for SCH or OmitBox
@@ -94,7 +94,7 @@ public class AstToPrintTreeVisitor extends
 
           // no bother with axioms (defaults). If there is usage, put the label!
           if (//!label.getUsage().equals(LabelUsage.axiom) &&
-              !label.getUsage().equals(LabelUsage.none))
+              !label.getLabelUsage().equals(LabelUsage.none))
           {
             list.add(ZEvesProofToken.LLABEL);
 
@@ -103,7 +103,7 @@ public class AstToPrintTreeVisitor extends
               list.add(ZEvesProofKeyword.DISABLED);
 
             // handle usage
-            switch (label.getUsage())
+            switch (label.getLabelUsage())
             {
               case rule:
                 list.add(ZEvesProofKeyword.THMRULE);

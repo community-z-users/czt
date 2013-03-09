@@ -63,7 +63,7 @@ public class MarkupDirective
   {
     command_ = directive.getCommand();
     unicode_ = directive.getUnicode();
-    type_ = directive.getType();
+    type_ = directive.getDirectiveType();
     section_ = section;
     LocAnn locAnn = directive.getAnn(LocAnn.class);
     if (locAnn != null) {

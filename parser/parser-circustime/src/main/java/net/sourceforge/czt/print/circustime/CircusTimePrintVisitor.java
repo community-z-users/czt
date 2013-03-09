@@ -313,7 +313,7 @@ public class CircusTimePrintVisitor
         if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getCallExpr());
             printActualParams(term.getZActuals(),
-                CallUsage.Indexed.equals(term.getUsage()));
+                CallUsage.Indexed.equals(term.getCallUsage()));
         } else {
             throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
         }

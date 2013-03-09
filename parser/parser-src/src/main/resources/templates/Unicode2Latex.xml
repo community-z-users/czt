@@ -548,7 +548,7 @@ parser code {:
         StringBuffer result = new StringBuffer();
         result.append("\n");
         char c = unicode.charAt(0);
-        result.append("%%Z" + printType(directive.getType())+ "char ");
+        result.append("%%Z" + printType(directive.getDirectiveType())+ "char ");
         result.append(directive.getCommand() + " ");
         result.append("U+");
         String hex = Integer.toHexString(c).toUpperCase();
@@ -564,7 +564,7 @@ parser code {:
         StringBuffer result = new StringBuffer();
         result.append("\n");
         int codePoint = Character.codePointAt(charArray, 0);
-        result.append("%%Z" + printType(directive.getType())+ "char ");
+        result.append("%%Z" + printType(directive.getDirectiveType())+ "char ");
         result.append(directive.getCommand() + " ");
         result.append("U-");
         String hex = Integer.toHexString(codePoint).toUpperCase();
@@ -578,7 +578,7 @@ parser code {:
       else {
         markupScanner_ = new ContextFreeScanner(new StringReader(unicode));
         markupScanner_.yybegin(ContextFreeScanner.Z);
-        DirectiveType type = directive.getType();
+        DirectiveType type = directive.getDirectiveType();
         if (DirectiveType.NONE.equals(type)) {
           return new Symbol(Sym.WORD_MARKUP, directive.getCommand());
         }

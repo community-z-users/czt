@@ -177,14 +177,14 @@ public class ZEvesPrintVisitor
       throw new PrintException("Z/EVES theorems must have names");
 
     ZEvesLabel label = ZEvesUtils.getLabel(conjPara);
-    if (label != null && label.getAbility().equals(LabelAbility.disabled))
+    if (label != null && label.getLabelAbility().equals(LabelAbility.disabled))
     {
         print(ZEvesProofToken.DISABLEDTHMTAG);
     }
     print(ZKeyword.THEOREM);
     if (label != null)
     {
-      switch (label.getUsage())
+      switch (label.getLabelUsage())
       {
         case rule:
           print(ZEvesProofKeyword.THMRULE);
@@ -254,7 +254,7 @@ public class ZEvesPrintVisitor
   @Override
   public Object visitNormalizationCommand(NormalizationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getNormalizationKind())
     {
       case Conjunctive:
         print(ZEvesProofKeyword.CONJUNCTIVE);
@@ -358,7 +358,7 @@ public class ZEvesPrintVisitor
     if (!(term.getProofCommand() == null
            && term.getNameList() == null || term.getNameList() instanceof ZNameList))
       throw new PrintException("subst command not must have a subcmd and a Z namelist for proof " + currentProofScript_);
-    switch (term.getKind())
+    switch (term.getSubstitutionKind())
     {
       case Invoke:
         if (term.getExpr() != null)
@@ -396,10 +396,10 @@ public class ZEvesPrintVisitor
   @Override
   public Object visitSimplificationCommand(SimplificationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getRewriteKind())
     {
       case Reduce:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             print(ZEvesProofKeyword.REDUCE);
@@ -416,7 +416,7 @@ public class ZEvesPrintVisitor
         }
         break;
       case Rewrite:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             print(ZEvesProofKeyword.REWRITE);
@@ -435,7 +435,7 @@ public class ZEvesPrintVisitor
         }
         break;
       case Simplify:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             print(ZEvesProofKeyword.SIMPLIFY);
@@ -459,7 +459,7 @@ public class ZEvesPrintVisitor
   @Override
   public Object visitCaseAnalysisCommand(CaseAnalysisCommand term)
   {
-    switch (term.getKind())
+    switch (term.getCaseAnalysisKind())
     {
       case Cases:
         print(ZEvesProofKeyword.CASES);
@@ -530,8 +530,8 @@ public class ZEvesPrintVisitor
   @Override
   public String visitInstantiation(Instantiation term)
   {
-    if (currInstKind_.isEmpty() || !term.getKind().equals(currInstKind_.peek()))
-      throw new PrintException("inconsistent instantiation kind. found " + term.getKind() + "; expected " + currInstKind_.peek() + " for proof " + currentProofScript_);
+    if (currInstKind_.isEmpty() || !term.getInstantiationKind().equals(currInstKind_.peek()))
+      throw new PrintException("inconsistent instantiation kind. found " + term.getInstantiationKind() + "; expected " + currInstKind_.peek() + " for proof " + currentProofScript_);
     visit(term.getName());
     print(currInstKind_.peek().equals(InstantiationKind.Quantifier) ? ZKeyword.DEFEQUAL : ZEvesProofKeyword.THMREPLACEMENT);
     visit(term.getExpr());
@@ -560,7 +560,7 @@ public class ZEvesPrintVisitor
   public Object visitZEvesLabel(ZEvesLabel term)
   {
     print(ZEvesProofToken.LLABEL);
-    switch (term.getAbility())
+    switch (term.getLabelAbility())
     {
       case disabled:
         print(ZEvesProofToken.DISABLEDTHMTAG);
@@ -570,7 +570,7 @@ public class ZEvesPrintVisitor
       default:
         break;
     }
-    switch (term.getUsage())
+    switch (term.getLabelUsage())
     {
       case rule:
         print(ZEvesProofKeyword.THMRULE);
