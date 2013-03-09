@@ -193,7 +193,7 @@ public class FeasibilityVCCollector extends
       {
         Name other = ZUtils.getAxParaSchOrAbbrName(para);
         if (!ZUtils.namesEqual(name, other))
-        {
+        { 
           Object[] params = new Object[]
                   {
                     para, zsi, name, other
