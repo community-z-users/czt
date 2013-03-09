@@ -135,7 +135,7 @@ public class DefinitionTableVisitor
   private LocAnn currentLocAnn_;
 
   private final Factory factory_;
-  private final UnificationEnv typeUniEnv_;
+  //private final UnificationEnv typeUniEnv_;
 
   protected DefinitionTableVisitor(SectionInfo sectInfo)
   {
@@ -165,7 +165,7 @@ public class DefinitionTableVisitor
     types_ = null;
     factory_ = factory;
     debug_ = debug;
-    typeUniEnv_ = new UnificationEnv();
+    //typeUniEnv_ = new UnificationEnv();
     freeTypeCtorOpName_ = factory_.createZName(ZString.ARG_TOK+ZString.INJ+ZString.ARG_TOK);
     currentName_ = new Stack<ZName>();
   }
@@ -293,7 +293,7 @@ public class DefinitionTableVisitor
       case OmitBox:
         assert ZUtils.isAxParaSchemaOrHorizDefValid(axPara);
         
-        ZName name = ((ConstDecl)decls.get(0)).getZName();
+        //ZName name = ((ConstDecl)decls.get(0)).getZName();
         Expr expr = ((ConstDecl)decls.get(0)).getExpr();
 
         currentGlobalDef_ = null;
