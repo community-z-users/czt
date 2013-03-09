@@ -1,9 +1,9 @@
 
 // c?x@N ---> A
-PrefixingTimeAction createAtPrefixingAction( CircusAction  circusAction, Communication  communication, net.sourceforge.czt.z.ast.Name name);
+net.sourceforge.czt.circus.ast.PrefixingTimeAction createAtPrefixingAction( net.sourceforge.czt.circus.ast.CircusAction  circusAction, net.sourceforge.czt.circus.ast.Communication  communication, net.sourceforge.czt.z.ast.Name name);
 
 // c?x --expr--> A
-PrefixingTimeAction createPrefixingExprAction( CircusAction  circusAction, Communication  communication, net.sourceforge.czt.z.ast.Expr expr);
+net.sourceforge.czt.circus.ast.PrefixingTimeAction createPrefixingExprAction( net.sourceforge.czt.circus.ast.CircusAction  circusAction, net.sourceforge.czt.circus.ast.Communication  communication, net.sourceforge.czt.z.ast.Expr expr);
 
 //c?x --expr--> A
-PrefixingTimeAction createAtPrefixingExprAction( CircusAction  circusAction, Communication  communication, net.sourceforge.czt.z.ast.Name name, net.sourceforge.czt.z.ast.Expr expr);
+net.sourceforge.czt.circus.ast.PrefixingTimeAction createAtPrefixingExprAction( net.sourceforge.czt.circus.ast.CircusAction  circusAction, net.sourceforge.czt.circus.ast.Communication  communication, net.sourceforge.czt.z.ast.Name name, net.sourceforge.czt.z.ast.Expr expr);
