@@ -22,7 +22,7 @@ import org.eclipse.jface.text.rules.IToken;
 public class ZCharCodeScanner extends AbstractZCodeScanner
 {
 
-  private static String[] fgZCharKeywords = {};
+  //private static String[] fgZCharKeywords = {};
 
   private static String[] fgTokenProperties = {IZColorConstants.CZT_COMMENT,};
 

@@ -43,6 +43,11 @@ public class NewCZTProjectWizardPage extends WizardNewProjectCreationPage
     fWorkspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation()
         .addTrailingSeparator().toOSString();
   }
+  
+  protected String getWorkspacePath()
+  {
+	  return fWorkspacePath;
+  }
 
   public void performFinish(IProgressMonitor monitor)
   {
