@@ -41,7 +41,8 @@ public enum OzKeyword implements Token {
   POLY(OzString.POLY, NewlineCategory.AFTER),
   CONTAINMENT(OzString.CONTAINMENT, NewlineCategory.BEFORE),
   INITWORD(OzString.INITWORD, NewlineCategory.BOTH),
-  DSQC(NewlineCategory.AFTER);
+  //DSQC(NewlineCategory.AFTER)
+  ;
 
   private String spelling_ = null;
   private NewlineCategory newlineCategory_;
