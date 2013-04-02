@@ -83,21 +83,24 @@
       </plugin>
 
       <plugin>
-        <!-- Copy the results to /lib at root for manual deployment -->
+        <!-- Copy the results to /lib at root for manual deployment (for child modules) -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
+            <id>copy-to-lib</id>
             <phase>install</phase>
             <configuration>
-              <tasks>
+              <!-- skip in parent -->
+              <skip>true</skip>
+              <target>
                 <property name="dir" location="${czt.aggregate.dir}"/>
                 <property name="file"
                   location="${project.build.directory}/${project.artifactId}-${project.version}.jar"/>
                 <mkdir dir="${dir}"/>
                 <copy failonerror="false"
                   file="${file}" tofile="${dir}/${output.jar.name}"/>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>
