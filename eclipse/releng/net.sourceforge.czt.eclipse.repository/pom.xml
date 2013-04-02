@@ -33,6 +33,7 @@
           <repositoryName>CZT for Eclipse Updates</repositoryName>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-director-plugin</artifactId>
@@ -68,5 +69,62 @@
       </plugin>
     </plugins>
   </build>
+
+
+  <profiles>
+    <profile>
+      <!-- A profile to deploy nightly build artifacts to release area.
+           Deploy using `mvn clean deploy -P nightly` and provide the appropriate logins
+           in settings.xml. -->
+      <id>nightly</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+
+        <nightly.updates.path>czt-ide-updates/nightly/${timestamp}</nightly.updates.path>
+        <nightly.product.path>czt-ide/nightly/${timestamp}</nightly.product.path>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0-beta-4</version>
+            <executions>
+              <execution>
+                <id>upload-p2-repo</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/repository</fromDir>
+                  <includes>**</includes>
+                  <url>${files.deploy.url}/${nightly.updates.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>upload-products</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/products</fromDir>
+                  <includes>*.zip,*.tar.gz</includes>
+                  <url>${files.deploy.url}/${nightly.product.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   
 </project>
