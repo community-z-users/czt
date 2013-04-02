@@ -40,7 +40,7 @@
     <site.build.md.dir>${site.build.dir}/markdown</site.build.md.dir>
 
     <site.deploy.id>czt-sf</site.deploy.id>
-    <site.deploy.url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs</site.deploy.url>
+    <site.deploy.url>sftp://web.sourceforge.net/home/project-web/czt/htdocs</site.deploy.url>
 
     <files.deploy.url>sftp://frs.sourceforge.net/home/frs/project/czt</files.deploy.url>
   </properties>
