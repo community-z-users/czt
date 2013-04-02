@@ -85,9 +85,38 @@
 
         <nightly.updates.path>czt-ide-updates/nightly/${timestamp}</nightly.updates.path>
         <nightly.product.path>czt-ide/nightly/${timestamp}</nightly.product.path>
+        <!-- the nightly URL to point from composite repository -->
+        <nightly.updates.url>http://sourceforge.net/projects/czt/files/${nightly.updates.path}</nightly.updates.url>
+        <!-- where to upload the composite repository (in CZT www) -->
+        <nightly.site.path>eclipse/updates/nightly</nightly.site.path>
       </properties>
       <build>
         <plugins>
+          <plugin>
+            <!-- filter composite p2 repo definitions to insert nightly updates path and timestamp
+                 -->
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+            <executions>
+              <execution>
+                <id>copy-p2-definition</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/composite-nightly</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>${project.basedir}/composite-nightly</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+            </executions>
+          </plugin>
+
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>wagon-maven-plugin</artifactId>
@@ -103,6 +132,20 @@
                   <fromDir>${project.build.directory}/repository</fromDir>
                   <includes>**</includes>
                   <url>${files.deploy.url}/${nightly.updates.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>upload-nightly-composite-www</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/composite-nightly</fromDir>
+                  <includes>**</includes>
+                  <url>${site.deploy.url}/${nightly.site.path}</url>
                   <serverId>sourceforge</serverId>
                 </configuration>
               </execution>
