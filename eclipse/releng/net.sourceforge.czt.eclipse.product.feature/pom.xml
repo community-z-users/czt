@@ -13,13 +13,4 @@
 
   <name>CZT Eclipse Product Base Feature</name>
   
-  <repositories>
-    <!-- Use Juno SR1 for product release -->
-    <repository>
-      <id>juno</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/juno</url>
-    </repository>
-  </repositories>
-  
 </project>

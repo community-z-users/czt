@@ -32,15 +32,7 @@
        This is to allow for a separate "site" profile with less modules. -->
   <modules>
   </modules>
-  
-  <repositories>
-    <repository>
-      <id>eclipse-indigo</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/indigo/</url>
-    </repository>
-  </repositories>
-  
+    
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
@@ -207,6 +199,13 @@
           <version>${tycho-version}</version>
           <configuration>
             <pomDependencies>consider</pomDependencies>
+            <target>
+              <artifact>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>net.sourceforge.czt.eclipse.target</artifactId>
+                <version>1.6.0-SNAPSHOT</version>
+              </artifact>
+            </target>
             <environments>
               <environment>
                 <os>linux</os>
@@ -276,6 +275,7 @@
       </activation>
 
       <modules>
+        <module>net.sourceforge.czt.eclipse.target</module>
         <module>net.sourceforge.czt.eclipse.core</module>
         <module>net.sourceforge.czt.eclipse.ui</module>
         <module>net.sourceforge.czt.eclipse.doc</module>

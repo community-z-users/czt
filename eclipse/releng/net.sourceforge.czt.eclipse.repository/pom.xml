@@ -12,17 +12,6 @@
 
   <name>CZT Eclipse Product and p2 Repository</name>
 
-  <repositories>
-    <!-- Use Juno SR1 for product release
-         If changing the repository, do not forget to update czt-ide.p2.inf
-         to point to new update sites as well. -->
-    <repository>
-      <id>juno</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/juno</url>
-    </repository>
-  </repositories>
-
   <build>
     <plugins>
       <plugin>
