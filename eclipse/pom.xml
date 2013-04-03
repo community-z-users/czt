@@ -283,6 +283,7 @@
         
         <module>net.sourceforge.czt.eclipse.zeves.core</module>
         <module>net.sourceforge.czt.eclipse.zeves.ui</module>
+        <module>net.sourceforge.czt.eclipse.zeves.doc</module>
         
         <module>releng</module>
       </modules>
