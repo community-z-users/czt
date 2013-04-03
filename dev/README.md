@@ -21,7 +21,9 @@ or Eclipse IDE:
 -   [**Setup in Eclipse IDE**]( eclipse/index.html )
 
     -   [Get source using EGit]( eclipse/index.html#Clone_Git_repository )
-    -   [m2e (Maven for Eclipse)]( eclipse/index.html#m2e_support )
+    -   [Import projects into Eclipse]( eclipse/index.html#Import_projects_into_Eclipse )
+    -   [Set CZT target platform]( eclipse/index.html#Set_CZT_target_platform )
+    -   [Launch CZT IDE]( eclipse/index.html#Launch_CZT_IDE )
     -   [CZT code style]( eclipse/index.html#CZT_code_style )
     -   [Maven `eclipse:eclipse` (alternative)]( eclipse/index.html##Using_Maven_eclipseeclipse )
 
