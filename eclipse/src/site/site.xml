@@ -36,6 +36,9 @@
         <item name="Identifying problems in specifications" href="help/getting-started/identify-problem.html"/>
         <item name="Navigating to Z name declarations" href="help/getting-started/go-to-declaration.html"/>
         <item name="Highlighting terms" href="help/getting-started/highlight-term.html"/>
+        <item name="Z/EVES proofs" href="zeves/help/getting-started/launch-zeves.html">
+          <item name="Launching Z/EVES" href="zeves/help/getting-started/launch-zeves.html"/>
+        </item>
       </item>
       <item name="Concepts" collapse="true" href="help/concepts/czt-editor.html">
         <item name="CZT editor" href="help/concepts/czt-editor.html" />
