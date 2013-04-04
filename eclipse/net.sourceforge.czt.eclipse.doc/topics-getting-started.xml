@@ -2,10 +2,10 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Getting Started" topic="target/generated-docs/getting-started/index.html">
-	<topic label="Creating a CZT project" href="target/generated-docs/getting-started/create-project.html"/>
-   	<topic label="Creating a Z specification" href="target/generated-docs/getting-started/create-spec.html"/>
-   	<topic label="Syntax coloring in your code" href="target/generated-docs/getting-started/syntax-coloring.html"/>
-   	<topic label="Identifying problems in your code" href="target/generated-docs/getting-started/identify-problem.html"/>
-   	<topic label="Navigate to a Z name's declaration" href="target/generated-docs/getting-started/go-to-declaration.html"/>
-   	<topic label="Highlight a term" href="target/generated-docs/getting-started/highlight-term.html"/>
+  <topic label="Creating a CZT project" href="target/generated-docs/getting-started/create-project.html"/>
+  <topic label="Creating a Z specification" href="target/generated-docs/getting-started/create-spec.html"/>
+  <topic label="Syntax coloring in your code" href="target/generated-docs/getting-started/syntax-coloring.html"/>
+  <topic label="Identifying problems in your code" href="target/generated-docs/getting-started/identify-problem.html"/>
+  <topic label="Navigate to a Z name's declaration" href="target/generated-docs/getting-started/go-to-declaration.html"/>
+  <topic label="Highlight a term" href="target/generated-docs/getting-started/highlight-term.html"/>
 </toc>

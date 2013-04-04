@@ -2,14 +2,14 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Reference" topic="target/generated-docs/reference/index.html"> 
-	<topic label="Preferences"> 
-		<topic label="Compiler" href="target/generated-docs/reference/preferences/compiler.html" /> 
-		<topic label="Editor" href="target/generated-docs/reference/preferences/editor-basic.html">
-			<topic label="Annotation" href="target/generated-docs/reference/preferences/editor/annotation.html" />
-			<topic label="Folding" href="target/generated-docs/reference/preferences/editor/folding.html" />
-			<topic label="Syntax Coloring" href="target/generated-docs/reference/preferences/editor/syntax-coloring.html" />
-		</topic>
-	</topic>
-	
-	<topic label="Menu and Actions" href="target/generated-docs/reference/actions.html" /> 
+  <topic label="Preferences"> 
+    <topic label="Compiler" href="target/generated-docs/reference/preferences/compiler.html" /> 
+    <topic label="Editor" href="target/generated-docs/reference/preferences/editor-basic.html">
+      <topic label="Annotation" href="target/generated-docs/reference/preferences/editor/annotation.html" />
+      <topic label="Folding" href="target/generated-docs/reference/preferences/editor/folding.html" />
+      <topic label="Syntax Coloring" href="target/generated-docs/reference/preferences/editor/syntax-coloring.html" />
+    </topic>
+  </topic>
+
+  <topic label="Menu and Actions" href="target/generated-docs/reference/actions.html" /> 
 </toc>
