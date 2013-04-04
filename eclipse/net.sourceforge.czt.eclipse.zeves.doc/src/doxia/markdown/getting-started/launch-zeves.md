@@ -1,6 +1,6 @@
 # Launching Z/EVES
 
-Community Z Tools provides prover IDE to use with Z/EVES theorem prover. To start proving, you need to select and launch a Z/EVES application. CZT allows multiple such _launch configurations_ to be set up.
+Community Z Tools provides a prover IDE to use with Z/EVES theorem prover. To start proving, you need to select and launch a Z/EVES application. CZT allows multiple such _launch configurations_ to be set up.
 
 The launch configurations can be managed by selecting **Run > External Tools > External Tools Configurations...** or the corresponding toolbar drop-down button ![External tools launch](../images/external-tools-icon.gif):
 
@@ -25,6 +25,9 @@ When configuring Z/EVES to launch, you need to indicate where the Z/EVES executa
 4.  Select **Working directory** to point to Z/EVES installation directory.
 5.  (Optional) You can also change a communications port to use with the Z/EVES prover in **Port**, e.g. if it clashes with some other application.
 6.  Click **Run** to launch Z/EVES process.
+
+
+## Launch Z/EVES
 
 The launch progress is displayed in the bottom-right corner. You can verify whether Z/EVES has been launched successfully in the _Z/EVES_ view (refresh ![Refresh](../images/refresh.gif) it if needed).
 
