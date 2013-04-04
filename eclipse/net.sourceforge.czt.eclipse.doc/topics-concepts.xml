@@ -2,9 +2,9 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Concepts" topic="target/generated-docs/concepts/index.html"> 
-  <topic label="CZT Editor"  href="target/generated-docs/concepts/czt-editor.html" />
-  <topic label="CZT Views" href="target/generated-docs/concepts/czt-views.html" />
-  <topic label="CZT Perspective" href="target/generated-docs/concepts/czt-perspective.html" />
+  <topic label="CZT editor"  href="target/generated-docs/concepts/czt-editor.html" />
+  <topic label="CZT views" href="target/generated-docs/concepts/czt-views.html" />
+  <topic label="CZT perspective" href="target/generated-docs/concepts/czt-perspective.html" />
   <topic label="Folding" href="target/generated-docs/concepts/folding-para.html" />
-  <topic label="Schema Box" href="target/generated-docs/concepts/schema-box.html" />
+  <topic label="Schema box" href="target/generated-docs/concepts/schema-box.html" />
 </toc>
