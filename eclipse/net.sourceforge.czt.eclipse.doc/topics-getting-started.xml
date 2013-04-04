@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Getting started" topic="target/generated-docs/getting-started/index.html">
+<toc label="Getting started">
   <topic label="Creating a CZT project" href="target/generated-docs/getting-started/create-project.html"/>
   <topic label="Creating a Z specification" href="target/generated-docs/getting-started/create-spec.html"/>
   <topic label="Syntax coloring" href="target/generated-docs/getting-started/syntax-coloring.html"/>

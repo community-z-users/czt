@@ -5,11 +5,11 @@
 <!-- ============================================================================= -->
 
 <toc label="CZT User Guide">
-  <topic label="Getting started" href="target/generated-docs/getting-started/index.html">
+  <topic label="Getting started">
     <link toc="topics-getting-started.xml" />
     <anchor id="czt_getstart" />
   </topic>
-  <topic label="Concepts" href="target/generated-docs/concepts/index.html">
+  <topic label="Concepts">
     <link toc="topics-concepts.xml" />
     <anchor id="czt_concepts" />
   </topic>
