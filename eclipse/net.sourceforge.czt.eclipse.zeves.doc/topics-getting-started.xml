@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Getting started" link_to="../net.sourceforge.czt.eclipse.doc/toc.xml#czt_getstart">
+  <topic label="Z/EVES proofs">
+    <topic label="Launching Z/EVES" href="target/generated-docs/getting-started/launch-zeves.html"/>
+  </topic>
+</toc>

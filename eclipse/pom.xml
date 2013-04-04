@@ -26,6 +26,7 @@
     <czt.buildId>${buildQualifier}</czt.buildId>
 
     <czt.help.dir>net.sourceforge.czt.eclipse.doc/src/doxia</czt.help.dir>
+    <zeves.help.dir>net.sourceforge.czt.eclipse.zeves.doc/src/doxia</zeves.help.dir>
   </properties>
 
   <!-- The default modules are defined in the "default" profile below.
@@ -169,6 +170,36 @@
               </resources>              
             </configuration>            
           </execution>
+          <execution>
+            <id>copy-resources-zeves-markdown</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/markdown/zeves/help</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${zeves.help.dir}/markdown</directory>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+          <execution>
+            <id>copy-resources-zeves-images</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-site/resources/zeves/help</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${zeves.help.dir}/resources</directory>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
         </executions>
         <inherited>false</inherited>
       </plugin>
@@ -283,6 +314,7 @@
         
         <module>net.sourceforge.czt.eclipse.zeves.core</module>
         <module>net.sourceforge.czt.eclipse.zeves.ui</module>
+        <module>net.sourceforge.czt.eclipse.zeves.doc</module>
         
         <module>releng</module>
       </modules>
