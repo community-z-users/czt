@@ -98,7 +98,7 @@
   
     <links>
       <item name="Download" href="http://sourceforge.net/projects/czt/files" />
-      <item name="CZT @ SourceForge" href="http://sourceforge.net/projects/czt" />
+      <item name="View on SourceForge" href="http://sourceforge.net/projects/czt" />
     </links>
 
     <breadcrumbs>
@@ -107,7 +107,7 @@
   
     <menu name="Main" inherit="top">
       <item name="Home" href="index.html" />
-      <item name="CZT @ SourceForge" href="http://sourceforge.net/projects/czt" />
+      <item name="View on SourceForge" href="http://sourceforge.net/projects/czt" />
     </menu>
     <menu name="Download" inherit="top">
       <item name="Download" href="http://sourceforge.net/projects/czt/files" />
