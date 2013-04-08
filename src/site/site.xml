@@ -62,20 +62,18 @@
         <div id="footer-czt-logo"></div>
       </bottomDescription>
       <pages>
-        <index project="czt">
+        <index project="czt-parent">
           <!-- Override the title -->
           <titleTemplate>Community Z Tools</titleTemplate>
           <!-- no breadcrumbs on the main index page -->
           <breadcrumbs>false</breadcrumbs>
           <!-- no ToC on the main index page -->
           <toc>false</toc>
-          <!-- <sections>
+          <sections>
             <carousel />
-            <thumbs>2</thumbs>
             <body />
             <sidebar />
-            <columns>3</columns>
-          </sections> -->
+          </sections>
         </index>
 
         <!-- Disable ToC for some Maven reports -->
