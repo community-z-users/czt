@@ -33,7 +33,7 @@
         <!-- Brand text in top-left part of the site -->
         <name>
           <![CDATA[
-          Community <span class="color-highlight">Z</span> Tools
+          Community <span class="color-highlight">Z</span> Tools<span class="preview"> (2.0 preview!)</span>
           ]]>
         </name>
         <href>http://czt.sourceforge.net</href>
@@ -100,7 +100,7 @@
     </links>
 
     <breadcrumbs>
-      <item name="CZT" href="index.html" />
+      <item name="CZT" href="/" />
     </breadcrumbs>
   
     <menu name="Main" inherit="top">
@@ -112,10 +112,10 @@
       <item name="CZT Font" href="fonts/index.html" />
     </menu>
     <menu name="Documentation" inherit="top">
-      <item name="User Manual" href="http://czt.sourceforge.net/manual.html" />
+      <item name="User Manual" href="manual.html" />
       <item name="Developer Info" href="dev/index.html" />
       <item name="Design Info" href="design.html" />
-      <item name="API Documentation" href="./apidocs/index.html" />
+      <item name="API Documentation" href="apidocs/index.html" />
     </menu>
     <menu ref="modules" inherit="bottom" />
     <menu name="Maven Documentation" ref="reports" inherit="bottom"/>
