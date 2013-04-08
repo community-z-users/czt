@@ -14,7 +14,7 @@
   </bannerLeft>
   
   <publishDate position="bottom" format="yyyy-MM-dd" />
-  <version position="none" />
+  <version position="bottom" />
 
   <skin>
     <groupId>lt.velykis.maven.skins</groupId>
