@@ -97,7 +97,7 @@
   <body>
   
     <links>
-      <item name="Download" href="http://sourceforge.net/projects/czt/files/czt" />
+      <item name="Download" href="http://sourceforge.net/projects/czt/files" />
       <item name="CZT @ SourceForge" href="http://sourceforge.net/projects/czt" />
     </links>
 
@@ -110,7 +110,7 @@
       <item name="CZT @ SourceForge" href="http://sourceforge.net/projects/czt" />
     </menu>
     <menu name="Download" inherit="top">
-      <item name="Download" href="http://sourceforge.net/projects/czt/files/czt" />
+      <item name="Download" href="http://sourceforge.net/projects/czt/files" />
     </menu>
     <menu name="Documentation" inherit="top">
       <item name="User Manual" href="http://czt.sourceforge.net/manual.html" />
