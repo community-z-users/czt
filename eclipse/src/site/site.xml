@@ -11,6 +11,10 @@
         <index combine.self="override">
           <shortTitle>Introduction</shortTitle>
           <toc>false</toc>
+          <sections>
+            <carousel />
+            <body />
+          </sections>
         </index>
       </pages>
     </reflowSkin>
@@ -24,6 +28,7 @@
 
     <menu name="CZT Eclipse" ref="module-menu">
       <item name="Introduction" href="index.html"/>
+      <item name="Download" href="download.html"/>
       <item name="Release Notes" ref="changes-report"/>
       <item name="Z/EVES Eclipse" href="zeves/"/>
     </menu>
