@@ -80,6 +80,9 @@
         <project-info>
           <toc>false</toc>
         </project-info>
+        <apidocs-index>
+          <toc>false</toc>
+        </apidocs-index>
         <dependencies>
           <tocTopMax>4</tocTopMax>
         </dependencies>
