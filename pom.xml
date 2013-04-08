@@ -165,15 +165,30 @@
               <target>
                 <mkdir dir="${site.build.dir}" />
                 <copy failonerror="false" quiet="true" file="README.txt" tofile="${site.build.apt.dir}/index.apt"/>
-                <copy failonerror="false" quiet="true" file="README.txt" tofile="${site.build.apt.dir}/manual.apt"/>
-                <copy failonerror="false" quiet="true" file="INSTALL.txt" tofile="${site.build.apt.dir}/install.apt"/>
-                <copy failonerror="false" quiet="true" file="fonts/INSTALL.txt" tofile="${site.build.apt.dir}/font.apt"/>
+                <!-- copy the site file first, then README won't overwrite -->
+                <copy failonerror="false" quiet="true" file="{project.basedir}/src/site/markdown/index.md" tofile="${site.build.md.dir}/index.md"/>
                 <copy failonerror="false" quiet="true" file="README.md" tofile="${site.build.md.dir}/index.md"/>
                 <copy failonerror="false" quiet="true" file="README.md" tofile="${site.build.md.dir}/manual.md"/>
                 <copy failonerror="false" quiet="true" file="INSTALL.md" tofile="${site.build.md.dir}/install.md"/>
 <!--                     <copy overwrite="true" failonerror="false" todir="${site.build.dir}">
                   <fileset dir="src/site" />
                 </copy> -->
+              </target>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Copies font files during site generation.
+                 Not inherited by child projects. -->
+            <id>copy-font-files</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <target>
+                <copy failonerror="false" quiet="true" file="fonts/README.md" tofile="${site.build.md.dir}/fonts/index.md"/>
+                <copy failonerror="false" quiet="true" file="fonts/CZTSans.ttf" tofile="${site.build.dir}/resources/fonts/CZTSans.ttf"/>
               </target>
             </configuration>
           </execution>

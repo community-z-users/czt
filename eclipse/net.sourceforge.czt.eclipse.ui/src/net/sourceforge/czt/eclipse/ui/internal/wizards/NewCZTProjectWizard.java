@@ -1,130 +1,127 @@
-/**
- * 
- */
-
 package net.sourceforge.czt.eclipse.ui.internal.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
-import net.sourceforge.czt.eclipse.ui.internal.util.ExceptionHandler;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.jface.wizard.Wizard;
+
+import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+
 
 /**
- * A basic CZT project creation wizard.
- * 
- * @author Chengdong Xu
+ * @author Andrius Velykis
  */
-public class NewCZTProjectWizard extends NewElementWizard
-    implements
-      IExecutableExtension
-{
+// adapted from org.eclipse.jdt.ui.examples.MyProjectCreationWizard
+public class NewCZTProjectWizard extends Wizard implements IExecutableExtension, INewWizard {
 
-  NewCZTProjectWizardPage fMainPage;
+  private WizardNewProjectCreationPage fMainPage;
 
-  // the perspective configuration element 
   private IConfigurationElement fConfigElement;
 
-  /**
-   * Create new wizard
-   */
-  public NewCZTProjectWizard()
-  {
-    super();
-    setDefaultPageImageDescriptor(null);
-    setDialogSettings(CztUIPlugin.getDefault().getDialogSettings());
-  }
-
-  /**
-   * Add pages to the wizard.
-   * @see org.eclipse.jface.wizard.Wizard#addPages()
-   */
-  public void addPages()
-  {
-    super.addPages();
-    //      fMainPage = new SampleProjectWizardPage("BasicNewProjectCreationPage");
-    fMainPage = new NewCZTProjectWizardPage(WizardsMessages.NewCZTProjectWizard_page_name);
-    fMainPage.setTitle(WizardsMessages.NewCZTProjectWizard_page_title);
-    fMainPage.setDescription(WizardsMessages.NewCZTProjectWizard_page_description);
-    addPage(fMainPage);
-  }
-
-  /**
-   * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
-   */
-  protected void finishPage(IProgressMonitor monitor)
-      throws InterruptedException, CoreException
-  {
-    fMainPage.performFinish(monitor); // use the full progress monitor
-  }
-
-  /**
-   * Finish the project creation, i.e. run the ProjectCreationOperation.
-   * @return false on error
-   * @see org.eclipse.jface.wizard.Wizard#performFinish()
-   */
-  @Override
-  public boolean performFinish()
-  {
-    boolean result = super.performFinish();
-
-    if (result) {
-      BasicNewProjectResourceWizard.updatePerspective(fConfigElement);
-      selectAndReveal(fMainPage.getProject());
-    }
-
-    return result;
-  }
-
-  protected void handleFinishException(Shell shell, InvocationTargetException e)
-  {
-    String title = WizardsMessages.NewCZTProjectWizard_error_title;
-    String message = WizardsMessages.NewCZTProjectWizard_error_create_message;
-    ExceptionHandler.handle(e, getShell(), title, message);
-  }
-
-  /**
-   * Useful method for e.g. loading images for the wizard.
-   * 
-   * @param workbench
-   * @param selection
-   * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
-   */
-  public void init(IWorkbench workbench, IStructuredSelection selection)
-  {
-    super.init(workbench, selection);
+  private IWorkbench fWorkbench;
+  public NewCZTProjectWizard() {
     setWindowTitle(WizardsMessages.NewCZTProjectWizard_initWindowTitle);
-    setNeedsProgressMonitor(true);
-  }
-
-  /**
-   * Useful method for e.g. getting config element info.
-   * 
-   * @param config
-   * @param propertyName
-   * @param data
-   * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
-   */
-  public void setInitializationData(IConfigurationElement config,
-      String propertyName, Object data) throws CoreException
-  {
-    fConfigElement = config;
   }
 
   /* (non-Javadoc)
-   * @see IWizard#performCancel()
+   * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
    */
-  public boolean performCancel()
-  {
-    //      fMainPage.performCancel();
-    return super.performCancel();
+  public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
+    //  The config element will be used in <code>finishPage</code> to set the result perspective.
+    fConfigElement= cfig;
   }
+
+  /* (non-Javadoc)
+   * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+   */
+  public void init(IWorkbench workbench, IStructuredSelection selection) {
+    fWorkbench= workbench;
+  }
+
+  /* (non-Javadoc)
+   * @see Wizard#addPages
+   */
+  public void addPages() {
+    super.addPages();
+    fMainPage= new WizardNewProjectCreationPage("NewCZTProjectCreationWizard"); //$NON-NLS-1$
+    fMainPage.setTitle(WizardsMessages.NewCZTProjectWizard_page_title);
+    fMainPage.setDescription(WizardsMessages.NewCZTProjectWizard_page_description);
+
+    // the main page
+    addPage(fMainPage);
+  }
+
+  private void updatePage() {
+  }
+
+  private void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
+    if (monitor == null) {
+      monitor= new NullProgressMonitor();
+    }
+    try {
+      monitor.beginTask(WizardsMessages.NewCZTProjectWizardPage_progressCreating, 3); // 3 steps
+
+      IProject project= fMainPage.getProjectHandle();
+      IPath locationPath= fMainPage.getLocationPath();
+
+      // create the project
+      IProjectDescription desc= project.getWorkspace().newProjectDescription(project.getName());
+      if (!fMainPage.useDefaults()) {
+        desc.setLocation(locationPath);
+      }
+      project.create(desc, new SubProgressMonitor(monitor, 1));
+      project.open(new SubProgressMonitor(monitor, 1));
+
+      updatePage();
+
+      // TODO: configure CZT project / nature
+      monitor.worked(1);
+
+      // change to the perspective specified in the plugin.xml
+      BasicNewProjectResourceWizard.updatePerspective(fConfigElement);
+      BasicNewResourceWizard.selectAndReveal(project, fWorkbench.getActiveWorkbenchWindow());
+
+    } finally {
+      monitor.done();
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see Wizard#performFinish
+   */
+  public boolean performFinish() {
+    WorkspaceModifyOperation op= new WorkspaceModifyOperation() {
+      protected void execute(IProgressMonitor monitor) throws CoreException,
+          InvocationTargetException, InterruptedException {
+        finishPage(monitor);
+      }
+    };
+    try {
+      getContainer().run(false, true, op);
+    } catch (InvocationTargetException e) {
+      return false; // TODO: should open error dialog and log
+    } catch  (InterruptedException e) {
+      return false; // canceled
+    }
+    return true;
+  }
+
+
+
 }

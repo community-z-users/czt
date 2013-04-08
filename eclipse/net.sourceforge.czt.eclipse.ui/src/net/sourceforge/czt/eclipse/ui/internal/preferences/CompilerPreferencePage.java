@@ -11,6 +11,7 @@ import net.sourceforge.czt.eclipse.ui.CztUIPlugin;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -21,6 +22,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -86,12 +88,19 @@ public class CompilerPreferencePage extends PreferencePage
     initializeDialogUnits(parent);
 
     Composite result = new Composite(parent, SWT.NONE);
-    GridLayout layout = new GridLayout();
+    GridLayout layout = new GridLayout(2, false);
     layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
     layout.marginWidth = 0;
     layout.verticalSpacing = convertVerticalDLUsToPixels(10);
     layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
     result.setLayout(layout);
+    
+    Label dialectLabel = new Label(result, SWT.None);
+    dialectLabel.setText("Dialect:");
+    dialectLabel.setToolTipText(
+        "Z dialect to use when parsing and typechecking Z specifications."
+        + "Reload all editors after change.");
+    
 
     // MARKU: add a combo box to select Z dialect
     fDialectCombo = new Combo(result, SWT.NONE);
@@ -105,7 +114,7 @@ public class CompilerPreferencePage extends PreferencePage
     // Add a group containing all the parsing/typechecking properties
     Group propertiesGroup = new Group(result, SWT.NONE);
     propertiesGroup.setLayout(new GridLayout());
-    propertiesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    propertiesGroup.setLayoutData(GridDataFactory.fillDefaults().span(2, 1).grab(true, false).create());
     propertiesGroup
         .setText(PreferencesMessages.CompilerPreferencePage_properties);
 

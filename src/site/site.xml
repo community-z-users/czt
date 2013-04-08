@@ -14,7 +14,7 @@
   </bannerLeft>
   
   <publishDate position="bottom" format="yyyy-MM-dd" />
-  <version position="none" />
+  <version position="bottom" />
 
   <skin>
     <groupId>lt.velykis.maven.skins</groupId>
@@ -33,7 +33,7 @@
         <!-- Brand text in top-left part of the site -->
         <name>
           <![CDATA[
-          Community <span class="color-highlight">Z</span> Tools
+          Community <span class="color-highlight">Z</span> Tools<span class="preview"> (2.0 preview!)</span>
           ]]>
         </name>
         <href>http://czt.sourceforge.net</href>
@@ -62,26 +62,27 @@
         <div id="footer-czt-logo"></div>
       </bottomDescription>
       <pages>
-        <index project="czt">
+        <index project="czt-parent">
           <!-- Override the title -->
           <titleTemplate>Community Z Tools</titleTemplate>
           <!-- no breadcrumbs on the main index page -->
           <breadcrumbs>false</breadcrumbs>
           <!-- no ToC on the main index page -->
           <toc>false</toc>
-          <!-- <sections>
+          <sections>
             <carousel />
-            <thumbs>2</thumbs>
             <body />
             <sidebar />
-            <columns>3</columns>
-          </sections> -->
+          </sections>
         </index>
 
         <!-- Disable ToC for some Maven reports -->
         <project-info>
           <toc>false</toc>
         </project-info>
+        <apidocs-index>
+          <toc>false</toc>
+        </apidocs-index>
         <dependencies>
           <tocTopMax>4</tocTopMax>
         </dependencies>
@@ -97,26 +98,27 @@
   <body>
   
     <links>
-      <item name="Download" href="http://sourceforge.net/projects/czt/files/czt" />
-      <item name="CZT @ SourceForge" href="http://sourceforge.net/projects/czt" />
+      <item name="Download" href="http://sourceforge.net/projects/czt/files" />
+      <item name="View on SourceForge" href="http://sourceforge.net/projects/czt" />
     </links>
 
     <breadcrumbs>
-      <item name="CZT" href="index.html" />
+      <item name="CZT" href="/" />
     </breadcrumbs>
   
     <menu name="Main" inherit="top">
       <item name="Home" href="index.html" />
-      <item name="CZT @ SourceForge" href="http://sourceforge.net/projects/czt" />
+      <item name="View on SourceForge" href="http://sourceforge.net/projects/czt" />
     </menu>
     <menu name="Download" inherit="top">
-      <item name="Download" href="http://sourceforge.net/projects/czt/files/czt" />
+      <item name="Download" href="http://sourceforge.net/projects/czt/files" />
+      <item name="CZT Font" href="fonts/index.html" />
     </menu>
     <menu name="Documentation" inherit="top">
-      <item name="User Manual" href="http://czt.sourceforge.net/manual.html" />
+      <item name="User Manual" href="manual.html" />
       <item name="Developer Info" href="dev/index.html" />
       <item name="Design Info" href="design.html" />
-      <item name="API Documentation" href="./apidocs/index.html" />
+      <item name="API Documentation" href="apidocs/index.html" />
     </menu>
     <menu ref="modules" inherit="bottom" />
     <menu name="Maven Documentation" ref="reports" inherit="bottom"/>
