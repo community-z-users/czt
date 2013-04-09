@@ -92,11 +92,11 @@ To do that, follow these steps:
       (restart Eclipse if needed)
 4.    After import, wait until _Building workspace_ job finishes
       (can take long!)
-5.    Set CZT target platform ([see below]( #Set_CZT_target_platform )).
+5.    Set CZT target platform ([see below](#Set_CZT_target_platform)).
 5.    If there are build errors, select all projects and refresh them.
       This should trigger another build.
 6.    Done - this should get CZT projects built successfully.
-7.    Launch CZT IDE from within Eclipse ([see below]( #Launch_CZT_IDE ))
+7.    Launch CZT IDE from within Eclipse ([see below](#Launch_CZT_IDE))
 
 
 ## Set CZT target platform

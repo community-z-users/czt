@@ -16,7 +16,7 @@ XML format) can be found in the CZT [source code repository][czt-src].
 
 ## ZML 2.1
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_2_1.xsd`]( Z_2_1.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_2_1.xsd`](Z_2_1.xsd)
 -   SVN revision: 5169
 
 Changes:
@@ -32,7 +32,7 @@ Changes:
 
 ## ZML 2.0
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_2_0.xsd`]( Z_2_0.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_2_0.xsd`](Z_2_0.xsd)
 -   CVS revision: 1.95
 
 Changes:
@@ -81,7 +81,7 @@ Changes:
 
 ## ZML 1.4
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_4.xsd`]( Z_1_4.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_4.xsd`](Z_1_4.xsd)
 -   CVS revision: 1.71
 
 Changes:
@@ -91,7 +91,7 @@ Changes:
 
 ## ZML 1.3
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_3.xsd`]( Z_1_3.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_3.xsd`](Z_1_3.xsd)
 -   CVS revision: 1.69
 
 Changes:
@@ -112,7 +112,7 @@ Changes:
 
 ## ZML 1.2
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_2.xsd`]( Z_1_2.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_2.xsd`](Z_1_2.xsd)
 -   CVS revision: 1.55
 
 Changes:
@@ -141,7 +141,7 @@ Changes:
 
 ## ZML 1.1
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_1.xsd`]( Z_1_1.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_1.xsd`](Z_1_1.xsd)
 -   CVS revision: 1.39
 
 Changes:
@@ -162,7 +162,7 @@ Changes:
 
 ## ZML 1.0
 
--   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_0.xsd`]( Z_1_0.xsd )
+-   Location: [`http://czt.sourceforge.net/zml/zml/Z_1_0.xsd`](Z_1_0.xsd)
 -   CVS revision: 1.16
 
 This version was described in the [ZB2003 paper][zml-paper] and used by several projects at the

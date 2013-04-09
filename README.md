@@ -9,26 +9,27 @@ The latest version includes parser, typechecker, and printer for Z, Object Z, an
 animator for Z (supports only a restricted subset of Z) as well as jEdit and Eclipse plugins that
 give WYSIWYG editing of Z specifications and easy access to the CZT tools.
 
+[czt]: http://czt.sourceforge.net
 
 ## Downloads
 
 Releases and nightly builds can be [downloaded from Sourceforge][download]. There are different
 download bundles available:
 
--   [`czt-ide`]( http://sourceforge.net/projects/czt/files/czt-ide/ ) - Releases of standalone CZT IDE, based on Eclipse platform. Use it to author, develop and verify Z specifications.
+-   [`czt-ide`](http://sourceforge.net/projects/czt/files/czt-ide/) - Releases of standalone CZT IDE, based on Eclipse platform. Use it to author, develop and verify Z specifications.
 
--   [`czt-ide-updates`]( http://sourceforge.net/projects/czt/files/czt-ide-updates/ ) - Update sites for released CZT Eclipse plugins to be installed in your own Eclipse IDE.
+-   [`czt-ide-updates`](http://sourceforge.net/projects/czt/files/czt-ide-updates/) - Update sites for released CZT Eclipse plugins to be installed in your own Eclipse IDE.
 
--   [`czt-jedit`]( http://sourceforge.net/projects/czt/files/czt-jedit/ ) - Plugins for the jEdit text editor adding support for typesetting Z specifications.
+-   [`czt-jedit`](http://sourceforge.net/projects/czt/files/czt-jedit/) - Plugins for the jEdit text editor adding support for typesetting Z specifications.
 
--   [`czt`]( http://sourceforge.net/projects/czt/files/czt/ ) - Standalone CZT library (classic distribution).
+-   [`czt`](http://sourceforge.net/projects/czt/files/czt/) - Standalone CZT library (classic distribution).
 
--   [`maven`]( http://sourceforge.net/projects/czt/files/maven/ ) - Instructions how to use CZT libraries deployed to Maven Central.
+-   [`maven`](http://sourceforge.net/projects/czt/files/maven/) - Instructions how to use CZT libraries deployed to Maven Central.
 
 
--   [`corejava (old)`]( http://sourceforge.net/projects/czt/files/corejava%20%28old%29/ ) - Old releases of _corejava_ (deprecated).
+-   [`corejava (old)`](http://sourceforge.net/projects/czt/files/corejava%20%28old%29/) - Old releases of _corejava_ (deprecated).
 
--   [`typechecker`]( http://sourceforge.net/projects/czt/files/typechecker/ ) - Old releases of standalone typechecker for Z and Object Z specifications (deprecated).
+-   [`typechecker`](http://sourceforge.net/projects/czt/files/typechecker/) - Old releases of standalone typechecker for Z and Object Z specifications (deprecated).
 
 [czt]: http://czt.sourceforge.net
 [download]: http://sourceforge.net/projects/czt/files

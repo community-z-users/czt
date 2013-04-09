@@ -2,9 +2,9 @@
 
 The CZT font has been developed to ensure correct support of all Z unicode symbols. Download the following font and install it to your system to display Z unicode specifications in Community Z Tools and IDEs.
 
--   [Download **CZT Sans** font]( CZTSans.ttf )
+-   [Download **CZT Sans** font](CZTSans.ttf)
 
-The _CZT Sans_ font is derived from the _Bitstream Vera Sans_ font (about 120 Z characters were added), and is distributed under the original [Bitstream Vera Copyright]( http://www.gnome.org/fonts/ ).
+The _CZT Sans_ font is derived from the _Bitstream Vera Sans_ font (about 120 Z characters were added), and is distributed under the original [Bitstream Vera Copyright](http://www.gnome.org/fonts/).
 
 
 ## Installing CZT font

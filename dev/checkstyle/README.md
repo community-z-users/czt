@@ -9,7 +9,7 @@ The configuration is adapted from the [style guidelines from Geosoft][geosoft-st
 
 ## Usage
 
-The CZT Checkstyle configuration is [available for download]( checkstyle.xml ).
+The CZT Checkstyle configuration is [available for download](checkstyle.xml).
 Use it with all [tools that support Checkstyle][checkstyle-tools],
 e.g. [Eclipse-CS][eclipse-cs] for Eclipse IDE.
 

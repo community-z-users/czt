@@ -4,4 +4,4 @@ This is a CZT for Eclipse **update site/p2 repository**. This URL has been depre
 
 Use the following canonical URL to access CZT for Eclipse nightly updates:
 
-[`http://czt.sourceforge.net/eclipse/updates/nightly/`]( ../nightly/ )
+[`http://czt.sourceforge.net/eclipse/updates/nightly/`](../nightly/)

@@ -52,19 +52,19 @@ CZT Eclipse aims to provide a development environment for Z specifications. Some
 
     -   Select Z dialect to use for parsing and typechecking specification in the preferences.
 
--   [Go to declaration]( help/getting-started/go-to-declaration.html )
+-   [Go to declaration](help/getting-started/go-to-declaration.html)
 
--   [Syntax colouring]( help/getting-started/syntax-coloring.html )
+-   [Syntax colouring](help/getting-started/syntax-coloring.html)
 
--   [Folding document elements]( help/concepts/folding-para.html )
+-   [Folding document elements](help/concepts/folding-para.html)
 
 -   Content assist
 
--   [Specification outline]( help/concepts/czt-views.html#Outline )
+-   [Specification outline](help/concepts/czt-views.html#Outline)
 
--   [Z characters view]( help/concepts/czt-views.html#Z_Character_Map )
+-   [Z characters view](help/concepts/czt-views.html#Z_Character_Map)
 
--   [Convert specification between alternative formats]( help/concepts/czt-views.html#Z_Conversion )
+-   [Convert specification between alternative formats](help/concepts/czt-views.html#Z_Conversion)
 
 -   Verification condition generation: generate verification conditions (theorems) for the active specification and insert them into the specification.
 
