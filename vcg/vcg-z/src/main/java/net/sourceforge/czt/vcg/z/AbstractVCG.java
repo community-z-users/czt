@@ -453,7 +453,8 @@ public abstract class AbstractVCG<//R,
       }
       else if (getVCCollector().getVCGContext() == null)
       {
-      	throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR-VCG-CONTEXT");
+      	getLogger().severe("TODO: Add VCG Context to configuration");
+    	//throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR-VCG-CONTEXT");
       }
       getVCCollector().getTransformer().setApplyTransformer(applyTransf);
 
@@ -837,7 +838,8 @@ public abstract class AbstractVCG<//R,
   protected void retrieveVCGContext(ZSect term)
   {
 	  // populate the VCG Context with the given term meta-paragraphs if any
-	  throw new UnsupportedOperationException();
+	  //throw new UnsupportedOperationException();
+	  getLogger().severe("TODO: populate VCG context");
   }
   
   protected static OpTable checkOpTableWithinListIfNeeded(List<? extends InfoTable> tables, boolean checkConsistency)
@@ -905,6 +907,9 @@ public abstract class AbstractVCG<//R,
     assert isConfigured();
 
     // the meta-model paragraphs are not processed for VC calculation.
+    if (getVCCollector().getVCGContext() == null)
+    	getLogger().severe("TODO: VCG CONTEXT IS NULL!");
+    else
     if (!getVCCollector().getVCGContext().isVCGContextPara(term))
     {
 	    // collect VCs for the given ZSect paragraph. any tables available can be used.
