@@ -21,7 +21,6 @@
     <module>typechecker-zeves</module>
     <module>typechecker-oz</module>
     <module>typechecker-circus</module>
-    <module>typechecker-circustime</module>
   </modules>
 
   <dependencyManagement>

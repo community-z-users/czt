@@ -1,0 +1,61 @@
+\begin{zsection}
+   \SECTION test\_circustime\_action \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+
+\begin{circus}
+    \circchannel\ c: \nat \\
+    \circchannel\ d: \nat \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+
+\begin{circusaction}
+    	\t1 A \circdef c?x \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 B \circdef d?y \then \Skip \\
+\end{circusaction}
+
+
+\begin{circusaction}
+  \t1 Test407 \circdef \circwait vart : \nat  \circspot A \circseq \circwait~ vart \\
+\end{circusaction}
+
+
+\begin{circusaction}
+    \t1 Test64 \circdef c?x \circat~N  \then \lcirctime N \rcirctime A \\
+\end{circusaction}
+
+
+\begin{circusaction}
+    \t1 Test65 \circdef c?x \circat~N  \then \lcirctime x \rcirctime A \\
+\end{circusaction}
+
+ 
+\begin{circusaction}
+    \t1 Test66 \circdef c?x \circat~N  \then \lcirctime 4 \rcirctime A \\
+\end{circusaction}
+
+
+
+
+\begin{circusaction}        
+        \t1 \circspot A \circseq B\\
+\end{circusaction}
+
+
+\begin{circus}    
+\circend
+\end{circus}
