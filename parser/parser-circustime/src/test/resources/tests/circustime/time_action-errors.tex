@@ -1,0 +1,124 @@
+%Negative test cases for Circus Time Action
+
+\begin{zsection}
+   \SECTION test\_circustime\_action \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+\begin{circusaction}
+    	\t1 A \circdef c \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 B \circdef d \then \Skip \\
+\end{circusaction}
+
+
+%startby operator
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+\begin{circusaction}
+   \t1 Test1 \circdef  20 \circstartby A  \\
+\end{circusaction}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circusaction}
+   \t1 Test2 \circdef  ( 20 + 4 )  \circstartby A  \\
+\end{circusaction}
+
+%endby operator
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+\begin{circusaction}
+   \t1 Test3 \circdef  A \circendby 20  \\
+\end{circusaction}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circusaction}
+   \t1 Test4 \circdef  A \circendby ( 20 + 4 )  \\
+\end{circusaction}
+
+
+%timeout operator
+
+%In this example time expression is missing
+\begin{circusaction}
+   \t1 Test5 \circdef  A \circtimeout B  \\
+\end{circusaction}
+
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+\begin{circusaction}
+   \t1 Test6 \circdef  A \circtimeout 20 B  \\
+\end{circusaction}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circusaction}
+   \t1 Test7 \circdef  A \circtimeout  ( 20 + 4 ) B  \\
+\end{circusaction}
+
+
+
+%timedinterrupt operator
+
+%In this example time expression is missing
+\begin{circusaction}
+   \t1 Test8 \circdef  A \circtimedinterrupt B  \\
+\end{circusaction}
+
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+\begin{circusaction}
+   \t1 Test9 \circdef  A \circtimedinterrupt 20 B  \\
+\end{circusaction}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+\begin{circusaction}
+   \t1 Test10 \circdef  A \circtimedinterrupt  ( 20 + 4 ) B  \\
+\end{circusaction}
+
+%Tests production rule: communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+
+\begin{circusaction}
+   \t1 Test11 \circdef c \then 20 A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test12 \circdef  c \then (20+5) B  \\
+\end{circusaction}
+
+%Tests production rule: communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+
+\begin{circusaction}
+   \t1 Test13 \circdef  c \then  20 B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test14 \circdef  c \then  (3+20) B  \\
+\end{circusaction}
+
+
+%Tests production rule: communication:comm ATTIME  DECORWORD:dw PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+
+\begin{circusaction}
+   \t1 Test15 \circdef  c~\circat~N \then 20 B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test16 \circdef  c~\circat~N \then (3+20) B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \circspot A \circseq B \\
+\end{circusaction}
+
+\begin{circus}
+    \circend \\
+\end{circus}

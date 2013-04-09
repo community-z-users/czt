@@ -1,0 +1,356 @@
+\begin{zsection}
+   \SECTION test\_circustime\_action \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+\begin{circusaction}
+    	\t1 A \circdef c \then \Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+        \t1 B \circdef d \then \Skip \\
+\end{circusaction}
+
+%Tests production rule: LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
+\begin{circusaction}
+   \t1 Test1 \circdef  \lcirctime 20 \rcirctime \circstartby A  \\
+\end{circusaction}
+
+%Same production rule with different type of expression
+\begin{circusaction}
+   \t1 Test2 \circdef  \lcirctime 1 \upto 20 \rcirctime \circstartby A  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test3 \circdef  \lcirctime 10 + 20 \rcirctime \circstartby A  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test4 \circdef \circvres vart : \nat  \circspot  \lcirctime vart \rcirctime \circstartby B \\
+\end{circusaction}
+
+
+%Same production rule with Sequential composition
+
+\begin{circusaction}
+   \t1 Test5 \circdef  \lcirctime 20 \rcirctime \circstartby A  \circseq B\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test6 \circdef  \lcirctime 20 \rcirctime \circstartby (A  \circseq B)\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test7 \circdef  A \circseq B \circseq \lcirctime 20 \rcirctime \circstartby B\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test8 \circdef  A \circseq (B \circseq \lcirctime 20 \rcirctime \circstartby B)\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test9 \circdef  \lcirctime 20 \rcirctime \circstartby A \circseq \lcirctime 20 \rcirctime \circstartby B\\
+\end{circusaction}
+
+
+%Tests production rule: circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME 
+
+\begin{circusaction}
+   \t1 Test10 \circdef  A \circendby \lcirctime 20 \rcirctime   \\
+\end{circusaction}
+
+%Same production rule with different type of expression
+\begin{circusaction}
+   \t1 Test11 \circdef  A \circendby \lcirctime 1 \upto 20 \rcirctime  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test12 \circdef  A \circendby \lcirctime 10 + 20 \rcirctime   \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test13 \circdef \circvres vart : \nat  \circspot  B \circendby \lcirctime vart \rcirctime  \\
+\end{circusaction}
+
+%Same production rule with Sequential composition
+
+\begin{circusaction}
+   \t1 Test14 \circdef  A \circseq B \circendby \lcirctime 20 \rcirctime  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test15 \circdef  (A \circseq B) \circendby \lcirctime 20 \rcirctime \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test16 \circdef  A \circseq B \circendby \lcirctime 20 \rcirctime \circseq B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test17 \circdef  A \circseq (B \circendby \lcirctime 20 \rcirctime \circseq B)\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test18 \circdef  A \circendby \lcirctime 20 \rcirctime  \circseq B \circendby \lcirctime 20 \rcirctime\\
+\end{circusaction}
+
+%Tests production rule: circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
+
+\begin{circusaction}
+   \t1 Test19 \circdef  A \circtimeout \lcirctime 20 \rcirctime B  \\
+\end{circusaction}
+
+%Same production rule with different type of expression
+\begin{circusaction}
+   \t1 Test20 \circdef  A \circtimeout \lcirctime 1 \upto 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test21 \circdef  A \circtimeout \lcirctime 10 + 20 \rcirctime B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test22 \circdef \circvres vart : \nat  \circspot  A \circtimeout \lcirctime vart \rcirctime B \\
+\end{circusaction}
+
+%Same production rule with Sequential composition
+
+\begin{circusaction}
+   \t1 Test23 \circdef  A \circseq B \circtimeout \lcirctime 20 \rcirctime B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test24 \circdef  (A \circseq B) \circtimeout \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test25 \circdef  A \circseq B \circtimeout \lcirctime 20 \rcirctime  A \circseq B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test26 \circdef  A \circseq (B \circtimeout \lcirctime 20 \rcirctime A \circseq B)\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test27 \circdef  A \circtimeout \lcirctime 20 \rcirctime B \circtimeout \lcirctime 20 \rcirctime A \circseq B\\
+\end{circusaction}
+
+%Tests production rule: circusAction:al CIRCTIMEDINTERRUPT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
+
+\begin{circusaction}
+   \t1 Test28 \circdef  A \circtimedinterrupt \lcirctime 20 \rcirctime B  \\
+\end{circusaction}
+
+%Same production rule with different type of expression
+
+\begin{circusaction}
+   \t1 Test29 \circdef  A \circtimedinterrupt \lcirctime 1 \upto 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test30 \circdef  A \circtimedinterrupt \lcirctime 10 + 20 \rcirctime B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test31 \circdef \circvres vart : \nat  \circspot  A \circtimedinterrupt \lcirctime vart \rcirctime B \\
+\end{circusaction}
+
+%Same production rule with Sequential composition
+
+\begin{circusaction}
+   \t1 Test32 \circdef  A \circseq B \circtimedinterrupt \lcirctime 20 \rcirctime B  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test33 \circdef  (A \circseq B) \circtimedinterrupt \lcirctime 20 \rcirctime B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test34 \circdef  A \circseq B \circtimedinterrupt \lcirctime 20 \rcirctime  A \circseq B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test35 \circdef  A \circseq (B \circtimedinterrupt \lcirctime 20 \rcirctime A \circseq B)\\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test36 \circdef  A \circtimedinterrupt \lcirctime 20 \rcirctime B \circtimedinterrupt \lcirctime 20 \rcirctime A \circseq B\\
+\end{circusaction}
+
+%Tests production rule: CIRCWAIT:cw expression:e
+
+\begin{circusaction}
+   \t1 Test37 \circdef  \circwait  20 \\
+\end{circusaction}
+
+%Same production rule with different type of expression
+
+\begin{circusaction}
+   \t1 Test38 \circdef   \circwait  1 \upto 20 \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test39 \circdef   \circwait  10 + 20  \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test40 \circdef \circvres vart : \nat  \circspot  \circwait  vart \\
+\end{circusaction}
+
+%Same production rule with Sequential composition
+
+\begin{circusaction}
+   \t1 Test41 \circdef  A \circseq \circwait  20   \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test42 \circdef  (A \circseq B) \circseq \circwait 20 \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test43 \circdef  A \circseq (B \circseq \circwait 20) \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test44 \circdef  \circwait 20 \circseq A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test45 \circdef  \circwait 20 \circseq (A \circseq B) \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test46 \circdef  (\circwait 20 \circseq A) \circseq B \\
+\end{circusaction}
+
+%Tests production rule: CIRCWAIT DECLWORD:dw COLON expression:e CIRCSPOT circusAction:ac
+
+\begin{circusaction}
+   \t1 Test47 \circdef \circvres vart : \nat  \circspot  \circwait  vart  A \\
+\end{circusaction}
+
+%Same production rule with different type of expression
+\begin{circusaction}
+   \t1 Test48 \circdef \circvres vart : 1 \upto 20  \circspot  \circwait  vart  A \\
+\end{circusaction}
+
+%Same production rule with Sequential composition
+
+\begin{circusaction}
+   \t1 Test49 \circdef \circvres vart : \nat  \circspot  A \circseq \circwait  vart  B \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test50 \circdef \circvres vart : \nat  \circspot  (A \circseq \circwait  vart  B) \\
+\end{circusaction}
+
+%Tests production rule: communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+
+\begin{circusaction}
+   \t1 Test51 \circdef c \then  \lcirctime 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test52 \circdef c \then  \lcirctime 1 \upto 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test53 \circdef \circvres vart : 1 \upto 20  \circspot c \then  \lcirctime vart \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test54 \circdef \circvres vart : 1 \upto 20  \circspot c \then  \lcirctime 20 + vart \rcirctime A \\
+\end{circusaction}
+
+
+%Tests production rule: communication:comm  ATTIME DECOWORD:dw  PREFIXTHEN:pt  circusAction:ac
+
+\begin{circusaction}
+   \t1 Test55 \circdef c \circat~N  \then A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test56 \circdef c?x \circat~N  \then A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test58 \circdef c?x \prefixcolon (x > 1)!(f~x)\circat~N \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test59 \circdef c?x \then c?z \prefixcolon (z > x.1).(f~(x.2+x.3))\circat~N \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test60 \circdef c~?i~!(f~i)~\circat~N \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test61 \circdef c.(S.y)?z~\circat~N \then \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test62 \circdef c.(x?)!(y!)!(z?)~\circat~N \then \Skip
+\end{circusaction}
+
+
+%Tests production rule: communication:comm ATTIME  DECORWORD:dw PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+
+\begin{circusaction}
+   \t1 Test63 \circdef c \circat~N  \then \lcirctime 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test64 \circdef c?x \circat~N  \then \lcirctime x \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test65 \circdef c?x \prefixcolon (x > 1)!(f~x)\circat~N \then \lcirctime 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test66 \circdef c?x \then c?z \prefixcolon (z > x.1).(f~(x.2+x.3))\circat~N \then \lcirctime 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test67 \circdef c~?i~!(f~i)~\circat~N \then \lcirctime 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test68 \circdef c.(S.y)?z~\circat~N \then \lcirctime 20 \rcirctime A \\
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test69 \circdef c.(x?)!(y!)!(z?)~\circat~N \then \lcirctime 20 \rcirctime A\\
+\end{circusaction}
+
+\begin{circusaction}
+ \t1 Test70 \circdef g[\nat \cross \nat \cross \nat]?x!n1.n2~\circat~N \then \lcirctime 20 \rcirctime \Skip
+\end{circusaction}
+
+\begin{circusaction}
+   \t1 Test71 \circdef g.n1.(f~n1) \circat~N \then \lcirctime 20 \rcirctime \Skip
+\end{circusaction}
+
+\begin{circusaction}        
+        \t1 \circspot A \circseq B\\
+\end{circusaction}
+
+\begin{circus}    
+\circend
+\end{circus}

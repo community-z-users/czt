@@ -1,0 +1,117 @@
+%Negative test cases for Circus Time Action
+
+\begin{zsection}
+   \SECTION test\_circustime\_process \parents circustime\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel c, d \\
+\end{circus}
+
+%Process P with a circus action A 
+
+\begin{circus}
+    \circprocess\ P \circdef  \circbegin  \\
+    \t1 A \circdef c \then \Skip \\
+    \t1 \circspot A \\
+    \circend
+\end{circus}
+
+
+%Process Q with a circus action B
+
+\begin{circus}
+    \circprocess\ Q \circdef  \circbegin  \\
+    \t1 B \circdef d \then \Skip \\
+    \t1 \circspot B \\
+    \circend
+\end{circus}
+
+
+%startby operator
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+
+\begin{circus}
+   \t1 Test1 \circdef  20 \circstartby P  \\
+\end{circus}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circus}
+   \t1 Test2 \circdef  ( 20 + 4 )  \circstartby P  \\
+\end{circus}
+
+%endby operator
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+
+\begin{circus}
+   \t1 Test3 \circdef  P \circendby 20  \\
+\end{circus}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circus}
+   \t1 Test4 \circdef  P \circendby ( 20 + 4 )  \\
+\end{circus}
+
+%timeout operator
+
+%In this example time expression is missing
+
+\begin{circus}
+   \t1 Test5 \circdef  P \circtimeout Q  \\
+\end{circus}
+
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+
+\begin{circus}
+   \t1 Test6 \circdef  P \circtimeout 20 Q  \\
+\end{circus}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circus}
+   \t1 Test7 \circdef  P \circtimeout  ( 20 + 4 ) Q  \\
+\end{circus}
+
+%timedinterrupt operator
+
+%In this example time expression is missing
+\begin{circus}
+   \t1 Test8 \circdef  P \circtimedinterrupt Q  \\
+\end{circus}
+
+
+%This example shows how the parser handles time expression errors and missing left and right parenthesis.  
+
+\begin{circus}
+   \t1 Test9 \circdef  P \circtimedinterrupt 20 Q  \\
+\end{circus}
+
+%simple parenthesis are not allowed around the time expression (there are some speccific parenthesis) 
+
+\begin{circus}
+   \t1 Test10 \circdef  P \circtimedinterrupt  ( 20 + 4 ) Q  \\
+\end{circus}
+
+% Parameters are not allowed in a process for circus time operators   
+
+\begin{circus}
+   \circprocess Test11 \circdef \circvres vart : \nat  \circspot  \lcirctime vart \rcirctime \circstartby P \\
+\end{circus}
+
+\begin{circus}
+    \circprocess Test12 \circdef \circvres vart : \nat  \circspot  Q \circendby \lcirctime vart \rcirctime  \\
+\end{circus}
+
+\begin{circus}
+    \circprocess Test13 \circdef \circvres vart : \nat  \circspot  P \circtimeout \lcirctime vart \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+    \circprocess Test14 \circdef \circvres vart : \nat  \circspot  P \circtimedinterrupt \lcirctime vart \rcirctime Q \\
+\end{circus}
+

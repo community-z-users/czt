@@ -1,0 +1,178 @@
+\begin{zsection}
+   \SECTION test\_circustime\_process \parents circustime\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+%Process P with a circus action A 
+
+\begin{circus}
+    \circprocess\ P \circdef  \circbegin  \\
+    \t1 A \circdef c \then \Skip \\
+    \t1 \circspot A \\
+    \circend
+\end{circus}
+
+
+%Process Q with a circus action B
+
+\begin{circus}
+    \circprocess\ Q \circdef  \circbegin  \\
+    \t1 B \circdef d \then \Skip \\
+    \t1 \circspot B \\
+    \circend
+\end{circus}
+
+%Tests production rule:  LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY process:pr
+\begin{circus}
+   \circprocess Test1 \circdef  \lcirctime 20 \rcirctime \circstartby P  \\
+\end{circus}
+
+%Same production rule with different type of expression
+
+\begin{circus}
+   \circprocess Test2 \circdef  \lcirctime 1 \upto 20 \rcirctime \circstartby P  \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test3 \circdef  \lcirctime 10 + 20 \rcirctime \circstartby P  \\
+\end{circus}
+
+%Same production rule with Sequential composition
+
+\begin{circus}
+   \circprocess Test4 \circdef  \lcirctime 20 \rcirctime \circstartby P  \circseq Q\\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test5 \circdef  \lcirctime 20 \rcirctime \circstartby (P  \circseq Q)\\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test6 \circdef  P \circseq Q \circseq \lcirctime 20 \rcirctime \circstartby Q\\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test7 \circdef  P \circseq (Q \circseq \lcirctime 20 \rcirctime \circstartby Q)\\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test8 \circdef  \lcirctime 20 \rcirctime \circstartby P \circseq \lcirctime 20 \rcirctime \circstartby Q\\
+\end{circus}
+
+
+%Tests production rule: process:pl CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+
+\begin{circus}
+   \circprocess Test9 \circdef  P \circendby \lcirctime 20 \rcirctime   \\
+\end{circus}
+
+%Same production rule with different type of expression
+
+\begin{circus}
+   \circprocess Test10 \circdef  P \circendby \lcirctime 1 \upto 20 \rcirctime  \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test11 \circdef  P \circendby \lcirctime 10 + 20 \rcirctime   \\
+\end{circus}
+
+%Same production rule with Sequential composition
+
+\begin{circus}
+   \circprocess Test12 \circdef  P \circseq Q \circendby \lcirctime 20 \rcirctime  \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test13 \circdef  (P \circseq Q) \circendby \lcirctime 20 \rcirctime \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test14 \circdef  p \circseq Q \circendby \lcirctime 20 \rcirctime \circseq Q \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test15 \circdef  P \circseq (Q \circendby \lcirctime 20 \rcirctime \circseq Q)\\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test16 \circdef  P \circendby \lcirctime 20 \rcirctime  \circseq Q \circendby \lcirctime 20 \rcirctime\\
+\end{circus}
+
+%Tests production rule: process:pl CIRCTIMEOUT  LCIRCTIME expression:e RCIRCTIME  process:pr
+
+\begin{circus}
+   \circprocess Test17 \circdef  P \circtimeout \lcirctime 20 \rcirctime Q  \\
+\end{circus}
+
+%Same production rule with different type of expression
+\begin{circus}
+   \circprocess Test18 \circdef  P \circtimeout \lcirctime 1 \upto 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test19 \circdef  P \circtimeout \lcirctime 10 + 20 \rcirctime Q  \\
+\end{circus}
+
+%Same production rule with Sequential composition
+
+\begin{circus}
+   \circprocess Test20 \circdef  P \circseq Q \circtimeout \lcirctime 20 \rcirctime Q  \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test21 \circdef  (P \circseq Q) \circtimeout \lcirctime 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test22 \circdef  P \circseq Q \circtimeout \lcirctime 20 \rcirctime  P \circseq Q \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test23 \circdef  P \circseq (Q \circtimeout \lcirctime 20 \rcirctime P \circseq Q)\\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test24 \circdef  P \circtimeout \lcirctime 20 \rcirctime Q \circtimeout \lcirctime 20 \rcirctime P \circseq Q\\
+\end{circus}
+
+%Tests production rule:  process:pl CIRCTIMEDINTERRUPT:ti  LCIRCTIME expression:e RCIRCTIME  process:pr
+
+\begin{circus}
+   \circprocess Test25 \circdef  P \circtimedinterrupt \lcirctime 20 \rcirctime Q  \\
+\end{circus}
+
+%Same production rule with different type of expression
+\begin{circus}
+   \circprocess Test26 \circdef  P \circtimedinterrupt \lcirctime 1 \upto 20 \rcirctime Q \\
+\end{circus}
+ 
+\begin{circus}
+   \circprocess Test27 \circdef  P \circtimedinterrupt \lcirctime 10 + 20 \rcirctime Q  \\
+\end{circus}
+
+%Same production rule with Sequential composition
+
+\begin{circus}
+    \circprocess Test28 \circdef  P \circseq Q \circtimedinterrupt \lcirctime 20 \rcirctime Q  \\
+\end{circus}
+ 
+\begin{circus}
+    \circprocess Test29 \circdef  (P \circseq Q) \circtimedinterrupt \lcirctime 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test30 \circdef  P \circseq Q \circtimedinterrupt \lcirctime 20 \rcirctime  P \circseq Q \\
+\end{circus}
+ 
+\begin{circus}
+    \circprocess Test31 \circdef  P \circseq (Q \circtimedinterrupt \lcirctime 20 \rcirctime P \circseq Q)\\
+\end{circus}
+
+\begin{circus}
+    \circprocess Test32 \circdef  P \circtimedinterrupt \lcirctime 20 \rcirctime Q \circtimedinterrupt \lcirctime 20 \rcirctime P \circseq Q\\
+\end{circus}
