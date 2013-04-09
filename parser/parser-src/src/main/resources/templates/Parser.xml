@@ -7102,15 +7102,15 @@ cspAction ::=
 		    addLocAnn(RESULT, getLocation(comm, ac));	    
         :}
 	|
-		communication:comm  ATTIME refName:na  PREFIXTHEN:pt  circusAction:ac
+		communication:comm  ATTIME DECORWORD:dw  PREFIXTHEN:pt  circusAction:ac
         {:
-		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingAction(ac,comm,na);
+		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingAction(ac,comm,createZName(dw));
 		    addLocAnn(RESULT, getLocation(comm, ac));
         :}
 	|
-		communication:comm ATTIME  refName:na PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
+		communication:comm ATTIME  DECORWORD:dw PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
         {:
-		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingExprAction(ac,comm,na,e);
+		    RESULT = factory_.getCircusTimeFactory().createAtPrefixingExprAction(ac,comm,createZName(dw),e);
 		    addLocAnn(RESULT, getLocation(comm, ac));
 	:}
         </add:circustime>
