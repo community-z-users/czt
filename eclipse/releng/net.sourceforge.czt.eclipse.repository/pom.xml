@@ -17,7 +17,7 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <configuration>
           <repositoryName>CZT for Eclipse Updates</repositoryName>
         </configuration>
@@ -26,7 +26,7 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-director-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <executions>
           <execution>
             <id>materialize-products</id>
