@@ -37,7 +37,7 @@ CZT source code is available on SourceForge. To download the source code,
 you need to clone CZT Git repository. To clone the whole repository to
 directory `czt`, use the following Git command:
 
-    git clone git://czt.git.sourceforge.net/gitroot/czt/czt
+    git clone git://git.code.sf.net/p/czt/code
 
 This will clone the read-only CZT repository. Refer to
 [CZT developer page][czt-dev] for further details.

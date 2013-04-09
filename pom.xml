@@ -337,9 +337,9 @@
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.6</version>
         <configuration>
-          <webAccessUrl>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</webAccessUrl>
-          <anonymousConnection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</anonymousConnection>
-          <developerConnection>scm:git:ssh://USERNAME@czt.git.sourceforge.net/gitroot/czt/czt</developerConnection>
+          <webAccessUrl>http://sourceforge.net/p/czt/code/ci/master/tree</webAccessUrl>
+          <anonymousConnection>scm:git:git://git.code.sf.net/p/czt/code</anonymousConnection>
+          <developerConnection>scm:git:ssh://USERNAME@git.code.sf.net/p/czt/code</developerConnection>
         </configuration>
         <reportSets>
           <reportSet>
@@ -649,9 +649,9 @@
   </mailingLists>
 
   <scm>
-    <connection>scm:git:git://czt.git.sourceforge.net/gitroot/czt/czt</connection>
-    <developerConnection>scm:git:ssh://USERNAME@czt.git.sourceforge.net/gitroot/czt/czt</developerConnection>
-    <url>http://czt.git.sourceforge.net/git/gitweb.cgi?p=czt/czt</url>
+    <connection>scm:git:git://git.code.sf.net/p/czt/code</connection>
+    <developerConnection>scm:git:ssh://USERNAME@git.code.sf.net/p/czt/code</developerConnection>
+    <url>http://sourceforge.net/p/czt/code/ci/master/tree</url>
   </scm>
 
   <distributionManagement>

@@ -26,7 +26,7 @@ The general steps to clone a repository in Eclipse IDE are the following:
 
 1.    Launch clone wizard by selecting **Import > Projects from Git > URI**
 2.    In the repository information, supply the CZT repository URI:
-      `git://czt.git.sourceforge.net/gitroot/czt/czt`
+      `git://git.code.sf.net/p/czt/code`
 3.    Select branches to clone (e.g. at least `master` - the main branch)
 4.    Provide destination directory
 5.    Select **Import as general project** to have the root directory visible as
