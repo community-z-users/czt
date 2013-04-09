@@ -2279,7 +2279,7 @@
             </xs:annotation>
           </xs:element>       
         </xs:sequence>
-        <xs:attribute name="Usage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>
+        <xs:attribute name="CallUsage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
@@ -2924,7 +2924,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:SignatureList">
         <xs:sequence>
-          <xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2934,7 +2940,20 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:SignatureList">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ProcessSignature" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="CIRCUS:ProcessSignature" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <!-- NOTE: after adding proper generic types to GNast and JaxB producers in corejava
+              			 it became clear that certain list types needed explicit request for JAXBElement
+              			 to be generated. This is in accordance to what I found at
+              			 http://docs.oracle.com/cd/E19879-01/820-1072/ahiid/index.html
+              			 
+              			 This should / might also fix some JAXB/XML errors fro Circus (?)
+               -->
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2944,7 +2963,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:SignatureList">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2968,7 +2993,13 @@
             As we must have at least one assignment pair for the state invariant, 
             minOccurs is set to 1.
             -->
-          <xs:element ref="CIRCUS:AssignmentPairs" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element ref="CIRCUS:AssignmentPairs" minOccurs="1" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -3599,7 +3630,7 @@
         </xs:sequence>
   <!-- A process might have neither formal parameters nor indexes, hence minOccurs="0" for Signature below. 
         Or it might have either of them (i.e. formal parameters or indexes) but never both. -->
-        <xs:attribute name="Usage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>        
+        <xs:attribute name="CallUsage" type="CIRCUS:CallUsage" use="optional" default="Parameterised"/>        
       </xs:extension>            
     </xs:complexContent>
   </xs:complexType>   

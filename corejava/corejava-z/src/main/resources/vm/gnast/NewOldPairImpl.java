@@ -1,4 +1,4 @@
-  public Name getNewName()
+  public net.sourceforge.czt.z.ast.Name getNewName()
   {
     if (getName().size() > 0) {
       return getName().get(0);
@@ -6,7 +6,7 @@
     return null;
   }
 
-  public void setNewName(Name name)
+  public void setNewName(net.sourceforge.czt.z.ast.Name name)
   {
     if (getName().size() > 0) {
       getName().set(0, name);
@@ -16,7 +16,7 @@
     }
   }
 
-  public Name getOldName()
+  public net.sourceforge.czt.z.ast.Name getOldName()
   {
     if (getName().size() > 1) {
       return getName().get(1);
@@ -24,7 +24,7 @@
     return null;
   }
 
-  public void setOldName(Name name)
+  public void setOldName(net.sourceforge.czt.z.ast.Name name)
   {
     if (getName().size() == 0) {
       getName().add(null);
@@ -37,22 +37,22 @@
     }
   }
 
-  public ZName getZDeclName()
+  public net.sourceforge.czt.z.ast.ZName getZDeclName()
   {
-    Name declName = getNewName();
-    if (declName instanceof ZName) {
-      return (ZName) declName;
+	  net.sourceforge.czt.z.ast.Name declName = getNewName();
+    if (declName instanceof net.sourceforge.czt.z.ast.ZName) {
+      return (net.sourceforge.czt.z.ast.ZName) declName;
     }
     final String message = "Expected the default (Z) implementation of Name" +
       " but found " + String.valueOf(declName);
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
-  public ZName getZRefName()
+  public net.sourceforge.czt.z.ast.ZName getZRefName()
   {
-    Name refName = getOldName();
-    if (refName instanceof ZName) {
-      return (ZName) refName;
+	  net.sourceforge.czt.z.ast.Name refName = getOldName();
+    if (refName instanceof net.sourceforge.czt.z.ast.ZName) {
+      return (net.sourceforge.czt.z.ast.ZName) refName;
     }
     final String message = "Expected the default (Z) implementation of Name" +
       " but found " + String.valueOf(refName);

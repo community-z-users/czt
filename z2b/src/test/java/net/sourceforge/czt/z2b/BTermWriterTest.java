@@ -19,12 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.z2b;
 
-import java.util.*;
 import java.io.*;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
@@ -32,7 +30,6 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z2b.*;
 
 
 /**

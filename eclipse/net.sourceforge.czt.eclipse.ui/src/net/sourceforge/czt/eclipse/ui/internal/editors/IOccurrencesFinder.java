@@ -14,7 +14,7 @@ public interface IOccurrencesFinder {
 	
 	public String initialize(Term root, int offset, int length);
 	
-	public List perform();
+	public List<?> perform();
 	
 	public String getJobLabel();
 
@@ -22,5 +22,5 @@ public interface IOccurrencesFinder {
 	
 	public String getSingularLabel(String documentName);
 	
-	public void collectOccurrenceMatches(Term term, IDocument document, Collection resultingMatches);
+	public void collectOccurrenceMatches(Term term, IDocument document, Collection<?> resultingMatches);
 }

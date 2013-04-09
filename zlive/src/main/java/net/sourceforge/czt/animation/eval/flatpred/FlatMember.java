@@ -48,7 +48,7 @@ public class FlatMember extends FlatPred
   protected EvalSet set_;
 
   /** This is for iterating through set_ */
-  protected Iterator current_;
+  protected Iterator<Expr> current_;
 
   /** Membership of a set.
    *

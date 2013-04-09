@@ -181,7 +181,8 @@ public class ListTermImpl<E>
     return list_.isEmpty() ? new Object[0] : list_.toArray();
   }
 
-  @Override
+  @SuppressWarnings("unchecked")
+@Override
   public Term create(Object[] args)
   {
     ListTermImpl<E> result = new ListTermImpl<E>();

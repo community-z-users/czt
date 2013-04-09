@@ -41,7 +41,7 @@ import java_cup.runtime.Symbol;
 public class TokenStack
 {
   private Scanner scanner_;
-  private Stack stack_ = new Stack();
+  private Stack<Symbol> stack_ = new Stack<Symbol>();
 
   public TokenStack(Scanner scanner)
   {

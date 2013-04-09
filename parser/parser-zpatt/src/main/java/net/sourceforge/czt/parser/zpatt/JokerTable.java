@@ -76,7 +76,7 @@ public class JokerTable
   public JokerType getTokenType(String name)
   {
     Jokers jokers = jokers_.get(name);
-    if (jokers != null) return jokers.getKind();
+    if (jokers != null) return jokers.getJokerType();
     return null;
   }
 
@@ -100,9 +100,9 @@ public class JokerTable
   {
     final Jokers existingJokers = jokers_.get(name);
     if (existingJokers != null &&
-        existingJokers.getKind() != jokers.getKind()) {
+        existingJokers.getJokerType() != jokers.getJokerType()) {
       String message = "Duplicate joker name " + name;
-      message += " defined as " + jokers.getKind();
+      message += " defined as " + jokers.getJokerType();
       LocAnn locAnn = (LocAnn) jokers.getAnn(LocAnn.class);
       if (locAnn != null) {
         if (locAnn.getLine() != null) {
@@ -115,7 +115,7 @@ public class JokerTable
           message += " in " + locAnn.getLoc();
         }
       }
-      message += " and as " + existingJokers.getKind();
+      message += " and as " + existingJokers.getJokerType();
       locAnn = (LocAnn) existingJokers.getAnn(LocAnn.class);
       if (locAnn != null) {
         if (locAnn.getLine() != null) {
@@ -154,7 +154,12 @@ public class JokerTable
   public static class JokerException
     extends Exception
   {
-    public JokerException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4051027474679993397L;
+
+	public JokerException(String message)
     {
       super(message);
     }

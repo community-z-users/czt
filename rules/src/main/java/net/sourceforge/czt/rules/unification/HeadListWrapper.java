@@ -25,8 +25,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.*;
 
 /**
@@ -71,7 +69,7 @@ class HeadListWrapper
 
   public Object[] getChildren()
   {
-    final List list = headList_.getList();
+    final List<?> list = headList_.getList();
     if (list.isEmpty()) {
       // should not happen except for printing log messages
       return new Object[] { name_, "?" };
@@ -93,11 +91,12 @@ class HeadListWrapper
     return anns_;
   }
 
-  public Object getAnn(Class aClass)
+  @SuppressWarnings("unchecked")
+public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {
-        return annotation;
+        return (T)annotation;
       }
     }
     return null;

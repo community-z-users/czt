@@ -1,13 +1,13 @@
-  public ChannelSet getLeftAlpha()
+  public net.sourceforge.czt.circus.ast.ChannelSet getLeftAlpha()
   {
-    ChannelSet result = null;
+	  net.sourceforge.czt.circus.ast.ChannelSet result = null;
     if (getChannelSet().size() > 0) {
       result = getChannelSet().get(0);
     }
     return result;
   }
 
-  public void setLeftAlpha(ChannelSet alpha)
+  public void setLeftAlpha(net.sourceforge.czt.circus.ast.ChannelSet alpha)
   {
     if (getChannelSet().size() > 0) {
       getChannelSet().set(0, alpha);
@@ -17,16 +17,16 @@
     }
   }
 
-  public ChannelSet getRightAlpha()
+  public net.sourceforge.czt.circus.ast.ChannelSet getRightAlpha()
   {
-    ChannelSet result = null;
+	  net.sourceforge.czt.circus.ast.ChannelSet result = null;
     if (getChannelSet().size() > 1) {
       result = getChannelSet().get(1);
     }
     return result;
   }
 
-  public void setRightAlpha(ChannelSet alpha)
+  public void setRightAlpha(net.sourceforge.czt.circus.ast.ChannelSet alpha)
   {
     if (getChannelSet().size() == 0) {
       getChannelSet().add(null);

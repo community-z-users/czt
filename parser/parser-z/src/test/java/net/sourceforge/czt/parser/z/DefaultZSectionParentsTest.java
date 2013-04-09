@@ -8,7 +8,6 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.DefaultSectionParents;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -93,15 +92,6 @@ public class DefaultZSectionParentsTest {
 		// don't include ZEVES prelude
 		assertEquals(cmd1_.defaultParents(Section.WHITESPACE.getName()), 
 				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()));
-	}
-
-	@Test
-	public void testZStateToolkit() {
-		// don't include ZEVES prelude
-		assertEquals(cmd1_.defaultParents(Section.ZSTATE_TOOLKIT.getName()), 
-				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName()//, 
-									//Section.STANDARD_TOOLKIT.getName()
-						));
 	}
 
 	@Test

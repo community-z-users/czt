@@ -29,12 +29,10 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
-#foreach($p in $projects)
-import ${p.AstPackage}.*;
-#end
-import ${project.AstPackage}.*;
-import ${project.BasePackage}.util.PrintVisitor;
-import net.sourceforge.czt.util.Visitor;
+##//#foreach($p in $projects)
+##//import ${p.AstPackage}.*;
+##//#end
+##//import ${project.AstPackage}.*;
 
 /**
  * <p>An implementation of the object factory for constructing
@@ -62,30 +60,30 @@ public class ${class.Name}
 #end
   implements ${FactoryInterface.FullName}
 {
-  protected ${class.Name}(Visitor<String> toStringVisitor)
+  protected ${class.Name}(net.sourceforge.czt.util.Visitor<String> toStringVisitor)
   {
     super(toStringVisitor);
   }
 
   public ${class.Name}()
   {
-    super(new PrintVisitor());
+    super(new ${project.BasePackage}.util.PrintVisitor());
   }
 
 #foreach($c in $classes)
 #if(!$c.Abstract)
-#set($head = "public ${c.Name} create${c.Name}")
+#set($head = "public ${c.getPackage()}.${c.Name} create${c.Name}")
   ${head}()
   {
-    ${c.Name} zedObject = new ${c.ImplName}(this);
+    ${c.getPackage()}.${c.Name} zedObject = new ${c.getImplPackage()}.${c.ImplName}(this);
     countInstance();
     return zedObject;
   }
 
 #if($c.AllProperties.size() > 0)
-  ${head}(#factoryTypeVarList(${c.AllProperties}))
+  ${head}(#factoryTypeVarList(${c.AllProperties} ${c}))
   {
-    ${c.Name} zedObject = create${c.Name}();
+    ${c.getPackage()}.${c.Name} zedObject = create${c.Name}();
 #foreach($prop in ${c.AllProperties})
 #if(${prop.isList()})
     if (${prop.VarName} != null) {

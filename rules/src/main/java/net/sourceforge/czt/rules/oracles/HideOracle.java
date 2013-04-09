@@ -38,7 +38,7 @@ public class HideOracle
 {
   private Factory factory_ = new Factory(new ProverFactory());
 
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     final ZDeclList d1 = (ZDeclList)

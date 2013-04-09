@@ -21,7 +21,6 @@ import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
  * A simple {@linkplain net.sourceforge.czt.eclipse.ui.internal.editors.ZSourceViewerConfiguration Z source viewer configuration}.

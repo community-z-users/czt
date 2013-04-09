@@ -20,7 +20,6 @@
 package net.sourceforge.czt.parser.circustime;
 
 import java.io.*;
-import java.io.FileOutputStream;
 
 import java.util.logging.Level;
 

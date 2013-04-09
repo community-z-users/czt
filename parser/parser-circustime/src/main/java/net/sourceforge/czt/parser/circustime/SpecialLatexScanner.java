@@ -6,13 +6,10 @@
 package net.sourceforge.czt.parser.circustime;
 
 
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
@@ -53,7 +50,7 @@ public class SpecialLatexScanner {
     return result;
   }
   */
-  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
+  protected static <K, V> Map<V, K> flipMap(Map<K, V> m)
   {
     Map<V, K> result = new HashMap<V, K>();
     Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();

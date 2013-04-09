@@ -102,4 +102,8 @@ public interface JProperty extends JVariable
    * </p>
    */
   boolean isList();
+  
+  boolean isEnum();
+  
+  String getFullEnumName(boolean asJaxb);
 }

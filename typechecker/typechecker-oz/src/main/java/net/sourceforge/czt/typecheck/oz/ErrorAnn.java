@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.oz;
 
 import java.util.*;
 import java.io.*;
-import java.text.MessageFormat;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -36,7 +35,7 @@ public class ErrorAnn
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.typecheck.oz.TypeCheckResources";
-  private static ResourceBundle RESOURCE_BUNDLE =
+  public static ResourceBundle RESOURCE_BUNDLE =
     ResourceBundle.getBundle(RESOURCE_NAME);
 
   public ErrorAnn(String errorMessage, Object [] params,

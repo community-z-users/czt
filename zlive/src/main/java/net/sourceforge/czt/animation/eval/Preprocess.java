@@ -93,11 +93,11 @@ public final class Preprocess
     URL url = getClass().getResource(rulesFile);
     if (url == null)
       throw new IOException("Cannot getResource("+rulesFile+")");
-    sectman_.put(new Key(url.toString(), Source.class), new UrlSource(url));
-    Term term = (Spec) sectman_.get(new Key(url.toString(), Spec.class));
+    sectman_.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
+    Term term =  sectman_.get(new Key<Spec>(url.toString(), Spec.class));
     String sectname = term.accept(new GetZSectNameVisitor());
-    sectman_.get(new Key(sectname, SectTypeEnvAnn.class)); // typecheck sect
-    rules_ = (RuleTable) sectman_.get(new Key(sectname, RuleTable.class));
+    sectman_.get(new Key<SectTypeEnvAnn>(sectname, SectTypeEnvAnn.class)); // typecheck sect
+    rules_ = sectman_.get(new Key<RuleTable>(sectname, RuleTable.class));
   }
 
   /** Rewrites the given term by firstly unfolding VarDecls

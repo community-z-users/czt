@@ -132,7 +132,7 @@ public class LatexMarkupConverterTest
     throws Exception
   {
     File file = new File(unicodeFileName);
-    unicodeToLatex(file.toURL(), latexFileName);
+    unicodeToLatex(file.toURI().toURL(), latexFileName);
   }
 
   private void unicodeToLatex(URL url, String latexFileName)

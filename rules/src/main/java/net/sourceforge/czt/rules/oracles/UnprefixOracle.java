@@ -36,7 +36,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class UnprefixOracle
   extends AbstractOracle
 {
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     Factory factory = new Factory(new ProverFactory());

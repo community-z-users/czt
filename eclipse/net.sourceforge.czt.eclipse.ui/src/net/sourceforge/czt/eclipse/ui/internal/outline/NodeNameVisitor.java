@@ -1,8 +1,6 @@
 
 package net.sourceforge.czt.eclipse.ui.internal.outline;
 
-import org.eclipse.jface.text.Position;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.circus.ast.ChannelDecl;

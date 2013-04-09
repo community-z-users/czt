@@ -26,9 +26,9 @@ import java.util.List;
 public class TermModel
 {
   private String name_;
-  private List children_;
+  private List<?> children_;
 
-  public TermModel(String name, List children)
+  public TermModel(String name, List<?> children)
   {
     name_ = name;
     children_ = children;

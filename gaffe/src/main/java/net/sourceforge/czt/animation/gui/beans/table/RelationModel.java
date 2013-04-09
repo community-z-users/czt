@@ -29,7 +29,11 @@ import net.sourceforge.czt.animation.gui.temp.ZTuple;
  */
 public class RelationModel extends AbstractTableModel
 {
-  private ZSet relation_ = new ZSet();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7240742906611821569L;
+private ZSet relation_ = new ZSet();
 
   public ZSet getRelation()
   {

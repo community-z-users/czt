@@ -41,11 +41,4 @@ public enum ${Name}
 #end
   ;
 
-  /**
-   * @deprecated  As of corejava 1.5, replaced by {@link #valueOf(String)}.
-   */
-  public static ${Name} fromString(String value)
-  {
-    return valueOf(value);
-  }
 }

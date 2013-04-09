@@ -22,7 +22,6 @@ package net.sourceforge.czt.print.z;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.TermCommand;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.PrintException;

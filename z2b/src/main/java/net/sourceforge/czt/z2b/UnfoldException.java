@@ -24,7 +24,12 @@ package net.sourceforge.czt.z2b;
 public class UnfoldException
   extends Exception
 {
-  public UnfoldException(Throwable cause)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1879278911820249210L;
+
+public UnfoldException(Throwable cause)
   {
     super("Unfolding failed", cause);
   }

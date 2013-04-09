@@ -29,7 +29,6 @@
 package net.sourceforge.czt.circuspatt.util;
 
 import net.sourceforge.czt.zpatt.util.*;
-import net.sourceforge.czt.z.util.*;
 
 /**
  * An interface for commonly used Circus characters.

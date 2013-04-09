@@ -27,11 +27,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.typecheck.oz.impl.*;
-import net.sourceforge.czt.typecheck.z.*;
 
 /**
  * A <code>PredChecker</code> instance visits the Pred instances in an
@@ -101,7 +98,7 @@ public class PredChecker
           //remove any type mismatch errors
           String message =
             ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED.toString();
-          for (Iterator iter = memPred.getAnns().iterator(); iter.hasNext();) {
+          for (Iterator<Object> iter = memPred.getAnns().iterator(); iter.hasNext();) {
             Object next = iter.next();
             if (next instanceof ErrorAnn) {
               ErrorAnn errorAnn = (ErrorAnn) next;
@@ -175,7 +172,7 @@ public class PredChecker
   //remove an object from a list
   protected void removeObject(Object obj, List<Object> list)
   {
-    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+    for (Iterator<Object> iter = list.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (obj == next) {
         iter.remove();

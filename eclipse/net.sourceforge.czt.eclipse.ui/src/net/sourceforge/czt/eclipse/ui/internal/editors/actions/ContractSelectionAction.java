@@ -9,9 +9,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;
-import net.sourceforge.czt.z.ast.ZName;
 
-import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;

@@ -7,7 +7,6 @@ import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartition
 import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
@@ -69,17 +68,19 @@ public class CZTTextTools
   /**
    * This tools' preference listener.
    */
-  private class PreferenceListener
+@SuppressWarnings("deprecation")
+private class PreferenceListener
       implements
         IPropertyChangeListener,
-        Preferences.IPropertyChangeListener
+        // TODO: FIX THIS AND ALL OTHER DEPRECATED STUFF 
+        org.eclipse.core.runtime.Preferences.IPropertyChangeListener
   {
     public void propertyChange(PropertyChangeEvent event)
     {
       //			adaptToPreferenceChange(event);
     }
 
-    public void propertyChange(Preferences.PropertyChangeEvent event)
+    public void propertyChange(org.eclipse.core.runtime.Preferences.PropertyChangeEvent event)
     {
       //			adaptToPreferenceChange(new PropertyChangeEvent(event.getSource(), event.getProperty(), event.getOldValue(), event.getNewValue()));
     }
@@ -110,7 +111,8 @@ public class CZTTextTools
   /**
    * The core preference store.
    */
-  private Preferences fCorePreferenceStore;
+  @SuppressWarnings("deprecation")
+private org.eclipse.core.runtime.Preferences fCorePreferenceStore;
 
   /** The preference change listener */
   private PreferenceListener fPreferenceListener = new PreferenceListener();
@@ -161,7 +163,7 @@ public class CZTTextTools
    * @see org.eclipse.jdt.ui.PreferenceConstants#getPreferenceStore()
    * @since 2.1
    */
-  public CZTTextTools(IPreferenceStore store, Preferences coreStore)
+  public CZTTextTools(IPreferenceStore store, @SuppressWarnings("deprecation") org.eclipse.core.runtime.Preferences coreStore)
   {
     this(store, coreStore, true);
   }
@@ -182,7 +184,8 @@ public class CZTTextTools
    * @see net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants#getPreferenceStore()
    * @since 2.1
    */
-  public CZTTextTools(IPreferenceStore store, Preferences coreStore,
+  @SuppressWarnings("deprecation")
+public CZTTextTools(IPreferenceStore store, org.eclipse.core.runtime.Preferences coreStore,
       boolean autoDisposeOnDisplayDispose)
   {
     fPreferenceStore = store;
@@ -204,7 +207,8 @@ public class CZTTextTools
   /**
    * Disposes all the individual tools of this tools collection.
    */
-  public void dispose()
+  @SuppressWarnings("deprecation")
+public void dispose()
   {
 
     fZLatexCodeScanner = null;
@@ -343,7 +347,8 @@ public class CZTTextTools
    * @return the core preference store
    * @since 3.0
    */
-  protected Preferences getCorePreferenceStore()
+  @SuppressWarnings("deprecation")
+protected org.eclipse.core.runtime.Preferences getCorePreferenceStore()
   {
     return fCorePreferenceStore;
   }

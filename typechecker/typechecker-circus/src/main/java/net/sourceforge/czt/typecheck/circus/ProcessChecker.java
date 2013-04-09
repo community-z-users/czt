@@ -18,12 +18,9 @@
 */
 package net.sourceforge.czt.typecheck.circus;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import net.sourceforge.czt.circus.ast.AlphabetisedParallelProcess;
-import net.sourceforge.czt.circus.ast.AssignmentPairs;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallProcess;
 import net.sourceforge.czt.circus.ast.ChannelSet;
@@ -44,7 +41,6 @@ import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.RenameProcess;
-import net.sourceforge.czt.circus.impl.ProcessSignatureImpl;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessVisitor;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
 import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
@@ -58,10 +54,7 @@ import net.sourceforge.czt.circus.visitor.ProcessIteVisitor;
 import net.sourceforge.czt.circus.visitor.RenameProcessVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
-import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
@@ -70,9 +63,7 @@ import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
@@ -230,7 +221,8 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
       lit.hasPrevious();)
     {
       ChannelSet cs = lit.previous();
-      ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
+      @SuppressWarnings("unused")
+	ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
       GlobalDefs.addNoDuplicates(0, cs, processSig_.getCircusProcessChannelSets());
     }    
 
@@ -617,7 +609,8 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
 
     // typecheck and update channel sets used
     ChannelSet cs = term.getChannelSet();
-    ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
+    @SuppressWarnings("unused")
+	ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
     GlobalDefs.addNoDuplicates(0, cs, processSig_.getCircusProcessChannelSets()); 
 
     // check the process itself and add signature

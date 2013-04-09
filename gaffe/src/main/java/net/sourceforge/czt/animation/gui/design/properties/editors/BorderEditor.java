@@ -62,7 +62,12 @@ public class BorderEditor extends PropertyEditorSupport
 
   private final JLabel exampleBorder = new JLabel()
   {
-    protected void paintBorder(Graphics g)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2504427632885810014L;
+
+	protected void paintBorder(Graphics g)
     {
       try {
         super.paintBorder(g);
@@ -123,14 +128,24 @@ public class BorderEditor extends PropertyEditorSupport
 
   private abstract static class SingleBorderEditor extends JPanel
   {
-    public abstract Border createBorder();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4927541139554935774L;
+
+	public abstract Border createBorder();
 
     public abstract void setEditingBorder(Border border);
   };
 
   private SingleBorderEditor bevelBorderEditor = new SingleBorderEditor()
   {
-    private final JRadioButton raisedButton = new JRadioButton("Raised");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4592190909362087166L;
+
+	private final JRadioButton raisedButton = new JRadioButton("Raised");
 
     private final JRadioButton loweredButton = new JRadioButton("Lowered");
     //private Color highlightOuter;
@@ -190,7 +205,12 @@ public class BorderEditor extends PropertyEditorSupport
 
   private SingleBorderEditor emptyBorderEditor = new SingleBorderEditor()
   {
-    private final JSpinner topS = new JSpinner();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1005281653507692429L;
+
+	private final JSpinner topS = new JSpinner();
 
     private final JSpinner leftS = new JSpinner();
 
@@ -232,7 +252,12 @@ public class BorderEditor extends PropertyEditorSupport
 
   private SingleBorderEditor etchedBorderEditor = new SingleBorderEditor()
   {
-    private final JRadioButton raisedButton = new JRadioButton("Raised");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5055680870169708158L;
+
+	private final JRadioButton raisedButton = new JRadioButton("Raised");
 
     private final JRadioButton loweredButton = new JRadioButton("Lowered");
 
@@ -291,7 +316,12 @@ public class BorderEditor extends PropertyEditorSupport
 
   private SingleBorderEditor lineBorderEditor = new SingleBorderEditor()
   {
-    private Color colour;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 307758873346054987L;
+
+	private Color colour;
 
     private final JSpinner thicknessS = new JSpinner();
 
@@ -318,7 +348,12 @@ public class BorderEditor extends PropertyEditorSupport
 
   private SingleBorderEditor matteBorderEditor = new SingleBorderEditor()
   {
-    private final JSpinner topS = new JSpinner();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8830607017064229260L;
+
+	private final JSpinner topS = new JSpinner();
 
     private final JSpinner leftS = new JSpinner();
 
@@ -373,7 +408,12 @@ public class BorderEditor extends PropertyEditorSupport
 
   private SingleBorderEditor softBevelBorderEditor = new SingleBorderEditor()
   {
-    private final JRadioButton raisedButton = new JRadioButton("Raised");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6329395239203748349L;
+
+	private final JRadioButton raisedButton = new JRadioButton("Raised");
 
     private final JRadioButton loweredButton = new JRadioButton("Lowered");
     //private Color highlightOuter;

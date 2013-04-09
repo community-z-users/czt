@@ -41,9 +41,9 @@ public class GaffeUtil
 
   private static Map<String, StepTree> sessionMap = new HashMap<String, StepTree>();         // The seesion Map hold Name - > StepTree binding
 
-  private static Map<String, Class> customMap = new HashMap<String, Class>();                // The customer specified UI Map (VariableName-->Adapter)
+  private static Map<String, Class<?>> customMap = new HashMap<String, Class<?>>();                // The customer specified UI Map (VariableName-->Adapter)
 
-  private static Map<String, List<Class>> availableMap = new HashMap<String, List<Class>>(); // The avaiable UI Map           (VariableName-->Available Adapter List>
+  private static Map<String, List<Class<?>>> availableMap = new HashMap<String, List<Class<?>>>(); // The avaiable UI Map           (VariableName-->Available Adapter List>
 
   // No instance, solid
   private GaffeUtil()
@@ -56,19 +56,19 @@ public class GaffeUtil
   public static void loadExprMap()
   {
     //Preparation
-    List<Class> numExprList = new ArrayList<Class>();
+    List<Class<?>> numExprList = new ArrayList<Class<?>>();
     numExprList.add(NumExpr_DefaultAdapter.class);
     numExprList.add(NumExpr_JSpinnerAdapter.class);
 
-    List<Class> refExprList = new ArrayList<Class>();
+    List<Class<?>> refExprList = new ArrayList<Class<?>>();
     refExprList.add(RefExpr_DefaultAdapter.class);
     refExprList.add(RefExpr_JTextAreaAdapter.class);
 
-    List<Class> bindExprList = new ArrayList<Class>();
+    List<Class<?>> bindExprList = new ArrayList<Class<?>>();
     bindExprList.add(BindExpr_JTableAdapter.class);
     bindExprList.add(BindExpr_JTextAreaAdapter.class);
 
-    List<Class> setExprList = new ArrayList<Class>();
+    List<Class<?>> setExprList = new ArrayList<Class<?>>();
     setExprList.add(SetExpr_JListAdapter.class);
     setExprList.add(SetExpr_JTextAreaAdapter.class);
 
@@ -159,7 +159,7 @@ public class GaffeUtil
    * Get the customer specified UI component Adapter for Exprs
    * @return the customMap.
    */
-  public static Map<String, Class> getCustomMap()
+  public static Map<String, Class<?>> getCustomMap()
   {
     return customMap;
   }
@@ -168,7 +168,7 @@ public class GaffeUtil
    * Get the Available UI component adpaters Map for Exprs
    * @return the availableMap.
    */
-  public static Map<String, List<Class>> getAvailableMap()
+  public static Map<String, List<Class<?>>> getAvailableMap()
   {
     return availableMap;
   }

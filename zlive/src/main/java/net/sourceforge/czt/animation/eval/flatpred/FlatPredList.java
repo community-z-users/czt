@@ -514,11 +514,11 @@ public class FlatPredList extends FlatPred
    * Remove the first occurrence of the given element (checked with ==)
    * from the list.
    */
-  private boolean remove(Object element, List list)
+  private boolean remove(Object element, List<FlatPred> list)
   {
     boolean removed = false;
-    for (Iterator iter = list.iterator(); ! removed && iter.hasNext(); ) {
-      Object o = iter.next();
+    for (Iterator<FlatPred> iter = list.iterator(); ! removed && iter.hasNext(); ) {
+      FlatPred o = iter.next();
       if (o == element) {
         iter.remove();
         removed = true;

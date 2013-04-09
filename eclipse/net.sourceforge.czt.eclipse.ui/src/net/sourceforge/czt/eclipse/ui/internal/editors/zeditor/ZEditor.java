@@ -64,7 +64,6 @@ import net.sourceforge.czt.eclipse.ui.internal.util.IZEncoding;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZMarker;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;
-import net.sourceforge.czt.eclipse.ui.internal.util.VisiblePartRunner;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.ZName;
@@ -89,11 +88,9 @@ import org.eclipse.jface.text.DefaultInformationControl;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
-import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ISynchronizable;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITypedRegion;
@@ -298,35 +295,36 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
    *
    * @since 3.1
    */
-  private final class ToggleFoldingRunner extends VisiblePartRunner
-  {
-
-    public ToggleFoldingRunner()
-    {
-      super(ZEditor.this);
-    }
-
-    /**
-     * Does the actual toggling of projection.
-     */
-    private void toggleFolding()
-    {
-      ISourceViewer sourceViewer = getSourceViewer();
-      if (sourceViewer instanceof ProjectionViewer) {
-        ProjectionViewer pv = (ProjectionViewer) sourceViewer;
-        if (pv.isProjectionMode() != isFoldingEnabled()) {
-          if (pv.canDoOperation(ProjectionViewer.TOGGLE))
-            pv.doOperation(ProjectionViewer.TOGGLE);
-        }
-      }
-    }
-
-    @Override
-    protected void run(boolean immediate)
-    {
-      toggleFolding();
-    }
-  }
+  // TODO: never used?
+//  private final class ToggleFoldingRunner extends VisiblePartRunner
+//  {
+//
+//    public ToggleFoldingRunner()
+//    {
+//      super(ZEditor.this);
+//    }
+//
+//    /**
+//     * Does the actual toggling of projection.
+//     */
+//    private void toggleFolding()
+//    {
+//      ISourceViewer sourceViewer = getSourceViewer();
+//      if (sourceViewer instanceof ProjectionViewer) {
+//        ProjectionViewer pv = (ProjectionViewer) sourceViewer;
+//        if (pv.isProjectionMode() != isFoldingEnabled()) {
+//          if (pv.canDoOperation(ProjectionViewer.TOGGLE))
+//            pv.doOperation(ProjectionViewer.TOGGLE);
+//        }
+//      }
+//    }
+//
+//    @Override
+//    protected void run(boolean immediate)
+//    {
+//      toggleFolding();
+//    }
+//  }
 
   private String fFileType = null;
 
@@ -350,7 +348,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
   private ActivationListener fActivationListener = new ActivationListener();
 
   /** Holds the current projection annotations. */
-  private Annotation[] fProjectionAnnotations = null;
+  //private Annotation[] fProjectionAnnotations = null;
 
   /** Holds the folded projection annotations. */
   private Map<Annotation, Position> fFoldedProjectionAnnotations = new HashMap<Annotation, Position>();
@@ -371,7 +369,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
    * The document modification stamp at the time when the last
    * term highlight marking took place.
    */
-  private long fMarkTermHighlightModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
+  //private long fMarkTermHighlightModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
 
   /**
    * The selection used when forcing occurrence marking
@@ -383,7 +381,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
    * The region of the word under the caret used to when
    * computing the current occurrence markings.
    */
-  private IRegion fMarkOccurrenceTargetRegion;
+  //private IRegion fMarkOccurrenceTargetRegion;
 
   /**
    * Tells whether all occurrences of the element at the
@@ -396,7 +394,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
    * The document modification stamp at the time when the last
    * occurrence marking took place.
    */
-  private long fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
+  //private long fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
 
   private ProjectionAnnotationModel fProjectionAnnotationModel;
 
@@ -407,7 +405,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
   private OccurrencesFinderJobCanceler fOccurrencesFinderJobCanceler;
 
   /** The folding runner. */
-  private ToggleFoldingRunner fFoldingRunner;
+  //private ToggleFoldingRunner fFoldingRunner;
 
   /** The projection support */
   private ProjectionSupport fProjectionSupport;
@@ -1250,8 +1248,9 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
 
   public void removeOccurrenceAnnotations()
   {
-    fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
-    fMarkOccurrenceTargetRegion = null;
+	  // TODO: never used?
+    //fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
+    //fMarkOccurrenceTargetRegion = null;
 
     IDocumentProvider documentProvider = getDocumentProvider();
     if (documentProvider == null)
@@ -1287,7 +1286,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
 
   public void removeTermHighlightAnnotation()
   {
-    fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
+    //fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
 
     IDocumentProvider documentProvider = getDocumentProvider();
     if (documentProvider == null)
@@ -1445,7 +1444,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
     CztTreeNode segment = null;
 
     ISelection selection = event.getSelection();
-    Iterator iter = ((IStructuredSelection) selection).iterator();
+    Iterator<?> iter = ((IStructuredSelection) selection).iterator();
     while (iter.hasNext()) {
       Object o = iter.next();
       if (o instanceof CztTreeNode) {

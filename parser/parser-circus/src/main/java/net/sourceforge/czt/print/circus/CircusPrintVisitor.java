@@ -121,23 +121,24 @@ public class CircusPrintVisitor
       warn(CircusPrintMessage.MSG_UNEXPECTED_TERM, term);
     }
     
-    private void warnMissingFor(String msg, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
-    }
-    
-    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
-    }
-    
-    private void warnLocalOnTheFly(Term para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
-    }
-    
-    private void warnDuplicatedState(Term term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
-    }
-    
-    private boolean processedState_ = false;
+    // what's happenning with these warnings? See commented code below. TODO: fix circus print visitor!
+//    private void warnMissingFor(String msg, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+//    }
+//    
+//    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
+//    }
+//    
+//    private void warnLocalOnTheFly(Term para, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
+//    }
+//    
+//    private void warnDuplicatedState(Term term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
+//    }
+//    
+//    private boolean processedState_ = false;
     
     /***********************************************************
      * Channel related
@@ -309,7 +310,7 @@ public class CircusPrintVisitor
         if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getCallExpr());
             printActualParams(term.getZActuals(),
-                CallUsage.Indexed.equals(term.getUsage()));
+                CallUsage.Indexed.equals(term.getCallUsage()));
         } else {
             throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
         }

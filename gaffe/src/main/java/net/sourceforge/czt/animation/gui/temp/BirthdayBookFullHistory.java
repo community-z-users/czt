@@ -75,7 +75,7 @@ public class BirthdayBookFullHistory extends BasicHistory
     System.err.println("Current SolutionSet: " + getCurrentSolutionSet());
     System.err.println("Current Solution: " + getCurrentSolution());
     System.err.println("Inputs:");
-    for (Iterator i = inputs_.keySet().iterator(); i.hasNext();) {
+    for (Iterator<?> i = inputs_.keySet().iterator(); i.hasNext();) {
       Object a = i.next();
       System.err.println("   " + a + "\t" + inputs_.get(a));
     };
@@ -146,7 +146,7 @@ public class BirthdayBookFullHistory extends BasicHistory
       newBirthdays = currentBirthdays;
       newKnown = currentKnown;
       if (currentKnown.contains(nameInput)) {
-        for (Iterator iter = currentBirthdays.iterator(); iter.hasNext();) {
+        for (Iterator<ZValue> iter = currentBirthdays.iterator(); iter.hasNext();) {
           ZTuple t = (ZTuple) iter.next();
           if (t.get(0).equals(nameInput)) {
             dateOutput = (ZGiven) t.get(1);
@@ -176,7 +176,7 @@ public class BirthdayBookFullHistory extends BasicHistory
       newBirthdays = currentBirthdays;
       newKnown = currentKnown;
       if (currentKnown.contains(nameInput)) {
-        for (Iterator iter = currentBirthdays.iterator(); iter.hasNext();) {
+        for (Iterator<ZValue> iter = currentBirthdays.iterator(); iter.hasNext();) {
           ZTuple t = (ZTuple) iter.next();
           if (t.get(0).equals(nameInput)) {
             dateOutput = (ZGiven) t.get(1);
@@ -198,7 +198,7 @@ public class BirthdayBookFullHistory extends BasicHistory
       newBirthdays = currentBirthdays;
       newKnown = currentKnown;
       Set<ZValue> s = new HashSet<ZValue>();
-      for (Iterator iter = currentBirthdays.iterator(); iter.hasNext();) {
+      for (Iterator<ZValue> iter = currentBirthdays.iterator(); iter.hasNext();) {
         ZTuple t = (ZTuple) iter.next();
         if (t.get(1).equals(dateInput))
           s.add(t.get(0));

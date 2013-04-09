@@ -274,7 +274,12 @@ public class ZLiveResult
    */
   public static class MoveException extends net.sourceforge.czt.util.CztException
   {
-    public MoveException(String msg) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6311708604178211492L;
+
+	public MoveException(String msg) {
       super(msg);
     }
   }

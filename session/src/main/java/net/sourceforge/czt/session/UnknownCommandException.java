@@ -26,7 +26,12 @@ package net.sourceforge.czt.session;
  */
 public class UnknownCommandException extends CommandException {
 
-  public UnknownCommandException()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2196864863195956907L;
+
+public UnknownCommandException()
   {
   }
 

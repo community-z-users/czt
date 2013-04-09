@@ -132,12 +132,11 @@ public class OccurrencesFinderJob extends Job
       }
       else {
         fEditor.removeOccurrenceAnnotations();
-        Iterator iter = annotationMap.entrySet().iterator();
+        Iterator<Map.Entry<Annotation, Position>> iter = annotationMap.entrySet().iterator();
         while (iter.hasNext()) {
-          Map.Entry mapEntry = (Map.Entry) iter.next();
+          Map.Entry<Annotation, Position> mapEntry = iter.next();
           if (mapEntry.getValue() != null)
-            annotationModel.addAnnotation((Annotation) mapEntry.getKey(),
-                (Position) mapEntry.getValue());
+            annotationModel.addAnnotation(mapEntry.getKey(), mapEntry.getValue());
         }
       }
       fEditor.setOccurrenceAnnotations((Annotation[]) annotationMap.keySet()

@@ -31,7 +31,12 @@ import javax.swing.table.TableCellRenderer;
  */
 public class IconRenderer extends JLabel implements TableCellRenderer
 {
-  public IconRenderer()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3918726624911021143L;
+
+public IconRenderer()
   {
     setOpaque(true);
   };

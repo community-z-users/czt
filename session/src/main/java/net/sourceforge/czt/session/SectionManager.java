@@ -307,11 +307,11 @@ public class SectionManager
    * 				  should be declared from the begingging anyway.
   
   */
-  @Deprecated
-  private SectionManager()
-  {
-    throw new UnsupportedOperationException("Cannot have a section manager for a unknown dialect");
-  }
+  //@Deprecated
+  //private SectionManager()
+  //{
+  //  throw new UnsupportedOperationException("Cannot have a section manager for a unknown dialect");
+  //}
   
   /** Creates a new section manager for a given Z extension/dialect.
    *  It calls putCommands(extension) to 

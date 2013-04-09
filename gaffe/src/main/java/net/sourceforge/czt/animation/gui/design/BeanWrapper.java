@@ -39,6 +39,10 @@ import javax.swing.JLabel;
 public class BeanWrapper extends JLabel
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1362402089586584567L;
+/**
    * The bean this object wraps around.
    */
   protected Object bean;
@@ -81,7 +85,7 @@ public class BeanWrapper extends JLabel
       setText("(null)");
       return;
     }
-    Class beanClass = b.getClass();
+    Class<?> beanClass = b.getClass();
     try { //XXX show name property? listener to catch name changes?
       BeanDescriptor bd = Introspector.getBeanInfo(beanClass)
           .getBeanDescriptor();
@@ -110,7 +114,7 @@ public class BeanWrapper extends JLabel
       return null;
     else if (b instanceof Component)
       return (Component) b;
-    WeakReference r = (WeakReference) wrappers.get(b);
+    WeakReference<BeanWrapper> r =wrappers.get(b);
     BeanWrapper w = null;
     if (r != null)
       w = (BeanWrapper) r.get();

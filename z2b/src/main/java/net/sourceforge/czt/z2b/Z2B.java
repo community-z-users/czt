@@ -20,7 +20,6 @@ package net.sourceforge.czt.z2b;
 
 import java.io.StringWriter;
 import java.util.*;
-import java.util.logging.Logger;
 
 // the CZT classes for Z.
 import net.sourceforge.czt.base.ast.*;
@@ -90,8 +89,8 @@ public class Z2B
   public BMachine makeBMachine(ZSect sect)
     throws BException, CommandException
   {
-    SectTypeEnvAnn ann = (SectTypeEnvAnn)
-      manager_.get(new Key(sect.getName(), SectTypeEnvAnn.class));
+    SectTypeEnvAnn ann = 
+      manager_.get(new Key<SectTypeEnvAnn>(sect.getName(), SectTypeEnvAnn.class));
     Classifier classifier = new Classifier(ann, sect.getName());
     List<NameSectTypeTriple> stateSchemas = classifier.getState();
     List<NameSectTypeTriple> initSchemas = classifier.getInit();
@@ -133,7 +132,8 @@ public class Z2B
       String msg = "init schema is not a simple schema: " + initSchemaDef;
       throw new BException(msg);
     }
-    List<NameTypePair> ivars =
+    @SuppressWarnings("unused")
+	List<NameTypePair> ivars =
       getSignature(initSchemas.get(0)).getNameTypePair();
 
     // Check operation schemas
@@ -198,8 +198,8 @@ public class Z2B
     throws CommandException
   {
     String sectName = triple.getSect();
-    DefinitionTable defTable = (DefinitionTable)
-      manager_.get(new Key(sectName, DefinitionTable.class));
+    DefinitionTable defTable = 
+      manager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
     String name = triple.getName().accept(new PrintVisitor());
 
     //Expr result = defTable.lookup(name).getExpr();
@@ -235,7 +235,7 @@ public class Z2B
   /**
    * Assumes that all the declarations are VarDecls
    */
-  protected Map<ZName,Expr> getVariables(SchExpr schExpr, Class decor)
+  protected Map<ZName,Expr> getVariables(SchExpr schExpr, Class<?> decor)
   {
     Map<ZName,Expr> result = new HashMap<ZName,Expr>();
     for (Decl decl : schExpr.getZSchText().getZDeclList()) {
@@ -340,7 +340,6 @@ public class Z2B
   {
     SchExpr schema = (SchExpr) lookup(triple);
     for (Decl decl : schema.getZSchText().getZDeclList()) {
-      VarDecl varDecl = (VarDecl) decl;
       declareVars((VarDecl) decl, names, preds);
     }
   }
@@ -408,7 +407,7 @@ public class Z2B
   /**
    * Visits a list term by visiting all its children.
    */
-  public Object visitListTerm(ListTerm term)
+  public Object visitListTerm(ListTerm<?> term)
   {
     VisitorUtils.visitTerm(this, term);
     return null;

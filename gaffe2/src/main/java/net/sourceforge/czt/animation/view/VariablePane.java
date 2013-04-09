@@ -273,20 +273,20 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
    */
   public void add(String key)
   {
-    final Map<String, List<Class>> availableMap = GaffeUtil.getAvailableMap();
+    final Map<String, List<Class<?>>> availableMap = GaffeUtil.getAvailableMap();
     final String name = key;
     final Expr expr = componentMap.get(key).getExpr();
-    final List<Class> adapterList = availableMap.get(componentMap.get(key)
+    final List<Class<?>> adapterList = availableMap.get(componentMap.get(key)
         .getExpr().getClass().getSimpleName());
     final JPopupMenu popupMenu = new JPopupMenu();
     final JPanel pane = new JPanel(new BorderLayout());
-    for (Class adapterClass : adapterList) {
+    for (Class<?> adapterClass : adapterList) {
       final JMenuItem menuItem = new JMenuItem(adapterClass.getSimpleName());
       menuItem.addActionListener(new ActionListener()
       {
         public void actionPerformed(ActionEvent actionEvent)
         {
-          for (Class adapterClass : adapterList) {
+          for (Class<?> adapterClass : adapterList) {
             if (adapterClass.getSimpleName().equals(menuItem.getText())) {
               try {
                 Adapter newAdapter = (Adapter) adapterClass.newInstance();

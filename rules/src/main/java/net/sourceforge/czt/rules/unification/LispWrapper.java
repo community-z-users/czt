@@ -30,7 +30,7 @@ class LispWrapper
   implements Wrapper
 {
   /** list_ is of type Term! */
-  private List list_;
+  private List<?> list_;
   private String name_;
 
   /**
@@ -41,10 +41,10 @@ class LispWrapper
   /**
    * Throws ClassCastException if list is not an instance of Term.
    */
-  public LispWrapper(List list, String name)
+  public LispWrapper(List<?> list, String name)
   {
     Term term = (Term) list;
-    list_ = (List) term.create(term.getChildren());
+    list_ = (List<?>) term.create(term.getChildren());
     name_ = name;
   }
 
@@ -80,11 +80,12 @@ class LispWrapper
     return anns_;
   }
 
-  public Object getAnn(Class aClass)
+  @SuppressWarnings("unchecked")
+public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {
-        return annotation;
+        return (T)annotation;
       }
     }
     return null;

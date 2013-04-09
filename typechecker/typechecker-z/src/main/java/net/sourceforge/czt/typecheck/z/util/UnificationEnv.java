@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z.util;
 
-import java.io.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,6 @@ import java.util.Set;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -110,7 +108,7 @@ public class UnificationEnv
 
   protected boolean containsVariable(Term term, List<Term> preTypes)
   {
-    boolean result = false;
+    //boolean result = false;
 
     if (!containsObject(preTypes, term)) {
       preTypes.add(term);

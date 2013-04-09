@@ -20,7 +20,6 @@
 package net.sourceforge.czt.z.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -32,11 +31,6 @@ import net.sourceforge.czt.z.ast.*;
  */
 public class OperatorName
 {
-  /**
-   * The factory used when AST objects are created.
-   */
-  private static Factory factory_ = new Factory();
-
   /**
    * The string representation of this operator name as it is used
    * within the AST classes and without strokes.
@@ -151,21 +145,6 @@ public class OperatorName
     return result;
   }
 
-  /**
-   * Transforms a list of strokes into a (unicode) string.
-   */
-  private static String strokeListToString(List strokes)
-  {
-    if (strokes == null) return "";
-    StringBuffer result = new StringBuffer();
-    for (Iterator iter = strokes.iterator(); iter.hasNext();)
-    {
-      Stroke stroke = (Stroke) iter.next();
-      result.append(stroke.toString());
-    }
-    return result.toString();
-  }
-
   public String getWord()
   {
     return word_;
@@ -244,7 +223,12 @@ public class OperatorName
  public static class OperatorNameException
     extends Exception
   {
-    public OperatorNameException()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5904605602162932380L;
+
+	public OperatorNameException()
     {
       super();
     }

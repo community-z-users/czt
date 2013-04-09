@@ -26,7 +26,11 @@ import java.util.EventObject;
  */
 public class BeanSelectedEvent extends EventObject
 {
-  private Object bean;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4823982742775610504L;
+private Object bean;
 
   //XXX should it have the beanwrapper/component for the bean as well as/instead
   //    of the bean.

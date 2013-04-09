@@ -57,12 +57,14 @@ public class Factory
    * @param term
    * @return
    */
-  public <T extends Term> T deepCloneTerm(T term)
+  @SuppressWarnings("unchecked")
+public <T extends Term> T deepCloneTerm(T term)
   {    
     return (T)Factory.cloneTerm(term);
   }
   
-  public <T extends Term> T shallowCloneTerm(T term)
+  @SuppressWarnings("unchecked")
+public <T extends Term> T shallowCloneTerm(T term)
   {
     return (T)term.create(term.getChildren());
   }

@@ -58,7 +58,7 @@ public class SetCompTest extends ZTestCase
     SetComp set = makeSet(BigInteger.ZERO);
     TupleExpr tuple = factory_.createTupleExpr(i0, i0);
     assertFalse(set.contains(tuple));
-    Iterator iter = set.iterator();
+    Iterator<Expr> iter = set.iterator();
     assertFalse(iter.hasNext());
     assertTrue(set.isEmpty());
     assertEquals(0.0, set.estSize(), ACCURACY);
@@ -71,7 +71,7 @@ public class SetCompTest extends ZTestCase
     SetComp set = makeSet(BigInteger.valueOf(10));
     TupleExpr tuple = factory_.createTupleExpr(i2, i4);
     assertTrue(set.contains(tuple));
-    Iterator iter = set.iterator();
+    Iterator<Expr> iter = set.iterator();
     assertTrue(iter.hasNext());
     assertFalse(set.isEmpty());
     assertEquals(8.0, set.estSize(), ACCURACY);  // very roughly 8.0

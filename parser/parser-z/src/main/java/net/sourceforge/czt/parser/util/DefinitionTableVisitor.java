@@ -280,7 +280,6 @@ public class DefinitionTableVisitor
         // for decorated inclusions, add the stroked version of possible names
         else if (expr instanceof DecorExpr)
         {
-          int strokeCnt = 0;
           // get any previous strokes to consider
           DecorExpr dexpr = (DecorExpr)expr;
           boolean added = strokes.add(dexpr.getStroke());

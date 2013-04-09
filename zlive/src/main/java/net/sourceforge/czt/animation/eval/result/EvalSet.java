@@ -294,7 +294,8 @@ public abstract class EvalSet
   }
 
   /** A copy of the TermImpl implementation. */
-  public <T> T getAnn(Class<T> aClass)
+  @SuppressWarnings("unchecked")
+public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {

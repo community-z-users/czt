@@ -20,7 +20,6 @@
 package net.sourceforge.czt.typecheck.zeves;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.ErrorType;
 
 /**
  *

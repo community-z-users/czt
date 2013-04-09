@@ -29,7 +29,6 @@ import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesSymMap;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
-import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**

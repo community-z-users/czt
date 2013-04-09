@@ -15,7 +15,8 @@ public class CZTCompositeReconcilingStrategy
     extends
       CompositeReconcilingStrategy
 {
-  private ITextEditor fEditor;
+	  // TODO: never used?
+	  //private ITextEditor fEditor;
 
   private ZReconcilingStrategy fZStrategy;
 
@@ -29,14 +30,14 @@ public class CZTCompositeReconcilingStrategy
    */
   public CZTCompositeReconcilingStrategy(ITextEditor editor, String partitioning)
   {
-    fEditor = editor;
+    //fEditor = editor;
     fZAnnotationStrategy = new ZAnnotationReconcilingStrategy(editor,
         partitioning);
     addReconcilingStrategy(fZAnnotationStrategy);
     fZStrategy = new ZReconcilingStrategy(editor);
     addReconcilingStrategy(fZStrategy);
   }
-
+  
   /**
    * Tells this strategy whether to inform its listeners.
    *

@@ -60,7 +60,7 @@ public class ZLiveAnalyzer implements Analyzer
   public void initialize(File specFile)
   {
     try {
-      specURL = specFile.toURL();
+      specURL = specFile.toURI().toURL();
       schemaMap = new HashMap<String, Signature>();
       factory = GaffeFactory.getFactory();
 
@@ -69,16 +69,16 @@ public class ZLiveAnalyzer implements Analyzer
       Source src = new FileSource(specFile);
       SectionManager manager = zlive_.getSectionManager();
       manager.reset();
-      manager.put(new Key(specFile.getName(), Source.class), src);
-      Spec spec = (Spec) manager.get(new Key(specFile.getName(), Spec.class));
+      manager.put(new Key<Source>(specFile.getName(), Source.class), src);
+      Spec spec = manager.get(new Key<Spec>(specFile.getName(), Spec.class));
       String sectName = null;
 
       // Find the last section, normally the specification
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           sectName = ((ZSect) sect).getName();
-          Key typekey = new Key(sectName, SectTypeEnvAnn.class);
-          SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(typekey);
+          Key<SectTypeEnvAnn> typekey = new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class);
+          SectTypeEnvAnn types = manager.get(typekey);
 
           // If belongs to specification, put them into schemaMap
           for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
@@ -166,7 +166,7 @@ public class ZLiveAnalyzer implements Analyzer
     Type type;
     Stroke stroke;
     ZStrokeList strokeList;
-    Map<String, Class> customMap = GaffeUtil.getCustomMap();
+    Map<String, Class<?>> customMap = GaffeUtil.getCustomMap();
     for (NameTypePair ntp : signature.getNameTypePair()) {
       name = ntp.getZName().toString();
       type = ntp.getType();

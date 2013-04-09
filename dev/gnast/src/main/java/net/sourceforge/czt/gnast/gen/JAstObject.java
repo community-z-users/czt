@@ -51,6 +51,9 @@ public interface JAstObject extends JObject
    */
   boolean getNameEqualsType();
 
+
+  String getVisitorPackage();
+  
   /**
    * <p>Returns the class (or implementation) name
    * of this Gnast class.</p>
@@ -126,4 +129,11 @@ public interface JAstObject extends JObject
   boolean isList();
 
   String getNamespace();
+  
+  /**
+   * Check whether the enum name type given is known within the name space or not.
+   * @param type
+   * @return
+   */
+  boolean isKnownEnumeration(String type);
 }

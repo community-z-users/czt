@@ -33,7 +33,6 @@ import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -221,7 +220,7 @@ public class TypeCheckUtils
             useNameIds, warningOutput, sectName);
   }
 
-  private String stackTraceAsString(Throwable e)
+  protected String stackTraceAsString(Throwable e)
   {
     StringWriter swriter = new StringWriter();
     PrintWriter pwriter = new PrintWriter(swriter);
@@ -243,7 +242,6 @@ public class TypeCheckUtils
    * @return
    */
   @Override
-  @SuppressWarnings({"unchecked", "CallToThreadDumpStack"})
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
           SectionManager sectInfo,
 
@@ -347,7 +345,7 @@ public class TypeCheckUtils
     return WarningManager.WarningOutput.HIDE;
   }
 
-  private void typeCheckCommandTest(String file)
+  protected void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUS:");
 
@@ -383,7 +381,8 @@ public class TypeCheckUtils
         if (s instanceof ZSect)
         {
           ZSect zs = (ZSect) s;
-          SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
+          @SuppressWarnings("unused")
+		SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }

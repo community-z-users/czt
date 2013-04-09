@@ -20,7 +20,11 @@ import net.sourceforge.czt.util.CztException;
  */
 public class PrintException extends CztException {
   
-  private final TreeMap<String, List<String>> warnings_ = new TreeMap<String, List<String>>();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7918297654639663505L;
+private final TreeMap<String, List<String>> warnings_ = new TreeMap<String, List<String>>();
 
   public PrintException()
   {

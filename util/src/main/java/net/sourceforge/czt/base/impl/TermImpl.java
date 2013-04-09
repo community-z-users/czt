@@ -173,7 +173,6 @@ public abstract class TermImpl implements Term
   }
 
   @Override
-  @SuppressWarnings("CallToThreadDumpStack")
   public String toString()
   {
     try {

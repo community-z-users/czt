@@ -25,14 +25,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.oz.ParseUtils;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -101,7 +96,7 @@ public class TypeCheckerTest
     return new SectionManager(Dialect.OZ);
   }
 
-  protected List typecheck(Term term, SectionManager manager)
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term, SectionManager manager)
     throws Exception
   {
     // Important to use the complete method parameters otherwise there is capture with useNameIds with same signture in z.TypeCheck!

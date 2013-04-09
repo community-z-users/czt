@@ -23,8 +23,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -40,7 +38,7 @@ public class CircusSymMap
   private static Map<String,Integer> MAP = createMap(Sym.class);
   public static Set<String> CIRCUS_SYMBOL_NAMES_ONLY = getCircusSymbolNamesOnly();
   
-  public static Map<String,Integer> createMap(Class symClass)
+  public static Map<String,Integer> createMap(Class<?> symClass)
   {
     try {
       Map<String,Integer> result = new HashMap<String,Integer>();
@@ -66,21 +64,21 @@ public class CircusSymMap
   }
   
   /** Flips a given map, provided that is possible - see assertion */ 
-  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
-  {
-    Map<V, K> result = new HashMap<V, K>();
-    Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();
-    while (it.hasNext())
-    {
-      Map.Entry<K, V> entry = it.next();      
-      result.put(entry.getValue(), entry.getKey());
-    }    
-    assert 
-      ((m.keySet().containsAll(result.values()) && m.keySet().size() == result.values().size()) &&
-      (result.keySet().containsAll(m.values()) && result.keySet().size() == m.values().size())) : "map flipped ok";
-    it = null;
-    return result;
-  }
+//  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
+//  {
+//    Map<V, K> result = new HashMap<V, K>();
+//    Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();
+//    while (it.hasNext())
+//    {
+//      Map.Entry<K, V> entry = it.next();      
+//      result.put(entry.getValue(), entry.getKey());
+//    }    
+//    assert 
+//      ((m.keySet().containsAll(result.values()) && m.keySet().size() == result.values().size()) &&
+//      (result.keySet().containsAll(m.values()) && result.keySet().size() == m.values().size())) : "map flipped ok";
+//    it = null;
+//    return result;
+//  }
   
   /** 
    * Collects all symbol names that are specific to Circus. That is,

@@ -24,7 +24,6 @@ import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 //import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
@@ -33,9 +32,6 @@ import net.sourceforge.czt.oz.visitor.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.typecheck.oz.util.*;
-import net.sourceforge.czt.typecheck.oz.impl.*;
-import net.sourceforge.czt.typecheck.z.*;
 
 /**
  *
@@ -84,7 +80,7 @@ public class ParaChecker
     resetPrimary();
 
     //declare the info needed to create the class type
-    List<NameTypePair> attributes = factory().list();
+    //List<NameTypePair> attributes = factory().list();
 
     //create the class type from the information so far
     ClassRef thisClass = factory().createClassRef(className());
@@ -148,7 +144,8 @@ public class ParaChecker
     //visit the state
     State state = classPara.getState();
     if (state != null) {
-      Signature signature = state.accept(paraChecker());
+      //Signature signature = 
+    		  state.accept(paraChecker());
       List<NameTypePair> decls = classType.getState().getNameTypePair();
       checkForDuplicates(decls,
                          className(),
@@ -364,7 +361,8 @@ public class ParaChecker
     Type2 exprType = expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = strongUnify(vPowerType, exprType);
+    //UResult unified = 
+    		strongUnify(vPowerType, exprType);
 
     //if the expr is not a class name reference, raise an error
     if (!instanceOf(vPowerType.getType(), ClassRefType.class) &&

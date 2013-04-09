@@ -86,7 +86,9 @@ public class ZTextHover extends DefaultTextHover
     }
 
     // ask parent to render other annotations
-    String annInfo = super.getHoverInfo(textViewer, hoverRegion);
+    // TODO: HANDLE deprecated!
+    @SuppressWarnings("deprecation")
+	String annInfo = super.getHoverInfo(textViewer, hoverRegion);
     if (annInfo != null) {
       return annInfo;
     }

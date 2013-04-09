@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.text.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -68,7 +67,7 @@ public abstract class AbstractConfigurationBlock
     /** The preference setting for keeping no section open. */
     private static final String __NONE = "__none"; //$NON-NLS-1$
 
-    private Set fSections = new HashSet();
+    private Set<ExpandableComposite> fSections = new HashSet<ExpandableComposite>();
 
     private boolean fIsBeingManaged = false;
 
@@ -83,8 +82,8 @@ public abstract class AbstractConfigurationBlock
         if (e.getState()) {
           try {
             fIsBeingManaged = true;
-            for (Iterator iter = fSections.iterator(); iter.hasNext();) {
-              ExpandableComposite composite = (ExpandableComposite) iter.next();
+            for (Iterator<ExpandableComposite> iter = fSections.iterator(); iter.hasNext();) {
+              ExpandableComposite composite = iter.next();
               if (composite != source)
                 composite.setExpanded(false);
             }
@@ -162,7 +161,8 @@ public abstract class AbstractConfigurationBlock
      */
     public Composite createSectionComposite(Composite parent)
     {
-      Assert.isTrue(fBody == null);
+      //org.eclipse.jface.text.Assert.isTrue(fBody == null);
+      org.eclipse.core.runtime.Assert.isTrue(fBody == null);
       boolean isNested = isNestedInScrolledComposite(parent);
       Composite composite;
       if (isNested) {
@@ -189,7 +189,7 @@ public abstract class AbstractConfigurationBlock
      */
     public Composite createSection(String label)
     {
-      Assert.isNotNull(fBody);
+    	org.eclipse.core.runtime.Assert.isNotNull(fBody);
       final ExpandableComposite excomposite = new ExpandableComposite(fBody,
           SWT.NONE, ExpandableComposite.TWISTIE
               | ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
@@ -237,7 +237,7 @@ public abstract class AbstractConfigurationBlock
     public void widgetSelected(SelectionEvent e)
     {
       Button button = (Button) e.widget;
-      fStore.setValue((String) fCheckBoxes.get(button), button.getSelection());
+      fStore.setValue(fCheckBoxes.get(button), button.getSelection());
     }
   };
   
@@ -259,18 +259,18 @@ public abstract class AbstractConfigurationBlock
     }
   };
 
-  private Map fTextFields = new HashMap();
+  private Map<Text, String> fTextFields = new HashMap<Text, String>();
 
   private ModifyListener fTextFieldListener = new ModifyListener()
   {
     public void modifyText(ModifyEvent e)
     {
       Text text = (Text) e.widget;
-      fStore.setValue((String) fTextFields.get(text), text.getText());
+      fStore.setValue(fTextFields.get(text), text.getText());
     }
   };
 
-  private ArrayList fNumberFields = new ArrayList();
+  private ArrayList<Text> fNumberFields = new ArrayList<Text>();
 
   private ModifyListener fNumberFieldListener = new ModifyListener()
   {
@@ -297,7 +297,7 @@ public abstract class AbstractConfigurationBlock
    */
   public AbstractConfigurationBlock(OverlayPreferenceStore store)
   {
-    Assert.isNotNull(store);
+	  org.eclipse.core.runtime.Assert.isNotNull(store);
     fStore = store;
     fMainPage = null;
   }
@@ -305,8 +305,8 @@ public abstract class AbstractConfigurationBlock
   public AbstractConfigurationBlock(OverlayPreferenceStore store,
       PreferencePage mainPreferencePage)
   {
-    Assert.isNotNull(store);
-    Assert.isNotNull(mainPreferencePage);
+	  org.eclipse.core.runtime.Assert.isNotNull(store);
+	  org.eclipse.core.runtime.Assert.isNotNull(mainPreferencePage);
     fStore = store;
     fMainPage = mainPreferencePage;
   }
@@ -440,7 +440,7 @@ public abstract class AbstractConfigurationBlock
 
   protected void createDependency(final Button master, final Control[] slaves)
   {
-    Assert.isTrue(slaves.length > 0);
+	  org.eclipse.core.runtime.Assert.isTrue(slaves.length > 0);
     for (Control slave : slaves)
       indent(slave);
     SelectionListener listener = new SelectionListener()
@@ -486,31 +486,31 @@ public abstract class AbstractConfigurationBlock
   private void initializeFields()
   {
 
-    Iterator iter = fCheckBoxes.keySet().iterator();
+    Iterator<Button> iter = fCheckBoxes.keySet().iterator();
     while (iter.hasNext()) {
-      Button b = (Button) iter.next();
-      String key = (String) fCheckBoxes.get(b);
+      Button b = iter.next();
+      String key = fCheckBoxes.get(b);
       b.setSelection(fStore.getBoolean(key));
     }
     
     iter = fRadioButtons.keySet().iterator();
     while (iter.hasNext()) {
-      Button b = (Button) iter.next();
+      Button b = iter.next();
       String[] info = fRadioButtons.get(b);
       b.setSelection(info[1].equals(fStore.getString(info[0])));
     }
     
-    iter = fTextFields.keySet().iterator();
-    while (iter.hasNext()) {
-      Text t = (Text) iter.next();
-      String key = (String) fTextFields.get(t);
+    Iterator<Text> iter2 = fTextFields.keySet().iterator();
+    while (iter2.hasNext()) {
+      Text t = iter2.next();
+      String key = fTextFields.get(t);
       t.setText(fStore.getString(key));
     }
 
     // Update slaves
-    iter = fMasterSlaveListeners.iterator();
-    while (iter.hasNext()) {
-      SelectionListener listener = (SelectionListener) iter.next();
+    Iterator<SelectionListener> iter3 = fMasterSlaveListeners.iterator();
+    while (iter3.hasNext()) {
+      SelectionListener listener = iter3.next();
       listener.widgetSelected(null);
     }
 

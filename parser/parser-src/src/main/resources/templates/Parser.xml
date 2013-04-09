@@ -35,22 +35,34 @@ import java.util.Properties;
 import java.util.Collection;
 import java.util.Collections;
 
+import java_cup.runtime.*;
 
 import net.sourceforge.czt.util.CztException;
-
 import net.sourceforge.czt.util.Section;
+import net.sourceforge.czt.util.CztLogger;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.PerformanceSettings;
+
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.*;
+
+import net.sourceforge.czt.session.*;
+
+import net.sourceforge.czt.parser.util.*;
+
 <add:circus>
+import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.CircusUtils;
 </add:circus>
 <add:circuscore>
 import net.sourceforge.czt.circus.util.Factory;
 </add:circuscore>
+
 <add:circustime>
-import net.sourceforge.czt.circustime.ast.*;
-import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+//import net.sourceforge.czt.circustime.ast.*;
+//import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 
 import net.sourceforge.czt.parser.circus.CircusParseError;
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
@@ -58,34 +70,36 @@ import net.sourceforge.czt.parser.circus.CircusParseMessage;
 <add:circustimecore>
 import net.sourceforge.czt.circustime.util.Factory;
 </add:circustimecore>
-import java_cup.runtime.*;
+
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
+
+import net.sourceforge.czt.parser.z.*;
 </add:oz>
 <add:ozz>
 import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.*;
+
 <add:ozpatt>
 import net.sourceforge.czt.parser.oz.ParserState;
 import net.sourceforge.czt.parser.zpatt.JokerTable;
 import net.sourceforge.czt.parser.zpatt.ZpattParseError;
 import net.sourceforge.czt.parser.zpatt.ZpattParseMessage;
 </add:ozpatt>
-import net.sourceforge.czt.session.*;
+
 <add:tcoz>
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.tcoz.util.Factory;
+
 </add:tcoz>
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.*;
+
 <add:pattern>
 import net.sourceforge.czt.zpatt.ast.*;
+
 </add:pattern>
 <add:zpatt>
+import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 </add:zpatt>
 
@@ -94,6 +108,9 @@ import net.sourceforge.czt.zeves.ast.*;
 import net.sourceforge.czt.zeves.util.ZEvesString;
 import net.sourceforge.czt.zeves.util.Factory;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
+
+import net.sourceforge.czt.parser.z.*;
+
 import net.sourceforge.czt.parser.zeves.ProofTable;
 </add:zeves>
 
@@ -164,7 +181,7 @@ action code
       }
       PrimaryDecl primaryDecl = factory_.createPrimaryDecl(pDeclList);
       SecondaryDecl secondaryDecl = factory_.createSecondaryDecl(sDeclList);
-      return new Pair(primaryDecl, secondaryDecl);
+      return new Pair&lt;PrimaryDecl,SecondaryDecl&gt;(primaryDecl, secondaryDecl);
     }
 
     protected OpText createOpText(DeltaList del, DeclList dec, Pred p)
@@ -598,6 +615,29 @@ action code
         return null;
       }
     }
+    
+    /**
+     * Converts a name list into a list of strings. This methods is called by complex operator template
+     * patterns that eventually call strListToZName(List&lt;String&gt;, LocInfo). Earlier versions of 
+     * parser mixed up list of names within the list of strings... This method flattens these names to strings.
+     */
+    protected List&lt;String&gt; extractNamesFromNameList(List&lt;Name&gt; list)
+    {
+    	List&lt;String&gt; result = factory_.list();
+    	for(Name n : list)
+    	{
+    		if (n instanceof ZName)
+    			result.add(ZUtils.assertZName(n).getWord());
+    		<add:zpatt>
+    		else if (n instanceof net.sourceforge.czt.zpatt.ast.JokerName)
+    			result.add(((net.sourceforge.czt.zpatt.ast.JokerName)n).getName());
+    		</add:zpatt>
+    		else
+    			result.add(n.toString());
+    	}
+    	return result;
+    }
+    
 
     protected List&lt;String&gt; toStringList(List&lt;LocString&gt; list)
     {
@@ -777,15 +817,17 @@ action code
       final Name rn = strListToZName(name, loc);
       Expr result = null;
 
+      // TODO: then do what with it? firstOperator is never used.
+      //
       //get the first operator in the name list, i.e. the first
       //item that is not an ARG_TOK or LISTARG_TOK.
-      String firstOperator = null;
-      for (String next : name) {
-        if (! next.equals(ARG_TOK) &amp;&amp; ! next.equals(LISTARG_TOK)) {
-          firstOperator = next;
-          break;
-        }
-      }
+      //String firstOperator = null;
+      //for (String next : name) {
+      //  if (! next.equals(ARG_TOK) &amp;&amp; ! next.equals(LISTARG_TOK)) {
+      //    firstOperator = next;
+      //    break;
+      //  }
+      //}
 
       if (opTable_.lookup(name) != null &amp;&amp;
           Cat.Function.equals(opTable_.lookup(name).getCat())) {
@@ -912,11 +954,11 @@ action code
      * @param opName 
      * @param es
      */
-    protected void addExpSepName(List&lt;String&gt; opName, List es)
+    protected void addExpSepName(List&lt;String&gt; opName, List&lt;?&gt; es)
     {
       for (int i = 0; i &lt; es.size(); i += 2) {
 
-        List list = (List) es.get(i);
+        List&lt;?&gt; list = (List&lt;?&gt;) es.get(i);
         if (list.size() == 1) {
           opName.add(ARG_TOK);
         }
@@ -933,9 +975,11 @@ action code
      * @param expList 
      * @param es 
      */
-    protected void addExpSepExp(List expList, List es)
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    protected void addExpSepExp(List&lt;? extends Object&gt; expList, List&lt;Object&gt; es)
     {
       for (int i = 0; i &lt; es.size(); i += 2) {
+      	// exprList is always called as ZExprList; but es can have expr or strings. argh... TODO: fix types?
         expList.addAll((List) es.get(i));
       }
     }
@@ -1445,15 +1489,15 @@ action code
       parserState_.addLocAnn(term, locInfo);
     }
 
-    private void addZStateRefInfo(Term term, Ann ozsi, Name n)
-    {
-       if (ozsi != null)
-       {
-          if (ozsi instanceof ZRefinesAnn)
-            ((ZRefinesAnn)ozsi).setConcreteName(n);
-          term.getAnns().add(ozsi);
-       }
-    }
+    //private void addZStateRefInfo(Term term, Ann ozsi, Name n)
+    //{
+    //   if (ozsi != null)
+    //   {
+    //      if (ozsi instanceof ZRefinesAnn)
+    //        ((ZRefinesAnn)ozsi).setConcreteName(n);
+    //      term.getAnns().add(ozsi);
+    //   }
+    //}
 
     private int computeLength(LocInfo start, LocInfo end)
     {
@@ -1514,11 +1558,20 @@ action code
       return getLocation(line, column, getLocation(start), end);
     }
 
+    <add:zpatt>
     private LocInfo getLocation(int line, int column,
                                 LocInfo start, Term end)
     {
       return getLocation(line, column, start, getLocation(end));
     }
+    </add:zpatt>
+    <add:ozpatt>
+    private LocInfo getLocation(int line, int column,
+                                LocInfo start, Term end)
+    {
+      return getLocation(line, column, start, getLocation(end));
+    }
+    </add:ozpatt>
 
     private LocInfo getLocation(int line, int column,
                                 Term start, Term end)
@@ -2608,21 +2661,23 @@ terminal LocInfo
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
 
-        ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
-        ZCSTATE, ZCSTINIT, ZRETRIEVE, ZASTFIN, ZCSTFIN,
-        ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT, ZRETRIEVEIN,
-        ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
+        //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
+        //ZCSTATE, ZCSTINIT, ZRETRIEVE, ZASTFIN, ZCSTFIN,
+        //ZAINITIN, ZAFINOUT, ZCINITIN, ZCFINOUT, ZRETRIEVEIN,
+        //ZRETRIEVEOUT, ZFSREFINES, ZBSREFINES,
 <add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
 </add:pattern>
 <add:zeves>
         // Proof environment chars and specific proof words
-        ZPROOF, ZPROOFSECTION, 
+        ZPROOF, //ZPROOFSECTION, 
         ZPROOFCOMMANDSEP, THMREPLACEMENT, QNTINSTANTIATION,
         LLABEL, RLABEL, DISABLEDTHMTAG, DISABLEDDEFTAG,
         THMRULE, THMGRULE, THMFRULE, THMAXIOM, 
         
-        LZNOTE, RZNOTE, PROOFWORD,
+        // LZNOTE, RZNOTE, 
+        
+        // PROOFWORD, // Needed for ContextFreeScanner, but given as ProofWord (Decorword)
         
         APPLY, BACK, CASES, CONJUNCTIVE, DISJUNCTIVE, EQUALITY,
         INSTANTIATE, INVOKE, NEXT, PRENEX, PROVE, REARRANGE, TRIVIAL, TRY,
@@ -2707,7 +2762,8 @@ terminal LocInfo
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
-        DCNJ, DGCH, DSQC, PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
+        DCNJ, DGCH, // DSQC, 
+        PARALLEL, ASSOPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
@@ -2740,8 +2796,8 @@ terminal Decorword
         DECORWORD, DECLWORD;
 
 <add:zeves>
-//terminal Proofword
-//        PROOFWORD;
+terminal Proofword
+        PROOFWORD; // Needed for the ContextFreeScanner. Should be dealt with by SmartScanner, though. see below.
 
 terminal LocInfo
       REDUCE, REWRITE, SIMPLIFY;
@@ -2788,11 +2844,11 @@ non terminal AxPara
     schema;
 
 //non terminal ZStateInfo
-non terminal Ann
-    optZStRefInfo;  // either ZStateAnn or ZRefinesAnn
-
-//non terminal ZRefines
-//    optZRefines;
+//non terminal Ann
+//    optZStRefInfo;  // either ZStateAnn or ZRefinesAnn
+//
+////non terminal ZRefines
+////    optZRefines;
 
 non terminal ConstDecl
     letDefinition;
@@ -2803,8 +2859,11 @@ non terminal Freetype freeTypeDefinition;
 non terminal List&lt;LocString&gt;
     narrWordList;
 
-non terminal OptempPara operatorTemplate;
-non terminal List /*StringAndOperand?*/
+non terminal OptempPara 
+	operatorTemplate;
+	
+// this list includes both operator and operands
+non terminal List&lt;Oper&gt;
     template,
     prefixTemplate,
     postfixTemplate,
@@ -3251,10 +3310,14 @@ non terminal DeclList
 non terminal InitialState
     initialState;
 
+// Inner para was Term because InitialState and State were Terms, but this 
+// doesn't seem right given they are a "innerPara" and are treated as such
+// both here and in typechecker-oz/ParaChecker.java. So changed them to Para.
 non terminal Term
     innerPara;
 
-non terminal List /* TODO: use generics here! Term */
+// TODO: why not make this Para?
+non terminal List&lt;Term&gt;
     innerParaList;
 
 non terminal DeltaList
@@ -3311,7 +3374,7 @@ precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL <add:circus>, CIRCDEF</add:circus>;
 precedence left         ALL, EXI, EXIONE, SPOT <add:circus>, CIRCSPOT, CIRCINDEX </add:circus>;
 <add:oz>
-precedence left         DCNJ, DGCH, DSQC;
+precedence left         DCNJ, DGCH; //, DSQC;
 precedence left         ASSOPARALLEL;
 <add:tcoz>
 precedence left         DIC, DIL;
@@ -3425,7 +3488,7 @@ precedence nonassoc     CIRCWAIT;
 
 
 <add:zeves>
-precedence nonassoc     LLABEL, RLABEL, LZNOTE, RZNOTE;
+precedence nonassoc     LLABEL, RLABEL; //, LZNOTE, RZNOTE;
 </add:zeves>
 precedence left         DECORWORD
                         <add:circus>
@@ -4092,29 +4155,30 @@ schema ::=
         SCH:sch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL
-        optZStRefInfo:ozsi optNL
+        //optZStRefInfo:ozsi optNL
         schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, null, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(sch, end));
-           addZStateRefInfo(RESULT, ozsi, n);
+           //addZStateRefInfo(RESULT, ozsi, n);
         :}
         |
         GENSCH:gensch
         <add:zeves>optDefAbility:ability</add:zeves>
         name:n optNL 
         formalParameters:fp
-        optZStRefInfo:ozsi optNL
+        //optZStRefInfo:ozsi optNL
         schemaText:st END:end
         {:
            RESULT = factory_.createSchema(n, fp, st);
            <add:zeves>addZEvesLabel(RESULT, n, ability);</add:zeves>
            addLocAnn(RESULT, getLocation(gensch, end));
-           addZStateRefInfo(RESULT, ozsi, n);
+           //addZStateRefInfo(RESULT, ozsi, n);
         :}
         ;
 
+/*
 optZStRefInfo ::=
         ZSTATE
         {:
@@ -4213,6 +4277,7 @@ optZStRefInfo ::=
            RESULT = null;
         :}
         ;
+*/
 
 <add:zeves>
 zProof ::=
@@ -4403,6 +4468,16 @@ zsectionProofCommands ::=
         |
         ZSECTION DECORWORD:path nameList:nl
         {:
+        :}
+        |
+        // NOTE: Added this (spurious) production here to avoid the warning about
+        // 	     PROOFWORD terminal, which needs to be declared, but was never used
+        //		 by the Parser; it's used by the ContextFreeScanner and SmartScanner.
+        PROOFWORD:dw
+        {:
+	        parser.report_error(ZEvesParseMessage.MSG_UNHANDLED_PROOFWORD,
+                               new Object[] { dw.toString() }, dw.getLocation());
+                               // error should be fatal, but that's okay. Just return NULL.
         :}
         ;
         
@@ -8184,7 +8259,7 @@ prefixGenName ::=
            LocInfo loc = getLocation(formalParameterleft,
                                      formalParameterright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, decls);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, decls);
         :}
         |
         L:l optNameEsSsList:onesl name:fpn1
@@ -8192,7 +8267,14 @@ prefixGenName ::=
         {:
            //construct the name
            List&lt;String&gt; name = factory_.list(l.getString());
-           name.addAll((List) onesl.getSecond());
+           
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
            name.add(ARG_TOK);
            name.add(eos.getString());
            name.add(ARG_TOK);
@@ -8203,7 +8285,7 @@ prefixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         ;
 
@@ -8215,7 +8297,7 @@ postfixGenName ::=
            decls.add(fpn);
            LocInfo loc = getLocation(pleft, pright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, decls);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, decls);
         :}
         |
         name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 erOrSr:eos
@@ -8223,7 +8305,15 @@ postfixGenName ::=
            //construct the name
            List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(el.getString());
-           name.addAll((List) onesl.getSecond());
+
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
+
            name.add(ARG_TOK);
            name.add(eos.getString());
 
@@ -8234,7 +8324,7 @@ postfixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(eosleft, eosright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
          :}
         ;
 
@@ -8252,7 +8342,7 @@ infixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         |
         name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 ereOrSre:eos name:fpn3
@@ -8260,7 +8350,15 @@ infixGenName ::=
            //construct the name
            List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(el.getString());
-           name.addAll((List) onesl.getSecond());
+
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
+
            name.add(ARG_TOK);
            name.add(eos.getString());
            name.add(ARG_TOK);
@@ -8272,7 +8370,7 @@ infixGenName ::=
            fps.add(fpn3);
            LocInfo loc = getLocation(fpn3left, fpn3right);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         ;
 
@@ -8281,7 +8379,15 @@ nofixGenName ::=
         {:
            //construct the name
            List&lt;String&gt; name = factory_.list(l.getString());
-           name.addAll((List) onesl.getSecond());
+           
+           // BUGFIX:
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.addAll((List) onesl.getSecond());
+           name.addAll(extractNamesFromNameList(onesl.getSecond()));
+           
            name.add(ARG_TOK);
            name.add(eos.getString());
 
@@ -8290,7 +8396,7 @@ nofixGenName ::=
            fps.add(fpn);
            LocInfo loc = getLocation(eosleft, eosright);
            Name declName = strListToZName(name, loc);
-           RESULT = new Pair(declName, fps);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(declName, fps);
         :}
         ;
 
@@ -8299,20 +8405,31 @@ nofixGenName ::=
 //list comprising the name
 optNameEsSsList ::=
         //empty
-        {: RESULT = new Pair(factory_.createZNameList(),
+        {: RESULT = new Pair&lt;ZNameList, ZNameList&gt;(factory_.createZNameList(),
                              factory_.createZNameList()); :}
         |
         optNameEsSsList:ouesl name:fpn esOrSs:eos
         {:
            ZNameList gens = ouesl.getFirst();
            gens.add(fpn);
-           List name = factory_.list(ouesl.getSecond());
-           name.add(ARG_TOK);
-           name.add(eos.getString());
+           List&lt;ZNameList&gt; name = factory_.list(ouesl.getSecond());
+           // BUG?/TODO: This can't be right. The result is a list of ZNameLists and
+           //			 the code just adds two strings to the list?
+           //
+           // NOTE: This template is for rather complex (i.e. ternary etc) generic operator template.
+           //		Surprisingly, there are non in the standard toolkit, and the standard itself is
+           //		rather vague about examples of such complex operators. We tried but couldn't create
+           //		an example to "test" this production, but at least now the types are right.
+           //name.add(ARG_TOK);
+           //name.add(eos.getString());
+           name.add(factory_.createZNameList(
+ 		  		factory_.list(factory_.createZName(ARG_TOK), 
+   					  factory_.createZName(eos.getString()))));
            RESULT = ouesl;
         :}
         ;
 
+// these results are LocString
 esOrSs ::=
         ES:es
         {: RESULT = es; :}
@@ -8900,7 +9017,7 @@ inner_term ::=
            RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, getLocation(it, rsquare));
         :}
-<add:zpatt>
+<add:pattern>
         |
         inner_term:it LSQUARE JOKEREXPRLIST:elj RSQUARE:rsquare
         {:
@@ -8908,7 +9025,7 @@ inner_term ::=
            RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, getLocation(it, rsquare));
         :}
-</add:zpatt>
+</add:pattern>
         |
         /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE:rsquare
@@ -9682,7 +9799,7 @@ jokerPara ::=
         {:
            JokerType type = JokerType.Expr;
            try {
-             type = JokerType.fromString(dw.getName());
+             type = JokerType.valueOf(dw.getName());
            }
            catch (IllegalArgumentException e) {
              parser.report_error(ZpattParseMessage.MSG_UNKNOWN_JOKER_TYPE,
@@ -9844,8 +9961,9 @@ class ::=
            //a basicTypeDefinition
            State s = null;
            InitialState is = null;
-           for (Iterator iter = ipl.iterator(); iter.hasNext(); ) {
-             Object next = iter.next();
+           // after making InitialState/State a PARA! (Leo)
+           for (Iterator&lt;Term&gt; iter = ipl.iterator(); iter.hasNext(); ) {
+             Term next = iter.next();
              if (next instanceof State) {
                if (s != null) {
                  parser.report_error(ZParseMessage.MSG_DUPLICATE_STATE,
@@ -9865,9 +9983,15 @@ class ::=
                iter.remove();
              }
            }
+           ZParaList zpl = factory_.createZParaList();
+           for (Term t : ipl)
+           {
+           	  if (t instanceof Para) zpl.add((Para)t);
+           }
+           assert ipl.size() == zpl.size();
            Name dn = ch.getFirst();
            ZNameList ofp = ch.getSecond();
-           RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
+           RESULT = factory_.createClassPara(dn, ofp, vl, il, zpl, s, is, ol);
            addLocAnn(RESULT, getLocation(ch.getFirst(), end));
            assert parserState_.isOpExpr() == false;
         :}
@@ -9877,11 +10001,11 @@ classHeader ::=
         CLASS name:n
         {:
            ZNameList decls = factory_.createZNameList();
-           RESULT = new Pair(n, decls);
+           RESULT = new Pair&lt;Name, ZNameList&gt;(n, decls);
         :}
         |
         GENCLASS name:n formalParameters:fp
-        {: RESULT = new Pair(n, fp); :}
+        {: RESULT = new Pair&lt;Name, ZNameList&gt;(n, fp); :}
         ;
 
 operationList ::=
@@ -9964,6 +10088,8 @@ innerParaList ::=
         {: RESULT = factory_.list(); :}
         ;
 
+// TODO: check why aren't these subclass of Para? This messes up the type later on for innerParaList.
+//		 shouldn't state/initialState also be para?
 innerPara ::=
         axiomaticDefinition:ad
         {: RESULT = ad; :}

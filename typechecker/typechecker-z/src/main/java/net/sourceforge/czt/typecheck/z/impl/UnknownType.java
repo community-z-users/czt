@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.Type2Impl;
 import net.sourceforge.czt.base.impl.ListTermImpl;
@@ -180,7 +179,8 @@ public class UnknownType
     try {
       zedObject = new UnknownType();
       ZName zName = (ZName) args[0];
-      List<Type2> types = (List<Type2>) args[1];
+      @SuppressWarnings("unchecked")
+	List<Type2> types = (List<Type2>) args[1];
       Boolean isMem = (Boolean) args[2];
       zedObject.setZName(zName);
       zedObject.setIsMem(isMem);

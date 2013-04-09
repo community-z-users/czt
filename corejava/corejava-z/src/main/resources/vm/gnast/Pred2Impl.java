@@ -1,13 +1,13 @@
-  public Pred getLeftPred()
+  public net.sourceforge.czt.z.ast.Pred getLeftPred()
   {
-    Pred result = null;
+    net.sourceforge.czt.z.ast.Pred result = null;
     if (getPred().size() > 0) {
       result = getPred().get(0);
     }
     return result;
   }
 
-  public void setLeftPred(Pred pred)
+  public void setLeftPred(net.sourceforge.czt.z.ast.Pred pred)
   {
     if (getPred().size() > 0) {
       getPred().set(0, pred);
@@ -17,16 +17,16 @@
     }
   }
 
-  public Pred getRightPred()
+  public net.sourceforge.czt.z.ast.Pred getRightPred()
   {
-    Pred result = null;
+    net.sourceforge.czt.z.ast.Pred result = null;
     if (getPred().size() > 1) {
       result = getPred().get(1);
     }
     return result;
   }
 
-  public void setRightPred(Pred pred)
+  public void setRightPred(net.sourceforge.czt.z.ast.Pred pred)
   {
     if (getPred().size() == 0) {
       getPred().add(null);

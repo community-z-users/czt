@@ -18,11 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
-import java.util.List;
-
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
-
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;;
 
 /**

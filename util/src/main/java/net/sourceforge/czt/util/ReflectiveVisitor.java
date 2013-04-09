@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.util;
 
 import java.lang.reflect.*;
-import java.util.*;
 import java.util.logging.*;
 
 /**
@@ -86,13 +85,13 @@ public abstract class ReflectiveVisitor
     return null;
   }
 
-  protected Method getMethod(Class c)
+  protected Method getMethod(Class<?> c)
   {
     final String methodName = "getMethod";
     getLogger().entering(getClassName(), methodName, c);
 
     Method m = null;
-    Class newc = c;
+    Class<?> newc = c;
     while (m == null && newc != Object.class) {
       String method = newc.getName();
       method = "visit" + method.substring(method.lastIndexOf('.') + 1);
@@ -118,14 +117,14 @@ public abstract class ReflectiveVisitor
     return m;
   }
 
-  protected Method tryInterfaces(Class c)
+  protected Method tryInterfaces(Class<?> c)
   {
     final String methodName = "tryInterfaces";
     getLogger().entering(getClassName(), methodName, c);
 
     String methodPrefix = "visit";
     Method m = null;
-    Class[] interfaces = c.getInterfaces();
+    Class<?>[] interfaces = c.getInterfaces();
     for (int i = 0; i < interfaces.length; i++) {
       String method = interfaces[i].getName();
       method = methodPrefix + method.substring(method.lastIndexOf('.') + 1);

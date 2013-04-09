@@ -25,7 +25,13 @@ package net.sourceforge.czt.session;
 public class CommandException
   extends Exception
 {
-  public CommandException()
+
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6361202018324228212L;
+
+public CommandException()
   {
   }
 

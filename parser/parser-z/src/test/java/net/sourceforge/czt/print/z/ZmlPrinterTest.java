@@ -19,14 +19,10 @@
 
 package net.sourceforge.czt.print.z;
 
-import java.io.*;
 import java.net.URL;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
-import net.sourceforge.czt.parser.util.DeleteAnnVisitor;
-import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.*;
@@ -59,7 +55,8 @@ public class ZmlPrinterTest
 
     // parse
     manager.put(new Key<Source>(name, Source.class), source);
-    Spec spec = manager.get(new Key<Spec>(name, Spec.class));
+    @SuppressWarnings("unused")
+	Spec spec = manager.get(new Key<Spec>(name, Spec.class));
     // We do not delete annotations, since conjecture names are
     // stored as annotations and we want to preserve those.
 

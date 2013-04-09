@@ -1,8 +1,8 @@
-  public ZStrokeList getZStrokeList()
+  public net.sourceforge.czt.z.ast.ZStrokeList getZStrokeList()
   {
-    StrokeList strokeList = getStrokeList();
-    if (strokeList instanceof ZStrokeList) {
-      return (ZStrokeList) strokeList;
+	  net.sourceforge.czt.z.ast.StrokeList strokeList = getStrokeList();
+    if (strokeList instanceof net.sourceforge.czt.z.ast.ZStrokeList) {
+      return (net.sourceforge.czt.z.ast.ZStrokeList) strokeList;
     }
     final String message = "Expected the default (Z) implementation of StrokeList" +
       " but found " + String.valueOf(strokeList);

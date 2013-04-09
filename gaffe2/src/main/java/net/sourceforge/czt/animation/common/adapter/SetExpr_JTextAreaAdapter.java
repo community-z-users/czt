@@ -53,12 +53,12 @@ public class SetExpr_JTextAreaAdapter extends SetExpr_DefaultAdapter
     ZExprList exprList = expr.getZExprList();
     component.setText("");
     String temp = "";
-    int i = 0;
+    //int i = 0;
     for (Expr exprElem : exprList) {
       temp += GaffeUtil.encodeExpr(exprElem);
       temp += System.getProperty("line.separator");
       component.append(temp);
-      i++;
+      //i++;
     }
     return component;
   }

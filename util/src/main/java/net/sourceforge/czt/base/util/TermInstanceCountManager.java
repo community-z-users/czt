@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.impl.TermImpl;
 
 /**
