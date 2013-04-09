@@ -40,9 +40,13 @@
     <site.build.md.dir>${site.build.dir}/markdown</site.build.md.dir>
 
     <site.deploy.id>sourceforge</site.deploy.id>
-    <site.deploy.url>sftp://web.sourceforge.net/home/project-web/czt/htdocs</site.deploy.url>
+    <!-- Use SCP upload via SourceForge shell for Maven site, because SFTP fails
+         (see http://jira.codehaus.org/browse/WAGON-354).
+         However, SCP requires shell access first (see comments for `site` profile below) -->
+    <site.deploy.url>scp://shell.sourceforge.net/home/project-web/czt/htdocs</site.deploy.url>
+    <site.deploy.url.sftp>sftp://web.sourceforge.net/home/project-web/czt/htdocs</site.deploy.url.sftp>
 
-    <files.deploy.url>sftp://frs.sourceforge.net/home/frs/project/czt</files.deploy.url>
+    <files.deploy.url>sftp://frs.sourceforge.net/home/frs/project/czt/</files.deploy.url>
   </properties>
 
   <url>${site.url}</url>
@@ -530,6 +534,18 @@
     <!-- a profile for CZT website generation using Maven site plugin.
          To build a multi-module site, run the following Maven command on the root:
          mvn clean site site:stage -P site
+
+         CZT Maven site can be deployed to SourceForge project web by first creating a SourceForge
+         shell using the following command:
+         ssh USERNAME,czt@shell.sourceforge.net create
+
+         And then deploying Maven site to SourceForge project web by running
+         mvn site-deploy -P site
+
+         This is a workaround for SFTP failing to upload to SourceForge
+         (see http://jira.codehaus.org/browse/WAGON-354)
+         Uploading via SCP and SourceForge shell is the currently recommended way:
+         http://maven.apache.org/plugins/maven-site-plugin/examples/site-deploy-to-sourceforge.net.html
          -->
     <profile>
       <id>site</id>

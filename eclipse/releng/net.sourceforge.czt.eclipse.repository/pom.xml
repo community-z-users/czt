@@ -134,7 +134,8 @@
                 <configuration>
                   <fromDir>${project.build.directory}/composite-nightly</fromDir>
                   <includes>**</includes>
-                  <url>${site.deploy.url}/${nightly.site.path}</url>
+                  <!-- Use SFTP upload (does not need shell access) -->
+                  <url>${site.deploy.url.sftp}/${nightly.site.path}</url>
                   <serverId>sourceforge</serverId>
                 </configuration>
               </execution>
