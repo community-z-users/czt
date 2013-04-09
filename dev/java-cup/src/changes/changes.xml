@@ -5,7 +5,7 @@
     <title>Java CUP Parser Generator</title>
   </properties>
   <body>
-    <release version="0.12-a-czt01" date="2013-03-01" description="CZT updates">
+    <release version="0.11-a-czt02" date="2013-03-01" description="CZT updates">
       <action type="update" dev="leouk">
         Added two new flags for suppressing warnings of generated code, specifically
         unchecked and unused. The former is local to all non-terminals declared with
