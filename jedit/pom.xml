@@ -12,7 +12,7 @@
   <artifactId>jedit-parent</artifactId>
 
   <packaging>pom</packaging>
-  <name>CZT jEdit plugins</name>
+  <name>CZT jEdit</name>
 
   <properties>
     <jedit.groupId>jedit</jedit.groupId>
@@ -26,9 +26,9 @@
   </properties>
 
   <modules>
-    <module>zlive</module>
     <module>zsidekick</module>
     <module>zcharmap</module>
+    <module>zlive</module>
     <module>zeves</module>
   </modules>
 

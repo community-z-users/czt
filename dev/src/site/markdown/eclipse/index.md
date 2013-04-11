@@ -120,7 +120,12 @@ CZT code style file is available for Eclipse IDE to provide common code
 formatting. [Download it][czt-style] and import in Eclipse Preferences >
 Java > Code Style > Formatter tab.
 
+Furthermore, you may want to use [Eclipse Checkstyle][eclipse-cs] plugin with
+[CZT Checkstyle][czt-checkstyle] settings for additional code style checking.
+
 [czt-style]: czt-code-style.xml
+[eclipse-cs]: http://eclipse-cs.sourceforge.net/
+[czt-checkstyle]: ../checkstyle/
 
 
 ## Using Maven `eclipse:eclipse`

@@ -1,17 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt-parent</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>z2alloy</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Z to Alloy translator</name>
+
+  <name>CZT Z to Alloy Translator</name>
   <description>
-    A Z to Alloy translator.
+    A translator for Z notation to Alloy notation.
   </description>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -21,11 +24,26 @@
     <dependency>
       <groupId>alloy</groupId>
       <artifactId>alloy</artifactId>
-      <version>4.1.8</version>
+      <version>4.2.0</version>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
+
+      <plugin>
+        <!-- Skip deployment of z2alloy subproject to Maven Central for now.
+             This is because the core Alloy library is not in Central, and the transitive
+             dependencies thus unresolvable.
+             TODO: deploy if/when the Alloy library is in Central. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
@@ -41,4 +59,23 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <!-- Local Maven repository for Alloy library, because it is not available in
+         Maven Central.
+
+         See http://devcenter.heroku.com/articles/local-maven-dependencies for details. -->
+    <repository>
+      <id>alloy.local</id>
+      <name>Alloy local</name>
+      <url>file:${project.basedir}/alloy-mvn-repo</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
 </project>

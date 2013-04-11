@@ -959,7 +959,7 @@ ThetaExprVisitor<AlloyExpr>
       System.err.println("left and right of SchExpr2 must not be null");
       throw new RuntimeException();
     }
-    return new Pair<AlloyExpr,AlloyExpr>(left, right );
+    return Pair.getPair(left, right );
   }
   
   /**

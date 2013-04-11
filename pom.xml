@@ -59,9 +59,10 @@
     <module>gaffe</module>
     <module>gaffe2</module>
     <module>vcg</module>
-    <module>ui</module>
     <module>z2b</module>
+    <module>z2alloy</module>
     <module>zeves</module>
+    <module>ui</module>
     <module>jedit</module>
   </modules>
 
@@ -402,19 +403,17 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
-      <modules>
-        <module>checkstyle</module>
-      </modules>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.9.1</version>
             <dependencies>
               <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>${czt.dev.groupId}</groupId>
                 <artifactId>checkstyle</artifactId>
-                <version>${project.version}</version>
+                <version>1.6-SNAPSHOT</version>
               </dependency>
             </dependencies>
           </plugin>
@@ -429,6 +428,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.9.1</version>
             <configuration>
               <configLocation>/net/sourceforge/czt/checkstyle.xml</configLocation>
             </configuration>
