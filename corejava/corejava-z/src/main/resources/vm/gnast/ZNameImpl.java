@@ -58,9 +58,9 @@
       assert idPool_ != null;
 	  idPool_.add(id_);
 	}
-    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setWord \t");
-    net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(word, result);
-    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+//    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setWord \t");
+//    net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(word, result);
+//    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
   }
   
   private void setIdInternal(String id)
@@ -70,7 +70,7 @@
     assert nameIdPool_.containsKey(word_);
     idPool_.add(String.valueOf(id));// might be null
     
-    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setId \t");
-    if (id != null) net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(id, result); else result.append("null");
-    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+//    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setId \t");
+//    if (id != null) net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(id, result); else result.append("null");
+//    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
   }
