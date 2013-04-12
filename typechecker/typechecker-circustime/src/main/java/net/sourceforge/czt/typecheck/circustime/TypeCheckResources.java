@@ -25,8 +25,12 @@ public class TypeCheckResources
   protected static final String CIRCUSTIME_ERROR_MESSAGES =
     "/net/sourceforge/czt/typecheck/circustime/ErrorMessage_en.properties";
 
+  protected static final String CIRCUSTIME_WARNING_MESSAGES =
+    "/net/sourceforge/czt/typecheck/circustime/WarningMessage_en.properties";
+
   static {
     addFile(TypeCheckResources.class.getResource(CIRCUSTIME_ERROR_MESSAGES));
+    addFile(TypeCheckResources.class.getResource(CIRCUSTIME_WARNING_MESSAGES));
   }
 }
 
