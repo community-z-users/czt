@@ -21,7 +21,7 @@ package net.sourceforge.czt.typecheck.circustime;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.circustime.ProcessChecker;
 import net.sourceforge.czt.typecheck.circustime.ActionChecker;
-import net.sourceforge.czt.typecheck.circus.WarningManager;
+import net.sourceforge.czt.typecheck.circustime.SpecChecker;
 
 public class TypeChecker 
   extends net.sourceforge.czt.typecheck.circus.TypeChecker
@@ -39,9 +39,9 @@ public class TypeChecker
 		      boolean sortDeclNames)
 	  {
 		  super(factory, sectInfo, recursiveTypes, sortDeclNames);
+		  specChecker_ = new SpecChecker(this);
 		  processChecker_ = new ProcessChecker(this);
-		  actionChecker_ = new ActionChecker(this);	  
-		  warningManager_ = new WarningManager(TypeChecker.class, sectInfo);		  
+		  actionChecker_ = new ActionChecker(this);		  
 	  }
 	  
 	  public net.sourceforge.czt.typecheck.circustime.impl.Factory getFactory()

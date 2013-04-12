@@ -19,14 +19,23 @@
 
 package net.sourceforge.czt.typecheck.circustime;
 
-public class TypeCheckResources
-  extends net.sourceforge.czt.typecheck.circus.TypeCheckResources
-{
-  protected static final String CIRCUSTIME_ERROR_MESSAGES =
-    "/net/sourceforge/czt/typecheck/circustime/ErrorMessage_en.properties";
+import java.util.List;
 
-  static {
-    addFile(TypeCheckResources.class.getResource(CIRCUSTIME_ERROR_MESSAGES));
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
+
+/**
+ * A command to compute the SectTypeInfo of a CircusTime section.
+ */
+public class TypeCheckCommand
+  extends net.sourceforge.czt.typecheck.circus.TypeCheckCommand
+  implements TypecheckPropertiesKeys
+{
+  @Override
+  protected List<? extends ErrorAnn> typecheck(Term term,
+                                               SectionManager manager) {
+    return TypeCheckUtils.typecheck(term, manager, recursiveTypes_, sortDeclNames_,
+      useNameIds_, warningOutput_, null);
   }
 }
-
