@@ -24,12 +24,14 @@ trivial/usual axdef
    minimum: \nat
 \end{axdef}
 
+TODO: handling generics on the FSB / REF signatures isn't ready yet. 
+%
 State schema with generics
-\begin{schema}{State}[X]
+\begin{schema}{State}%[X]
    x: \nat \\
    y: \power~\nat \\
    f: \nat \pfun \nat \\
-   g: X
+   g: \nat
 \where
    y \cross y \subseteq f \\
    x \in y \\ 
@@ -69,15 +71,15 @@ And similarly for a state query operation with generics for $g$ get resolved
 \end{schema}
 
 Update operation with generics carried through from top-level
-\begin{schema}{OpUpd2}[Y]
-   \Delta State[Y]
+\begin{schema}{OpUpd2}%[Y]
+   \Delta State%[Y]
 \where
     x' = x 
 \end{schema}
 
 Update operation with generics resolved on inclusion.
 \begin{schema}{OpUpd3}
-   \Delta State[G]
+   \Delta State%[G]
 \where
     y' = y 
 \end{schema}
