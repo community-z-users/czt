@@ -1,0 +1,202 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>corejava-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>corejava-ohcircus</artifactId>
+  <packaging>jar</packaging>
+
+  <name>CZT Corejava Oh-Circus</name>
+  <description>
+    Provides AST classes for Oh-Circus extension.
+  </description>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>corejava-circustime</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>corejava-circus</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>corejava-circuspatt</artifactId>
+      <version>${project.version}</version>
+    </dependency>    
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>corejava-zpatt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>corejava-z</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    
+    
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>zml</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <dialect>ohcircus</dialect>
+    <dialectCaps>OhCircus</dialectCaps>
+    <zml.schema.name>OhCircus.xsd</zml.schema.name>
+    <zml.schema.namespace>http://czt.sourceforge.net/ohcircus</zml.schema.namespace>
+    
+    <char.src.file>${dialect}char.xml</char.src.file>
+    <char.xsl>${xsl.dir}/${dialect}char2class.xsl</char.xsl>
+    <char.string.xsl>${xsl.dir}/${dialect}char2stringclass.xsl</char.string.xsl>
+    <char.out.file>net/sourceforge/czt/${dialect}/util/${dialectCaps}Char.java</char.out.file>
+    <char.string.out.file>net/sourceforge/czt/${dialect}/util/${dialectCaps}String.java</char.string.out.file>
+  </properties>
+
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>${czt.dev.groupId}</groupId>
+        <artifactId>gnast-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <targetNamespace>${zml.schema.namespace}</targetNamespace>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-chars</id>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <includes>
+                    <include>${char.src.file}</include>
+                  </includes>
+                  <fileMappers>
+                    <fileMapper>
+                      <targetName>${char.out.file}</targetName>
+                    </fileMapper>
+                  </fileMappers>
+                  <stylesheet>${char.xsl}</stylesheet>
+                </transformationSet>
+                <transformationSet>
+                  <includes>
+                    <include>${char.src.file}</include>
+                  </includes>
+                  <fileMappers>
+                    <fileMapper>
+                      <targetName>${char.string.out.file}</targetName>
+                    </fileMapper>
+                  </fileMappers>
+                  <stylesheet>${char.string.xsl}</stylesheet>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>annotate-jaxb</id>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-jaxb</id>
+            <configuration>
+              <schemaIncludes>
+                <include>${zml.schema.name}</include>
+              </schemaIncludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>clean-extra-jaxb</id>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <excludes>
+                    <exclude>net/sourceforge/czt/${dialect}/jaxb/gen/*</exclude>
+                  </excludes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.codehaus.mojo</groupId>
+    								<artifactId>
+    									xml-maven-plugin
+    								</artifactId>
+    								<versionRange>[1.0,)</versionRange>
+    								<goals>
+    									<goal>transform</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+</project>

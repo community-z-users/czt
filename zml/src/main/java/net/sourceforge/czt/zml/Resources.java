@@ -37,6 +37,7 @@ public final class Resources
   private static String ZPATTERN_SCHEMA = "ZPattern.xsd";
   private static String CIRCUSPATTERN_SCHEMA = "CircusPattern.xsd";
   private static String CIRCUSTIME_SCHEMA = "CircusTime.xsd";
+  private static String OHCIRCUS_SCHEMA = "OhCircus.xsd";
   private static String ZEVES_SCHEMA = "ZEves.xsd";
 
   /**
@@ -85,6 +86,11 @@ public final class Resources
   {
     return getSchema(CIRCUSTIME_SCHEMA);
   }
+  
+  public static URL getOhCircusSchema()
+  {
+    return getSchema(OHCIRCUS_SCHEMA);
+  }
 
   public static URL getZEvesSchema()
   {
@@ -114,6 +120,11 @@ public final class Resources
   public static URL getCircusTimeExample(String name)
   {
     return Resources.class.getResource(EXAMPLES + "circustime/" + name);
+  }  
+  
+  public static URL getOhCircusExample(String name)
+  {
+    return Resources.class.getResource(EXAMPLES + "ohcircus/" + name);
   }  
 
   public static URL getZEvesExample(String name)

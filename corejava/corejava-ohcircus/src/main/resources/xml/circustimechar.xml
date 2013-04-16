@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OHCIRCUSCHAR>
+  <SPECIAL>    
+    <BRACKET>
+    <!-- Add extra symbol related to bracket here -->
+    </BRACKET>    
+  </SPECIAL>
+  <SYMBOL>
+     
+    <CORESYMBOL>
+    <!-- Add core symbol here -->
+     </CORESYMBOL>
+
+     <CIRCUSTOOLKITSYMBOL>      
+    </CIRCUSTOOLKITSYMBOL>
+     
+  </SYMBOL>
+</OHCIRCUSCHAR>
