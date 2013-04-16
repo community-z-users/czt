@@ -38,6 +38,8 @@ import net.sourceforge.czt.z.ast.ZSect;
  * for an example.
  * </p>
  * @author Leo Freitas
+ * @param <T> subtype of Type2 determining the kind VCContext for VCs being generated as Pred
+ * @param <B> kind of bindinds to consider from VCContext (i.e. FSB or RREF, see VCContext)
  */
 public interface VCG<//R, 
 					T, B> {
