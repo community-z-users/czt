@@ -293,7 +293,7 @@ public class TypeCheckUtils
   }
   
   @SuppressWarnings("unused")
-  private void typeCheckCommandTest(String file)
+  protected void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUSTIME:");
     
