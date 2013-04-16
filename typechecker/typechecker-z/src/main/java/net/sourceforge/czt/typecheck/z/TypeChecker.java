@@ -129,7 +129,7 @@ public class TypeChecker
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   //the visitors used to typechecker a spec
-  protected Checker<Object> specChecker_ = null;
+  protected Checker<List<NameSectTypeTriple>> specChecker_ = null;
   protected Checker<Signature> paraChecker_ = null;
   protected Checker<List<NameTypePair>> declChecker_ = null;
   protected Checker<Type2> exprChecker_ = null;

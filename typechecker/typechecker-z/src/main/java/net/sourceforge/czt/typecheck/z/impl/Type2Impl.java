@@ -18,9 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.z.ast.Type2;
 
 /**
  * An implementation for Type2 that hides VariableType instances

@@ -32,7 +32,11 @@ import org.gjt.sp.jedit.jEdit;
 public class CztTreeNode
   extends DefaultMutableTreeNode
 {
-  private final static String SHORT_DESCRIPTION_RESOURCE =
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4294068596351724151L;
+private final static String SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.z.util.ShortDescriptionResourceBundle";
   private final static String ZPATT_SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle";
@@ -62,12 +66,12 @@ public class CztTreeNode
   private final static Visitor<Term[]> getChildrenVisitor_ =
     new GetChildrenVisitor();
 
-  private Term term_;
+  //private Term term_;
 
   public CztTreeNode(Term term, Dialect dialect, Buffer buffer)
   {
     super(createAsset(term, dialect, buffer));
-    term_ = term;
+   // term_ = term;
     if (dialect.isExtensionOf(Dialect.CIRCUS) || 
         jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE)) {
       Object[] children = term.getChildren();

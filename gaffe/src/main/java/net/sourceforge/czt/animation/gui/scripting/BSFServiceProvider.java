@@ -48,7 +48,7 @@ public final class BSFServiceProvider implements BeanContextServiceProvider
    * Returns the BSFManager.  Inherits from BeanContextServiceProvider.
    */
   public Object getService(BeanContextServices bcs, Object requestor,
-      Class serviceClass, Object serviceSelector)
+      @SuppressWarnings("rawtypes") Class serviceClass, Object serviceSelector)
   {
     return bsfManager;
   };
@@ -65,6 +65,7 @@ public final class BSFServiceProvider implements BeanContextServiceProvider
   /**
    * Does Nothing.  Required because inherited from BeanContextServiceProvider.
    */
+  @SuppressWarnings("rawtypes") 
   public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
       Class serviceClass)
   {

@@ -35,7 +35,6 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.WarningManager;
 
 public class CztParser
         extends SideKickParser

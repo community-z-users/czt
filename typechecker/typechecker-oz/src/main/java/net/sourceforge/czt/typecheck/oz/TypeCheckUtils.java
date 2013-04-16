@@ -23,7 +23,6 @@ import java.io.*;
 import java.util.List;
 
 import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
-import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -31,10 +30,8 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.parser.oz.*;
-import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.Factory;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
-import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**

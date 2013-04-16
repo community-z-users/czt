@@ -26,7 +26,7 @@ import net.sourceforge.czt.zpatt.visitor.*;
 
 public class TermToString
   extends net.sourceforge.czt.base.util.TermToString
-  implements JokerDeclListVisitor
+  implements JokerDeclListVisitor<Object>
 {
   public Object visitJokerDeclList(JokerDeclList joker)
   {

@@ -34,7 +34,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 
 import ${project.AstPackage}.*;
-import ${project.VisitorPackage}.*;
+//import ${project.VisitorPackage}.*;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end
@@ -45,6 +45,9 @@ import ${p.AstPackage}.*;
 #if($author) * @author ${author}
 #end
  */
+ 		  // whenever this is a List<?> we need unchecked warning removal; not otherwise;
+		  // adding it globally! 
+@SuppressWarnings("unchecked") 
 public class ${class.Name}
 #if($ImportProject)
   extends ${ImportProject.getObject("copyVisitor")}
@@ -94,6 +97,8 @@ public class ${class.Name}
 #foreach($prop in $c.AllProperties)
 #set($counter = $velocityCount - 1)
 #if($counter > 0),#end
+		  // whenever this is a List<?> we need unchecked warning removal; not otherwise;
+		  // adding it globally!
           (${prop.Type.FullName}) children_[$counter]
 #end## foreach prop
         );
@@ -116,10 +121,10 @@ public class ${class.Name}
 #end## if
 #end## foreach c
 
-  public Term visitListTerm(ListTerm listTerm)
+  public Term visitListTerm(ListTerm<?> listTerm)
   {
-    ListTerm result =
-      new net.sourceforge.czt.base.impl.ListTermImpl();
+    ListTerm<Object> result =
+      new net.sourceforge.czt.base.impl.ListTermImpl<Object>();
     for (Object o : children_) result.add(o);
     return result;
   }

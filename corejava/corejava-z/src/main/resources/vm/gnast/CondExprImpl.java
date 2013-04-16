@@ -1,15 +1,15 @@
-  public Expr getLeftExpr()
+  public net.sourceforge.czt.z.ast.Expr getLeftExpr()
   {
-    Expr result = null;
+	  net.sourceforge.czt.z.ast.Expr result = null;
     if (getExpr().size() > 0) {
       result = getExpr().get(0);
     }
     return result;
   }
 
-  public Expr getRightExpr()
+  public net.sourceforge.czt.z.ast.Expr getRightExpr()
   {
-    Expr result = null;
+	  net.sourceforge.czt.z.ast.Expr result = null;
     if (getExpr().size() > 1) {
       result = getExpr().get(1);
     }

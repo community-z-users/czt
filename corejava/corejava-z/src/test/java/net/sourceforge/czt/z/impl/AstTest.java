@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.z.impl;
 
-import java.math.BigInteger;
-
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.*;

@@ -271,7 +271,7 @@ public class ZEditorAnnotationConfigurationBlock
     return annotationComposite;
   }
 
-  private Link addLink(Composite composite, String text, int indent)
+  protected Link addLink(Composite composite, String text, int indent)
   {
     GridData gd;
     final Link link = new Link(composite, SWT.NONE);

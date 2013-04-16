@@ -39,6 +39,7 @@ import net.sourceforge.czt.gnast.GnastException;
  *
  * @author Petra Malik
  */
+@SuppressWarnings("restriction")
 public class XPath
 {
   // ############################################################

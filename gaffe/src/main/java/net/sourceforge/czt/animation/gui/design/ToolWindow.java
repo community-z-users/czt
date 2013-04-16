@@ -62,7 +62,12 @@ import javax.swing.event.EventListenerList;
  */
 class ToolWindow extends JFrame
 {
-  protected Vector<Tool> tools; //Vector<Tool> tools
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9136575187654875644L;
+
+protected Vector<Tool> tools; //Vector<Tool> tools
 
   protected JPanel nonBeanToolPanel;
 
@@ -279,7 +284,12 @@ class ToolWindow extends JFrame
       Action action = new AbstractAction(getIcon() == null ? getName() : null,
           getIcon())
       {
-        public void actionPerformed(ActionEvent e)
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -1600823966098229338L;
+
+		public void actionPerformed(ActionEvent e)
         {
           if (getCurrentTool() == Tool.this)
             setCurrentTool(defaultTool);

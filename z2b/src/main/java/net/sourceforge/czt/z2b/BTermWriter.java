@@ -96,7 +96,7 @@ public class BTermWriter
     BOperator(String bname) {
       name = bname;
       arity = 1;
-      prec = out_.TIGHTEST;
+      prec = BWriter.TIGHTEST;
     }
 
     /** Prints the B operator as a string */
@@ -285,13 +285,13 @@ public class BTermWriter
   /** Print a list of predicates, separated by '&' and newlines. */
   //@ requires preds != null && preds.size() > 0;
   //  requires non_null_elements(preds);
-  public void printPreds(List preds)
+  public void printPreds(List<Pred> preds)
   {
     out_.beginPrec(AND_PREC+1);
-    Iterator i = preds.iterator();
+    Iterator<Pred> i = preds.iterator();
     assert i.hasNext();
     while (i.hasNext()) {
-      Pred p = (Pred)i.next();
+      Pred p = i.next();
       assert p != null;
       printPred(p);
       if (i.hasNext())
@@ -391,14 +391,14 @@ public class BTermWriter
   protected void unaryOp(BOperator bOp, Term arg)
   {
     sLogger.entering("BTermWriter","unaryOp");
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print(bOp.name);
     // beginPrec will add the opening "(".
-    out_.beginPrec(out_.LOOSEST);
+    out_.beginPrec(BWriter.LOOSEST);
     arg.accept(this);
     // endPrec will add the closing "(".
-    out_.endPrec(out_.LOOSEST);
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.LOOSEST);
+    out_.endPrec(BWriter.TIGHTEST);
     sLogger.exiting("BTermWriter","unaryOp");
   }
 
@@ -538,27 +538,27 @@ public class BTermWriter
 
   public Term visitExistsPred(ExistsPred p)
   {
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print("#(");
     ZSchText stext = p.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out_.print(").");
     printPred(Create.andPred(typesconds, p.getPred()));
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.TIGHTEST);
     return p;
   }
 
   public Term visitForallPred(ForallPred p)
   {
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print("!(");
     ZSchText stext = p.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out_.print(").");
     printPred(getFactory().createImpliesPred(typesconds, p.getPred()));
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.TIGHTEST);
     return p;
   }
 
@@ -569,7 +569,7 @@ public class BTermWriter
 
   public Term visitLambdaExpr(LambdaExpr e)
   {
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print("%(");
     ZSchText stext = e.getZSchText();
     Pred types = splitSchText(stext);  // this prints the names
@@ -577,7 +577,7 @@ public class BTermWriter
     BOperator where = bOp(" _ | _ ");
     assert where != null;
     infixOp(where, Create.andPred(types, stext.getPred()), e.getExpr());
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.TIGHTEST);
     return e;
   }
 
@@ -646,16 +646,16 @@ public class BTermWriter
     }
     else {
       // Print:  left(right)
-      out_.beginPrec(out_.TIGHTEST);
+      out_.beginPrec(BWriter.TIGHTEST);
       out_.print("(");
       e.getLeftExpr().accept(this);
       out_.print(")");
       // beginPrec will add the opening "(".
-      out_.beginPrec(out_.LOOSEST);
+      out_.beginPrec(BWriter.LOOSEST);
       e.getRightExpr().accept(this);
       // endPrec will add the closing "(".
-      out_.endPrec(out_.LOOSEST);
-      out_.endPrec(out_.TIGHTEST);
+      out_.endPrec(BWriter.LOOSEST);
+      out_.endPrec(BWriter.TIGHTEST);
     }
     return e;
   }
@@ -695,7 +695,7 @@ public class BTermWriter
         " not yet supported";
       throw new UnsupportedOperationException(msg);
     }
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print("{");
     out_.beginPrec();
     ZSchText stext = setCompExpr.getZSchText();
@@ -707,13 +707,13 @@ public class BTermWriter
     out_.endPrec(WHERE_PREC+1);
     out_.endPrec();
     out_.print("}");
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.TIGHTEST);
     return setCompExpr;
   }
 
   public Term visitSetExpr(SetExpr set)
   {
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print("{");
     out_.beginPrec();
     out_.beginPrec(COMMA_PREC+1);
@@ -724,7 +724,7 @@ public class BTermWriter
     out_.endPrec(COMMA_PREC+1);
     out_.endPrec();
     out_.print("}");
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.TIGHTEST);
     return set;
   }
 
@@ -791,7 +791,7 @@ public class BTermWriter
   {
     StrokeList strokeList = zName.getStrokeList();
     if (strokeList instanceof List) {
-      return ((List) strokeList).size() > 0;
+      return ((List<?>) strokeList).size() > 0;
     }
     return false;
   }
@@ -853,16 +853,16 @@ public class BTermWriter
 
   public Term visitBindSelExpr(BindSelExpr bindSelExpr)
   {    
-    out_.beginPrec(out_.TIGHTEST);
+    out_.beginPrec(BWriter.TIGHTEST);
     out_.print("(");
     bindSelExpr.getName().accept(this);
     out_.print(")");
     // beginPrec will add the opening "(".
-    out_.beginPrec(out_.LOOSEST);
+    out_.beginPrec(BWriter.LOOSEST);
     bindSelExpr.getExpr().accept(this);
     // endPrec will add the closing "(".
-    out_.endPrec(out_.LOOSEST);
-    out_.endPrec(out_.TIGHTEST);
+    out_.endPrec(BWriter.LOOSEST);
+    out_.endPrec(BWriter.TIGHTEST);
     return bindSelExpr;
   }
 

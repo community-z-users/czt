@@ -19,21 +19,7 @@
 
 package net.sourceforge.czt.print.circus;
 
-import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Map;
-
-import java_cup.runtime.Scanner;
-import java_cup.runtime.Symbol;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.circus.util.CircusString;
 
 /**
  * Print Z specifications in Unicode.

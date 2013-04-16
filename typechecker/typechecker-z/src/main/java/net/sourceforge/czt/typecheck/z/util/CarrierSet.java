@@ -21,7 +21,6 @@ package net.sourceforge.czt.typecheck.z.util;
 import java.util.List;
 import java.util.Iterator;
 
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -151,8 +150,8 @@ public class CarrierSet
   {
     List<Expr> exprs = factory_.list();
     List<Type2> types = prodType.getType();
-    for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-      Type type = (Type) iter.next();
+    for (Iterator<Type2> iter = types.iterator(); iter.hasNext(); ) {
+      Type type =  iter.next();
       Expr expr = (Expr) type.accept(this);
       exprs.add(expr);
     }

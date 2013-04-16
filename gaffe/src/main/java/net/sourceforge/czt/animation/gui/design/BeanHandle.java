@@ -43,6 +43,11 @@ import javax.swing.event.MouseInputAdapter;
 final class BeanHandle extends JPanel
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3611505202192601073L;
+
+/**
    * The component on the content pane this handle is matched to.
    */
   protected Component component_;

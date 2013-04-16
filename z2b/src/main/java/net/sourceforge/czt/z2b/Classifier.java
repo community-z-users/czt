@@ -46,7 +46,8 @@ public class Classifier
           Signature sig = schemaType.getSignature();
           int sigSize = sig.getNameTypePair().size();
           if (sigSize > 0) {
-            List<NameTypePair> undecorated = 
+            @SuppressWarnings("unused")
+			List<NameTypePair> undecorated = 
               ZUtils.subsignature(sig, null);
             List<NameTypePair> primed =
               ZUtils.subsignature(sig, NextStroke.class);

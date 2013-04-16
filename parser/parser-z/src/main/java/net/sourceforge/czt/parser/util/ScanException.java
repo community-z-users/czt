@@ -27,7 +27,11 @@ public class ScanException
   extends net.sourceforge.czt.util.CztException
   implements CztError
 {
-  private LocInfo locInfo_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5502310625340895712L;
+private LocInfo locInfo_;
   private String symbolInfo_;
 
   /**

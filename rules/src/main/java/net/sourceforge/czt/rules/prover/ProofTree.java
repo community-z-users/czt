@@ -24,23 +24,23 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.tree.*;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.print.PrintUtils;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.*;
 
 public class ProofTree
   extends JTree
 {
-  private JFrame frame_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1384815784250541020L;
+  //private JFrame frame_;
   private RuleTable rules_;
   private SectionManager manager_;
   private String section_;
@@ -51,7 +51,7 @@ public class ProofTree
                    SectionManager manager,
                    String section)
   {
-    frame_ = frame;
+    //frame_ = frame;
     rules_ = rules;
     manager_ = manager;
     section_ = section;
@@ -305,7 +305,12 @@ public class ProofTree
   class ProofNode
     extends DefaultMutableTreeNode
   {
-    public ProofNode(Sequent sequent)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2007617040338579312L;
+
+	public ProofNode(Sequent sequent)
     {
       super(sequent);
       Deduction ded = sequent.getAnn(Deduction.class);
@@ -329,7 +334,8 @@ public class ProofTree
       Deduction ded = getSequent().getAnn(Deduction.class);
       if (ded == null) return false;
       if (ded instanceof RuleAppl) {
-        for (Enumeration<TreeNode> e = children();
+        for (@SuppressWarnings("unchecked")
+		Enumeration<TreeNode> e = (Enumeration<TreeNode>)children();
              e.hasMoreElements() ;) {
           TreeNode node = e.nextElement();
           if (node instanceof ProofNode) {
@@ -365,7 +371,12 @@ public class ProofTree
   class OracleNode
     extends DefaultMutableTreeNode
   {
-    public OracleNode(OracleAppl oracleAppl)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5643642019102791655L;
+
+	public OracleNode(OracleAppl oracleAppl)
     {
       super(oracleAppl);
     }
@@ -389,7 +400,12 @@ public class ProofTree
   class Renderer
     extends DefaultTreeCellRenderer
   {
-    public Component getTreeCellRendererComponent(JTree tree,
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1437641660754271760L;
+
+	public Component getTreeCellRendererComponent(JTree tree,
                                                   Object value,
                                                   boolean sel,
                                                   boolean expanded,

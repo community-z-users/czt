@@ -28,7 +28,12 @@ import net.sourceforge.czt.animation.gui.temp.ZTuple;
  */
 public class TupleModel extends AbstractTableModel
 {
-  private ZTuple tuple_ = new ZTuple();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5813088299634593632L;
+
+private ZTuple tuple_ = new ZTuple();
 
   private boolean vertical_ = true;
 

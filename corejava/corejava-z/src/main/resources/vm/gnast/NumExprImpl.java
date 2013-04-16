@@ -1,14 +1,14 @@
 
   /**
    * This is a convenience method.
-   * It returns the ZNumeral if Numeral is an instance of
-   * ZNumeral and throws an UnsupportedAstClassException otherwise.
+   * It returns the net.sourceforge.czt.z.ast.ZNumeral if Numeral is an instance of
+   * net.sourceforge.czt.z.ast.ZNumeral and throws an UnsupportedAstClassException otherwise.
    */
-  public ZNumeral getZNumeral()
+  public net.sourceforge.czt.z.ast.ZNumeral getZNumeral()
   {
-    Numeral numeral = getNumeral();
-    if (numeral instanceof ZNumeral) {
-      return (ZNumeral) numeral;
+	  net.sourceforge.czt.z.ast.Numeral numeral = getNumeral();
+    if (numeral instanceof net.sourceforge.czt.z.ast.ZNumeral) {
+      return (net.sourceforge.czt.z.ast.ZNumeral) numeral;
     }
     final String message = "Expected the default (Z) implementation of Numeral" +
       " but found " + String.valueOf(numeral);
@@ -17,14 +17,14 @@
 
   /**
    * This is a convenience method.
-   * It returns the value of the ZNumeral if Numeral is an instance of
-   * ZNumeral and throws an UnsupportedAstClassException otherwise.
+   * It returns the value of the net.sourceforge.czt.z.ast.ZNumeral if Numeral is an instance of
+   * net.sourceforge.czt.z.ast.ZNumeral and throws an UnsupportedAstClassException otherwise.
    */
   public java.math.BigInteger getValue()
   {
-    Numeral numeral = getNumeral();
-    if (numeral instanceof ZNumeral) {
-      return new java.math.BigInteger(((ZNumeral) numeral).getValue().toString());
+    net.sourceforge.czt.z.ast.Numeral numeral = getNumeral();
+    if (numeral instanceof net.sourceforge.czt.z.ast.ZNumeral) {
+      return new java.math.BigInteger(((net.sourceforge.czt.z.ast.ZNumeral) numeral).getValue().toString());
     }
     final String message = "Expected the default (Z) implementation of Numeral" +
       " but found " + String.valueOf(numeral);

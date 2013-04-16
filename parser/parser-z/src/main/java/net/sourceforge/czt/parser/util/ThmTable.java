@@ -18,7 +18,6 @@
  */
 package net.sourceforge.czt.parser.util;
 
-import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import net.sourceforge.czt.util.CztLogger;
@@ -104,7 +103,12 @@ public class ThmTable extends InfoTable
   public static class ThmTableException
     extends InfoTable.InfoTableException
   {
-    public ThmTableException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2110188825241660479L;
+
+	public ThmTableException(String message)
     {
       super(message);
     }

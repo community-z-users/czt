@@ -216,7 +216,7 @@ public class TypeCheckerTest
   protected Term parse(String file, SectionManager manager)
     throws Exception
   {
-    Term term = super.parse(new File(file).toURL(), manager);
+    Term term = super.parse(new File(file).toURI().toURL(), manager);
     if (VERBOSE) { System.out.println("\tabout to parse as " + Markup.getMarkup(file) + " file " + file); }
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
@@ -230,12 +230,10 @@ public class TypeCheckerTest
     return term;
   }
   
-  protected List typecheck(Term term, SectionManager manager)
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term, SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term,
-      manager,
-      recursiveTypes_);
+    return TypeCheckUtils.typecheck(term,  manager,   recursiveTypes_);
   }
   
   protected TestCase createNormalTest(String fullpath)
@@ -262,7 +260,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
       Term term = null;
       try
       {
@@ -287,7 +285,7 @@ public class TypeCheckerTest
       }
       if (errors.size() > 0)
       {
-        for(ErrorAnn errorAnn : errors)
+        for(net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn : errors)
         {
           // only look for errors, not warnings
           if (errorAnn.getErrorType().equals(ErrorType.ERROR))
@@ -319,7 +317,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
       try
       {
         if (VERBOSE) { System.out.println("Test error: " + file_);}
@@ -357,7 +355,7 @@ public class TypeCheckerTest
       {
         String actual = null;
         boolean foundCorrectError = false;
-        for(ErrorAnn errorAnn : errors)
+        for(net.sourceforge.czt.typecheck.z.ErrorAnn errorAnn : errors)
         {
           // only look for errors, not warnings
           if (errorAnn.getErrorType().equals(ErrorType.ERROR))

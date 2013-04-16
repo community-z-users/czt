@@ -8,7 +8,7 @@
         <Anns>
             <LocAnn Length="15" Start="54" Col="36" Line="2" Loc="./tests/zeves/genericSchemas.tex"/>
         </Anns>
-        <Word>zstate_toolkit</Word>
+        <Word>zeves_toolkit</Word>
     </Parent>
     <ZParaList>
         <LatexMarkupPara/>
@@ -33,7 +33,6 @@ Warning about missing hard space. Good
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="91" Start="125" Col="0" Line="6" Loc="./tests/zeves/genericSchemas.tex"/>
-                <ZStateAnn Info="STATE"/>
             </Anns>
             <ZNameList>
                 <ZName>

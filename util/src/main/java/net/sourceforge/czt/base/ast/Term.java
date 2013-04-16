@@ -101,6 +101,7 @@ public interface Term
    *
    * @return a list of annotations (should never be <code>null</code>).
    */
+  // TODO: perhaps this should be Ann derived classes only?
   List<Object> getAnns();
 
   /**

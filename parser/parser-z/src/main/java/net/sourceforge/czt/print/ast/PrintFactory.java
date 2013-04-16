@@ -41,17 +41,17 @@ public class PrintFactory
     return new OperatorApplication(this, opName, args, prec, assoc);
   }
 
-  public PrintParagraph createPrintParagraph(List something)
+  public PrintParagraph createPrintParagraph(List<?> something)
   {
     return new PrintParagraph(this, something);
   }
 
-  public PrintExpression createPrintExpression(List something)
+  public PrintExpression createPrintExpression(List<?> something)
   {
     return new PrintExpression(this, something);
   }
 
-  public PrintPredicate createPrintPredicate(List something,
+  public PrintPredicate createPrintPredicate(List<?> something,
                                              Precedence prec,
                                              Assoc assoc)
   {

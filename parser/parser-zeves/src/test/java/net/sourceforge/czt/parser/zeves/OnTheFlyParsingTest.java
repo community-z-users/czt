@@ -19,7 +19,6 @@
 package net.sourceforge.czt.parser.zeves;
 
 import junit.framework.TestCase;
-import net.sourceforge.czt.session.SectionManager;
 
 /**
  *
@@ -32,7 +31,6 @@ public class OnTheFlyParsingTest extends TestCase
   {
     super(testName);
   }
-  private SectionManager manager_;
 
   @Override
   protected void setUp() throws Exception

@@ -50,6 +50,11 @@ public class Script extends BeanContextChildSupport
       Serializable
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1831656956142764188L;
+
+/**
    * Local reference to the BSFManager used to run the script.  Changed when
    * informed about the service via <code>serviceAvailable</code> and
    * <code>serviceRevoked</code>.

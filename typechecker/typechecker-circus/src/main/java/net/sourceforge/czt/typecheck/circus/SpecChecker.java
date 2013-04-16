@@ -34,8 +34,8 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * 
  * @author Leo Freitas
  */
-public class SpecChecker extends Checker<Object>
-  implements ZParaListVisitor<Object>, ZSectVisitor<Object>
+public class SpecChecker extends Checker<List<NameSectTypeTriple>>
+  implements ZParaListVisitor<List<NameSectTypeTriple>>, ZSectVisitor<List<NameSectTypeTriple>>
 {  
   //a Z spec checker
   protected net.sourceforge.czt.typecheck.z.SpecChecker zSpecChecker_;
@@ -74,14 +74,14 @@ public class SpecChecker extends Checker<Object>
    * as an AST error.
    */
   @Override
-  public Object visitTerm(Term term)
+  public List<NameSectTypeTriple> visitTerm(Term term)
   {
     // for all other terms, just use th zSpecChecker.
     return term.accept(zSpecChecker_);
   }
   
   @Override
-  public Object visitZSect(ZSect zSect)
+  public List<NameSectTypeTriple> visitZSect(ZSect zSect)
   {    
     //reuse the general Checker protocol - needed to do it this way
     //to enable setSectName for WarningManager to be called rightly.
@@ -95,7 +95,7 @@ public class SpecChecker extends Checker<Object>
    * It also performs post processings for mutually recursive processes.
    */
   @Override
-  public Object visitZParaList(ZParaList term)
+  public List<NameSectTypeTriple> visitZParaList(ZParaList term)
   {
     // typecheck all paragraphs: both top-level and implicitly declared processes.
     checkParaList(term);

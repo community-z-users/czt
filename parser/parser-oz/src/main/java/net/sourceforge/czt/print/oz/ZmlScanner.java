@@ -23,8 +23,6 @@ package net.sourceforge.czt.print.oz;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.parser.oz.OzToken;
-
 
 import net.sourceforge.czt.print.z.*;
 

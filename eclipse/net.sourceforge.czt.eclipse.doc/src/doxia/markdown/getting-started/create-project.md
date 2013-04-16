@@ -1,16 +1,16 @@
-# Create New CZT Projects
+# Creating a CZT project
 
-The CZT editor plug-in provides a convenient wizard to help create a new project for editing
-Z specifications. The wizard can be opened using the menu entry
-**File > New > Project... > CZT > CZT Project**.
+Create a new CZT project to contain Z specifications by selecting **File > New > Project > CZT > CZT Project** in the menu.
 
-![New CZT Project Creation Wizard](../images/wizard_project.png)
+![New CZT project wizard](../images/wizard_project.png)
 
--   In this wizard, enter the name of the new project.
+1.   Enter the name of the new project (how it will be displayed within Eclipse workspace).
+2.   If you do not want to use the default location, specify one.
 
--   If you do not want to use the default location, specify one.
+     _Note: you can create CZT project on you existing directories: just specify an existing directory in the Location field. The name does not have to match the directory._
 
-If the CZT perspective is not opened at the moment, the wizard will ask you whether you want to
-open the CZT perspective. It is highly recommended that you open it because it will automatically
-open a set of Eclipse elements useful for the CZT development.  Then the new project will be
+
+If the **Z perspective** is not active at the moment, the wizard will ask you whether you want to
+open the Z perspective. It is highly recommended that you open it because it will automatically
+open a set of Eclipse views useful for the Z development.  Then the new project will be
 created and selected in the workbench window.

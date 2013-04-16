@@ -28,6 +28,11 @@ public class CztException
   extends RuntimeException
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8771943245762382460L;
+
+/**
    * Constructs a new CZT exception with <code>null</code> as its message.
    */
   public CztException()

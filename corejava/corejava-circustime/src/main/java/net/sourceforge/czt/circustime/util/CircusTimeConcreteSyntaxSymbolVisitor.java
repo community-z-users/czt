@@ -12,7 +12,6 @@ package net.sourceforge.czt.circustime.util;
 import net.sourceforge.czt.circustime.ast.*;
 import net.sourceforge.czt.circustime.visitor.*;
 
-import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.util.IsEmptyNameList;
 import net.sourceforge.czt.z.util.StandardZ;
 
@@ -28,18 +27,9 @@ public class CircusTimeConcreteSyntaxSymbolVisitor
   implements CircusTimeVisitor<CircusTimeConcreteSyntaxSymbol>
 {
 
-  private Utils utils_;
-
   public CircusTimeConcreteSyntaxSymbolVisitor()
   {
-    utils_ = new UtilsImpl();
   }
-
-  public CircusTimeConcreteSyntaxSymbolVisitor(Utils utils)
-  {
-    utils_ = utils;
-  }
-
 
 /* Support for Circus Time : Process */
   

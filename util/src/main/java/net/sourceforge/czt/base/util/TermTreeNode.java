@@ -94,9 +94,9 @@ public class TermTreeNode
     return getChildCount() == 0;
   }
 
-  public Enumeration children()
+  public Enumeration<TreeNode> children()
   {
-    Vector childNodes = new Vector();
+    Vector<TreeNode> childNodes = new Vector<TreeNode>();
     for (int i = 0; i < getChildCount(); i++) {
       childNodes.add(getChildAt(i));
     }
@@ -109,7 +109,7 @@ public class TermTreeNode
       return ((Term) node_).accept(toStringVisitor_);
     }
     if (node_ instanceof List) {
-      return "List[" + ((List) node_).size() + "]";
+      return "List[" + ((List<?>) node_).size() + "]";
     }
     if (node_ != null) {
       return node_.toString();

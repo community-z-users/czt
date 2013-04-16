@@ -3,13 +3,13 @@ version of the Z IO refinement rules as described in the University of York
 report YCS-2002-347 by Iain Toyn, Susan Stepney, and Jim Woodcock.
 
 \begin{zsection}
-   \SECTION refRulesEquiv \parents zstate\_toolkit
+   \SECTION refRulesEquiv \parents zeves\_toolkit
 \end{zsection}
 
 Bla bla
 
 \begin{schema}{AS}
-  \zastate \\
+%  \zastate \\
    x: \power~\nat
 \end{schema}
 \begin{zed}
@@ -19,14 +19,14 @@ Bla bla
 \end{zed}
 
 \begin{schema}{CS}
-  \zcstate \\
+%  \zcstate \\
    y: \seq~\nat
 \end{schema}
 
 The next refinement tag is mistaken on purpose - just to test the parser for it.
 
 \begin{schema}{AOper}
-  \zbsrefines COper \\
+%  \zbsrefines COper \\
    \Delta AS\\
    ai? : \nat\\
    ao! : \nat
@@ -37,7 +37,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
 \end{schema}
 
 \begin{schema}{COper}
-  \zfsrefines AOper \\
+%  \zfsrefines AOper \\
    \Delta CS \\
    ci?: FI \\
    co!: FO
@@ -47,14 +47,14 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
 \end{schema}
 
 \begin{schema}{R}
-  \zretrieve \\
+%  \zretrieve \\
    AS; CS
 \where
    x = \ran~y
 \end{schema}
 
 \begin{schema}{RIn}
-  \zretrievein \\
+%  \zretrievein \\
    ai?: \nat \\
    ci?: FI
 \where
@@ -62,7 +62,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
 \end{schema}
 
 \begin{schema}{ROut}
-  \zretrieveout \\
+%  \zretrieveout \\
    ao!: \nat \\
    co!: FO
 \where

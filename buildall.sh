@@ -16,7 +16,7 @@ export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=512m"
 set -e
 
 # Step 1: Build the CZT core
-mvn clean install
+mvn clean install -U
 
 # Step 2: Build the CZT Eclipse plug-ins
-mvn -f eclipse/pom.xml clean install
+mvn -f eclipse/pom.xml clean install -U

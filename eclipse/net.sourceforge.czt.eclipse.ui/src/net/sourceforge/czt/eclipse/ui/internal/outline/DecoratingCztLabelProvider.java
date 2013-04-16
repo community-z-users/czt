@@ -22,7 +22,7 @@ public class DecoratingCztLabelProvider extends DecoratingLabelProvider
       IColorProvider
 {
 
-  private ProblemsLabelDecorator fLabelDecorator = null;
+  //private ProblemsLabelDecorator fLabelDecorator = null;
 
   /**
    * Decorating label provider for Java. Combines a JavaUILabelProvider

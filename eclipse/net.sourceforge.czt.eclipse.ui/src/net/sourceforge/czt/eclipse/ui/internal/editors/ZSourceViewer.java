@@ -11,14 +11,13 @@ import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.jface.text.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextPresentationListener;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Region;
-import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.information.IInformationPresenter;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.source.IOverviewRuler;
@@ -480,11 +479,13 @@ public class ZSourceViewer extends ProjectionViewer
    * @param listener the text presentation listener
    * @since 3.0
    */
-  public void prependTextPresentationListener(ITextPresentationListener listener)
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public void prependTextPresentationListener(ITextPresentationListener listener)
   {
 
     Assert.isNotNull(listener);
 
+    // TODO: uses an eclipse class with RAW TYPES! 
     if (fTextPresentationListeners == null)
       fTextPresentationListeners = new ArrayList();
 
@@ -557,7 +558,7 @@ public class ZSourceViewer extends ProjectionViewer
 //        document, IZPartitions.Z_PARTITIONING, lineOffset, line.getLength(),
 //        false);
 
-    List segmentation = new ArrayList();
+    List<ITypedRegion> segmentation = new ArrayList<ITypedRegion>();
     //    for (int i = 0; i < linePartitioning.length; i++) {
     //      if (IZPartitions.JAVA_STRING.equals(linePartitioning[i].getType()))
     //        segmentation.add(linePartitioning[i]);
@@ -571,7 +572,7 @@ public class ZSourceViewer extends ProjectionViewer
 
     int j = 0;
     for (int i = 0; i < size; i++) {
-      ITypedRegion segment = (ITypedRegion) segmentation.get(i);
+      ITypedRegion segment = segmentation.get(i);
 
       if (i == 0)
         segments[j++] = 0;

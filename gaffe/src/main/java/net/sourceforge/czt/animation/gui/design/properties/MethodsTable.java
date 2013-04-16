@@ -39,6 +39,11 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 final class MethodsTable extends AbstractTableModel
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6728057740309836573L;
+
+/**
    * The bean that this table is for.
    */
   private Object bean_;

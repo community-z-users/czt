@@ -96,7 +96,7 @@ class <class/> implements java_cup.runtime.Scanner
   private static final int DEBUG_FINE   = 100;
   private static final int DEBUG_FINER  = 200;
   private static final int DEBUG_FINEST = 300;
-  private static final int DEBUG_ALL    = 400;  
+  //private static final int DEBUG_ALL    = 400;  
   private int debugLevel = DEBUG_FINE;
   
   /**
@@ -362,7 +362,7 @@ class <class/> implements java_cup.runtime.Scanner
 </add:oz>
 <add:zeves>
              result.sym == Sym.ZPROOF ||
-             result.sym == Sym.ZPROOFSECTION ||
+             //result.sym == Sym.ZPROOFSECTION ||
 </add:zeves>
              result.sym == Sym.GENSCH) 
     {

@@ -19,13 +19,11 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
-import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.NameSet;
-import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.session.SectionManager;

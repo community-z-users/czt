@@ -73,7 +73,7 @@ public class <class/>
 {
   private Scanner scanner_;
   private OpTable table_;
-  private Symbol previous_ = null;
+  //private Symbol previous_ = null;
   private Symbol lookAhead_ = null;
 
   /**
@@ -138,7 +138,7 @@ public class <class/>
       lookup_ = true;
     }
     logSymbol(result);
-    previous_ = result;
+    //previous_ = result;
     return result;
   }
 

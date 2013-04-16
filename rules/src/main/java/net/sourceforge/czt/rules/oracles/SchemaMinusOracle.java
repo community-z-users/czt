@@ -43,7 +43,7 @@ public class SchemaMinusOracle
    * Implements the [D1|true] schemaminus [D2|true] oracle.
    * This calculates the signature D1 minus D2.
    */
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     Factory factory = new Factory(new ProverFactory());
@@ -72,9 +72,9 @@ public class SchemaMinusOracle
         result.add(decl);
       }
     }
-    ZSchText schtext =
-      factory.createZSchText(result, factory.createTruePred());
-    SchExpr schExpr = factory.createSchExpr(schtext);
+    //ZSchText schtext =
+    //  factory.createZSchText(result, factory.createTruePred());
+    //SchExpr schExpr = factory.createSchExpr(schtext);
     return UnificationUtils.unify(result, (DeclList) args.get(2));
   }
 }

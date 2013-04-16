@@ -17,7 +17,7 @@ public class ZBindingTest extends TestCase
   protected void setUp() throws Exception
   {
     super.setUp();
-    HashMap<String, ZValue> tempa = new HashMap<String,ZValue>(){}; 
+    HashMap<String, ZValue> tempa = new HashMap<String,ZValue>(); 
     tempa.put("1",new ZNumber(1));
     tempa.put("2",new ZNumber(2));
     tempa.put("3",new ZNumber(3));

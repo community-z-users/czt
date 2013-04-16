@@ -80,10 +80,16 @@ public class AnimatorCore
 
   private final Vector<Form> forms_ = new Vector<Form>()
   {
-    public Form lookup(String name)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5956597780794486110L;
+
+	@SuppressWarnings("unused")
+	public Form lookup(String name)
     { //For use by scripts.
-      for (Iterator it = iterator(); it.hasNext();) {
-        Form f = (Form) it.next();
+      for (Iterator<Form> it = iterator(); it.hasNext();) {
+        Form f = it.next();
         if (f.getName().equals(name))
           return f;
       }
@@ -96,7 +102,8 @@ public class AnimatorCore
     this(new File(fileName));
   };
 
-  public AnimatorCore(File file) throws FileNotFoundException
+  @SuppressWarnings("unchecked")
+public AnimatorCore(File file) throws FileNotFoundException
   {
     Beans.setDesignTime(false);
     rootContext = new BeanContextServicesSupport();
@@ -118,7 +125,12 @@ public class AnimatorCore
         newForm = (Form) decoder.readObject();
         final JFrame frame = new JFrame()
         {
-          public void setVisible(boolean b)
+          /**
+			 * 
+			 */
+			private static final long serialVersionUID = 4731706062562233200L;
+
+		public void setVisible(boolean b)
           {
             super.setVisible(b);
             if (newForm.isVisible() != b)
@@ -132,8 +144,8 @@ public class AnimatorCore
           {
             //If the last form was closed, then quit.
             Vector<Form> visibleForms = new Vector<Form>(forms_);
-            for (Iterator i = visibleForms.iterator(); i.hasNext();)
-              if (!((Form) i.next()).isVisible())
+            for (Iterator<Form> i = visibleForms.iterator(); i.hasNext();)
+              if (!i.next().isVisible())
                 i.remove();
             visibleForms.remove(e.getComponent());
             if (visibleForms.isEmpty())
@@ -164,13 +176,14 @@ public class AnimatorCore
 
         forms_.add(newForm);
         decoder.readObject(); //beanWrappers
-        Vector beanLinks = (Vector) decoder.readObject(); //eventLinks
-        for (Iterator iter = beanLinks.iterator(); iter.hasNext();) {
-          BeanLink bl = (BeanLink) iter.next();
+        // unchecked
+		Vector<BeanLink> beanLinks = (Vector<BeanLink>) decoder.readObject(); //eventLinks
+        for (Iterator<BeanLink> iter = beanLinks.iterator(); iter.hasNext();) {
+          BeanLink bl = iter.next();
           IntrospectionHelper.addBeanListener(bl.source, bl.listenerType,
               bl.listener);
         }
-        rootContext.add(newForm);
+        rootContext.add(newForm); // unchecked
       }
     } catch (ArrayIndexOutOfBoundsException ex) {
     } finally {
@@ -209,8 +222,8 @@ public class AnimatorCore
       System.err.println("------");
       ex.getTargetException().printStackTrace();
     };
-    for (Iterator it = forms_.iterator(); it.hasNext();) {
-      Form form = (Form) it.next();
+    for (Iterator<Form> it = forms_.iterator(); it.hasNext();) {
+      Form form =  it.next();
       boolean v = form.getStartsVisible();
       form.setVisible(v);
       System.err.println("Setting visible " + form.getName() + " = " + v);

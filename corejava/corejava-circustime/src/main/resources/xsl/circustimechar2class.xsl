@@ -28,7 +28,6 @@
 
 package net.sourceforge.czt.circustime.util;
 
-import net.sourceforge.czt.circus.util.*;
 import net.sourceforge.czt.circuspatt.util.*;
 
 /**

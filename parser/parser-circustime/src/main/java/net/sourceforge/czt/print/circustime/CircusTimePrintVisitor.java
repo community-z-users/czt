@@ -22,7 +22,6 @@ package net.sourceforge.czt.print.circustime;
 import java.util.Iterator;
 import java.util.Properties;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeToken;
@@ -34,7 +33,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circustime.ast.*;
 import net.sourceforge.czt.circus.visitor.*;
-import net.sourceforge.czt.circustime.visitor.*;
 import net.sourceforge.czt.parser.circus.CircusToken;
 //import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
@@ -127,23 +125,23 @@ public class CircusTimePrintVisitor
       warn(CircusTimePrintMessage.MSG_UNEXPECTED_TERM, term);
     }
     
-    private void warnMissingFor(String msg, BasicProcess term) {
-        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
-    }
-    
-    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
-    }
-    
-    private void warnLocalOnTheFly(Term para, BasicProcess term) {
-        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
-    }
-    
-    private void warnDuplicatedState(Term term) {
-        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
-    }
-    
-    private boolean processedState_ = false;
+//    private void warnMissingFor(String msg, BasicProcess term) {
+//        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+//    }
+//    
+//    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
+//        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
+//    }
+//    
+//    private void warnLocalOnTheFly(Term para, BasicProcess term) {
+//        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
+//    }
+//    
+//    private void warnDuplicatedState(Term term) {
+//        warn(CircusTimePrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
+//    }
+//    
+//    private boolean processedState_ = false;
     
     /***********************************************************
      * Channel related
@@ -315,7 +313,7 @@ public class CircusTimePrintVisitor
         if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getCallExpr());
             printActualParams(term.getZActuals(),
-                CallUsage.Indexed.equals(term.getUsage()));
+                CallUsage.Indexed.equals(term.getCallUsage()));
         } else {
             throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
         }

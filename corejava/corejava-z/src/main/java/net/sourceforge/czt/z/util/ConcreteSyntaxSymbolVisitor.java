@@ -19,10 +19,7 @@
 
 package net.sourceforge.czt.z.util;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * This visitor classifies a given AST node as a concrete syntax

@@ -22,20 +22,14 @@
 package <package/>;
 
 import java.io.*;
-import java.util.logging.Logger;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.base.util.XmlWriter;
-import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.util.ScanException;
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 

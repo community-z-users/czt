@@ -69,9 +69,6 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
 </add:zpatt>
-<add:pattern>
-import net.sourceforge.czt.parser.zpatt.JokerTable;
-</add:pattern>
 <add:circuspatt>
 import net.sourceforge.czt.circuspatt.jaxb.JaxbXmlReader;
 </add:circuspatt>

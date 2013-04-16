@@ -59,7 +59,6 @@ import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZChar;
-import net.sourceforge.czt.z.util.ZString;
 
 
 /**
@@ -671,20 +670,22 @@ public class <class/>
   }
 
   <add:zeves>
-  private void addZEvesImplicitMarkupDirectives(LocToken token)
-  {
-    // adds manually applies$to directive as Zinword applies\$to applies$to
-    Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
-    directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
-                                                  token.getLocation().getLine(),
-                                                  null));
-    try {
-      markupFunction_.add(directive);
-    }
-    catch (MarkupException e) {
-      reportError(e);
-    }
-  }
+  // NOTE: this code is no longer needed (??) because now this is properly part of zeves_prelude?
+  //
+  //private void addZEvesImplicitMarkupDirectives(LocToken token)
+  //{
+  //  // adds manually applies$to directive as Zinword applies\$to applies$to
+  //  Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
+  //  directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
+  //                                                token.getLocation().getLine(),
+  //                                                null));
+  //  try {
+  //    markupFunction_.add(directive);
+  //  }
+ //   catch (MarkupException e) {
+  //    reportError(e);
+ //   }
+  //}
   </add:zeves>
 
   public interface LatexLexer

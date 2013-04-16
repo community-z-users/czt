@@ -33,12 +33,12 @@ import net.sourceforge.czt.z.impl.PredImpl;
 public class PrintPredicate
   extends PredImpl
 {
-  private List something_;
+  private List<?> something_;
   private Precedence prec_;
   private Assoc assoc_;
 
   protected PrintPredicate(PrintFactory factory,
-                           List something, Precedence prec, Assoc assoc)
+                           List<?> something, Precedence prec, Assoc assoc)
   {
     super(factory);
     something_ = something;
@@ -56,10 +56,10 @@ public class PrintPredicate
     return assoc_;
   }
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof PrintPredicateVisitor) {
-      PrintPredicateVisitor v = (PrintPredicateVisitor) visitor;
+      PrintPredicateVisitor<R> v = (PrintPredicateVisitor<R>) visitor;
       return v.visitPrintPredicate(this);
     }
     return super.accept(visitor);

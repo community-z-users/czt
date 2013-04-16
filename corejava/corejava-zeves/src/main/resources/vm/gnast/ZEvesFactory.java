@@ -1,9 +1,9 @@
 void resetProofSteps();
 long currentProofStep();
 
-ApplyCommand createGlobalApplyCommand(Name name);
-ApplyCommand createApplyToExprCommand(Name name, Expr expr);
-ApplyCommand createApplyToPredCommand(Name name, Pred pred);
+ApplyCommand createGlobalApplyCommand(net.sourceforge.czt.z.ast.Name name);
+ApplyCommand createApplyToExprCommand(net.sourceforge.czt.z.ast.Name name, net.sourceforge.czt.z.ast.Expr expr);
+ApplyCommand createApplyToPredCommand(net.sourceforge.czt.z.ast.Name name, net.sourceforge.czt.z.ast.Pred pred);
 
 SimplificationCommand createSimplifyCommand();
 SimplificationCommand createRewriteCommand();
@@ -22,24 +22,24 @@ NormalizationCommand createWithNormalizationCommand(ProofCommand cmd);
 
 CaseAnalysisCommand createCasesCommand();
 CaseAnalysisCommand createNextCommand();
-CaseAnalysisCommand createSplitCommand(Pred toSplitOver);
+CaseAnalysisCommand createSplitCommand(net.sourceforge.czt.z.ast.Pred toSplitOver);
 
-WithCommand createWithEnabledCommand(NameList nl, ProofCommand cmd);
-WithCommand createWithDisabledCommand(NameList nl, ProofCommand cmd);
-WithCommand createWithPredicateCommand(Pred pred, ProofCommand cmd);
-WithCommand createWithExpressionCommand(Expr expr, ProofCommand cmd);
+WithCommand createWithEnabledCommand(net.sourceforge.czt.z.ast.NameList nl, ProofCommand cmd);
+WithCommand createWithDisabledCommand(net.sourceforge.czt.z.ast.NameList nl, ProofCommand cmd);
+WithCommand createWithPredicateCommand(net.sourceforge.czt.z.ast.Pred pred, ProofCommand cmd);
+WithCommand createWithExpressionCommand(net.sourceforge.czt.z.ast.Expr expr, ProofCommand cmd);
 
 SubstitutionCommand createGlobalEqualitySubstituteCommand();
 SubstitutionCommand createGlobalInvokeCommand();
-SubstitutionCommand createEqualitySubstituteCommand(Expr expr);
-SubstitutionCommand createInvokeCommand(Name name);
-SubstitutionCommand createInvokePredicateCommand(Pred pred);
+SubstitutionCommand createEqualitySubstituteCommand(net.sourceforge.czt.z.ast.Expr expr);
+SubstitutionCommand createInvokeCommand(net.sourceforge.czt.z.ast.Name name);
+SubstitutionCommand createInvokePredicateCommand(net.sourceforge.czt.z.ast.Pred pred);
 
 QuantifiersCommand createPrenexCommand();
 QuantifiersCommand createInstantiateCommand(InstantiationList inst);
 
-UseCommand createUseCommand(RefExpr thmRef);
-UseCommand createUseCommand(RefExpr thmRef, InstantiationList inst);
+UseCommand createUseCommand(net.sourceforge.czt.z.ast.RefExpr thmRef);
+UseCommand createUseCommand(net.sourceforge.czt.z.ast.RefExpr thmRef, InstantiationList inst);
 
 SorryCommand createSorryCommand(boolean keepGoal);
 

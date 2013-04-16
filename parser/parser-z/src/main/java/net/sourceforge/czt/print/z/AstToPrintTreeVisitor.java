@@ -301,7 +301,7 @@ public class AstToPrintTreeVisitor
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
       OperatorName opName = refExpr.getZName().getOperatorName();
       Expr args = (Expr) visit(applExpr.getRightExpr());
-      List argList = new LinkedList();
+      List<Expr> argList = new LinkedList<Expr>();
       if (opName.isUnary()) {
         argList.add(args);
       }
@@ -326,7 +326,7 @@ public class AstToPrintTreeVisitor
 
   protected PrintParagraph handleOldZ(List<Object> anns, PrintParagraph pp)
   {
-    List newAnns = pp.getAnns();
+    List<Object> newAnns = pp.getAnns();
     if (oldZ_) {
       for (Object o : anns) {
         if (o instanceof AxPara) {
@@ -349,84 +349,6 @@ public class AstToPrintTreeVisitor
   {
     if (!term.getBox().equals(Box.SchBox))
       throw new PrintException("preprocessing ability for SchBox AxPara only; " + term.getClass().getName());
-
-    // Object: actually Token or Term
-    if (term.hasAnn(ZStateAnn.class))
-    {
-      ZStateAnn sti = term.getAnn(ZStateAnn.class);
-      //if (!sti.equals(ZStateInfo.NONE))
-      //  list.add(0, ZToken.NL);
-      switch (sti.getInfo())
-      {
-        case STATE:
-          list.add(ZToken.ZSTATE);
-          break;
-        case STINIT:
-          list.add(ZToken.ZSTINIT);
-          break;
-        case STFIN:
-          list.add(ZToken.ZSTFIN);
-          break;
-        case ASTINIT:
-          list.add(ZToken.ZASTINIT);
-          break;
-        case ASTATE:
-          list.add(ZToken.ZASTATE);
-          break;
-        case ASTFIN:
-          list.add(ZToken.ZASTFIN);
-          break;
-        case CSTINIT:
-          list.add(ZToken.ZCSTINIT);
-          break;
-        case CSTATE:
-          list.add(ZToken.ZCSTATE);
-          break;
-        case CSTFIN:
-          list.add(ZToken.ZCSTFIN);
-          break;
-        case RETRIEVE:
-          list.add(ZToken.ZRETRIEVE);
-          break;
-        case RETRIEVEIN:
-          list.add(ZToken.ZRETRIEVEIN);
-          break;
-        case RETRIEVEOUT:
-          list.add(ZToken.ZRETRIEVEOUT);
-          break;
-        case AINITIN:
-          list.add(ZToken.ZAINITIN);
-          break;
-        case AFINOUT:
-          list.add(ZToken.ZAFINOUT);
-          break;
-        case CINITIN:
-          list.add(ZToken.ZCINITIN);
-          break;
-        case CFINOUT:
-          list.add(ZToken.ZCFINOUT);
-          break;
-      }
-      // add a NL after then
-      list.add(ZToken.NL);
-    }
-    if (term.hasAnn(ZRefinesAnn.class))
-    {
-      ZRefinesAnn zr = term.getAnn(ZRefinesAnn.class);
-      switch (zr.getRefKind())
-      {
-        case FORWARD:
-          list.add(ZToken.ZFSREFINES);
-          break;
-        case BACKWARD:
-          list.add(ZToken.ZBSREFINES);
-          break;
-        default:
-          throw new AssertionError();
-      }
-      list.add(visit(zr.getAbstractName()));
-      list.add(ZToken.NL);
-    }
   }
 
   /**
@@ -443,7 +365,6 @@ public class AstToPrintTreeVisitor
       throw new PrintException("preprocessing ability for AxPara and Pred only; " + term.getClass().getName());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Term visitAxPara(AxPara axPara)
   {
@@ -483,7 +404,7 @@ public class AstToPrintTreeVisitor
       list.add(ZToken.ZED);
       preprocessTerm(axPara, list);
       final List<Name> declNameList = axPara.getName();
-      final SchText schText = axPara.getSchText();
+      //final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
       for (Decl decl : decls) {
         final ConstDecl constDecl = (ConstDecl) decl;
@@ -541,7 +462,7 @@ public class AstToPrintTreeVisitor
 
   private PrintParagraph handleSchemaDefinition(AxPara axPara)
   {
-    List list = new LinkedList();
+    List<Object> list = new LinkedList<Object>();
     assert Box.SchBox.equals(axPara.getBox());
     if (isGeneric(axPara)) {
       list.add(ZToken.GENSCH);
@@ -604,7 +525,8 @@ public class AstToPrintTreeVisitor
         String message = "Unexpected Mixfix == true.";
         throw new CannotPrintAstException(message);
       }
-      List list = new LinkedList();
+      // TODO: perhaps this should be some better type ann?
+      List<Object> list = new LinkedList<Object>();
       list.add(firstExpr);
       list.add(ZKeyword.EQUALS);
       list.add(setExpr.getZExprList().get(0));
@@ -628,7 +550,7 @@ public class AstToPrintTreeVisitor
         throw new CannotPrintAstException(e.getMessage());
       }
     }
-    List list = new LinkedList();
+    List<Object> list = new LinkedList<Object>();
     list.add(visit(memPred.getLeftExpr()));
     list.add(ZKeyword.MEM);
     list.add(visit(memPred.getRightExpr()));
@@ -671,13 +593,13 @@ public class AstToPrintTreeVisitor
     final String name = zSect.getName();
     warningManager_.setCurrentSectName(name);
     try {
-      opTable_ = (OpTable) sectInfo_.get(new Key(name, OpTable.class));
+      opTable_ = sectInfo_.get(new Key<OpTable>(name, OpTable.class));
     }
     catch (CommandException exception) {      
       warningManager_.warn("Cannot get operator table for {0}; try to print anyway ... ", name);
     }
     if (opTable_ == null) {
-      List parentOpTables = new LinkedList();
+      List<OpTable> parentOpTables = new LinkedList<OpTable>();
       for (Parent parent : zSect.getParent()) {
         OpTable parentOpTable = getOpTable(parent.getWord());
         if (parentOpTable != null) {
@@ -722,7 +644,7 @@ public class AstToPrintTreeVisitor
    * @throws NullPointerException if <code>opName</code> is <code>null</code>.
    */
   private OperatorApplication createOperatorApplication(OperatorName opName,
-                                                        List argList,
+                                                        List<Expr> argList,
                                                         Precedence precedence)
   {
     Assoc assoc = null;
@@ -764,7 +686,12 @@ public class AstToPrintTreeVisitor
   public static class CannotPrintAstException
     extends net.sourceforge.czt.util.CztException
   {
-    public CannotPrintAstException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8524879619891515616L;
+
+	public CannotPrintAstException(String message)
     {
       super(message);
     }
@@ -775,12 +702,13 @@ public class AstToPrintTreeVisitor
     }
   }
 
-  private List printOperator(OperatorName op, Object arguments)
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+private List<Object> printOperator(OperatorName op, Object arguments)
   {
-    List result = new LinkedList();
-    List args = new LinkedList();
+    List<Object> result = new LinkedList<Object>();
+    List<Object> args = new LinkedList<Object>();
     if (arguments instanceof List) {
-      args = (List) arguments;
+      args = (List<Object>) arguments; // unchecked here. 
     }
     else {
       if (op.isUnary()) {
@@ -792,7 +720,7 @@ public class AstToPrintTreeVisitor
           throw new CannotPrintAstException(message);
         }
         TupleExpr tuple = (TupleExpr) arguments;
-        args = tuple.getZExprList();
+        args = (List)tuple.getZExprList(); // raw type... TODO: remove?
       }
     }
     int pos = 0;

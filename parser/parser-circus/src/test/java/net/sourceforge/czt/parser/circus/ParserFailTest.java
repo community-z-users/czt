@@ -82,7 +82,8 @@ public class ParserFailTest extends AbstractParserTest {
 
         public void runTest() {
             try {
-                Term term = parse(new FileSource(file_));
+                @SuppressWarnings("unused")
+				Term term = parse(new FileSource(file_));
             } catch (net.sourceforge.czt.parser.util.ParseException f) {
                 if (f.getErrorList().isEmpty()) {
                     f.printStackTrace();

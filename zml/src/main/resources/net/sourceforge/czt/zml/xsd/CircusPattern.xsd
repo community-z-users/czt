@@ -205,7 +205,7 @@
         <xs:sequence>
           <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="Kind" type="CP:CircusJokerType" use="required"/>
+        <xs:attribute name="CircusJokerType" type="CP:CircusJokerType" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

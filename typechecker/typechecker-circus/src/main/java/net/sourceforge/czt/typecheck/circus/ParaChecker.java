@@ -38,7 +38,6 @@ import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
-import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type;
@@ -100,6 +99,11 @@ public class ParaChecker
     transformerName_ = factory().createTransformerName();
     transformerType_ = null;
   }  
+  
+  protected boolean isCheckingProcessZPara()
+  {
+	  return isCheckingProcessZPara_;
+  }
   
   /**
    * Returns the synchronisation type for channels. The first time this type is 
@@ -313,8 +317,10 @@ public class ParaChecker
     // set current process name being checked.
     // this opens a process para scope, which is cleared at the end.    
     Name old = setCurrentProcessName(pName);
-    CircusProcess oldProcess = setCurrentProcess(process);
-    ProcessSignature oldSignature = processChecker().setCurrentProcessSignature(pSig);
+    //CircusProcess oldProcess = 
+    	setCurrentProcess(process);
+    //ProcessSignature oldSignature = 
+    	processChecker().setCurrentProcessSignature(pSig);
     if (old != null)
     {
       Object[] params = { pName, old };
@@ -331,7 +337,8 @@ public class ParaChecker
     addGenParamTypes(pGenFormals);
     
     // checks the process: everything is ready, but the process name.
-    CircusCommunicationList commList = process.accept(processChecker());        
+    @SuppressWarnings("unused")
+	CircusCommunicationList commList = process.accept(processChecker());        
     
     // create the process type with corresponding signature.
     ProcessSignature currentSig = processChecker().getCurrentProcessSignature();

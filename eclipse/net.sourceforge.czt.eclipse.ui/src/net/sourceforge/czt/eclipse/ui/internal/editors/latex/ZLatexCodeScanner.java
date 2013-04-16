@@ -4,7 +4,6 @@ package net.sourceforge.czt.eclipse.ui.internal.editors.latex;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.eclipse.ui.internal.editors.AbstractZCodeScanner;
 import net.sourceforge.czt.eclipse.ui.internal.util.IColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZColorConstants;

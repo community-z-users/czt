@@ -20,7 +20,6 @@
 package net.sourceforge.czt.parser.zeves;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -142,7 +141,12 @@ public class ProofTable  extends InfoTable
   public static class ProofTableException
     extends InfoTable.InfoTableException
   {
-    public ProofTableException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7146641664325911321L;
+
+	public ProofTableException(String message)
     {
       super(message);
     }

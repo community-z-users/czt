@@ -93,7 +93,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   public ProofCommandInfo visitNormalizationCommand(NormalizationCommand term)
   {
     ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
-    if (term.getKind().equals(NormalizationKind.Command))
+    if (term.getNormalizationKind().equals(NormalizationKind.Command))
     {
       if (term.getProofCommand() == null)
       {
@@ -135,7 +135,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
     {
       for (Instantiation i : term.getInstantiationList())
       {
-        if (i.getKind().equals(InstantiationKind.Quantifier))
+        if (i.getInstantiationKind().equals(InstantiationKind.Quantifier))
         {
           error(term, ErrorMessage.USE_CMD_INVALID_REPL, getCurrentProofName(), cnt, all, i.getName());
         }
@@ -196,7 +196,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   public ProofCommandInfo visitSubstitutionCommand(SubstitutionCommand term)
   {
     ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
-    switch (term.getKind())
+    switch (term.getSubstitutionKind())
     {
       case Equality:
         if (term.getPred() != null || term.getProofCommand() != null || (term.getNameList() instanceof ZNameList && !term.getZNameList().isEmpty()))
@@ -257,7 +257,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   public ProofCommandInfo visitSimplificationCommand(SimplificationCommand term)
   {
     ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
-    switch (term.getPower())
+    switch (term.getRewritePower())
     {
       case None:
         result.setProofStepKind(ProofStepKind.Simple);
@@ -277,7 +277,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
   public ProofCommandInfo visitCaseAnalysisCommand(CaseAnalysisCommand term)
   {
     ProofCommandInfo result = factory().getZEvesFactory().createProofCommandInfo();
-    if (term.getKind().equals(CaseAnalysisKind.Split))
+    if (term.getCaseAnalysisKind().equals(CaseAnalysisKind.Split))
     {
       if (term.getPred() == null)
       {
@@ -312,7 +312,7 @@ public class ProofCommandChecker extends Checker<ProofCommandInfo>
       int all = term.getInstantiationList().size();
       for (Instantiation i : term.getInstantiationList())
       {
-        if (i.getKind().equals(InstantiationKind.ThmReplacement))
+        if (i.getInstantiationKind().equals(InstantiationKind.ThmReplacement))
         {
           error(term, ErrorMessage.QNT_CMD_INVALID_INST, getCurrentProofName(), cnt, all, i.getName());
         }

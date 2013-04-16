@@ -17,7 +17,6 @@ import java.util.Map;
 
 import net.sourceforge.czt.eclipse.ui.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
-import net.sourceforge.czt.eclipse.ui.internal.util.IZAnnotationType;
 import net.sourceforge.czt.z.util.ZString;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -520,13 +519,13 @@ public class ZSpecDecorationSupport
   private AnnotationPainter fAnnotationPainter;
 
   /** Map with annotation type preference per annotation type */
-  private Map fAnnotationTypeKeyMap = new HashMap();
+  private Map<Object, AnnotationPreference> fAnnotationTypeKeyMap = new HashMap<Object, AnnotationPreference>();
 
   /** Preference key for the schema box painter line width */
-  private String fSchemaBoxLineWidthKey;
+  //private String fSchemaBoxLineWidthKey;
 
   /** Preference value for the schema box painter line width */
-  private int fSchemaBoxLineWidth = 0;
+  //private int fSchemaBoxLineWidth = 0;
 
   /** The property change listener */
   private IPropertyChangeListener fPropertyChangeListener;
@@ -585,7 +584,7 @@ public class ZSpecDecorationSupport
     if (widget == null || widget.isDisposed())
       return;
 
-    Iterator e = fAnnotationTypeKeyMap.keySet().iterator();
+    Iterator<Object> e = fAnnotationTypeKeyMap.keySet().iterator();
     while (e.hasNext()) {
       Object type = e.next();
       Object style = getAnnotationDecorationType(type);
@@ -613,7 +612,7 @@ public class ZSpecDecorationSupport
   private Object getAnnotationDecorationType(Object annotationType)
   {
     if (areAnnotationsShown(annotationType) && fPreferenceStore != null) {
-      AnnotationPreference info = (AnnotationPreference) fAnnotationTypeKeyMap
+      AnnotationPreference info = fAnnotationTypeKeyMap
           .get(annotationType);
       if (info != null) {
         String key = info.getTextStylePreferenceKey();
@@ -631,7 +630,7 @@ public class ZSpecDecorationSupport
   public void updateOverviewDecorations()
   {
     if (fOverviewRuler != null) {
-      Iterator e = fAnnotationTypeKeyMap.keySet().iterator();
+      Iterator<Object> e = fAnnotationTypeKeyMap.keySet().iterator();
       while (e.hasNext()) {
         Object type = e.next();
         if (isAnnotationOverviewShown(type))
@@ -721,9 +720,9 @@ public class ZSpecDecorationSupport
    */
   private AnnotationPreference getAnnotationPreferenceInfo(String preferenceKey)
   {
-    Iterator e = fAnnotationTypeKeyMap.values().iterator();
+    Iterator<AnnotationPreference> e = fAnnotationTypeKeyMap.values().iterator();
     while (e.hasNext()) {
-      AnnotationPreference info = (AnnotationPreference) e.next();
+      AnnotationPreference info =  e.next();
       if (info != null && info.isPreferenceKey(preferenceKey))
         return info;
     }
@@ -1050,7 +1049,7 @@ public class ZSpecDecorationSupport
   public void hideAnnotationOverview()
   {
     if (fOverviewRuler != null) {
-      Iterator e = fAnnotationTypeKeyMap.keySet().iterator();
+      Iterator<Object> e = fAnnotationTypeKeyMap.keySet().iterator();
       while (e.hasNext())
         fOverviewRuler.removeAnnotationType(e.next());
       fOverviewRuler.update();

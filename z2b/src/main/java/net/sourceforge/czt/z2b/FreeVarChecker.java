@@ -18,17 +18,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.z2b;
 
-import java.util.*;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.z.util.ZString;
-
-import net.sourceforge.czt.z2b.*;
 
 
 /**
@@ -41,8 +35,8 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class FreeVarChecker
-  implements TermVisitor,
-             ZNameVisitor
+  implements TermVisitor<Term>,
+             ZNameVisitor<Term>
 {
   protected boolean foundPrime;
   protected boolean foundOutput;
@@ -76,11 +70,11 @@ public class FreeVarChecker
   */
   
   /** This generic visit method recurses into all Z terms. */
-  public Object visitTerm(Term term) {
+  public Term visitTerm(Term term) {
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  public Object visitZName(ZName zName)
+  public Term visitZName(ZName zName)
   {
     ZStrokeList strokes = zName.getZStrokeList();
     if (strokes.size() > 0) {

@@ -9,4 +9,4 @@ export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=512m"
 # (This is to ensure step 2 does not run if step 1 fails)
 set -e
 
-mvn site site:stage -P site
+mvn site site:stage -P site -U

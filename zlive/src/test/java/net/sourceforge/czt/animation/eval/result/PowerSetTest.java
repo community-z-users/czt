@@ -23,6 +23,7 @@ import java.math.BigInteger;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.z.ast.Expr;
 
 /**
  * A simple implementation of a power set.
@@ -39,7 +40,7 @@ public class PowerSetTest extends ZTestCase
     assertEquals(BigInteger.ONE, powerSet.maxSize());
     assertEquals(1, powerSet.size());
     assertTrue(powerSet.contains(new DiscreteSet()));
-    Iterator iter = powerSet.iterator();
+    Iterator<Expr> iter = powerSet.iterator();
     assertTrue(iter.hasNext());
     assertEquals(new DiscreteSet(), iter.next());
     assertFalse(iter.hasNext());
@@ -56,7 +57,7 @@ public class PowerSetTest extends ZTestCase
     assertEquals(2, powerSet.size());
     assertTrue(powerSet.contains(new DiscreteSet()));
     assertTrue(powerSet.contains(baseSet));
-    Iterator iter = powerSet.iterator();
+    Iterator<Expr> iter = powerSet.iterator();
     assertTrue(iter.hasNext());
     assertEquals(new DiscreteSet(), iter.next());
     assertTrue(iter.hasNext());
@@ -91,7 +92,7 @@ public class PowerSetTest extends ZTestCase
     set2.add(i4);
     set2.add(i2);
     assertTrue(powerSet.contains(set2));
-    Iterator iter = powerSet.iterator();
+    Iterator<Expr> iter = powerSet.iterator();
     assertTrue(iter.hasNext());
     assertEquals(new DiscreteSet(), iter.next());
     assertTrue(iter.hasNext());

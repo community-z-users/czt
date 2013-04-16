@@ -29,7 +29,12 @@ import net.sourceforge.czt.animation.gui.temp.ZTuple;
  */
 public class TupleSetModel extends AbstractTableModel
 {
-  private ZSet tupleSet_ = new ZSet();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6081498363153876943L;
+
+private ZSet tupleSet_ = new ZSet();
 
   private int columnCount_ = 0;
 

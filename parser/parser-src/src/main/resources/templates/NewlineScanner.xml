@@ -23,7 +23,6 @@
 
 package <package/>;
 
-import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -33,7 +32,6 @@ import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.ZToken;
-import net.sourceforge.czt.util.CztException;
 
 <add:circustime>
 import net.sourceforge.czt.parser.circus.CircusToken;

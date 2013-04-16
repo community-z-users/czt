@@ -76,7 +76,7 @@ public class ZEvesSymMap {
   }
 
   /** Flips a given map, provided that is possible - see assertion */
-  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
+  public static <K, V> Map<V, K> flipMap(Map<K, V> m)
   {
     Map<V, K> result = new HashMap<V, K>();
     Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();

@@ -22,18 +22,12 @@ package net.sourceforge.czt.rules.oldrewriter;
 import static net.sourceforge.czt.rules.prover.ProverUtils.collectConjectures;
 
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.net.URL;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
@@ -48,7 +42,6 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 public class RewriteTest
@@ -73,15 +66,15 @@ public class RewriteTest
     SectionManager manager = new SectionManager(Dialect.ZPATT);
     manager.putCommands(Dialect.ZPATT);
     Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
-    manager.put(new Key("unfold", Source.class), unfoldSource);
+    manager.put(new Key<Source>("unfold", Source.class), unfoldSource);
     URL url = RewriteTest.class.getResource(resource);
     assertFalse(url == null);
-    manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
-    Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
+    manager.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
+    Term term = manager.get(new Key<Spec>(url.toString(), Spec.class));
     String sectname = term.accept(new GetZSectNameVisitor());
-    manager.get(new Key(sectname, SectTypeEnvAnn.class));
+    manager.get(new Key<SectTypeEnvAnn>(sectname, SectTypeEnvAnn.class));
     RuleTable rules =
-      (RuleTable) manager.get(new Key(sectname, RuleTable.class));
+    			manager.get(new Key<RuleTable>(sectname, RuleTable.class));
     for (ConjPara conjPara : collectConjectures(term)) {
       Pred pred = conjPara.getPred();
       suite.addTest(new RewriteTester(manager, sectname, rules, pred));
@@ -124,7 +117,7 @@ public class RewriteTest
 
     private void print(Term term)
     {
-      XmlWriter writer = new JaxbXmlWriter();
+      //XmlWriter writer = new JaxbXmlWriter();
       PrintUtils.print(term, new OutputStreamWriter(System.out),
                        manager_, section_, Markup.LATEX);
       System.out.println();

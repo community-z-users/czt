@@ -18,20 +18,17 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
-import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+
+import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
 
 /**
  */
 public class SpecChecker
-  extends Checker<Object>
+  extends Checker<List<NameSectTypeTriple>>
 {
   //the name of the Object-Z toolkit
   public static final String OZ_TOOLKIT = "oz_toolkit";
@@ -53,7 +50,7 @@ public class SpecChecker
     sectTypeEnv().add(triple);
   }
 
-  public Object visitTerm(Term term)
+  public List<NameSectTypeTriple> visitTerm(Term term)
   {
     return term.accept(zSpecChecker_);
   }

@@ -8,7 +8,7 @@
         <Anns>
             <LocAnn Length="15" Start="271" Col="35" Line="5" Loc="./tests/zeves/refRulesEquiv.tex"/>
         </Anns>
-        <Word>zstate_toolkit</Word>
+        <Word>zeves_toolkit</Word>
     </Parent>
     <ZParaList>
         <LatexMarkupPara/>
@@ -34,7 +34,7 @@ Bla bla
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="63" Start="312" Col="0" Line="10" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="ASTATE"/>
+                
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -250,7 +250,6 @@ Bla bla
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="61" Start="477" Col="0" Line="20" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="CSTATE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -989,7 +988,6 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="77" Start="969" Col="0" Line="48" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="RETRIEVE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -1121,7 +1119,6 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="111" Start="1048" Col="0" Line="55" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="RETRIEVEIN"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -1313,7 +1310,6 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="114" Start="1161" Col="0" Line="63" Loc="./tests/zeves/refRulesEquiv.tex"/>
-                <ZStateAnn Info="RETRIEVEOUT"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -3112,7 +3108,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                 <ZStrokeList/>
             </ZName>
             <ns6:ProofCommandList>
-                <ns6:CaseAnalysisCommand Kind="Split" ProofStep="1">
+                <ns6:CaseAnalysisCommand CaseAnalysisKind="Split" ProofStep="1">
                     <Anns>
                         <LocAnn Length="209" Start="2119" Col="0" Line="94" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
@@ -3614,12 +3610,12 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                         </ForallExpr>
                     </ExprPred>
                 </ns6:CaseAnalysisCommand>
-                <ns6:CaseAnalysisCommand Kind="Cases" ProofStep="2">
+                <ns6:CaseAnalysisCommand CaseAnalysisKind="Cases" ProofStep="2">
                     <Anns>
                         <LocAnn Length="5" Start="2333" Col="0" Line="97" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
                 </ns6:CaseAnalysisCommand>
-                <ns6:SimplificationCommand Power="Prove" Kind="Reduce" ProofStep="3">
+                <ns6:SimplificationCommand RewritePower="Prove" RewriteKind="Reduce" ProofStep="3">
                     <Anns>
                         <LocAnn Length="15" Start="2340" Col="0" Line="98" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
@@ -3632,7 +3628,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                         <Anns>
                             <LocAnn Length="24" Start="2369" Col="12" Line="99" Loc="./tests/zeves/refRulesEquiv.tex"/>
                         </Anns>
-                        <ns6:Instantiation Kind="Quantifier">
+                        <ns6:Instantiation InstantiationKind="Quantifier">
                             <Anns>
                                 <LocAnn Length="11" Start="2369" Col="12" Line="99" Loc="./tests/zeves/refRulesEquiv.tex"/>
                             </Anns>
@@ -3675,7 +3671,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                                 </RefExpr>
                             </ApplExpr>
                         </ns6:Instantiation>
-                        <ns6:Instantiation Kind="Quantifier">
+                        <ns6:Instantiation InstantiationKind="Quantifier">
                             <Anns>
                                 <LocAnn Length="11" Start="2382" Col="25" Line="99" Loc="./tests/zeves/refRulesEquiv.tex"/>
                             </Anns>
@@ -3702,7 +3698,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                         </ns6:Instantiation>
                     </ns6:InstantiationList>
                 </ns6:QuantifiersCommand>
-                <ns6:SimplificationCommand Power="Prove" Kind="Reduce" ProofStep="5">
+                <ns6:SimplificationCommand RewritePower="Prove" RewriteKind="Reduce" ProofStep="5">
                     <Anns>
                         <LocAnn Length="15" Start="2395" Col="0" Line="100" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
@@ -3715,7 +3711,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                         <Anns>
                             <LocAnn Length="45" Start="2424" Col="12" Line="101" Loc="./tests/zeves/refRulesEquiv.tex"/>
                         </Anns>
-                        <ns6:Instantiation Kind="Quantifier">
+                        <ns6:Instantiation InstantiationKind="Quantifier">
                             <Anns>
                                 <LocAnn Length="15" Start="2424" Col="12" Line="101" Loc="./tests/zeves/refRulesEquiv.tex"/>
                             </Anns>
@@ -3744,7 +3740,7 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                                 <ZExprList/>
                             </RefExpr>
                         </ns6:Instantiation>
-                        <ns6:Instantiation Kind="Quantifier">
+                        <ns6:Instantiation InstantiationKind="Quantifier">
                             <Anns>
                                 <LocAnn Length="28" Start="2441" Col="29" Line="101" Loc="./tests/zeves/refRulesEquiv.tex"/>
                             </Anns>
@@ -3821,17 +3817,17 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                         </ns6:Instantiation>
                     </ns6:InstantiationList>
                 </ns6:QuantifiersCommand>
-                <ns6:SimplificationCommand Power="Prove" Kind="Reduce" ProofStep="7">
+                <ns6:SimplificationCommand RewritePower="Prove" RewriteKind="Reduce" ProofStep="7">
                     <Anns>
                         <LocAnn Length="15" Start="2472" Col="0" Line="102" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
                 </ns6:SimplificationCommand>
-                <ns6:CaseAnalysisCommand Kind="Next" ProofStep="8">
+                <ns6:CaseAnalysisCommand CaseAnalysisKind="Next" ProofStep="8">
                     <Anns>
                         <LocAnn Length="4" Start="2489" Col="0" Line="103" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
                 </ns6:CaseAnalysisCommand>
-                <ns6:CaseAnalysisCommand Kind="Split" ProofStep="9">
+                <ns6:CaseAnalysisCommand CaseAnalysisKind="Split" ProofStep="9">
                     <Anns>
                         <LocAnn Length="98" Start="2495" Col="0" Line="104" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
@@ -4085,17 +4081,17 @@ The next refinement tag is mistaken on purpose - just to test the parser for it.
                         </ForallExpr>
                     </ExprPred>
                 </ns6:CaseAnalysisCommand>
-                <ns6:SimplificationCommand Power="None" Kind="Simplify" ProofStep="10">
+                <ns6:SimplificationCommand RewritePower="None" RewriteKind="Simplify" ProofStep="10">
                     <Anns>
                         <LocAnn Length="8" Start="2597" Col="0" Line="105" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
                 </ns6:SimplificationCommand>
-                <ns6:SimplificationCommand Power="Prove" Kind="Reduce" ProofStep="11">
+                <ns6:SimplificationCommand RewritePower="Prove" RewriteKind="Reduce" ProofStep="11">
                     <Anns>
                         <LocAnn Length="15" Start="2607" Col="0" Line="106" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>
                 </ns6:SimplificationCommand>
-                <ns6:CaseAnalysisCommand Kind="Next" ProofStep="12">
+                <ns6:CaseAnalysisCommand CaseAnalysisKind="Next" ProofStep="12">
                     <Anns>
                         <LocAnn Length="4" Start="2624" Col="0" Line="107" Loc="./tests/zeves/refRulesEquiv.tex"/>
                     </Anns>

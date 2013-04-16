@@ -41,7 +41,12 @@ import net.sourceforge.czt.animation.gui.temp.ZBinding;
  */
 public class HistoryProxy extends BeanContextChildSupport
 {
-  private History history_ = null;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6027426440660049729L;
+
+private History history_ = null;
 
   private final PropertyChangeListener pcListener = new PropertyChangeListener()
   {

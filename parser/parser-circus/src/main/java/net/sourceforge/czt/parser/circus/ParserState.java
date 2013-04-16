@@ -430,7 +430,7 @@ public class ParserState
 
   protected ProcessPara getProcessPara()
   {
-    Throwable t = new Throwable();
+    //Throwable t = new Throwable();
     //System.out.println("OPAIO(GET) = ");
     //System.out.println(t.getStackTrace()[2].toString());
     //System.out.println(t.getStackTrace()[3].toString());
@@ -677,9 +677,10 @@ public class ParserState
   protected void addProcessEndWarning(Name procName, LocInfo loc)
   {
     assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
-    final String msg = java.text.MessageFormat.format(
-      CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
-      new Object[]{procName, loc});
+    // TODO: what happens to this message? Why not forwarded around?
+    //final String msg = java.text.MessageFormat.format(
+    //  CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
+    //  new Object[]{procName, loc});
     processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
   }
 

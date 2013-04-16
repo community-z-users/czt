@@ -21,7 +21,6 @@ package net.sourceforge.czt.rules.ast;
 
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.visitor.NameVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
 import net.sourceforge.czt.zpatt.ast.JokerName;
 import net.sourceforge.czt.zpatt.visitor.JokerNameVisitor;

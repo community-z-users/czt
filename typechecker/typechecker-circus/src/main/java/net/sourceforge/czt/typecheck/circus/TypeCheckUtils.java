@@ -29,7 +29,6 @@ import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseUtils;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Dialect;
@@ -207,7 +206,8 @@ public class TypeCheckUtils
         useNameIds, warningOutput, sectName);
   }
   
-  private String stackTraceAsString(Throwable e)
+  @SuppressWarnings("unused")
+private String stackTraceAsString(Throwable e)
   {    
     StringWriter swriter = new StringWriter();
     PrintWriter pwriter = new PrintWriter(swriter);      
@@ -302,7 +302,7 @@ public class TypeCheckUtils
     //instance_.typeCheckCommandTest(args[0]);
   }
   
-  private void typeCheckCommandTest(String file)
+  protected void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUS:");
     
@@ -335,7 +335,8 @@ public class TypeCheckUtils
         if (s instanceof ZSect)
         {
           ZSect zs = (ZSect)s;          
-          SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
+          @SuppressWarnings("unused")
+		SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }

@@ -249,7 +249,8 @@ public class PowerSet extends DefaultEvalSet
      * @throws ClassCastException if the list element at the current
      *         position is not of type @code{Collection<Expr>}.
      */
-    public DiscreteSet next()
+    @SuppressWarnings("unchecked")
+	public DiscreteSet next()
     {
       DiscreteSet result = new DiscreteSet();
       result.addAll(((Collection<Expr>) list_.get(pos_++)));

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
@@ -73,8 +73,8 @@ public class ImageDescriptorRegistry
    */
   public void dispose()
   {
-    for (Iterator iter = fRegistry.values().iterator(); iter.hasNext();) {
-      Image image = (Image) iter.next();
+    for (Iterator<Image> iter = fRegistry.values().iterator(); iter.hasNext();) {
+      Image image = iter.next();
       image.dispose();
     }
     fRegistry.clear();

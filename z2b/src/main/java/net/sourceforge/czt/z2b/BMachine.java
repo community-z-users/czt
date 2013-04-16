@@ -187,11 +187,11 @@ public class BMachine
   /** Writes a list of names, separated by commas. */
   //@ requires names != null && names.size() > 0;
   //@ requires dest != null;
-  protected void printNames(BWriter dest, List names) {
-    Iterator i = names.iterator();
+  protected void printNames(BWriter dest, List<String> names) {
+    Iterator<String> i = names.iterator();
     assert i.hasNext();
     while (true) {
-      String n = (String)i.next();
+      String n = i.next();
       dest.printName(n);
       if ( ! i.hasNext())
 	break;

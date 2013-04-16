@@ -54,7 +54,7 @@ public class ZChar
     codePoint_ = codePoint;
   }
 
-  private ZChar(char high, char low)
+  protected ZChar(char high, char low)
   {
     if (! Character.isSurrogatePair(high, low)) {
       throw new IllegalArgumentException();

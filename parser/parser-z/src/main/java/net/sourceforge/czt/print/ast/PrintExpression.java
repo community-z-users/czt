@@ -32,18 +32,18 @@ import net.sourceforge.czt.z.impl.ExprImpl;
 public class PrintExpression
   extends ExprImpl
 {
-  List something_;
+  List<?> something_;
 
-  protected PrintExpression(PrintFactory factory, List something)
+  protected PrintExpression(PrintFactory factory, List<?> something)
   {
     super(factory);
     something_ = something;
   }
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof PrintExpressionVisitor) {
-      PrintExpressionVisitor v = (PrintExpressionVisitor) visitor;
+      PrintExpressionVisitor<R> v = (PrintExpressionVisitor<R>) visitor;
       return v.visitPrintExpression(this);
     }
     return super.accept(visitor);

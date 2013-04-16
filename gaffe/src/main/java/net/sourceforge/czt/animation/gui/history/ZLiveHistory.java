@@ -79,14 +79,14 @@ public class ZLiveHistory extends BasicHistory
     try {
       Source specSource = new UrlSource(specURL);
       specSource.setMarkup(Markup.LATEX);
-      sectman_.put(new Key("ZLiveHistory",Source.class), specSource);
-      Spec spec = (Spec) sectman_.get(new Key("ZLiveHistory", Spec.class));
+      sectman_.put(new Key<Source>("ZLiveHistory",Source.class), specSource);
+      Spec spec = sectman_.get(new Key<Spec>("ZLiveHistory", Spec.class));
       String sectName = null;
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           sectName = ((ZSect) sect).getName();
           //output_.println("Loading section " + sectName);
-          sectman_.get(new Key(sectName, SectTypeEnvAnn.class));
+          sectman_.get(new Key<SectTypeEnvAnn>(sectName, SectTypeEnvAnn.class));
         }
       }
       if (sectName != null) {

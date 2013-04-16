@@ -132,7 +132,7 @@ public class GlobalDefs
    * @return true if and only if <code>o</code> is an instance of
    * <code>aClass</code>
    */
-  public static boolean instanceOf(Object o, Class aClass)
+  public static boolean instanceOf(Object o, Class<?> aClass)
   {
     return aClass.isInstance(o);
   }
@@ -201,8 +201,8 @@ public class GlobalDefs
   {
     if (ann != null && term.annsSize() > 0)
     {
-      List anns = term.getAnns();
-      for (Iterator iter = anns.iterator(); iter.hasNext(); )
+      List<Object> anns = term.getAnns();
+      for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
       {
         Object next = iter.next();
         if (next == ann)
@@ -220,12 +220,12 @@ public class GlobalDefs
    * annotations.
    * @param aClass the class of annotations to remove.
    */
-  public static void removeAnn(Term term, Class aClass)
+  public static void removeAnn(Term term, Class<?> aClass)
   {
     if (term.annsSize() > 0)
     {
-      List anns = term.getAnns();
-      for (Iterator iter = anns.iterator(); iter.hasNext(); )
+      List<Object> anns = term.getAnns();
+      for (Iterator<Object> iter = anns.iterator(); iter.hasNext(); )
       {
         Object ann = iter.next();
         if (aClass.isInstance(ann))
@@ -288,13 +288,13 @@ public class GlobalDefs
    * @param o the reference to search for.
    * @return true if and only if the reference is in the list.
    */
-  public static boolean containsObject(List list, Object o)
+  public static <T> boolean containsObject(List<T> list, Object o)
   {
     boolean result = false;
     
-    for (Iterator iter = list.iterator(); iter.hasNext(); )
+    for (Iterator<T> iter = list.iterator(); iter.hasNext(); )
     {
-      Object next = iter.next();
+      T next = iter.next();
       if (next == o)
       {
         result = true;
@@ -309,9 +309,9 @@ public class GlobalDefs
    * @param list the list to search.
    * @param o the reference to be removed.
    */
-  public static void removeObject(List list, Object o)
+  public static void removeObject(List<?> list, Object o)
   {
-    for (Iterator iter = list.iterator(); iter.hasNext(); )
+    for (Iterator<?> iter = list.iterator(); iter.hasNext(); )
     {
       Object next = iter.next();
       if (next == o)

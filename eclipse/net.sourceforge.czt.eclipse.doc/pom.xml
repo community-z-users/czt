@@ -10,7 +10,7 @@
   <artifactId>net.sourceforge.czt.eclipse.doc</artifactId>
   <packaging>eclipse-plugin</packaging>
 
-  <name>CZT Verification Condition Generator Plugin</name>
+  <name>CZT Eclipse Documentation</name>
 
   <properties>
     <docs.sourceDir>${project.basedir}/src/doxia</docs.sourceDir>

@@ -90,6 +90,16 @@ public class ZReconciler extends MonoReconciler
     else
       fMutex = new Object(); // Null Object
   }
+  
+  protected ITextEditor getTextEditor()
+  {
+	  return fTextEditor;
+  }
+  
+  protected boolean isReconciling()
+  {
+	  return fIsReconciling;
+  }
 
   /**
    * Tells the reconciler whether any of the available reconciling strategies is interested in 
@@ -261,7 +271,7 @@ public class ZReconciler extends MonoReconciler
      * @return <code>true</code> iff the Z Model has changed
      * @since 3.0
      */
-    private synchronized boolean hasJavaModelChanged() {
+    protected synchronized boolean hasJavaModelChanged() {
         return fHasZModelChanged;
     }
 
@@ -271,9 +281,10 @@ public class ZReconciler extends MonoReconciler
      * @param state <code>true</code> iff the Z model has changed
      * @since 3.0
      */
-    private synchronized void setJavaModelChanged(boolean state) {
+    protected synchronized void setJavaModelChanged(boolean state) {
         fHasZModelChanged= state;
     }
+  // TODO: never used? changed private to protected
     
     
   /**
@@ -282,7 +293,7 @@ public class ZReconciler extends MonoReconciler
    * @return <code>true</code> iff the fEditor is active
    * @since 3.1
    */
-  private synchronized boolean isEditorActive()
+  protected synchronized boolean isEditorActive()
   {
     return fIsEditorActive;
   }
@@ -293,8 +304,9 @@ public class ZReconciler extends MonoReconciler
    * @param state <code>true</code> iff the fEditor is active
    * @since 3.1
    */
-  private synchronized void setEditorActive(boolean state)
+  protected synchronized void setEditorActive(boolean state)
   {
     fIsEditorActive = state;
   }
+  // TODO: never used? privete -> protected
 }

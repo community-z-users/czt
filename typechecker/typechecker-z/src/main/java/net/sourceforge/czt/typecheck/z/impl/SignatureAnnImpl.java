@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
-import net.sourceforge.czt.base.ast.ListTerm;
-import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 

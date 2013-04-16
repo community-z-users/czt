@@ -5,13 +5,7 @@
 
 package net.sourceforge.czt.parser.circus;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
@@ -26,46 +20,46 @@ import net.sourceforge.czt.session.Source;
  */
 public class SpecialLatexScanner {
  
-  private static Set< String > collectCircusSymbolNames()
-  {
-    Set< String > result = new HashSet();
-    EnumSet CIRCUS_TOKENS = EnumSet.allOf(CircusToken.class);
-    EnumSet CIRCUS_KEYWORDS = EnumSet.allOf(CircusKeyword.class);
-    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXTHEN);
-    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXCOLON);            
-    
-    Iterator< CircusToken > it = CIRCUS_TOKENS.iterator();
-    while (it.hasNext())
-    {
-      boolean ok = result.add(it.next().getName());
-      assert ok : "invalid CircusToken at smart scanning";
-    }
-    Iterator< CircusKeyword > it2 = CIRCUS_KEYWORDS.iterator();
-    while (it2.hasNext())
-    {
-      boolean ok = result.add(it2.next().getName());
-      assert ok : "invalid CircusKeyword at smart scanning";
-    }
-    
-    assert result.size() == CIRCUS_TOKENS.size() + CIRCUS_KEYWORDS.size();
-    
-    return result;
-  }
-  
-  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
-  {
-    Map<V, K> result = new HashMap<V, K>();
-    Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();
-    while (it.hasNext())
-    {
-      Map.Entry<K, V> entry = it.next();      
-      result.put(entry.getValue(), entry.getKey());
-    }    
-    //assert 
-    //  ((m.keySet().containsAll(result.values()) && m.keySet().size() == result.values().size()) &&
-    //  (result.keySet().containsAll(m.values()) && result.keySet().size() == m.values().size())) : "map flipped ok";
-    return result;
-  }
+//  private static Set< String > collectCircusSymbolNames()
+//  {
+//    Set< String > result = new HashSet();
+//    EnumSet CIRCUS_TOKENS = EnumSet.allOf(CircusToken.class);
+//    EnumSet CIRCUS_KEYWORDS = EnumSet.allOf(CircusKeyword.class);
+//    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXTHEN);
+//    CIRCUS_KEYWORDS.remove(CircusKeyword.PREFIXCOLON);            
+//    
+//    Iterator< CircusToken > it = CIRCUS_TOKENS.iterator();
+//    while (it.hasNext())
+//    {
+//      boolean ok = result.add(it.next().getName());
+//      assert ok : "invalid CircusToken at smart scanning";
+//    }
+//    Iterator< CircusKeyword > it2 = CIRCUS_KEYWORDS.iterator();
+//    while (it2.hasNext())
+//    {
+//      boolean ok = result.add(it2.next().getName());
+//      assert ok : "invalid CircusKeyword at smart scanning";
+//    }
+//    
+//    assert result.size() == CIRCUS_TOKENS.size() + CIRCUS_KEYWORDS.size();
+//    
+//    return result;
+//  }
+//  
+//  private static <K, V> Map<V, K> flipMap(Map<K, V> m)
+//  {
+//    Map<V, K> result = new HashMap<V, K>();
+//    Iterator<Map.Entry<K, V>> it = m.entrySet().iterator();
+//    while (it.hasNext())
+//    {
+//      Map.Entry<K, V> entry = it.next();      
+//      result.put(entry.getValue(), entry.getKey());
+//    }    
+//    //assert 
+//    //  ((m.keySet().containsAll(result.values()) && m.keySet().size() == result.values().size()) &&
+//    //  (result.keySet().containsAll(m.values()) && result.keySet().size() == m.values().size())) : "map flipped ok";
+//    return result;
+//  }
   
   public static void main(String[] args) 
   {

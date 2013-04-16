@@ -25,7 +25,11 @@ package net.sourceforge.czt.parser.util;
 public class MarkupException
   extends Exception
 {
-  private MarkupDirective directive1_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2991741759209681172L;
+private MarkupDirective directive1_;
   private MarkupDirective directive2_;
 
   /**
