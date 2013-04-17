@@ -251,7 +251,9 @@ public class IdTest
     public Object visitTerm(Term term)
     {
       if (term instanceof AxPara) {
-        VisitorUtils.visitTerm(this, term.getAnn(SignatureAnn.class));
+    	SignatureAnn sig = term.getAnn(SignatureAnn.class);
+    	if (sig != null)
+    		VisitorUtils.visitTerm(this, sig);
       }
       VisitorUtils.visitTerm(this, term);
       return null;

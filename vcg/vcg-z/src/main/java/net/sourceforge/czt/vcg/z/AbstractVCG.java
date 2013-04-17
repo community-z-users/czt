@@ -75,10 +75,12 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * Base class for all VCG utility classes. It can process Terms for VCG, where
  * the return is a list of R, which is usually Para/VC pairs.
  *
- * @param <R> usually instantiated as of paragraph / predicate pairs.
+ * @param <T> subtype of Type2 determining the kind VCContext for VCs being generated as Pred
+ * @param <B> kind of bindinds to consider from VCContext (i.e. FSB or RREF, see VCContext)
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
+//* param <R> usually instantiated as of paragraph / predicate pairs.
 public abstract class AbstractVCG<//R, 
 									T, B>
         implements VCGPropertyKeys, 
@@ -671,7 +673,7 @@ public abstract class AbstractVCG<//R,
    * This could be a ZParaList, a ListTerm<Parent>, or ListTerm<Sect>,
    * which comes from ZSect.getZParaList(), ZSect.getParent(), and
    * Spec.getSect().
-   * @param <T>
+   * @param <M>
    * @param list
    * @return
    */

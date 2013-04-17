@@ -25,6 +25,11 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-zeves</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>rules</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -35,7 +40,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>vcg</artifactId>
+      <artifactId>vcg-z</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

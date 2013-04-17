@@ -23,7 +23,7 @@ import net.sourceforge.czt.eclipse.vcg.ui.VcgUIPlugin;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.vcg.util.VCNameFactory;
-import net.sourceforge.czt.vcg.z.AbstractVCG;
+import net.sourceforge.czt.vcg.z.VCG;
 import net.sourceforge.czt.vcg.z.PredVC;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
@@ -49,10 +49,10 @@ import net.sourceforge.czt.zeves.ast.LabelUsage;
 import net.sourceforge.czt.zeves.ast.ZEvesLabel;
 import net.sourceforge.czt.zeves.util.ZEvesUtils;
 
-public class VCManager {
+public class VCManager<T, B> {
 
 	private final IZEditor editor;
-	private final AbstractVCG<Pred> vcg;
+	private final VCG<T, B> vcg;
 	private final IZCompileData parsedData;
 	private final ZSect specSect;
 	
@@ -68,7 +68,7 @@ public class VCManager {
 	private final Set<String> ignoreSources = new HashSet<String>();
 	private final Set<String> ignoreSchemas = new HashSet<String>();
 	
-	public VCManager(IZEditor editor, AbstractVCG<Pred> vcg, IZCompileData parsedData, ZSect specSect) {
+	public VCManager(IZEditor editor, VCG<T, B> vcg, IZCompileData parsedData, ZSect specSect) {
 		super();
 		this.editor = editor;
 		this.vcg = vcg;
