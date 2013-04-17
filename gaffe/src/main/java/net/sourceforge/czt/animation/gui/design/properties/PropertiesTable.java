@@ -37,7 +37,12 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  */
 final class PropertiesTable extends AbstractTableModel
 {
-  private PropertiesWindow propertiesWindow;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8799024291253130611L;
+
+private PropertiesWindow propertiesWindow;
 
   /**
    * The bean that this table is for.
@@ -144,7 +149,7 @@ final class PropertiesTable extends AbstractTableModel
     }
   };
 
-  private Class getTypeAt(int row)
+  private Class<?> getTypeAt(int row)
   {
     PropertyDescriptor pd = (PropertyDescriptor) propertyDescriptors.get(row);
     return pd.getPropertyType();

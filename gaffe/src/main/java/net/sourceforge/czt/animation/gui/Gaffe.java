@@ -41,7 +41,12 @@ import net.sourceforge.czt.animation.gui.design.DesignerCore;
  */
 public class Gaffe extends JFrame
 {
-  protected Gaffe()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3146587470927203321L;
+
+protected Gaffe()
   {
     this(new String[0]);
   };

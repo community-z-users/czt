@@ -39,7 +39,6 @@ import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zpatt.ast.Binding;
 import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.ast.Rule;
-import net.sourceforge.czt.zpatt.ast.Sequent;
 
 public final class UnificationUtils
 {
@@ -124,8 +123,8 @@ public final class UnificationUtils
     SectionManager tmpsectman = (SectionManager)sectman.clone();
     Source input = new StringSource(contents);
     input.setMarkup(Markup.LATEX);
-    tmpsectman.put(new Key(name, Source.class), input);
-    Spec spec = (Spec) tmpsectman.get(new Key(name, Spec.class));
+    tmpsectman.put(new Key<Source>(name, Source.class), input);
+    Spec spec =  tmpsectman.get(new Key<Spec>(name, Spec.class));
     Rule rule = firstRule(spec);
     assert rule != null;
     Sequent seq = rule.getSequent();

@@ -22,7 +22,12 @@ package net.sourceforge.czt.rules;
 public class UnboundJokerException
   extends Exception
 {
-  public UnboundJokerException()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 251710860009117740L;
+
+public UnboundJokerException()
   {
   }
 

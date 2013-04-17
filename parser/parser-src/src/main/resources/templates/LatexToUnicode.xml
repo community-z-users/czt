@@ -50,7 +50,6 @@ public class <class/>
   extends CztLexerImpl
 {
   private LatexMarkupParser lexer_;
-  private SectionInfo sectInfo_;
 
   /**
    * Ignores the markup information contained in source and treats the

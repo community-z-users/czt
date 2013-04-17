@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.circustime;
 
+import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
@@ -45,7 +46,7 @@ public class SpecChecker extends net.sourceforge.czt.typecheck.circus.SpecChecke
   }
 
   @Override
-  public Object visitTerm(Term term)
+  public List<NameSectTypeTriple> visitTerm(Term term)
   {
     return term.accept(circusSpecChecker_);
   }

@@ -1,6 +1,6 @@
   public boolean isBasicProcess()
   {
-    return (getCircusProcess() instanceof BasicProcess);
+    return (getCircusProcess() instanceof net.sourceforge.czt.circus.ast.BasicProcess);
   }
 
   public net.sourceforge.czt.circus.ast.BasicProcess getCircusBasicProcess()

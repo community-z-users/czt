@@ -37,9 +37,9 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
   private Group elementsGroup;
   private ArrayList<Button> fCheckBoxes;
 
-  private ArrayList<Button> fRadioButtons;
+  //private ArrayList<Button> fRadioButtons;
 
-  private ArrayList fTextControls;
+  //private ArrayList fTextControls;
 
   public ZEditorFoldingPreferencePage()
   {
@@ -47,9 +47,9 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
     setPreferenceStore(CztUIPlugin.getDefault().getPreferenceStore());
     setDescription(PreferencesMessages.ZEditorPreferencePage_folding_description);
 
-    fRadioButtons = new ArrayList<Button>();
+    //fRadioButtons = new ArrayList<Button>();
     fCheckBoxes = new ArrayList<Button>();
-    fTextControls = new ArrayList();
+    //fTextControls = new ArrayList();
   }
 
   /*
@@ -208,7 +208,9 @@ public class ZEditorFoldingPreferencePage extends PreferencePage
   /*
    * @see @see org.eclipse.jface.preference.PreferencePage#performOk()
    */
-  public boolean performOk()
+  @SuppressWarnings("deprecation")
+  // TODO: deprecated!!
+public boolean performOk()
   {
     IPreferenceStore store = getPreferenceStore();
     store.setValue((String)fEnableFoldingButton.getData(), fEnableFoldingButton.getSelection());

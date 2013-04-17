@@ -2,27 +2,17 @@
 package net.sourceforge.czt.eclipse.ui.internal.outline;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import org.eclipse.jface.text.Position;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.circus.ast.ChannelPara;
-import net.sourceforge.czt.circus.ast.ChannelSetPara;
-import net.sourceforge.czt.circus.ast.ProcessPara;
-import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
-import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
-import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
-import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 import net.sourceforge.czt.oz.ast.ClassPara;
 import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
-import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
@@ -33,7 +23,6 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
-import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;

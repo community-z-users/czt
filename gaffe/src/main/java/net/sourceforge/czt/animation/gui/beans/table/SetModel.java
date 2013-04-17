@@ -29,7 +29,11 @@ import net.sourceforge.czt.animation.gui.temp.ZSet;
  */
 public class SetModel extends AbstractTableModel
 {
-  private ZSet set_ = new ZSet();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5727823207623148378L;
+private ZSet set_ = new ZSet();
 
   public ZSet getSet()
   {

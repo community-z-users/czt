@@ -44,8 +44,8 @@ public final class FormServiceProvider implements BeanContextServiceProvider
   };
 
   public Object getService(BeanContextServices bcs, Object requestor,
-      Class serviceClass, Object serviceSelector)
-  {
+      @SuppressWarnings("rawtypes") Class serviceClass, Object serviceSelector)
+  {	  // superclass has such rawtypes :-(
     return form_;
   };
 
@@ -60,8 +60,9 @@ public final class FormServiceProvider implements BeanContextServiceProvider
   /**
    * Does Nothing. Required because inherited from BeanContextServiceProvider.
    */
-  public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
-      Class serviceClass)
+  @SuppressWarnings("rawtypes")
+public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+       Class serviceClass)
   {
     return null;
   };

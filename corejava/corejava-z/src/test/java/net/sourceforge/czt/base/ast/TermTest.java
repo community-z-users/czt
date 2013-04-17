@@ -63,7 +63,7 @@ public abstract class TermTest extends TestCase
   public final void testTermVisitor()
   {
     Term term = createTerm();
-    Visitor visitor = new ExampleTermVisitor();
+    Visitor<Object> visitor = new ExampleTermVisitor();
     Assert.assertEquals("ok", term.accept(visitor));
   }
 
@@ -71,7 +71,7 @@ public abstract class TermTest extends TestCase
    * An example visitor that visits Term objects.
    */
   private static class ExampleTermVisitor
-    implements TermVisitor
+    implements TermVisitor<Object>
   {
     public Object visitTerm(Term term)
     {
@@ -90,7 +90,7 @@ public abstract class TermTest extends TestCase
   public void testGetAnn()
   {
     Term term = createTerm();
-    List anns = term.getAnns();
+    List<Object> anns = term.getAnns();
     anns.clear();
     String string = "Foo";
     anns.add(string);

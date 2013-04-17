@@ -30,7 +30,11 @@ import net.sourceforge.czt.rules.ast.*;
 public class UnificationException
   extends Exception
 {
-  private String reason_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5603709266560944685L;
+private String reason_;
   private Object left_;
   private Object right_;
 

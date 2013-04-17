@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.z;
 
-import java.io.*;
 import java.math.BigInteger;
 import java.util.Properties;
 import java_cup.runtime.*;
@@ -68,12 +67,12 @@ public class UnicodeScannerTest
     Assert.assertEquals(0, BigInteger.valueOf(value).compareTo(foundValue));
   }
 
-  private void nextIsInStroke()
-    throws Exception
-  {
-    Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(Sym.INSTROKE, symbol.sym);
-  }
+  //private void nextIsInStroke()
+ //   throws Exception
+  //{
+  //  Symbol symbol = lexer_.next_token();
+  //  Assert.assertEquals(Sym.INSTROKE, symbol.sym);
+  //}
 
   private void nextIsOutStroke()
     throws Exception
@@ -82,14 +81,14 @@ public class UnicodeScannerTest
     Assert.assertEquals(Sym.OUTSTROKE, symbol.sym);
   }
 
-  private void nextIsNumStroke(int num)
-    throws Exception
-  {
-    Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(Sym.NUMSTROKE, symbol.sym);
-    BigInteger foundValue = ((LocInt) symbol.value).getValue();
-    Assert.assertEquals(0, BigInteger.valueOf(num).compareTo(foundValue));
-  }
+ // private void nextIsNumStroke(int num)
+  //  throws Exception
+  //{
+   // Symbol symbol = lexer_.next_token();
+  //  Assert.assertEquals(Sym.NUMSTROKE, symbol.sym);
+  //  BigInteger foundValue = ((LocInt) symbol.value).getValue();
+  //  Assert.assertEquals(0, BigInteger.valueOf(num).compareTo(foundValue));
+ // }
 
   private void nextIsNl()
     throws Exception

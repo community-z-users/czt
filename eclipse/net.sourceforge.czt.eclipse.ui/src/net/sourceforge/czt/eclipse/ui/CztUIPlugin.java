@@ -6,6 +6,7 @@ import net.sourceforge.czt.eclipse.ui.internal.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.ui.internal.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.ui.internal.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.DocumentEditTracker;
+import net.sourceforge.czt.eclipse.ui.internal.preferences.CztFontLoad;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.ui.internal.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
@@ -35,6 +36,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -113,6 +115,9 @@ public class CztUIPlugin extends AbstractUIPlugin
   public void start(BundleContext context) throws Exception
   {
     super.start(context);
+
+    loadCztFont();
+
     String defaultDialect = getPreferenceStore().getString(
               PreferenceConstants.PROP_DIALECT);
     initSectionManager(Dialect.valueOf(defaultDialect.toUpperCase()));
@@ -416,6 +421,26 @@ public class CztUIPlugin extends AbstractUIPlugin
   public static void log(String message, Throwable e)
   {
     log(new Status(IStatus.ERROR, PLUGIN_ID, 1001, message, e));
+  }
+
+  private static void loadCztFont() {
+
+    Display display = Display.getCurrent();
+    if (display != null) {
+      // already UI thread - use it without postponing
+      // to avoid editors initialising with incorrect font
+      CztFontLoad.loadCztFont();
+
+    } else {
+
+      // non-UI thread - load in the UI thread
+      Display.getDefault().asyncExec(new Runnable() {
+        @Override
+        public void run() {
+          CztFontLoad.loadCztFont();
+        }
+      });
+    }
   }
 
 }

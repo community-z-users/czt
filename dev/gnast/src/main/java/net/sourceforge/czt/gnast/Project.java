@@ -77,7 +77,7 @@ public class Project
     global_ = global;
 
     try {
-      project_ = new SchemaProject(url, mapping, global_);
+      project_ = new SchemaProject(url, mapping, global_, this);
     }
     catch (javax.xml.parsers.ParserConfigurationException exception) {
       logSevere("Parse error while parsing " + url);
@@ -297,6 +297,26 @@ public class Project
     }
     
     return concat.toString();
+  }
+  
+  public Map<String, ? extends JAstObject> getAstClasses()
+  {
+  	return Collections.unmodifiableMap(project_.getAstClasses());
+  }
+  
+  public boolean isKnownClass(String type)
+  {
+  	return getAstClasses().containsKey(type);
+  }
+  
+  public boolean isKnownEnumeration(String type)
+  {
+	return project_.isKnownEnumeration(type);
+  }
+  
+  public String getFullEnumName(String type, boolean asJaxb)
+  {
+	return project_.getFullEnumName(type, asJaxb);
   }
   
   /**

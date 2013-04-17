@@ -336,6 +336,7 @@
         Some changes in subpackages of
         net.sourceforge.czt.z
         due to changes in zml/Z.xsd.
+        <fixes>
         <ul>
           <li>
             Added classes
@@ -354,11 +355,13 @@
              Operand.
            </li>
         </ul>
+        </fixes>
       </action>
       <action dev="Petra" type="update">
         Some changes in subpackages of
         net.sourceforge.czt.oz
         due to changes in zml/Object-Z.xsd.
+        <fixes>
         <ul>
           <li>
             Added classes
@@ -388,6 +391,7 @@
             RenameExpr.
           </li>
         </ul>
+        </fixes>
       </action>
       <action dev="Petra" type="remove">
         Remove examples located in the examples directory since
@@ -458,6 +462,7 @@
         Change all immutable properties of the AST classes to be mutable
         since immutable properties are no longer needed
         (they were there for historic reasons).
+        <fixes>
         <ul>
           <li>
             all getter methods that return an immutable list in the previous
@@ -490,6 +495,7 @@
             since it is no longer used
           </li>
         </ul>
+        </fixes>
       </action>
       <action dev="Petra" type="fix">
         Use the CLASSPATH environment variable when running the examples

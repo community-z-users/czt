@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.z2b;
 
-import java.lang.*;
 
 
 /**
@@ -43,6 +42,11 @@ public class BException
     extends net.sourceforge.czt.util.CztException
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7060393204111699512L;
+
+/**
    * Constructor for BException
    *
    * @param msg A description of why the exception was thrown

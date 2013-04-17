@@ -55,6 +55,7 @@ public enum ZToken
   NL(ZString.NL, null),
   INDENT(ZString.SPACE, null),
 
+  /*
   ZSTATE(ZString.ZSTATE, NewlineCategory.NEITHER),
   ZSTINIT(ZString.ZSTINIT, NewlineCategory.NEITHER),
   ZSTFIN(ZString.ZSTFIN, NewlineCategory.NEITHER),
@@ -77,8 +78,9 @@ public enum ZToken
   ZCFINOUT(ZString.ZCFINOUT, NewlineCategory.NEITHER),
 
   ZFSREFINES(ZString.ZFSREFINES, NewlineCategory.NEITHER),
-  ZBSREFINES(ZString.ZBSREFINES, NewlineCategory.NEITHER);
-
+  ZBSREFINES(ZString.ZBSREFINES, NewlineCategory.NEITHER)
+*/
+  ;
   private String spelling_;
   private NewlineCategory newlineCategory_;
 

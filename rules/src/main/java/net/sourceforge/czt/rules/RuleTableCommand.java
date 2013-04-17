@@ -133,7 +133,12 @@ public class RuleTableCommand
   public static class VisitorException
     extends net.sourceforge.czt.util.CztException
   {
-    public VisitorException(Exception cause)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1958378042480636635L;
+
+	public VisitorException(Exception cause)
     {
       super(cause);
     }

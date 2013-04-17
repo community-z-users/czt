@@ -87,7 +87,12 @@ public class RuleTable
   public static class RuleTableException
     extends Exception
   {
-    public RuleTableException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1694100700569618801L;
+
+	public RuleTableException(String message)
     {
       super(message);
     }

@@ -36,11 +36,6 @@ public class DefinitionTable extends InfoTable
   private static final Logger logger_ = Logger.getLogger(SectionManager.class.getName());
 
   /**
-   * The name of the section.
-   */
-  private String section_;
-
-  /**
    * Records all operators defined in this section.
    *
    * @czt.todo should the domain be String or Name?
@@ -189,7 +184,11 @@ public class DefinitionTable extends InfoTable
   public static class DefinitionException
     extends InfoTable.InfoTableException
   {
-    private final List<DefinitionException> exceptions_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3082756228588908110L;
+	private final List<DefinitionException> exceptions_;
 
     public DefinitionException(String message)
     {

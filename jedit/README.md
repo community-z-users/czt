@@ -1,6 +1,6 @@
 # CZT plugins for jEdit
 
-[![CZT plugins for jEdit]( images/thumb-czt-jedit.png )]( images/czt-jedit.png "CZT plugins for jEdit" )
+[![CZT plugins for jEdit](images/thumb-czt-jedit.png)]( images/czt-jedit.png "CZT plugins for jEdit" )
 
 The aim of this project is to provide WYSIWYG editing of Z specifications 
 in Unicode markup using the [jEdit editor][jedit].
@@ -28,7 +28,7 @@ NOTE: The jEdit subproject is experimental, and highly subject to change!
 
 ## Requirements
 
--   [Java 6]( http://www.java.com/getjava/ )
+-   [Java 6](http://www.java.com/getjava/)
 -   [jEdit][jedit]
 
 The CZT plugins and extensions should be working using jEdit 5.

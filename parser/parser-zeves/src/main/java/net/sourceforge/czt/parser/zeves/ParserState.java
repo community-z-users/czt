@@ -191,7 +191,6 @@ public class ParserState extends net.sourceforge.czt.parser.z.ParserState
     return result;
   }
 
-  @SuppressWarnings("FinalClass")
   final class LabelCleaningVisitor implements TermVisitor<Object>
   {
 

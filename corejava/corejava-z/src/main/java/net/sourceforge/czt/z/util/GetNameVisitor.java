@@ -91,7 +91,7 @@ public class GetNameVisitor
   }
 
   @Override
-  public String visitListTerm(ListTerm listTerm)
+  public String visitListTerm(ListTerm<?> listTerm)
   {
     final StringBuilder result = new StringBuilder();
     String sep = LIST_SEPARATOR;

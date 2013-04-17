@@ -21,7 +21,6 @@ package net.sourceforge.czt.typecheck.circus;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.AssignmentCommand;
 import net.sourceforge.czt.circus.ast.AssignmentPairs;

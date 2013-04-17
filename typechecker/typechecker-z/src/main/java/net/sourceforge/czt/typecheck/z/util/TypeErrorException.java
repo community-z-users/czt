@@ -33,7 +33,11 @@ import net.sourceforge.czt.parser.util.CztErrorList;
 public class TypeErrorException extends net.sourceforge.czt.util.CztException
   implements CztErrorList {    
     
-    private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 32926149840525162L;
+	private final List<ErrorAnn> fErrors = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     
     /** Creates a new instance of TypeErrorException
      * @param message 

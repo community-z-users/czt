@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+\begin{zsection}
+\SECTION schemas \parents set\_toolkit
+\end{zsection}
+
+\begin{zed}
+   [G]
+\end{zed}
+
+\begin{schema}{State}
+%\zstate \\
+   x: \nat \\
+   y: \power~\nat \\
+   f: \nat \fun \nat \\
+   g: G
+\where
+   %y = \dom~f \\  - avoid relation\_toolkit
+   y \cross y \subseteq f \\
+   x \in y
+\end{schema}
+
+\begin{schema}{Init}
+%\zstinit\\
+   State~'
+\where
+   x' = 0 \\
+   y' = \{\} \\
+   f' = \{\}
+\end{schema}
+
+\begin{schema}{OpUpdate}
+   \Delta State \\
+   i?: \nat \\
+   o!: \nat
+\where
+   y' = y \\
+   i? \in y' \\
+   % \{i?\} \dres f = \{i?\} \dres f' \\ - avoid dependency with relation\_toolkit
+   f~x = i? \\
+   f'~i? = x' = o!
+\end{schema}
+
+\begin{schema}{OpQuery}
+  \Xi State \\
+  o!: \nat
+\where
+   o! = f~x
+\end{schema}
+
+\begin{schema}{Funny}
+   \Delta State
+\where
+   \theta State.x = 0 \\
+   \theta State~'.y = \{\} 
+\end{schema}
+
+\end{document}

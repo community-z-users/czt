@@ -29,6 +29,11 @@ public class MarshalException
   extends Exception
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7238845946789102094L;
+
+/**
    * Construct a MarshalException with the specified detail message.
    */
   public MarshalException(String message)

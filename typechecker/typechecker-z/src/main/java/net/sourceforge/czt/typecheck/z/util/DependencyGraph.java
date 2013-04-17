@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.z.util;
 
 import java.util.Set;
 import java.util.List;
-import java.util.Iterator;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
@@ -67,7 +66,7 @@ public class DependencyGraph<E> {
    */
   public Set<E> getDependents(E e)
   {
-    Set result = set();
+    Set<E> result = set();
 
     for (Pair<E,E> pair : dependencies_) {
       if (e.equals(pair.left)) {
@@ -183,20 +182,21 @@ public class DependencyGraph<E> {
   /**
    *  The pair objects to be used for the set of dependencies
    */
-  protected class Pair<E,F>
+  protected class Pair<K,F>
   {
     //the left and right elements of the pair
-    public E left;
+    public K left;
     public F right;
 
-    public Pair(E left, F right) {
+    public Pair(K left, F right) {
       this.left = left;
       this.right = right;
     }
 
     public boolean equals(Object o)
     {
-      Pair p = (Pair)o;
+      @SuppressWarnings("unchecked")
+	Pair<K,F> p = (Pair<K,F>)o;
       return (p.left.equals(left) && p.right.equals(right));
     }
 

@@ -82,7 +82,10 @@ public class ZSideKickPlugin
 
   public static boolean debug_ = false;
 
-  public static void setDefaultProperties()
+  // some of the "dead code" below is due to conditional values of default constants 
+  // from other projects. If they change, the dead code is revived! 
+@SuppressWarnings("unused")
+public static void setDefaultProperties()
   {
     jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
             ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
@@ -142,6 +145,14 @@ public class ZSideKickPlugin
     jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
             ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO,
             ZSideKickPlugin.PROP_VCG_DOMAINCHECK_USE_INFIX_APPLIESTO_DEFAULT);
+
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS,
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS_DEFAULT);
+
+    jEdit.setBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS,
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS_DEFAULT);
 
     jEdit.setBooleanProperty("net.sourceforge.czt.jedit.zsidekick.debugZsideKick", false);
 

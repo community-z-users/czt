@@ -23,8 +23,6 @@ import errorlist.ErrorSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.LatexString;
@@ -49,7 +47,6 @@ import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCGException;
 import net.sourceforge.czt.vcg.z.VCGUtils;
-import net.sourceforge.czt.vcg.z.dc.DCVCEnvAnn;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Pred;
@@ -165,7 +162,8 @@ public class ZSideKickActions
     }
   }
 
-  private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG errors");
+  @SuppressWarnings("deprecation")
+private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG errors");
 
   /**
    *
@@ -187,7 +185,7 @@ public class ZSideKickActions
       final String bufferPath = buffer.getPath(); // full qualified file name
       final File file = new File(bufferPath);
       final String name = file.getName(); // just last name of file
-      final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
+      //final String path = file.getParent() != null ? file.getParent() : "."; // just the file directory
       try
       {
         final String dcFileName = VCGUtils.getVCFileName(name, vcFileNameSuffix);

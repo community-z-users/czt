@@ -28,8 +28,8 @@ import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
  * @date Jul 8, 2011
  */
 public class GetNameVisitor 
-  extends net.sourceforge.czt.z.util.GetNameVisitor
-  implements ProofScriptVisitor<String>
+extends net.sourceforge.czt.z.util.GetNameVisitor
+implements ProofScriptVisitor<String>
 {
 
   @Override

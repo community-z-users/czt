@@ -77,7 +77,12 @@ public class ScriptBeanInfo extends SimpleBeanInfo
       implements
         Customizer
   {
-    private Script scriptBean_ = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9072845488427674016L;
+
+	private Script scriptBean_ = null;
 
     private JTextField nameField_ = new JTextField(20);
 

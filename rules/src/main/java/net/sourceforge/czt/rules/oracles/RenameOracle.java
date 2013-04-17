@@ -29,6 +29,7 @@ import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.PrintVisitor;
@@ -42,7 +43,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class RenameOracle
   extends AbstractOracle
 {
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     Expr expr = (Expr) ProverUtils.removeJoker((Term) args.get(0));
@@ -52,7 +53,7 @@ public class RenameOracle
     if (expr instanceof SchExpr) {
       SchExpr schExpr = (SchExpr) expr;
       // We typecheck before decorating to ensure that ids are correct
-      List errors =
+      List<? extends ErrorAnn> errors =
         TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
       if (errors == null || errors.isEmpty()) {
         final CollectStateVariablesVisitor collectVisitor =

@@ -11,26 +11,28 @@ bug fixes on the [czt-devel][] mailing list.
 Some documentation is available for setting up CZT development in command-line environment
 or Eclipse IDE:
 
--   [**Setup**]( setup.html )
+-   [**Setup**](setup.html)
 
-    -   [Requirements]( setup.html#Requirements )
-    -   [Get source code]( setup.html#Get_source_code )
-    -   [Build CZT]( setup.html#Build_CZT )
-    -   [Advanced build]( setup.html#Advanced_build )
+    -   [Requirements](setup.html#Requirements)
+    -   [Get source code](setup.html#Get_source_code)
+    -   [Build CZT](setup.html#Build_CZT)
+    -   [Advanced build](setup.html#Advanced_build)
 
--   [**Setup in Eclipse IDE**]( eclipse/index.html )
+-   [**Setup in Eclipse IDE**](eclipse/index.html)
 
-    -   [Get source using EGit]( eclipse/index.html#Clone_Git_repository )
-    -   [m2e (Maven for Eclipse)]( eclipse/index.html#m2e_support )
-    -   [CZT code style]( eclipse/index.html#CZT_code_style )
-    -   [Maven `eclipse:eclipse` (alternative)]( eclipse/index.html##Using_Maven_eclipseeclipse )
+    -   [Get source using EGit](eclipse/index.html#Clone_Git_repository)
+    -   [Import projects into Eclipse](eclipse/index.html#Import_projects_into_Eclipse)
+    -   [Set CZT target platform](eclipse/index.html#Set_CZT_target_platform)
+    -   [Launch CZT IDE](eclipse/index.html#Launch_CZT_IDE)
+    -   [CZT code style](eclipse/index.html#CZT_code_style)
+    -   [Maven `eclipse:eclipse` (alternative)](eclipse/index.html##Using_Maven_eclipseeclipse)
 
--   [**Guidelines**]( guidelines.html )
+-   [**Guidelines**](guidelines.html)
 
-    -   [General]( guidelines.html#General_remarks )
-    -   [Committing]( guidelines.html#Committing_to_Git_repository )
-    -   [Project layout]( guidelines.html#CZT_project_layout )
-    -   [Code style]( guidelines.html#Java_style_guidelines )
+    -   [General](guidelines.html#General_remarks)
+    -   [Committing](guidelines.html#Committing_to_Git_repository)
+    -   [Project layout](guidelines.html#CZT_project_layout)
+    -   [Code style](guidelines.html#Java_style_guidelines)
 
 This part of website also hosts custom tools used to build CZT itself (see sidebar and modules).
 

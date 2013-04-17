@@ -91,7 +91,9 @@ public abstract class AbstractConfigurationBlockPreferencePage
   /**
    * @see org.eclipse.jface.preference.PreferencePage#performOk()
    */
-  public boolean performOk()
+@SuppressWarnings("deprecation")
+// TODO: deprecation!
+public boolean performOk()
   {
 
     fConfigurationBlock.performOk();

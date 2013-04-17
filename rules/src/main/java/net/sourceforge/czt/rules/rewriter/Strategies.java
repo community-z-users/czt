@@ -20,7 +20,6 @@
 package net.sourceforge.czt.rules.rewriter;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;

@@ -120,7 +120,6 @@ public class ProofScriptParsingTest
   }
 
   @Override
-  @SuppressWarnings("CallToThreadDumpStack")
   protected boolean encounteredException(URL resource, Throwable e, String failureMsg, boolean handled)
   {
     final String stage = fStage_ == 0 ? "parsing" : fStage_==1 ? "printing" : "reparsing";

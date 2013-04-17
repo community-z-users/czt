@@ -47,7 +47,7 @@ public final class HistoryServiceProvider implements BeanContextServiceProvider
    * Returns the History. Inherits from BeanContextServiceProvider.
    */
   public Object getService(BeanContextServices bcs, Object requestor,
-      Class serviceClass, Object serviceSelector)
+      @SuppressWarnings("rawtypes") Class serviceClass, Object serviceSelector)
   {
     return history_;
   };
@@ -63,7 +63,8 @@ public final class HistoryServiceProvider implements BeanContextServiceProvider
   /**
    * Does Nothing. Required because inherited from BeanContextServiceProvider.
    */
-  public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+  @SuppressWarnings("rawtypes")
+public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
       Class serviceClass)
   {
     return null;

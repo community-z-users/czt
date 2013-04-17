@@ -19,22 +19,13 @@
 
 package net.sourceforge.czt.animation.gui.temp;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-
-import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.result.DiscreteSet;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
-import net.sourceforge.czt.animation.eval.flatpred.Bounds;
-import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
-import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.Factory;
 
 /**
  * Values in Z that are Sets.
@@ -44,13 +35,14 @@ public class ZSet implements ZValue
   // private final Vector set_;
   private final EvalSet expr_;
 
-  private final Factory factory_;
+  // TODO: these fields were not used anywhere, so I deleted them, for now (Leo)
+//  private final Factory factory_;
 
-  private Envir env_;
+// private Envir env_;
 
-  private int i = 0;
+//  private int i = 0;
 
-  private List<ZName> list;
+ // private List<ZName> list;
 
   // private static Factory factory;
   /**
@@ -74,9 +66,9 @@ public class ZSet implements ZValue
       expr_.add(v.getExpr());
     
     // set_ = new Vector(set);
-    env_ = new Envir();
-    list = new ArrayList<ZName>();
-    factory_ = GaffeFactory.getFactory();
+    //env_ = new Envir();
+    //list = new ArrayList<ZName>();
+    //factory_ = GaffeFactory.getFactory();
   }
 
   /**
@@ -88,7 +80,7 @@ public class ZSet implements ZValue
   public ZSet(EvalSet expr)
   {
     this.expr_ = expr;
-    factory_ = GaffeFactory.getFactory();
+    //factory_ = GaffeFactory.getFactory();
   }
 
   /**

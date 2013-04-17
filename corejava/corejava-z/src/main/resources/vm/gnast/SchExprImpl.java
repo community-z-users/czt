@@ -4,11 +4,11 @@
    * It returns the ZSchText if SchText is an instance of
    * ZSchText and throws an UnsupportedAstClassException otherwise.
    */
-  public ZSchText getZSchText()
+  public net.sourceforge.czt.z.ast.ZSchText getZSchText()
   {
-    SchText schText = getSchText();
-    if (schText instanceof ZSchText) {
-      return (ZSchText) schText;
+	  net.sourceforge.czt.z.ast.SchText schText = getSchText();
+    if (schText instanceof net.sourceforge.czt.z.ast.ZSchText) {
+      return (net.sourceforge.czt.z.ast.ZSchText) schText;
     }
     final String message = "Expected the default (Z) implementation of SchText" +
       " but found " + String.valueOf(schText);

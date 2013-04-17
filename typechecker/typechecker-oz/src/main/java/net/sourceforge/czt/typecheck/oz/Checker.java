@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
-import java.io.Writer;
 import java.util.List;
 
 //import static net.sourceforge.czt.z.util.ZUtils.*;
@@ -27,9 +26,7 @@ import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.oz.util.OzString;
-import net.sourceforge.czt.print.oz.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.TypeEnv;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
@@ -385,7 +382,8 @@ abstract public class Checker<R>
   {
     Signature signature = factory().createSignature();
     List<NameTypePair> pairsA = sigA.getNameTypePair();
-    List<NameTypePair> pairsB = sigB.getNameTypePair();
+    //List<NameTypePair> pairsB = 
+    			sigB.getNameTypePair();
     for (NameTypePair pairA : pairsA) {
       NameTypePair pairB = findNameTypePair(pairA.getZName(), sigB);
       if (pairB != null) {
@@ -438,7 +436,8 @@ abstract public class Checker<R>
 
   protected void addOperation(ZName opName, Signature signature, ClassType classType)
   {
-    List<NameSignaturePair> ops = classType.getOperation();
+//    List<NameSignaturePair> ops = 
+	  		classType.getOperation();
     NameSignaturePair existing = findOperation(opName, classType);
 
     //if there is already a pair, check it is compatible with the new definition
@@ -784,7 +783,7 @@ abstract public class Checker<R>
                                                  newOps, newRootClass);
         }
         else if (type instanceof ClassUnionType) {
-          ClassUnionType classUnionType = (ClassUnionType) type;
+          //ClassUnionType classUnionType = (ClassUnionType) type;
           result = factory().createClassUnionType(newClassRefs, newState, 
                                                   newAttrs, newOps);
         }
@@ -1022,7 +1021,8 @@ abstract public class Checker<R>
 
       //check compatibility of operations
       List<NameSignaturePair> loPairs = lClassType.getOperation();
-      List<NameSignaturePair> roPairs = rClassType.getOperation();
+      //List<NameSignaturePair> roPairs = 
+    		  rClassType.getOperation();
       for (NameSignaturePair lPair : loPairs) {
         ZName lName = lPair.getZName();
         NameSignaturePair rPair = findOperation(lName, rClassType);

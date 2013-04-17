@@ -12,31 +12,21 @@
 
   <name>CZT Eclipse Product and p2 Repository</name>
 
-  <repositories>
-    <!-- Use Juno SR1 for product release
-         If changing the repository, do not forget to update czt-ide.p2.inf
-         to point to new update sites as well. -->
-    <repository>
-      <id>juno</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/juno</url>
-    </repository>
-  </repositories>
-
   <build>
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <configuration>
           <repositoryName>CZT for Eclipse Updates</repositoryName>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-director-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <executions>
           <execution>
             <id>materialize-products</id>
@@ -68,5 +58,161 @@
       </plugin>
     </plugins>
   </build>
+
+
+  <profiles>
+    <profile>
+      <!-- A profile to deploy nightly build artifacts to release area.
+           Deploy using `mvn clean deploy -P nightly` and provide the appropriate logins
+           in settings.xml. -->
+      <id>nightly</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+
+        <nightly.updates.path>czt-ide-updates/nightly/${timestamp}</nightly.updates.path>
+        <nightly.product.path>czt-ide/nightly/${timestamp}</nightly.product.path>
+        <!-- the nightly URL to point from composite repository -->
+        <nightly.updates.url>http://sourceforge.net/projects/czt/files/${nightly.updates.path}</nightly.updates.url>
+        <!-- where to upload the composite repository (in CZT www) -->
+        <nightly.site.path>eclipse/updates/nightly</nightly.site.path>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- filter composite p2 repo definitions to insert nightly updates path and timestamp
+                 -->
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+            <executions>
+              <execution>
+                <id>copy-p2-definition</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/composite-nightly</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>${project.basedir}/composite-nightly</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0-beta-4</version>
+            <executions>
+              <execution>
+                <id>upload-p2-repo</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/repository</fromDir>
+                  <includes>**</includes>
+                  <url>${files.deploy.url}/${nightly.updates.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>upload-nightly-composite-www</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/composite-nightly</fromDir>
+                  <includes>**</includes>
+                  <!-- Use SFTP upload (does not need shell access) -->
+                  <url>${site.deploy.url.sftp}/${nightly.site.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+
+              <!-- Upload products - each to its platform directory
+                   (long names are confusing otherwise).
+                   Upload them in reverse alphabetical order to get correct one on SourceForge. -->
+              <execution>
+                <id>upload-product-win64</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/products</fromDir>
+                  <includes>*win32.x86_64.zip</includes>
+                  <url>${files.deploy.url}/${nightly.product.path}/windows-64bit</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+              <execution>
+                <id>upload-product-win32</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/products</fromDir>
+                  <includes>*win32.x86.zip</includes>
+                  <url>${files.deploy.url}/${nightly.product.path}/windows</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+              <execution>
+                <id>upload-product-mac</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/products</fromDir>
+                  <includes>*macosx.cocoa.x86_64.tar.gz</includes>
+                  <url>${files.deploy.url}/${nightly.product.path}/mac</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+              <execution>
+                <id>upload-product-linux64</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/products</fromDir>
+                  <includes>*linux.gtk.x86_64.tar.gz</includes>
+                  <url>${files.deploy.url}/${nightly.product.path}/linux-64bit</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+              <execution>
+                <id>upload-product-linux32</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}/products</fromDir>
+                  <includes>*linux.gtk.x86.tar.gz</includes>
+                  <url>${files.deploy.url}/${nightly.product.path}/linux-32bit</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   
 </project>

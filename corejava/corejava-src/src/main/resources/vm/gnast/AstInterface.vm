@@ -28,10 +28,124 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${class.Package};
 
-import net.sourceforge.czt.base.ast.*;
-#foreach($p in $projects)
-import ${p.AstPackage}.*;
-#end
+##// --------------------------------------
+##// ALL PROPERTIES
+##// class 				= ${class}
+##// class.getName		= ${class.getName()}
+##// class.getClass       = ${class.getClass()}
+##// class.getPackage     = ${class.getPackage()}
+##// class.getImplPackage = ${class.getImplPackage()}
+##// class.getVisitorPack = ${class.getVisitorPackage()}
+##// class.getAllProps    = ${class.getAllProperties()}
+##// --------------------------------------
+##// forall(prop in class getAllProperties) 
+##// #foreach($prop in ${class.getAllProperties()})
+##//		prop 									  = ${prop}
+##//		prop.getName							  = ${prop.getName()}
+##//		#if(${prop.isList()})
+##//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+##//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+##//
+##//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+##//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+##//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+##//		#else
+##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+##//
+##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+##//		#end
+##// --------------------------------------
+##// #end
+##// class.getProps       =${class.getProperties()}
+##// --------------------------------------
+##// forall(prop in class getProperties) 
+##// #foreach($prop in ${class.getProperties()})
+##//		prop 		       = ${prop}
+##//		prop.getName	   = ${prop.getName()}
+##//		prop.getClass      = ${prop.getClass()}
+##//		prop.getVarName    = ${prop.VarName}
+##//		prop.getMemVarName = ${prop.MemVarName}
+##//		prop.getGetterName = ${prop.GetterName}
+##//		prop.SetterName    = ${prop.SetterName}
+##//		prop.getType	   = ${prop.getType().getClass()}
+##//
+##//		prop.Type.FullName       			  = ${prop.Type.FullName}
+##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+##//
+##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+##// --------------------------------------
+##// #end
+##// #if(${ImportProject})
+##// ImportProject             = ${ImportProject}
+##// ImportProject.Name		 = ${ImportProject.getName()}	
+##// ImportProject.BasePackage = ${ImportProject.BasePackage}
+##// #end
+##// --------------------------------------
+##//
+##// #foreach($c in $classes)
+##// #if(!$c.Abstract)
+	##// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	##// ALL PROPERTIES
+	##// c 				= ${c}
+	##// c.getName		= ${c.getName()}
+	##// c.getClass       = ${c.getClass()}
+	##// c.getPackage     = ${c.getPackage()}
+	##// c.getImplPackage = ${c.getImplPackage()}
+	##// c.getVisitorPack = ${c.getVisitorPackage()}
+	##// c.getAllProps    = ${c.getAllProperties()}
+	##// --------------------------------------
+	##// forall(prop in c getAllProperties) 
+	##// #foreach($prop in ${c.getAllProperties()})
+	##//		prop 									  = ${prop}
+	##//		prop.getName  							  = ${prop.getName()}
+	##//		#if(${prop.isList()})
+	##//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+	##//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+	##//
+	##//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+	##//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+	##//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+	##//		#else
+	##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	##//
+	##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	##//		#end
+	##// --------------------------------------
+	##// #end
+	##// c.getProps       =${c.getProperties()}
+	##// --------------------------------------
+	##// forall(prop in c getProperties) 
+	##// #foreach($prop in ${c.getProperties()})
+	##//		prop 		       = ${prop}
+	##//		prop.getName	   = ${prop.getName()}
+	##//		prop.getClass      = ${prop.getClass()}
+	##//		prop.getVarName    = ${prop.VarName}
+	##//		prop.getMemVarName = ${prop.MemVarName}
+	##//		prop.getGetterName = ${prop.GetterName}
+	##//		prop.SetterName    = ${prop.SetterName}
+	##//		prop.getType	   = ${prop.getType().getClass()}
+	##//
+	##//		prop.Type.FullName       			  = ${prop.Type.FullName}
+	##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	##//
+	##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	##// #end
+##// #end
+##// #end
+##// --------------------------------------
+
 
 /**
 #if(${class.Javadoc}) * ${class.Javadoc}
@@ -39,10 +153,39 @@ import ${p.AstPackage}.*;
  *
 #if($author) * @author ${author}
 #end
- */
-public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
-#if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
-#end#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end
+ */ 
+ 
+## // class						= ${class}
+##// class.Extends				= ${class.getExtends()}
+##// class.getProject 			= ${class.getProject()}
+##// class.getProject.getNameSpace= ${class.getProject().getNameSpace()}
+##// class.getProject.getObject(e)= ${class.getProject().getObject(${class.getExtends()})} 
+
+##// class.getProject.getAstClass(e)			      = ${class.getProject().getAstClass(${class.getExtends()})}
+##// class.getProject.getAstClass(e).getPackage     = ${class.getProject().getAstClass(${class.getExtends()}).getPackage()}
+##// class.getProject.getAstClass(e).getImplPackage = ${class.getProject().getAstClass(${class.getExtends()}).getImplPackage()}
+##// class.getProject.getInheritedProps = ${class.getProject().getInheritedProperties()}
+
+##// #if(${ImportProject})
+##// ImportProject             = ${ImportProject}
+##// ImportProject.Name		 = ${ImportProject.getName()}	
+##// ImportProject.BasePackage = ${ImportProject.BasePackage}
+##// IP.getAstClasses().containsKey(e) = ${ImportProject.getAstClasses().containsKey(${class.getExtends()})}
+##// #if(!${ImportProject.getAstClasses().containsKey(e)} && ${ImportProject.getImportProject()})
+##//	  IP.IP.Name     =  ${ImportProject.getImportProject().getName()}
+##//	  IP.IP.Base     =  ${ImportProject.getImportProject().getBasePackage()}
+##//    IP.IP.contains = ${ImportProject.getImportProject().getAstClasses().containsKey(${class.getExtends()})}
+##// #end 
+##// #end
+
+public interface ${class.Name} #if($class.Extends)extends #if(${class.Extends.endsWith("Term")}) 
+  		net.sourceforge.czt.base.ast.${class.Extends}
+	#else
+		#findRightAncestorPackageExtends($projects, $class)
+	#end
+	#if(${class.isList()}), java.util.List<${class.getAllProperties().get(0).getListType()}>#end
+	#if(${class.Name} == 'HeadDeclList'),  net.sourceforge.czt.zpatt.util.HeadList#end
+#end
 {
 #if(${class.isList()})
   ${class.Name} ${class.getAllProperties().get(0).GetterName}();
@@ -81,7 +224,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    * returns an instance of Z${prop.Type.Name}
    * and throws an UnsupportedAstClassException otherwise.
    */
-  Z${prop.Type.Name} getZ${prop.Type.Name}();
+  ${prop.Type.Package}.Z${prop.Type.Name} getZ${prop.Type.Name}();
 #end
 #end
 #end

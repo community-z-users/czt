@@ -25,6 +25,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -44,7 +45,7 @@ public class PrecedenceParenAnnVisitorTest
   {
     try {
       final OpTable standardToolkitOpTable =
-        (OpTable) manager_.get(new Key("standard_toolkit", OpTable.class));
+        manager_.get(new Key<OpTable>(Section.STANDARD_TOOLKIT.getName(), OpTable.class));
       PrecedenceParenAnnVisitor visitor =
         new PrecedenceParenAnnVisitor();
       setOperatorTable(visitor);
@@ -74,7 +75,7 @@ public class PrecedenceParenAnnVisitorTest
   {
     try {
       final OpTable standardToolkitOpTable =
-        (OpTable) manager_.get(new Key("standard_toolkit", OpTable.class));
+        manager_.get(new Key<OpTable>(Section.STANDARD_TOOLKIT.getName(), OpTable.class));
       RefExpr a = factory_.createRefExpr(factory_.createZName("a"));
       RefExpr b = factory_.createRefExpr(factory_.createZName("b"));
       RefExpr c = factory_.createRefExpr(factory_.createZName("c"));
@@ -100,7 +101,7 @@ public class PrecedenceParenAnnVisitorTest
   /**
    * Sets the operator table of the given visitor to standard_toolkit.
    */
-  private void setOperatorTable(Visitor visitor)
+  private void setOperatorTable(Visitor<?> visitor)
   {
     ZSect zSect =
       factory_.createZSect("standard_toolkit", null, null);

@@ -74,15 +74,10 @@ public interface ZString
   String ARG = LL;
   String LISTARG = ",,";
 
+/*
   String ZSTATE       = "zstate";
   String ZSTINIT      = "zstinit";
   String ZSTFIN       = "zstfin";
-  String ZASTATE      = "zastate";
-  String ZASTINIT     = "zastinit";
-  String ZASTFIN      = "zastfin";
-  String ZCSTATE      = "zcstate";
-  String ZCSTINIT     = "zcstinit";
-  String ZCSTFIN      = "zcstfin";
   String ZRETRIEVE    = "zretrieve";
 
   String ZAINITIN     = "zainitin";
@@ -91,9 +86,7 @@ public interface ZString
   String ZCFINOUT     = "zcfinout";
   String ZRETRIEVEIN  = "zretrievein";
   String ZRETRIEVEOUT = "zretrieveout";
-
-  String ZFSREFINES   = "zfsrefines";
-  String ZBSREFINES   = "zbsrefines";
+*/
 
   /**
    * The separator that is used when representing operators as strings

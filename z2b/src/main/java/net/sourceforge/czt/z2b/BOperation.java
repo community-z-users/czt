@@ -19,15 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z2b;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 // the CZT classes for Z.
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 
-// our classes
-import net.sourceforge.czt.z2b.*;
 
 
 /**

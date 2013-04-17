@@ -43,6 +43,11 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 public class Form extends JPanel implements BeanContextProxy
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1064438787206256259L;
+
+/**
    * Support class for Bean Context Services.  This is used to
    * <ul>
    *   <li>associate non-Component beans with the form,</li>
@@ -196,7 +201,7 @@ public class Form extends JPanel implements BeanContextProxy
 
   public Object lookup(String string)
   {
-    for (Iterator it = bcsSupport.iterator(); it.hasNext();) {
+    for (Iterator<?> it = bcsSupport.iterator(); it.hasNext();) {
       Object bean = it.next();
       if (string.equals(IntrospectionHelper.getBeanProperty(bean, "name")))
         return bean;

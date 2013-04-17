@@ -22,12 +22,10 @@ public final class WizardsMessages extends NLS
   public static String NewCZTProjectWizard_error_title;
   public static String NewCZTProjectWizard_error_create_message;
   public static String NewCZTProjectWizard_initWindowTitle;
-  public static String NewCZTProjectWizard_page_name;
   public static String NewCZTProjectWizard_page_title;
   public static String NewCZTProjectWizard_page_description;
   
   public static String NewCZTProjectWizardPage_progressCreating;
-  public static String NewCZTProjectWizardPage_progressDirectory;
   
   /*
    * Z specification creation wizard

@@ -34,9 +34,9 @@ public class ConfigDialog extends JDialog
 
   private JTable customMapTable;
 
-  private static Map<String, Class> customMap;
+  private static Map<String, Class<?>> customMap;
 
-  private static Map<String, List<Class>> availableMap;
+  private static Map<String, List<Class<?>>> availableMap;
 
   /**
    * Constructor
@@ -51,10 +51,10 @@ public class ConfigDialog extends JDialog
     final int rowCount = customMap.keySet().size();
     final int colCount = 2;
     DefaultTableModel model = new DefaultTableModel(rowCount, colCount);
-    List<Class> adapterList = null;
+    List<Class<?>> adapterList = null;
     int row = 0;
     for (String key : customMap.keySet()) {
-      Class curAdapter = customMap.get(key);
+      Class<?> curAdapter = customMap.get(key);
       for (String available : availableMap.keySet()) {
         adapterList = availableMap.get(available);
         if (adapterList.contains(curAdapter)) {

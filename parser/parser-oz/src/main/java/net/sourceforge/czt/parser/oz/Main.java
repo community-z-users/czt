@@ -19,8 +19,6 @@
 */
 package net.sourceforge.czt.parser.oz;
 
-import java.io.*;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,9 +27,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.*;
-
-import java_cup.runtime.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 
@@ -40,7 +35,11 @@ import net.sourceforge.czt.z.ast.Spec;
  */
 public class Main extends JPanel implements ActionListener
 {
-  //The dimensions of the window
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -556560004508202945L;
+//The dimensions of the window
   private static final int WIDTH = 700;
   private static final int HEIGHT = 600;
 
@@ -63,8 +62,8 @@ public class Main extends JPanel implements ActionListener
       manager.put(new Key<Source>(file, Source.class), new FileSource(file));
       Spec spec =  manager.get(new Key<Spec>(file, Spec.class));
       if (spec != null) {
-        net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
-          new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
+        //net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
+        //  new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
         //writer.write(spec, System.out);
 
         if (spec_ == null) {

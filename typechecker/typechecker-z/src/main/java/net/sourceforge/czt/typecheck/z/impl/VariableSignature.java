@@ -20,8 +20,6 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
-
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -135,7 +133,8 @@ public class VariableSignature
       zedObject = new VariableSignature(zName);
       Signature value = (Signature) args[1];
       zedObject.setValue(value);
-      List<NameTypePair> pairs = (List<NameTypePair>) args[2];
+      @SuppressWarnings("unchecked")
+	List<NameTypePair> pairs = (List<NameTypePair>) args[2];
       zedObject.getNameTypePair().addAll(pairs);
     }
     catch (IndexOutOfBoundsException e) {

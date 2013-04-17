@@ -120,7 +120,7 @@ public class WffHighlight
   /**
    * Checks whether this contains useful location information.
    */
-  private static boolean isLocation(LocAnn locAnn)
+  protected static boolean isLocation(LocAnn locAnn)
   {
     return locAnn != null &&
       locAnn.getStart() != null &&

@@ -3,7 +3,7 @@
 The ZSideKick plugin is an extension of the [SideKick plugin][sidekick] that allows
 specifications written in Z notation or its extensions to be parsed and typechecked automatically.
 
-![CZT ZSideKick plugin for jEdit]( images/czt-jedit-zsidekick.png )
+![CZT ZSideKick plugin for jEdit](images/czt-jedit-zsidekick.png)
 
 ## Usage
 

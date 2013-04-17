@@ -2,25 +2,15 @@ package net.sourceforge.czt.eclipse.ui.editors;
 
 import java.math.BigInteger;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.core.compile.IZCompileData;
 import net.sourceforge.czt.eclipse.ui.internal.editors.IZReconcilingListener;
-import net.sourceforge.czt.eclipse.ui.internal.editors.ZDialectSupport;
 import net.sourceforge.czt.eclipse.ui.internal.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.preferences.ZEditorConstants;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZFileType;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ErrorType;
-import net.sourceforge.czt.print.util.CztPrintString;
-import net.sourceforge.czt.print.util.LatexString;
-import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;

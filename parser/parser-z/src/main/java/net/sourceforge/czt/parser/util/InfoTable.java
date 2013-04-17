@@ -92,7 +92,12 @@ public abstract class InfoTable {
   
   public static class InfoTableException extends CommandException 
   {
-    public InfoTableException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8793516413277804774L;
+
+	public InfoTableException(String message)
     {
       super(message);
     }

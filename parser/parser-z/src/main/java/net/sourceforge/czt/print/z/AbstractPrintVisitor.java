@@ -21,7 +21,6 @@ package net.sourceforge.czt.print.z;
 
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.z.*;
 
 /**
  * A Z visitor used for printing.

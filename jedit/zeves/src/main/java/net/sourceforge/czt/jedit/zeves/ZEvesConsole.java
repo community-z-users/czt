@@ -30,17 +30,17 @@ public class ZEvesConsole
   extends Shell
 {
  
-  private ZEves zeves_;
+  //private ZEves zeves_;
   
   public ZEvesConsole()
   {
     super(ZEvesPlugin.NAME);    
-    zeves_ = new ZEves();
+    //zeves_ = new ZEves();
   }
 
   public void printInfoMessage(Output output)
   {
-    output.print(null, zeves_.getBanner());
+    output.print(null, ZEves.getBanner());
   }
 
   public void printPrompt(Console console, Output output)
@@ -55,7 +55,7 @@ public class ZEvesConsole
   public void execute(Console console, Output output, String command)
   {
     if (! command.equals("")) {
-      String parts[] = command.split(" ",2);
+      //String parts[] = command.split(" ",2);
       StringWriter out = new StringWriter();      
       out.write(command);
       out.write("\n");

@@ -28,6 +28,11 @@ import java.util.EventObject;
 public class FormDesignEvent extends EventObject
 {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 557169969963727029L;
+
+/**
    * Value for <code>id_</code> indicating whether this event shows that a form
    * was created.
    */

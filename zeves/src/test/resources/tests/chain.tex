@@ -1,6 +1,6 @@
 
 \begin{zsection}
-\SECTION chain \parents standard\_toolkit, zstate\_toolkit
+\SECTION chain \parents standard\_toolkit, zeves\_toolkit
 \end{zsection}
 
 
@@ -1968,7 +1968,7 @@ maxpid \in  GPID
 \end{theorem}\section{Chain}\label{chain-datatype-def}
 
 \begin{schema}{Chain}
-  \zstate \\
+  %\zstate \\
   start, end: GPID\\
   links: PID \pinj  PID\\
   set: \power~PID
@@ -2056,7 +2056,7 @@ ChainErrorMessage  ::=  chain\_ok \\
 \end{zed}
 
 \begin{schema}{ChainInit}
-  \zstinit \\
+  %\zstinit \\
   Chain~'
 \where
   start' = end' = nullpid

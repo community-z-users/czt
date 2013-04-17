@@ -85,7 +85,7 @@ public class GlobalDefs
     boolean result = true;
     if (type instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) type;
-      List<ZName> list = classRefType.getVisibilityList();
+      //List<ZName> list = classRefType.getVisibilityList();
       result = classRefType.getVisibilityList() == null ||
         containsZName(classRefType.getVisibilityList(), zName);
     }

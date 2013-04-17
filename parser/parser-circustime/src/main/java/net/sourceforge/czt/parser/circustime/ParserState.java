@@ -30,7 +30,6 @@ import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.Factory;
-import net.sourceforge.czt.parser.circus.CircusParseMessage;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.session.Source;
@@ -431,7 +430,7 @@ public class ParserState
 
   protected ProcessPara getProcessPara()
   {
-    Throwable t = new Throwable();
+    //Throwable t = new Throwable();
     //System.out.println("OPAIO(GET) = ");
     //System.out.println(t.getStackTrace()[2].toString());
     //System.out.println(t.getStackTrace()[3].toString());
@@ -678,9 +677,10 @@ public class ParserState
   protected void addProcessEndWarning(Name procName, LocInfo loc)
   {
     assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
-    final String msg = java.text.MessageFormat.format(
-      CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
-      new Object[]{procName, loc});
+    // TODO: what to do with this error message?
+    //final String msg = java.text.MessageFormat.format(
+    //  CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(),
+    //  new Object[]{procName, loc});
     processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
   }
 

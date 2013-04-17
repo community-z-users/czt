@@ -1,60 +1,51 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt-parent</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
-  <artifactId>vcg</artifactId>
-  <packaging>jar</packaging>
-  <name>CZT Z VCG</name>
+
+  <artifactId>vcg-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <name>CZT Verification Condition Generators</name>
   <description>
-    Verification condition generator for Z specifications.
+    Parent of VC generators for Z and Z extensions.
   </description>
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>corejava-z</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>parser-z</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>parser-z</artifactId>
-      <version>${project.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <!-- Although there is no ZEves link within the Z VCG,
-     we want to allow one to use it as an extension to
-     the section manager, hence we add its dependency
-     so that appropriate command classes can be found. -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>typechecker-zeves</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>session</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+  
+  <modules>
+    <module>vcg-z</module>
+    <!--
+    <module>vcg-zeves</module>
+    <module>vcg-circus</module>
+    -->
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Apache Commons -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.1</version>
+        <scope>test</scope>
+      </dependency>
+      
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- Put site under /vcg -->
+  <url>${site.url}/vcg</url>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}/vcg</url>
+    </site>
+  </distributionManagement>
+
 </project>

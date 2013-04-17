@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.print.ast;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.Expr2Impl;
@@ -32,11 +31,11 @@ public class Application
     super(factory);
   }
 
-  public Object accept(Visitor visitor)
+  public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof ApplicationVisitor)
     {
-      return ((ApplicationVisitor) visitor).visitApplication(this);
+      return ((ApplicationVisitor<R>) visitor).visitApplication(this);
     }
     return super.accept(visitor);
   }

@@ -19,7 +19,6 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
-import net.sourceforge.czt.circus.ast.CircusNameSet;
 import net.sourceforge.czt.circus.visitor.CallActionVisitor;
 import net.sourceforge.czt.circus.visitor.CallProcessVisitor;
 import net.sourceforge.czt.typecheck.circus.ErrorAnn;

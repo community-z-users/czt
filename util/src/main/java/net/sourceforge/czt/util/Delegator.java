@@ -30,14 +30,14 @@ import java.util.*;
 public final class Delegator
   implements InvocationHandler
 {
-  private Map map_ = new HashMap();
+  private final Map<String, Object> map_ = new HashMap<String, Object>();
 
   /**
    * Creates a new delegator.
    *
    * @see #newInstance
    */
-  private Delegator(Class[] interfaces, Object[] impls)
+  private Delegator(Class<?>[] interfaces, Object[] impls)
   {
     if (interfaces == null || impls == null) {
       throw new NullPointerException();
@@ -81,7 +81,7 @@ public final class Delegator
    *         <code>implementations[i]</code> does not implement
    *         <code>interfaces[i]</code>.
    */
-  public static Object newInstance(Class[] interfaces,
+  public static Object newInstance(Class<?>[] interfaces,
                                    Object[] implementations)
   {
     ClassLoader classLoader = null;
