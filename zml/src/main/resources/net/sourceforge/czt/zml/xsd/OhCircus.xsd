@@ -114,6 +114,35 @@
   
 
   <!-- OhCircus Class Para-->
+  
+  <xs:element name="ClassDecl" type="OHCIRCUS:ClassDecl" substitutionGroup="Z:Decl">
+    <xs:annotation>
+      <xs:documentation>
+	<p>
+        A class declaration is a Z declaration that inherites any super class. 
+        </p>
+	<p>
+          This element represents the <b>ClassDeclaration</b> grammar rule.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  
+   <xs:complexType name="ClassDecl">
+    <xs:complexContent>
+      <xs:extension base="Z:Decl">
+        <xs:sequence>
+	  <xs:element ref="Z:Name" />
+          <!-- Inherited calls  name -->
+          <xs:element ref="Z:Name" minOccurs="0"/>
+	  <xs:element ref="OHCIRCUS:ClassPara"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>           
+  
+  
   <xs:element name="ClassPara" type="OHCIRCUS:ClassPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
@@ -126,7 +155,6 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-
   
   <xs:complexType name="ClassPara">
     <xs:complexContent>
@@ -140,7 +168,21 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="OHCIRCUS:ClassPara"/>
+	  <xs:element ref="OHCIRCUS:State" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+	  <xs:element ref="OHCIRCUS:InitialState" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+	  <xs:element ref="OHCIRCUS:ClassPara"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
