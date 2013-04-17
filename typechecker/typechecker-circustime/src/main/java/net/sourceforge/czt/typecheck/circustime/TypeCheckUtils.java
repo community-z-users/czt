@@ -297,8 +297,8 @@ public class TypeCheckUtils
   {
     System.out.println("Testing TypeCheckCommand for CIRCUSTIME:");
     
-    net.sourceforge.czt.parser.circus.SpecialLatexParser.SimpleFormatterForCircus sfc = 
-      new net.sourceforge.czt.parser.circus.SpecialLatexParser.SimpleFormatterForCircus(true, true,
+    net.sourceforge.czt.parser.circustime.SpecialLatexParser.SimpleFormatterForCircusTime sfc = 
+      new net.sourceforge.czt.parser.circustime.SpecialLatexParser.SimpleFormatterForCircusTime(true, true,
         false, false, true);
     
     java.util.logging.ConsoleHandler ch = new java.util.logging.ConsoleHandler();
