@@ -173,7 +173,7 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
    * @param vcFileNameSuffix
    * @throws CommandException
    */
-  public static <R> void vcg(View view, VCGUtils<R> utils, String vcFileNameSuffix) throws CommandException
+  public static <T, B> void vcg(View view, VCGUtils<T, B> utils, String vcFileNameSuffix) throws CommandException
   {
     vcgErrors_.clear();
     ErrorSource.unregisterErrorSource(vcgErrors_);
