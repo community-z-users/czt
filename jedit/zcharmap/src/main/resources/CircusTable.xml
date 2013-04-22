@@ -414,20 +414,39 @@
           unicode="&#x2294; x: T &#x2219; A(x)"
           latex="\Intchoice x: T \circspot A(x)"/>    
   </row>
-  <!-- Support for Circus Time -->
+  
+  <!-- Support for Circus Time --> 
+  
   <row heading="Circus Time">
-    <item name="A &#x21BB; TExp &#x22B3; B"
+    <item name="&#x27EC; TExp &#x27ED; &#x25C0; A"
+          description="StartBy Time Action"
+          unicode="&#x27EC; TExp &#x27ED; &#x25C0; A"
+          latex="\lcirctime TExp \rcirctime \circstartby A"/>
+  
+  <item name="A &#x25B6; &#x27EC; TExp &#x27ED;"
+          description="EndBy Time Action"
+          unicode="A &#x25B6; &#x27EC; TExp &#x27ED;"
+          latex="A \circendby \lcirctime TExp \rcirctime"/>
+  
+  <item name="A &#x25B9; &#x27EC; TExp &#x27ED; B"
           description="Timeout Action"
-          unicode="A &#x21BB; TExp &#x27E7; B"
-          latex="A \lcirctimeout TExp \rcirctimeout B"/>
-    <item name="wait TExp"
+          unicode="A &#x25B9; &#x27EC; TExp &#x27ED; B"
+          latex="A \circtimeout \lcirctime TExp \rcirctime B"/>
+  
+  <item name="A &#x25B5; &#x27EC; TExp &#x27ED; B"
+          description="Time Interrupt Action"
+          unicode="A &#x25B5; &#x27EC; TExp &#x27ED; B"
+          latex="A \circtimedinterrupt \lcirctime TExp \rcirctime B"/>
+  
+  <item name="&#x0040;"
+          description="AtTime Prefix Operator"
+          unicode="&#x0040;"
+          latex="\circat"/>
+          
+  <item name="wait TExp"
           description="Wait Action"
           unicode="wait TExp"
           latex="\circwait TExp"/>
-    <item name="A deadline TExp"
-          description="Deadline Action"
-          unicode="A deadline TExp"
-          latex="A \circdeadline TExp"/>
   </row>
 </table>         
 

@@ -130,6 +130,11 @@
     	<artifactId>parser-circustime</artifactId>
   	    <version>${czt.version}</version>
     </dependency>
+     <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker-circustime</artifactId>
+      <version>${czt.version}</version>
+    </dependency>
   </dependencies>
   
   <build>

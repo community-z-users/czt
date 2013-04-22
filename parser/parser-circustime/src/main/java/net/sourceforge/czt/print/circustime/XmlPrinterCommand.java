@@ -25,7 +25,7 @@ import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Dialect;

@@ -1,4 +1,4 @@
-Circus Parser testing suite (v.1.2, April 2007)
+CircusTime Parser testing suite (v.1.2, April 2007)
 -----------------------------------------------
 
 This directory contains a set of examples used 
@@ -14,7 +14,7 @@ the *-errors.txt have syntactic errors.
 If you are interested in extending the suite or
 make improvements, you can download it from the
 repository and use the DEBUG_TESTING flag (default
-is FALSE) at net.sourceforge.czt.parser.circus.AbstractParserTest.
+is FALSE) at net.sourceforge.czt.parser.circustime.AbstractParserTest.
 This flag makes the testing suite to look for files 
 under the ".\debug" directory, rather than here.
 

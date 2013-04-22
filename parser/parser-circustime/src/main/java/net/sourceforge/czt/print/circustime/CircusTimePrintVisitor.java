@@ -1280,13 +1280,13 @@ public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
         visit(term.getCommunication());
 	if(term.isAtPrefixingAction())
 	{
-		print(CircusTimeKeyword.ATTIME);
+			print(CircusTimeKeyword.ATTIME);
 	        print(CircusKeyword.PREFIXTHEN);       
 	        visit(term.getCircusAction());
 	}
 	else if (term.isPrefixingExprAction())
 	{
-		print(CircusKeyword.PREFIXTHEN);
+			print(CircusKeyword.PREFIXTHEN);
 	        print(CircusTimeToken.LCIRCTIME);
 	        visit(term.getExpr());
         	print(CircusTimeToken.RCIRCTIME);       
@@ -1294,7 +1294,7 @@ public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
 	}
 	else if (term.isAtPrefixingExprAction())
 	{	
-		print(CircusTimeKeyword.ATTIME);
+			print(CircusTimeKeyword.ATTIME);
 	        print(CircusKeyword.PREFIXTHEN);
 	        print(CircusTimeToken.LCIRCTIME);
 	        visit(term.getExpr());
@@ -1305,26 +1305,4 @@ public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
 	return null;
     }
 
-//public Object visitAtPrefixingAction(AtPrefixingAction term) {
-//        printLPAREN(term);
-//	visit(term.getCommunication());
-//        print(CircusTimeKeyword.ATTIME);
-//        print(CircusKeyword.PREFIXTHEN);       
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//public Object visitAtPrefixingExprAction(AtPrefixingExprAction term) {
-//        printLPAREN(term);
-//	visit(term.getCommunication());
-//	print(CircusTimeKeyword.ATTIME);
-//        print(CircusKeyword.PREFIXTHEN);
-//        print(CircusTimeToken.LCIRCTIME);
-//        //visit(term.getExpr());
-//        print(CircusTimeToken.RCIRCTIME);       
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
 }
