@@ -530,7 +530,10 @@ parser code {:
       source_ = null;
       
       assert scanner != null &amp;&amp; sectInfo_ != null &amp;&amp; dialect_ != null;
-	    if (!dialect_.equals(sectInfo.getDialect()))
+	    
+	    // For pretty printing, some extensions don't have their own, so dialect 
+	    // check could/should be less restrictive? TODO?
+	    if (!sectInfo.getDialect().isExtensionOf(dialect_))
 	    	throw new IllegalArgumentException("Incompatible dialects in " + 
 	    		<class/>.class.getName() + " scanner. " + dialect_.toString() +
 	    		" expected, but section manager dialect " + sectInfo.getDialect() + " found."); 
