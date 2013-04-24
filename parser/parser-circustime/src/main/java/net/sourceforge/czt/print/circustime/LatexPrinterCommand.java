@@ -28,6 +28,7 @@ import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.print.z.Unicode2Latex;
 import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 
@@ -68,7 +69,8 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props)
+  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(
+		  SectionInfo si, ZPrinter printer, Properties props)
   {
     return new TokenSequenceVisitor(si, printer, props, PrintUtils.warningManager_);
   }

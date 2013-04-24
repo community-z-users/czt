@@ -28,6 +28,7 @@ import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
   public abstract class AbstractPrinterCommand extends AbstractCommand implements PrintPropertiesKeys
@@ -144,7 +145,7 @@ import net.sourceforge.czt.session.SectionManager;
     return new PrettyPrinter(term, textWidth);
   }
 
-  protected TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, 
+  protected TokenSequenceVisitor createTokenSequenceVisitor(SectionInfo si, 
 		  ZPrinter printer, Properties props)
   {
     return new TokenSequenceVisitor(si, printer, props);

@@ -24,6 +24,7 @@ import java.util.Properties;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 
@@ -42,7 +43,7 @@ public class UnicodePrinterCommand
   }
 
   @Override
-  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, 
+  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(SectionInfo si, 
 		  ZPrinter printer, Properties props)
   {
     return new TokenSequenceVisitor(si, printer, props, PrintUtils.warningManager_);
