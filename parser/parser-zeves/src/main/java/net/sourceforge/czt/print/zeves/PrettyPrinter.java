@@ -8,12 +8,14 @@ package net.sourceforge.czt.print.zeves;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 
@@ -57,12 +59,13 @@ public class PrettyPrinter
   @Override
   protected int handleSpaces(ListIterator<Token> iter, Token previous, 
           Token current, int spaceLeft, int length, boolean startedProcessing, int indentAmount)
+  	throws PrintException
   {
     return super.handleSpaces(iter, previous, current, spaceLeft, length, startedProcessing, indentAmount);
   }
 
   @Override
-  protected boolean isSpecialTokenCase(Token previous, Token current)
+  protected boolean isSpecialTokenCase(Token previous, Token current) throws PrintException
   {
     return super.isSpecialTokenCase(previous, current)
             ||
@@ -102,7 +105,7 @@ public class PrettyPrinter
 
   @Override
   protected boolean considerAddingNL(Token previous, Token current,
-          int spaceLeft, int length, boolean startedProcessing)
+          int spaceLeft, int length, boolean startedProcessing) throws PrintException 
   {
     return super.considerAddingNL(previous, current, spaceLeft, length, startedProcessing)
             ||
@@ -119,7 +122,7 @@ public class PrettyPrinter
 
   @Override
   protected boolean considerAddingNLForToken(Token previous, Token current,
-          int spaceLeft, int length, boolean startedProcessing)
+          int spaceLeft, int length, boolean startedProcessing) throws PrintException
   {
     boolean result = super.considerAddingNLForToken(previous, current, spaceLeft, length, startedProcessing); // always false for Z
     result = current.equals(ZKeyword.IF) || current.equals(ZKeyword.ELSE) || current.equals(ZKeyword.THEN);

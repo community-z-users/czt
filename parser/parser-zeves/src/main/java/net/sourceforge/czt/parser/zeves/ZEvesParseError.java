@@ -60,26 +60,29 @@ public class ZEvesParseError extends CztErrorImpl
                             LocInfo locInfo,
                             String info)
   {
-    try {
-      ParseException parseException =
-        sectInfo.get(new Key<ParseException>(source.getName(),
-                             ParseException.class));
-      List<CztError> errorList = parseException.getErrors();
-      ZEvesParseError error = new ZEvesParseError(msg, params, locInfo);
+      ZEvesParseError error = new ZEvesParseError(sectInfo, msg, params, locInfo);
       error.setErrorType(errorType);
       error.setInfo(info);
+      if (error.hasSectionInfo())
+      {
+    try {
+      ParseException parseException =
+        error.getSectionInfo().get(new Key<ParseException>(source.getName(),
+                             ParseException.class));
+      List<CztError> errorList = parseException.getErrors();
       errorList.add(error);
     }
     catch (CommandException e) {
       e.printStackTrace();
     }
+      }
   }
 
-  public ZEvesParseError(ZEvesParseMessage msg,
+  public ZEvesParseError(SectionInfo si, ZEvesParseMessage msg,
                          Object[] params,
                          LocInfo locInfo)
   {
-    super(msg.toString(), params, locInfo);
+    super(si, msg.toString(), params, locInfo);
   }
 
   @Override

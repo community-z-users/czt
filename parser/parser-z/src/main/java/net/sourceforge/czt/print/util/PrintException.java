@@ -9,16 +9,24 @@
 
 package net.sourceforge.czt.print.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import net.sourceforge.czt.util.CztException;
+
+import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorList;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  *
  * @author leo
  */
-public class PrintException extends CztException {
+public class PrintException	 	
+	extends CommandException
+implements CztErrorList {
   
   /**
 	 * 
@@ -26,44 +34,88 @@ public class PrintException extends CztException {
 	private static final long serialVersionUID = -7918297654639663505L;
 private final TreeMap<String, List<String>> warnings_ = new TreeMap<String, List<String>>();
 
-  public PrintException()
+  private final Dialect dialect_;
+	private final List<CztError> errorList_;
+  
+  public PrintException(Dialect d)
   {
-      super();
+      super(d);
+      if (d == null) throw new NullPointerException();
+      dialect_ = d;
+      errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY); 
   }
 
-  public PrintException(String message)
+  public PrintException(Dialect d, String message)
   {
-    super(message);
-  }
-
-  public PrintException(String message, Throwable cause)
-  {
-    super(message, cause);
-  }
-
-  public PrintException(Throwable cause)
-  {
-    super(cause);
+    super(d, message);
+    if (d == null) throw new NullPointerException();
+    dialect_ = d;
+    errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
   
-  public PrintException(String message, Map<String, List<String>> warnings) {
-      super(message);
-      warnings_.putAll(warnings);
-  }
-    
-  public PrintException(String message, Throwable cause, Map<String, List<String>> warnings) {
-      super(message, cause);
-      warnings_.putAll(warnings);
+
+  public PrintException(Dialect d, List<CztError> errorList)
+  {
+	  this(d);
+    if (errorList == null) throw new NullPointerException();
+   	errorList_.addAll(errorList);
   }
 
-  public PrintException(Throwable cause, Map<String, List<String>> warnings) {
-      super(cause);
+  public PrintException(Dialect d, CztError error)
+  {
+	this(d);
+	if (error == null) throw new NullPointerException();
+    errorList_.add(error);
+  }
+
+  public PrintException(Dialect d, String message, Throwable cause)
+  {
+    super(d, message, cause);
+    if (d == null) throw new NullPointerException();
+    dialect_ = d;
+    errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY); 
+  }
+
+  public PrintException(Dialect d, Throwable cause)
+  {
+    super(d, cause);
+    if (d == null) throw new NullPointerException();
+    dialect_ = d;
+    errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY); 
+  }
+  
+  public PrintException(Dialect d, String message, Map<String, List<String>> warnings) {
+      super(d, message);
+      if (d == null) throw new NullPointerException();
+      dialect_ = d;
       warnings_.putAll(warnings);
+      errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY); 
+  }
+    
+  public PrintException(Dialect d, String message, Throwable cause, Map<String, List<String>> warnings) {
+      super(d, message, cause);
+      if (d == null) throw new NullPointerException();
+      dialect_ = d;
+      warnings_.putAll(warnings);
+      errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY); 
+  }
+
+  public PrintException(Dialect d, Throwable cause, Map<String, List<String>> warnings) {
+      super(d, cause);
+      if (d == null) throw new NullPointerException();
+      dialect_ = d;
+      warnings_.putAll(warnings);
+      errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY); 
   }
   
   public Map<String, List<String>> getZSectWarnings() {
       return warnings_;
   }   
+  
+  public Dialect getDialect()
+  {
+	  return dialect_;
+  }
   
   @Override
   public String toString() {

@@ -93,7 +93,7 @@ public class DefinitionTableService
     }
     catch(CztException e)
     {
-      throw new CommandException("Could not calculate definition table as it raised an exception for " + name +
+      throw new CommandException(manager.getDialect(), "Could not calculate definition table as it raised an exception for " + name +
         " with message " + e.getMessage() + (e.getCause() != null ? (" and cause " + e.getCause().getMessage()) : "") + ".", e);
     }    
     return false;

@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.parser.util;
 
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.SectionInfo;
+
 /**
  * This exception can be thrown by a scanner when unexpected tokens
  * are encountered.
@@ -31,25 +34,32 @@ public class ScanException
 	 * 
 	 */
 	private static final long serialVersionUID = -5502310625340895712L;
-private LocInfo locInfo_;
-  private String symbolInfo_;
+private final LocInfo locInfo_;
+  private final String symbolInfo_;
+  private final Dialect dialect_;
 
   /**
    * Constructs a new exception with the specified detail message
    * and location information.
    */
-  public ScanException(String message, LocInfo locInfo)
+  public ScanException(Dialect dialect, String message, LocInfo locInfo)
   {
-    super(message);
-    if (locInfo == null) throw new NullPointerException();
-    locInfo_ = locInfo;
-    symbolInfo_ = null;
+    this(dialect, message, null, locInfo);
   }
   
-  public ScanException(String message, String symbol_info, LocInfo locInfo)
+  public ScanException(Dialect dialect, String message, String symbol_info, LocInfo locInfo)
   {
-    this(message, locInfo);
+    super(message);
+    if (locInfo == null || dialect == null) throw new NullPointerException();
+    locInfo_ = locInfo;
     symbolInfo_ = symbol_info;
+    dialect_ = dialect;
+  }
+  
+  @Override
+public Dialect getDialect()
+  {
+	  return dialect_;
   }
   
   public LocInfo getLocation()
@@ -57,37 +67,44 @@ private LocInfo locInfo_;
     return locInfo_;
   }
 
-  public int getLine()
+  @Override
+public int getLine()
   {
     return locInfo_.getLine();
   }
 
-  public int getColumn()
+  @Override
+public int getColumn()
   {
     return locInfo_.getColumn();
   }
 
-  public int getStart()
+  @Override
+public int getStart()
   {
     return locInfo_.getStart();
   }
 
-  public int getLength()
+  @Override
+public int getLength()
   {
     return locInfo_.getLength();
   }
 
-  public String getSource()
+  @Override
+public String getSource()
   {
     return locInfo_.getSource();
   }
 
-  public ErrorType getErrorType()
+  @Override
+public ErrorType getErrorType()
   {
     return ErrorType.ERROR;
   }
 
-  public String getInfo()
+  @Override
+public String getInfo()
   {
     return null;
   }
@@ -97,14 +114,32 @@ private LocInfo locInfo_;
     return symbolInfo_;
   }
 
-  public String toString()
+  @Override
+public String toString()
   {
     return locInfo_.toString() + ": " + getMessage();
   }
+  
+  @Override
+  public String getMessage()
+  {
+	  return "[" + getDialect() + " dialect] " + super.getMessage();
+  }
 
-  public int compareTo(CztError other)
+  @Override
+public int compareTo(CztError other)
   {
     return CztErrorImpl.compareTo(this, other);
   }
+
+	@Override
+	public boolean hasSectionInfo() {
+		return false;
+	}
+	
+	@Override
+	public SectionInfo getSectionInfo() {
+		return null;
+	}
 
 }

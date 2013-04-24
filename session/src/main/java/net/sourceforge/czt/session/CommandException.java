@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.session;
 
+
 /**
  * An exception that is thrown when the execution of a Command fails.
  */
@@ -31,22 +32,38 @@ public class CommandException
 	 */
 	private static final long serialVersionUID = -6361202018324228212L;
 
-public CommandException()
+	
+  private final Dialect dialect_;
+
+  public CommandException(Dialect dialect)
   {
+	  if (dialect == null) throw new NullPointerException();
+	  dialect_ = dialect;
   }
 
-  public CommandException(String message)
+  public CommandException(Dialect d, String message)
   {
     super(message);
+    if (d== null) throw new NullPointerException();
+    dialect_ = d;
   }
 
-  public CommandException(String message, Throwable cause)
+  public CommandException(Dialect d, String message, Throwable cause)
   {
     super(message, cause);
+    if (d== null) throw new NullPointerException();
+    dialect_ = d;
   }
 
-  public CommandException(Throwable cause)
+  public CommandException(Dialect d, Throwable cause)
   {
     super(cause);
+    if (d== null) throw new NullPointerException();
+    dialect_ = d;
+  }
+  
+  public Dialect getDialect()
+  {
+	  return dialect_;
   }
 }

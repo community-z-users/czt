@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.Collection;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * Base class for section management tables.
@@ -40,7 +41,9 @@ public abstract class InfoTable {
   /**
    * The name of the section.
    */
-  protected final String sectionName_;
+  private final String sectionName_;
+  
+  private final Dialect dialect_;
   
   /**
    * Creates an information table for a given section name. DO NOT have a constructor
@@ -48,10 +51,16 @@ public abstract class InfoTable {
    * order of construction in Java.
    * @param sectionName
    */
-  public InfoTable(String sectionName)
+  public InfoTable(Dialect d, String sectionName)
   {
-    assert sectionName != null;
+    if (d == null || sectionName == null) throw new NullPointerException();
+    dialect_ = d;
     sectionName_ = sectionName;
+  }
+  
+  public Dialect getDialect()
+  {
+	  return dialect_;
   }
   
   public final void addParents(Collection<? extends InfoTable> parents)
@@ -97,14 +106,14 @@ public abstract class InfoTable {
 	 */
 	private static final long serialVersionUID = -8793516413277804774L;
 
-	public InfoTableException(String message)
+	public InfoTableException(Dialect d, String message)
     {
-      super(message);
+      super(d, message);
     }
 
-    public InfoTableException(String message, Throwable cause)
+    public InfoTableException(Dialect d, String message, Throwable cause)
     {
-      super(message, cause);
+      super(d, message, cause);
     }
   }
 }

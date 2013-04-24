@@ -44,10 +44,11 @@ public class CyclicParentError extends ZParseError
   
   public CyclicParentError(SectionInfo sectInfo, String sectName, String parentName,
       int parentIndex, String source, String cycleStr)
-  {
+  {  
     // init with null location - it will be resolved dynamically
-    super(ZParseMessage.MSG_CYCLIC_PARENT, new String[] {cycleStr}, null);
+    super(sectInfo, ZParseMessage.MSG_CYCLIC_PARENT, new String[] {cycleStr}, null);
     setErrorType(ErrorType.WARNING);
+    if (sectInfo == null) throw new NullPointerException();
     this.sectInfo = sectInfo;
     
     this.sectKey = new Key<ZSect>(sectName, ZSect.class);
@@ -76,7 +77,7 @@ public class CyclicParentError extends ZParseError
             parentCount++;
             if (parentCount == parentIndex) {
               // found the parent!
-              parentLoc = new LocInfoImpl(parent.getAnn(LocAnn.class));
+              parentLoc = new LocInfoImpl(sectInfo.getDialect(), parent.getAnn(LocAnn.class));
               return parentLoc;
             }
           }
@@ -88,7 +89,7 @@ public class CyclicParentError extends ZParseError
     }
     
     // cannot find the parent - return a dummy location
-    return new LocInfoImpl(source, 0, 0);
+    return new LocInfoImpl(sectInfo.getDialect(), source, 0, 0);
   }
 
   @Override
@@ -138,7 +139,7 @@ public class CyclicParentError extends ZParseError
   {
     CyclicParentError error = new CyclicParentError(sectInfo, sectName, 
         parentName, parentIndex, source.getName(), cycleStr);
-    report(sectInfo, source, error);
+    report(source, error);
   }
   
   public static void reportCyclicParent(SectionInfo sectInfo, Source source, String cycleStr,

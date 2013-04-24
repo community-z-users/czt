@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.LocAnn;
@@ -36,14 +37,14 @@ public class LatexMarkupFunction
   /**
    * The name of the section to which this latex markup function belongs to.
    */
-  private String section_;
+  private final String section_;
 
   /**
    * A mapping from String, a latex command, to MarkupDirective.
    * All pairs (string, directive) contained in this map should satisfy:
    * string.equals(directive.getCommand()).
    */
-  private Map<String,MarkupDirective> commandToDirective_ =
+  private final Map<String,MarkupDirective> commandToDirective_ =
     new HashMap<String,MarkupDirective>();
 
   /**
@@ -51,14 +52,14 @@ public class LatexMarkupFunction
    * All pairs (string, directive) contained in this map should satisfy:
    * string.equals(directive.getUnicode()).
    */
-  private Map<String,MarkupDirective> unicodeToDirective_ =
+  private final Map<String,MarkupDirective> unicodeToDirective_ =
     new HashMap<String,MarkupDirective>();
 
   /**
    * The directive defined in this section in the order they were
    * added.
    */
-  private List<MarkupDirective> directives_ =
+  private final List<MarkupDirective> directives_ =
     new ArrayList<MarkupDirective>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
 
   /**
@@ -88,13 +89,13 @@ public class LatexMarkupFunction
    * Note: This should not be used to add directives defined
    * in one of the ancestor sections.
    */
-  public void add(Directive directive)
+  public void add(Dialect d, Directive directive)
     throws MarkupException
   {
     final String command = directive.getCommand();
     final String unicode = directive.getUnicode();
     final MarkupDirective markupDirective =
-      new MarkupDirective(directive, section_);
+      new MarkupDirective(d, directive, section_);
     if (getCommandDirective(command) != null) {
       reportError(getCommandDirective(command), markupDirective);
     }

@@ -45,7 +45,7 @@ public abstract class CztScannerImpl
   private long symbolCnt_ = 1;
 
   //          SCANNER token NO : (SYM-NAME, SYM-VAL (SYM-VAL-LEN) SYM-JAVA-CLASS).
-  private final static String LOG_SYMBOL = "{0} token no ({1}): ({2}, {3} ({4}) \t\t, {5}).";
+  private final static String LOG_SYMBOL = "{0} token no ({1}): ({2}, {3} ({4}) \t\t, {5}, {6}).";
 
   protected abstract Class<?> getSymbolClass();
 
@@ -102,7 +102,8 @@ public abstract class CztScannerImpl
               getSymbolMap().get(symbol.sym),
               symbolValue,
               symbolV.length(),
-              symbol.value != null ? symbol.value.getClass().getName() : "null");
+              symbol.value != null ? symbol.value.getClass().getName() : "null",
+              getDialect());
       symbolCnt_++;
     }
   }

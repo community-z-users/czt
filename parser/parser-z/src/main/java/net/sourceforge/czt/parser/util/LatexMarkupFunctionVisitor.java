@@ -67,7 +67,7 @@ public class LatexMarkupFunctionVisitor
       sect.accept(this);
     }
     catch (LatexMarkupException e) {
-      throw new CommandException(e.getCause());
+      throw new CommandException(getSectionInfo().getDialect(), e.getCause());
     }
     return getLatexMarkupFunction();
   }
@@ -104,7 +104,7 @@ public class LatexMarkupFunctionVisitor
   {
     for (Directive d : para.getDirective()) {
       try {
-        table_.add(d);
+        table_.add(getSectionInfo().getDialect(), d);
       }
       catch (MarkupException e)
       {

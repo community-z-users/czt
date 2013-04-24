@@ -21,7 +21,8 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.Stack;
 
-import java_cup.runtime.Scanner;
+import net.sourceforge.czt.session.Dialect;
+
 import java_cup.runtime.Symbol;
 
 /**
@@ -37,15 +38,21 @@ import java_cup.runtime.Symbol;
  * manipulation of token streams.
  *
  * @author Petra Malik
+ * @author Leo Freitas
  */
 public class TokenStack
 {
-  private Scanner scanner_;
-  private Stack<Symbol> stack_ = new Stack<Symbol>();
+  private final CztScanner scanner_;
+  private final Stack<Symbol> stack_ = new Stack<Symbol>();
 
-  public TokenStack(Scanner scanner)
+  public TokenStack(CztScanner scanner)
   {
     scanner_ = scanner;
+  }
+  
+  public Dialect getDialect()
+  {
+	  return scanner_.getDialect();
   }
 
   public Symbol pop()
