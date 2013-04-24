@@ -79,4 +79,37 @@ private final TreeMap<String, List<String>> warnings_ = new TreeMap<String, List
       }      
       return str.toString();
   }
+  
+
+  public List<CztError> getErrorList()
+  {
+    return errorList_;
+  }
+
+  public List<CztError> getErrors()
+  {
+    return errorList_;
+  }
+
+  public void printErrorList()
+  {
+	System.err.println("PrintException errors for " + getDialect().toString());
+    for (CztError parseError : errorList_) {
+      System.err.println(parseError.toString());
+    }
+  }
+
+  @Override
+  public String getMessage()
+  {
+    StringBuilder result = new StringBuilder();
+    result.append("PrintException errors for ").
+    	append(getDialect().toString()).
+    	append(" with message ").
+    	append(String.valueOf(super.getMessage())).append("\n");
+    for (CztError parseError : errorList_) {
+      result.append("\n").append(parseError.toString());
+    }
+    return result.toString();
+  }
 }
