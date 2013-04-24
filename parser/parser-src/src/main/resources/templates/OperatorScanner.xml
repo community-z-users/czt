@@ -77,10 +77,26 @@ import net.sourceforge.czt.util.CztLogger;
 public class <class/>
   extends CztScannerImpl
 {
-  private Scanner scanner_;
+  private final CztScanner scanner_;
   private OpTable table_;
   //private Symbol previous_ = null;
   private Symbol lookAhead_ = null;
+  
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
 
   /**
    * Indicates whether to perform a requested lookup.
@@ -92,10 +108,21 @@ public class <class/>
    */
   private boolean lookup_ = true;
 
-  <class/>(Scanner scanner, Properties properties)
+  <class/>(CztScanner scanner, Properties properties)
   {
     super(properties);
+    if (scanner == null) throw new NullPointerException();
     scanner_ = scanner;
+    assert dialect_ !=null;
+    if (!dialect_.equals(scanner_.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in OperatorScanner. " + dialect_.toString() +
+    		" expected, but CztScanner dialect " + scanner_.getDialect() + " found.");    
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	return scanner_.getDialect();
   }
 
   public OpTable getOperatorTable()
@@ -107,7 +134,8 @@ public class <class/>
   {
     table_ = table;
   }
-
+  
+  @Override
   public Symbol next_token()
     throws Exception
   {
@@ -148,6 +176,7 @@ public class <class/>
     return result;
   }
 
+  @Override
   protected Class&lt;?&gt; getSymbolClass()
   {
     return Sym.class;
@@ -185,6 +214,8 @@ public class <class/>
             }
           }
           catch (IllegalAccessException e) {
+          	CztLogger.getLogger(<class/>.class).severe(e.getMessage() + 
+          		" for " + dialect_.toString() + " in OperatorScanner.");
             throw new CztException(e);
           }
         }

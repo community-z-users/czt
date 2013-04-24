@@ -95,6 +95,22 @@ import net.sourceforge.czt.zeves.jaxb.JaxbXmlReader;
 public class <class/> extends AbstractCommand
 {
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
   public static Term parse(Source source, SectionInfo sectInfo)
     throws ParseException, IOException, UnmarshalException
   {
@@ -163,7 +179,7 @@ public class <class/> extends AbstractCommand
       reader = null;
     }
     else {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException("Invalid source markup " + source.getMarkup() + " for dialect " + sectInfo.getDialect() + " in ParseUtils.");
     }
     assert result != null;
     traceLog("PU-parse-result = " + result.getClass().getSimpleName());
@@ -501,6 +517,10 @@ public class <class/> extends AbstractCommand
   {
     traceLog("PU-compute-name = " + name);
     
+    if (!dialect_.equals(manager.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in ParseUtils. " + dialect_.toString() +
+    		" expected, but section manager dialect " + manager.getDialect() + " found.");
+    		    
     // First try a special case - if there is a Spec with the same name (e.g. added on the fly).
     // In that case, resolve the sections from the Spec. Otherwise, continue with full parse.
     boolean computedFromSect = computeSpecSections(name, manager);
@@ -568,15 +588,15 @@ public class <class/> extends AbstractCommand
     }
     catch (IOException exception) {
       manager.cancelTransaction(specKey);
-      throw new CommandException(exception);
+      throw new CommandException(manager.getDialect(), exception);
     }
     catch (UnmarshalException exception) {
       manager.cancelTransaction(specKey);
-      throw new CommandException(exception);
+      throw new CommandException(manager.getDialect(), exception);
     }
     catch (net.sourceforge.czt.util.CztException exception) {
       manager.cancelTransaction(specKey);
-      throw new CommandException(exception);
+      throw new CommandException(manager.getDialect(), exception);
     }
     
     if (term instanceof ZSect) {

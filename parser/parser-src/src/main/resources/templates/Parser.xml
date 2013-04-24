@@ -159,11 +159,14 @@ action code
 
     protected ParserState parserState_;
 
-   /** Section information. */
+   /** Section information (action code). */
     protected SectionInfo sectInfo_;
 
 	protected DefaultSectionParents defaultSP_;
 
+		/** Action code dialect */
+	  protected Dialect dialect_;
+	  
     /** The operator scanner. */
     protected OperatorScanner opScanner_;
     protected NewlineScanner nlScanner_;
@@ -172,6 +175,7 @@ action code
 </add:pattern>
 <add:oz>
 
+	
     /**
      * Create a pair of PrimaryDecl and SecondaryDecl from 2 DeclLists
      */
@@ -195,6 +199,11 @@ action code
       return factory_.createOpText(del, factory_.createZSchText(dec, p));
     }
 </add:oz>
+
+		public Dialect getDialect()
+		{
+			return dialect_;
+		}
 
     /**
      * Create an function application with the SchExpr formed from
@@ -435,7 +444,6 @@ action code
           if (ZEvesUtils.getLabel(p) == null)
           {
             parser.report_error(ZEvesParseMessage.MSG_UNBOXED_CONJPARA, new Object[] { ((ConjPara)p).getName(), p }, getLocation(p));
-            //CztLogger.getLogger(<class/>.class).warning();
           }
         }
         else
@@ -465,10 +473,13 @@ action code
          // (E.g., the name having it at a GvienPara, is a duplication)
          if (ZEvesUtils.getLabel(name) != null)
          {
-            CztLogger.getLogger(<class/>.class).warning("Duplicated ZEvesLabel for name " + name + " as " + ZEvesUtils.getLabel(name));
+            CztLogger.getLogger(<class/>.class).warning("Duplicated ZEvesLabel for name " + name + " as " + 
+            	ZEvesUtils.getLabel(name) + " for " + getDialect().toString() + " in Parser.");
             if (!ZEvesUtils.getLabel(name).equals(ZEvesUtils.getLabel(term)))
             {
-              CztLogger.getLogger(<class/>.class).warning("Inconsistent ZEvesLabel for name " + name + " and term as " + ZEvesUtils.getLabel(name));
+              CztLogger.getLogger(<class/>.class).warning("Inconsistent ZEvesLabel for name " + name + 
+              	" and term as " + ZEvesUtils.getLabel(name)
+              	+ " for " + getDialect().toString() + " in Parser.");
             }
          }
       }
@@ -540,7 +551,7 @@ action code
 
     private LocInfo getLocation(int line, int column)
     {
-      return new LocInfoImpl(getLoc(), line, column);
+      return new LocInfoImpl(getDialect(), getLoc(), line, column);
     }
 
     private LocInfo getLocation(Term term)
@@ -551,7 +562,7 @@ action code
     private OperatorName createOperatorName(List&lt;String&gt; list)
       throws OperatorName.OperatorNameException
     {
-      final String errorMessage = list + " is not an operator name.";
+      final String errorMessage = list + " is not an operator name (for dialect " + getDialect().toString() + " in Parser).";
       if (list.size() &lt;= 1) {
         throw new OperatorName.OperatorNameException(errorMessage);
       }
@@ -587,7 +598,7 @@ action code
           else if (! strokes.equals(declName.getStrokeList())) {
             final String message =
               "The component names of an operator must have the " +
-              "same decorations.";
+              "same decorations (for dialect " + dialect_.toString() + " in Parser).";
             throw new OperatorName.OperatorNameException(message);
           }
           expectArgument = Boolean.TRUE;
@@ -1055,7 +1066,7 @@ action code
         // no applicable parent found? 
         // still report - using dummy location
         CyclicParentError.reportCyclicParent(sectInfo_, source_, cycleStr, 
-            new LocInfoImpl(source_.getName(), 0, 0));
+            new LocInfoImpl(getDialect(), source_.getName(), 0, 0));
       }
     }
     
@@ -1099,7 +1110,7 @@ action code
           catch (CommandException e) {
             Object [] args = { tableLabel, section, e.getMessage() };
             parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                                args, new LocInfoImpl(getLoc(), line, column));
+                                args, new LocInfoImpl(getDialect(), getLoc(), line, column));
           }
         }
       }
@@ -1160,7 +1171,8 @@ action code
       {
         // should never happen - we have just put the table into the manager
         final String message = "Could not retrieve " + tableKey.getType().getSimpleName() 
-            + " for " + section + " that has just been calculated?!";
+            + " for " + section + " that has just been calculated?! (for dialect " 
+            + getDialect().toString() + " in Parser).";
         throw new CztException(message, e);
       }
     }
@@ -1174,7 +1186,7 @@ action code
       List&lt;OpTable&gt; parentOpTables = startInfoTableTransaction(
           section, parents, line, column, optKey, "Operator table");
       
-      OpTable opTable = new OpTable(section);
+      OpTable opTable = new OpTable(getDialect(), section);
       try {
         opTable.addParents(parentOpTables);
       }
@@ -1203,7 +1215,7 @@ action code
       List&lt;ThmTable&gt; parentThmTables = startInfoTableTransaction(
           section, parents, line, column, thmKey, "Named conjectures table");
       
-      ThmTable thmTable = new ThmTable(section);
+      ThmTable thmTable = new ThmTable(getDialect(), section);
       try {
         thmTable.addParents(parentThmTables);
       }
@@ -1244,7 +1256,7 @@ action code
       List&lt;ProofTable&gt; parentProofTables = startInfoTableTransaction(
           section, parents, line, column, proofKey, "Named proof scripts table");
       
-      ProofTable proofTable = new ProofTable(section);
+      ProofTable proofTable = new ProofTable(getDialect(), section);
       try {
         proofTable.addParents(parentProofTables);
       }
@@ -1402,8 +1414,8 @@ action code
       
       // Add implicit process paragraphs to the ZSect term.
       ZUtils.assertZParaList(sect.getParaList()).addAll(parserState_.getImplicitlyDeclProcPara());
-//      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " +
-//         sect.getName() + ".");
+//      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " + 
+//         sect.getName() + " for " + getDialect().toString() + " in Parser.");
 //      for(Para para : sect.getPara()) {
 //        System.out.println("\t" + para.toString());
 //      }
@@ -1470,8 +1482,9 @@ action code
   
         }
         catch (CommandException exception) {
-          String message = "Error retrieving LatexMarkupFunction for " + sectName;
-          CztLogger.getLogger(Parser.class).warning(message);
+          String message = "Error retrieving LatexMarkupFunction for section " + sectName + " and dialect " + exception.getDialect().toString() + 
+          	" in Parser for " + getDialect().toString();
+          CztLogger.getLogger(<class/>.class).warning(message);
         }
       }
     }
@@ -1520,7 +1533,8 @@ action code
     private LocInfo getLocation(LocInfo start, LocInfo end)
     {
       if (start != null &amp;&amp; end != null) {
-        return new LocInfoImpl(start.getSource(),
+        return new LocInfoImpl(getDialect(),
+        											 start.getSource(),
                                start.getLine(),
                                start.getColumn(),
                                start.getStart(),
@@ -1548,7 +1562,8 @@ action code
                                 LocInfo start, LocInfo end)
     {
       if (start != null &amp;&amp; end != null) {
-        return new LocInfoImpl(start.getSource(),
+        return new LocInfoImpl(getDialect(),
+        											 start.getSource(),
                                line,
                                column,
                                start.getStart(),
@@ -1716,7 +1731,8 @@ action code
 //        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
 //            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),
 //            new Object[] { errorIdx, size-1, isEmpty ? "empty" : zrl.get(errorIdx),
-//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getSimpleName(), loc }));
+//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getSimpleName(), loc }) 
+//							+ " for dialect " + getDialect().toString() + " in Parser.");
 //      }
       BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createCircusCommunicationList(cl));
       if (loc != null) { addLocAnn(result, loc); }
@@ -1928,7 +1944,7 @@ action code
     protected boolean checkForDuplicatedState(String msg, LocInfo loc) {
       boolean result = parserState_.getStatePara() == null;
       CztLogger.getLogger(<class/>.class).fine("DUPLICATED STATE PARA (" +
-            msg + ")?: " + !result + " @ " + loc.toString());
+            msg + ")?: " + !result + " @ " + loc.toString() + " for " + getDialect().toString() + " in Parser.");
       if (!result) {
          parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE,
                new Object[] { msg, loc} , loc);
@@ -1938,7 +1954,8 @@ action code
 
     protected boolean checkForDuplicatedMainAction(LocInfo loc) {
       boolean result = parserState_.getMainAction() == null;
-      CztLogger.getLogger(<class/>.class).fine("DUPLICATED MAIN ACTION? :" + !result + " @ " + loc.toString());
+      CztLogger.getLogger(<class/>.class).fine("DUPLICATED MAIN ACTION? :" + 
+      	!result + " @ " + loc.toString() + " for " + getDialect().toString() + " in Parser.");
       if (!result) {
          parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_MAINACTION, new Object[0], loc);
       }
@@ -2010,7 +2027,7 @@ action code
     private void warnProcessScopeMismatch(String msg, String from, LocInfo l) {
         final String msg2 = java.text.MessageFormat.format(
                 CircusParseMessage.MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING.getMessage(),
-                new Object[] { msg, from, l.toString() });
+                new Object[] { msg, from, l.toString() }) + " for " + getDialect().toString() + " in Parser.";
         CztLogger.getLogger(<class/>.class).warning(msg2);
         parserState_.addProcessScopeWarning(msg2, l);
     }
@@ -2020,7 +2037,7 @@ action code
         final String msg2 = java.text.MessageFormat.format(
                 CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getMessage() +
                 CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getExplanation(),
-                new Object[] { msg, from, l });
+                new Object[] { msg, from, l }) + " for " + getDialect().toString() + " in Parser.";
         CztLogger.getLogger(<class/>.class).warning(msg2);
         parserState_.addProcessScopeWarning(msg2, l);
     }
@@ -2043,7 +2060,7 @@ action code
     protected boolean addBasicProcessScopePostCheckFor(String msg, LocInfo l) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope();
         CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " +
-            msg + "?: " + !result + " @ " + l.toString());
+            msg + "?: " + !result + " @ " + l.toString() + " for " + getDialect().toString() + " in Parser.");
         if (!result) {
             final String msg2 = "Cannot declare " + msg;
             parserState_.addProcessScopeWarning(msg2, l);
@@ -2055,7 +2072,7 @@ action code
     protected void addMultipleEnvBasicProcessCIRCENDWarning(Name procName, LocInfo loc) {
         CztLogger.getLogger(<class/>.class).fine(
             "ADDING PROCESS SCOPE POST CHECK FOR MULTIPLE ENV CIRCEND? : true @ "
-            + loc.toString());
+            + loc.toString() + " for " + getDialect().toString() + " in Parser.");
         parserState_.addProcessEndWarning(procName, loc);
     }
 
@@ -2070,14 +2087,14 @@ action code
             if (parserState_.getProcessPara().getName().equals(pew.getFirst())) {
                 CztLogger.getLogger(<class/>.class).fine(
                     "FOUND MATCHING CIRCEND FOR " + pew.getFirst() + " @ CIRCEND-LOC " +
-                    circEndLoc.toString());
+                    circEndLoc.toString() + " for " + getDialect().toString() + " in Parser.");
                 parserState_.clearSectBasicProcessEndWarning();
             } else {
                 CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
                     CircusParseMessage.MSG_PROCESS_PARA_NAME_MISMATCH_FOR_CIRCEND_WARNIING.getMessage() +
                     CircusParseMessage.MSG_PROCESS_PARA_NAME_MISMATCH_FOR_CIRCEND_WARNIING.getExplanation(),
                     new Object[] { pew.getFirst(), parserState_.getProcessPara().getName(),
-                      pew.getSecond(), circEndLoc }));
+                      pew.getSecond(), circEndLoc }) + " for " + getDialect().toString() + " in Parser.");
             }
         }
     }
@@ -2088,7 +2105,8 @@ action code
 
     protected void raisePendingBasicProcessWarnings(String from, String msg) {
         CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS (" + from +
-            ") AFTER POST CHECK: " + parserState_.getProcessScopeWarnings().size());
+            ") AFTER POST CHECK: " + parserState_.getProcessScopeWarnings().size()
+            + " for " + getDialect().toString() + " in Parser.");
         for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {
             parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING,
                new Object[] { p.getFirst(), msg, p.getSecond() }, p.getSecond());
@@ -2097,7 +2115,7 @@ action code
 
         Pair&lt;Name, LocInfo&gt; pew = parserState_.getProcessEndWarning();
         CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS CIRCEND WARNING (" + from +
-            ") AFTER POST CHECK?: " + (pew != null));
+            ") AFTER POST CHECK?: " + (pew != null) + " for " + getDialect().toString() + " in Parser.");
         if (pew != null) {
             parser.report_error(CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND,
                 new Object[] { pew.getFirst(), pew.getSecond() }, pew.getSecond());
@@ -2110,7 +2128,7 @@ action code
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp;
             parserState_.isKnownPara(ipl);
         CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT (" + from + ")?: " + result
-            + " @ " + loc);
+            + " @ " + loc + " for " + getDialect().toString() + " in Parser.");
         if (!result) {
             parser.report_error(CircusParseMessage.MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE,
               new Object[] { loc }, loc);
@@ -2123,7 +2141,7 @@ action code
        BasicProcess result = factory_.createBasicProcess(factory_.createZParaList());
        addLocAnn(result, l);
        CztLogger.getLogger(<class/>.class).finer("CREATING BASICPROCESS => " + from +
-           " @ " + l + "\n" + result);
+           " @ " + l + "\n" + result + " for " + getDialect().toString() + " in Parser.");
        parserState_.setBasicProcess(result);
        if (!parserState_.isWithinMultipleEnvBasicProcessScope()) {
             warnProcessScopeMismatch("open", from, l);
@@ -2139,7 +2157,7 @@ action code
     protected boolean enterBasicProcessScope(String from, LocInfo l) {
         boolean result = parserState_.enterBasicProcessScope(l);
         CztLogger.getLogger(<class/>.class).finer("ENTERING PROCESS SCOPE: " + result
-            + " from " + from + " @ " + l);
+            + " from " + from + " @ " + l + " for " + getDialect().toString() + " in Parser.");
         if (!result) {
             parser.report_error(CircusParseMessage.MSG_DUPlICATED_BASIC_PROCESS_SCOPE,
               new Object[] { from, l } , l);
@@ -2155,7 +2173,8 @@ action code
     protected boolean exitBasicProcessScope(String from, LocInfo l) {
         CztLogger.getLogger(<class/>.class).finer("EXITING PROCESS SCOPE: " +
             parserState_.isWithinMultipleEnvBasicProcessScope() +
-            " from " + from + " @ " + l + "\n" + parserState_.getBasicProcess());
+            " from " + from + " @ " + l + "\n" + parserState_.getBasicProcess()
+						+ " for " + getDialect().toString() + " in Parser.");
 
         // Clears: the implicitly declared actions and their name seed;
         // the current main action, the current basic process, and the
@@ -2178,7 +2197,7 @@ action code
         CztLogger.getLogger(<class/>.class).finer("AFTER UPDATE BASIC PROCESS INFORMATION");
         CztLogger.getLogger(<class/>.class).finer("UPDATE BASIC PROCESS INFORMATION: " +
             result + " from " + from + " @ " + loc + "\n" +
-            parserState_.getProcessPara());
+            parserState_.getProcessPara() + " for " + getDialect().toString() + " in Parser.");
 
         if (!result) {
             warnProcessScopeMissing("update local structures " + bpUpdate + " ", from, loc);
@@ -2216,7 +2235,8 @@ action code
     // could be useful for other parsers as well
     protected void logProductionResult(Object term, String from, LocInfo loc) {
         CztLogger.getLogger(<class/>.class).fine("PRODUCTION RESULT: " +
-            " from " + from + " @ " + loc + "=>\n" + term);
+            " from " + from + " @ " + loc + "=>\n" + term
+            + " for " + getDialect().toString() + " in Parser.");
     }
 :}
 
@@ -2226,7 +2246,7 @@ parser code
 
     <add:circus>
     //static {
-    //  System.err.println("Symbol table mapping:");
+    //  System.err.println("Symbol table mapping" + " for " + getDialect().toString() + " in Parser:");
     //  java.util.Iterator it = symbolMap_.entrySet().iterator();
     //  while (it.hasNext())
     //  {
@@ -2290,8 +2310,24 @@ parser code
     /** The file being parsed. */
     protected Source source_;
 
-    /** Section information. */
+    /** Section information (parser code). */
     protected SectionInfo sectInfo_;
+
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  protected final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
 
 	protected DefaultSectionParents defaultSP_;
 
@@ -2318,6 +2354,11 @@ parser code
     private JokerScanner jokerScanner_;
 </add:pattern>
 
+		public Dialect getDialect()
+		{
+			return dialect_;
+		}
+
     protected boolean hasErrors()
     {
       for(CztError e : errorList_)
@@ -2335,7 +2376,7 @@ parser code
       if (parseException_ == null)
       {
         assert source_ == null;
-        parseException_ = new ParseException(errorList_);
+        parseException_ = new ParseException(getDialect(), errorList_);
       }
       assert parseException_.getErrors().equals(errorList_) : "inconsistent error list";
       Iterator&lt;CztError&gt; it = errorList_.iterator();
@@ -2345,7 +2386,8 @@ parser code
         if (e.getErrorType().equals(ErrorType.WARNING))
         {
           it.remove();
-          // TODO: Parser should have a warning manager (!) For now, keep warnings as just "show" at the parser level?
+          // TODO: Parser should have a warning manager (!) 
+          //       For now, keep warnings as just "show" at the parser level?
           CztLogger.getLogger(<class/>.class).warning(e.toString());
         }
       }
@@ -2370,9 +2412,9 @@ parser code
      * and section information.
      * The source information is only used for printing error messages.
      * The section information should be able to provide information of
-     * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+     * type &lt;code&gt;net.sourceforge.czt.parser.util.OpTable.class&lt;/code&gt;.
      */
-    public <class/>(Scanner scanner,
+    public <class/>(CztScanner scanner,
                     Source source,
                     SectionInfo sectInfo,
                     Properties properties,
@@ -2381,7 +2423,7 @@ parser code
       super(scanner);
       source_ = source;
       sectInfo_ = sectInfo;
-      assert sectInfo_ != null;
+      assert scanner != null &amp;&amp; sectInfo_ != null;
       errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
       explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
       parseException_ = null;
@@ -2416,13 +2458,20 @@ parser code
         } 
       }
       assert defaultSP_ != null;
-      opScanner_ = new OperatorScanner(getScanner(), properties);
+      opScanner_ = new OperatorScanner(getCztScanner(), properties);
 <add:pattern>
-      jokerScanner_ = new JokerScanner(getScanner());
+      jokerScanner_ = new JokerScanner(getCztScanner());
       opScanner_ = new OperatorScanner(jokerScanner_, properties);
 </add:pattern>
       nlScanner_ = new NewlineScanner(opScanner_, properties);
-      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + " parser created for " + source_ + ".");
+      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + 
+      		" parser created for " + source_ 
+      		+ " for " + getDialect().toString() + ".");
+    }
+    
+    public CztScanner getCztScanner()
+    {
+    	return (CztScanner)getScanner();
     }
 
     /**
@@ -2458,7 +2507,8 @@ parser code
       String logMessage =
         "Next token is (" + symbolMap_.get(result.sym) + ", " +
             (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " +
-                (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...") + ").";
+                (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...")  
+                + " for " + getDialect().toString() + " in Parser).";
       CztLogger.getLogger(<class/>.class).finest(logMessage);
       return result;
     }
@@ -2477,7 +2527,7 @@ parser code
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new ZParseError(msg, params, locInfo));
+      report_error(null, new ZParseError(sectInfo_, msg, params, locInfo));
     }
 
  <add:pattern>
@@ -2485,7 +2535,7 @@ parser code
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new ZpattParseError(msg, params, locInfo));
+      report_error(null, new ZpattParseError(sectInfo_, msg, params, locInfo));
     }
 
 </add:pattern>
@@ -2494,7 +2544,7 @@ parser code
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new ZEvesParseError(msg, params, locInfo));
+      report_error(null, new ZEvesParseError(sectInfo_, msg, params, locInfo));
     }
 </add:zeves>
 <add:circus>
@@ -2502,7 +2552,7 @@ parser code
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new CircusParseError(msg, params, locInfo));
+      report_error(null, new CircusParseError(sectInfo_, msg, params, locInfo));
     }
 </add:circus>
 
@@ -2511,10 +2561,15 @@ parser code
       errorToken_ = token;
     }
 
-    public void unrecovered_syntax_error(Symbol token)
+    public void unrecovered_syntax_error(Symbol token) //throws Exception
     {
       report_error("Syntax error", createSyntaxError(token));
       done_parsing();
+      CztLogger.getLogger(<class/>.class).severe("Parser error for " + getDialect().toString() + " dialect ==> token " +
+      	symbolMap_.get(token.sym));
+      // TODO: throw new ParseException?
+      //	    throw new PrintException(dialect_, "Parser printer error: " +
+	    //  String.valueOf(message) + " => " + (info instanceof Symbol ? symbolMap_.get(((Symbol)info).sym) : String.valueOf(info)));
     }
 
     public void report_syntax_error()
@@ -2524,7 +2579,7 @@ parser code
 
     protected CztError createSyntaxError(Symbol token)
     {
-      return new ZParseError(ZParseMessage.MSG_SYNTAX_ERROR,
+      return new ZParseError(sectInfo_, ZParseMessage.MSG_SYNTAX_ERROR,
                              new Object[] { toObject(token) },
                              getLocation(token));
     }
@@ -2535,11 +2590,11 @@ parser code
                    new Object[] { toObject(errorToken_) },
                    getLocation(errorToken_));
     }
-
+    
 <add:circus>
     protected CztError createCircusSyntaxError(CircusParseMessage syntax_msg, Symbol token)
     {
-      return new CircusParseError(syntax_msg,
+      return new CircusParseError(sectInfo_, syntax_msg,
                              new Object[] { toObject(token) },
                              getLocation(token));
     }
@@ -2555,7 +2610,7 @@ parser code
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new CircusParseError(msg, params, locInfo));
+      report_error(null, new CircusParseError(sectInfo_, msg, params, locInfo));
     }
 
     /**
@@ -2605,7 +2660,7 @@ parser code
         LocInt i = (LocInt) symbol.value;
         return i.getLocation();
       }
-      return new LocInfoImpl(getLoc(), symbol.left, symbol.right);
+      return new LocInfoImpl(getDialect(), getLoc(), symbol.left, symbol.right);
     }
 
     protected LocInfo getLocation(Term term)
@@ -2618,7 +2673,7 @@ parser code
 
     protected LocInfo getLocation(LocAnn locAnn)
     {
-      return new LocInfoImpl(locAnn);
+      return new LocInfoImpl(getDialect(), locAnn);
     }
 
     protected ParserState createParserState(Source src)
@@ -2639,6 +2694,7 @@ init with
     //share the operator table between the action code and the parser code
     action_obj.source_ = source_;
     action_obj.sectInfo_ = sectInfo_;
+    action_obj.dialect_ = dialect_;
     action_obj.defaultSP_ = defaultSP_;
     action_obj.opScanner_ = opScanner_;
     action_obj.nlScanner_ = nlScanner_;
@@ -4000,7 +4056,8 @@ unboxedParagraphItem ::=
             // but rather as part of a unboxedPara within ZED rather than THEOREM
             // raise a warning? or error? ERROR?
             CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-              ZEvesParseMessage.MSG_WARNING_VDASH_IN_CONJECTURE.getMessage(), n, loc));
+              ZEvesParseMessage.MSG_WARNING_VDASH_IN_CONJECTURE.getMessage(), n, loc)
+              + " for " + getDialect().toString() + " in Parser.");
            }
            addZEvesLabel(RESULT, n, ability, usage);
            </add:zeves>
@@ -4780,7 +4837,9 @@ simplificationCommand ::=
               pc = factory_.getZEvesFactory().createProveByReduceCommand();
               break;
             default:
-              throw new Error("invalid proof command rewrite kind " + isc[0]);
+              throw new Error("invalid proof command rewrite kind " + isc[0] +
+              	 "(for dialect " + getDialect().toString() + " in Parser)."
+              );
           }
           RESULT = pc;
           addLocAnn(RESULT, getLocation(cmd, (LocInfo) isc[1]));
@@ -4803,7 +4862,9 @@ simplificationCommand ::=
               pc = factory_.getZEvesFactory().createTrivialReduceCommand();
               break;
             default:
-              throw new Error("invalid proof command rewrite kind " + isc[0]);
+              throw new Error("invalid proof command rewrite kind " + isc[0]+
+              	 "(for dialect " + getDialect().toString() + " in Parser)."
+              );
           }
           RESULT = pc;
           addLocAnn(RESULT, getLocation(cmd, (LocInfo) isc[1]));
@@ -4825,7 +4886,9 @@ simplificationCommand ::=
               pc = factory_.getZEvesFactory().createReduceCommand();
               break;
             default:
-              throw new Error("invalid proof command rewrite kind " + isc[0]);
+              throw new Error("invalid proof command rewrite kind " + isc[0]+
+              	 "(for dialect " + getDialect().toString() + " in Parser)."
+              );
           }
           RESULT = pc;
           addLocAnn(RESULT, (LocInfo) isc[1]);
@@ -8756,7 +8819,7 @@ term ::=
         // NOTE: It must be an optExpressionList because of generic actuals on channel names.
         LCIRCCHANSET:lc optCommunicationList:ocl RCIRCCHANSET:rc
         {:
-           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl);
+           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl + " for " + getDialect().toString() + " in Parser.");
            RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);
            addLocAnn(RESULT, getLocation(lc, rc));
         :}

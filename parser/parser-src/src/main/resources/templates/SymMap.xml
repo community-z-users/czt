@@ -29,6 +29,22 @@ public class SymMap
   private static Map&lt;String,Integer&gt; MAP =
     net.sourceforge.czt.parser.z.SymMap.createMap(Sym.class);
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
   private SymMap()
   {
   }

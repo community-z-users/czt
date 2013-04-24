@@ -113,7 +113,11 @@ action code
   private Map&lt;String,ZSect&gt; sections_ =
     new HashMap&lt;String,ZSect&gt;();
   private Map&lt;String,Object&gt; unicode2latexMap_ = null;
-
+  
+  SectionInfo sectInfo_;
+  Dialect dialect_;
+  Source source_;
+    				  
   /**
    * An iterator over markup directives to be printed.
    */
@@ -323,12 +327,15 @@ action code
           ": Unexpected character " + zchar.toString() +
           " (\\u" + hex + ") in line " + line + " column " +
           charcount + column;
-        throw new PrintException(message);
+        throw new PrintException(dialect_, message);
       }
       charcount = charcount + zchar.charCount();
     }
     String latexStr = latex.toString();
-    //System.out.println("uniwordToLatex(" + word + ") = " + latexStr + " instead of " + latexStr.replaceAll(" ", "") <add:zeves>+ " foundDollar? = " + foundDollarChar</add:zeves>);
+    //System.out.println("uniwordToLatex(" + word + ") = " + latexStr + " instead of " 
+    //		+ latexStr.replaceAll(" ", "") 
+    //		<add:zeves>+ " foundDollar? = " + foundDollarChar</add:zeves>
+    //		+ " for " + dialect_.toString() + " in <class/>.");
     //<add:zeves>if (foundDollarChar) latexStr = latexStr.replaceAll(" ", ""); </add:zeves>
     return createLatexCommand(latexStr, word, addLSpace, addRSpace);
   }
@@ -462,6 +469,10 @@ parser code {:
   public static final Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
   public static final Map&lt;String, Object&gt; symbolMap2_= DebugUtils.getFieldMap2(Sym.class);
 
+  /** The source currently being parsed. */
+  protected Source source_ = null;
+  
+ 
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager(
   	<add:zcore>Dialect.Z</add:zcore>
@@ -475,6 +486,61 @@ parser code {:
   protected String sectionName_;
   protected int tabSize_ = PrintPropertiesKeys.PROP_TXT_TAB_SIZE_DEFAULT;
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+					  	<add:oldz>Dialect.Z</add:oldz>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+
+    /**
+     * The list of parse errors.
+     */
+    protected List&lt;CztError&gt; errorList_;
+
+    protected PrintException printException_;
+    
+    // there are more constructors created by java cup, don't put it final!
+    private Set&lt;Key&lt;?&gt;&gt; explicitDeps_ = Collections.emptySet();
+
+    Set&lt;Key&lt;?&gt;&gt; getExplicitDeps()
+    {
+      return Collections.unmodifiableSet(explicitDeps_);
+    }
+       
+    public <class/>(CztScanner scanner,
+                    SectionInfo sectInfo,
+                    Properties properties,
+                    Collection&lt;? extends Key&lt;?&gt;&gt; explicitDeps)
+    {
+      super(scanner);
+      sectInfo_ = sectInfo;
+      
+      // TODO: should we have a TermSource? 
+      source_ = null;
+      
+      assert scanner != null &amp;&amp; sectInfo_ != null &amp;&amp; dialect_ != null;
+	    if (!dialect_.equals(sectInfo.getDialect()))
+	    	throw new IllegalArgumentException("Incompatible dialects in " + 
+	    		<class/>.class.getName() + " scanner. " + dialect_.toString() +
+	    		" expected, but section manager dialect " + sectInfo.getDialect() + " found."); 
+      errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+      explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
+      printException_ = null;
+     	CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + 
+      		" parser created for " + getDialect().toString() + ".");
+    }
+   
   /**
    * Used to scan the unicode provided within markup directives.
    * Whenever a latex markup directives is to printed, a new
@@ -483,6 +549,57 @@ parser code {:
    * printing the definition part of a latex markup directive.
    */
   protected ContextFreeScanner markupScanner_ = null;
+
+	public Dialect getDialect()
+	{
+		assert dialect_.equals(getCztScanner().getDialect());
+		return getCztScanner().getDialect();
+	}
+
+  public CztScanner getCztScanner()
+  {
+  	return (CztScanner)getScanner();
+  }
+
+	protected boolean hasErrors()
+   {
+     for(CztError e : errorList_)
+     {
+       if (e.getErrorType() == ErrorType.ERROR)
+         return true;
+
+     }
+     return false;
+   }
+
+   protected void raiseErrors() throws PrintException
+   {
+     assert hasErrors() : "no errors to be raised";
+     if (printException_ == null)
+     {
+       assert source_ == null;
+       printException_ = new PrintException(getDialect(), errorList_);
+     }
+     assert printException_.getErrors().equals(errorList_) : "inconsistent error list";
+     Iterator&lt;CztError&gt; it = errorList_.iterator();
+     while (it.hasNext())
+     {
+       CztError e = it.next();
+       if (e.getErrorType().equals(ErrorType.WARNING))
+       {
+         it.remove();
+         // TODO: Parser should have a warning manager (!) 
+         //       For now, keep warnings as just "show" at the parser level?
+         CztLogger.getLogger(<class/>.class).warning(e.toString());
+       }
+     }
+     it = null;
+     // in case there are no more warnings...
+     if (hasErrors())
+     {
+       throw printException_;
+     }
+   }
 
   public SectionInfo getSectionInfo()
   {
@@ -526,7 +643,8 @@ parser code {:
       writer_.write(s);
     }
     catch(IOException e) {
-      System.err.println("Cannot write");
+    	CztLogger.getLogger(<class/>.class).severe("Could not write because of IO exception for " 
+    	  + dialect_.toString() + " in <class/> as: " + e.getMessage());
     }
   }
 
@@ -629,7 +747,7 @@ parser code {:
           return new Symbol(Sym.PREWORD_MARKUP, directive.getCommand());
         }
         else {
-          throw new CztException("Unexpected directive type " + type);
+          throw new CztException("Unexpected directive type " + type + " for " + dialect_.toString() + " in Unicode2Latex parser.");
         }
       }
     }
@@ -660,21 +778,63 @@ parser code {:
     m.append(": " + message);
     System.err.println(m);
   }
+  
+  protected CztError createPrintError(Symbol token)
+  {
+    return new ZPrintError(getSectionInfo(), ZPrintMessage.MSG_PRINTSYNTAX_ERROR,
+                           new Object[] { toObject(token) },
+                           getLocation(token));
+  }
+  
+  protected Object toObject(Symbol symbol)
+  {
+    if (symbol.value != null &amp;&amp;
+        !(symbol.value instanceof LocInfo)) {
+      return symbol.value;
+    }
+    return symbolMap_.get(symbol.sym);
+  }
 
-  public void report_fatal_error(String message, Object info)
+  protected LocInfo getLocation(Symbol symbol)
+  {
+    if (symbol.value instanceof LocInfo) {
+      return (LocInfo) symbol.value;
+    }
+    if (symbol.value instanceof LocString) {
+      LocString s = (LocString) symbol.value;
+      return s.getLocation();
+    }
+    if (symbol.value instanceof LocInt) {
+      LocInt i = (LocInt) symbol.value;
+      return i.getLocation();
+    }
+    return new LocInfoImpl(getDialect(), "unknown", symbol.left, symbol.right);
+  }
+
+  @Override
+  public void report_fatal_error(String message, Object info) throws Exception
   {
     report_error(message, info);
     done_parsing();
-    throw new PrintException("Parse error: " +
+    throw new PrintException(dialect_, "Parse error: " +
       String.valueOf(message) + " => " + (info instanceof Symbol ? symbolMap_.get(((Symbol)info).sym) : String.valueOf(info)));
   }
 
-  public void unrecovered_syntax_error(Symbol token)
+  @Override
+  public void unrecovered_syntax_error(Symbol token) throws Exception
   {
     report_fatal_error("Syntax error at token " + symbolMap_.get(token.sym),
                        token);
   }
 :};
+
+init with
+{:
+    //share the operator table between the action code and the parser code
+    action_obj.source_ = source_;
+    action_obj.sectInfo_ = sectInfo_;
+    action_obj.dialect_ = dialect_;
+:}
 
 scan with {: return local_next_token(); :};
 
@@ -940,7 +1100,7 @@ precedence nonassoc INDENT;
              {:
                 String result = begin("schema", "{" + w.getName() + "}" <add:zeves>, ability</add:zeves>);
                 if (gen == null)
-                  throw new PrintException("Generic parameters expected for schema " + w.getName());
+                  throw new PrintException(dialect_, "Generic parameters expected for schema " + w.getName());
                 else
                   result += gen.getName() + "\n";
                 //if (zsti != null) result += zsti.getName();

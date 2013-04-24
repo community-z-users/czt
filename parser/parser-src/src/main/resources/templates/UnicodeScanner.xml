@@ -56,9 +56,25 @@ import net.sourceforge.czt.util.CztLogger;
 public class UnicodeScanner
   extends CztScannerImpl
 {
-  ContextFreeScanner contextFreeScanner_;
-  KeywordScanner keywordScanner_;
-  SmartScanner smartScanner_;
+  private final ContextFreeScanner contextFreeScanner_;
+  private final KeywordScanner keywordScanner_;
+  private final SmartScanner smartScanner_;
+
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
 
   public <class/>(Source source, Properties properties)
     throws IOException
@@ -76,6 +92,13 @@ public class UnicodeScanner
     keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
     smartScanner_ = new SmartScanner("CztReader" + in.hashCode(), keywordScanner_);
   }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert dialect_.equals(contextFreeScanner_.getDialect());
+  	return contextFreeScanner_.getDialect();
+  }
 
   /**
    * Lexes a given file.
@@ -91,15 +114,19 @@ public class UnicodeScanner
     }
     catch (Exception e) {
       e.printStackTrace();
+      CztLogger.getLogger(<class/>.class).severe(e.getClass().getName() + 
+      		" thrown during UnicodeScanner debugging for dialect " + 
+      		dialect_.toString() + " as : " + e.getMessage());
     }
   }
 
+	@Override
   protected Class&lt;?&gt; getSymbolClass()
   {
     return Sym.class;
   }
 
-
+	@Override
   public Symbol next_token()
     throws Exception
   {
@@ -112,7 +139,12 @@ public class UnicodeScanner
   {
     try {
       contextFreeScanner_.yyreset(in);
-    } catch (Throwable e) {}
+    } catch (Throwable e) 
+    {
+    	CztLogger.getLogger(<class/>.class).severe("Exception " + e.getClass().getName() + 
+    		" thrown during UnicodeScanner reset for " + 
+	    	dialect_.toString() + " with message " + e.getMessage());
+    }
   }
 }
 </scanner>

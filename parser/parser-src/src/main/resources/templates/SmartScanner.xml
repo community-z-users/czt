@@ -87,15 +87,13 @@ import net.sourceforge.czt.session.Dialect;
  * \sdef, we return an OPNAME instead of a DECORWORD.
 </add:oz>
  */
-class <class/> implements java_cup.runtime.Scanner
+class <class/> extends CztScannerImpl
 {
   //indicates whether the previous token is a named box token
   //i.e. SCH, GENSCH, CLASS, OPSCH, ZPROOF
   private boolean inBoxName = false;
 
 <add:circus>
-  private boolean debug_ = false;
-  
   private static final int DEBUG_FEW    = 000;
   private static final int DEBUG_FINE   = 100;
   private static final int DEBUG_FINER  = 200;
@@ -237,11 +235,38 @@ class <class/> implements java_cup.runtime.Scanner
   private boolean seenInstantiate_ = false;
   </add:zeves>
   private final String sourceName_;
+  
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
 
-  <class/>(String sourceName, java_cup.runtime.Scanner dumbscanner)
+  <class/>(String sourceName, CztScanner dumbscanner)
   {
     sourceName_ = sourceName == null ? "unknownSource" : sourceName;
     dumb_ = new TokenStack(dumbscanner);
+    assert dialect_ != null;
+    if (!dialect_.equals(dumbscanner.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in SmartScanner. " + dialect_.toString() +
+    		" expected, but CztScanner " + dumbscanner.getDialect() + " found."); 
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert dialect_.equals(dumb_.getDialect());
+  	return dumb_.getDialect();
   }
 
   protected LocInfo getLocation(Symbol symbol)
@@ -257,7 +282,7 @@ class <class/> implements java_cup.runtime.Scanner
       LocInt i = (LocInt) symbol.value;
       return i.getLocation();
     }
-    return new LocInfoImpl(sourceName_, symbol.left, symbol.right);
+    return new LocInfoImpl(getDialect(), sourceName_, symbol.left, symbol.right);
   }
 
   protected boolean checkEOF(Symbol currsym, LinkedList&lt;Symbol&gt; tokens) throws ScanException
@@ -270,13 +295,21 @@ class <class/> implements java_cup.runtime.Scanner
       final Symbol last = tokens.get(tks &gt; 1 ? tks-2 : tks-1);
       final Symbol first = tokens.getFirst();
       final String message = "Hit EOF whilst trying to find end of a proof command during smart scanning. Lookahead size = " + tks
-              + "; stack token before EOF = " + get_sym_info(last) + "; lookahead starting token = " + get_sym_info(first);
+              + "; stack token before EOF = " + get_sym_info(last) + "; lookahead starting token = " + get_sym_info(first) 
+              + "; dialect = " + dialect_.toString();
       System.err.println(message);
-      throw new ScanException(message, get_sym_info(first), getLocation(first));
+      throw new ScanException(dialect_, message, get_sym_info(first), getLocation(first));
     }
     return result;
   }
-
+  
+  @Override
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+  
+  @Override
   public Symbol next_token()
     throws Exception
   {
@@ -638,10 +671,11 @@ class <class/> implements java_cup.runtime.Scanner
 <add:circus>
   private void debug(String s, int level)
   {
-    if (debug_ &amp;&amp; debugLevel >= level)
+    if (logDebugInfo() &amp;&amp; debugLevel >= level)
     {       
-      System.out.println(s); 
+      System.out.println(s + "; dialect = " + dialect_.toString() + " in SmartScanner."); 
     }
+    logFormatted(s);
   }
   
   private void debugFlags(Symbol symbol, int level)
@@ -715,7 +749,7 @@ class <class/> implements java_cup.runtime.Scanner
       return new Symbol(Sym.NUMSTROKE, left, right, numStroke.getDigit().getValue());
     }
     else {
-      throw new ScanException("Unexpected stroke ", new LocInfoImpl(sourceName_, left, right));
+      throw new ScanException(dialect_, "Unexpected stroke ", new LocInfoImpl(getDialect(), sourceName_, left, right));
     }
   }
   
@@ -1037,7 +1071,7 @@ class <class/> implements java_cup.runtime.Scanner
 //        
 //    if (!isCommPattern)
 //    {
-//      CztLogger.getLogger(<class/>.class).warning("Could not find closing basic channel set bracket token (RCIRCCHANSET) at \n\t" + ((Decorword)symbol.value).getLocation());
+//      net.sourceforge.czt.util.CztLogger.getLogger(<class/>.class).warning("Could not find closing basic channel set bracket token (RCIRCCHANSET) at \n\t" + ((Decorword)symbol.value).getLocation());
 //    }
 //    
 //    // push the tokens back, chaning them to CHANNELNAME according to the result.
