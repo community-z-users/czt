@@ -51,7 +51,7 @@ public enum ZParseMessage
   MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
   MSG_CANNOT_ADD_THM ("Cannot add named conjecture ({0})"),
   MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space"),
-  MSG_LATEX_COMMAND_DEFINED_TWICE("Command {0} defined twice: {1}, {2}"),
+  MSG_LATEX_COMMAND_DEFINED_TWICE("Command {0} defined twice (in dialect {3}): {1}, {2}"),
   MSG_NOT_WITHIN_SCHBOX("Recognised Z state or refinement relationship {0} schema box.", "The lexer is identifying a Z state or refinement relationship from a part of the specification where it is not allwoed."),
 
   //MSG_ERROR_REDECLARED_SECTION("Section {0} has been previously declared", "There might be duplicate sections within the file?"),

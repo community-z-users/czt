@@ -17,36 +17,33 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.z;
+package net.sourceforge.czt.print.z;
 
 import java.util.List;
 import java.util.ResourceBundle;
 
+import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
 import net.sourceforge.czt.parser.util.ErrorType;
-import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.session.*;
 
 /**
- * A Z parse error.
+ * A Z print error.
  *
- * @author Petra Malik
+ * @author Leo Freitas
  */
-public class ZParseError
+public class ZPrintError
   extends CztErrorImpl
 {
   private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.z.ZParseResourceBundle";
+    "net.sourceforge.czt.print.z.ZPrintResourceBundle";
 
   public static void report(SectionInfo sectInfo,
                             Source source,
                             ErrorType errorType,
-                            ZParseMessage msg,
+                            ZPrintMessage msg,
                             Object[] params,
                             LocInfo locInfo)
   {
@@ -56,12 +53,12 @@ public class ZParseError
   public static void report(SectionInfo sectInfo,
                             Source source,
                             ErrorType errorType,
-                            ZParseMessage msg,
+                            ZPrintMessage msg,
                             Object[] params,
                             LocInfo locInfo,
                             String info)
   {
-    ZParseError error = new ZParseError(sectInfo, msg, params, locInfo);
+    ZPrintError error = new ZPrintError(sectInfo, msg, params, locInfo);
     error.setErrorType(errorType);
     error.setInfo(info);
     report(source, error);
@@ -71,19 +68,19 @@ public class ZParseError
   {
 	if (error.hasSectionInfo())
 	{
-	    try {
-	      ParseException parseException = error.getSectionInfo().get(
-	          new Key<ParseException>(source.getName(), ParseException.class));
-	      List<CztError> errorList = parseException.getErrors();
-	      errorList.add(error);
-	    }
-	    catch (CommandException e) {
-	      e.printStackTrace();
-	    }
+    try {
+      PrintException printException = error.getSectionInfo().get(
+          new Key<PrintException>(source.getName(), PrintException.class));
+      List<CztError> errorList = printException.getErrors();
+      errorList.add(error);
+    }
+    catch (CommandException e) {
+      e.printStackTrace();
+    }
 	}
   }
 
-  public ZParseError(SectionInfo si, ZParseMessage msg, Object[] params, LocInfo locInfo)
+  public ZPrintError(SectionInfo si, ZPrintMessage msg, Object[] params, LocInfo locInfo)
   {
     super(si, msg.toString(), params, locInfo);
   }
