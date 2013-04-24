@@ -21,6 +21,8 @@ package net.sourceforge.czt.print.oz;
 
 import java.io.Writer;
 
+import net.sourceforge.czt.session.Dialect;
+
 /**
  * Print Z specifications in Unicode.
  * This class adds the functionality to print Z tokens in unicode
@@ -51,5 +53,10 @@ public class UnicodePrinter
   public UnicodePrinter(Writer out, boolean autoFlush)
   {
     super(out, autoFlush);
+  }
+
+  @Override
+  public Dialect getDialect() {
+	return Dialect.OZ;
   }
 }

@@ -25,6 +25,7 @@ import java.io.Writer;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -100,4 +101,10 @@ public class UnicodePrinter
   {
     return (token.getSpelling() instanceof WhereWord);
   }
+
+	@Override
+	public Dialect getDialect() {
+		return Dialect.Z;
+	}
+
 }

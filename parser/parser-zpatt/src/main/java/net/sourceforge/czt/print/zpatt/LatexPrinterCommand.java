@@ -44,7 +44,7 @@ public class LatexPrinterCommand
       final Term term = manager.get(key);
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager);
       Term tree = term.accept(toPrintTree);
-      ZmlScanner scanner = new ZmlScanner(tree, manager.getProperties());
+      ZmlScanner scanner = new ZmlScanner(manager, tree, manager.getProperties());
       Unicode2Latex parser = new Unicode2Latex(scanner);
       parser.setSectionInfo(manager);
       UnicodePrinter printer = new UnicodePrinter(writer);
@@ -53,7 +53,7 @@ public class LatexPrinterCommand
         parser.parse();
       }
       catch (Exception e) {
-        throw new CommandException(e);
+        throw new CommandException(manager.getDialect(), e);
       }
       writer.close();
       manager.endTransaction(new Key<LatexString>(name, LatexString.class),
@@ -67,7 +67,7 @@ public class LatexPrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
     }
   }
 }

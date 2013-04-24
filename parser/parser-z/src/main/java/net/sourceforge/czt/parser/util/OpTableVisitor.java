@@ -111,7 +111,7 @@ public class OpTableVisitor
         get(parent.getWord(), OpTable.class);
       parentTables.add(parentTable);
     }
-    table_ = new OpTable(name);
+    table_ = new OpTable(getSectionInfo().getDialect(), name);
     try {
       table_.addParents(parentTables);
     }

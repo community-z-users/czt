@@ -21,34 +21,40 @@ package net.sourceforge.czt.parser.util;
 
 import java.math.BigInteger;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 public class MarkupDirective
 {
-  private String command_;
-  private String unicode_;
-  private DirectiveType type_;
-  private String section_;
-  private BigInteger lineNr_ = null;
+  private final String command_;
+  private final String unicode_;
+  private final DirectiveType type_;
+  private final String section_;
+  private final BigInteger lineNr_;
+  
+  private final Dialect dialect_;
 
   /**
    * @throws NullPointerException if one of the arguments
    *         is <code>null</code>.
    */
-  public MarkupDirective(String command,
+  public MarkupDirective(Dialect dialect, 
+		  				 String command,
                          String unicode,
                          DirectiveType type,
                          String section,
                          BigInteger lineNr)
   	throws MarkupException
   {
+    if (dialect == null) throw new NullPointerException();
     command_ = command;
     unicode_ = unicode;
     type_ = type;
     section_ = section;
     lineNr_ = lineNr;
+    dialect_ = dialect;
     checkMembersNonNull();
   }
 
@@ -58,17 +64,21 @@ public class MarkupDirective
    *         the command, unicode, or type of the given directive
    *         is <code>null</code>.
    */
-  public MarkupDirective(Directive directive, String section)
+  public MarkupDirective(Dialect dialect, Directive directive, String section)
   	throws MarkupException
   {
+	if (directive == null || dialect == null) throw new NullPointerException();
     command_ = directive.getCommand();
     unicode_ = directive.getUnicode();
     type_ = directive.getDirectiveType();
     section_ = section;
+    dialect_ = dialect;
     LocAnn locAnn = directive.getAnn(LocAnn.class);
     if (locAnn != null) {
       lineNr_ = locAnn.getLine();
     }
+    else
+      lineNr_ = null;
     checkMembersNonNull();
   }
 
@@ -82,6 +92,11 @@ public class MarkupDirective
         type_ == null || section_ == null) {
       throw new MarkupException(this);
     }
+  }
+  
+  public Dialect getDialect()
+  {
+	return dialect_;
   }
 
   public BigInteger getLine()

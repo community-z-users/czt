@@ -6,7 +6,9 @@
 package net.sourceforge.czt.print.circus;
 
 import java.util.Properties;
+
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionManager;
 
 /**
  *
@@ -15,10 +17,10 @@ import net.sourceforge.czt.print.z.ZPrinter;
 public class TokenSequenceVisitor 
   extends  net.sourceforge.czt.print.z.TokenSequenceVisitor
 {
-  public TokenSequenceVisitor(ZPrinter printer, Properties props, WarningManager warningManager)
+  public TokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props, WarningManager warningManager)
   {
-    super(printer);
-    setZPrintVisitor(new CircusPrintVisitor(this, props, warningManager));
+    super(si, printer);
+    setZPrintVisitor(new CircusPrintVisitor(si, this, props, warningManager));
   }
 
 }

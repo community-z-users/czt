@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.zeves;
 
 import java.io.Writer;
 import java.util.Properties;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
@@ -42,7 +43,7 @@ public class OldLatexPrinterCommand
   public void printOldLatex(Term term,
                             Writer out,
                             SectionManager sectInfo,
-                            String sectionName)
+                            String sectionName) throws PrintException
   {
     term.accept(new ToSpiveyZVisitor());
     AstToPrintTreeVisitor toPrintTree =
@@ -51,7 +52,7 @@ public class OldLatexPrinterCommand
     Term tree = toPrintTree(toPrintTree, term, sectionName);
     Properties props = new Properties(sectInfo.getProperties());
     props.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
-    ZmlScanner scanner = new ZmlScanner(tree, PrintUtils.warningManager_, props);
+    ZmlScanner scanner = new ZmlScanner(sectInfo, tree, PrintUtils.warningManager_, props);
     Unicode2OldLatex parser = new Unicode2OldLatex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -60,7 +61,8 @@ public class OldLatexPrinterCommand
       parser.parse();
     }
     catch (Exception e) {
-      throw new PrintException(ZEvesPrintMessage.MSG_PRINT_OLDLATEX_EXCEPTION.format(sectionName), e);
+      throw new PrintException(sectInfo.getDialect(), 
+    		  ZEvesPrintMessage.MSG_PRINT_OLDLATEX_EXCEPTION.format(sectionName), e);
     }
   }
 }

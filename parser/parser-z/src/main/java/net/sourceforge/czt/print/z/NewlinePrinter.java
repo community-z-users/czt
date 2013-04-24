@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.z;
 
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * Newline printer adaptor to consider NewlineCategory whilst printing Unicode
@@ -41,6 +42,12 @@ public class NewlinePrinter
   public NewlinePrinter(ZPrinter printer)
   {
     printer_ = printer;
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+	  return printer_.getDialect();
   }
 
   @Override

@@ -19,11 +19,14 @@
 
 package net.sourceforge.czt.parser.util;
 
+import net.sourceforge.czt.session.Dialect;
+
 /**
  * Information about location in a source document, like source location,
  * line and column number, etc.
  *
  * @author Petra Malik
+ * @author Leo Freitas
  */
 public interface LocInfo
 {
@@ -32,4 +35,5 @@ public interface LocInfo
   int getStart();
   int getLength();
   String getSource();
+  Dialect getDialect();
 }

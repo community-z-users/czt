@@ -19,11 +19,15 @@
 package net.sourceforge.czt.print.circus;
 
 import java.io.Writer;
+import java.util.Collections;
 import java.util.Properties;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.print.z.Unicode2Latex;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 
 
@@ -34,13 +38,14 @@ public class LatexPrinterCommand
     public void printLatex(Term term,
                          Writer out,
                          SectionManager sectInfo,
-                         String sectionName)
+                         String sectionName) throws PrintException
   {    
     UnicodePrinter printer = new UnicodePrinter(out);
     TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName,
                                    sectInfo.getProperties());
-    ZmlScanner scanner = new ZmlScanner(tseq.iterator(), sectInfo.getProperties());
-    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
+    ZmlScanner scanner = new ZmlScanner(sectInfo.getDialect(), tseq.iterator(), sectInfo.getProperties());
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term), sectInfo, sectInfo.getProperties(), 
+    		Collections.<Key<?>>emptySet());
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
     parse(out, sectInfo, parser, sectionName);
@@ -63,9 +68,9 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
+    return new TokenSequenceVisitor(si, printer, props, PrintUtils.warningManager_);
   }
 
   @Override

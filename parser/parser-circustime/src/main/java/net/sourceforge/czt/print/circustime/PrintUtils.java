@@ -25,8 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import net.sourceforge.czt.base.ast.Term;
+
 import java_cup.runtime.Symbol;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Markup;
@@ -191,13 +192,13 @@ public final class PrintUtils
     
     warningManager_.clear();
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);    
-    Term tree = (Term) term.accept(toPrintTree);    
+    Term tree = term.accept(toPrintTree);    
     
     transformWarningMap(warnings, toPrintTree.getClass(), warningManager_.getZSectWarnings());        
     
     warningManager_.clear();
     //System.out.println("02: CREATING ZML SCANNER FOR TRAVERSED PTV");
-    ZmlScanner scanner = new ZmlScanner(tree,((SectionManager)sectInfo).getProperties(), warningManager_);
+    ZmlScanner scanner = new ZmlScanner(sectInfo, tree,((SectionManager)sectInfo).getProperties(), warningManager_);
     transformWarningMap(warnings, scanner.getClass(), warningManager_.getZSectWarnings());        
         
     //System.out.println("03: CREATING UNICODE->LATEX PARSER FOR ZML SCANNER");
@@ -252,12 +253,12 @@ public final class PrintUtils
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree;
     try {
-      tree = (Term) toPrintTree.run(term, sectionName);
+      tree = toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree, ((SectionManager)sectInfo).getProperties(), warningManager_);
+    ZmlScanner scanner = new ZmlScanner(sectInfo, tree, ((SectionManager)sectInfo).getProperties(), warningManager_);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
     Unicode2Latex parser = new Unicode2Latex(scanner);
@@ -297,12 +298,12 @@ public final class PrintUtils
   {
     warningManager_.clear();  
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
-    Term tree = (Term) term.accept(toPrintTree);
+    Term tree = term.accept(toPrintTree);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(printer, warningManager_);
+    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(sectInfo, printer, warningManager_);
     tree.accept(visitor);
   }
 
@@ -329,7 +330,7 @@ public final class PrintUtils
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree; 
     try {
-      tree = (Term) toPrintTree.run(term, sectionName);
+      tree = toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
       throw new CztException(exception);
@@ -338,7 +339,7 @@ public final class PrintUtils
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(printer, warningManager_);
+    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(sectInfo, printer, warningManager_);
     tree.accept(visitor);
   }
 }

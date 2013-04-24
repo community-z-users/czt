@@ -51,17 +51,17 @@ public class OldLatexPrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
     }
     catch (PrintException pe)
     {
-      throw new CommandException(pe);
+      throw new CommandException(manager.getDialect(), pe);
     }
   }
 
   public void printOldLatex(Term term,
                             Writer out,
-                            SectionManager sectInfo)
+                            SectionManager sectInfo) throws PrintException
   {
     String sectionName = Section.STANDARD_TOOLKIT.getName();
     printOldLatex(term, out, sectInfo, sectionName);
@@ -70,8 +70,9 @@ public class OldLatexPrinterCommand
   public void printOldLatex(Term term,
                             Writer out,
                             SectionManager sectInfo,
-                            String sectionName)
+                            String sectionName) throws PrintException
   {
+	if (out == null || sectInfo == null || term == null) throw new NullPointerException();
     term.accept(new ToSpiveyZVisitor());
     AstToPrintTreeVisitor toPrintTree =
       new AstToPrintTreeVisitor(sectInfo);
@@ -79,7 +80,7 @@ public class OldLatexPrinterCommand
     Term tree = toPrintTree(toPrintTree, term, sectionName);
     Properties props = new Properties(sectInfo.getProperties());
     props.setProperty(PrintPropertiesKeys.PROP_PRINT_ZEVES, "true");
-    ZmlScanner scanner = new ZmlScanner(tree, props);
+    ZmlScanner scanner = new ZmlScanner(sectInfo, tree, props);
     Unicode2OldLatex parser = new Unicode2OldLatex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -90,7 +91,7 @@ public class OldLatexPrinterCommand
     catch (Exception e) {
       String msg = "An exception occurred while trying to print " +
         "old (Spivey's) LaTeX markup.";
-      throw new PrintException(msg, e);
+      throw new PrintException(sectInfo.getDialect(), msg, e);
     }
   }
 }

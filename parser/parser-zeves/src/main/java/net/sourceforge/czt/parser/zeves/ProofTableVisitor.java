@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.zeves;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.util.AbstractVisitor;
@@ -124,7 +125,7 @@ public class ProofTableVisitor
       ProofTable parentTable = get(parent.getWord(), ProofTable.class);
       parentTables.add(parentTable);
     }
-    table_ = new ProofTable(name);
+    table_ = new ProofTable(getSectionInfo().getDialect(), name);
     try {
       table_.addParents(parentTables);
     }

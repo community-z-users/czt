@@ -109,7 +109,7 @@ public class ThmTableVisitor
       ThmTable parentTable = get(parent.getWord(), ThmTable.class);
       parentTables.add(parentTable);
     }
-    table_ = new ThmTable(name);
+    table_ = new ThmTable(getSectionInfo().getDialect(), name);
     try {
       table_.addParents(parentTables);
     }

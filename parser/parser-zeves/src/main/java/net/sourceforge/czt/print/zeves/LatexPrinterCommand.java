@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.zeves;
 
 import java.io.Writer;
 import java.util.Properties;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
@@ -39,12 +40,12 @@ public class LatexPrinterCommand
   public void printLatex(Term term,
           Writer out,
           SectionManager sectInfo,
-          String sectionName)
+          String sectionName) throws PrintException
   {
     UnicodePrinter printer = new UnicodePrinter(out);
     TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName,
             sectInfo.getProperties());
-    ZmlScanner scanner = new ZmlScanner(tseq.iterator(), sectInfo.getProperties());
+    ZmlScanner scanner = new ZmlScanner(sectInfo.getDialect(), tseq.iterator(), sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
@@ -68,9 +69,9 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
+    return new TokenSequenceVisitor(si, printer, props, PrintUtils.warningManager_);
   }
 
   @Override

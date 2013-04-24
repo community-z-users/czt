@@ -22,17 +22,59 @@ package net.sourceforge.czt.print.oz;
 import java.util.Iterator;
 import java.util.Properties;
 
-import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.oz.ast.AnonOpExpr;
+import net.sourceforge.czt.oz.ast.AssoParallelOpExpr;
+import net.sourceforge.czt.oz.ast.ClassPara;
+import net.sourceforge.czt.oz.ast.ClassPolyType;
+import net.sourceforge.czt.oz.ast.ClassRef;
+import net.sourceforge.czt.oz.ast.ClassRefList;
+import net.sourceforge.czt.oz.ast.ClassRefType;
+import net.sourceforge.czt.oz.ast.ClassUnionExpr;
+import net.sourceforge.czt.oz.ast.ClassUnionType;
+import net.sourceforge.czt.oz.ast.ConjOpExpr;
+import net.sourceforge.czt.oz.ast.ContainmentExpr;
+import net.sourceforge.czt.oz.ast.DeltaList;
+import net.sourceforge.czt.oz.ast.DistChoiceOpExpr;
+import net.sourceforge.czt.oz.ast.DistConjOpExpr;
+import net.sourceforge.czt.oz.ast.DistSeqOpExpr;
+import net.sourceforge.czt.oz.ast.ExChoiceOpExpr;
+import net.sourceforge.czt.oz.ast.HideOpExpr;
+import net.sourceforge.czt.oz.ast.InitialState;
+import net.sourceforge.czt.oz.ast.NameSignaturePair;
+import net.sourceforge.czt.oz.ast.OpPromotionExpr;
+import net.sourceforge.czt.oz.ast.OpText;
+import net.sourceforge.czt.oz.ast.Operation;
+import net.sourceforge.czt.oz.ast.ParallelOpExpr;
+import net.sourceforge.czt.oz.ast.PolyExpr;
+import net.sourceforge.czt.oz.ast.PredExpr;
+import net.sourceforge.czt.oz.ast.PrimaryDecl;
+import net.sourceforge.czt.oz.ast.RenameOpExpr;
+import net.sourceforge.czt.oz.ast.ScopeEnrichOpExpr;
+import net.sourceforge.czt.oz.ast.SecondaryDecl;
+import net.sourceforge.czt.oz.ast.SeqOpExpr;
+import net.sourceforge.czt.oz.ast.State;
+import net.sourceforge.czt.oz.ast.VisibilityList;
 import net.sourceforge.czt.oz.util.OzString;
-import net.sourceforge.czt.print.z.WhereWord;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.oz.visitor.*;
+import net.sourceforge.czt.oz.visitor.OzVisitor;
 import net.sourceforge.czt.parser.oz.OzToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Box;
+import net.sourceforge.czt.z.ast.DeclList;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ParenAnn;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * An Object-Z visitor used for printing.
@@ -46,17 +88,18 @@ public class OzPrintVisitor
   /**
    * Creates a new Object-Z print visitor.
    */
-  public OzPrintVisitor(ZPrinter printer)
+  public OzPrintVisitor(SectionInfo si, ZPrinter printer)
   {
-    super(printer);
+    super(si, printer);
   }
 
-  public OzPrintVisitor(ZPrinter printer, Properties props)
+  public OzPrintVisitor(SectionInfo si, ZPrinter printer, Properties props)
   {
-    super(printer, props);
+    super(si, printer, props);
   }
 
-  public Object visitClassPara(ClassPara classPara)
+  @Override
+public Object visitClassPara(ClassPara classPara)
   {
     //print the header information
     ref_ = false;
@@ -140,7 +183,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitVisibilityList(VisibilityList visibilityList)
+  @Override
+public Object visitVisibilityList(VisibilityList visibilityList)
   {
     if (visibilityList != null) {
       print(ZKeyword.ZPROJ);
@@ -152,7 +196,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitInitialState(InitialState initialState)
+  @Override
+public Object visitInitialState(InitialState initialState)
   {
     if (initialState != null) {
       boolean isBox = Box.SchBox.equals(initialState.getBox());
@@ -174,7 +219,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitState(State state)
+  @Override
+public Object visitState(State state)
   {
     if (state != null) {
       boolean isBox = Box.SchBox.equals(state.getBox());
@@ -233,19 +279,22 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitPrimaryDecl(PrimaryDecl primaryDecl)
+  @Override
+public Object visitPrimaryDecl(PrimaryDecl primaryDecl)
   {
     visit(primaryDecl.getDeclList());
     return null;
   }
 
-  public Object visitSecondaryDecl(SecondaryDecl secondaryDecl)
+  @Override
+public Object visitSecondaryDecl(SecondaryDecl secondaryDecl)
   {
     visit(secondaryDecl.getDeclList());
     return null;
   }
 
-  public Object visitOperation(Operation operation)
+  @Override
+public Object visitOperation(Operation operation)
   {
     boolean isBox = Box.SchBox.equals(operation.getBox());
     if (isBox) {
@@ -280,14 +329,16 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitOpText(OpText opText)
+  @Override
+public Object visitOpText(OpText opText)
   {
     visit(opText.getDeltaList());
     visit(opText.getSchText());
     return null;
   }
 
-  public Object visitDeltaList(DeltaList deltaList)
+  @Override
+public Object visitDeltaList(DeltaList deltaList)
   {
     printDecorword(OzString.DELTA);
     print(ZToken.LPAREN);
@@ -298,7 +349,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitPredExpr(PredExpr predExpr)
+  @Override
+public Object visitPredExpr(PredExpr predExpr)
   {
     printLPAREN(predExpr);
     visit(predExpr.getPred());
@@ -306,7 +358,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
+  @Override
+public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
   {
     printLPAREN(classUnionExpr);
     printTermList(classUnionExpr.getExpr(), OzString.CLASSUNION);
@@ -314,7 +367,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitPolyExpr(PolyExpr polyExpr)
+  @Override
+public Object visitPolyExpr(PolyExpr polyExpr)
   {
     printLPAREN(polyExpr);
     printDecorword(OzString.POLY);
@@ -323,7 +377,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitContainmentExpr(ContainmentExpr containmentExpr)
+  @Override
+public Object visitContainmentExpr(ContainmentExpr containmentExpr)
   {
     printLPAREN(containmentExpr);
     visit(containmentExpr.getExpr());
@@ -332,7 +387,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitOpPromotionExpr(OpPromotionExpr opPromotionExpr)
+  @Override
+public Object visitOpPromotionExpr(OpPromotionExpr opPromotionExpr)
   {
     printLPAREN(opPromotionExpr);
     if (opPromotionExpr.getExpr() != null) {
@@ -345,7 +401,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitDistConjOpExpr(DistConjOpExpr distConjOpExpr)
+  @Override
+public Object visitDistConjOpExpr(DistConjOpExpr distConjOpExpr)
   {
     printLPAREN(distConjOpExpr);
     printDecorword(OzString.DCNJ);
@@ -356,7 +413,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitDistSeqOpExpr(DistSeqOpExpr distSeqOpExpr)
+  @Override
+public Object visitDistSeqOpExpr(DistSeqOpExpr distSeqOpExpr)
   {
     printLPAREN(distSeqOpExpr);
     print(ZKeyword.ZCOMP);
@@ -367,7 +425,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitDistChoiceOpExpr(DistChoiceOpExpr distChoiceOpExpr)
+  @Override
+public Object visitDistChoiceOpExpr(DistChoiceOpExpr distChoiceOpExpr)
   {
     printLPAREN(distChoiceOpExpr);
     printDecorword(OzString.DGCH);
@@ -378,7 +437,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
+  @Override
+public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
   {
     printLPAREN(anonOpExpr);
     print(ZToken.LSQUARE);
@@ -388,7 +448,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitConjOpExpr(ConjOpExpr conjOpExpr)
+  @Override
+public Object visitConjOpExpr(ConjOpExpr conjOpExpr)
   {
     printLPAREN(conjOpExpr);
     printTermList(conjOpExpr.getOpExpr(), ZKeyword.AND);
@@ -396,7 +457,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
+  @Override
+public Object visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
   {
     printLPAREN(parallelOpExpr);
     printTermList(parallelOpExpr.getOpExpr(), OzString.PARALLEL);
@@ -404,7 +466,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
+  @Override
+public Object visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
   {
     printLPAREN(assoParallelOpExpr);
     printTermList(assoParallelOpExpr.getOpExpr(), OzString.ASSOPARALLEL);
@@ -412,7 +475,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitExChoiceOpExpr(ExChoiceOpExpr exChoiceOpExpr)
+  @Override
+public Object visitExChoiceOpExpr(ExChoiceOpExpr exChoiceOpExpr)
   {
     printLPAREN(exChoiceOpExpr);
     printTermList(exChoiceOpExpr.getOpExpr(), OzString.GCH);
@@ -420,7 +484,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
+  @Override
+public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
   {
     printLPAREN(seqOpExpr);
     printTermList(seqOpExpr.getOpExpr(), ZKeyword.ZCOMP);
@@ -428,7 +493,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichExpr)
+  @Override
+public Object visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichExpr)
   {
     printLPAREN(scopeEnrichExpr);
     printTermList(scopeEnrichExpr.getOpExpr(), ZKeyword.SPOT);
@@ -436,7 +502,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitHideOpExpr(HideOpExpr hideOpExpr)
+  @Override
+public Object visitHideOpExpr(HideOpExpr hideOpExpr)
   {
     printLPAREN(hideOpExpr);
     visit(hideOpExpr.getOpExpr());
@@ -449,7 +516,8 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitRenameOpExpr(RenameOpExpr renameOpExpr)
+  @Override
+public Object visitRenameOpExpr(RenameOpExpr renameOpExpr)
   {
     printLPAREN(renameOpExpr);
     visit(renameOpExpr.getOpExpr());
@@ -460,43 +528,51 @@ public class OzPrintVisitor
     return null;
   }
 
-  public Object visitClassRefType(ClassRefType classRefType)
+  @Override
+public Object visitClassRefType(ClassRefType classRefType)
   {
     throw new UnsupportedOperationException("Unexpected term ClassRefType.");
   }
 
-  public Object visitClassPolyType(ClassPolyType classPolyType)
+  @Override
+public Object visitClassPolyType(ClassPolyType classPolyType)
   {
     throw new UnsupportedOperationException("Unexpected term ClassPolyType.");
   }
 
-  public Object visitClassUnionType(ClassUnionType classUnionType)
+  @Override
+public Object visitClassUnionType(ClassUnionType classUnionType)
   {
     throw new UnsupportedOperationException("Unexpected term ClassUnionType.");
   }
 
-  public Object visitClassRef(ClassRef classRef)
+  @Override
+public Object visitClassRef(ClassRef classRef)
   {
     throw new UnsupportedOperationException("Unexpected term ClassRef.");
   }
 
-  public Object visitClassRefList(ClassRefList classRefList)
+  @Override
+public Object visitClassRefList(ClassRefList classRefList)
   {
     throw new UnsupportedOperationException("Unexpected term ClassRefList.");
   }
 
-  public Object visitNameSignaturePair(NameSignaturePair nameSignaturePair)
+  @Override
+public Object visitNameSignaturePair(NameSignaturePair nameSignaturePair)
   {
     throw new UnsupportedOperationException("Unexpected term NameSignaturePair.");
   }
 
-  protected void printLPAREN(Term term)
+  @Override
+protected void printLPAREN(Term term)
   {
     final boolean braces = term.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.LPAREN);
   }
 
-  protected void printRPAREN(Term term)
+  @Override
+protected void printRPAREN(Term term)
   {
     final boolean braces = term.getAnn(ParenAnn.class) != null;
     if (braces) print(ZToken.RPAREN);

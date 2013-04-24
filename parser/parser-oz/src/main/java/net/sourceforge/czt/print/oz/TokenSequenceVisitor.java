@@ -20,14 +20,16 @@
 package net.sourceforge.czt.print.oz;
 
 import java.util.Properties;
+
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionManager;
 
 public class TokenSequenceVisitor
   extends  net.sourceforge.czt.print.z.TokenSequenceVisitor
 {
-  public TokenSequenceVisitor(ZPrinter printer, Properties props)
+  public TokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props)
   {
-    super(printer);
-    setZPrintVisitor(new OzPrintVisitor(this, props));
+    super(si, printer);
+    setZPrintVisitor(new OzPrintVisitor(si, this, props));
   }
 }

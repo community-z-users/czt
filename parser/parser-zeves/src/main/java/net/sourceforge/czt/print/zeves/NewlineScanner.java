@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.print.zeves;
 
-import java_cup.runtime.Scanner;
+import net.sourceforge.czt.parser.util.CztScanner;
 
 /**
  *
@@ -29,7 +29,7 @@ import java_cup.runtime.Scanner;
 public class NewlineScanner extends net.sourceforge.czt.print.z.NewlineScanner
 {
 
-  public NewlineScanner(Scanner scanner)
+  public NewlineScanner(CztScanner scanner)
   {
     super(scanner);
   }
