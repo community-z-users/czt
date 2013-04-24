@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.zeves;
 
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesProofToken;
@@ -64,7 +65,7 @@ public class AstToPrintTreeVisitor extends
    * @param list
    */
   @Override
-  protected void preprocessTerm(Term term, List<Object> list)
+  protected void preprocessTerm(Term term, List<Object> list) throws PrintException
   {
     super.preprocessTerm(term, list);
     // within AxPara
@@ -80,7 +81,7 @@ public class AstToPrintTreeVisitor extends
         {
           // for SCH or OmitBox
           if (((AxPara)term).getBox().equals(Box.AxBox))
-            throw new PrintException("preprocessing ability for Schemas and Horizontal definitions only. AxBox labels are processed at predicate level.");
+            throw new PrintException(getSectionInfo().getDialect(), "preprocessing ability for Schemas and Horizontal definitions only. AxBox labels are processed at predicate level.");
 
           if (hasAbility)
             list.add(ZEvesProofToken.DISABLEDDEFTAG);
@@ -90,7 +91,7 @@ public class AstToPrintTreeVisitor extends
         {
           // handle name
           if (label.getName() == null)
-            throw new PrintException("Invalid label name for labelled axiomatic predicate - " + label.toString());
+            throw new PrintException(getSectionInfo().getDialect(), "Invalid label name for labelled axiomatic predicate - " + label.toString());
 
           // no bother with axioms (defaults). If there is usage, put the label!
           if (//!label.getUsage().equals(LabelUsage.axiom) &&
@@ -130,7 +131,7 @@ public class AstToPrintTreeVisitor extends
           }
         }
         else
-          throw new PrintException("Invalid term to preprocess for printing. Neither AxPara, nor Pred " + term.getClass().getName());
+          throw new PrintException(getSectionInfo().getDialect(),"Invalid term to preprocess for printing. Neither AxPara, nor Pred " + term.getClass().getName());
       }
     }
   }
