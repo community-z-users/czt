@@ -22,6 +22,7 @@
 package <package/>;
 
 import java.util.Map;
+import net.sourceforge.czt.session.Dialect;
 
 public class SymMap
 {

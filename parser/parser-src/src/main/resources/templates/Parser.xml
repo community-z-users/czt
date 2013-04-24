@@ -77,9 +77,13 @@ import net.sourceforge.czt.oz.util.OzString;
 
 import net.sourceforge.czt.parser.z.*;
 </add:oz>
-<add:ozz>
+<add:ozcore>
 import net.sourceforge.czt.oz.util.Factory;
-</add:ozz>
+</add:ozcore>
+
+<add:ozpattcore>
+import net.sourceforge.czt.oz.util.Factory;
+</add:ozpattcore>
 
 <add:ozpatt>
 import net.sourceforge.czt.parser.oz.ParserState;
@@ -98,10 +102,10 @@ import net.sourceforge.czt.tcoz.util.Factory;
 import net.sourceforge.czt.zpatt.ast.*;
 
 </add:pattern>
-<add:zpatt>
+<add:zpattcore>
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.zpatt.util.Factory;
-</add:zpatt>
+</add:zpattcore>
 
 <add:zeves>
 import net.sourceforge.czt.zeves.ast.*;
@@ -114,6 +118,7 @@ import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.zeves.ProofTable;
 </add:zeves>
 
+import net.sourceforge.czt.session.Dialect;
 
 action code
 {:

@@ -35,6 +35,8 @@ import net.sourceforge.czt.parser.util.LocInt;
 import net.sourceforge.czt.parser.util.LocString;
 import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.parser.util.TokenStack;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
 
 <add:circus>
 import java.util.ListIterator;
@@ -54,6 +56,8 @@ import net.sourceforge.czt.parser.util.Decorword;
 <add:circustime>
 import net.sourceforge.czt.parser.circus.CircusSymMap;
 </add:circustime>
+
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * &lt;p&gt;

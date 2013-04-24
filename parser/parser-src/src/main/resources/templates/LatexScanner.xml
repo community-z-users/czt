@@ -23,13 +23,17 @@
 
 package <package/>;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Properties;
 
-import java_cup.runtime.*;
+import java_cup.runtime.Symbol;
 
+import net.sourceforge.czt.parser.util.CztScannerImpl;
 import net.sourceforge.czt.parser.util.CztReader;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
+
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A latex scanner.  This is a convenience class that

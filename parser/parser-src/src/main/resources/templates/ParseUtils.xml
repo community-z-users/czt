@@ -63,6 +63,8 @@ import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
+import net.sourceforge.czt.session.Dialect;
+
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 </add:z>

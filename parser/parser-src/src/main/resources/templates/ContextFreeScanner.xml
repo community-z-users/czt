@@ -28,13 +28,19 @@
 /* --------------------------Usercode Section------------------------ */
 package <package/>;
 
-import java.io.*;
-import java_cup.runtime.*;
+import java.io.IOException;
+import java.io.Reader;
 
-import net.sourceforge.czt.parser.util.*;
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztReader;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.LocString;
+import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Source;
-
-//import net.sourceforge.czt.z.util.ZString;
 
 <add:zeves>
 import net.sourceforge.czt.parser.zeves.Proofword;
@@ -59,7 +65,6 @@ import net.sourceforge.czt.parser.zeves.Proofword;
 %char
 %cupsym Sym
 //%cup
-
 %implements java_cup.runtime.Scanner
 %function next_token
 %type java_cup.runtime.Symbol

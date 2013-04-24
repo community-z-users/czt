@@ -34,6 +34,7 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Spec;
 
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A parser for LaTeX mark-up.  This is a convenience class that

@@ -22,41 +22,78 @@
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
-import java_cup.runtime.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
+import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZChar;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.LocString;
+import net.sourceforge.czt.parser.util.MarkupDirective;
+import net.sourceforge.czt.parser.util.MarkupException;
+import net.sourceforge.czt.print.z.ZPrintError;
+import net.sourceforge.czt.print.z.ZPrintMessage;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.Directive;
+import net.sourceforge.czt.z.ast.DirectiveType;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.ZChar;
+import net.sourceforge.czt.z.util.ZString;
+
 <add:oldz>
 import net.sourceforge.czt.print.z.DefsWord;
 </add:oldz>
 import net.sourceforge.czt.print.z.WhereWord;
-import net.sourceforge.czt.session.*;
+
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
+
 <add:circus>
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
+
 <add:circustime>
 import net.sourceforge.czt.circustime.util.CircusTimeString;
 </add:circustime>
 
-
 <add:zeves>
 import net.sourceforge.czt.zeves.util.ZEvesString;
 </add:zeves>
-
 
 <add:oldz>
 /**

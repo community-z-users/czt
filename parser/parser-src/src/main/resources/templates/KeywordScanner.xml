@@ -23,39 +23,31 @@
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 
-import java_cup.runtime.*;
-
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.LocInt;
 import net.sourceforge.czt.parser.util.LocInfoImpl;
-import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 
-import net.sourceforge.czt.z.ast.*;
-
-<add:circustime>
-  import net.sourceforge.czt.parser.circus.CircusKeyword;
-</add:circustime>
-    
-
-<add:tcoz>
-import net.sourceforge.czt.parser.oz.OzKeyword;
-</add:tcoz>
-<add:ozpatt>
-import net.sourceforge.czt.parser.oz.OzKeyword;
-import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
-</add:ozpatt>
-
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.util.CztScannerImpl;
 
 /**
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for

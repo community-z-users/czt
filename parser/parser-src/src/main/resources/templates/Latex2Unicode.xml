@@ -22,10 +22,35 @@
 /* --------------------------Usercode Section------------------------ */
 package <package/>;
 
-import java.io.*;
+
+
+import java.io.IOException;
 import java.util.Properties;
 import java.util.Stack;
+
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.LatexSym;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocToken;
+import net.sourceforge.czt.parser.util.LocTokenImpl;
+import net.sourceforge.czt.parser.util.MarkupDirective;
+import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
+import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.util.ZString;
 //import java.util.logging.Level;
+
+import net.sourceforge.czt.parser.z.ZParseError;
+import net.sourceforge.czt.parser.z.ZParseMessage;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -51,20 +76,6 @@ import net.sourceforge.czt.circus.util.CircusPattString;
 import net.sourceforge.czt.zeves.util.ZEvesString;
 </add:zeves>
 
-import net.sourceforge.czt.parser.util.ErrorType;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.LatexSym;
-import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.LocInfoImpl;
-import net.sourceforge.czt.parser.util.LocToken;
-import net.sourceforge.czt.parser.util.LocTokenImpl;
-import net.sourceforge.czt.parser.util.MarkupDirective;
-import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
-import net.sourceforge.czt.parser.util.ScanException;
-import net.sourceforge.czt.parser.z.ZParseError;
-import net.sourceforge.czt.parser.z.ZParseMessage;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.util.ZString;
 
 /**
  * &lt;p&gt;
