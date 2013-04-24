@@ -28,7 +28,6 @@ import net.sourceforge.czt.parser.util.CztErrorImpl;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 import net.sourceforge.czt.z.ast.LocAnn;
@@ -252,7 +251,7 @@ public class ErrorAnn
 
   protected void print(Term term,
                        Writer writer,
-                       SectionInfo manager,
+                       SectionManager manager,
                        String sectName,
                        Markup markup) throws PrintException
   {

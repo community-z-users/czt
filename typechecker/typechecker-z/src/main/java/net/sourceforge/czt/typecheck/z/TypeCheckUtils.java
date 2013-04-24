@@ -22,7 +22,12 @@ package net.sourceforge.czt.typecheck.z;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.impl.BaseFactory;
@@ -31,13 +36,25 @@ import net.sourceforge.czt.base.util.TermInstanceCountManager;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
 import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.Pair;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.NameTypePairImpl;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.impl.ZNameImpl;
@@ -416,7 +433,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
    * @param sectName
    * @param markup
    */
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)
+  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, 
+		  String sectName, Markup markup) throws PrintException
   {
     PrintUtils.print(term, writer, sectInfo, sectName, markup);
   }

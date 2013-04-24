@@ -21,16 +21,16 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.Collections;
-import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.czt.base.ast.Term;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.impl.SectSummaryAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -161,7 +161,7 @@ public class TypeCheckCommand extends AbstractCommand
       {
         final String message = "Section " + name + " was not type checked properly. "
                 + "Couldn't find its type information key in the section manager";
-        throw new CommandException(message);
+        throw new CommandException(manager.getDialect(), message);
       }
 
       // if there are warnings within the errors, add then
@@ -185,7 +185,7 @@ public class TypeCheckCommand extends AbstractCommand
         final String message = "Section " + name + " contains " + count +
           (count == 1 ? " error." : " errors.");
         Exception nestedException = new TypeErrorException(message, errors);        
-        throw new CommandException(nestedException);
+        throw new CommandException(manager.getDialect(), nestedException);
       }
       traceLog("TC-TYPECHECK-OKAY");
       return true;

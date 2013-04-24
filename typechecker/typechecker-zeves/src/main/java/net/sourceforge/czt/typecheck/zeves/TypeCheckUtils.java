@@ -23,12 +23,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.zeves.ast.ZEvesFactory;
-import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
-import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Dialect;
@@ -45,6 +44,9 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.zeves.ast.ZEvesFactory;
+import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
+import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 
 /**
  *
@@ -325,7 +327,8 @@ public class TypeCheckUtils
   }
 
   @Override
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)
+  protected void printTerm(Term term, StringWriter writer, 
+		  SectionManager sectInfo, String sectName, Markup markup) throws PrintException
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
     super.printTerm(term, writer, sectInfo, sectName, markup);

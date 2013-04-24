@@ -18,14 +18,16 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
-import java.util.*;
-import java.io.*;
+import java.io.Writer;
+import java.util.ResourceBundle;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.oz.PrintUtils;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.oz.util.CarrierSet;
+import net.sourceforge.czt.z.ast.LocAnn;
 
 /**
  * A class for annotating terms associated with error messages.
@@ -52,16 +54,18 @@ public class ErrorAnn
     super(errorMessage, params, sectInfo, sectName, locAnn, term, markup);
   }
 
-  protected CarrierSet getCarrierSet()
+  @Override
+protected CarrierSet getCarrierSet()
   {
     return new CarrierSet(true);
   }
 
-  protected void print(Term term,
+  @Override
+protected void print(Term term,
                        Writer writer,
                        SectionManager sectInfo,
                        String sectName,
-                       Markup markup)
+                       Markup markup) throws PrintException
   {
     PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }

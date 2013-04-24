@@ -18,30 +18,103 @@
  */
 package net.sourceforge.czt.typecheck.z;
 
-import java.io.Writer;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.FAIL;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.PARTIAL;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.SUCC;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.addAnn;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.copyAnns;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.genericType;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.getTypeFromAnns;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.instanceOf;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.nearestLocAnn;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.position;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.powerType;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.removeAnn;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.removeObject;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.schemaType;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.unknownType;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.unwrapType;
+import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.variableSignature;
+import static net.sourceforge.czt.z.util.ZUtils.assertZName;
+import static net.sourceforge.czt.z.util.ZUtils.assertZNameList;
+import static net.sourceforge.czt.z.util.ZUtils.compareTo;
+import static net.sourceforge.czt.z.util.ZUtils.containsID;
+import static net.sourceforge.czt.z.util.ZUtils.containsZName;
+import static net.sourceforge.czt.z.util.ZUtils.namesEqual;
+
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.util.SectParentResolver;
 import net.sourceforge.czt.parser.util.SectParentResolver.CyclicSectionsException;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.impl.Factory;
+import net.sourceforge.czt.typecheck.z.impl.UnknownType;
+import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
+import net.sourceforge.czt.typecheck.z.impl.VariableType;
+import net.sourceforge.czt.typecheck.z.util.CarrierSet;
+import net.sourceforge.czt.typecheck.z.util.DependencyGraph;
+import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
+import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
+import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
+import net.sourceforge.czt.typecheck.z.util.TypeEnv;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
+import net.sourceforge.czt.typecheck.z.util.UnificationEnv;
+import net.sourceforge.czt.z.ast.And;
+import net.sourceforge.czt.z.ast.AndPred;
+import net.sourceforge.czt.z.ast.DeclList;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.GenParamType;
+import net.sourceforge.czt.z.ast.GenericType;
+import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameList;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.NewOldPair;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ProdType;
+import net.sourceforge.czt.z.ast.RenameExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.SignatureAnn;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -58,6 +131,11 @@ abstract public class Checker<R>
   {
     assert typeChecker != null;
     typeChecker_ = typeChecker;
+  }
+  
+  protected SectionManager getManager()
+  {
+	  return typeChecker_.getManager();
   }
   
   /**
@@ -79,7 +157,7 @@ abstract public class Checker<R>
   protected void addTypeAnn(Term term, Type type)
   {
     assert type != null;
-    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+    TypeAnn typeAnn = term.getAnn(TypeAnn.class);
     if (typeAnn == null)
     {
       typeAnn = factory().createTypeAnn(type);
@@ -96,7 +174,7 @@ abstract public class Checker<R>
   {
     assert signature != null;
     SignatureAnn signatureAnn =
-      (SignatureAnn) term.getAnn(SignatureAnn.class);
+      term.getAnn(SignatureAnn.class);
     if (signatureAnn == null)
     {
       signatureAnn = factory().createSignatureAnn(signature);
@@ -104,7 +182,7 @@ abstract public class Checker<R>
     }
     else
     {
-      Signature oldSignature = (Signature) signatureAnn.getSignature();
+      Signature oldSignature = signatureAnn.getSignature();
       if (oldSignature instanceof VariableSignature &&
         variableSignature(oldSignature).getValue() == oldSignature)
       {
@@ -124,7 +202,7 @@ abstract public class Checker<R>
    */
   protected TypeAnn getTypeAnn(Term term)
   {
-    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+    TypeAnn typeAnn = term.getAnn(TypeAnn.class);
     if (typeAnn == null)
     {
       typeAnn = factory().createTypeAnn();
@@ -244,7 +322,7 @@ abstract public class Checker<R>
   {
     try
     {
-      Term newTerm = (Term) term.accept(exprChecker().getCarrierSet());
+      Term newTerm = term.accept(exprChecker().getCarrierSet());
       StringWriter writer = new StringWriter();
       print(newTerm, writer, sectInfo(), sectName(), markup());
       return writer.toString();
@@ -266,7 +344,7 @@ abstract public class Checker<R>
     Writer writer,
     SectionManager sectInfo,
     String sectName,
-    Markup markup)
+    Markup markup) throws PrintException
   {
     PrintUtils.print(term, writer, sectInfo, sectName, markup());
   }
@@ -386,7 +464,7 @@ abstract public class Checker<R>
    */
   protected void setMarkup(Term term)
   {
-    LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+    LocAnn locAnn = term.getAnn(LocAnn.class);
     if (locAnn != null)
     {
       String fileName = locAnn.getLoc();
@@ -1670,7 +1748,7 @@ abstract public class Checker<R>
       ZName uTypeName = uType.getZName();
       if (uTypeName != null)
       {
-        ParameterAnn pAnn = (ParameterAnn) uTypeName.getAnn(ParameterAnn.class);
+        ParameterAnn pAnn = uTypeName.getAnn(ParameterAnn.class);
         List<Type2> types = uType.getType();
         if (pAnn != null && types.size() == 0)
         {
