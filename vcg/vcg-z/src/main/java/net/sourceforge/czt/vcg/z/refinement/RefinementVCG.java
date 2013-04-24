@@ -22,12 +22,12 @@ package net.sourceforge.czt.vcg.z.refinement;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
+
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Pair;
 import net.sourceforge.czt.vcg.util.Definition;
-import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCEnvAnn;
@@ -39,6 +39,7 @@ import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -225,7 +226,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     if (name != null && !name.isEmpty())
     {
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
-        throw new CztException(new RefinementException("Cannot set Z concrete state name that contains prime decoration"));
+        throw new CztException(new RefinementException(getDialect(), "Cannot set Z concrete state name that contains prime decoration"));
       concreteStateName_ = name;
       getRefVCCollector().setConcreteStateName(getFactory().createZName(name));
     }
@@ -241,7 +242,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
     if (name != null && !name.isEmpty())
     {
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
-        throw new CztException(new RefinementException("Cannot set Z retrieve schema name that contains prime decoration"));
+        throw new CztException(new RefinementException(getDialect(), "Cannot set Z retrieve schema name that contains prime decoration"));
       retrieveName_ = name;
       getRefVCCollector().setRetrieveName(getFactory().createZName(name));
     }
@@ -306,7 +307,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
       // if we have any ref pair / def of interest information and not state/retrieve, raise an error
       if (aState == null || cState == null || retr == null)
       {
-        throw new VCCollectionException("Inconsistent Z refinement relationship definitions. The abstract state '"
+        throw new VCCollectionException(getDialect(), "Inconsistent Z refinement relationship definitions. The abstract state '"
                 + aState + "', the concrete state '" + cState + " and the retrieve schema '" + retr + "' must all be non-null "
                 + " in order to generate VCs for " + defsOfInterest.size() + " definitions of interest.");
       }
@@ -326,7 +327,7 @@ public class RefinementVCG extends FeasibilityVCG //AbstractTermVCG<List<Pair<Pa
         // otherwise VCG missed something during collection
         else
         {
-          throw new VCCollectionException("Could not find definition for Z refinement relationship between operations.\n\tAbstract..: '"
+          throw new VCCollectionException(getDialect(), "Could not find definition for Z refinement relationship between operations.\n\tAbstract..: '"
                   + absName + "'\n\tConcrete..: '" + conName + "'");
         }
       }

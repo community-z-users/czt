@@ -29,10 +29,10 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.impl.BaseFactory;
 import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
@@ -42,16 +42,17 @@ import net.sourceforge.czt.print.z.LatexPrinterPropertyKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.vcg.util.DefinitionException;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.DefinitionTableService;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.Sect;
@@ -330,7 +331,7 @@ public abstract class VCGUtils<//R,
     }
     catch (IOException e)
     {
-      throw new VCGException("VCGU-PRINT-ERROR = " + vcFileName, e);
+      throw new VCGException(getVCG().getManager().getDialect(), "VCGU-PRINT-ERROR = " + vcFileName, e);
     }
   }
 
@@ -363,7 +364,7 @@ public abstract class VCGUtils<//R,
     catch (CommandException ex)
     {
       final String msg = "VCGU-PRINT-ZSECT-NOT-DOMCHECKED = " + sectNameVC;
-      throw new VCGException(msg, ex);
+      throw new VCGException(ex.getDialect(), msg, ex);
     }
   }
 
@@ -381,7 +382,7 @@ public abstract class VCGUtils<//R,
       manager.getLogger().warning(msg);
       if (!couldDelete)
       {
-        throw new VCGException(msg);
+        throw new VCGException(getVCG().getManager().getDialect(), msg);
       }
     }
 
@@ -467,7 +468,7 @@ public abstract class VCGUtils<//R,
     catch (CommandException ex)
     {
       final String msg = "VCGU-PRINT-ERROR = " + sectNameVC;
-      throw new VCGException(msg, ex);
+      throw new VCGException(ex.getDialect(), msg, ex);
     }
     assert output != null;
     return output;
@@ -568,7 +569,7 @@ public abstract class VCGUtils<//R,
       // retrieve the spec
       Spec spec = manager.get(new Key<Spec>(sourceName, Spec.class));
       if (spec == null)
-        throw new VCGException("VCGU-NULL-SPEC-ON-FILE- = " + fileName);
+        throw new VCGException(getVCG().getManager().getDialect(), "VCGU-NULL-SPEC-ON-FILE- = " + fileName);
 
       // process all ZSects to collect resulting CztPrintStrings
       CztPrintString output = null;
@@ -602,19 +603,19 @@ public abstract class VCGUtils<//R,
         default:
           final String msg = "VCGU-PRINT-UNKNOWN-MARKUP = " + markup;
           manager.getLogger().warning(msg);
-          throw new VCGException(msg);
+          throw new VCGException(getVCG().getManager().getDialect(), msg);
       }
       assert output != null;
       return output;
     }
     catch (ParseException f)
     {
-      throw new VCGException("VCGU-VC-ZSECT-PARSE-ERROR = " + sourceName, f);
+      throw new VCGException(f.getDialect(), "VCGU-VC-ZSECT-PARSE-ERROR = " + sourceName, f);
     }
     catch (CommandException g)
     {
       if (!(g instanceof VCGException))
-        throw new VCGException("VCGU-VC-ZSECT-CMDEXP = " + sourceName, g);
+        throw new VCGException(g.getDialect(), "VCGU-VC-ZSECT-CMDEXP = " + sourceName, g);
       else
         throw (VCGException)g;
     }
@@ -1321,13 +1322,13 @@ public abstract class VCGUtils<//R,
       {
         ParseException pe = (ParseException)vcge.getCause();
         parsingErrors += pe.getErrors().size();
-        result.add((ParseException)vcge.getCause());
+        result.add(vcge.getCause());
       }
       else if (vcge.getCause() instanceof TypeErrorException)
       {
         TypeErrorException te = (TypeErrorException)vcge.getCause();
         typeErrors += te.getErrors().size();
-        result.add((TypeErrorException)vcge.getCause());
+        result.add(vcge.getCause());
       }
       else
       {

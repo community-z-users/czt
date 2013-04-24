@@ -20,6 +20,7 @@ package net.sourceforge.czt.vcg.z.feasibility;
 
 import java.util.List;
 import java.util.SortedSet;
+
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.session.CommandException;
@@ -197,7 +198,7 @@ public class FeasibilityVCG extends
     if (name != null && !name.isEmpty())
     {
       if (name.indexOf(ZChar.PRIME.toString()) != -1 || name.indexOf("'") != -1)
-        throw new CztException(new FeasibilityException("Cannot set Z state name that contains prime decoration"));
+        throw new CztException(new FeasibilityException(getDialect(), "Cannot set Z state name that contains prime decoration"));
       zStateName_ = name;
       getFSBVCCollector().setStateName(ZStateInfo.STATE, getFactory().createZName(name));
     }

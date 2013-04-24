@@ -20,6 +20,7 @@ package net.sourceforge.czt.vcg.z;
 
 import java.util.Collections;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.CztException;
@@ -129,7 +130,7 @@ public abstract class TrivialVCCollector<T, B> extends AbstractVCCollector<//Pre
   public Pred visitOptempPara(OptempPara term)
   {
     if (term.getPrec() != null && term.getPrec().signum() < 0)
-      throw new CztException(new VCCollectionException("VC-TRIVIALCOL-OPTEMPPARA-NEGPREC = " + term));
+      throw new CztException(new VCCollectionException(getDialect(), "VC-TRIVIALCOL-OPTEMPPARA-NEGPREC = " + term));
     //assert term.getPrec().signum() >= 0 : "Operator template paragraph precedence MUST be non-negative";
     return truePred();
   }

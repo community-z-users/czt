@@ -24,9 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Expr;
@@ -265,6 +267,11 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       }
     }
   }
+  
+  protected Dialect getDialect()
+  {
+	  return Dialect.Z;
+  }
 
   private Expr tryResolvingGenerics(ZNameList genFormals, Type2 carrierType, Expr expr)
   {
@@ -307,7 +314,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
             "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName() +
             ". This only happens on explicit duplication (e.g., within same paragraph); "
             + " adding intersection of declarations as " + DefinitionTable.printTerm(definition);
-          //throw new DefinitionException(oldLocalDef.getDefName(), message);
+          //throw new DefinitionException(getDialect(), getDialect(), oldLocalDef.getDefName(), message);
           CztLogger.getLogger(getClass()).warning(message);
 
           foundCollusion = true;
@@ -320,7 +327,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
             "\" of \"" + DefinitionTable.printTerm(defName_) + "\" in section " + getSectionName() +
             ". Previous declaration is not a schema binding but a " + previous.getDefinitionKind().toString() +
             ", whereas current definition is a " + definitionKind + ". This is likely to be type incorrect.";
-          throw new DefinitionException(previous.getDefName(), message);
+          throw new DefinitionException(getDialect(), previous.getDefName(), message);
         }
       }
       // NOTE: this case doesn't usually happen by the user;
@@ -356,7 +363,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
             ". Previous declaration is not a schema binding but a " + oldLocalDef.getDefinitionKind().toString() +
             ", whereas current definition is a " + def.getDefinitionKind().toString() +
             ". This is likely to be type incorrect.";
-          throw new DefinitionException(oldLocalDef.getDefName(), message);
+          throw new DefinitionException(getDialect(), oldLocalDef.getDefName(), message);
       }
     }
   }
@@ -368,7 +375,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       defKind_ = defKind;
     }
     else
-      throw new DefinitionException("Cannot update schema reference " + 
+      throw new DefinitionException(getDialect(), "Cannot update schema reference " + 
               DefinitionTable.printTerm(getDefName()) +
               " from " + defKind_ + " to " + defKind);
   }
@@ -377,7 +384,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   {
     if (bindings == null || bindings.isEmpty())
     {
-      throw new DefinitionException("Empty local bindings to modify for " + DefinitionTable.printTerm(getDefName()));
+      throw new DefinitionException(getDialect(), "Empty local bindings to modify for " + DefinitionTable.printTerm(getDefName()));
     }
     specialBindings_.addAll(bindings);
   }
@@ -393,7 +400,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
   {
     if (def == null || !ZUtils.namesEqual(oldName, def.getDefName()))
     {
-      exceptions.add(new DefinitionException("Could not modify local definition named \"" +
+      exceptions.add(new DefinitionException(getDialect(), "Could not modify local definition named \"" +
               DefinitionTable.printTerm(oldName) + "\" of " +
               DefinitionTable.printTerm(getDefName()) +
               (def != null ? ": names differ - "
@@ -430,7 +437,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
         Definition oldDef = localBindings.put(ZUtils.assertZName(newName), localDefToRename);
         if (oldDef != null)
         {
-          exceptions.add(new DefinitionException("Name capture during renaming: new name \"" +
+          exceptions.add(new DefinitionException(getDialect(), "Name capture during renaming: new name \"" +
                 DefinitionTable.printTerm(newName) + "\" of " +
                 DefinitionTable.printTerm(getDefName()) + " is already defined."));
         }
@@ -459,7 +466,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     List<DefinitionException> exceptions = new ArrayList<DefinitionException>();
     if (bindings.isEmpty())
     {
-      exceptions.add(new DefinitionException("Empty local bindings to modify " + DefinitionTable.printTerm(getDefName())));
+      exceptions.add(new DefinitionException(getDialect(), "Empty local bindings to modify " + DefinitionTable.printTerm(getDefName())));
     }
     ZName defName = getDefName();
     for(NewOldPair pair : bindings)
@@ -472,7 +479,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
       // if we couldn't find, raise an error
       if (found <= 0)
       {
-        exceptions.add(new DefinitionException("Could not find local binding for \"" +
+        exceptions.add(new DefinitionException(getDialect(), "Could not find local binding for \"" +
                 DefinitionTable.printTerm(oldName) + "\" of " +
                 DefinitionTable.printTerm(defName)));
       }
@@ -487,7 +494,7 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
     }
     if (!exceptions.isEmpty())
     {
-      throw new DefinitionException("Inconsistent local bindings modification", exceptions);
+      throw new DefinitionException(getDialect(), "Inconsistent local bindings modification", exceptions);
     }
   }
 

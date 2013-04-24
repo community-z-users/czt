@@ -20,6 +20,7 @@
 package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Para;
@@ -52,7 +53,7 @@ public abstract class AbstractVC<R> implements VC<R>
       throws VCCollectionException
   {
     if (term == null || vc == null || type == null || name == null || vcId <= 0)
-      throw new VCCollectionException("VC-CTOR-ILLEGAL-ARG-VC");
+      throw new VCCollectionException(Dialect.Z, "VC-CTOR-ILLEGAL-ARG-VC");
     vcId_ = vcId;
     para_ = term;
     vcType_ = type;

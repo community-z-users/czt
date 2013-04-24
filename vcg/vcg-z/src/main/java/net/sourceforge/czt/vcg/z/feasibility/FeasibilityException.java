@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z.feasibility;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 
 /**
@@ -36,23 +37,23 @@ public class FeasibilityException extends VCCollectionException
 /** Creates a new instance of VCGException
    * @param message
    */
-  public FeasibilityException(String message)
+  public FeasibilityException(Dialect d, String message)
   {
-     super(message);
+     super(d, message);
   }
 
-  public FeasibilityException(String message, Throwable cause)
+  public FeasibilityException(Dialect d, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
   }
 
-  public FeasibilityException(Throwable cause)
+  public FeasibilityException(Dialect d, Throwable cause)
   {
-    super(cause);
+    super(d, cause);
   }
 
-  public FeasibilityException(String message, String origSectName, Throwable cause)
+  public FeasibilityException(Dialect d, String message, String origSectName, Throwable cause)
   {
-    super(message, origSectName, cause);
+    super(d, message, origSectName, cause);
   }
 }

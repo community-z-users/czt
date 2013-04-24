@@ -22,15 +22,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
 
-import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.vcg.util.Definition;
+import net.sourceforge.czt.vcg.z.TermTransformer;
+import net.sourceforge.czt.vcg.z.VC;
+import net.sourceforge.czt.vcg.z.VCCollectionException;
+import net.sourceforge.czt.vcg.z.VCGContext;
+import net.sourceforge.czt.vcg.z.VCType;
+import net.sourceforge.czt.vcg.z.transformer.dc.ZPredTransformerDC;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.CondExpr;
+import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Expr0N;
@@ -49,36 +57,34 @@ import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.NegPred;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.OrPred;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Qnt1Expr;
 import net.sourceforge.czt.z.ast.QntPred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZBranchList;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.InfoTable;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.vcg.util.Definition;
-import net.sourceforge.czt.vcg.z.TermTransformer;
-import net.sourceforge.czt.vcg.z.VC;
-import net.sourceforge.czt.vcg.z.VCCollectionException;
-import net.sourceforge.czt.vcg.z.VCGContext;
-import net.sourceforge.czt.vcg.z.VCType;
-import net.sourceforge.czt.vcg.z.transformer.dc.ZPredTransformerDC;
+import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.Fixity;
+import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
-
 import net.sourceforge.czt.z.visitor.AndPredVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.BindExprVisitor;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.CondExprVisitor;
+import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
 import net.sourceforge.czt.z.visitor.Expr0NVisitor;
 import net.sourceforge.czt.z.visitor.Expr1Visitor;
@@ -107,14 +113,6 @@ import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
 import net.sourceforge.czt.z.visitor.ZExprListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 import net.sourceforge.czt.z.visitor.ZSchTextVisitor;
-
-import net.sourceforge.czt.z.ast.ConjPara;
-import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.util.Fixity;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 
 /**
  * <p>
@@ -571,7 +569,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
         
         // for SchBox, expr must be an SchExpr! Well-formed/parsed ASTs should never suffer from this.
         if (!(schExpr instanceof SchExpr))
-          throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-NOSCHEXPR = " + term));
+          throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-APPLEXPR-NOSCHEXPR = " + term));
         //assert (schExpr instanceof SchExpr) : "Invalid SchBox AxPara, no SchExpr within ConstDecl!";
         
         // for SchBox : DC([ D | P ]) \iff DC(D) \land (\forall D @ DC(P)), which comes from ZSchText DC in SchExpr ;)
@@ -588,7 +586,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
           horizExpr = ZUtils.getAbbreviationExpr(term);
 
         if (horizExpr == null)
-          throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-NULL-HORIZEXPR = " + term));
+          throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-APPLEXPR-NULL-HORIZEXPR = " + term));
         //assert horizExpr != null : "Invalid horizontal definition: neither schema construction, nor abbreviation (null)!";
         
         // for OmitBox: DC(n[X] == E) \iff DC(E), where E could be a SchExpr ([ D | P])
@@ -771,13 +769,13 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitApplExpr(ApplExpr term) 
   {
     if (!ZUtils.isApplicationExprValid(term))
-      throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-INVALID = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-APPLEXPR-INVALID = " + term));
     //assert ZUtils.isApplicationExprValid(term) : "Invalid ApplExpr! It is neiter function operator application, nor an application expression.";
 
     // retrieve f and a, in f~a, or a~f~b, or (_ f _)[X]~a, etc...
     Expr name = ZUtils.getApplExprRef(term);
     if (!(name instanceof RefExpr || name instanceof ApplExpr))
-      throw new CztException(new DomainCheckException("VC-DC-COL-APPLEXPR-BADCALL = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-APPLEXPR-BADCALL = " + term));
     //assert name instanceof RefExpr || name instanceof ApplExpr;
 
     ZExprList flatArgs = ZUtils.getApplExprArguments(term); // falttens TupleExpr into a ZExprList
@@ -1013,17 +1011,17 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitLetExpr(LetExpr term) 
   {
     if (term.getZSchText() == null)
-      throw new CztException(new DomainCheckException("VC-DC-COL-LETEXPR-ZSCHTXT-NULL = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-LETEXPR-ZSCHTXT-NULL = " + term));
 
     // Check for the expressions within the list of declaration
     ZDeclList constdecl = term.getZSchText().getZDeclList();
 
     if (!(predTransformer_.isOnlyConstDecl(constdecl)))
-      throw new CztException(new DomainCheckException("VC-DC-COL-LETEXPR-NOCONSTDECL = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-LETEXPR-NOCONSTDECL = " + term));
     //assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
 
     if (term.getZSchText().getPred() != null)
-      throw new CztException(new DomainCheckException("VC-DC-COL-LETEXPR-ZSCHTXT-NONNULL-PRED = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-LETEXPR-ZSCHTXT-NONNULL-PRED = " + term));
     //assert term.getZSchText().getPred() == null : "Parsing must set SchText.Pred on LetExpr to null!";
     
     Pred dcd = visit(constdecl);     // DC(D)
@@ -1062,11 +1060,11 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitMuExpr(MuExpr term) 
   {
     if (term.getZSchText() == null)
-      throw new CztException(new DomainCheckException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-MUEXPR-ZSCHTXT-NULL = " + term));
 
     // Pred for Mu could NOT be null!
     if (term.getZSchText().getPred() == null)
-      throw new CztException(new DomainCheckException("VC-DC-COL-MUEXPR-ZSCHTXT-NULL-PRED = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-MUEXPR-ZSCHTXT-NULL-PRED = " + term));
     //assert term.getZSchText().getPred() != null : "Invalid MuExpr: getPred() is null!";
 
     ZDeclList decl = term.getZSchText().getZDeclList();
@@ -1138,7 +1136,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     ZDeclList constdecl = term.getZDeclList();
 
     if (!(predTransformer_.isOnlyConstDecl(constdecl)))
-      throw new CztException(new DomainCheckException("VC-DC-COL-BINDEXPR-NOCONSTDECL = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-BINDEXPR-NOCONSTDECL = " + term));
     //assert predTransformer_.isOnlyConstDecl(constdecl) : "Parsing must only allow ConstDecl within the LetExpr ZDeclList!";
     
     return visit(constdecl);
@@ -1350,7 +1348,7 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   public Pred visitMemPred(MemPred term)
   {
     if (!ZUtils.isMemPredValid(term))
-      throw new CztException(new DomainCheckException("VC-DC-COL-MEMPRED-INVALID = " + term));
+      throw new CztException(new DomainCheckException(getDialect(), "VC-DC-COL-MEMPRED-INVALID = " + term));
     //assert ZUtils.isMemPredValid(term) : "Invalid MemPred! It is neiter: equality, membership, or relational operator application." ;
     
     Expr expr1 = ZUtils.getMemPredLHS(term);// just getLeftExpr().

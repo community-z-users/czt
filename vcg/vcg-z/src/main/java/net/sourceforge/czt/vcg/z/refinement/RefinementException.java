@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z.refinement;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 
 /**
@@ -36,23 +37,23 @@ public class RefinementException  extends VCCollectionException
 /** Creates a new instance of VCGException
    * @param message
    */
-  public RefinementException(String message)
+  public RefinementException(Dialect d, String message)
   {
-     super(message);
+     super(d, message);
   }
 
-  public RefinementException(String message, Throwable cause)
+  public RefinementException(Dialect d, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
   }
 
-  public RefinementException(Throwable cause)
+  public RefinementException(Dialect d, Throwable cause)
   {
-    super(cause);
+    super(d, cause);
   }
 
-  public RefinementException(String message, String origSectName, Throwable cause)
+  public RefinementException(Dialect d, String message, String origSectName, Throwable cause)
   {
-    super(message, origSectName, cause);
+    super(d, message, origSectName, cause);
   }
 }

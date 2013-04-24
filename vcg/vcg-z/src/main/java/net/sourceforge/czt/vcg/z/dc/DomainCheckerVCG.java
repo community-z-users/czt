@@ -20,6 +20,7 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.List;
 import java.util.SortedSet;
+
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -75,7 +76,7 @@ public class DomainCheckerVCG extends
 {
 
   private ZSect dcToolkit_;
-  private DCVCCollector domainCheck_;
+  private final DCVCCollector domainCheck_;
   
   /* CLASS SETUP METHOS */
 
@@ -247,11 +248,11 @@ public class DomainCheckerVCG extends
       {
         if (dcToolkit_ == null) 
         {
-			throw new DomainCheckException("VCG-DC-TOOLKIT-PARSE-ERROR", e);
+			throw new DomainCheckException(getDialect(), "VCG-DC-TOOLKIT-PARSE-ERROR", e);
 		} 
         else if (type == null) 
 		{
-			throw new DomainCheckException("VCG-DC-TOOLKIT-TYPE-ERROR", e);
+			throw new DomainCheckException(getDialect(), "VCG-DC-TOOLKIT-TYPE-ERROR", e);
 		} 
         // TODO: why is this dead code?
         //else throw new DomainCheckException("VCG-DC-TOOLKIT-CMD-ERROR", e);

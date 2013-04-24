@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.z.dc;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 
 /**
@@ -36,23 +37,23 @@ public class DomainCheckException extends VCCollectionException
 /** Creates a new instance of VCGException
    * @param message
    */
-  public DomainCheckException(String message)
+  public DomainCheckException(Dialect d, String message)
   {
-     super(message);
+     super(d, message);
   }
 
-  public DomainCheckException(String message, Throwable cause)
+  public DomainCheckException(Dialect d, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
   }
 
-  public DomainCheckException(Throwable cause)
+  public DomainCheckException(Dialect d, Throwable cause)
   {
-    super(cause);
+    super(d, cause);
   }
 
-  public DomainCheckException(String message, String origSectName, Throwable cause)
+  public DomainCheckException(Dialect d, String message, String origSectName, Throwable cause)
   {
-    super(message, origSectName, cause);
+    super(d, message, origSectName, cause);
   }
 }

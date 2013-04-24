@@ -95,12 +95,12 @@ public abstract class AbstractFeasibilityVCCollector<T, B> extends
 
 	protected VCCollectionException createVCCollectionException(
 			final String message) {
-		return new FeasibilityException(message);
+		return new FeasibilityException(getDialect(), message);
 	}
 
 	protected VCCollectionException createVCCollectionException(
 			final String message, Throwable e) {
-		return new FeasibilityException(message, e);
+		return new FeasibilityException(getDialect(), message, e);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public abstract class AbstractFeasibilityVCCollector<T, B> extends
 			throws VCCollectionException {
 		super.beforeCalculateVC(term, tables);
 		if (getDefTable() == null) {
-			throw new VCCollectionException(
+			throw new VCCollectionException(getDialect(), 
 					"VCG-FSB-NO-DEFTBL: cannot calculate fsb vcs without DefTbl");
 		}
 	}
@@ -198,7 +198,7 @@ public abstract class AbstractFeasibilityVCCollector<T, B> extends
 		SortedSet<Definition> mixedBindings;
 		try {
 			if (computedBindings_.containsKey(stName))
-				throw new DefinitionException(
+				throw new DefinitionException(getDialect(), 
 						"VC-FSB-DUPLICATE-SCHEMA-IN-DEFTBL = " + stName);
 			mixedBindings = new TreeSet<Definition>(getBindingsFor(stName));
 		} catch (DefinitionException ex) {
@@ -294,7 +294,7 @@ public abstract class AbstractFeasibilityVCCollector<T, B> extends
 		getLogger().warning(message);
 	}
 
-	private DefinitionComparator definitionComparatorIgnoringStrokes_ = new DefinitionComparator(
+	private final DefinitionComparator definitionComparatorIgnoringStrokes_ = new DefinitionComparator(
 			true);
 
 	protected boolean bindingsSubsetEq(SortedSet<Definition> LHS,

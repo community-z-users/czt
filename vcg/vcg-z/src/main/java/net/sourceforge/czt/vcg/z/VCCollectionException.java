@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.vcg.z;
 
+import net.sourceforge.czt.session.Dialect;
+
 /**
  * TODO: should it include underlying VC?
  * @author Leo Freitas
@@ -34,23 +36,23 @@ public class VCCollectionException extends VCGException
 /** Creates a new instance of VCGException
    * @param message
    */
-  public VCCollectionException(String message)
+  public VCCollectionException(Dialect d, String message)
   {
-     super(message);
+     super(d, message);
   }
 
-  public VCCollectionException(String message, Throwable cause)
+  public VCCollectionException(Dialect d, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
   }
 
-  public VCCollectionException(Throwable cause)
+  public VCCollectionException(Dialect d, Throwable cause)
   {
-    super(cause);
+    super(d, cause);
   }
 
-  public VCCollectionException(String message, String origSectName, Throwable cause)
+  public VCCollectionException(Dialect d, String message, String origSectName, Throwable cause)
   {
-    super(message, origSectName, cause);
+    super(d, message, origSectName, cause);
   }
 }

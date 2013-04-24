@@ -18,11 +18,12 @@
  */
 package net.sourceforge.czt.vcg.util;
 
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GenParamType;
@@ -45,6 +46,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.GenParamTypeVisitor;
 import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
@@ -80,14 +82,14 @@ public class CarrierSet
     factory_ = zFactory;
   }
 
-  public Expr calculate(Type type) throws DefinitionException
+  public Expr calculate(Dialect d, Type type) throws DefinitionException
   {
     try
     {
       return (Expr)type.accept(this);
     } catch(ClassCastException e)
     {
-      throw new DefinitionException(type, "Could not calculate carrier set for type " + type);
+      throw new DefinitionException(d, type, "Could not calculate carrier set for type " + type);
     }
   }
 
@@ -166,7 +168,7 @@ public class CarrierSet
     List<Expr> exprs = factory_.list();
     List<Type2> types = prodType.getType();
     for (Iterator<Type2> iter = types.iterator(); iter.hasNext(); ) {
-      Type type = (Type) iter.next();
+      Type type = iter.next();
       Expr expr = (Expr) type.accept(this);
       exprs.add(expr);
     }
