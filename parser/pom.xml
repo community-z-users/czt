@@ -40,6 +40,9 @@
 
   <properties>
     <!-- /templates is a classpath resource directory in `parser-src` JAR -->
+    <!-- TODO: MAKE THIS RELATIVE TO SOME MAVEN-ECLIPSE VARIABLE (Andrius? by Leo) 
+    <template.dir>../parser-src/src/main/resources/templates</template.dir>
+     -->
     <template.dir>/templates</template.dir>
     <parser.java.dir>${project.build.directory}/generated-sources/parsergen</parser.java.dir>
     <parser.cup.dir>${project.build.directory}/generated-sources/parsergen-cup</parser.cup.dir>

@@ -23,6 +23,7 @@
 
     <menu name="CZT UI" ref="module-menu">
       <item name="Introduction" href="index.html"/>
+      <item name="Command line" href="cmdline-ui.html"/>
       <item name="Javadoc" href="apidocs/index.html"/>
     </menu>
 
