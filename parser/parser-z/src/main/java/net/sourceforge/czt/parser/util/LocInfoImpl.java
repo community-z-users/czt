@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.LocAnn;
 public class LocInfoImpl
   implements LocInfo
 {
-  private String source_ = "unknown";
+  private String source_;
   private int line_ = -1;
   private int column_ = -1;
   private int start_ = -1;
@@ -82,13 +82,8 @@ public class LocInfoImpl
     else 
     {
       //throw new NullPointerException("Null locInfo parameter"); //TODO: don't raise? LocInfo is best effort.
-      CztLogger.getLogger(getClass()).warning("Null LocInfo passed as constructor parameter");
+      CztLogger.getLogger(getClass()).fine("Null LocInfo passed as constructor parameter");
       dialect_ = null;
-      source_ = null;
-      line_ = -1;
-      column_ = -1;
-      start_ = -1;
-      length_ = -1;
     }
   }
   
