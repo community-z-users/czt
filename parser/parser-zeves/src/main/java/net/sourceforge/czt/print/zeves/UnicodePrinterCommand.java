@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.zeves;
 
 import java.util.Properties;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
@@ -46,9 +47,9 @@ public class UnicodePrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
+    return new TokenSequenceVisitor(si, printer, props, PrintUtils.warningManager_);
   }
 
   @Override

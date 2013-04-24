@@ -24,20 +24,48 @@ import java.util.Properties;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.z.ZPrinter;
-import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.zpatt.ast.CheckPassed;
+import net.sourceforge.czt.zpatt.ast.Deduction;
+import net.sourceforge.czt.zpatt.ast.HeadDeclList;
+import net.sourceforge.czt.zpatt.ast.JokerDeclList;
+import net.sourceforge.czt.zpatt.ast.JokerDeclListBinding;
+import net.sourceforge.czt.zpatt.ast.JokerExpr;
+import net.sourceforge.czt.zpatt.ast.JokerExprBinding;
+import net.sourceforge.czt.zpatt.ast.JokerExprList;
+import net.sourceforge.czt.zpatt.ast.JokerExprListBinding;
+import net.sourceforge.czt.zpatt.ast.JokerName;
+import net.sourceforge.czt.zpatt.ast.JokerNameBinding;
+import net.sourceforge.czt.zpatt.ast.JokerNameList;
+import net.sourceforge.czt.zpatt.ast.JokerNameListBinding;
+import net.sourceforge.czt.zpatt.ast.JokerPred;
+import net.sourceforge.czt.zpatt.ast.JokerPredBinding;
+import net.sourceforge.czt.zpatt.ast.JokerRenameList;
+import net.sourceforge.czt.zpatt.ast.JokerRenameListBinding;
+import net.sourceforge.czt.zpatt.ast.JokerStroke;
+import net.sourceforge.czt.zpatt.ast.JokerStrokeBinding;
+import net.sourceforge.czt.zpatt.ast.Jokers;
+import net.sourceforge.czt.zpatt.ast.Oracle;
+import net.sourceforge.czt.zpatt.ast.OracleAppl;
+import net.sourceforge.czt.zpatt.ast.Rule;
+import net.sourceforge.czt.zpatt.ast.RuleAppl;
+import net.sourceforge.czt.zpatt.ast.Sequent;
+import net.sourceforge.czt.zpatt.ast.SequentContext;
+import net.sourceforge.czt.zpatt.ast.SequentList;
 import net.sourceforge.czt.zpatt.util.ZPattString;
-import net.sourceforge.czt.zpatt.visitor.*;
+import net.sourceforge.czt.zpatt.visitor.ZpattVisitor;
 
 public class ZpattPrintVisitor
   extends net.sourceforge.czt.print.z.ZPrintVisitor
   implements ZpattVisitor<Object>
 {
-  public ZpattPrintVisitor(ZPrinter printer, Properties props)
+  public ZpattPrintVisitor(SectionInfo si, ZPrinter printer, Properties props)
   {
-    super(printer, props);
+    super(si, printer, props);
   }
 
-  public Object visitCheckPassed(CheckPassed checkPassed)
+  @Override
+public Object visitCheckPassed(CheckPassed checkPassed)
   {
     throw new UnsupportedOperationException();
   }
@@ -47,7 +75,8 @@ public class ZpattPrintVisitor
     throw new UnsupportedOperationException();
   }
 
-  public Object visitHeadDeclList(HeadDeclList list)
+  @Override
+public Object visitHeadDeclList(HeadDeclList list)
   {
     visit(list.getJokerDeclList());
     print(ZKeyword.COMMA);
@@ -55,18 +84,21 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokers(Jokers jokers)
+  @Override
+public Object visitJokers(Jokers jokers)
   {
     throw new UnsupportedOperationException();
   }
 
-  public Object visitJokerDeclList(JokerDeclList joker)
+  @Override
+public Object visitJokerDeclList(JokerDeclList joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerDeclListBinding(JokerDeclListBinding binding)
+  @Override
+public Object visitJokerDeclListBinding(JokerDeclListBinding binding)
   {
     visit(binding.getJokerDeclList());
     printDecorword("\u219D");
@@ -74,13 +106,15 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerExpr(JokerExpr joker)
+  @Override
+public Object visitJokerExpr(JokerExpr joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerExprBinding(JokerExprBinding binding)
+  @Override
+public Object visitJokerExprBinding(JokerExprBinding binding)
   {
     visit(binding.getJokerExpr());
     printDecorword("\u219D");
@@ -88,31 +122,36 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerExprList(JokerExprList joker)
+  @Override
+public Object visitJokerExprList(JokerExprList joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerRenameList(JokerRenameList joker)
+  @Override
+public Object visitJokerRenameList(JokerRenameList joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerStroke(JokerStroke joker)
+  @Override
+public Object visitJokerStroke(JokerStroke joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerNameList(JokerNameList joker)
+  @Override
+public Object visitJokerNameList(JokerNameList joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerExprListBinding(JokerExprListBinding binding)
+  @Override
+public Object visitJokerExprListBinding(JokerExprListBinding binding)
   {
     visit(binding.getJokerExprList());
     printDecorword("\u219D");
@@ -120,7 +159,8 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerRenameListBinding(JokerRenameListBinding binding)
+  @Override
+public Object visitJokerRenameListBinding(JokerRenameListBinding binding)
   {
     visit(binding.getJokerRenameList());
     printDecorword("\u219D");
@@ -128,7 +168,8 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerStrokeBinding(JokerStrokeBinding binding)
+  @Override
+public Object visitJokerStrokeBinding(JokerStrokeBinding binding)
   {
     visit(binding.getJokerStroke());
     printDecorword("\u219D");
@@ -136,7 +177,8 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerNameListBinding(JokerNameListBinding binding)
+  @Override
+public Object visitJokerNameListBinding(JokerNameListBinding binding)
   {
     visit(binding.getJokerNameList());
     printDecorword("\u219D");
@@ -144,13 +186,15 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerPred(JokerPred joker)
+  @Override
+public Object visitJokerPred(JokerPred joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerPredBinding(JokerPredBinding binding)
+  @Override
+public Object visitJokerPredBinding(JokerPredBinding binding)
   {
     visit(binding.getJokerPred());
     printDecorword("\u219D");
@@ -158,13 +202,15 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerName(JokerName joker)
+  @Override
+public Object visitJokerName(JokerName joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerNameBinding(JokerNameBinding binding)
+  @Override
+public Object visitJokerNameBinding(JokerNameBinding binding)
   {
     visit(binding.getJokerName());
     printDecorword("\u219D");
@@ -172,13 +218,15 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitSequent(Sequent sequent)
+  @Override
+public Object visitSequent(Sequent sequent)
   {
     visit(sequent.getPred());
     return null;
   }
 
-  public Object visitSequentList(SequentList sequentList)
+  @Override
+public Object visitSequentList(SequentList sequentList)
   {
     for (Sequent sequent : sequentList) {
       visit(sequent);
@@ -187,7 +235,8 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitRule(Rule rule)
+  @Override
+public Object visitRule(Rule rule)
   {
     printDecorword(ZPattString.RULE);
     printDecorword(rule.getName());
@@ -197,7 +246,8 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitOracle(Oracle oracle)
+  @Override
+public Object visitOracle(Oracle oracle)
   {
     printDecorword(ZPattString.PROVISO);
     printDecorword(oracle.getName());
@@ -205,17 +255,20 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitOracleAppl(OracleAppl oracleAppl)
+  @Override
+public Object visitOracleAppl(OracleAppl oracleAppl)
   {
     throw new UnsupportedOperationException();
   }
 
-  public Object visitRuleAppl(RuleAppl ruleAppl)
+  @Override
+public Object visitRuleAppl(RuleAppl ruleAppl)
   {
     throw new UnsupportedOperationException();
   }
 
-  public Object visitSequentContext(SequentContext context)
+  @Override
+public Object visitSequentContext(SequentContext context)
   {
     throw new UnsupportedOperationException();
   }

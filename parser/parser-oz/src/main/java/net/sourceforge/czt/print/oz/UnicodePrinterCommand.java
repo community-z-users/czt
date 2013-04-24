@@ -40,8 +40,8 @@ public class UnicodePrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(SectionManager si, ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props);
+    return new TokenSequenceVisitor(si, printer, props);
   }
 }

@@ -51,7 +51,7 @@ public class UnicodePrinterCommand
       tree.accept(precVisitor);
       UnicodePrinter printer = new UnicodePrinter(writer);
       Properties props = manager.getProperties();
-      ZpattPrintVisitor visitor = new ZpattPrintVisitor(printer, props);
+      ZpattPrintVisitor visitor = new ZpattPrintVisitor(manager, printer, props);
       tree.accept(visitor);
       writer.close();
       manager.endTransaction(new Key<UnicodeString>(name, UnicodeString.class),
@@ -59,7 +59,7 @@ public class UnicodePrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
     }
   }
 }

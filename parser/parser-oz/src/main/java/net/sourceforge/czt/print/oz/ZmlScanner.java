@@ -22,9 +22,10 @@ package net.sourceforge.czt.print.oz;
 
 import java.util.Properties;
 
-import net.sourceforge.czt.base.ast.*;
-
-import net.sourceforge.czt.print.z.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
+import net.sourceforge.czt.print.z.ZPrintVisitor;
+import net.sourceforge.czt.session.SectionInfo;
 
 /**
  * This Scanner uses the print visitor to tokenize a
@@ -40,16 +41,16 @@ public class ZmlScanner
    * @param term
    * @param props
    */
-  public ZmlScanner(Term term, Properties props)
+  public ZmlScanner(SectionInfo si, Term term, Properties props)
   {
-    super(props);
+    super(si.getDialect(), props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class, this);
-    ZPrintVisitor visitor = new OzPrintVisitor(collector);
+    SymbolCollector collector = new SymbolCollector(si.getDialect(), Sym.class, this);
+    ZPrintVisitor visitor = new OzPrintVisitor(si, collector);
     term.accept(visitor);
-    symbols_ = collector.getSymbols();
+    setSymbols(collector.getSymbols());
   }
   
   // TODO: don't know about Oz. Original ZmlScanner didn't care (e.g., I guess there was no tests for Unicode 2 Latex for Oz).

@@ -23,10 +23,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Dialect;
@@ -52,7 +51,7 @@ public class XmlPrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
     }
   }
 }

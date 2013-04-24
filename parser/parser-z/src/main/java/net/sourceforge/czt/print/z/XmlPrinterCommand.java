@@ -24,6 +24,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -49,7 +50,11 @@ public class XmlPrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
-    }
+	    throw new CommandException(manager.getDialect(), e);
+	  }
+	  catch (PrintException pe)
+	  {
+	    throw new CommandException(manager.getDialect(), pe);
+	  }
   }
 }
