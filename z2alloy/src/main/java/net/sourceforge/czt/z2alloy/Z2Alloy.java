@@ -33,6 +33,7 @@ import java.util.Queue;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.rewriter.RewriteVisitor;
@@ -44,13 +45,80 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.ExistsExpr;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.LambdaExpr;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OptempPara;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ProdType;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchExpr2;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.z2alloy.ast.*;
-import net.sourceforge.czt.z2alloy.visitors.*;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
+import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.ExprVisitor;
+import net.sourceforge.czt.z.visitor.FreeParaVisitor;
+import net.sourceforge.czt.z.visitor.GivenParaVisitor;
+import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
+import net.sourceforge.czt.z.visitor.InclDeclVisitor;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
+import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.OptempParaVisitor;
+import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
+import net.sourceforge.czt.z.visitor.PredVisitor;
+import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
+import net.sourceforge.czt.z.visitor.StrokeVisitor;
+import net.sourceforge.czt.z.visitor.TypeAnnVisitor;
+import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.z2alloy.ast.AlloyExpr;
+import net.sourceforge.czt.z2alloy.ast.ExprConstant;
+import net.sourceforge.czt.z2alloy.ast.ExprUnary;
+import net.sourceforge.czt.z2alloy.ast.ExprVar;
+import net.sourceforge.czt.z2alloy.ast.Field;
+import net.sourceforge.czt.z2alloy.ast.Func;
+import net.sourceforge.czt.z2alloy.ast.Module;
+import net.sourceforge.czt.z2alloy.ast.PrimSig;
+import net.sourceforge.czt.z2alloy.ast.Sig;
+import net.sourceforge.czt.z2alloy.ast.SubsetSig;
+import net.sourceforge.czt.z2alloy.ast.Toolkit;
+import net.sourceforge.czt.z2alloy.visitors.ExistsExprVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.ExprVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.FreetypeVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.PredVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.SchExprVisitorImpl;
+import net.sourceforge.czt.z2alloy.visitors.ZDeclListVisitorImpl;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.visitor.RuleVisitor;
 
@@ -74,24 +142,24 @@ TypeAnnVisitor<AlloyExpr>,
 VarDeclVisitor<AlloyExpr>,
 ZSectVisitor<AlloyExpr>
 {
-  private SectionManager manager_;
-  private AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
-  private String section_ = "z2alloy";
+  private final SectionManager manager_;
+  private final AlloyPrintVisitor printVisitor_ = new AlloyPrintVisitor();
+  private final String section_ = "z2alloy";
   private boolean unfolding_ = false;
 
   // this is public only temporarily 
   public boolean body = false;
 
-  private Module module_ = new Module();
-  private RelationMap relationMap_ = new RelationMap(module_);
-  private Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
+  private final Module module_ = new Module();
+  private final RelationMap relationMap_ = new RelationMap(module_);
+  private final Map<String, AlloyExpr> macros_ = new HashMap<String, AlloyExpr>();
 
   /**
    * A mapping from ZName ids to alloy names.
    */
-  private Map<Expr, String> names = new HashMap<Expr, String>();
+  private final Map<Expr, String> names = new HashMap<Expr, String>();
 
-  private Map<String, String> names_ = new HashMap<String, String>();
+  private final Map<String, String> names_ = new HashMap<String, String>();
 
   /* this is a somewhat clumsy singleton pattern - its clumsy because I need
    * the SectionManager argument for the instantiation
@@ -138,7 +206,8 @@ ZSectVisitor<AlloyExpr>
 
   // ==================== Visitor Methods ==================
 
-  public AlloyExpr visitTerm(Term term) {
+  @Override
+public AlloyExpr visitTerm(Term term) {
     System.err.println(term.getClass() + " not yet implemented");
     throw new RuntimeException(print(term));
   }
@@ -168,7 +237,8 @@ ZSectVisitor<AlloyExpr>
    * 
    */
   // TODO Other cases: RefExprs, LambdaExpr, just visit(result).
-  public AlloyExpr visitAxPara(AxPara para) {
+  @Override
+public AlloyExpr visitAxPara(AxPara para) {
     if (para.getName().size() > 0) {
       System.err.println("Generic definitions not handled yet.");
       throw new RuntimeException();
@@ -198,7 +268,8 @@ ZSectVisitor<AlloyExpr>
     return null;
   }
 
-  public AlloyExpr visitConstDecl(ConstDecl cDecl) {
+  @Override
+public AlloyExpr visitConstDecl(ConstDecl cDecl) {
     try {
       String sigName = print(cDecl.getName());
       Expr result = cDecl.getExpr();
@@ -241,7 +312,8 @@ ZSectVisitor<AlloyExpr>
     }
   }
   
-  public AlloyExpr visitExpr(Expr expr) {
+  @Override
+public AlloyExpr visitExpr(Expr expr) {
     return new ExprVisitorImpl(null).visitExpr(expr);
   }
 
@@ -262,7 +334,8 @@ ZSectVisitor<AlloyExpr>
    * @return null
    * 
    */
-  public AlloyExpr visitFreePara(FreePara para) {
+  @Override
+public AlloyExpr visitFreePara(FreePara para) {
     return new FreetypeVisitorImpl().visitFreePara(para);
   }
 
@@ -282,7 +355,8 @@ ZSectVisitor<AlloyExpr>
    * sig C {}
    * </pre>
    */
-  public AlloyExpr visitGivenPara(GivenPara para) {
+  @Override
+public AlloyExpr visitGivenPara(GivenPara para) {
     for (Name name : para.getNames()) {
       module_.addSig(new PrimSig(print(name)));
     }
@@ -301,7 +375,8 @@ ZSectVisitor<AlloyExpr>
    * 
    * @return the sig, or null if no sig matches
    */
-  public AlloyExpr visitGivenType(GivenType givenType) {
+  @Override
+public AlloyExpr visitGivenType(GivenType givenType) {
     if (print(givenType.getName()).equals(ZString.ARITHMOS)) {
       return SIGINT;
     }
@@ -311,12 +386,14 @@ ZSectVisitor<AlloyExpr>
     return module_.getSig(print(givenType.getName()));
   }
 
-  public AlloyExpr visitInclDecl(InclDecl inclDecl) {
+  @Override
+public AlloyExpr visitInclDecl(InclDecl inclDecl) {
     return visit(inclDecl.getExpr());
   }
 
   /** Ignore Latex markup paragraphs. */
-  public AlloyExpr visitLatexMarkupPara(LatexMarkupPara para) {
+  @Override
+public AlloyExpr visitLatexMarkupPara(LatexMarkupPara para) {
     return null;
   }
 
@@ -344,12 +421,14 @@ ZSectVisitor<AlloyExpr>
   }
 
   /** Ignore narrative paragraphs. */
-  public AlloyExpr visitNarrPara(NarrPara para) {
+  @Override
+public AlloyExpr visitNarrPara(NarrPara para) {
     return null;
   }
 
   /** Ignore operator templates. */
-  public AlloyExpr visitOptempPara(OptempPara optempPara) {
+  @Override
+public AlloyExpr visitOptempPara(OptempPara optempPara) {
     return null;
   }
 
@@ -359,7 +438,8 @@ ZSectVisitor<AlloyExpr>
    * 
    * @return the expression, or null if the subexpression translates to null
    */
-  public AlloyExpr visitPowerType(PowerType powerType) {
+  @Override
+public AlloyExpr visitPowerType(PowerType powerType) {
     AlloyExpr body = visit(powerType.getType());
     if (body == null) {
       System.err.println("body of power type must not be null: " + powerType);
@@ -369,7 +449,8 @@ ZSectVisitor<AlloyExpr>
     return body.setOf();
   }
   
-  public AlloyExpr visitPred(Pred pred) {
+  @Override
+public AlloyExpr visitPred(Pred pred) {
     return new PredVisitorImpl().visitPred(pred);
   }
 
@@ -379,7 +460,8 @@ ZSectVisitor<AlloyExpr>
    * @return the expression or null if some of the sub expressions translate
    *         to null
    */
-  public AlloyExpr visitProdType(ProdType prodType) {
+  @Override
+public AlloyExpr visitProdType(ProdType prodType) {
     //		Expr prod = null;
     AlloyExpr first = null;
     AlloyExpr second = null;
@@ -404,11 +486,13 @@ ZSectVisitor<AlloyExpr>
   }
 
   /** Ignore rules. */
-  public AlloyExpr visitRule(Rule r) {
+  @Override
+public AlloyExpr visitRule(Rule r) {
     return null;
   }
 
-  public AlloyExpr visitSchemaType(SchemaType schemaType) {
+  @Override
+public AlloyExpr visitSchemaType(SchemaType schemaType) {
     // this doesn't really work. It matches the 'first' sig which has the
     // same number of fields, with the same names
     // could check the types
@@ -433,18 +517,21 @@ ZSectVisitor<AlloyExpr>
     return null;
   }
 
-  public AlloyExpr visitTypeAnn(TypeAnn typeAnn) {
+  @Override
+public AlloyExpr visitTypeAnn(TypeAnn typeAnn) {
     return visit(typeAnn.getType());
   }
 
   /**
    * creates a exprvar with the name and expr of the vDecl
    */
-  public AlloyExpr visitVarDecl(VarDecl vDecl) {
+  @Override
+public AlloyExpr visitVarDecl(VarDecl vDecl) {
     return new ExprVar(print(vDecl.getName()), visit(vDecl.getExpr()));
   }
 
-  public AlloyExpr visitZSect(ZSect zSect) {
+  @Override
+public AlloyExpr visitZSect(ZSect zSect) {
     String sect = "\\begin{zsection} "
       + "\\SECTION " + section_ + " " + "\\parents "
       + zSect.getName() + ", " + "expansion\\_rules, "
@@ -545,7 +632,7 @@ ZSectVisitor<AlloyExpr>
   public List<Field> fields(SchExpr2 schExpr2) {
     Map<String, AlloyExpr> fields = new HashMap<String, AlloyExpr>();
     Queue<SchExpr2> subexprs = new LinkedList<SchExpr2>();
-    subexprs.offer((SchExpr2) schExpr2);
+    subexprs.offer(schExpr2);
     List<String> order = new ArrayList<String>();
     while (!subexprs.isEmpty()) {
       SchExpr2 subexpr = subexprs.poll();
@@ -634,7 +721,7 @@ ZSectVisitor<AlloyExpr>
   }
 
   @SuppressWarnings("unused")
-private void debug(Term t) {
+  private void debug(Term t) throws PrintException {
     StringWriter foo = new StringWriter();
     PrintUtils.print(t, foo, manager_, section_, Markup.UNICODE);
     System.out.println("Debug: " + foo);
@@ -642,7 +729,8 @@ private void debug(Term t) {
 
   class AlloyPrintVisitor extends PrintVisitor implements
   DecorExprVisitor<String>, RefExprVisitor<String>, StrokeVisitor<String> {
-    public String visitZName(ZName zName) {
+    @Override
+	public String visitZName(ZName zName) {
       String word = zName.getWord();
       word = word.replaceAll(ZString.DELTA, "Delta");
       word = word.replaceAll(ZString.XI, "Xi");
@@ -655,28 +743,34 @@ private void debug(Term t) {
       return word + visit(zName.getStrokeList());
     }
 
-    public String visitInStroke(InStroke inStroke) {
+    @Override
+	public String visitInStroke(InStroke inStroke) {
       return "_in";
     }
 
-    public String visitNextStroke(NextStroke nextStroke) {
+    @Override
+	public String visitNextStroke(NextStroke nextStroke) {
       return "'";
     }
 
-    public String visitOutStroke(OutStroke outStroke) {
+    @Override
+	public String visitOutStroke(OutStroke outStroke) {
       return "_out";
     }
 
-    public String visitNumStroke(NumStroke numStroke) {
+    @Override
+	public String visitNumStroke(NumStroke numStroke) {
       return numStroke.getDigit().toString();
     }
 
-    public String visitDecorExpr(DecorExpr decorExpr) {
+    @Override
+	public String visitDecorExpr(DecorExpr decorExpr) {
       return decorExpr.getExpr().accept(this)
       + decorExpr.getStroke().accept(this);
     }
 
-    public String visitRefExpr(RefExpr refExpr) {
+    @Override
+	public String visitRefExpr(RefExpr refExpr) {
       return refExpr.getName().accept(this);
     }
 
