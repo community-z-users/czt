@@ -80,7 +80,7 @@ public class ZEvesResultConverter {
 		
 		Key<ZSect> sectKey = new Key<ZSect>(sectName, ZSect.class);
 		if (!sectInfo.isCached(sectKey)) {
-			throw new CommandException("Section " + sectName + " is not parsed.");
+			throw new CommandException(sectInfo.getDialect(), "Section " + sectName + " is not parsed.");
 		}
 	}
 	

@@ -364,7 +364,7 @@ public class VCManager<T, B> {
 			String name = getVCParaName(para);
 			if (name != null) {
 				if (paras.containsKey(name)) {
-					throw new VCGException("Duplicate paragraph name in specification: " + name);
+					throw new VCGException(this.vcg.getManager().getDialect(), "Duplicate paragraph name in specification: " + name);
 				}
 				
 				paras.put(name, para);

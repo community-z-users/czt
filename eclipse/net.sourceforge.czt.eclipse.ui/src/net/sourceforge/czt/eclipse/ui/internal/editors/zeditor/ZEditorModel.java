@@ -205,7 +205,9 @@ public class ZEditorModel
     
     public ZCompilerError(String message)
     {
-      super(message, new Object[0], new LocInfoImpl(null, 0, 0));
+    	// TODO: Andrius is this okay? (Leo)
+      super(CztUIPlugin.getDefault().getSectionManager(), message, new Object[0], 
+    		  new LocInfoImpl(CztUIPlugin.getDefault().getSectionManager().getDialect(), null, 0, 0));
     }
 
     @Override
