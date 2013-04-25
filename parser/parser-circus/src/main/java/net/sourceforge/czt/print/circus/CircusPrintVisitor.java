@@ -157,6 +157,12 @@ public class CircusPrintVisitor
     }
     
     @Override
+    public Object visitInterruptProcess(InterruptProcess term)
+    {
+    	throw new UnsupportedOperationException();
+    }
+    
+    @Override
 	public Object visitChannelDecl(ChannelDecl term) {
 //        if (CircusUtils.isChannelFromDecl(term)) {
 //            print(CircusKeyword.CIRCCHANFROM);

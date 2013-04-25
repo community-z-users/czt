@@ -43,6 +43,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.print.util.PrintException;
 
 
 public class TypeCheckUtils 
@@ -279,7 +280,7 @@ public class TypeCheckUtils
     return true;
   }
   
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  
+  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  throws PrintException
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
     super.printTerm(term, writer, sectInfo, sectName, markup);
