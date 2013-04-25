@@ -241,23 +241,23 @@
 %Tests production rule: CIRCWAIT DECLWORD:dw COLON expression:e CIRCSPOT circusAction:ac
 
 \begin{circusaction}
-   \t1 Test47 \circdef \circvres vart : \nat  \circspot  \circwait  vart  A \\
+  \t1 Test47 \circdef \circwait vart : \nat  \circspot A \\
 \end{circusaction}
 
-%Same production rule with different type of expression
 \begin{circusaction}
-   \t1 Test48 \circdef \circvres vart : 1 \upto 20  \circspot  \circwait  vart  A \\
+  \t1 Test48 \circdef \circwait vart : 1 \upto 20  \circspot  A \\
 \end{circusaction}
 
 %Same production rule with Sequential composition
 
 \begin{circusaction}
-   \t1 Test49 \circdef \circvres vart : \nat  \circspot  A \circseq \circwait  vart  B \\
+  \t1 Test49 \circdef \circwait vart : \nat  \circspot  A \circseq   B \\
 \end{circusaction}
 
 \begin{circusaction}
-   \t1 Test50 \circdef \circvres vart : \nat  \circspot  (A \circseq \circwait  vart  B) \\
+  \t1 Test50 \circdef \circwait vart : \nat  \circspot  (A \circseq  B) \\
 \end{circusaction}
+
 
 %Tests production rule: communication:comm PREFIXTHEN:pt LCIRCTIME expression:e RCIRCTIME circusAction:ac
 

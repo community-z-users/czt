@@ -32,77 +32,132 @@ import net.sourceforge.czt.circustime.visitor.CircusTimeVisitor;
  * @author Leo Freitas
  */
 public class PrintVisitor
-  extends net.sourceforge.czt.z.util.PrintVisitor
- // implements any element you want to have toString capability for CircusTime
+  extends net.sourceforge.czt.circus.util.PrintVisitor
   implements CircusTimeVisitor<String>
 {
-
-	@Override
-	public String visitTimedinterruptProcess(TimedinterruptProcess term) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String visitTimeEndByAction(TimeEndByAction term) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public String visitTimeoutProcess(TimeoutProcess term) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String visitTimeoutAction(TimeoutAction term) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getLeftProcess()));
+		result.append("[>");
+		result.append(visit(term.getExpr()));
+		result.append(visit(term.getRightProcess()));
+		result.append(")");
+		return result.toString();
 	}
 
 	@Override
 	public String visitTimeStartByProcess(TimeStartByProcess term) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String visitTimedinterruptAction(TimedinterruptAction term) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String visitPrefixingTimeAction(PrefixingTimeAction term) {
-		StringBuilder result = new StringBuilder();
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getExpr()));
+		result.append(" <| ");
+		result.append(visit(term.getCircusProcess()));
+		result.append(")");
 		return result.toString();
-		// TODO: drill into the definition of the class strucuture and return a sensible debugging string for you...
 	}
 
 	@Override
-	public String visitTimeStartByAction(TimeStartByAction term) {
-		// TODO Auto-generated method stub
-		return null;
+	public String visitTimedinterruptProcess(TimedinterruptProcess term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getLeftProcess()));
+		result.append(" /^\\ ");
+		result.append(visit(term.getExpr()));
+		result.append(visit(term.getRightProcess()));
+		result.append(")");
+		return result.toString();
 	}
-
+	
 	@Override
 	public String visitTimeEndByProcess(TimeEndByProcess term) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getCircusProcess()));
+		result.append(" |> ");
+		result.append(visit(term.getExpr()));
+		result.append(")");
+		return result.toString();
+	}
+	
+	@Override
+	public String visitTimedinterruptAction(TimedinterruptAction term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getLeftAction()));
+		result.append(" /^\\ ");
+		result.append(visit(term.getExpr()));
+		result.append(visit(term.getRightAction()));
+		result.append(")");
+		return result.toString();
+	}
+	
+	@Override
+	public String visitTimeStartByAction(TimeStartByAction term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getExpr()));
+		result.append(" <| ");
+		result.append(visit(term.getCircusAction()));
+		result.append(")");
+		return result.toString();
+	}
+	
+	@Override
+	public String visitTimeEndByAction(TimeEndByAction term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getCircusAction()));
+		result.append(" |> ");
+		result.append(visit(term.getExpr()));
+		result.append(")");
+		return result.toString();
 	}
 
 	@Override
-	public String visitWaitExprAction(WaitExprAction term) {
-		// TODO Auto-generated method stub
-		return null;
+	public String visitTimeoutAction(TimeoutAction term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getLeftAction()));
+		result.append("[>");
+		result.append(visit(term.getExpr()));
+		result.append(visit(term.getRightAction()));
+		result.append(")");
+		return result.toString();
 	}
-
+	
+	@Override
+	public String visitWaitExprAction(WaitExprAction term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("( wait ");
+		result.append(visit(term.getExpr()));
+		result.append(" @ ");
+		result.append(visit(term.getCircusAction()));
+		result.append(")");
+		return result.toString();
+	}
 
 	@Override
 	public String visitWaitAction(WaitAction term) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder result= new StringBuilder("");
+		result.append("( wait ");
+		result.append(visit(term.getExpr()));
+		result.append(")");
+		return result.toString();
 	}
-
+	
+	@Override
+	public String visitPrefixingTimeAction(PrefixingTimeAction term) {
+		StringBuilder result= new StringBuilder("");
+		result.append("(");
+		result.append(visit(term.getCommunication()));
+		result.append(" @ ");
+		result.append(term.getChannelElapsedTime());
+		result.append("->");
+		result.append(visit(term.getExpr()));
+		result.append(visit(term.getCircusAction()));
+		result.append(")");
+		return result.toString();
+	}
 }

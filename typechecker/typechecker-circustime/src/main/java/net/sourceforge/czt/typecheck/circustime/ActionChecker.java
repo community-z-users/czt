@@ -90,10 +90,10 @@ public class ActionChecker
 	    	NameTypePair pair = factory().createNameTypePair(varName , newType);
 	    	typeEnv().add(pair);			
 	    }
-	    if(term.isPrefixingExprAction()){
+	    else if (term.isPrefixingExprAction()){
 	    	typeCheckTimeExpr(term, term.getExpr());
 	    }
-	    if (term.isAtPrefixingExprAction()){
+	    else if (term.isAtPrefixingExprAction()){
 	    	// Typechecking for the channel elapsed time (N) (c@N -> A)
 	    	// retrieve the type of this name.
 	    	Name varName = term.getChannelElapsedTime();	    	

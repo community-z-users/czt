@@ -66,7 +66,8 @@ public class JaxbXmlWriterReaderTest extends XmlWriterReaderTest
   public List<URL> getExampleFiles()
   {
     List<URL> result = new ArrayList<URL>();
-    result.add(Resources.getCircusTimeExample("timeactions.xml"));
+    result.add(Resources.getCircusTimeExample("time_action.xml"));
+    result.add(Resources.getCircusTimeExample("time_process.xml"));
     return result;
   }
 }

@@ -165,7 +165,7 @@ public class ZCharMap extends JPanel
     if (mode != null) {
       if  ("oz".equals(mode.toString()) || "ozlatex".equals(mode.toString())) {        
         mTable.setModel(objectZTableModel_);
-      } else if ("circus".equals(mode.toString()) || "circuslatex".equals(mode.toString())) {
+      } else if ("circus".equals(mode.toString()) || "circuslatex".equals(mode.toString()) || "circustime".equals(mode.toString()) || "circustimelatex".equals(mode.toString())) {
         mTable.setModel(circusTableModel_);
       } else if ("zeves".equals(mode.toString()) || "zeveslatex".equals(mode.toString())) {
         mTable.setModel(zevesTableModel_); 

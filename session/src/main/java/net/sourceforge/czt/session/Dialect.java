@@ -7,9 +7,9 @@ public enum Dialect {
    OZ,				//2
    OZPATT,			//3
    ZEVES,			//4
-   CIRCUSPATT,		//5
+   CIRCUSPATT,			//5
    CIRCUS,			//6
-   CIRCUSTIME;		//7
+   CIRCUSTIME;			//7
    
    private static final int NUM_OF_DIALECTS = CIRCUSTIME.ordinal()+1;
    

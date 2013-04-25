@@ -15,6 +15,10 @@
     new net.sourceforge.czt.jedit.zsidekick.CztParser("circus",
                                 net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circustime">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("circustime",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
     new net.sourceforge.czt.jedit.zsidekick.CztParser("z",
                                 net.sourceforge.czt.session.Markup.LATEX);
@@ -27,7 +31,10 @@
     new net.sourceforge.czt.jedit.zsidekick.CztParser("circus",
                                 net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
-
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circustimelatex">
+    new net.sourceforge.czt.jedit.zsidekick.CztParser("circustime",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">
     new net.sourceforge.czt.jedit.zsidekick.CztParser("zpatt",
                                 net.sourceforge.czt.session.Markup.UNICODE);

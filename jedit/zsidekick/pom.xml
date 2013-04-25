@@ -55,6 +55,11 @@
       <groupId>${jedit.plugin.groupId}</groupId>
       <artifactId>${sidekick.artifactId}</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>corejava-circustime</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
