@@ -81,12 +81,17 @@ public class <class/>
     if (!dialect_.equals(sectInfo.getDialect()))
     	throw new IllegalArgumentException("Incompatible dialects in LatexScanner. " + dialect_.toString() +
     		" expected, but section manager dialect " + sectInfo.getDialect() + " found.");     
+    if (!dialect_.equals(lexer_.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in LatexScanner. " + dialect_.toString() +
+    		" expected, but Latex2Unicode lexer dialect " + lexer_.getDialect() + " found.");     
   }
   
   @Override
   public Dialect getDialect()
   {
-  	return dialect_;
+    assert dialect_.equals(lexer_.getDialect()) : 
+    		"dialect = " + dialect_ + "; lexer.dialect = " + lexer_.getDialect();
+  	return lexer_.getDialect();
   }
 
   public LocToken next()

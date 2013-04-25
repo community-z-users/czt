@@ -96,7 +96,9 @@ public class UnicodeScanner
   @Override
   public Dialect getDialect()
   {
-  	assert dialect_.equals(contextFreeScanner_.getDialect());
+  	assert dialect_.equals(contextFreeScanner_.getDialect()) : 
+  			"dialect = " + dialect_ + "; ctfScanner.dialect = " + 
+  			contextFreeScanner_.getDialect();
   	return contextFreeScanner_.getDialect();
   }
 

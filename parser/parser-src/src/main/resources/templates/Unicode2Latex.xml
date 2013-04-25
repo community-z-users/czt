@@ -531,16 +531,12 @@ parser code {:
       
       assert scanner != null &amp;&amp; sectInfo_ != null &amp;&amp; dialect_ != null;
 	    
-	    // For pretty printing, some extensions don't have their own, so dialect 
-	    // check could/should be less restrictive? TODO?
-	    if (!sectInfo.getDialect().isExtensionOf(dialect_))
-	    	throw new IllegalArgumentException("Incompatible dialects in " + 
-	    		<class/>.class.getName() + " scanner. " + dialect_.toString() +
-	    		" expected, but section manager dialect " + sectInfo.getDialect() + " found."); 
+	  checkDialectConsistency(sectInfo_.getDialect(), scanner.getDialect());
+	  
       errorList_ = new ArrayList&lt;CztError&gt;(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
       explicitDeps_ = new HashSet&lt;Key&lt;?&gt;&gt;(explicitDeps);
       printException_ = null;
-     	CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + 
+      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + 
       		" parser created for " + getDialect().toString() + ".");
     }
    
@@ -553,11 +549,28 @@ parser code {:
    */
   protected ContextFreeScanner markupScanner_ = null;
 
-	public Dialect getDialect()
-	{
-		assert dialect_.equals(getCztScanner().getDialect());
-		return getCztScanner().getDialect();
-	}
+  private void checkDialectConsistency(Dialect... vars)
+  {
+  	for(Dialect d : vars)
+  	{
+ 	  // For pretty printing, some extensions don't have their own, so dialect 
+	  // check could/should be less restrictive? TODO?
+	  if (!d.isExtensionOf(dialect_))
+	  	throw new IllegalArgumentException("Incompatible dialects in " + 
+	  		<class/>.class.getName() + " scanner. " + dialect_.toString() +
+	  		" expected, but section manager dialect " + d + " found."); 
+  	}
+  }
+ 
+  public Dialect getDialect()
+  {
+  	assert sectInfo_.getDialect().isExtensionOf(dialect_) &amp;&amp; 
+  		   getCztScanner().getDialect().isExtensionOf(dialect_) :
+  		   "dialect_ = " + dialect_ + "; sectInfo.dialect = " + 
+  		   sectInfo_.getDialect() + "; scanner.dialect = " +
+  		   getCztScanner().getDialect() + ". For Unicode2Latex we allow dialect extensions"; 
+	return sectInfo_.getDialect();
+  }
 
   public CztScanner getCztScanner()
   {

@@ -323,7 +323,9 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
   @Override
   public Dialect getDialect()
   {
-  	return dialect_;
+  	assert dialect_.equals(sectInfo_.getDialect()) : "dialect = " + 
+  				dialect_ + "; sectInfo.dialect = " + sectInfo_.getDialect();
+  	return sectInfo_.getDialect();
   }
 
   public Source getSource()

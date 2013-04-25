@@ -265,7 +265,7 @@ class <class/> extends CztScannerImpl
   @Override
   public Dialect getDialect()
   {
-  	assert dialect_.equals(dumb_.getDialect());
+  	assert dialect_.equals(dumb_.getDialect()) : "dialect = " + dialect_ + "; dumbScanner.dialect = " + dumb_.getDialect();
   	return dumb_.getDialect();
   }
 

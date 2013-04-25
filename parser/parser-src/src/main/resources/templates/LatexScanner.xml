@@ -98,7 +98,12 @@ public class <class/>
   @Override
   public Dialect getDialect()
   {
-  	return dialect_;
+    assert dialect_.equals(latexLexer_.getDialect()) &amp;&amp;
+    	   dialect_.equals(unicodeLexer_.getDialect()) : 
+    	   "dialect_ " + dialect_ + "; latexLexer.dialect = " + 
+    	   latexLexer_.getDialect() + "; unicodeLexer.dialect = " + 
+    	   unicodeLexer_.getDialect();
+  	return latexLexer_.getDialect();
   }
   
   @Override

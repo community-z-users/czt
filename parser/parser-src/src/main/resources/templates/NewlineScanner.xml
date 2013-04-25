@@ -168,7 +168,7 @@ public class <class/>
   @Override
   public Dialect getDialect()
   {
-  	assert dialect_.equals(tokens_.getDialect());
+  	assert dialect_.equals(tokens_.getDialect()) : "dialect = " + dialect_ + "; tokens.dialect = " + tokens_.getDialect();
   	return tokens_.getDialect();
   }
 

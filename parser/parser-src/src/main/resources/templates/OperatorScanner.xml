@@ -122,6 +122,7 @@ public class <class/>
   @Override
   public Dialect getDialect()
   {
+    assert dialect_.equals(scanner_.getDialect()) : "dialect " + dialect_ + "; scanner.dialect = " + scanner_.getDialect();
   	return scanner_.getDialect();
   }
 

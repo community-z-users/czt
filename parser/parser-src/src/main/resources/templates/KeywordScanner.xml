@@ -107,8 +107,9 @@ public class KeywordScanner
   @Override
   public Dialect getDialect()
   {
-  	assert dialect_.equals(scanner_.getDialect());
-  	return scanner_.getDialect();
+  	assert scanner_.getDialect().isExtensionOf(dialect_) :
+  		   "dialect_ = " + dialect_ + "; scanner.dialect = " + scanner_.getDialect(); 
+	return scanner_.getDialect();
   }
 
   private static Map &lt;String, Integer&gt; createKeywordMap()
