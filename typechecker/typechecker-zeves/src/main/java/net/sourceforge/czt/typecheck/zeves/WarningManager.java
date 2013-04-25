@@ -9,19 +9,21 @@
 package net.sourceforge.czt.typecheck.zeves;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
-//import net.sourceforge.czt.print.zeves.PrintUtils;
+import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.print.zeves.PrintUtils;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
-import java.util.ArrayList;
-import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.parser.util.ErrorType;
-import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.util.CztException;
+//import net.sourceforge.czt.print.zeves.PrintUtils;
 
 /**
  * TODO: REFACTOR into Z: just copied from Circus typechecker (!) not good...
@@ -33,7 +35,7 @@ public class WarningManager
   private Markup markup_ = Markup.LATEX;
   private final SectionInfo sectInfo_;
   private Term term_ = null;
-  private List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  private final List<ErrorAnn> warnErrors_ = new ArrayList<ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   
   public WarningManager()
   {
@@ -75,9 +77,15 @@ public class WarningManager
           try 
           {
             StringWriter writer = new StringWriter();          
-            PrintUtils.print((Term)arguments[i], writer, (SectionManager)sectInfo_, getCurrentSectName(), getMarkup());
+            PrintUtils.print((Term)arguments[i], writer, (SectionManager)sectInfo_, 
+            		getCurrentSectName(), getMarkup());
             values[i] = writer.toString();
-          } catch (CztException e)
+          } 
+          catch (PrintException f)
+          {
+              values[i] = String.valueOf(arguments[i]) + "\n\t\t- could not use pretty printer because '" + f.toString() + "'";        	  
+          }
+          catch (CztException e)
           {
             values[i] = String.valueOf(arguments[i]) + "\n\t\t- could not use pretty printer because '" + e.toString() + "'";
           }
@@ -107,7 +115,8 @@ public class WarningManager
     return term_;
   }
   
-  public void clear()
+  @Override
+public void clear()
   {
     super.clear();
     clearWarnErrors();

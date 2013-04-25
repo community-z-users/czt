@@ -26,14 +26,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.SortedMap;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
@@ -91,11 +93,11 @@ public class DefinitionTable extends InfoTable
    * @param parents Definition tables of all direct parents of the new section.
    * @throws DefinitionException
    */
-  protected DefinitionTable(String sectionName,
+  protected DefinitionTable(Dialect d, String sectionName,
                          Collection<DefinitionTable> parents)
     throws DefinitionException
   {
-    super(sectionName);
+    super(d, sectionName);
     knownSections_ = new ArrayList<String>();
     definitions_ = new TreeMap<Integer, SortedMap<ZName, Definition>>();
     specialBindingsStack_ = new Stack<List<NewOldPair>>();
@@ -135,7 +137,7 @@ public class DefinitionTable extends InfoTable
           "table. They happened while processing parents for section " + sectionName +
           ". This occurs either because the section is not typechecked, or because type-compatible " +
           "names (i.e., those with different declared types but same carrier set) are repeated.";
-        throw new DefinitionException(message, exceptions);
+        throw new DefinitionException(d, message, exceptions);
       }
     }
   }
@@ -146,7 +148,7 @@ public class DefinitionTable extends InfoTable
    */
   protected DefinitionTable(DefinitionTable copy)
   {
-    super(copy.getSectionName());
+    super(copy.getDialect(), copy.getSectionName());
     knownSections_ = new ArrayList<String>(copy.knownSections_);
     definitions_ = new TreeMap<Integer, SortedMap<ZName, Definition>>();
     specialBindingsStack_ = new Stack<List<NewOldPair>>();
@@ -220,7 +222,7 @@ public class DefinitionTable extends InfoTable
     }
     else if (exceptions.size() > 1)
     {
-      throw new DefinitionException("DEFTBL-ADDPARENT", exceptions);
+      throw new DefinitionException(getDialect(), "DEFTBL-ADDPARENT", exceptions);
     }
   }
 
@@ -242,7 +244,7 @@ public class DefinitionTable extends InfoTable
               printTerm(def.getDefName()) + ". Given " + sectName +
               ", declared section is " + def.getSectionName() +
               " in DefTbl for " + getSectionName();
-      throw new DefinitionException(def.getDefName(), message);
+      throw new DefinitionException(getDialect(), def.getDefName(), message);
     }
     // local names might be declared in another sections. So use the first name
     checkSectionConsistency(sectName, def.getLocalDecls().values());
@@ -275,7 +277,7 @@ public class DefinitionTable extends InfoTable
     {
       final String message = "Definition kind is not top-level declaration in "
               + sectName + "\n\t" + def ;
-      throw new DefinitionException(def.getDefName(), message);
+      throw new DefinitionException(def.getDialect(), def.getDefName(), message);
     }
   }
 
@@ -294,7 +296,7 @@ public class DefinitionTable extends InfoTable
     {
       final String message = "Definition kind is not local declaration in "
               + sectName + "\n\t" + def ;
-      throw new DefinitionException(def.getDefName(), message);
+      throw new DefinitionException(def.getDialect(), def.getDefName(), message);
     }
   }
 
@@ -311,7 +313,7 @@ public class DefinitionTable extends InfoTable
    */
   protected void addGlobalDecl(Definition def) throws DefinitionException
   {
-    addGlobalDecl(sectionName_, def);
+    addGlobalDecl(getSectionName(), def);
   }
 
   /**
@@ -343,12 +345,12 @@ public class DefinitionTable extends InfoTable
       defOfSect = new TreeMap<ZName, Definition>(ZUtils.ZNAME_COMPARATOR);
       SortedMap<ZName, Definition> old = definitions_.put(key, defOfSect);
       if (old != null)
-        throw new DefinitionException(defName, "Inconsistent (new) definition indexes for " + sectName);
+        throw new DefinitionException(getDialect(), defName, "Inconsistent (new) definition indexes for " + sectName);
     }
     else
     {
       if (!definitions_.containsKey(key))
-        throw new DefinitionException(defName, "Inconsistent (old) definition indexes for " + sectName);
+        throw new DefinitionException(getDialect(), defName, "Inconsistent (old) definition indexes for " + sectName);
       defOfSect = definitions_.get(key);
     }
     assert defOfSect != null && key >= 0;
@@ -365,7 +367,7 @@ public class DefinitionTable extends InfoTable
       final String message = "Duplicated def \"" +
               printTerm(def.getDefName()) + "\" from section " +
               def.getSectionName() + " in section " + getSectionName();
-      throw new DefinitionException(defName, message);
+      throw new DefinitionException(getDialect(), defName, message);
     }
   }
 
@@ -426,7 +428,7 @@ public class DefinitionTable extends InfoTable
         }
         if (!ZUtils.namesEqual(globalName, globalDef.getDefName()))
         {
-          result.add(new DefinitionException("inconsistent global name in " +
+          result.add(new DefinitionException(getDialect(), "inconsistent global name in " +
                   sectName + " = (MAP: " + DefinitionTable.printTerm(globalName) + ", DEF: " + DefinitionTable.printTerm(globalDef.getDefName()) + ")"));
         }
 
@@ -437,7 +439,7 @@ public class DefinitionTable extends InfoTable
           if (globalDefKind.isSchemaDecl() &&
               !(globalDef.getExpr() instanceof SchExpr))
           {
-            result.add(new DefinitionException("inconsistent schema expr in " +
+            result.add(new DefinitionException(getDialect(), "inconsistent schema expr in " +
                     sectName + " = (DEF: " + DefinitionTable.printTerm(globalName) + ", EXPECT: SchExpr, FOUND: "
                     + globalDef.getExpr().getClass().getSimpleName() + ")"));
           }
@@ -445,7 +447,7 @@ public class DefinitionTable extends InfoTable
 //          else if (globalDefKind.isSchemaExpr() &&
 //                   globalDef.getExpr() instanceof SchExpr)
 //          {
-//            result.add(new DefinitionException("inconsistent schema calculus in " +
+//            result.add(new DefinitionException(getDialect(), "inconsistent schema calculus in " +
 //                    sectName + " = (DEF: " + globalName + ", EXPECT: not SchExpr, FOUND: SchExpr" + ")"));
 //          }
 
@@ -453,7 +455,7 @@ public class DefinitionTable extends InfoTable
           if (globalDefKind.hasSchemaName())
           {
             if (!globalDefKind.isSchemaExpr())
-              result.add(new DefinitionException("inconsistent global definition kind = " + globalDefKind));
+              result.add(new DefinitionException(getDialect(), "inconsistent global definition kind = " + globalDefKind));
             else if (!namesFound.contains(globalDefKind.getSchName()))
               // check the reference exists later on, if not processed yet (e.g., forward reference?)
               namesToFind.add(globalDefKind.getSchName());
@@ -466,7 +468,7 @@ public class DefinitionTable extends InfoTable
           {
             if (!UnificationEnv.isSchemaPowerType(globalType))
             {
-              result.add(new DefinitionException("type of " + DefinitionTable.printTerm(globalName) +
+              result.add(new DefinitionException(getDialect(), "type of " + DefinitionTable.printTerm(globalName) +
                       " defined as " + globalDefKind + " is not a schema = " + globalType));
             }
             // this part is rather (computationally) expensive, yet quite good double check: typecheck x def table!
@@ -506,7 +508,7 @@ public class DefinitionTable extends InfoTable
                   }
                   if (!ZUtils.namesEqual(localNameOfGlobalBindingName, bindDef.getDefName()))
                   {
-                    result.add(new DefinitionException("inconsistent binding name of " +
+                    result.add(new DefinitionException(getDialect(), "inconsistent binding name of " +
                             DefinitionTable.printTerm(globalName) + " in " + sectName +
                             " = (MAP: " + DefinitionTable.printTerm(localNameOfGlobalBindingName) +
                             ", DEF: " + DefinitionTable.printTerm(bindDef.getDefName()) + ")"));
@@ -523,7 +525,7 @@ public class DefinitionTable extends InfoTable
                   else
                   // if not a binding, error
                   {
-                    result.add(new DefinitionException("inconsistent def kind for binding of global name "
+                    result.add(new DefinitionException(getDialect(), "inconsistent def kind for binding of global name "
                             + DefinitionTable.printTerm(globalName) + " = " + globalBindingKind));
                   }
 
@@ -561,7 +563,7 @@ public class DefinitionTable extends InfoTable
                     // when found, add it to the bindDef
                     if (!possiblyColludedNames.containsKey(localNameOfGlobalBindingName))
                     {
-                      result.add(new DefinitionException("inconsistent name collusion information. could not find " + DefinitionTable.printTerm(localNameOfGlobalBindingName)));
+                      result.add(new DefinitionException(getDialect(), "inconsistent name collusion information. could not find " + DefinitionTable.printTerm(localNameOfGlobalBindingName)));
                     }
                     else
                     {
@@ -576,7 +578,7 @@ public class DefinitionTable extends InfoTable
                     SortedSet<Definition> colludedDefs = possiblyColludedNames.get(localNameOfGlobalBindingName);
                     if (colludedDefs == null)
                     {
-                      result.add(new DefinitionException("could not find bindings for possibly colluded name "  
+                      result.add(new DefinitionException(getDialect(), "could not find bindings for possibly colluded name "  
                               + DefinitionTable.printTerm(localNameOfGlobalBindingName) +
                               " of global name " + DefinitionTable.printTerm(globalName)));
                     }
@@ -608,7 +610,7 @@ public class DefinitionTable extends InfoTable
               {
                 // did not found bindings from namesInType: serious! bindings code is missing something
                 assert !namesInType.isEmpty();
-                result.add(new DefinitionException("bindings of " + 
+                result.add(new DefinitionException(getDialect(), "bindings of " + 
                         DefinitionTable.printTerm(globalName) + " were not found = " +
                         DefinitionTable.printCollection(namesInType)));
               }
@@ -652,12 +654,12 @@ public class DefinitionTable extends InfoTable
                 if (!possiblyColludedNames.isEmpty())
                 {
                   if (!modifyDeclaredTypesOfColludedNames)
-                    result.add(new DefinitionException("name collusion for bindings of globalName " +
+                    result.add(new DefinitionException(getDialect(), "name collusion for bindings of globalName " +
                             DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printMap(possiblyColludedNames)));
                   else
                   {
                     // modify colluded name types.... by intersecting or unioning? or what? TODO
-                    result.add(new DefinitionException("UNSUPPORTED OPERATION - MODIFICATION OF COLLUDED NAMES TYPES for bindings of globalName " +
+                    result.add(new DefinitionException(getDialect(), "UNSUPPORTED OPERATION - MODIFICATION OF COLLUDED NAMES TYPES for bindings of globalName " +
                             DefinitionTable.printTerm(globalName) + " = " + DefinitionTable.printMap(possiblyColludedNames)));
                   }
                 }
@@ -675,7 +677,7 @@ public class DefinitionTable extends InfoTable
               addMissingInfoError = !global.containsKey(baseName);
             }
             if (addMissingInfoError)
-              result.add(new DefinitionException("could not retrieve type information for " +
+              result.add(new DefinitionException(getDialect(), "could not retrieve type information for " +
                          DefinitionTable.printTerm(globalName) + ". Cannot check bindings consistency"));
           }
         }
@@ -712,7 +714,7 @@ public class DefinitionTable extends InfoTable
           }
           if (!ZUtils.namesEqual(localName, localDef.getDefName()))
           {
-            result.add(new DefinitionException("inconsistent local name of " +
+            result.add(new DefinitionException(getDialect(), "inconsistent local name of " +
                     globalName + " in " + sectName + " = (MAP: " + localName + ", DEF: " + localDef.getDefName() + ")"));
           }
 
@@ -734,9 +736,9 @@ public class DefinitionTable extends InfoTable
     namesToFind.removeAll(namesFound);
     if (!namesToFind.isEmpty())
     {
-      result.add(new DefinitionException("found references to names without definitions = " + namesToFind.toString()));
+      result.add(new DefinitionException(getDialect(), "found references to names without definitions = " + namesToFind.toString()));
     }
-    return result.isEmpty() ? null : new DefinitionException("DefTable consistency failed (see details)", result);
+    return result.isEmpty() ? null : new DefinitionException(getDialect(), "DefTable consistency failed (see details)", result);
   }
 
   /**
@@ -972,14 +974,14 @@ public class DefinitionTable extends InfoTable
           result = BindingUtils.beforeBindingsOf(result);
         }
         else if (def.getExpr() instanceof PipeExpr)
-          throw new DefinitionException("Cannot calculate bindings for schema piping expression yet - " + DefinitionTable.printTerm(defName));
+          throw new DefinitionException(getDialect(), "Cannot calculate bindings for schema piping expression yet - " + DefinitionTable.printTerm(defName));
       }
 
       return result;
     }
     else
     {
-      throw new DefinitionException(defName, "Unknown schema name in DefTbl " + defName);
+      throw new DefinitionException(getDialect(), defName, "Unknown schema name in DefTbl " + defName);
     }
   }
 
@@ -1075,11 +1077,11 @@ public class DefinitionTable extends InfoTable
       return toString();
     else
     {
-      SortedMap<ZName, Definition> defs = getDefinitions(sectionName_);
+      SortedMap<ZName, Definition> defs = getDefinitions(getSectionName());
       assert defs != null;
       StringBuilder buffer = new StringBuilder(defs.size() * 30);
       buffer.append("Definition table for ");
-      buffer.append(sectionName_);
+      buffer.append(getSectionName());
       buffer.append(" (with parrents hidden)");
       Iterator<SortedMap.Entry<ZName, Definition>> itE = defs.entrySet().iterator();
       buffer.append("\n\t");
@@ -1107,7 +1109,7 @@ public class DefinitionTable extends InfoTable
   {
     StringBuilder buffer = new StringBuilder(definitions_.size() * 30);
     buffer.append("Definition table for ");
-    buffer.append(sectionName_);
+    buffer.append(getSectionName());
     if (!definitions_.isEmpty())
     {
       buffer.append("\n\t");

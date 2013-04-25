@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 //import java.io.FileNotFoundException;
 
+import net.sourceforge.czt.session.Dialect;
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
@@ -31,4 +32,6 @@ public interface CztScanner
   boolean logDebugInfo();
   void logSymbol(Symbol symbol);
   void logFormatted(String pattern, Object... args);
+  
+  Dialect getDialect();
 }

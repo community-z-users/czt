@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.ThmTable;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -38,12 +40,12 @@ import net.sourceforge.czt.zeves.ast.ProofScript;
 public class ProofTable  extends InfoTable
 {
 
-  private SortedMap<ZName, ProofInfo> proofTable_ = new TreeMap<ZName, ProofInfo>(ZUtils.ZNAME_COMPARATOR);
-  private WarningManager wm_ = new WarningManager();
+  private final SortedMap<ZName, ProofInfo> proofTable_ = new TreeMap<ZName, ProofInfo>(ZUtils.ZNAME_COMPARATOR);
+  private final WarningManager wm_ = new WarningManager();
 
-  public ProofTable(String section)
+  public ProofTable(Dialect d, String section)
   {
-    super(section);
+    super(d, section);
   }
 
   /**
@@ -86,7 +88,7 @@ public class ProofTable  extends InfoTable
     ZName proofName = para.getZName();
     if (proofName == null || proofName.getWord().isEmpty())
     {
-      throw new ProofTableException("Error: cannot add unnamed proof script to proof table.");
+      throw new ProofTableException(getDialect(), "Error: cannot add unnamed proof script to proof table.");
     }
     ProofInfo thmInfo = new ProofInfo(getSectionName(), para);
     addTheorem(proofName, thmInfo);
@@ -118,13 +120,13 @@ public class ProofTable  extends InfoTable
     List<ZName> result = checkAgainst(thmTable);
     if (!result.isEmpty())
     {
-      throw new ProofTableException("Missing conjecture declaration for proof scripts " + result);
+      throw new ProofTableException(getDialect(), "Missing conjecture declaration for proof scripts " + result);
     }
   }
 
   public static class ProofInfo extends InfoTable.Info
   {
-    private ProofScript para_;
+    private final ProofScript para_;
 
     public ProofInfo(String section, ProofScript para)
     {
@@ -146,9 +148,9 @@ public class ProofTable  extends InfoTable
 	 */
 	private static final long serialVersionUID = -7146641664325911321L;
 
-	public ProofTableException(String message)
+	public ProofTableException(Dialect d, String message)
     {
-      super(message);
+      super(d, message);
     }
   }
 }

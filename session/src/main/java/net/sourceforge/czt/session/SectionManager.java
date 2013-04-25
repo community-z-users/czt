@@ -342,7 +342,8 @@ public class SectionManager
     registerDefaultPermanentKeys();
   }
 
-  public Dialect getDialect()
+  @Override
+  public final Dialect getDialect()
   {
     return dialect_;
   }
@@ -1697,7 +1698,7 @@ public class SectionManager
       Command command = commands_.get(infoType);
       if (command == null)
       {
-        throw new UnknownCommandException("No command available to compute " + key);
+        throw new UnknownCommandException(dialect_, "No command available to compute " + key);
       }
       // starts a transaction for the given key if not cached
       startTransaction(key);
@@ -1747,7 +1748,7 @@ public class SectionManager
       if (commandResult == null)
       {
         final String message = "Key " + key + " not computed by " + command;
-        throw new CommandException(message);
+        throw new CommandException(dialect_, message);
       }
       
       result = commandResult;
@@ -1795,6 +1796,7 @@ public class SectionManager
     return tracingLevel_;
   }
 
+  @Override
   public boolean isTracing()
   {
     return isTracing_;

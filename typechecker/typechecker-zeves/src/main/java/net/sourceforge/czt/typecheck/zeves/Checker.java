@@ -17,6 +17,7 @@ package net.sourceforge.czt.typecheck.zeves;
 
 import java.util.Iterator;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.ThmTable;
@@ -449,7 +450,7 @@ public abstract class Checker<R>
           (errorCnt == 1 ? " error" : " errors and ") + warningCnt +
           (warningCnt == 1 ? " warning " : " warnings ") + " from parent section " + parentName;
         Exception nestedException = new TypeErrorException(message, errors);
-        return super.handleParentErrors(parent, new CommandException(nestedException));
+        return super.handleParentErrors(parent, new CommandException(getManager().getDialect(), nestedException));
       }
       else
       {

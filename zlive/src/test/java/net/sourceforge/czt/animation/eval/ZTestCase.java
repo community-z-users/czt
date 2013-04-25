@@ -41,7 +41,7 @@ import net.sourceforge.czt.z.util.Factory;
  *
  * @author Mark Utting
  */
-public class ZTestCase extends TestCase
+public abstract class ZTestCase extends TestCase
 {
   protected static ZLive zlive_ = new ZLive();
   

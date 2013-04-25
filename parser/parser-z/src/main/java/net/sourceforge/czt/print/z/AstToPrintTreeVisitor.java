@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.Decorword;
@@ -31,19 +31,59 @@ import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.util.TokenImpl;
-import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
-import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.ast.Application;
+import net.sourceforge.czt.print.ast.OperatorApplication;
+import net.sourceforge.czt.print.ast.Precedence;
+import net.sourceforge.czt.print.ast.PrintFactory;
+import net.sourceforge.czt.print.ast.PrintParagraph;
+import net.sourceforge.czt.print.ast.PrintPredicate;
 import net.sourceforge.czt.print.util.PrintException;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.And;
+import net.sourceforge.czt.z.ast.AndPred;
+import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.Assoc;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Box;
+import net.sourceforge.czt.z.ast.Cat;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.ParenAnn;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Fixity;
 import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.z.visitor.AndPredVisitor;
+import net.sourceforge.czt.z.visitor.ApplExprVisitor;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.MemPredVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
 /**
  * <p>This visitor transforms an AST into a print tree, that is an AST
@@ -89,9 +129,11 @@ public class AstToPrintTreeVisitor
              MemPredVisitor<Term>,
              RefExprVisitor<Term>,
              ZSectVisitor<Term>
+
+// TODO: perhaps extend parser.util.AbstractVisitor?
 {
-  private ZFactory factory_ = new ZFactoryImpl();
-  private PrintFactory printFactory_ = new PrintFactory();
+  private final ZFactory factory_ = new ZFactoryImpl();
+  private final PrintFactory printFactory_ = new PrintFactory();
   
   protected ZFactory getZFactory() {
       return factory_;
@@ -115,7 +157,7 @@ public class AstToPrintTreeVisitor
   /**
    * Provides the operator table for sections.
    */
-  private SectionInfo sectInfo_;
+  private final SectionInfo sectInfo_;
   
   protected final WarningManager warningManager_;
 
@@ -134,8 +176,19 @@ public class AstToPrintTreeVisitor
    */
   public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
   {
+	if (sectInfo == null || wm == null) throw new NullPointerException();
     sectInfo_ = sectInfo;
     warningManager_ = wm;
+  }
+  
+  protected SectionInfo getSectionInfo()
+  {
+	  return sectInfo_;
+  }
+  
+  protected WarningManager getWarningManager()
+  {
+	  return warningManager_;
   }
 
   public Term run(String sectionName)
@@ -214,7 +267,15 @@ public class AstToPrintTreeVisitor
   public Term visitAndPred(AndPred andPred)
   {
     List<Object> list = new LinkedList<Object>();
-    visitAndPred(andPred, list);
+    try
+    {
+    	visitAndPred(andPred, list);
+    }
+    catch (PrintException e)
+    {
+    	throw new CztException(e);
+    }
+    
     final Precedence prec = getPrec(andPred);
     PrintPredicate result =
       printFactory_.createPrintPredicate(list, prec, null);
@@ -224,7 +285,7 @@ public class AstToPrintTreeVisitor
     return result;
   }
 
-  private void visitAndPredChild(Pred pred, boolean wedge, List<Object> list)
+  private void visitAndPredChild(Pred pred, boolean wedge, List<Object> list) throws PrintException
   {
     if (wedge &&
         pred instanceof AndPred &&
@@ -245,7 +306,7 @@ public class AstToPrintTreeVisitor
     }
   }
 
-  private void visitAndPred(AndPred andPred, List<Object> list)
+  private void visitAndPred(AndPred andPred, List<Object> list) throws PrintException
   {
     if (And.Wedge.equals(andPred.getAnd())) {
       visitAndPredChild(andPred.getLeftPred(), true, list);
@@ -345,10 +406,11 @@ public class AstToPrintTreeVisitor
    * @param term
    * @param list
    */
-  protected void preprocessSchema(AxPara term, List<Object> list)
+  protected void preprocessSchema(AxPara term, List<Object> list) throws PrintException
   {
     if (!term.getBox().equals(Box.SchBox))
-      throw new PrintException("preprocessing ability for SchBox AxPara only; " + term.getClass().getName());
+      throw new PrintException(sectInfo_.getDialect(), 
+    		  "preprocessing ability for SchBox AxPara only; " + term.getClass().getName());
   }
 
   /**
@@ -358,11 +420,12 @@ public class AstToPrintTreeVisitor
    * @param term
    * @param list
    */
-  protected void preprocessTerm(Term term, List<Object> list)
+  protected void preprocessTerm(Term term, List<Object> list) throws PrintException
   {
     //assert term instanceof AxPara || term instanceof Pred;
     if (!(term instanceof AxPara) && !(term instanceof Pred))
-      throw new PrintException("preprocessing ability for AxPara and Pred only; " + term.getClass().getName());
+      throw new PrintException(sectInfo_.getDialect(), 
+    		  	"preprocessing ability for AxPara and Pred only; " + term.getClass().getName());
   }
 
   @Override
@@ -402,7 +465,11 @@ public class AstToPrintTreeVisitor
     }
     else if (Box.OmitBox.equals(box)) {
       list.add(ZToken.ZED);
-      preprocessTerm(axPara, list);
+	      try {
+			preprocessTerm(axPara, list);
+		} catch (PrintException e) {
+			throw new CztException(e);
+		}
       final List<Name> declNameList = axPara.getName();
       //final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
@@ -448,7 +515,11 @@ public class AstToPrintTreeVisitor
       list.add(ZToken.END);
     }
     else if (Box.SchBox.equals(box)) {
-      result = handleOldZ(axPara.getAnns(), handleSchemaDefinition(axPara));
+      try {
+		result = handleOldZ(axPara.getAnns(), handleSchemaDefinition(axPara));
+	} catch (PrintException e) {
+		throw new CztException(e);
+	}
     }
     else {
       withinAxPara_ = false;
@@ -460,7 +531,7 @@ public class AstToPrintTreeVisitor
     return handleOldZ(axPara.getAnns(), result);
   }
 
-  private PrintParagraph handleSchemaDefinition(AxPara axPara)
+  private PrintParagraph handleSchemaDefinition(AxPara axPara) throws PrintException
   {
     List<Object> list = new LinkedList<Object>();
     assert Box.SchBox.equals(axPara.getBox());
@@ -607,7 +678,7 @@ public class AstToPrintTreeVisitor
         }
       }
       if (parentOpTables.size() > 0) {
-        opTable_ = new OpTable(zSect.getName());
+        opTable_ = new OpTable(sectInfo_.getDialect(), zSect.getName());
         try {
           opTable_.addParents(parentOpTables);
         }

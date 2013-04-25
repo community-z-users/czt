@@ -20,8 +20,10 @@ package net.sourceforge.czt.vcg.z;
 
 import java.util.List;
 import java.util.logging.Logger;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
@@ -167,6 +169,14 @@ public abstract class AbstractVCCollector<//R,
   @Override
   public abstract Pred visit(Term term);
   
+  protected Dialect getDialect()
+  {
+	  if (getVCGContext() != null) 
+		  return getVCGContext().getDialect();
+	  else
+		  return Dialect.Z;
+  }
+  
   /**
    * For terms in general, just assume nothing is known about them,
    * hence their VC is the worst possible (i.e. false). That means,
@@ -181,7 +191,7 @@ public abstract class AbstractVCCollector<//R,
     final String msg = "VCG-NOVISITOR-ERROR = " +term.getClass().getSimpleName();
     getLogger().warning(msg);
     /*return factory_.createFalsePred();*/
-    throw new CztException(new VCGException(msg));
+    throw new CztException(new VCGException(getDialect(), msg));
   }
 
   static DefinitionTable checkDefinitionTableWithinListIfNeeded(List<? extends InfoTable> tables,
@@ -197,9 +207,9 @@ public abstract class AbstractVCCollector<//R,
         if (checkTblConsistency) {
           DefinitionException de = defTable.checkOverallConsistency();
           if (de != null) {
-            throw new VCCollectionException("Definition table inconsistency, see DefinitionException "
+            throw new VCCollectionException(tbl.getDialect(), "Definition table inconsistency, see DefinitionException "
                     + "within VCGException cause for details.", 
-                    defTable.getSectionName(), new VCGException(de));
+                    defTable.getSectionName(), new VCGException(de.getDialect(), de));
           }
         }
       }
@@ -254,7 +264,7 @@ public abstract class AbstractVCCollector<//R,
     // only calculate for Para terms
     if (!(term instanceof Para))
     {
-      throw new VCCollectionException("VC-COLLECT-NOT-PARA = " + term.getClass().getSimpleName());
+      throw new VCCollectionException(getDialect(), "VC-COLLECT-NOT-PARA = " + term.getClass().getSimpleName());
     }
 
     // prepare prior tables
@@ -272,7 +282,7 @@ public abstract class AbstractVCCollector<//R,
       final String text = ZUtils.getAxParaSchOrAbbrName(para) != null ? ZUtils.getAxParaSchOrAbbrName(para).toString() : para.toString();
       final String message = "VC-COLLECT-CALC-ERROR = see " + text + " of sect "
               + (defTable_ != null ? defTable_.getSectionName() : "unknown");
-      throw new VCCollectionException(message, e);
+      throw new VCCollectionException(getDialect(), message, e);
     }
 
     // create the result with a unique number for this collector

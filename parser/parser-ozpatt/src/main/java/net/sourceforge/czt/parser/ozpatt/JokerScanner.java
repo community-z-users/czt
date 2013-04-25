@@ -19,17 +19,26 @@
 
 package net.sourceforge.czt.parser.ozpatt;
 
+import java.util.Properties;
+
 import java.lang.reflect.Field;
 
-import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.parser.util.CztScanner;
 
 public class JokerScanner
   extends net.sourceforge.czt.parser.zpatt.JokerScanner
 {
-  public JokerScanner(Scanner scanner)
+
+  public JokerScanner(CztScanner scanner)
   {
     super(scanner);
+  }
+  
+  public JokerScanner(CztScanner scanner, Properties prop)
+  {
+    super(scanner, prop);
   }
 
   protected boolean isRuleStart(Symbol symbol)

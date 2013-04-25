@@ -21,6 +21,8 @@ package net.sourceforge.czt.print.circustime;
 
 import java.io.Writer;
 
+import net.sourceforge.czt.session.Dialect;
+
 /**
  * Print Z specifications in Unicode.
  * This class adds the functionality to print Z/Circus tokens in unicode
@@ -52,4 +54,10 @@ public class UnicodePrinter
   {
     super(out, autoFlush);
   }
+  
+	@Override
+	public Dialect getDialect() {
+		return Dialect.CIRCUSTIME;
+	}
+
 }

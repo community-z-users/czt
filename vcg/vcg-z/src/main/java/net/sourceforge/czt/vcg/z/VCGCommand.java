@@ -96,7 +96,7 @@ public abstract class VCGCommand<R> extends AbstractCommand
     // just double check this is the right kind of VCEnvAnn -> DCEnvAnn
     if (!getVCEnvAnnClass().isInstance(vcg))
     {
-      throw new VCGException("VCGCmd-WRONG-VCENVANNCLS = " + vcg.getClass().getSimpleName());
+      throw new VCGException(manager.getDialect(), "VCGCmd-WRONG-VCENVANNCLS = " + vcg.getClass().getSimpleName());
     }
 
     // type check resulting VC ZSection - adds SectTypeEnv to SM
@@ -108,7 +108,7 @@ public abstract class VCGCommand<R> extends AbstractCommand
     //		 of command to use, and this is determined dynamically (e.g. getVCEnvAnnClass())
     //		 we can't put the explicit generic, but it will resolve to the appropriate kind.
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	Key<VCEnvAnn> vcKey = (Key<VCEnvAnn>)new Key/*<VCEnvAnn>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass());
+	Key<VCEnvAnn> vcKey = new Key/*<VCEnvAnn>*/(vcg.getOriginalZSectName(), getVCEnvAnnClass());
     manager.endTransaction(vcKey, vcg);
     
     return true;

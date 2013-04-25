@@ -21,12 +21,15 @@ package net.sourceforge.czt.vcg.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
 import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.InfoTable;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 public class DefinitionException extends InfoTable.InfoTableException
@@ -44,48 +47,48 @@ private final LocAnn locAnn_;
   private List<DefinitionException> transitiveExp_ = null;
 
 
-  public DefinitionException(String message)
+  public DefinitionException(Dialect d, String message)
   {
-    this(null, message);
+    this(d, null, message);
   }
 
-  public DefinitionException(String message, List<DefinitionException> exceptions)
+  public DefinitionException(Dialect d, String message, List<DefinitionException> exceptions)
   {
-    this(null, message, exceptions);
+    this(d, null, message, exceptions);
   }
 
-  public DefinitionException(Term term, String message)
+  public DefinitionException(Dialect d, Term term, String message)
   {
-    this(term.getAnn(LocAnn.class), message);
+    this(d, term.getAnn(LocAnn.class), message);
   }
 
-  public DefinitionException(Term term, String message, Throwable cause)
+  public DefinitionException(Dialect d, Term term, String message, Throwable cause)
   {
-    this(term.getAnn(LocAnn.class), message, cause);
+    this(d, term.getAnn(LocAnn.class), message, cause);
   }
 
-  public DefinitionException(Term term, String message, List<DefinitionException> exceptions)
+  public DefinitionException(Dialect d, Term term, String message, List<DefinitionException> exceptions)
   {
-    this(term.getAnn(LocAnn.class), message, exceptions);
+    this(d, term.getAnn(LocAnn.class), message, exceptions);
   }
 
-  public DefinitionException(LocAnn loc, String message)
+  public DefinitionException(Dialect d, LocAnn loc, String message)
   {
-    super(message);
+    super(d, message);
     locAnn_ = loc;
     exceptions_ = Collections.emptyList();
   }
   
-  public DefinitionException(LocAnn loc, String message, Throwable cause)
+  public DefinitionException(Dialect d, LocAnn loc, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
     locAnn_ = loc;
     exceptions_ = Collections.emptyList();
   }
 
-  public DefinitionException(LocAnn loc, String message, List<DefinitionException> exceptions)
+  public DefinitionException(Dialect d, LocAnn loc, String message, List<DefinitionException> exceptions)
   {
-    super(message);
+    super(d, message);
     locAnn_ = loc;
     exceptions_ = Collections.unmodifiableList(exceptions);
   }
@@ -238,4 +241,16 @@ private final LocAnn locAnn_;
   {
     return CztErrorImpl.compareTo(this, o);
   }
+
+@Override
+public boolean hasSectionInfo() {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public SectionInfo getSectionInfo() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

@@ -31,22 +31,23 @@ public class UnknownCommandException extends CommandException {
 	 */
 	private static final long serialVersionUID = 2196864863195956907L;
 
-public UnknownCommandException()
+public UnknownCommandException(Dialect d)
   {
+	super(d);
   }
 
-  public UnknownCommandException(String message)
+  public UnknownCommandException(Dialect d, String message)
   {
-    super(message);
+    super(d, message);
   }
 
-  public UnknownCommandException(String message, Throwable cause)
+  public UnknownCommandException(Dialect d, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
   }
 
-  public UnknownCommandException(Throwable cause)
+  public UnknownCommandException(Dialect d, Throwable cause)
   {
-    super(cause);
+    super(d, cause);
   }
 }

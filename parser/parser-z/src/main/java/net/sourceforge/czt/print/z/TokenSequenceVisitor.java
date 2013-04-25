@@ -26,6 +26,8 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.util.TokenSequence;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.SectionInfo;
 
 
 /**
@@ -37,18 +39,21 @@ public class TokenSequenceVisitor
              ZPrinter
 {
   private ZPrintVisitor visitor_;
-  private Stack<TokenSequence> stack_ = new Stack<TokenSequence>();
+  private final Stack<TokenSequence> stack_ = new Stack<TokenSequence>();
   private final ZPrinter tokenSeqPrinter_;
 
-  protected TokenSequenceVisitor(ZPrinter tokenSeqPrinter)
+  protected TokenSequenceVisitor(SectionInfo si, ZPrinter tokenSeqPrinter)
   {
+	if (tokenSeqPrinter == null || si == null) throw new NullPointerException();
     tokenSeqPrinter_ = tokenSeqPrinter;
+    setZPrintVisitor(new ZPrintVisitor(si, this));
   }
 
-  public TokenSequenceVisitor(ZPrinter tokenSeqPrinter, Properties props)
+  public TokenSequenceVisitor(SectionInfo si, ZPrinter tokenSeqPrinter, Properties props)
   {
-    this(tokenSeqPrinter);
-    setZPrintVisitor(new ZPrintVisitor(this, props));
+    if (tokenSeqPrinter == null || si == null) throw new NullPointerException();
+    tokenSeqPrinter_ = tokenSeqPrinter;
+    setZPrintVisitor(new ZPrintVisitor(si, this, props));
   }
 
   protected final void setZPrintVisitor(ZPrintVisitor visitor)
@@ -95,4 +100,9 @@ public class TokenSequenceVisitor
       stack_.peek().add(tseq);
     }
   }
+
+	@Override
+	public Dialect getDialect() {
+		return tokenSeqPrinter_.getDialect();
+	}
 }

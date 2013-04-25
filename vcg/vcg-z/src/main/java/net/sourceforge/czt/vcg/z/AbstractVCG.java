@@ -32,19 +32,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.InfoTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ThmTable;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.DefinitionException;
+import net.sourceforge.czt.vcg.util.DefinitionTable;
 import net.sourceforge.czt.vcg.util.DefinitionTableService;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
@@ -64,7 +66,6 @@ import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
@@ -75,10 +76,12 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  * Base class for all VCG utility classes. It can process Terms for VCG, where
  * the return is a list of R, which is usually Para/VC pairs.
  *
- * @param <R> usually instantiated as of paragraph / predicate pairs.
+ * @param <T> subtype of Type2 determining the kind VCContext for VCs being generated as Pred
+ * @param <B> kind of bindinds to consider from VCContext (i.e. FSB or RREF, see VCContext)
  * @author Leo Freitas
  * @date Dec 23, 2010
  */
+//* param <R> usually instantiated as of paragraph / predicate pairs.
 public abstract class AbstractVCG<//R, 
 									T, B>
         implements VCGPropertyKeys, 
@@ -381,7 +384,7 @@ public abstract class AbstractVCG<//R,
   {
     if (manager == null)
     {
-      throw new VCGException("VCG-SM-NULL");
+      throw new VCGException(getDialect(), "VCG-SM-NULL");
     }
     else /*if (sectManager_ != manager)  in case properties change */
     {
@@ -389,6 +392,14 @@ public abstract class AbstractVCG<//R,
       sectManager_ = manager;
       config();
     }
+  }
+  
+  protected Dialect getDialect()
+  {
+	  if (sectManager_ != null) 
+		  return sectManager_.getDialect();
+	  else
+		  return Dialect.Z;
   }
 
   /* VCG CONFIGURATION METHODS */
@@ -405,7 +416,7 @@ public abstract class AbstractVCG<//R,
     {
       final String msg = "VCG-PROCESS-ERROR = No SectMngr! " + info;
       getLogger().severe(msg);
-      throw new VCGException(msg);
+      throw new VCGException(getDialect(), msg);
     }
   }
 
@@ -445,11 +456,11 @@ public abstract class AbstractVCG<//R,
 
       if (getVCCollector() == null)
       {
-        throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR");
+        throw new VCGException(getDialect(), "VCG-CONFIG-NULL-VC-COLLECTOR");
       }
       else if (getVCCollector().getTransformer() == null)
       {
-    	throw new VCGException("VCG-CONFIG-NULL-VC-COLLECTOR-TRANSFORMER");  
+    	throw new VCGException(getDialect(), "VCG-CONFIG-NULL-VC-COLLECTOR-TRANSFORMER");  
       }
       else if (getVCCollector().getVCGContext() == null)
       {
@@ -593,7 +604,7 @@ public abstract class AbstractVCG<//R,
           getLogger().log(Level.WARNING, "VCG-TYPECHK-ZSECT-ERROR = ({0}, {1})", new Object[]{sectName, i});
         }
       }
-      throw new VCGException("VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
+      throw new VCGException(getDialect(), "VCG-TYPECHK-ZSECT-ERROR = ", sectName, e);
     }
   }
 
@@ -657,7 +668,7 @@ public abstract class AbstractVCG<//R,
     }
     catch (CommandException ex)
     {
-      throw new VCGException("VCG-CREATE-ZSectDC = could not create ThmTable for ", sectNameVC, ex);
+      throw new VCGException(getDialect(), "VCG-CREATE-ZSectDC = could not create ThmTable for ", sectNameVC, ex);
     }
   }
 
@@ -671,7 +682,7 @@ public abstract class AbstractVCG<//R,
    * This could be a ZParaList, a ListTerm<Parent>, or ListTerm<Sect>,
    * which comes from ZSect.getZParaList(), ZSect.getParent(), and
    * Spec.getSect().
-   * @param <T>
+   * @param <M>
    * @param list
    * @return
    */
@@ -695,7 +706,7 @@ public abstract class AbstractVCG<//R,
   protected List<VC<Pred>> visit(Term term)
   {
     if (term == null)
-      throw new CztException(new VCGException("VCG-VISIT-TOPLEVEL-NULL-TERM"));
+      throw new CztException(new VCGException(getDialect(), "VCG-VISIT-TOPLEVEL-NULL-TERM"));
     return term.accept(this);
   }
 
@@ -730,7 +741,7 @@ public abstract class AbstractVCG<//R,
   protected void raiseVCGExceptionWhilstVisiting(final String msg, Throwable cause)
   {
     getLogger().warning(msg);
-    throw new CztException(new VCGException(msg, cause));
+    throw new CztException(new VCGException(getDialect(), msg, cause));
   }
 
   protected abstract boolean isTableMandatory(Key<? extends InfoTable> key);
@@ -1085,7 +1096,7 @@ public abstract class AbstractVCG<//R,
         throw (VCCollectionException)cause;
       }
       else
-        throw new VCCollectionException("VCG-VCSOF-ZSECT-TERM-VISIT-ERROR", zSect.getName(), cause);
+        throw new VCCollectionException(getDialect(), "VCG-VCSOF-ZSECT-TERM-VISIT-ERROR", zSect.getName(), cause);
     }
     assert result != null;
 
@@ -1369,7 +1380,7 @@ public abstract class AbstractVCG<//R,
       else
       {
         // cannot be processed, raise exception
-        throw new VCGException("VCG-TERM-INVALID = not Para, Decl, Pred, or Expr: " + term.getClass().getName());
+        throw new VCGException(getDialect(), "VCG-TERM-INVALID = not Para, Decl, Pred, or Expr: " + term.getClass().getName());
       }
       // make it a schema named internally and uniquely
       assert zSchText != null;
@@ -1436,7 +1447,7 @@ public abstract class AbstractVCG<//R,
         sectManager_.get(new Key<ZSect>(parent.getWord(), ZSect.class));
       }
       catch (CommandException e) {
-        throw new VCGException(e);
+        throw new VCGException(e.getDialect(), e);
       }
     }
     

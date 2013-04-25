@@ -28,6 +28,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
@@ -35,13 +36,20 @@ import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.unification.Unifier;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.UrlSource;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.IffPred;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 public class InnermostTest
@@ -83,10 +91,10 @@ public class InnermostTest
   static class RewriteTester
     extends TestCase
   {
-    private SectionManager manager_;
-    private String section_;
-    private RuleTable rules_;
-    private Pred pred_;
+    private final SectionManager manager_;
+    private final String section_;
+    private final RuleTable rules_;
+    private final Pred pred_;
 
     RewriteTester(SectionManager manager, String sectname,
                   RuleTable rules, Pred pred)
@@ -114,7 +122,7 @@ public class InnermostTest
       assertTrue(result);
     }
 
-    private void print(Term term)
+    private void print(Term term) throws PrintException
     {
       //XmlWriter writer = new JaxbXmlWriter();
       PrintUtils.print(term, new OutputStreamWriter(System.out),
@@ -123,7 +131,8 @@ public class InnermostTest
       //        writer.write(term, System.out);
     }
 
-    public void runTest()
+    @Override
+	public void runTest()
       throws Exception
     {
       if (pred_ instanceof IffPred) {

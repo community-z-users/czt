@@ -26,6 +26,8 @@ package net.sourceforge.czt.print.z;
  */
 public enum ZPrintMessage {
 
+  MSG_PRINTSYNTAX_ERROR ("Syntax error at symbol {0} during Unicode pretty pretting"),
+
   MSG_PRINT_LATEX_EXCEPTION("An exception occurred while trying to print {0} markup for term within section {1}")
   ;
   private final String message_;

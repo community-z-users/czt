@@ -23,39 +23,31 @@
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 
-import java_cup.runtime.*;
-
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.LocInt;
 import net.sourceforge.czt.parser.util.LocInfoImpl;
-import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 
-import net.sourceforge.czt.z.ast.*;
-
-<add:circustime>
-  import net.sourceforge.czt.parser.circus.CircusKeyword;
-</add:circustime>
-    
-
-<add:tcoz>
-import net.sourceforge.czt.parser.oz.OzKeyword;
-</add:tcoz>
-<add:ozpatt>
-import net.sourceforge.czt.parser.oz.OzKeyword;
-import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
-</add:ozpatt>
-
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.util.CztScannerImpl;
 
 /**
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
@@ -85,10 +77,39 @@ public class KeywordScanner
   private static Map &lt;String, Integer&gt; keywords_ = createKeywordMap();
   private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
   
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+  
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
   {
     super(properties);
+    if (scanner == null) throw new NullPointerException();
     scanner_ = scanner;
+    assert dialect_ !=null;
+    if (!dialect_.equals(scanner_.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in KeywordScanner. " + dialect_.toString() +
+    		" expected, but ContextFreeScanner dialect " + scanner_.getDialect() + " found.");    
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert scanner_.getDialect().isExtensionOf(dialect_) :
+  		   "dialect_ = " + dialect_ + "; scanner.dialect = " + scanner_.getDialect(); 
+	return scanner_.getDialect();
   }
 
   private static Map &lt;String, Integer&gt; createKeywordMap()
@@ -96,31 +117,31 @@ public class KeywordScanner
     Map &lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
 
     /* Adds all Z Standard keyword tokens */
-    addKeywords(result, ZKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.z.ZKeyword.values());
 
 <add:pattern>
     /* Adds all Z pattern keyword tokens */
-    addKeywords(result, ZPattKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.zpatt.ZPattKeyword.values());
 </add:pattern>
 
 <add:oz>
     /* Adds all Object-Z keyword tokens */
-    addKeywords(result, OzKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.oz.OzKeyword.values());
 </add:oz>
 
 <add:tcoz>
     /* Adds all Tcoz keyword tokens */
-    addKeywords(result, TcozKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.tcoz.TcozKeyword.values());
 </add:tcoz>
 
 <add:circus>
     /* Adds all Circus keyword tokens */
-    addKeywords(result, CircusKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.circus.CircusKeyword.values());
 </add:circus>
 
 <add:circustime>
     /* Adds all Circus keyword tokens */
-    addKeywords(result, CircusTimeKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.circustime.CircusTimeKeyword.values());
 </add:circustime>
 <add:zeves>
     /* Technically proof words are not keywords, since they can appear in the
@@ -148,7 +169,7 @@ public class KeywordScanner
       final Integer symbol = SymMap.getMap().get(keyword.toString());
       if (symbol == null) {
         final String message = "Cannot map keyword " + keyword +
-          " to a parser token.";
+          " to a parser token of " + dialect_.toString() + " in KeywordScanner.";
         throw new CztException(message);
       }
       addKeyword(result, keyword.spelling(), symbol);
@@ -175,8 +196,8 @@ public class KeywordScanner
     if (old != null) {
       if (symbolMap_ == null) symbolMap_ = DebugUtils.getFieldMap(Sym.class);
       final String logMessage = java.text.MessageFormat.format(
-        "Invalid keyoword mapping [{0} -> {1}]. The keyword '{0}' has already been mapped to token {2}.",
-        keyword, symbolMap_.get(symbol), symbolMap_.get(old));
+        "Invalid keyoword mapping [{0} -> {1}] for {3} in KeywordScanner. The keyword '{0}' has already been mapped to token {2}.",
+        keyword, symbolMap_.get(symbol), symbolMap_.get(old), dialect_.toString());
       CztLogger.getLogger(KeywordScanner.class).severe(logMessage);
     }
   }
@@ -195,11 +216,11 @@ public class KeywordScanner
     else if (stroke instanceof NumStroke) {
       NumStroke numStroke = (NumStroke) stroke;
       LocAnn locAnn = (LocAnn) stroke.getAnn(LocAnn.class);
-      LocInt locInt = new LocInt(numStroke.getDigit().getValue(), new LocInfoImpl(locAnn));
+      LocInt locInt = new LocInt(numStroke.getDigit().getValue(), new LocInfoImpl(getDialect(), locAnn));
       return new Symbol(Sym.NUMSTROKE, left, right, locInt);
     }
     else {
-      throw new CztException("Unexpected stroke");
+      throw new CztException("Unexpected stroke for " + getDialect().toString() + " in KeywordScanner.");
     }
   }
 
@@ -223,8 +244,12 @@ public class KeywordScanner
       String value = decorword.getName();
       Integer token = (Integer) keywords_.get(value);
       if (token != null) {
-        logFormatted("{0}: decorword {1} -> {2} named as {3}.",
-            getClass().getName(), value, token.intValue(), getSymbolMap().get(token.intValue()));
+        logFormatted("{0}: decorword {1} -> {2} named as {3} for {4} dialect.",
+            getClass().getName(), 
+            value, 
+            token.intValue(), 
+            getSymbolMap().get(token.intValue()),
+            getDialect().toString());
         return new Symbol(token.intValue(),
                           symbol.left, symbol.right,
                           decorword.getLocation());
@@ -233,6 +258,7 @@ public class KeywordScanner
     return symbol;
   }
 
+  @Override
   protected Class&lt;?&gt; getSymbolClass()
   {
     return Sym.class;

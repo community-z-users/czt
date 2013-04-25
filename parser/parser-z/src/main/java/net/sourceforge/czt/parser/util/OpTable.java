@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Assoc;
 import net.sourceforge.czt.z.ast.Cat;
@@ -95,9 +96,9 @@ public class OpTable extends InfoTable
    * 
    * @param sectionName
    */
-  public OpTable(String sectionName)
+  public OpTable(Dialect d, String sectionName)
   {
-    super(sectionName);
+    super(d, sectionName);
   }
   
   /**
@@ -195,7 +196,7 @@ public class OpTable extends InfoTable
   {
     List<Oper> oper = opPara.getOper();
     if (oper.size() < 2) {
-      throw new OperatorException("Error: operator template with less " +
+      throw new OperatorException(getDialect(), "Error: operator template with less " +
                                   "than 2 arguments");
     }
     OpInfo info = new OpInfo(getSectionName(), opPara);
@@ -231,7 +232,7 @@ public class OpTable extends InfoTable
   {
     if (ops_.get(name) != null) {
       String message = "Operator " + name + " defined more than once";
-      throw new OperatorException(message);
+      throw new OperatorException(getDialect(), message);
     }
     ops_.put(name, info);
   }
@@ -442,7 +443,7 @@ public class OpTable extends InfoTable
       result = op.getWord();
     }
     else {
-      throw new OperatorException("Attempt to add non-operator " +
+      throw new OperatorException(getDialect(), "Attempt to add non-operator " +
                                   "into operator table");
     }
     return result;
@@ -506,7 +507,7 @@ public class OpTable extends InfoTable
       message += "; but the association of operator words " +
         "and operator tokens must be a function " +
         "(see ISO Z Standard section 7.4.4).";
-      throw new OperatorException(message);
+      throw new OperatorException(getDialect(), message);
     }
     opTokens_.put(word, type);
   }
@@ -548,7 +549,7 @@ public class OpTable extends InfoTable
         String message =
           "Name " + word + " defined with precedence " + existingPrec +
           " and " + precedence;
-        throw new OperatorException(message);
+        throw new OperatorException(getDialect(), message);
       }
       precedence_.put(word, precedence);
     }
@@ -590,7 +591,7 @@ public class OpTable extends InfoTable
         String message =
           "Precedence " + precedence + " is associated with " + existingAssoc +
           " and " + assoc;
-        throw new OperatorException(message);
+        throw new OperatorException(getDialect(), message);
       }
       assoc_.put(precedence, assoc);
     }
@@ -692,9 +693,9 @@ public class OpTable extends InfoTable
 	 */
 	private static final long serialVersionUID = -5924881417952399985L;
 
-	public OperatorException(String message)
+	public OperatorException(Dialect d, String message)
     {
-      super(message);
+      super(d, message);
     }
   }
 }

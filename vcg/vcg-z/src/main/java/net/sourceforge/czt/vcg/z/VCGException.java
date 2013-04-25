@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.vcg.z;
 
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  *
@@ -36,27 +37,27 @@ private final String sectName_;
   /** Creates a new instance of VCGException
    * @param message
    */
-  public VCGException(String message)
+  public VCGException(Dialect d, String message)
   {
-     super(message);
+     super(d, message);
      sectName_ = null;
   }
   
-  public VCGException(String message, Throwable cause)
+  public VCGException(Dialect d, String message, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
     sectName_ = null;
   }
 
-  public VCGException(Throwable cause)
+  public VCGException(Dialect d, Throwable cause)
   {
-    super(cause);
+    super(d, cause);
     sectName_ = null;
   }
 
-  public VCGException(String message, String origSectName, Throwable cause)
+  public VCGException(Dialect d, String message, String origSectName, Throwable cause)
   {
-    super(message, cause);
+    super(d, message, cause);
     sectName_ = origSectName;
   }
 

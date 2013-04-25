@@ -39,38 +39,47 @@
 
    private static java.util.Set<String> idPool_ = null;	
    private static java.util.Map<String, java.util.Set<String>> nameIdPool_ = new java.util.TreeMap<String, java.util.Set<String>>(); 
+   
    public static java.util.Map<String, java.util.Set<String>> nameIdPool()
    {
      return java.util.Collections.unmodifiableMap(nameIdPool_);
    }
+   
+   public static boolean debugZName_ = false;
 
   private void setWordInternal(String word)
   {
     word_ = word;
-//    if (!nameIdPool_.containsKey(word))
-//    {
-//      nameIdPool_.put(word, new java.util.TreeSet<String>());
-//      idPool_ = nameIdPool_.get(word);
-//      //assert id_ == null; ??? could this be non-null? set id before the name?
-//    }
-//	if (id_ != null)
-//	{
-//      assert idPool_ != null;
-//	  idPool_.add(id_);
-//	}
-//    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setWord \t");
-//    net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(word, result);
-//    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+    if (debugZName_)
+    {
+	    if (!nameIdPool_.containsKey(word))
+	    {
+	      nameIdPool_.put(word, new java.util.TreeSet<String>());
+	      idPool_ = nameIdPool_.get(word);
+	      //assert id_ == null; ??? could this be non-null? set id before the name?
+	    }
+		if (id_ != null)
+		{
+	      assert idPool_ != null;
+		  idPool_.add(id_);
+		}
+	    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setWord \t");
+	    net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(word, result);
+	    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+    }
   }
   
   private void setIdInternal(String id)
   {
     id_ = id;
-//    assert idPool_ != null && word_ != null;
-//    assert nameIdPool_.containsKey(word_);
-//    idPool_.add(String.valueOf(id));// might be null
-//    
-//    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setId \t");
-//    if (id != null) net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(id, result); else result.append("null");
-//    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+    if (debugZName_)
+    {
+	    assert idPool_ != null && word_ != null;
+	    assert nameIdPool_.containsKey(word_);
+	    idPool_.add(String.valueOf(id));// might be null
+	    
+	    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setId \t");
+	    if (id != null) net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(id, result); else result.append("null");
+	    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+    }
   }

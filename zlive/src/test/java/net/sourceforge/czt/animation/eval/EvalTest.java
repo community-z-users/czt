@@ -134,7 +134,7 @@ public abstract class EvalTest extends TestCase
       Pred result = animator_.evalPred(pred_);
       assertNotNull(result);
       assertTrue(result instanceof TruePred);
-      System.out.println("Passed test:" + getName());
+      System.out.println("Passed test:" + getName() + " " + result);
     }
   }
 

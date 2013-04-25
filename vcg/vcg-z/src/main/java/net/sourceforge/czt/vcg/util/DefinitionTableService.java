@@ -23,10 +23,11 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.SortedSet;
+
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.SourceLocator;
@@ -146,7 +147,7 @@ public class DefinitionTableService
     catch(CztException e)
     {
       // catch visiting related exceptions. cmd exceptions must be handled by caller
-      throw new CommandException("Could not calculate definition table for " + name +
+      throw new CommandException(manager.getDialect(), "Could not calculate definition table for " + name +
         "\n\t with message " + e.getMessage() +
         (e.getCause() != null ? ("\n\t and cause " + e.getCause().getMessage()) : "") + ".", e);
     }

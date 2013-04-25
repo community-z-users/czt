@@ -253,7 +253,7 @@ public class SectParentResolver
     if (!manager.isCached(sectKey)) {
       // The section in question has not been parsed yet - do not continue.
       // Note that we choose not to parse, we assume parsing is done separately
-      throw new CommandException("Cannot resolve section " + sectName);
+      throw new CommandException(manager.getDialect(), "Cannot resolve section " + sectName);
     }
     
     ZSect zs = manager.get(sectKey);

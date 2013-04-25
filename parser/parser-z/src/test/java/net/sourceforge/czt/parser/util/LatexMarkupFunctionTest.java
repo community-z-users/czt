@@ -19,8 +19,9 @@
 
 package net.sourceforge.czt.parser.util;
 
-import junit.framework.*;
-
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -39,19 +40,22 @@ public class LatexMarkupFunctionTest
   private final String fooCommand_ = "\foo";
   private final String fooUnicode_ = "foo";
   private final DirectiveType fooType_ = DirectiveType.NONE;
-  private Directive directiveFoo_ =
+  private final Directive directiveFoo_ =
       factory_.createDirective(fooCommand_, fooUnicode_, fooType_);
 
   private final String barCommand_ = "\bar";
   private final String barUnicode_ = "bar";
   private final DirectiveType barType_ = DirectiveType.IN;
-  private Directive directiveBar_ =
+  private final Directive directiveBar_ =
     factory_.createDirective(barCommand_, barUnicode_, barType_);
 
   private final String section_ = "Specification";
   private LatexMarkupFunction markupFunction_;
+  
+  private final Dialect dialect_ = Dialect.Z;
 
-  public void setUp()
+  @Override
+public void setUp()
   {
     markupFunction_ = new LatexMarkupFunction(section_);
   }
@@ -59,7 +63,7 @@ public class LatexMarkupFunctionTest
   public void testSimpleAddAndRetrieve()
   {
     try {
-      markupFunction_.add(directiveBar_);
+      markupFunction_.add(dialect_, directiveBar_);
     }
     catch (MarkupException e) {
       fail("Should not throw MarkupException!");
@@ -75,14 +79,14 @@ public class LatexMarkupFunctionTest
   public void testAddDirectiveTwice()
   {
     try {
-      markupFunction_.add(directiveFoo_);
-      markupFunction_.add(directiveBar_);
+      markupFunction_.add(dialect_, directiveFoo_);
+      markupFunction_.add(dialect_, directiveBar_);
     }
     catch (MarkupException e) {
       fail("Should not throw MarkupException!");
     }
     try {
-      markupFunction_.add(directiveBar_);
+      markupFunction_.add(dialect_, directiveBar_);
       fail("Should throw MarkupException!");
     }
     catch (MarkupException ok) {
@@ -91,7 +95,7 @@ public class LatexMarkupFunctionTest
     try {
       Directive d =
         factory_.createDirective(barCommand_, barUnicode_, barType_);
-      markupFunction_.add(d);
+      markupFunction_.add(dialect_, d);
       fail("Should throw MarkupException!");
     }
     catch (MarkupException ok) {
@@ -104,7 +108,7 @@ public class LatexMarkupFunctionTest
     try {
       LatexMarkupFunction parent =
         new LatexMarkupFunction("parent");
-      parent.add(directiveBar_);
+      parent.add(dialect_, directiveBar_);
       markupFunction_.add(parent);
       MarkupDirective directive =
         markupFunction_.getCommandDirective(barCommand_);
@@ -120,14 +124,14 @@ public class LatexMarkupFunctionTest
     try {
       LatexMarkupFunction markupFunction1 =
         new LatexMarkupFunction("parent");
-      markupFunction1.add(directiveBar_);
+      markupFunction1.add(dialect_, directiveBar_);
       markupFunction_.add(markupFunction1);
       MarkupDirective directive =
         markupFunction_.getCommandDirective(barCommand_);
       Assert.assertTrue(directive != null);
       LatexMarkupFunction markupFunction2 =
         new LatexMarkupFunction("parent");
-      markupFunction2.add(directiveFoo_);
+      markupFunction2.add(dialect_, directiveFoo_);
       markupFunction_.add(markupFunction2);
       directive =
         markupFunction_.getCommandDirective(barCommand_);

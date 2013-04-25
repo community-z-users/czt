@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
+import net.sourceforge.czt.session.SectionInfo;
 
 /**
  * A Z pattern parse error.
@@ -35,11 +36,11 @@ public class ZpattParseError
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.parser.zpatt.ZpattParseResources";
 
-  public ZpattParseError(ZpattParseMessage msg,
+  public ZpattParseError(SectionInfo si, ZpattParseMessage msg,
                          Object[] params,
                          LocInfo locInfo)
   {
-    super(msg.toString(), params, locInfo);
+    super(si, msg.toString(), params, locInfo);
   }
 
   @Override

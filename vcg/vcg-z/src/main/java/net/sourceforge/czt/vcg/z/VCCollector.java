@@ -31,9 +31,8 @@ import net.sourceforge.czt.z.ast.Pred;
  * Interface characterising VC collection semantics for CZT Terms.
  * It is a kind of term visitor.
  *
- * @param <R> Pred for most VCs
- * @param <T>
- * @param <B>
+ * @param <T> subtype of Type2 determining the kind VCContext for VCs being generated as Pred
+ * @param <B> kind of bindinds to consider from VCContext (i.e. FSB or RREF, see VCContext)
  * @author Leo Freitas
  * @date Dec 24, 2010
  */

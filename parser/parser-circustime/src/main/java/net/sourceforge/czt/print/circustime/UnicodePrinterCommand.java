@@ -20,9 +20,11 @@
 package net.sourceforge.czt.print.circustime;
 
 import java.util.Properties;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 
@@ -41,8 +43,9 @@ public class UnicodePrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(SectionInfo si, 
+		  ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props, PrintUtils.warningManager_);
+    return new TokenSequenceVisitor(si, printer, props, PrintUtils.warningManager_);
   }
 }

@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
+import net.sourceforge.czt.session.SectionInfo;
+
 /**
  * An error that contains enough information to be helpful to a user,
  * that is, somebody who processes Z specification using CZT tools.
@@ -40,4 +42,7 @@ public interface CztError
    * is available for this error.
    */
   String getInfo();
+  
+  boolean hasSectionInfo();
+  SectionInfo getSectionInfo();
 }

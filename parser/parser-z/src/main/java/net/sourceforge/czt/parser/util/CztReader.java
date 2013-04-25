@@ -19,7 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -37,7 +38,7 @@ public class CztReader
   /**
    * The scanner used to provide the tokens.
    */
-  private Lexer lexer_;
+  private final Lexer lexer_;
 
   /**
    * Left over charcters from the previous read call.
@@ -56,7 +57,7 @@ public class CztReader
   /**
    * Maps character numbers to LocInfo.
    */
-  private TreeMap<Integer,LocInfo> map_ = new TreeMap<Integer,LocInfo>();
+  private final TreeMap<Integer,LocInfo> map_ = new TreeMap<Integer,LocInfo>();
 
   /**
    * Create a new character-stream reader
@@ -65,6 +66,7 @@ public class CztReader
   public CztReader(Lexer lexer)
   {
     super();
+    if (lexer == null) throw new NullPointerException();
     lexer_ = lexer;
   }
 
@@ -75,6 +77,7 @@ public class CztReader
   public CztReader(Lexer lexer, Object lock)
   {
     super(lock);
+    if (lexer == null) throw new NullPointerException();
     lexer_ = lexer;
   }
 
@@ -135,7 +138,7 @@ public class CztReader
         result = smap.get(lastKey);
       }
       catch (NoSuchElementException e) {
-        return new LocInfoImpl(null, -1, -1);
+        return new LocInfoImpl(lexer_.getDialect(), null, -1, -1);
       }
     }
     return result;

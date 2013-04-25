@@ -644,5 +644,21 @@ public interface SectionInfo
    */
   boolean setTracing(boolean on, Level level);
 
+  /**
+   * Get current section manager tracing level as set by {@link #setTracing(boolean, Level)}.
+   * @return current tracing level.
+   */
   Level getTracingLevel();
+  
+  /**
+   * Returns whether debugging tracing is on or not as set by {@link #setTracing(boolean, Level)}.
+   * @return
+   */
+  boolean isTracing();
+  
+  /**
+   * Returns the current language extension dialect is being managed (see {@link Dialect}). 
+   * @return language extension being managed. This is immutable and should not change once set. 
+   */
+  Dialect getDialect();
 }

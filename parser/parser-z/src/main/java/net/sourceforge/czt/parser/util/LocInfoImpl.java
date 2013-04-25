@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.LocAnn;
 
 /**
@@ -32,9 +34,24 @@ public class LocInfoImpl
   private int column_ = -1;
   private int start_ = -1;
   private int length_ = -1;
+  
+  private final Dialect dialect_;
 
-  public LocInfoImpl(LocAnn locAnn)
+  public LocInfoImpl(Dialect d, String source,
+                     int line, int column,
+                     int start, int length)
   {
+    dialect_ = d;
+    source_ = source;
+    line_ = line;
+    column_ = column;
+    start_ = start;
+    length_ = length;
+  }
+
+  public LocInfoImpl(Dialect d, LocAnn locAnn)
+  {
+	dialect_ = d;
     if (locAnn != null) {
       source_ = locAnn.getLoc();
       if (locAnn.getLine() != null) line_ = locAnn.getLine().intValue();
@@ -44,20 +61,10 @@ public class LocInfoImpl
     }
   }
 
-  public LocInfoImpl(String source,
-                     int line, int column,
-                     int start, int length)
+  public LocInfoImpl(Dialect d, String source, int line, int column)
   {
-    source_ = source;
-    line_ = line;
-    column_ = column;
-    start_ = start;
-    length_ = length;
-  }
-
-  public LocInfoImpl(String source, int line, int column)
-  {
-    source_ = source;
+	dialect_ = d;
+	source_ = source;
     line_ = line;
     column_ = column;
   }
@@ -65,45 +72,66 @@ public class LocInfoImpl
   public LocInfoImpl(LocInfo locInfo)
   {
     if (locInfo != null) {
+      dialect_ = locInfo.getDialect();
       source_ = locInfo.getSource();
       line_ = locInfo.getLine();
       column_ = locInfo.getColumn();
       start_ = locInfo.getStart();
       length_ = locInfo.getLength();
     }
+    else 
+    {
+      //throw new NullPointerException("Null locInfo parameter"); //TODO: don't raise? LocInfo is best effort.
+      CztLogger.getLogger(getClass()).fine("Null LocInfo passed as constructor parameter");
+      dialect_ = null;
+    }
+  }
+  
+  @Override
+public Dialect getDialect()
+  {
+	  return dialect_;
   }
 
-  public String getSource()
+  @Override
+public String getSource()
   {
     return source_;
   }
 
-  public int getLine()
+  @Override
+public int getLine()
   {
     return line_;
   }
 
-  public int getColumn()
+  @Override
+public int getColumn()
   {
     return column_;
   }
 
-  public int getStart()
+  @Override
+public int getStart()
   {
     return start_;
   }
 
-  public int getLength()
+  @Override
+public int getLength()
   {
     return length_;
   }
 
-  public String toString()
+  @Override
+public String toString()
   {
     StringBuffer result = new StringBuffer();
     if (line_ >= 0) result.append("line " + line_);
     if (column_ >= 0) result.append(" column " + column_);
+    if (dialect_ != null) result.append(" dialect " + dialect_.toString());
     if (source_ != null) result.append(" in \"" + source_ + "\"");
+    
     return result.toString();
   }
 }

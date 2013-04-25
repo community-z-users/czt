@@ -34,9 +34,9 @@ import net.sourceforge.czt.vcg.util.DefinitionException;
 import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCConfig;
+import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.vcg.z.VCSource;
 import net.sourceforge.czt.vcg.z.VCType;
-import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCCollector;
 import net.sourceforge.czt.vcg.z.feasibility.FeasibilityVCNameFactory;
 import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
@@ -139,13 +139,13 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
   @Override
   protected VCCollectionException createVCCollectionException(final String message)
   {
-    return new RefinementException(message);
+    return new RefinementException(getDialect(), message);
   }
 
   @Override
   protected VCCollectionException createVCCollectionException(final String message, Throwable e)
   {
-    return new RefinementException(message, e);
+    return new RefinementException(getDialect(), message, e);
   }
 
   @Override
@@ -713,9 +713,9 @@ public class RefinementVCCollector extends FeasibilityVCCollector implements Ref
     AxPara absPara = addedSigSchemas_.get(absSigName);
     AxPara conPara = addedSigSchemas_.get(conSigName);
     if (absPara == null)
-      throw new VCCollectionException("Could not find added operation signature schema for " + absName);
+      throw new VCCollectionException(getDialect(), "Could not find added operation signature schema for " + absName);
     if (conPara == null)
-      throw new VCCollectionException("Could not find added operation signature schema for " + conName);
+      throw new VCCollectionException(getDialect(), "Could not find added operation signature schema for " + conName);
 //    RefExpr absOpSigRef = zptr.createSchRef(ZUtils.assertZName(ZUtils.getAxParaSchOrAbbrName(absPara)), absGenParams);
 //    RefExpr conOpSigRef = zptr.createSchRef(ZUtils.assertZName(ZUtils.getAxParaSchOrAbbrName(conPara)), concreetStateGenParams_);
     Expr absOpSigRef = zptr.createSchRef(absSigName, absGenParams);

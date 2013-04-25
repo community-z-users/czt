@@ -27,6 +27,7 @@ import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
+import net.sourceforge.czt.session.SectionInfo;
 
 public class ZmlScanner
   extends net.sourceforge.czt.print.z.ZmlScanner
@@ -36,16 +37,16 @@ public class ZmlScanner
    * @param term
    * @param props 
    */
-  public ZmlScanner(Term term, Properties props)
+  public ZmlScanner(SectionInfo si, Term term, Properties props)
   {
-    super(props);
+    super(si.getDialect(), props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class, this);
-    ZpattPrintVisitor visitor = new ZpattPrintVisitor(collector, props);
+    SymbolCollector collector = new SymbolCollector(si.getDialect(), Sym.class, this);
+    ZpattPrintVisitor visitor = new ZpattPrintVisitor(si, collector, props);
     term.accept(visitor);
-    symbols_ = collector.getSymbols();
+    setSymbols(collector.getSymbols());
   }
 
   // Substitutes keywords as DECORWORD for Unicode printing - easier scanning

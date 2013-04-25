@@ -62,6 +62,7 @@ public class SchTextChecker
     //add the pairs to the type environment
     typeEnv().add(pairs);
 
+    // TODO: WHY THE 2nd PASS with NTP ADDED to the CONTEXT? Generic resolution?
     checkSchTextPredPart(zSchText);
 
     //check for duplicate names

@@ -112,7 +112,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>vcg</artifactId>
+      <artifactId>vcg-z</artifactId>
       <version>${czt.version}</version>
     </dependency>
     <dependency>

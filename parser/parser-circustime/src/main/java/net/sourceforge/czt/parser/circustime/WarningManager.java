@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author leo
  */
-public class WarningManager extends net.sourceforge.czt.z.util.WarningManager
+public class WarningManager extends net.sourceforge.czt.parser.circus.WarningManager
 {
 
   public WarningManager()

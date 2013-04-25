@@ -23,15 +23,18 @@
 
 package <package/>;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
-
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.ZToken;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.NewlineCategory;
+import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.util.TokenStack;
+import net.sourceforge.czt.session.Dialect;
 
 <add:circustime>
 import net.sourceforge.czt.parser.circus.CircusToken;
@@ -46,6 +49,22 @@ import net.sourceforge.czt.parser.circus.CircusKeyword;
 public class <class/>
   extends CztScannerImpl
 {
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
   private static Map&lt;Integer,NewlineCategory&gt; map_ = createMap();
 
   private static Map&lt;Integer,NewlineCategory&gt; createMap()
@@ -61,7 +80,7 @@ public class <class/>
     map.put("PARA", null);
     map.put("EOF", null);
     map.put("error", null);
-    map.put("DECLWORD", ZToken.DECORWORD.getNewlineCategory());
+    map.put("DECLWORD", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
     insertInto(map, net.sourceforge.czt.parser.z.ZToken.values());
     insertInto(map, net.sourceforge.czt.parser.z.ZKeyword.values());
     insertInto(map, net.sourceforge.czt.parser.z.ZOpToken.values());
@@ -82,9 +101,9 @@ public class <class/>
     map.put("_CIRCGUARD", null);
     
     /* Special cases for communication patterns - just like a DECORWORD */
-    map.put("CHANNELNAME", ZToken.DECORWORD.getNewlineCategory());
-    map.put("FIELDNAME", ZToken.DECORWORD.getNewlineCategory());
-    map.put("CHANNELERROR", ZToken.DECORWORD.getNewlineCategory());
+    map.put("CHANNELNAME", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
+    map.put("FIELDNAME", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
+    map.put("CHANNELERROR", net.sourceforge.czt.parser.z.ZToken.DECORWORD.getNewlineCategory());
     
     /* For CHANNELDOT don't accept new lines, which is different from the Z DOT */
     map.put("CHANNELIN", NewlineCategory.NEITHER);
@@ -105,7 +124,8 @@ public class <class/>
 </add:zeves>
     for (String s : SymMap.getMap().keySet()) {
       if (! map.containsKey(s)) {
-        final String msg = "No new line category for token or keyword " + s + " was found.";
+        final String msg = "No new line category for token or keyword " + s + " was found for " + 
+        	dialect_.toString() + " in NewlineScanner";
         System.err.println(msg);
         throw new IllegalStateException(msg);
       }
@@ -133,14 +153,26 @@ public class <class/>
    * The token stream from which NL tokens are to be removed.
    * Should never be &lt;code&gt;null&lt;/code&gt;.
    */
-  private TokenStack tokens_;
+  private final TokenStack tokens_;
 
-  <class/>(Scanner scanner, Properties properties)
+  <class/>(CztScanner scanner, Properties properties)
   {
     super(properties);
     tokens_ = new TokenStack(scanner);
+    assert dialect_ != null;
+    if (!dialect_.equals(scanner.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in NewlineScanner. " + dialect_.toString() +
+    		" expected, but CztScanner dialect " + scanner.getDialect() + " found.");     
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert dialect_.equals(tokens_.getDialect()) : "dialect = " + dialect_ + "; tokens.dialect = " + tokens_.getDialect();
+  	return tokens_.getDialect();
   }
 
+  @Override
   public Symbol next_token()
     throws Exception
   {
@@ -184,7 +216,8 @@ public class <class/>
     return NewlineCategory.BOTH == category ||
       NewlineCategory.BEFORE == category;
   }
-
+  
+  @Override
   protected Class&lt;?&gt; getSymbolClass()
   {
     return Sym.class;

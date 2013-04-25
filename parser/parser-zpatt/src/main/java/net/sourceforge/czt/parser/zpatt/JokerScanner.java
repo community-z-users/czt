@@ -20,12 +20,16 @@
 
 package net.sourceforge.czt.parser.zpatt;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Properties;
 
-import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
-
-import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocString;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.zpatt.ast.JokerType;
 
@@ -33,10 +37,10 @@ import net.sourceforge.czt.zpatt.ast.JokerType;
  * This is a lexer for jokers.
  */
 public class JokerScanner
-  implements Scanner
+  extends CztScannerImpl
 {
-  private Scanner scanner_;
-  private JokerTable table_;
+  private final CztScanner scanner_;
+  private JokerTable table_ = null;
 
   /**
    * Indicates whether to perform a requested lookup.
@@ -45,9 +49,18 @@ public class JokerScanner
    */
   private boolean lookup_ = false;
 
-  public JokerScanner(Scanner scanner)
+  public JokerScanner(CztScanner scanner)
   {
+    super();
+    if (scanner == null) throw new NullPointerException();
     scanner_ = scanner;
+  }
+  
+  public JokerScanner(CztScanner scanner, Properties prop)
+  {
+	  super(prop);
+	  if (scanner == null) throw new NullPointerException();
+	  scanner_ = scanner;
   }
 
   public JokerTable getJokerTable()
@@ -60,7 +73,8 @@ public class JokerScanner
     table_ = table;
   }
 
-  public Symbol next_token()
+  @Override
+public Symbol next_token()
     throws Exception
   {
     Symbol result = scanner_.next_token();
@@ -142,4 +156,15 @@ public class JokerScanner
     }
     return result;
   }
+
+@Override
+public Dialect getDialect() {
+	// TODO Auto-generated method stub
+	return scanner_.getDialect();
+}
+
+@Override
+protected Class<?> getSymbolClass() {
+	return Sym.class; // TODO: perhaps this needs to be per extension?
+}
 }

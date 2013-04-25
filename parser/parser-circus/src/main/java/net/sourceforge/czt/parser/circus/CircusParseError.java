@@ -29,7 +29,7 @@ public class CircusParseError
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.parser.circus.CircusParseResources";
-
+  
   public static void report(SectionInfo sectInfo,
                             Source source,
                             ErrorType errorType,
@@ -48,26 +48,30 @@ public class CircusParseError
                             LocInfo locInfo,
                             String info)
   {
-    try {
-      ParseException parseException = 
-        sectInfo.get(new Key<ParseException>(source.getName(),
-                             ParseException.class));
-      List<CztError> errorList = parseException.getErrors();
-      CircusParseError error = new CircusParseError(msg, params, locInfo);
-      error.setErrorType(errorType);
-      error.setInfo(info);
-      errorList.add(error);
-    }
-    catch (CommandException e) {
-      e.printStackTrace();
+    CircusParseError error = new CircusParseError(sectInfo, msg, params, locInfo);
+    error.setErrorType(errorType);
+    error.setInfo(info);
+    if (error.hasSectionInfo())
+    {
+	    try {
+	      ParseException parseException = 
+	        error.getSectionInfo().get(new Key<ParseException>(source.getName(),
+	                             ParseException.class));
+	      List<CztError> errorList = parseException.getErrors();
+	      errorList.add(error);
+	    }
+	    catch (CommandException e) {
+	      e.printStackTrace();
+	    }
     }
   }
   
-  public CircusParseError(CircusParseMessage msg,
+  public CircusParseError(SectionInfo si,
+		  				CircusParseMessage msg,
                          Object[] params,
                          LocInfo locInfo)
   {
-    super(msg.toString(), params, locInfo);
+    super(si, msg.toString(), params, locInfo);
   }
 
   @Override

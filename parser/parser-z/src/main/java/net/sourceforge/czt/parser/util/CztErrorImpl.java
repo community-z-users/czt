@@ -22,6 +22,9 @@ package net.sourceforge.czt.parser.util;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.util.CztLogger;
+
 /**
  * An abstract CztError that can be localised.
  *
@@ -31,19 +34,38 @@ public abstract class CztErrorImpl
   extends LocInfoImpl
   implements CztError
 {
-  private String message_;
-  private String info_;
-  private Object[] params_;
+  private final String message_;
+  private final Object[] params_;
+  private final SectionInfo sectInfo_;
+
+  private String info_ = null;
   private ErrorType errorType_ = ErrorType.ERROR;
 
-  public CztErrorImpl(String message, Object[] params, LocInfo locInfo)
+  public CztErrorImpl(SectionInfo si, String message, Object[] params, LocInfo locInfo)
   {
     super(locInfo);
+    sectInfo_ = si;
     message_ = message;
     params_ = params;
   }
 
   protected abstract ResourceBundle getResourceBundle();
+  
+  @Override
+  public boolean hasSectionInfo()
+  {
+	  if (sectInfo_ == null)
+	  {
+		  CztLogger.getLogger(getClass()).severe(getClass().getName() + " has no SectionInfo set, but it is being accessed.");
+	  }
+	  return sectInfo_ != null;
+  }
+  
+  @Override
+  public SectionInfo getSectionInfo()
+  {
+	  return sectInfo_;
+  }
 
   public String getMessage()
   {

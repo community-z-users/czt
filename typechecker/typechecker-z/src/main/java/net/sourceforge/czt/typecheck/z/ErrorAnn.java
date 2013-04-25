@@ -18,17 +18,20 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
-import java.util.*;
-import java.io.*;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Type;
 
 /**
  * A class for annotating terms associated with error messages.
@@ -42,13 +45,10 @@ public class ErrorAnn
     ResourceBundle.getBundle(RESOURCE_NAME);
 
   /** The section in which this error occurred. */
-  protected String sectName_;
-
-  /** The section info. */
-  protected SectionManager manager_;
+  protected final String sectName_;
 
   /** The location information. */
-  protected LocAnn locAnn_;
+  protected final LocAnn locAnn_;
 
   /** The term that is in error. */
   protected Term term_;
@@ -67,8 +67,7 @@ public class ErrorAnn
                   SectionManager manager, String sectName,
                   LocAnn locAnn, Term term, Markup markup)
   {
-    super(errorMessage, params, null);
-    manager_ = manager;
+    super(manager, errorMessage, params, null);
     sectName_ = new String(sectName);
     locAnn_ = locAnn;
     term_ = term;
@@ -154,11 +153,12 @@ public class ErrorAnn
   @Override
   public String getMessage()
   {
+	if (!hasSectionInfo()) throw new NullPointerException("Invalid section manager");
     Object[] params = getMessageParams();
     //format the parameters and write into the message
     String formatted [] = new String[params.length];
     for (int i = 0; i < params.length; i++) {
-      formatted[i] = format(params[i], manager_, sectName_);
+      formatted[i] = format(params[i], (SectionManager)getSectionInfo(), sectName_);
     }
     String localised = getStringFromResourceBundle(getMessageKey());
     MessageFormat form = new MessageFormat(localised);
@@ -253,7 +253,7 @@ public class ErrorAnn
                        Writer writer,
                        SectionManager manager,
                        String sectName,
-                       Markup markup)
+                       Markup markup) throws PrintException
   {
     PrintUtils.print(term, writer, manager, sectName, markup);
   }

@@ -21,12 +21,15 @@ package net.sourceforge.czt.print.circustime;
 
 import java.util.Iterator;
 import java.util.Properties;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.SectionInfo;
 
 /**
  * This Scanner uses the print visitor to tokenize a
@@ -43,22 +46,22 @@ public class ZmlScanner
    * @param props
    * @param manager
    */
-  public ZmlScanner(Term term, Properties props, WarningManager manager)
+  public ZmlScanner(SectionInfo si, Term term, Properties props, WarningManager manager)
   {
     // DON'T CALL super(term, props)! We want to pass just props to CztScannerImpl
-    super(props);
+    super(si.getDialect(), props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class, this);
-    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(collector, manager);
+    SymbolCollector collector = new SymbolCollector(si.getDialect(), Sym.class, this);
+    CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(si, collector, manager);
     term.accept(visitor);
-    symbols_ = collector.getSymbols();
+    setSymbols(collector.getSymbols());
   }
   
-  public ZmlScanner(Iterator<Token> iter, Properties props)
+  public ZmlScanner(Dialect d, Iterator<Token> iter, Properties props)
   {
-    super(iter, props);
+    super(d, iter, props);
   }
 
   // Substitutes keywords as DECORWORD for Unicode printing - easier scanning

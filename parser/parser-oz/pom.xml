@@ -16,7 +16,7 @@
   </description>
 
   <properties>
-    <parser.nodes>oz,ozz</parser.nodes>
+    <parser.nodes>oz,ozcore</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.oz</parser.package>
     <printer.nodes>z,oz,ozcore</printer.nodes>
     <printer.package>net.sourceforge.czt.print.oz</printer.package>

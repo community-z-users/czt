@@ -28,13 +28,19 @@
 /* --------------------------Usercode Section------------------------ */
 package <package/>;
 
-import java.io.*;
-import java_cup.runtime.*;
+import java.io.IOException;
+import java.io.Reader;
 
-import net.sourceforge.czt.parser.util.*;
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztReader;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocInt;
+import net.sourceforge.czt.parser.util.LocString;
+import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Source;
-
-//import net.sourceforge.czt.z.util.ZString;
 
 <add:zeves>
 import net.sourceforge.czt.parser.zeves.Proofword;
@@ -59,7 +65,6 @@ import net.sourceforge.czt.parser.zeves.Proofword;
 %char
 %cupsym Sym
 //%cup
-
 %implements java_cup.runtime.Scanner
 %function next_token
 %type java_cup.runtime.Symbol
@@ -79,19 +84,47 @@ import net.sourceforge.czt.parser.zeves.Proofword;
    * Records the number of paragraph begins.
    */
   private int begins_ = 0;
+  
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+  						<add:oldz>Dialect.Z</add:oldz>
+    					<add:print>Dialect.Z</add:print>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
 
   public <class/>(Source source)
     throws IOException
   {
     this(source.getReader());
+    assert dialect_ != null;
   }
 
   public <class/>(CztReader in)
   {
     this((Reader) in);
     reader_ = in;
+    assert dialect_ != null;
   }
-
+  
+  /**
+   * Low-level LaTeX scanner gets its dialect from the context and propagate to other scanners.
+   */
+  public Dialect getDialect()
+  {
+  	return dialect_;
+  }
+  
   // TODO: perhaps remove? was used by the low-level scanning tags for zstateinfo. yet it's nice piece of info?
    //@SuppressWarnings("unused") // added globally.
    private boolean inSchemaBox_ = false;
@@ -121,7 +154,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
   private static final java.util.Map&lt;Object, String&gt; symbolMap_ = net.sourceforge.czt.parser.util.DebugUtils.getFieldMap(Sym.class);
   private void debug(int type, Object value)
   {
-    System.out.println("ContextFreeScanner (" + i + ") : Sym=" + type + " val=" + symbolMap_.get(type) + " L" + getLine() + " C" + getColumn() + " is " + String.valueOf(value));
+    System.out.println("ContextFreeScanner (" + i + "; " + dialect_.toString() + ") : Sym=" + type + " val=" + symbolMap_.get(type) + " L" + getLine() + " C" + getColumn() + " is " + String.valueOf(value));
     i++;
     System.out.flush();
   }
@@ -173,21 +206,21 @@ import net.sourceforge.czt.parser.zeves.Proofword;
       LocInfo startLoc = reader_.getLocation(yychar);
       LocInfo endLoc = reader_.getLocation(yychar + yytext().length() - 1);
       int start = startLoc.getStart();
-      return new LocInfoImpl(startLoc.getSource(),
+      return new LocInfoImpl(getDialect(), startLoc.getSource(),
                              startLoc.getLine(),
                              startLoc.getColumn(),
                              start,
                              endLoc.getStart() + endLoc.getLength() - start);
     }
-    return new LocInfoImpl(null, yyline, yycolumn, yychar, yytext().length());
+    return new LocInfoImpl(getDialect(), null, yyline, yycolumn, yychar, yytext().length());
   }
 
   private void beginZed()
   {
     if (begins_ > 0<add:oz> &amp;&amp; false</add:oz>) {
       String msg = "Unexpected begin of paragraph; " +
-        "end of paragraph expected instead";
-      throw new ScanException(msg, getLocation());
+        "end of paragraph expected instead for " + dialect_.toString() + " in ContextFreeScanner ";
+      throw new ScanException(dialect_, msg, getLocation());
     }
     begins_++;
     yybegin(Z);
@@ -209,7 +242,8 @@ import net.sourceforge.czt.parser.zeves.Proofword;
   private int retrieveZState(String yyt)
   {
     if (!inSchemaBox_)
-      throw new ScanException("Cannot define Z state or refinement relationships outside an SCHBOX" , getLocation());
+      throw new ScanException(dialect_, "Cannot define Z state or refinement relationships outside an SCHBOX for " 
+      + dialect_.toString() + " in ContextFreeScanner", getLocation());
     //yyt = yyt.trim();
     if (yyt.startsWith(ZString.ZSTATE))
       return Sym.ZSTATE;
@@ -248,7 +282,8 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     else if (yyt.startsWith(ZString.ZBSREFINES))
       return Sym.ZBSREFINES;
     else
-      throw new ScanException("Unknown ZState " + yyt, getLocation());
+      throw new ScanException(dialect_, "Unknown ZState " + yyt + 
+      	" for " + dialect_.toString() + " in ContextFreeScanner ", getLocation());
   }
 */
 %}
@@ -561,8 +596,8 @@ ZREFINES = //{NL_SPACE}*
   .             {
                    String msg = "Unexpected character "+ yytext() + "(" +
                      "\\u" + Integer.toString(yytext().charAt(0), 16) +
-                     ") outside para";
-                   throw new ScanException(msg, getLocation());
+                     ") outside para for " + dialect_.toString() + " in ContextFreeScanner.";
+                   throw new ScanException(dialect_, msg, getLocation());
                 }
 
 }
@@ -718,14 +753,14 @@ ZREFINES = //{NL_SPACE}*
                    for (int i = 0; i &lt; yytext().length(); i++) {
                      msg += "\\u" + Integer.toString(yytext().charAt(i), 16);
                    }
-                   msg += ")";
-                   throw new ScanException(msg, getLocation());
+                   msg += ") for " + dialect_.toString() + " in ContextFreeScanner.";
+                   throw new ScanException(dialect_, msg, getLocation());
                 }
   .             {
                    String msg = "Unexpected character "+ yytext() + "(" +
                      "\\u" + Integer.toString(yytext().charAt(0), 16) +
-                     ") inside para";
-                   throw new ScanException(msg, getLocation());
+                     ") inside para for " + dialect_.toString() + " in ContextFreeScanner.";
+                   throw new ScanException(dialect_, msg, getLocation());
                 }
 }
 

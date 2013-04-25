@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.Stack;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
@@ -81,20 +82,20 @@ import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.util.ZUtils.ZExprKind;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
-import net.sourceforge.czt.z.visitor.GivenParaVisitor;
-import net.sourceforge.czt.z.visitor.ParaVisitor;
-import net.sourceforge.czt.z.visitor.ZParaListVisitor;
-import net.sourceforge.czt.z.visitor.ZSectVisitor;
 import net.sourceforge.czt.z.visitor.BranchVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
+import net.sourceforge.czt.z.visitor.GivenParaVisitor;
+import net.sourceforge.czt.z.visitor.ParaVisitor;
 import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
 import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.util.ZUtils.ZExprKind;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
+import net.sourceforge.czt.z.visitor.ZParaListVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
 /**
  * A visitor that computes a {@link DefinitionTable} from a given
@@ -129,7 +130,7 @@ public class DefinitionTableVisitor
   private String sectName_;
 
   /** Current name being processed for nested definitions, like FreeTypes and schemas */
-  private Stack<ZName> currentName_;
+  private final Stack<ZName> currentName_;
 
   private Definition currentGlobalDef_;
   private LocAnn currentLocAnn_;
@@ -190,7 +191,7 @@ public class DefinitionTableVisitor
     if (errors_.isEmpty())
       return getDefinitionTable();
     else
-      throw new DefinitionException(term, "Exceptions raise whilst calculating DefTable for " + sectName_, errors_);
+      throw new DefinitionException(getSectionInfo().getDialect(), term, "Exceptions raise whilst calculating DefTable for " + sectName_, errors_);
   }
 
   protected DefinitionTable getDefinitionTable()
@@ -208,7 +209,7 @@ public class DefinitionTableVisitor
   {
     final String message = "DefinitionTables can only be build for ZSects; " +
       "was tried for " + term.getClass();
-    throw new CztException(new DefinitionException(term, message,
+    throw new CztException(new DefinitionException(getSectionInfo().getDialect(), term, message,
             new UnsupportedOperationException()));
   }
 
@@ -473,7 +474,7 @@ public class DefinitionTableVisitor
     // throws exception in case of duplicates from parents
     try {
 
-      table_ = new DefinitionTable(sectName_, parentTables);
+      table_ = new DefinitionTable(getSectionInfo().getDialect(), sectName_, parentTables);
     }
     catch (DefinitionException exception)
     {
@@ -730,7 +731,7 @@ public class DefinitionTableVisitor
     assert currentGlobalDef_ != null;
     if (local == null)
     {
-      throw new CztException(new DefinitionException("Cannot add global definition reference for null"));
+      throw new CztException(new DefinitionException(getSectionInfo().getDialect(), "Cannot add global definition reference for null"));
     }
                                               // TODO: should this be just isSchemaDecl()?  WAS isSchemaReference()
     assert local != null && local.getDefinitionKind().isSchemaReference() : "cannot add global definition reference for " + local;
@@ -918,7 +919,7 @@ public class DefinitionTableVisitor
             + "\n\t SrcLoc: " + (currentLocAnn_ != null ? currentLocAnn_.toString() : "unknown")
             + "\n\t Term  : " + term.toString()
             + "\n\t TrmLoc: " + (loc != null ? loc.toString() : "unknown");
-    errors_.add(new DefinitionException(currentLocAnn_, msg));
+    errors_.add(new DefinitionException(getSectionInfo().getDialect(), currentLocAnn_, msg));
     debug("unsupported case raised \t\t with stack = " + currentName_ + ": \n\"" + msg + "\"\n");
   }
 
@@ -994,7 +995,7 @@ public class DefinitionTableVisitor
         }
         // A(x) => see Ref for A (recursively if A is ApplExpr itself)
         else if (expr instanceof ApplExpr)
-          result = figureOutDefKindForOmitBoxExpr(genFormals, ZUtils.getApplExprRef((ApplExpr)expr));
+          result = figureOutDefKindForOmitBoxExpr(genFormals, ZUtils.getApplExprRef(expr));
         // R => lookup table for it and find its definition, if availabe.
         else if (expr instanceof RefExpr)
         {
@@ -1527,7 +1528,7 @@ public class DefinitionTableVisitor
           // Hide, Rename
           if (!(expr instanceof NegExpr))
           {
-            modifyLocalBindings(def, (Expr1)expr, strokes);
+            modifyLocalBindings(def, expr, strokes);
           }
         }
       }
