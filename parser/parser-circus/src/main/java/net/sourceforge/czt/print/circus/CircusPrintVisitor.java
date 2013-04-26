@@ -159,7 +159,12 @@ public class CircusPrintVisitor
     @Override
     public Object visitInterruptProcess(InterruptProcess term)
     {
-    	throw new UnsupportedOperationException();
+    	printLPAREN(term);
+        visit(term.getLeftProcess());
+        print(CircusKeyword.CIRCINTERRUPT);
+        visit(term.getRightProcess());
+        printRPAREN(term);
+        return null;
     }
     
     @Override
