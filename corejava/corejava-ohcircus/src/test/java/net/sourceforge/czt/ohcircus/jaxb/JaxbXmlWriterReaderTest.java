@@ -66,7 +66,8 @@ public class JaxbXmlWriterReaderTest extends XmlWriterReaderTest
   public List<URL> getExampleFiles()
   {
     List<URL> result = new ArrayList<URL>();
-    result.add(Resources.getOhCircusExample("ohcircus.xml"));
+    //TODO: To add a list of files OhCircus corejava testing  
+    //result.add(Resources.getOhCircusExample("ohcircus.xml"));
     return result;
   }
 }

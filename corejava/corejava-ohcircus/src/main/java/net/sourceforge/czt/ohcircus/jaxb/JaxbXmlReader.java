@@ -26,6 +26,7 @@ import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circuspatt.ast.CircusPatternFactory;
 import net.sourceforge.czt.circustime.ast.CircusTimeFactory;
+import net.sourceforge.czt.ohcircus.ast.OhCircusFactory;
 
 /**
  * The unmarshaller responsible for deserializing XML data.

@@ -23,18 +23,58 @@ package net.sourceforge.czt.ohcircus.util;
 public enum OhCircusConcreteSyntaxSymbol
 {
   /* Support for OhCircus*/
+  EXTEND_KEYWORD("Extendes Class Para"),
+  THIS_KEYWORD("this keyword"),
+  NULL_KEYWORD("null keyword"),
+  NEW_KEYWORD("new keyword"),
+  SUPER_CLASS("super keyword"),
+  PUBLIC_QUALIFIER("public qualifier"),
+  PROTECTED_QUALIFIER("protected qualifier"),
+  PRIVATE_QUALIFIER("private qualifier"),
+  LOGICAL_QUALIFIER("logical qualifier"),
+  INITIAL_STATE("initila keyword"),
 
-CLASS_OHCIRCUS("Class Paragraph"),
-EXTEND_KEYWORD("Extendes Class Para"),
-THIS_KEYWORD("this keyword"),
-NULL_KEYWORD("null keyword"),
-NEW_KEYWORD("new keyword"),
-SUPER_CLASS("super keyword"),
-PUBLIC_QUALIFIER("public qualifier"),
-PROTECTED_QUALIFIER("protected qualifier"),
-PRIVATE_QUALIFIER("private qualifier"),
-LOGICAL_QUALIFIER("logical qualifier"),
-INITIAL_QUALIFIER("initila keyword")
+/* Class level paragraph */
+  OHCIRCUS_CLASS_PARA("OhCircus Class paragraph"),
+
+/* Method level paragraph */
+  METHOD_PARA("Method paragraph"),
+
+/* (Abstract) Method definitions */
+  OHCIRCUS_METHOD("Method definition"),                     // Method
+  UNARY_METHOD("Unary method definition"),                // Method1
+  BINARY_METHOD("Binary method definition"),              // Method2
+  CALL_METHOD("Method call"),
+  PARAM_METHOD("Parameterised method"),                   
+  GUARDED_METHOD("Guarded method"),
+  LETVAR_METHOD("Local environment for variable declaration"),
+  LETMU_METHOD("Local environment for recursive method"),
+  SEQ_METHOD("Sequential composition method"),
+  MU_METHOD("Recursive Method"),
+
+/* Commands */
+  OHCIRCUS_COMMAND("OhCircus Command"),
+  OHCIRCUS_IF_CMD("Guarded alternation - OhCircus if statement"),
+  OHCIRCUS_DO_CMD("Guarded loop - OhCircus do statement"),
+  OHCIRCUS_VAR_CMD("Variable block"),
+  OHCIRCUS_DOT("OhCircus expression"),
+  
+  //New added 
+  OHCIRCUS_VISIBILITY("OhCircus Visibility"),
+  METHOD_SIGNATURE_LIST("Method signature list"),
+  OHCIRCUS_CLASS_REF_LIST("OhCircus Class Ref. List"),
+  OHCIRCUS_CLASS_TYPE("Ohcircus Class type"),
+  METHOD_LIST("OhCircus method list"),  
+  OHCIRCUS_CALSS_SIGNATURE("OhCircus Class signature"),
+  METHOD_SIGNATURE("Method signature"),
+  METHOD_TYPE("Method type"),
+  OHCIRCUS_PRED("OhCircus Predicate"),
+  OHCIRCUS_STATE("OhCircus State"),
+  SCH_EXPR_METHOD("Schema Expression Method"),
+  OHCIRCUS_CLASS_SIGNATURE_LIST("OhCircus Class Signature List"),
+  OHCIRCUS_CLASS_REF_TYPE("OhCircus Class Ref. Type"),
+  OHCIRCUS_CLASS_REF("OhCircus Class Reference")
+  
 ;
 
   private final String description_;

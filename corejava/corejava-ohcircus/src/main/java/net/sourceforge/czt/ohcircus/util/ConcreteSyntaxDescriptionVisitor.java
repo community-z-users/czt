@@ -43,10 +43,11 @@ public class ConcreteSyntaxDescriptionVisitor
   }
 
   public ConcreteSyntaxDescriptionVisitor(String resourceName,
-                                          String circustimeResourceName,
+		  								  String circusResourceName,                                
+		  								  String circustimeResourceName,
                                           String ohcircusResourceName)
   {
-    super(resourceName, circustimeResourceName);
+    super(resourceName, circusResourceName, circustimeResourceName);
     resourceName_ = ohcircusResourceName;
     setNameVisitor(new GetNameVisitor());
  }

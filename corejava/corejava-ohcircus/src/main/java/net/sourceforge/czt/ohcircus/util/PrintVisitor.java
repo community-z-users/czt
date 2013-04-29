@@ -23,7 +23,7 @@ public class PrintVisitor
   extends net.sourceforge.czt.z.util.PrintVisitor
  // implements any element you want to have toString capability for OhCircus
 
-  implements OhCircusVisitor<String>
+  //implements OhCircusVisitor<String>
 {
 
 }

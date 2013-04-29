@@ -4,13 +4,14 @@
   the top-down approach (i.e. circus, zpatt, zml) was creating problems for GnAST.
 -->
 <xs:schema  
-  targetNamespace="http://czt.sourceforge.net/circustime"
+  targetNamespace="http://czt.sourceforge.net/ohcircus"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:Z="http://czt.sourceforge.net/zml"
   xmlns:P="http://czt.sourceforge.net/zpatt"
   xmlns:CIRCUS="http://czt.sourceforge.net/circus"
   xmlns:CP="http://czt.sourceforge.net/circuspatt"
   xmlns:CT="http://czt.sourceforge.net/circustime"
+  xmlns:OHCIRCUS="http://czt.sourceforge.net/ohcircus"
   xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0"
   xmlns:gnast="http://czt.sourceforge.net/gnast"
   elementFormDefault="qualified"
@@ -113,318 +114,944 @@
   <!-- ********************************************************************* -->
   
 
+  <!-- OhCircus Para-->
   <!-- OhCircus Class Para-->
   
-  <xs:element name="ClassDecl" type="OHCIRCUS:ClassDecl" substitutionGroup="Z:Decl">
+  <xs:element name="OhCircusClassPara" type="OHCIRCUS:OhCircusClassPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
-	<p>
-        A class declaration is a Z declaration that inherites any super class. 
-        </p>
-	<p>
-          This element represents the <b>ClassDeclaration</b> grammar rule.
+		<p>
+        	A class para is extending the Z para. 
+		</p>
+		<p>
+          	This element represents the <b>ClassDefinition</b> grammar rule.
+		</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+<!-- OhCircus Method Para-->
+
+ <xs:element name="OhCircusMethodPara" type="OHCIRCUS:OhCircusMethodPara" substitutionGroup="Z:Para">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          A method paragraph that declares a name for a method definition.
         </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
 
-  
-   <xs:complexType name="ClassDecl">
-    <xs:complexContent>
-      <xs:extension base="Z:Decl">
-        <xs:sequence>
-	  <xs:element ref="Z:Name" />
-          <!-- Inherited calls  name -->
-          <xs:element ref="Z:Name" minOccurs="0"/>
-	  <xs:element ref="OHCIRCUS:ClassPara"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>           
-  
-  
-  <xs:element name="ClassPara" type="OHCIRCUS:ClassPara" substitutionGroup="Z:Para">
+<!-- OhCircus Class  -->
+
+<xs:element name="OhCircusClass" type="OHCIRCUS:OhCircusClass" abstract="true">
     <xs:annotation>
       <xs:documentation>
-	<p>
-        A Class paragraph that includes a name for a class definition. A class can be extended by super class.
+        <p>
+          An abstract OhCircus Class definition. It represents the <b>Class Definition</b> grammar rule.
         </p>
-	<p>
-          This element represents the <b>ClassDeclaration</b> grammar rule.
+       </xs:documentation>
+    </xs:annotation>
+</xs:element>
+  
+<!-- OhCircus Method -->
+     
+  <xs:element name="OhCircusMethod" type="OHCIRCUS:OhCircusMethod" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          An abstract OhCircus method definition that presents the grammar rule. The extesions of 
+	  this abstract method are guarded methods, recursion, method call etc.
         </p>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
   
-  <xs:complexType name="ClassPara">
+  <xs:element name="Method1" type="OHCIRCUS:Method1" abstract="true" substitutionGroup="OHCIRCUS:OhCircusMethod">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract unary OhCircus Method definition.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+  <xs:element name="Method2" type="OHCIRCUS:Method2" abstract="true" substitutionGroup="OHCIRCUS:OhCircusMethod">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract binary OhCircus method definition.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="MethodD" type="OHCIRCUS:MethodD" abstract="true" substitutionGroup="OHCIRCUS:Method1">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          An abstract unary OhCircus method with Z declarations.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+   <xs:element name="ParamMethod" type="OHCIRCUS:ParamMethod" substitutionGroup="OHCIRCUS:MethodD">
+    <xs:annotation>
+      <xs:documentation>
+        A parameterised method definition. It represents grammar rule <b>Declaration @ ParMethod</b>.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="CallMethod" type="OHCIRCUS:CallMethod" substitutionGroup="OHCIRCUS:OhCircusMethod">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          OhCircus method reference call. In other words, it permits a name to be a method.
+          That is, it contains a reference name to lookup the method definition.
+        </p>
+        <p>
+          Moreover, it contains a list of expressions representing possible actual parameters.
+          An empty list of expressions means a simple method call of the grammar rule <b>N</b>,
+          where <b>N</b> is the method name.
+          If the list of expressions is not empty, then the this is a parameterised method.
+          It represents the grammar rule <b>N(Expr+)</b> for method instantiation.
+        </p>
+        <p>
+          The invariant is as follows:        
+          <ul>
+            <li>N        = nonempty name and empty parameters. </li>
+            <li>N(Expr+) = nonempty parameters. Internal name for on-the-fly, user given name for previously declared method. </li>
+          </ul>
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="SchExprMethod" type="OHCIRCUS:SchExprMethod" substitutionGroup="OHCIRCUS:OhCircusMethod">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          A method given as a schema expression.
+          In this way, schema expressions are included into the <code>OhCircusMethod</code> subtree
+          in a similar way as schema expressions are included in the declaration and predicate subtrees.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+    
+  <!-- OhCircus Method :: Unary -->  
+  
+  <xs:element name="GuardedMethod" type="OHCIRCUS:GuardedMethod" substitutionGroup="OHCIRCUS:Method1">
+    <xs:annotation>
+      <xs:documentation>
+        The OhCircus guarded method defines a methods guarded by a Z predicate.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="MuMethod" type="OHCIRCUS:MuMethod" substitutionGroup="OHCIRCUS:Method1">
+    <xs:annotation>
+      <xs:documentation>
+	<p>
+	  The mu operator defines a recursive method.
+	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- OhCircus Method :: Binary -->  
+  
+   <xs:element name="SeqMethod" type="OHCIRCUS:SeqMethod" substitutionGroup="OHCIRCUS:Method2">
+    <xs:annotation>
+      <xs:documentation>
+        Sequential composition between two method.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- OhCircus Method :: Commands -->
+  <xs:element name="OhCircusCommand" type="OHCIRCUS:OhCircusCommand" abstract="true" substitutionGroup="OHCIRCUS:OhCircusMethod">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+	  An abstract OhCircus command.  
+	</p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>    
+  
+  <xs:element name="OhCircusGuardedCommand" type="OHCIRCUS:OhCircusGuardedCommand" substitutionGroup="OHCIRCUS:OhCircusCommand">
+    <xs:annotation>
+      <xs:documentation>
+        Abstract base class for IfGuardedCommand and DoGuardedCommand
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+   <xs:element name="IfOhCircusGuardedCommand" type="OHCIRCUS:IfOhCircusGuardedCommand" substitutionGroup="OHCIRCUS:OhCircusGuardedCommand">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Command declaring an if statement containing guarded methods in Dijkstra's style.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element> 
+  <xs:element name="DoOhCircusGuardedCommand" type="OHCIRCUS:DoOhCircusGuardedCommand" substitutionGroup="OHCIRCUS:OhCircusGuardedCommand">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Command declaring a do (while) statement containing guarded methods in Dijkstra's style.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element> 
+  <xs:element name="VarDeclOhCircusCommand" type="OHCIRCUS:VarDeclOhCircusCommand" substitutionGroup="OHCIRCUS:OhCircusCommand">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          Command declaring (possibly multiple) variables local to an method definition.
+          The parser is responsible to ensure that no strokes are allowed in the frame variables.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- OhCircus "dot" (.) operator --> 
+  
+  <xs:element name="OhCircusDot" type="OHCIRCUS:OhCircusDot"  substitutionGroup="OHCIRCUS:OhExpr">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          A "dot" (.) operator is a part of an Expression. 
+          It represents the grammar rule <b>Expr.N</b>.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+<!-- Special OhCircus methods are used on post-parsing. 
+     They are related to scope for mutual recursion and variable declaration.
+-->  
+  
+  <xs:element name="LetMethod" type="OHCIRCUS:LetMethod" substitutionGroup="OHCIRCUS:Method1" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        Abstract local environment.
+      </xs:documentation>
+    </xs:annotation>     
+  </xs:element>      
+  <xs:element name="LetMuMethod" type="OHCIRCUS:LetMuMethod" substitutionGroup="OHCIRCUS:LetMethod">
+    <xs:annotation>
+      <xs:documentation>
+        Local environment for mu methods. It resolves mutual recursions through a weak fixed point
+        equation with an array of recursive variables.
+      </xs:documentation>
+    </xs:annotation>     
+  </xs:element>    
+  <xs:element name="LetVarMethod" type="OHCIRCUS:LetVarMethod" substitutionGroup="OHCIRCUS:LetMethod">
+    <xs:annotation>
+      <xs:documentation>
+        Local environment for methods involving parameterised methods and commands.
+        They are important to carry the declared type, and any type restrictions, of these constructs.
+      </xs:documentation>
+    </xs:annotation>     
+  </xs:element>    
+  
+  
+  <!-- Predicate  -->
+  
+  <xs:element name="PredExpr" type="OHCIRCUS:PredExpr" substitutionGroup="Z:Expr">
+    <xs:annotation>
+      <xs:documentation>
+	<p>
+	  A boolean expression.
+	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- Class Reference  -->
+  
+  <xs:element name="OhCircusClassRef" type="OHCIRCUS:OhCircusClassRef" >
+    <xs:annotation>
+      <xs:documentation>
+		<p>
+	  		A reference to a class.
+		</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+   <xs:element name="OhCircusClassRefList" type="OHCIRCUS:OhCircusClassRefList">
+    <xs:annotation>
+      <xs:documentation>
+      	<p>
+      		A list of OhCircus ClassRefs.
+      	</p></xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="OhCircusClassRefType" type="OHCIRCUS:OhCircusClassRefType"
+    substitutionGroup="OHCIRCUS:OhCircusClassType">
+    <xs:annotation>
+      <xs:documentation>
+      	<p>
+      		Class reference type.
+      	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- the OhExpr hierarchy -->
+  
+  <xs:element name="OhExpr" type="OHCIRCUS:OhExpr" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+	<p>
+	  An abstract operation expression.
+	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="OhExpr2" type="OHCIRCUS:OhExpr2" abstract="true" substitutionGroup="OHCIRCUS:OhExpr">
+    <xs:annotation>
+      <xs:documentation>
+	<p>
+	  An abstract binary operation expression.
+	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  
+  <xs:element name="State" type="OHCIRCUS:State"  >
+    <xs:annotation>
+      <xs:documentation>
+		<p>
+	  		State in the OhCircus Class.
+		</p>
+      </xs:documentation>
+      <xs:appinfo>
+            <jaxb:property generateElementProperty="true" />
+     </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="InitialState" type="OHCIRCUS:InitialState" >
+    <xs:annotation>
+      <xs:documentation>
+	<p>
+		InitialState in the OhCircus Class.
+	</p>
+      </xs:documentation>
+      <xs:appinfo>
+           <jaxb:property generateElementProperty="true" />
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+  
+    
+     
+  <!-- Additional top-level types in OhCircus  --> 
+  
+  <xs:element name="OhCircusClassType" type="OHCIRCUS:OhCircusClassType" substitutionGroup="CIRCUS:CircusType">
+    <xs:annotation>
+      <xs:documentation>
+      	<p>
+      		A class type.
+      	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+ 
+  <xs:element name="OhCircusMethodType" type="OHCIRCUS:OhCircusMethodType" substitutionGroup="CIRCUS:CircusType">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          A method type.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+ 
+  <!-- Additional top-level signatures in OhCircus -->
+   <xs:element name="OhCircusClassSignature" type="OHCIRCUS:OhCircusClassSignature" substitutionGroup="CIRCUS:CircusSignature">
+    <xs:annotation>
+      <xs:documentation>
+      	<p>
+      		An OhCircus class signature.
+      	</p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+ 
+  <xs:element name="OhCircusMethodSignature" type="OHCIRCUS:OhCircusMethodSignature" substitutionGroup="CIRCUS:CircusSignature">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          An OhCircus method signature.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- Lists used by OhCircus method -->
+  
+   <xs:element name="MethodList" type="OHCIRCUS:MethodList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract method list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="OhCircusMethodList" type="OHCIRCUS:OhCircusMethodList"
+              substitutionGroup="OHCIRCUS:MethodList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of OhCircus methods.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- Signature Lists -->
+  
+  <xs:element name="OhCircusClassSignatureList" type="OHCIRCUS:OhCircusClassSignatureList" 
+              substitutionGroup="CIRCUS:SignatureList">
+    <xs:annotation>
+      <xs:documentation>
+        A class signature list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+  <xs:element name="OhCircusMethodSignatureList" type="OHCIRCUS:OhCircusMethodSignatureList" 
+              substitutionGroup="CIRCUS:SignatureList">
+    <xs:annotation>
+      <xs:documentation>
+        A method signature list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- OhCircus class Visibility list -->
+   <xs:element name="VisibilityList" type="OHCIRCUS:VisibilityList"/>
+  
+  
+  <!-- ***************************************************************** -->
+  <!-- ******************Definitions of complexTypes******************** -->
+  <!-- ***************************************************************** -->
+
+  <xs:complexType name="OhCircusClassPara">
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:Name"/>            
-          <xs:element ref="Z:NameList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-	  <xs:element ref="OHCIRCUS:State" minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-	  <xs:element ref="OHCIRCUS:InitialState" minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-	  <xs:element ref="OHCIRCUS:ClassPara"/>
+	    <xs:element ref="Z:Name"/>
+	    <xs:element ref="OHCIRCUS:State"/>
+            <xs:element ref="OHCIRCUS:InitialState"/>
+            <xs:element ref="OHCIRCUS:OhCircusClass" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
-  
-  
-  
-  
-  <!-- Wait Action -->
-  <xs:complexType name="WaitAction">
+ <xs:complexType name="OhCircusMethodPara">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:BasicAction">
+      <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Name"/>
+          <xs:element ref="OHCIRCUS:OhCircusMethod"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-  
-
-  <!-- CSP Process :: Unary -->  
-  
-  
-   <xs:element name="ProcessTime1" type="CT:ProcessTime1" substitutionGroup="CIRCUS:Process1" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-	Base class for unary Circus time processes
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:complexType name="ProcessTime1">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:Process1">
-        <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  
+  </xs:complexType>    
  
-  <xs:element name="TimeEndByProcess" type="CT:ProcessTime1" substitutionGroup="CT:ProcessTime1">
-    <xs:annotation>
-      <xs:documentation>
-        Deadline process of Circus Time (End).
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
- <xs:element name="TimeStartByProcess" type="CT:ProcessTime1" substitutionGroup="CT:ProcessTime1">
-    <xs:annotation>
-      <xs:documentation>
-        Deadline process of Circus Time (Start).
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  
-   <!-- CSP Process :: Binary -->  
-
-  <xs:element name="ProcessTime2" type="CT:ProcessTime2" substitutionGroup="CIRCUS:Process2" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-	Base class for binary Circus time processes
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:complexType name="ProcessTime2">
+  <xs:complexType name="OhCircusClass">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Process2">
-        <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-        </xs:sequence>
-      </xs:extension>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
-  
+ 
+  <xs:complexType name="OhCircusMethod">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
    
-<xs:element name="TimeoutProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
-    <xs:annotation>
-      <xs:documentation>
-        Timeout process of the Circus Time.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-
-  
-  <xs:element name="TimedinterruptProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
-    <xs:annotation>
-      <xs:documentation>
-        Timed Interrupt process of the Circus Time.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
- 
-    <!-- CSP Action :: Unary -->  
-  
-  
-   <xs:element name="ActionTime1" type="CT:ActionTime1" substitutionGroup="CIRCUS:Action1" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-	Base class for unary Circus time action
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:complexType name="ActionTime1">
+  <xs:complexType name="Method1">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Action1">
+      <xs:extension base="OHCIRCUS:OhCircusMethod">
         <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusMethod"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="Method2">    
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusMethod">
+        <xs:sequence>
+           <xs:element ref="OHCIRCUS:OhCircusMethod" minOccurs="2" maxOccurs="2"/>    
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="MethodD">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:Method1">
+        <xs:sequence>                  
+           <xs:element ref="Z:DeclList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="OhCircusCommand">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusMethod"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="SchExprMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusMethod">
+        <xs:sequence>          
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
-  
-  <xs:element name="TimeEndByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
-    <xs:annotation>
-      <xs:documentation>
-        Deadline process of Circus Time (End). This is for (P |&gt; e)
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
- <xs:element name="TimeStartByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
-    <xs:annotation>
-      <xs:documentation>
-        Deadline process of Circus Time (Start). This is for (e &lt;| P)
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
- <xs:element name="WaitExprAction" type="CT:WaitExprAction" substitutionGroup="CT:ActionTime1">
-    <xs:annotation>
-      <xs:documentation>
-        Timed Range action. This AST encompases the three cases of wait operators,
-        where the use of the AST determines which one is the case. Whenever N is null (or ???)
-        then we have the first two cases (wait Expr; wait Expr .. Expr), whereas when N is not null
-        we have (wait N: Expr .. Expr). In any case the upto expression only allows Arithmos type, so
-        it's not quite needed anyway in so far as the AST is concerned.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  <xs:complexType name="WaitExprAction">
+  <xs:complexType name="ParamMethod">
     <xs:complexContent>
-      <xs:extension base="CT:ActionTime1">
+      <xs:extension base="OHCIRCUS:MethodD"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+  <xs:complexType name="SeqMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:Method2"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="CallMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusMethod">
+        <xs:sequence>
+          <xs:element ref="Z:Name"/>          
+          <xs:element ref="Z:ExprList"/>
+        </xs:sequence>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>    
+  
+    
+  <xs:complexType name="MuMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:Method1">
         <xs:sequence>
           <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-   <!-- CSP Action :: Binary -->  
-    
-  
-   <xs:element name="ActionTime2" type="CT:ActionTime2" substitutionGroup="CIRCUS:Action2" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-	Base class for binary Circus time action
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:complexType name="ActionTime2">
+ 
+ 
+ <xs:complexType name="GuardedMethod">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:Action2">
+      <xs:extension base="OHCIRCUS:Method1">
         <xs:sequence>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Pred"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
-   
-<xs:element name="TimeoutAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
-    <xs:annotation>
-      <xs:documentation>
-        Timeout action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  
-  <xs:element name="TimedinterruptAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
-    <xs:annotation>
-      <xs:documentation>
-        Timed Interrupt action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  
-  
-  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
-    <xs:annotation>
-      <xs:documentation>
-		 <p>
-		 Common AST for all Circus Time actions. This include the three productions for prefixing as
-		 at prefixing action (Comm@N prefix Act); prefixing expression action (Comm prefix expr act);
-		 at prefixing expr action (Comm@N prefix expr Act). The first would have a null expr?, the second
-		 a null N, the third a non null N and expr. and so on...
-		 </p>
-		 <p>
-		 It's up to the programmer using/creating the AST to differentiate between these three cases.
-		 It's worth NOT having explicit AST productions for each as they have too much in common and that
-		 would lead to much repeated code and higher maintainence effort.
-		 </p> 
-		 <p>
-		 DESIGN DECISION: we have decided against having something like a <code>TimedCommunication</code>
-		 encompasing the channel elapsed time variable as this would greatly increase the complexity of the
-		 grammar when handling Circus communication, which is already complex. This would also entail needs
-		 for SmartScanning updates and potential conflicts. Given the elapsed time variable is not referenciable
-		 within the communication (i.e. we cannot have c?x!y+u@u), then it is okay to keep it within the prefixing
-		 itself.
-		 </p>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:complexType name="PrefixingTimeAction">
+  <xs:complexType name="OhCircusGuardedCommand">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:PrefixingAction">
+      <xs:extension base="OHCIRCUS:OhCircusCommand">
         <xs:sequence>
-          <xs:element ref="Z:Name">
+          <xs:element ref="OHCIRCUS:MethodList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+  <xs:complexType name="IfOhCircusGuardedCommand">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusGuardedCommand"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+
+  <xs:complexType name="DoOhCircusGuardedCommand">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusGuardedCommand"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="VarDeclOhCircusCommand">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusCommand">
+        <xs:sequence>                    
+          <xs:element ref="Z:DeclList"/>
+          <xs:element ref="OHCIRCUS:OhCircusMethod"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+  <!-- Additional OhCircus methods for recursive behavior -->
+  <xs:complexType name="LetMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:Method1"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="LetMuMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:LetMethod">
+        <xs:sequence>
+          <!-- List of OhCircusMethodPara to handle mutual recursion -->
+          <xs:element ref="Z:ParaList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="LetVarMethod">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:LetMethod">
+        <xs:sequence>                                       
+          <xs:element ref="Z:DeclList"/>          
+          <xs:element ref="Z:ExprList"/>            
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="OhCircusDot">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhExpr">
+        <xs:sequence>                                       
+          <xs:element ref="Z:Expr" minOccurs="0"/>          
+          <xs:element ref="Z:Name"/>            
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="OhCircusType">
+    <xs:complexContent>
+      <xs:extension base="Z:Type2"/>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="PredExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:sequence>
+          <xs:element ref="Z:Pred"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ClassRef">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:ZName">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ChannelElapsedTime"
-                               generateElementProperty="true"/>
+                <jaxb:property name="Name"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Type2" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="OhExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="OhExpr2">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhExpr">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhExpr" minOccurs="2" maxOccurs="2"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="State">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:Pred" minOccurs="0"/>
+          <xs:element ref="Z:SchExpr2" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+   
+  <xs:complexType name="InitialState">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:Pred" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
     
+  <xs:complexType name="OhPromotionExpr">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhExpr">
+        <xs:sequence>
+          <xs:element ref="Z:Expr" minOccurs="0"/>
+          <xs:element ref="Z:Name"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+     
+     <!-- Type  -->
+     
+      <xs:complexType name="OhCircusClassType">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusType">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusClassSignature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="OhCircusMethodType">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusType">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusMethodSignature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>    
+  
+   <xs:complexType name="OhCircusClassSignature">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusSignature">
+        <xs:sequence>               
+          <xs:element ref="OHCIRCUS:OhCircusClassRefList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+         </xs:sequence>
+     </xs:extension>            
+   </xs:complexContent>
+ </xs:complexType>    
+    
+  
+  <!-- Revisit the signature of the method -->
+  
+  <xs:complexType name="OhCircusMethodSignature">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusSignature">
+         <xs:sequence>              
+           <xs:element ref="OHCIRCUS:OhCircusMethodList">
+              <xs:annotation>
+              	<xs:appinfo>
+                  <jaxb:property generateElementProperty="true"/>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>  
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+     
+   <xs:complexType name="MethodList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+     
+     <xs:complexType name="OhCircusMethodList">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:MethodList">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusMethod" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+     
+     
+     <xs:complexType name="OhCircusClassSignatureList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:SignatureList">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusClassSignature" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="OhCircusMethodSignatureList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:SignatureList">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusMethodSignature" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>       
+  
+  <xs:complexType name="OhCircusClassRef">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:ZName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Name"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Type2" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+     
+ <xs:complexType name="OhCircusClassRefList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusClassRef" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+ 
+  
+  <xs:complexType name="VisibilityList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="Z:ZName" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="OhCircusClassRefType">
+    <xs:complexContent>
+      <xs:extension base="OHCIRCUS:OhCircusClassType">
+        <xs:sequence>
+          <xs:element ref="OHCIRCUS:OhCircusClassRef">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ThisClass"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OHCIRCUS:OhCircusClassRefList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="SuperClass"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OHCIRCUS:VisibilityList" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Name" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Primary"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType> 
+            
 </xs:schema>
