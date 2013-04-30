@@ -74,6 +74,11 @@ public enum Section
   CIRCUSTIME_PRELUDE("circustime", "circustime_prelude"),
   CIRCUSTIME_TOOLKIT("circustime", "circustime_toolkit"),
 
+  
+  /** OhCircus toolkits */
+  OHCIRCUS_PRELUDE("ohcircus", "ohcircus_prelude"),
+  OHCIRCUS_TOOLKIT("ohcircus", "ohcircus_toolkit"),
+
   /** VCG toolkits */
   DC_TOOLKIT("dc_toolkit"),
   FSB_TOOLKIT("fsb_toolkit"),

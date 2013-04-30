@@ -20,6 +20,7 @@ public class DialectTest {
 		assertFalse(Dialect.Z.isExtensionOf(Dialect.CIRCUSPATT));
 		assertFalse(Dialect.Z.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.Z.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.Z.isExtensionOf(Dialect.OHCIRCUS));
 	}
 
 	@Test
@@ -32,6 +33,7 @@ public class DialectTest {
 		assertFalse(Dialect.ZPATT.isExtensionOf(Dialect.CIRCUSPATT));
 		assertFalse(Dialect.ZPATT.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.ZPATT.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.ZPATT.isExtensionOf(Dialect.OHCIRCUS));
 	}
 
 	@Test
@@ -44,6 +46,7 @@ public class DialectTest {
 		assertFalse(Dialect.OZ.isExtensionOf(Dialect.CIRCUSPATT));
 		assertFalse(Dialect.OZ.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.OZ.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.OZ.isExtensionOf(Dialect.OHCIRCUS));
 	}
 	
 	@Test
@@ -56,6 +59,7 @@ public class DialectTest {
 		assertFalse(Dialect.OZPATT.isExtensionOf(Dialect.CIRCUSPATT));
 		assertFalse(Dialect.OZPATT.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.OZPATT.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.OZPATT.isExtensionOf(Dialect.OHCIRCUS));
 	}
 
 	@Test
@@ -68,6 +72,7 @@ public class DialectTest {
 		assertFalse(Dialect.ZEVES.isExtensionOf(Dialect.CIRCUSPATT));
 		assertFalse(Dialect.ZEVES.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.ZEVES.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.ZEVES.isExtensionOf(Dialect.OHCIRCUS));
 	}
 	
 	@Test
@@ -80,6 +85,7 @@ public class DialectTest {
 		assertTrue(Dialect.CIRCUSPATT.isExtensionOf(Dialect.CIRCUSPATT));
 		assertTrue(Dialect.CIRCUSPATT.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.CIRCUSPATT.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.CIRCUSPATT.isExtensionOf(Dialect.OHCIRCUS));
 	}
 
 	@Test
@@ -92,6 +98,7 @@ public class DialectTest {
 		assertFalse(Dialect.CIRCUS.isExtensionOf(Dialect.CIRCUSPATT));
 		assertTrue(Dialect.CIRCUS.isExtensionOf(Dialect.CIRCUS));
 		assertFalse(Dialect.CIRCUS.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.CIRCUS.isExtensionOf(Dialect.OHCIRCUS));
 	}
 
 	@Test
@@ -104,6 +111,20 @@ public class DialectTest {
 		assertTrue(Dialect.CIRCUSTIME.isExtensionOf(Dialect.CIRCUSPATT));
 		assertTrue(Dialect.CIRCUSTIME.isExtensionOf(Dialect.CIRCUS));
 		assertTrue(Dialect.CIRCUSTIME.isExtensionOf(Dialect.CIRCUSTIME));
+		assertFalse(Dialect.CIRCUSTIME.isExtensionOf(Dialect.OHCIRCUS));
+	}
+	
+	@Test
+	public void testOhCircus() {
+		assertTrue(Dialect.OHCIRCUS.isExtensionOf(Dialect.Z));
+		assertTrue(Dialect.OHCIRCUS.isExtensionOf(Dialect.ZPATT));
+		assertFalse(Dialect.OHCIRCUS.isExtensionOf(Dialect.OZ));
+		assertFalse(Dialect.OHCIRCUS.isExtensionOf(Dialect.OZPATT));
+		assertFalse(Dialect.OHCIRCUS.isExtensionOf(Dialect.ZEVES));
+		assertTrue(Dialect.OHCIRCUS.isExtensionOf(Dialect.CIRCUSPATT));
+		assertTrue(Dialect.OHCIRCUS.isExtensionOf(Dialect.CIRCUS));
+		assertTrue(Dialect.OHCIRCUS.isExtensionOf(Dialect.CIRCUSTIME));
+		assertTrue(Dialect.OHCIRCUS.isExtensionOf(Dialect.OHCIRCUS));
 	}
 	
 	@Test
@@ -111,7 +132,8 @@ public class DialectTest {
 		String[] exptected = new String[] { Dialect.Z.toString(), Dialect.ZPATT.toString(),
 				 Dialect.OZ.toString(), Dialect.OZPATT.toString(),	
 				 Dialect.ZEVES.toString(), Dialect.CIRCUSPATT.toString(),
-				 Dialect.CIRCUS.toString(), Dialect.CIRCUSTIME.toString()
+				 Dialect.CIRCUS.toString(), Dialect.CIRCUSTIME.toString(),
+				 Dialect.OHCIRCUS.toString()
 				 };
 		assertArrayEquals("", exptected, Dialect.knownDialectsAsStringArray());
 	}

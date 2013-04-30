@@ -45,6 +45,9 @@ import net.sourceforge.czt.z.util.ZString;
   import net.sourceforge.czt.parser.circus.CircusKeyword;
 </add:circustime>
     
+<add:ohcircus>
+  import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
+</add:ohcircus>    
 
 <add:tcoz>
 import net.sourceforge.czt.parser.oz.OzKeyword;
@@ -64,6 +67,7 @@ import net.sourceforge.czt.parser.util.CztScannerImpl;
 <add:oz> * Object Z</add:oz>
 <add:circus> * Circus </add:circus>
 <add:circustime> * CircusTime </add:circustime>
+<add:ohcircus> * OhCircus </add:ohcircus>
 <add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
@@ -123,6 +127,12 @@ public class KeywordScanner
     /* Adds all Circus keyword tokens */
     addKeywords(result, CircusTimeKeyword.values());
 </add:circustime>
+
+<add:ohcircus>
+    /* Adds all Circus keyword tokens */
+    addKeywords(result, OhCircusKeyword.values());
+</add:ohcircus>
+
 <add:zeves>
     /* Technically proof words are not keywords, since they can appear in the
      * user specification, albeit that's rare. This is easily achieved in Z/EVES

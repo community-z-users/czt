@@ -40,6 +40,12 @@ import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 </add:circustime>
 
+<add:ohcircus>
+import net.sourceforge.czt.parser.circustime.CircusTimeToken;
+import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
+</add:ohcircus>
+
+
 /**
  * &lt;p&gt;This is a NL lexer
  * (part of context-sensitive lexis) for
@@ -98,6 +104,11 @@ public class <class/>
     insertInto(map, CircusTimeToken.values());
     insertInto(map, CircusTimeKeyword.values());
 </add:circustime>
+
+<add:ohcircus>
+    insertInto(map, OhCircusToken.values());
+    insertInto(map, OhCircusKeyword.values());
+</add:ohcircus>
 
 <add:zeves>
     insertInto(map, ZEvesProofToken.values());

@@ -55,9 +55,20 @@ import net.sourceforge.czt.circustime.util.CircusTimeUtils;
 import net.sourceforge.czt.parser.circus.CircusParseError;
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
 </add:circustime>
+
 <add:circustimecore>
 import net.sourceforge.czt.circustime.util.Factory;
 </add:circustimecore>
+
+<add:ohcircus>
+import net.sourceforge.czt.ohcircus.ast.*;
+import net.sourceforge.czt.ohcircus.util.OhCircusUtils;
+</add:ohcircus>
+
+<add:ohcircuscore>
+import net.sourceforge.czt.ohcircus.util.Factory;
+</add:ohcircuscore>
+
 import java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -2703,7 +2714,14 @@ terminal LocInfo
         CIRCWAIT, ATTIME, CIRCENDBY, CIRCSTARTBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, LCIRCTIME, RCIRCTIME,
  </add:circustime>
  
-
+ 
+ <add:ohcircus>
+   	/* Support OhCircus for Class and Methods */ 
+        OHCIRCCLASS, OHCIRCSTATE, OHCIRCINITIAL, OHCIRCPUBLIC, OHCIRCPRIVATE, OHCIRCPROTECTED, 
+        OHCIRCLOGICAL, OHCIRCEXTENDS, OHCIRCSUPER, OHCIRCNEW, OHCIRCINSTANCEOF, OHCIRCNULL,
+        OHCIRCCLASSBEGIN, OHCIRCCLASSEND,
+ </add:ohcircus>
+ 
 <add:oz>
         DELTA, CLASS, GENCLASS, STATE, INIT, OPSCH, SDEF,
         INITWORD, POLY, CONTAINMENT, SCOPE,
@@ -3221,6 +3239,51 @@ non terminal NameSet
 //non terminal CircusAction circusTimedCSPActions;
 //non terminal CircusProcess  circusTimedCSPProcess;
 </add:circustime>
+
+
+<add:ohcircus>
+/* OhCircus constructs  */
+
+non terminal OhCircusClassDecl
+	classDecl;
+	
+non terminal OhCircusClassDef
+	classDef;
+	
+non terminal OhCircusClassBody
+	classBody;
+	
+non terminal OhCircusClassPara
+    classPara;
+	
+non terminal Expr
+    inheritedOhCircusClass;
+    
+non terminal OhCircusClassState
+    ohcircusState;
+    
+non terminal OhCircusClassInitialState
+    ohcircusInitialState;
+    
+non terminal OhCircusParamCommand
+    paramCommand;
+    
+    
+non terminal OhCircusVisibilityList
+    visibilityList;
+    
+non terminal OhExpr
+    ohExpr;
+
+non terminal List&lt;Expr&gt;
+    inheritedOhCircusClassList;
+
+non terminal Method
+    method;
+
+non terminal List&lt;Method&gt;
+    methodList;    
+</add:ohcircus>
 
 
 <add:oz>
@@ -3848,6 +3911,11 @@ unboxedParagraphList ::=
               new Object[] { "action level", "CIRCUSACTION" }, getLocation(zed, end));
         :}
 </add:circus>
+<add:ohcircus>
+        |
+        classDecl:c
+        {: RESULT = c; :}
+</add:ohcircus>
         |
         ZED:z error:e END
         {:
@@ -9834,6 +9902,72 @@ jokerRef ::=
         ;
 
 </add:pattern>
+<add:ohcircus>
+
+/* OhCircus class constructs */
+classDecl ::=
+		/* OhCircus class declaration */
+		OHCIRCCLASS:ohc name:n CIRCDEF classDef:cd
+		{:
+		   LocInfo loc = getLocation(ohc, cd);
+		   //ClassPara cp = factory_.createOhCircusClassPara(n, cd);
+		   //checkStateDeclNotRepeated(cp);
+		   //addLocAnn(cp, loc);
+		:}
+        |
+        OHCIRCCLASS:ohc name:n CIRCDEF OHCIRCEXTENDS:ohe name:en classDef:cd
+		{:
+		   LocInfo loc = getLocation(ohc, cd);
+		   //ClassPara cp = factory_.createOhCircusClassPara(n, cd);
+		   //checkStateDeclNotRepeated(cp);
+		   //addLocAnn(cp, loc);
+		:}
+        ;
+
+classDef ::= 
+		OHCIRCCLASSBEGIN:ohcb classBody:cb OHCIRCCLASSEND:ohce
+        {:
+        RESULT = cb;
+        :}
+        ;
+
+classBody ::=
+		classPara:cp
+		ohcircusState
+		classPara:cp
+		ohcircusInitialState
+		classPara:cp
+		{:
+		RESULT = cp;
+		:} 
+        ;
+      
+ohcircusState::=
+        OHCIRCSTATE:ohcs expression:e
+        {:
+           //RESULT = createStatePara(n, e, getLocation(n, e), false );
+        :}
+        |
+        OHCIRCSTATE:ohcs predicate:p
+        {:
+           LocInfo loc = getLocation(p);
+           //Name dn = parserState_.createDefaultOhCircissClassStateName(loc);
+           //RESULT = createStatePara(dn, p, loc, true /* implicit */);
+        :}
+        ;
+
+ohcircusInitialState::=
+        OHCIRCINITIAL:ohi paramCommand:p 
+        {:
+           RESULT = factory_.createOhCircusInitialState(p, Box.SchBox);
+           addLocAnn(RESULT, getLocation(ohi, p));
+        :}
+        ;
+
+//paramCommand ::={: :};
+		        
+</add:ohcircus>
+
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////

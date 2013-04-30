@@ -52,6 +52,9 @@ import net.sourceforge.czt.circus.util.CircusString;
 <add:circustime>
 import net.sourceforge.czt.circustime.util.CircusTimeString;
 </add:circustime>
+<add:ohcircus>
+import net.sourceforge.czt.ohcircus.util.OhCircusString;
+</add:ohcircus>
 
 
 <add:zeves>
@@ -434,6 +437,7 @@ parser code {:
   	<add:zpattcore>Dialect.ZPATT</add:zpattcore>
   	<add:circuscore>Dialect.CIRCUS</add:circuscore>
   	<add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+	<add:ohcircuscore>Dialect.OHCIRCUS</add:ohcircuscore>
   	<add:zevescore>Dialect.ZEVES</add:zevescore>
   	);
   protected String sectionName_;
