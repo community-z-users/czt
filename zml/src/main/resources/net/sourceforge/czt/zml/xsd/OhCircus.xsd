@@ -117,6 +117,7 @@
   <!-- OhCircus Para-->
   <!-- OhCircus Class Para-->
   
+  
   <xs:element name="OhCircusClassPara" type="OHCIRCUS:OhCircusClassPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
@@ -130,6 +131,22 @@
     </xs:annotation>
   </xs:element>
 
+  
+   <xs:element name="OhCircusClassDef" type="OHCIRCUS:OhCircusClassDef" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          An abstract OhCircus class definition. It represents the <b>ClassDefinition</b> grammar rule.
+        </p>
+      </xs:documentation>
+        <xs:appinfo>
+           <jaxb:property generateElementProperty="true"/>
+        </xs:appinfo>
+     </xs:annotation>
+  </xs:element>
+  
+  
+  
 <!-- OhCircus Method Para-->
 
  <xs:element name="OhCircusMethodPara" type="OHCIRCUS:OhCircusMethodPara" substitutionGroup="Z:Para">
@@ -426,7 +443,7 @@
   </xs:element>
   
   
-  <xs:element name="State" type="OHCIRCUS:State"  >
+  <xs:element name="OhCircusClassState" type="OHCIRCUS:OhCircusClassState"  >
     <xs:annotation>
       <xs:documentation>
 		<p>
@@ -439,7 +456,7 @@
     </xs:annotation>
   </xs:element>
   
-  <xs:element name="InitialState" type="OHCIRCUS:InitialState" >
+  <xs:element name="OhCircusClassInitialState" type="OHCIRCUS:OhCircusClassInitialState" >
     <xs:annotation>
       <xs:documentation>
 	<p>
@@ -543,13 +560,25 @@
   <!-- ******************Definitions of complexTypes******************** -->
   <!-- ***************************************************************** -->
 
-  <xs:complexType name="OhCircusClassPara">
+  
+   <xs:complexType name="OhCircusClassPara">
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-	    <xs:element ref="Z:Name"/>
-	    <xs:element ref="OHCIRCUS:State"/>
-            <xs:element ref="OHCIRCUS:InitialState"/>
+         <xs:element ref="Z:Name"/>            
+	 <xs:element ref="OHCIRCUS:OhCircusClassDef"/>
+	</xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+  <xs:complexType name="OhCircusClassDef">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+	    <xs:element ref="OHCIRCUS:OhCircusClassState"/>
+            <xs:element ref="OHCIRCUS:OhCircusClassInitialState"/>
             <xs:element ref="OHCIRCUS:OhCircusClass" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
       </xs:extension>
@@ -810,7 +839,7 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="State">
+  <xs:complexType name="OhCircusClassState">
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
@@ -822,13 +851,13 @@
     </xs:complexContent>
   </xs:complexType>
    
-  <xs:complexType name="InitialState">
+  <xs:complexType name="OhCircusClassInitialState">
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
+	<xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

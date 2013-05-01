@@ -1320,32 +1320,6 @@ public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
 	return null;
     }
 
-//public Object visitAtPrefixingAction(AtPrefixingAction term) {
-//        printLPAREN(term);
-//	visit(term.getCommunication());
-//        print(CircusTimeKeyword.ATTIME);
-//        print(CircusKeyword.PREFIXTHEN);       
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-//
-//public Object visitAtPrefixingExprAction(AtPrefixingExprAction term) {
-//        printLPAREN(term);
-//	visit(term.getCommunication());
-//	print(CircusTimeKeyword.ATTIME);
-//        print(CircusKeyword.PREFIXTHEN);
-//        print(CircusTimeToken.LCIRCTIME);
-//        //visit(term.getExpr());
-//        print(CircusTimeToken.RCIRCTIME);       
-//        visit(term.getCircusAction());
-//        printRPAREN(term);
-//        return null;
-//    }
-
- /* Support for OhCircus : Methods and Class */
-
-
-
+/* Support for OhCircus : Methods and Class */
 
 }

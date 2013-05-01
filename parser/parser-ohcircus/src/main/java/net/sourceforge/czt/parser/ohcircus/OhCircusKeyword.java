@@ -40,7 +40,7 @@ public enum OhCircusKeyword implements Token {
   /* Support for OhCircus */
 	
 	OHCIRCCLASS(OhCircusString.OHCIRCCLASS, NewlineCategory.AFTER),
-	OHCIRCEXTEND(OhCircusString.OHCIRCEXTEND, NewlineCategory.AFTER),
+	OHCIRCEXTENDS(OhCircusString.OHCIRCEXTENDS, NewlineCategory.AFTER),
 	OHCIRCTHIS(OhCircusString.OHCIRCTHIS, NewlineCategory.AFTER),
 	OHCIRCNULL(OhCircusString.OHCIRCNULL, NewlineCategory.AFTER),
 	OHCIRCNEW(OhCircusString.OHCIRCNEW, NewlineCategory.AFTER),

@@ -42,7 +42,7 @@ public interface OhCircusString extends CircusPattString
 
   /* Support for OhCircus */
   String OHCIRCCLASS = "class";
-  String OHCIRCEXTEND = "extends";
+  String OHCIRCEXTENDS = "extends";
   String OHCIRCTHIS = "this";
   String OHCIRCNULL = "null";
   String OHCIRCNEW = "new";

@@ -106,10 +106,6 @@ public OhCircusConcreteSyntaxSymbol visitDoOhCircusGuardedCommand(
 	return OhCircusConcreteSyntaxSymbol.OHCIRCUS_DO_CMD;
 }
 
-@Override
-public OhCircusConcreteSyntaxSymbol visitInitialState(InitialState term) {
-	return OhCircusConcreteSyntaxSymbol.INITIAL_STATE;
-}
 
 @Override
 public OhCircusConcreteSyntaxSymbol visitParamMethod(ParamMethod term) {
@@ -179,10 +175,6 @@ public OhCircusConcreteSyntaxSymbol visitLetVarMethod(LetVarMethod term) {
 	return OhCircusConcreteSyntaxSymbol.LETVAR_METHOD;
 }
 
-@Override
-public OhCircusConcreteSyntaxSymbol visitState(State term) {
-	return OhCircusConcreteSyntaxSymbol.OHCIRCUS_STATE;
-}
 
 @Override
 public OhCircusConcreteSyntaxSymbol visitSchExprMethod(SchExprMethod term) {
@@ -211,6 +203,18 @@ public OhCircusConcreteSyntaxSymbol visitOhCircusClassRef(OhCircusClassRef term)
 	return OhCircusConcreteSyntaxSymbol.OHCIRCUS_CLASS_REF;
 }
 
+@Override
+public OhCircusConcreteSyntaxSymbol visitOhCircusClassState(
+		OhCircusClassState term) {
+	return OhCircusConcreteSyntaxSymbol.OHCIRCUS_STATE;
+}
+
+@Override
+public OhCircusConcreteSyntaxSymbol visitOhCircusClassInitialState(
+		OhCircusClassInitialState term) {
+	return OhCircusConcreteSyntaxSymbol.INITIAL_STATE;
+}
+
 public interface Utils
 extends IsEmptyNameList
 {
@@ -221,4 +225,5 @@ extends StandardZ
 implements Utils
 {
 }
+
 }
