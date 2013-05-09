@@ -1,0 +1,390 @@
+<add:ohcircus>
+
+/* OhCircus class constructs */
+classDecl ::=
+	/* OhCircus class declaration */
+	OHCIRCCLASS:ohc name:n CIRCDEF classDef:cd
+	{:
+	   LocInfo loc = getLocation(ohc, cd);
+	   final String from = "CLASS DECL";
+	   ClassPara cp = factory_.createOhCircusClassPara(n, cd);
+	   checkStateDeclNotRepeated(cp);
+	   addLocAnn(cp, loc);
+	   RESULT = cp;           
+	:}
+    |
+    OHCIRCCLASS:ohc name:n CIRCDEF OHCIRCEXTENDS:ohe name:en classDef:cd
+	{:
+	   LocInfo loc = getLocation(ohc, cd);
+	   final String from = "CLASS DECL";
+	   ClassPara cp = factory_.createOhCircusClassPara(n, cd);
+	   checkStateDeclNotRepeated(cp);
+	   addLocAnn(cp, loc);
+	   RESULT = cp;
+	:}
+    ;
+
+classDef ::= 
+        OHCIRCCLASSBEGIN:ohcb  ohcircusInnerClassParaList:ohicpl OHCIRCCLASSEND:ohce
+        {:
+           LocInfo loc = getLocation(ohcb, ohce);
+           RESULT = ohicpl;
+           //Local initial state and sate in the class definition 
+           OhCircusClassState s = null;
+           OhCircusClassInitialState is = null;
+           for (Iterator iter = ohicpl.iterator(); iter.hasNext(); ) {
+             Object next = iter.next();
+             if (next instanceof  OhCircusClassState) {
+               if (s != null) {
+                 parser.report_error(ZParseMessage.MSG_DUPLICATE_STATE,
+                                     new Object[] { next },loc);
+               }
+               s = (OhCircusClassState) next;
+               iter.remove();
+             }
+             else if (next instanceof  OhCircusClassInitialState) {
+               if (is != null) {
+                 parser.report_error(ZParseMessage.MSG_DUPLICATE_INIT,
+                                     new Object[] { next },loc);
+               }
+               is = (OhCircusClassInitialState) next;
+               iter.remove();
+             }
+           }
+           RESULT = ohicpl;
+        :}
+        ;
+      
+ohcircusInnerClassParaList ::=
+        ohcircusInnerClassParaList:ohicpl ohcircusInnerClassPara:ohicp
+        {:
+           if (ohicp != null) ohicpl.add(ohicp);
+           RESULT = ohicpl;
+        :}
+        |
+        ohcircusInnerClassPara:ohicp
+        {: 
+           RESULT = factory_.list(ohicp); 
+        :}
+        ;        
+
+/**
+ * These are all the productions that can occur within a ClassPara.
+ *
+ */
+ohcircusInnerClassPara ::=
+        ohcircusState:ohcs
+        {:
+           RESULT = ohcs;
+           // raise a scoping warning if needed
+           addOhCircusClassScopePostCheckFor("Class state", getLocation(ohcs));
+        :}
+        |
+        ohcircusInitialState:ohis
+        {:
+           RESULT = ohis;
+        :}
+        |
+        ohcircusClass:ohc
+        {:
+           RESULT = ohc;
+        :}
+        ;
+            
+ohcircusState::=
+        OHCIRCSTATE:ohcs expression:e
+        {:
+           LocInfo loc = getLocation(e);
+           Name dn = parserState_.createDefaultOhCircissClassStateName(loc);
+           //parserState_.createDefaultProcessStateName {see in circus implementation}
+           RESULT = createStatePara(dn, e, loc, true /* implicit */);
+           //createStatePara {see in circus implementation}
+        :}
+        |
+        OHCIRCSTATE:ohcs predicate:p
+        {:
+	   LocInfo loc = getLocation(p);
+           Name dn = parserState_.createDefaultOhCircissClassStateName(loc);
+           RESULT = createStatePara(dn, p, loc, true /* implicit */);
+        :}
+        ;
+        
+ohcircusInitialState::=
+        OHCIRCINITIAL:ohi paramConstruction:pc 
+        {:
+	   RESULT = factory_.createOhCircusInitialState(pc, Box.SchBox);
+	   addLocAnn(RESULT, getLocation(ohi, pc));
+        :}
+        ;
+        
+/* Parameterised Construction */
+paramConstruction ::=
+	methodBody:mb
+	{:
+	RESULT = mb;
+	:}
+	|
+	CIRCVAL circusDeclWordList:cdwl COLON:colon expression:e CIRCSPOT:co paramMethod:pm
+	{:
+	   RESULT = createOhCircusCommand(cdwl, e, pm);
+	   addLocAnn(RESULT, getLocation(getLocation(e), getLocation(pm)));
+	:}
+	;
+
+ohcircusClass ::= 
+	paragraphList :pl
+	{:
+	RESULT = pl;
+	:}
+	|	
+	ohcircusClassQualifier:cq name:n CIRCDEF paramMethod:pm
+	{:
+	   RESULT = factory_.createQualifiedClassDecl(cq, n, pm);
+	   addLocAnn(RESULT, getLocation(cq,pm));          
+	:}
+	;
+
+ohcircusClassQualifier ::=
+        OHCIRCPUBLIC
+        {: 
+           RESULT = QualifiedClassDecl.public; 
+        :}
+        |
+        OHCIRCPROTECTED
+        {:
+           RESULT = QualifiedClassDecl.protected; 
+        :}
+        |
+        OHCIRCPRIVATE
+        {: 
+           RESULT = QualifiedClassDecl.private; 
+        :}
+        OHCIRCLOGICAL
+        {: 
+           RESULT = QualifiedClassDecl.logical; 
+        :}
+        ;
+
+paramMethod ::=
+	methodBody:mb
+	{:
+	RESULT = mb;
+	:}
+	|
+	qualifiedDecl:qd CIRCSPOT:co paramMethod:pm
+	{:
+	   RESULT = createParamMethod(pm, qd);
+	   addLocAnn(RESULT, getLocation(getLocation(qdleft, qdcpright), getLocation(pm)));
+	:}
+	;      
+
+methodBody ::=
+	/* primitive commands for OhCircus class method body */
+	ohcircusCommand:ohc
+	{:
+	RESULTS = ohc;
+	:}
+	|
+	/* Super call (Note: Here we have consider ohcircus expression*/
+	OHCIRCSUPER:ohs OHCIRCDOT name:n
+        {:
+            RESULT = n;
+        :}
+        |
+        OHCIRCSUPER:ohs OHCIRCDOT name:n LPAREN ohcircusExprList:el RPAREN
+        {:
+            RESULT = n;
+        :} 
+        |
+        /* Method Body Instatiation */
+        name:n
+        {:
+           RESULT = n;
+        :}
+        |
+        name:n LPAREN ohcircusExprList:el RPAREN
+        {:
+            RESULT = n;
+        :} 
+        |
+        LPAREN paramMethod:pm RPAREN LPAREN ohcircusExprList:el RPAREN
+        {:
+            RESULT = pm;
+        :} 
+        |
+        /* Sequence of OhCircus methods */
+	methodBody:mbl CIRCSEQ:cs methodBody:mbr
+        {:
+            RESULT = factory_.createSeqMethod(factory_.list(mbl, mbr));
+            addLocAnn(RESULT, getLocation(mbl, mbr));
+        :}
+        |
+        /* Alternative */
+        IF:cif guardedMethodCommands:gmcs CIRCFI:cfi
+        {:
+            RESULT = factory_.createIfOhCircusGuardedCommand(factory_.createOhCircusMethodList(gmcs));
+            addLocAnn(RESULT, getLocation(cif, cfi));
+        :}
+        |
+        /* Iteration */
+        CIRCDO:cdo guardedMethodCommands:gmcs CIRCOD:cod
+        {:
+            RESULT = factory_.createDoOhCircusGuardedCommand(factory_.createOhCircusMethodList(gmcs));
+            addLocAnn(RESULT, getLocation(cdo, cod));
+        :}
+        |
+        /* Variable declaration */
+        CIRCVAR:cv circusParamZDeclList:dp CIRCSPOT methodBody:mb
+        {:
+            RESULT = factory_.createVarDeclOhCircusCommand(dp, mb);
+            addLocAnn(RESULT, getLocation(cv, mb));
+        :}
+        |        
+        CIRCMU:cm name:n CIRCSPOT methodBody:mb
+        {:
+            RESULT = factory_.createMuMethod(mb, n);
+            addLocAnn(RESULT, getLocation(cm, mb));
+        :}
+        ;
+      
+        
+ohcircusCommand ::=
+        /* Assignment */
+        refNameList:rnl CIRCASSIGN:ca expressionList:el
+        {:
+            RESULT = factory_.createAssignmentCommand(
+              createAssignmentPairs(ca, factory_.createZNameList(rnl), el));
+            addLocAnn(RESULT, getLocation(rnlleft, rnlright, rnl.get(0), el));
+        :}
+        |
+        /* OhCircus Class Assignment */
+        name:nl CIRCASSIGN:ca OHCIRCNEW name:nr
+        {:
+            RESULT = factory_.createAssignmentCommand(
+              createAssignmentPairs(ca, factory_.createZNameList(nl), nr));
+            addLocAnn(RESULT, getLocation(nl, nr));
+        :}
+        |
+        /* OhCircus Class Parametric Assignment */
+        name:nl CIRCASSIGN:ca OHCIRCNEW name:nr LPAREN expressionList:el RPAREN
+        {:
+            RESULT = factory_.createAssignmentCommand(
+              createAssignmentPairs(ca, factory_.createZNameList(nl), nr, el));
+            addLocAnn(RESULT, getLocation(nl, nr, el));
+        :}
+        |
+        /* OhCircus Method call object target*/
+        expression:e OHCIRCDOT name:n
+        {:
+            RESULT = n;
+        :}
+        |
+         expression:e OHCIRCDOT name:n LPAREN expressionList:el RPAREN
+        {:
+            RESULT = n;
+        :} 
+        |
+        /* Specification statement */
+        refNameList:rnl PREFIXCOLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl),
+              factory_.list(pre, post));
+            addLocAnn(RESULT, getLocation(getLocation(rnlleft, rnlright), getLocation(post)));
+        :}
+        |
+        /* Specification statement with empty frame*/
+        PREFIXCOLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),
+              factory_.list(pre, post));
+            addLocAnn(RESULT, getLocation(c, rsq));
+        :}
+        /* Assumption */
+        |
+        LBRACE:lb predicate:pre RBRACE:rb
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),
+              factory_.list(pre, factory_.createTruePred()));
+            addLocAnn(RESULT, getLocation(getLocation(lbleft, lbright), getLocation(rbleft, rbright)));
+        :}
+        /* Coercion */
+        |
+        LSQUARE:ls predicate:post RSQUARE:rs
+        {:
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),
+              factory_.list(factory_.createTruePred(), post));
+            addLocAnn(RESULT, getLocation(getLocation(lsleft, lsright), getLocation(rsleft, rsright)));
+        :}
+        ;       
+        
+ 
+guardedMethodCommands ::=
+        guardedMethodCommand:g CIRCELSE guardedMethodCommands:gmcs 
+        {:
+           gcs.add(g);
+           RESULT = gmcs;
+        :}
+        |
+        guardedMethodCommand:g
+        {:
+           RESULT = factory_.list(g);
+        :}
+        ;
+
+guardedMethodCommand ::=
+        guard:g CIRCTHEN methodBody:mb
+        {:
+            RESULT = factory_.createGuardedAction(mb, g);
+            addLocAnn(RESULT, getLocation(g, mb));
+        :}
+        ;        
+        
+ohcircusExprList ::=
+        ohcircusExprList:el COMMA ohcircusExpr:e
+        {:
+           el.add(e);
+           RESULT = el;
+        :}
+        |
+        ohcircusExpr:e
+        {:
+           RESULT = factory_.createOhExprList();
+           RESULT.add(e);
+        :}
+        ;
+
+
+        
+ohcircusExpr ::=
+        expression : e
+        {: 
+           RESULT = e;
+        :}
+        |
+        OHCIRCSELF:ohs
+        {: 
+           RESULT = ohs;
+        :}
+        |
+        OHCIRCNULL:ohn
+        {: 
+           RESULT = ohn;
+        :}
+        |
+        ohcircusExpr:ohe OHCIRCDOT name:n
+        {:
+        RESULT = ohel;
+        :}
+        |
+        ohcircusExpr:ohe OHCIRCINSTANCEOF name:n
+        {:
+        RESULT = ohe;
+        :}
+        |
+        LPAREN name:n RPAREN ohcircusExpr:ohe
+        {:
+        RESULT = n;
+        :}
+        ;       
+
+</add:ohcircus>

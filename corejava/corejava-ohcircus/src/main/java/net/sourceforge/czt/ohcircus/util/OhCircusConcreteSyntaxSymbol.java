@@ -59,6 +59,11 @@ public enum OhCircusConcreteSyntaxSymbol
   OHCIRCUS_VAR_CMD("Variable block"),
   OHCIRCUS_DOT("OhCircus expression"),
   
+  QUALIFIED_CLASS_PRIVATE("Qualified class or variables declaration - by private"),
+  QUALIFIED_CLASS_PUBLIC("Qualified  class or variables declaration - by public"),
+  QUALIFIED_CLASS_PROTECTED("Qualified class or variables  declaration - by protected"),
+  QUALIFIED_CLASS_LOGICAL("Qualified  class or variables declaration - by logical"),
+  
   //New added 
   OHCIRCUS_VISIBILITY("OhCircus Visibility"),
   METHOD_SIGNATURE_LIST("Method signature list"),

@@ -871,7 +871,7 @@
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Pred" minOccurs="0"/>
-          <!-- <xs:element ref="Z:SchExpr2" minOccurs="0"/>  -->
+          <xs:element ref="Z:SchExpr2" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
       </xs:extension>

@@ -48,12 +48,6 @@ public class OhCircusConcreteSyntaxSymbolVisitor
 //TODO : To add other OhCircus symbols according to the grammar (visitor implementation)  
   
   
-  
-
-@Override
-public OhCircusConcreteSyntaxSymbol visitVisibilityList(VisibilityList term) {
-	return OhCircusConcreteSyntaxSymbol.OHCIRCUS_VISIBILITY;
-}
 
 @Override
 public OhCircusConcreteSyntaxSymbol visitOhCircusMethodSignatureList(
@@ -215,6 +209,36 @@ public OhCircusConcreteSyntaxSymbol visitOhCircusClassInitialState(
 	return OhCircusConcreteSyntaxSymbol.INITIAL_STATE;
 }
 
+@Override
+public OhCircusConcreteSyntaxSymbol visitOhExprList(OhExprList term) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public OhCircusConcreteSyntaxSymbol visitQualifiedClassDecl(
+		QualifiedClassDecl term) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+/*
+@Override
+public OhCircusConcreteSyntaxSymbol visitQualifiedClassDecl(
+		QualifiedClassDecl term) {
+	switch(term.getClassQualifier())
+	{
+	  case Private : return OhCircusConcreteSyntaxSymbol.QUALIFIED_CLASS_PRIVATE;    
+	  case Public: return OhCircusConcreteSyntaxSymbol.QUALIFIED_CLASS_PUBLIC;    
+	  case Protected: return OhCircusConcreteSyntaxSymbol.QUALIFIED_CLASS_PROTECTED;
+	  case Logical: return OhCircusConcreteSyntaxSymbol.QUALIFIED_CLASS_LOGICAL;
+	}
+	return null;
+}
+*/
+
+
+
 public interface Utils
 extends IsEmptyNameList
 {
@@ -225,5 +249,7 @@ extends StandardZ
 implements Utils
 {
 }
+
+
 
 }

@@ -23,9 +23,13 @@ import java.util.Iterator;
 import java.util.Properties;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+import net.sourceforge.czt.ohcircus.ast.OhCircusClassDef;
+import net.sourceforge.czt.ohcircus.ast.OhCircusClassInitialState;
+import net.sourceforge.czt.ohcircus.ast.OhCircusClassPara;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeToken;
+import net.sourceforge.czt.parser.ohcircus.OhCircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.z.util.WarningManager;
 
@@ -1321,5 +1325,389 @@ public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
     }
 
 /* Support for OhCircus : Methods and Class */
+
+public Object visitOhCircusClassPara(OhCircusClassPara term) {
+    printLPAREN(term);
+    print(OhCircusKeyword.OHCIRCCLASS);
+    visit(term.getName());
+    print(CircusKeyword.CIRCDEF);
+    //may be add some condition to detect extended class 
+    print(OhCircusKeyword.OHCIRCEXTENDS); 
+    visit(term.getName());
+    visit(term.getOhCircusClassDef());
+    print(CircusKeyword.CIRCSPOT);    
+    printRPAREN(term);
+    return null;
+}
+
+public Object visitOhCircusClassDef(OhCircusClassDef term) {
+    printLPAREN(term);
+    print(CircusKeyword.CIRCBEGIN);
+    visit(term.getOhCircusClass());
+    visit(term.getOhCircusClassInitialState());
+    visit(term.getOhCircusClassState());
+    print(CircusKeyword.CIRCEND);
+    printRPAREN(term);
+    return null;
+}
+
+
+    public  Object visitOhCircusClassInitialState(OhCircusClassInitialState term) {
+    	printLPAREN(term);
+    	visit(term.getPred());
+    	printRPAREN(term);
+        return null;
+    }
+
+
+
+
+public Object  createMethodList(MethodList term) {
+	warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term MethodList.");
+    return null;
+    }
+
+    /**
+     * Create an instance of {@link OhCircusMethodSignatureList }
+     * 
+     */
+    public OhCircusMethodSignatureList createOhCircusMethodSignatureList() {
+        return new OhCircusMethodSignatureList();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassInitialState }
+     * 
+     */
+
+    /**
+     * Create an instance of {@link OhCircusClassRefList }
+     * 
+     */
+    public OhCircusClassRefList createOhCircusClassRefList() {
+        return new OhCircusClassRefList();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClass }
+     * 
+     */
+    public OhCircusClass createOhCircusClass() {
+        return new OhCircusClass();
+    }
+
+    /**
+     * Create an instance of {@link MuMethod }
+     * 
+     */
+    public MuMethod createMuMethod() {
+        return new MuMethod();
+    }
+
+    /**
+     * Create an instance of {@link Method1 }
+     * 
+     */
+    public Method1 createMethod1() {
+        return new Method1();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusMethod }
+     * 
+     */
+    public OhCircusMethod createOhCircusMethod() {
+        return new OhCircusMethod();
+    }
+
+    /**
+     * Create an instance of {@link VarDeclOhCircusCommand }
+     * 
+     */
+    public VarDeclOhCircusCommand createVarDeclOhCircusCommand() {
+        return new VarDeclOhCircusCommand();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusCommand }
+     * 
+     */
+    public OhCircusCommand createOhCircusCommand() {
+        return new OhCircusCommand();
+    }
+
+    /**
+     * Create an instance of {@link CallMethod }
+     * 
+     */
+    public CallMethod createCallMethod() {
+        return new CallMethod();
+    }
+
+    /**
+     * Create an instance of {@link Method2 }
+     * 
+     */
+    public Method2 createMethod2() {
+        return new Method2();
+    }
+
+    /**
+     * Create an instance of {@link QualifiedClassDecl }
+     * 
+     */
+    public QualifiedClassDecl createQualifiedClassDecl() {
+        return new QualifiedClassDecl();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusGuardedCommand }
+     * 
+     */
+    public OhCircusGuardedCommand createOhCircusGuardedCommand() {
+        return new OhCircusGuardedCommand();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusDot }
+     * 
+     */
+    public OhCircusDot createOhCircusDot() {
+        return new OhCircusDot();
+    }
+
+    /**
+     * Create an instance of {@link OhExpr }
+     * 
+     */
+    public OhExpr createOhExpr() {
+        return new OhExpr();
+    }
+
+    /**
+     * Create an instance of {@link LetMuMethod }
+     * 
+     */
+    public LetMuMethod createLetMuMethod() {
+        return new LetMuMethod();
+    }
+
+    /**
+     * Create an instance of {@link LetMethod }
+     * 
+     */
+    public LetMethod createLetMethod() {
+        return new LetMethod();
+    }
+
+    /**
+     * Create an instance of {@link DoOhCircusGuardedCommand }
+     * 
+     */
+    public DoOhCircusGuardedCommand createDoOhCircusGuardedCommand() {
+        return new DoOhCircusGuardedCommand();
+    }
+
+    /**
+     * Create an instance of {@link ParamMethod }
+     * 
+     */
+    public ParamMethod createParamMethod() {
+        return new ParamMethod();
+    }
+
+    /**
+     * Create an instance of {@link MethodD }
+     * 
+     */
+    public MethodD createMethodD() {
+        return new MethodD();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassState }
+     * 
+     */
+    public OhCircusClassState createOhCircusClassState() {
+        return new OhCircusClassState();
+    }
+
+    /**
+     * Create an instance of {@link GuardedMethod }
+     * 
+     */
+    public GuardedMethod createGuardedMethod() {
+        return new GuardedMethod();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassType }
+     * 
+     */
+    public OhCircusClassType createOhCircusClassType() {
+        return new OhCircusClassType();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusMethodList }
+     * 
+     */
+    public OhCircusMethodList createOhCircusMethodList() {
+        return new OhCircusMethodList();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassSignature }
+     * 
+     */
+    public OhCircusClassSignature createOhCircusClassSignature() {
+        return new OhCircusClassSignature();
+    }
+
+    /**
+     * Create an instance of {@link IfOhCircusGuardedCommand }
+     * 
+     */
+    public IfOhCircusGuardedCommand createIfOhCircusGuardedCommand() {
+        return new IfOhCircusGuardedCommand();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusMethodSignature }
+     * 
+     */
+    public OhCircusMethodSignature createOhCircusMethodSignature() {
+        return new OhCircusMethodSignature();
+    }
+
+    /**
+     * Create an instance of {@link OhExpr2 }
+     * 
+     */
+    public OhExpr2 createOhExpr2() {
+        return new OhExpr2();
+    }
+
+    /**
+     * Create an instance of {@link PredExpr }
+     * 
+     */
+    public PredExpr createPredExpr() {
+        return new PredExpr();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusMethodType }
+     * 
+     */
+    public OhCircusMethodType createOhCircusMethodType() {
+        return new OhCircusMethodType();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusMethodPara }
+     * 
+     */
+    public OhCircusMethodPara createOhCircusMethodPara() {
+        return new OhCircusMethodPara();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassPara }
+     * 
+     */
+    public OhCircusClassPara createOhCircusClasPara() {
+        return new OhCircusClassPara();
+    }
+
+    /**
+     * Create an instance of {@link LetVarMethod }
+     * 
+     */
+    public LetVarMethod createLetVarMethod() {
+        return new LetVarMethod();
+    }
+
+    /**
+     * Create an instance of {@link OhExprList }
+     * 
+     */
+    public OhExprList createOhExprList() {
+        return new OhExprList();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassDef }
+     * 
+     */
+    public OhCircusClassDef createOhCircusClassDef() {
+        return new OhCircusClassDef();
+    }
+
+    /**
+     * Create an instance of {@link SchExprMethod }
+     * 
+     */
+    public SchExprMethod createSchExprMethod() {
+        return new SchExprMethod();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassSignatureList }
+     * 
+     */
+    public OhCircusClassSignatureList createOhCircusClassSignatureList() {
+        return new OhCircusClassSignatureList();
+    }
+
+    /**
+     * Create an instance of {@link SeqMethod }
+     * 
+     */
+    public SeqMethod createSeqMethod() {
+        return new SeqMethod();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassRefType }
+     * 
+     */
+    public OhCircusClassRefType createOhCircusClassRefType() {
+        return new OhCircusClassRefType();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusClassRef }
+     * 
+     */
+    public OhCircusClassRef createOhCircusClassRef() {
+        return new OhCircusClassRef();
+    }
+
+    /**
+     * Create an instance of {@link OhPromotionExpr }
+     * 
+     */
+    public OhPromotionExpr createOhPromotionExpr() {
+        return new OhPromotionExpr();
+    }
+
+    /**
+     * Create an instance of {@link OhCircusType }
+     * 
+     */
+    public OhCircusType createOhCircusType() {
+        return new OhCircusType();
+    }
+
+    /**
+     * Create an instance of {@link ClassRef }
+     * 
+     */
+    public ClassRef createClassRef() {
+        return new ClassRef();
+    }
+
+
 
 }
