@@ -5,6 +5,7 @@
 *.log
 *.synctex.gz
 *.tmp
+*~
 
 # Eclipse-specific files
 .classpath

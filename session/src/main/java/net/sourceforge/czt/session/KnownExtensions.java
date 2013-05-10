@@ -30,6 +30,7 @@ public enum KnownExtensions {
   ZPATT,
   OZPATT,
   CIRCUS,
+  CIRCUSTIME,
   CIRCUSPATT,
   ZEVES;
 

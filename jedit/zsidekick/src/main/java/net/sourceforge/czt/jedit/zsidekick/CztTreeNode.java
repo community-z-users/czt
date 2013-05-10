@@ -42,6 +42,8 @@ private final static String SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle";
   private final static String CIRCUS_SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle";
+  private final static String CIRCUSTIME_SHORT_DESCRIPTION_RESOURCE =
+	"net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle";
   private final static String ZEVES_SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.zeves.util.ShortDescriptionResourceBundle";
 
@@ -51,6 +53,9 @@ private final static String SHORT_DESCRIPTION_RESOURCE =
   private final static Visitor<String> circusShortDescriptionVisitor_ =
     new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor(
             SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE);
+  private final static Visitor<String> circustimeShortDescriptionVisitor_ =
+	new net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor(
+	        SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE, CIRCUSTIME_SHORT_DESCRIPTION_RESOURCE);		  
   private final static Visitor<String> zevesShortDescriptionVisitor_ =
     new net.sourceforge.czt.zeves.util.ConcreteSyntaxDescriptionVisitor(
             SHORT_DESCRIPTION_RESOURCE, ZEVES_SHORT_DESCRIPTION_RESOURCE);
@@ -59,6 +64,8 @@ private final static String SHORT_DESCRIPTION_RESOURCE =
     new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor();
   private final static Visitor<String> circusLongDescriptionVisitor_ =
     new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor();
+  private final static Visitor<String> circustimeLongDescriptionVisitor_ =
+    new net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor();
   private final static Visitor<String> zevesLongDescriptionVisitor_ =
     new net.sourceforge.czt.zeves.util.ConcreteSyntaxDescriptionVisitor();
 
@@ -72,7 +79,7 @@ private final static String SHORT_DESCRIPTION_RESOURCE =
   {
     super(createAsset(term, dialect, buffer));
    // term_ = term;
-    if (dialect.isExtensionOf(Dialect.CIRCUS) || 
+    if (dialect.isExtensionOf(Dialect.CIRCUS) || dialect.isExtensionOf(Dialect.CIRCUSTIME) || 
         jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_SHOW_COMPLETE_TREE)) {
       Object[] children = term.getChildren();
       for (Object o : children) {
@@ -93,17 +100,21 @@ private final static String SHORT_DESCRIPTION_RESOURCE =
   {
     String name = term.accept(Dialect.CIRCUS.equals(dialect) ?
                               circusShortDescriptionVisitor_ :
+                              (Dialect.CIRCUSTIME.equals(dialect) ?
+                              circustimeShortDescriptionVisitor_ :                            
                               (Dialect.ZEVES.equals(dialect) ?
                               zevesShortDescriptionVisitor_ :
-                              zShortDescriptionVisitor_));
+                              zShortDescriptionVisitor_)));
     if (name == null) {
       name = term.getClass().toString();
     }
     String description = term.accept(Dialect.CIRCUS.equals(dialect) ?
                                      circusLongDescriptionVisitor_ :
-                                      (Dialect.ZEVES.equals(dialect) ?
-                                    zevesLongDescriptionVisitor_ :
-                                     zLongDescriptionVisitor_));
+                                     (Dialect.CIRCUSTIME.equals(dialect) ?
+                                     circustimeLongDescriptionVisitor_ :	 
+                                     (Dialect.ZEVES.equals(dialect) ?
+                                     zevesLongDescriptionVisitor_ :
+                                     zLongDescriptionVisitor_)));
     if (term.hasAnn(TypeAnn.class))
     {
       TypeAnn tn = term.getAnn(TypeAnn.class);

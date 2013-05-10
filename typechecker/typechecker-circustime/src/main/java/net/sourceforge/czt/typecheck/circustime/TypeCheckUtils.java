@@ -43,6 +43,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.print.util.PrintException;
 
 
 public class TypeCheckUtils 
@@ -279,7 +280,7 @@ public class TypeCheckUtils
     return true;
   }
   
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  
+  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  throws PrintException
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
     super.printTerm(term, writer, sectInfo, sectName, markup);
@@ -293,12 +294,12 @@ public class TypeCheckUtils
   }
   
   @SuppressWarnings("unused")
-  private void typeCheckCommandTest(String file)
+  protected void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUSTIME:");
     
-    net.sourceforge.czt.parser.circus.SpecialLatexParser.SimpleFormatterForCircus sfc = 
-      new net.sourceforge.czt.parser.circus.SpecialLatexParser.SimpleFormatterForCircus(true, true,
+    net.sourceforge.czt.parser.circustime.SpecialLatexParser.SimpleFormatterForCircusTime sfc = 
+      new net.sourceforge.czt.parser.circustime.SpecialLatexParser.SimpleFormatterForCircusTime(true, true,
         false, false, true);
     
     java.util.logging.ConsoleHandler ch = new java.util.logging.ConsoleHandler();

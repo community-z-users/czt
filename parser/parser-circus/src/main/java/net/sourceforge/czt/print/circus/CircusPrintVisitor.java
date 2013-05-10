@@ -156,6 +156,7 @@ public class CircusPrintVisitor
         return null;
     }
     
+    
     @Override
 	public Object visitChannelDecl(ChannelDecl term) {
 //        if (CircusUtils.isChannelFromDecl(term)) {
@@ -362,7 +363,7 @@ public class CircusPrintVisitor
     public Object visitInterruptProcess(InterruptProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
-        print(CircusKeyword.CIRCSEQ);
+	print(CircusKeyword.CIRCINTERRUPT);
         visit(term.getRightProcess());
         printRPAREN(term);
         return null;

@@ -252,6 +252,8 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
           Mode mode = buffer.getMode();
           if (mode != null && mode.getName() != null && mode.getName().startsWith("circus"))
             message = term.accept(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
+          else if (mode != null && mode.getName() != null && mode.getName().startsWith("circustime"))
+              message = term.accept(new net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor());
           else
             message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
         }
@@ -300,6 +302,8 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
           visitor = new net.sourceforge.czt.z.util.PrintVisitor();
         else if (mode.getName().startsWith("circus"))
           visitor = new net.sourceforge.czt.circus.util.PrintVisitor();
+        else if (mode.getName().startsWith("circustime"))
+            visitor = new net.sourceforge.czt.circustime.util.PrintVisitor();
         else if (mode.getName().startsWith("oz"))
           visitor = new net.sourceforge.czt.oz.util.PrintVisitor();
         else //if (mode.getName().startsWith("z"))

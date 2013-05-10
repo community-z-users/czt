@@ -7,10 +7,10 @@ public enum Dialect {
    OZ,				//2
    OZPATT,			//3
    ZEVES,			//4
-   CIRCUSPATT,		//5
+   CIRCUSPATT,			//5
    CIRCUS,			//6
-   CIRCUSTIME,		//7
-   OHCIRCUS;		//8
+   CIRCUSTIME,			//7
+   OHCIRCUS;			//8
    
    private static final int NUM_OF_DIALECTS = OHCIRCUS.ordinal()+1;
    

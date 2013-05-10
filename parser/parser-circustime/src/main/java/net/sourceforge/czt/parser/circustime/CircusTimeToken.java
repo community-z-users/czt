@@ -33,26 +33,6 @@ import net.sourceforge.czt.parser.util.Token;
 public enum CircusTimeToken  
   implements Token
 {
-  /* TODO: Maybe include hard-space here "~" for beautification */
- /* LCIRCCHANSET(CircusString.LCIRCCHANSET, NewlineCategory.AFTER),
-  RCIRCCHANSET(CircusString.RCIRCCHANSET, NewlineCategory.BEFORE),
-  CIRCLINST(CircusString.CIRCLINST, NewlineCategory.AFTER),
-  CIRCRINST(CircusString.CIRCRINST, NewlineCategory.BEFORE),
-  LPAR(CircusString.LPAR, NewlineCategory.BOTH),
-  RPAR(CircusString.RPAR, NewlineCategory.BOTH),
-  LINTER(CircusString.LINTER, NewlineCategory.BOTH),
-  RINTER(CircusString.RINTER, NewlineCategory.BOTH),
-  LCIRCGUARD(CircusString.LCIRCGUARD, NewlineCategory.AFTER),
-  RCIRCGUARD(CircusString.RCIRCGUARD, NewlineCategory.BEFORE),
-  LSCHEXPRACT(CircusString.LSCHEXPRACT, NewlineCategory.AFTER),
-  RSCHEXPRACT(CircusString.RSCHEXPRACT, NewlineCategory.BEFORE),
-  LCIRCRENAME(CircusString.LCIRCRENAME, NewlineCategory.AFTER),
-  RCIRCRENAME(CircusString.RCIRCRENAME, NewlineCategory.BEFORE),
-
-  CIRCUS(CircusString.CIRCUS, NewlineCategory.BOTH),
-  CIRCUSACTION(CircusString.CIRCUSACTION, NewlineCategory.BOTH),
-*/
-
   /* Support for Circus Time */
   LCIRCTIME(CircusTimeString.LCIRCTIME, NewlineCategory.AFTER),
   RCIRCTIME(CircusTimeString.RCIRCTIME, NewlineCategory.BEFORE);
