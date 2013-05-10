@@ -29,13 +29,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
-
 import net.sourceforge.czt.parser.util.CyclicParseManager;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexMarkupFunctionVisitor;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.Lexer;
+import net.sourceforge.czt.parser.util.CztLexerImpl;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.LocInfoImpl;
 import net.sourceforge.czt.parser.util.LocToken;
@@ -59,8 +59,8 @@ import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.util.ZChar;
-import net.sourceforge.czt.z.util.ZString;
 
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A latex markup parser that looks like a scanner.
@@ -71,19 +71,19 @@ import net.sourceforge.czt.z.util.ZString;
  * AFTER it is defined in a markup directive.
  */
 public class <class/>
-  implements Lexer
+  extends CztLexerImpl
 {
   private static Factory factory_ = new Factory();
 
   /**
    * The latex to unicode scanner that provides the input.
    */
-  private LatexLexer lexer_;
+  private final LatexLexer lexer_;
 
   /**
    * Section information.
    */
-  private SectionInfo sectInfo_;
+  private final SectionInfo sectInfo_;
   
   private DefaultSectionParents defaultSP_;
 
@@ -95,7 +95,7 @@ public class <class/>
   /**
    * All markup functions created so far.
    */
-  private Map&lt;String,LatexMarkupFunction&gt; markupFunctions_ =
+  private final Map&lt;String,LatexMarkupFunction&gt; markupFunctions_ =
     new HashMap&lt;String,LatexMarkupFunction&gt;();
 
   /**
@@ -118,6 +118,22 @@ public class <class/>
    */
   private LocToken symbol_ = null;
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private static final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
   /**
    * Creates a new latex markup parser that uses the scanner provided.
    * The section information should be able to provide information of type
@@ -128,9 +144,26 @@ public class <class/>
    */
   public <class/>(LatexLexer lexer, SectionInfo sectInfo)
   {
+    if (lexer == null || sectInfo == null) throw new NullPointerException();
     lexer_ = lexer;
     sectInfo_ = sectInfo;
-    
+    assert dialect_ != null;
+    if (!dialect_.equals(sectInfo.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in LatexMarkupParser scanner. " + dialect_.toString() +
+    		" expected, but section manager dialect " + sectInfo.getDialect() + " found."); 
+    if (!dialect_.equals(lexer.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in LatexMarkupParser scanner. " + dialect_.toString() +
+    		" expected, but LatexLexer dialect " + lexer.getDialect() + " found."); 
+  }
+  
+  @Override
+  public Dialect getDialect()
+  {
+  	assert dialect_.equals(lexer_.getDialect()) &amp;&amp;
+  			dialect_.equals(sectInfo_.getDialect()) :
+  			"dialect = " + dialect_ + "; sectInfo.dialect = " +
+  			sectInfo_.getDialect() + "; lexer.dialect = " + lexer_.getDialect();
+  	return lexer_.getDialect();
   }
 
   @Override
@@ -160,7 +193,7 @@ public class <class/>
       }
       catch (CommandException exception) {
         String message = "Cannot get LatexMarkupFunction for " + parent
-          + "; try to continue anyway";
+          + "; try to continue anyway for " + dialect_.toString() + " in LatexMarkupParser.";
         CztLogger.getLogger(LatexMarkupFunctionVisitor.class).warning(message);
       }
     }
@@ -468,7 +501,7 @@ public class <class/>
                                                      token.getLocation());
       if (directive != null) {
         try {
-          markupFunction_.add(directive);
+          markupFunction_.add(getDialect(), directive);
         }
         catch (MarkupException e) {
           reportError(e);
@@ -518,7 +551,7 @@ public class <class/>
       // no applicable parent found? 
       // still report - using dummy location
       CyclicParentError.reportCyclicParent(sectInfo_, getSource(), cycleStr, 
-          new LocInfoImpl(getSource().getName(), 0, 0));
+          new LocInfoImpl(getDialect(), getSource().getName(), 0, 0));
     }
   }
 
@@ -566,7 +599,7 @@ public class <class/>
                                                   location.getLine(),
                                                   null));
     try {
-      markupFunction_.add(directive);
+      markupFunction_.add(getDialect(), directive);
     }
     catch (MarkupException e) {
       reportError(e);
@@ -580,7 +613,7 @@ public class <class/>
     if (is(token, LatexSym.NAME)) {
       return token.spelling();
     }
-    System.err.println("Error while parsing markup directive.");
+    CztLogger.getLogger(<class/>.class).severe("Error while parsing markup directive " + token + " for " + dialect_.toString() + " in LatexMarkupParser.");
     return null;
   }
 
@@ -643,10 +676,12 @@ public class <class/>
                                               null));
         return d;
       }
-      System.err.println("WARNING: Cannot parse " + directive);
+      CztLogger.getLogger(<class/>.class).severe(
+      	"WARNING: Cannot parse " + directive + " for " + dialect_.toString() + " in LatexMarkupParser.");
       return null;
     }
-    System.err.println("WARNING: Cannot parse " + directive);
+      CztLogger.getLogger(<class/>.class).severe(
+      	"WARNING: Cannot parse " + directive + " for " + dialect_.toString() + " in LatexMarkupParser.");
     return null;
   }
 
@@ -654,8 +689,12 @@ public class <class/>
   {
     MarkupDirective d1 = e.getMarkupDirective1();
     MarkupDirective d2 = e.getMarkupDirective2();
-    Object[] args = { d1.getCommand(), d1, d2 };
-    LocInfo location = new LocInfoImpl(getSource().toString(),
+    Dialect d = e.getDialect();
+    if (!d.equals(dialect_))
+      throw new IllegalArgumentException("Incompatible dialects in LatexMarkupParser. " + dialect_.toString() +
+    		" expected, but MarkupException dialect " + d + " found.");
+    Object[] args = { d1.getCommand(), d1, d2, d };
+    LocInfo location = new LocInfoImpl(getDialect(), getSource().toString(),
                                        // d2 can be null
                                        (d2 != null ? d2 : d1).getLine().intValue(),
                                        -1,
@@ -671,20 +710,22 @@ public class <class/>
   }
 
   <add:zeves>
-  private void addZEvesImplicitMarkupDirectives(LocToken token)
-  {
-    // adds manually applies$to directive as Zinword applies\$to applies$to
-    Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
-    directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
-                                                  token.getLocation().getLine(),
-                                                  null));
-    try {
-      markupFunction_.add(directive);
-    }
-    catch (MarkupException e) {
-      reportError(e);
-    }
-  }
+  // NOTE: this code is no longer needed (??) because now this is properly part of zeves_prelude?
+  //
+  //private void addZEvesImplicitMarkupDirectives(LocToken token)
+  //{
+  //  // adds manually applies$to directive as Zinword applies\$to applies$to
+  //  Directive directive = factory_.createDirective("applies\\$to", "applies$to", DirectiveType.IN);
+  //  directive.getAnns().add(factory_.createLocAnn(token.getLocation().getSource(),
+  //                                                token.getLocation().getLine(),
+  //                                                null));
+  //  try {
+  //    markupFunction_.add(getDialect(), directive);
+  //  }
+ //   catch (MarkupException e) {
+  //    reportError(e);
+ //   }
+  //}
   </add:zeves>
 
   public interface LatexLexer

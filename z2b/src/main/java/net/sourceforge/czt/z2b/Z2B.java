@@ -18,15 +18,23 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.z2b;
 
-import java.io.StringWriter;
-import java.util.*;
-import java.util.logging.Logger;
+import static net.sourceforge.czt.z.util.ZUtils.assertZBranchList;
 
-// the CZT classes for Z.
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.ListTermVisitor;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionType;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -34,11 +42,60 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.AndPred;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Branch;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.Freetype;
+import net.sourceforge.czt.z.ast.GivenPara;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.OptempPara;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.UnparsedPara;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZFreetypeList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.PrintVisitor;
-import net.sourceforge.czt.z.visitor.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.ConjParaVisitor;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
+import net.sourceforge.czt.z.visitor.FreeParaVisitor;
+import net.sourceforge.czt.z.visitor.FreetypeVisitor;
+import net.sourceforge.czt.z.visitor.GivenParaVisitor;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
+import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.OptempParaVisitor;
+import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
+import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
+import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
+import net.sourceforge.czt.z.visitor.ZParaListVisitor;
+// the CZT classes for Z.
 
 /**
  * <p>This class converts a Z section into a B machine.
@@ -65,11 +122,11 @@ public class Z2B
 {
   private BMachine mach_ = null;
 
-  private FreeVarChecker freevarChecker_ = new FreeVarChecker();
+  private final FreeVarChecker freevarChecker_ = new FreeVarChecker();
 
-  private SectionManager manager_;
+  private final SectionManager manager_;
 
-  private Preprocessor preprocessor_ = new Preprocessor();
+  private final Preprocessor preprocessor_ = new Preprocessor();
 
   public Z2B(SectionManager manager)
     throws UnfoldException
@@ -90,8 +147,8 @@ public class Z2B
   public BMachine makeBMachine(ZSect sect)
     throws BException, CommandException
   {
-    SectTypeEnvAnn ann = (SectTypeEnvAnn)
-      manager_.get(new Key(sect.getName(), SectTypeEnvAnn.class));
+    SectTypeEnvAnn ann = 
+      manager_.get(new Key<SectTypeEnvAnn>(sect.getName(), SectTypeEnvAnn.class));
     Classifier classifier = new Classifier(ann, sect.getName());
     List<NameSectTypeTriple> stateSchemas = classifier.getState();
     List<NameSectTypeTriple> initSchemas = classifier.getInit();
@@ -133,7 +190,8 @@ public class Z2B
       String msg = "init schema is not a simple schema: " + initSchemaDef;
       throw new BException(msg);
     }
-    List<NameTypePair> ivars =
+    @SuppressWarnings("unused")
+	List<NameTypePair> ivars =
       getSignature(initSchemas.get(0)).getNameTypePair();
 
     // Check operation schemas
@@ -198,8 +256,8 @@ public class Z2B
     throws CommandException
   {
     String sectName = triple.getSect();
-    DefinitionTable defTable = (DefinitionTable)
-      manager_.get(new Key(sectName, DefinitionTable.class));
+    DefinitionTable defTable = 
+      manager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
     String name = triple.getName().accept(new PrintVisitor());
 
     //Expr result = defTable.lookup(name).getExpr();
@@ -225,7 +283,7 @@ public class Z2B
     return result;
   }
 
-  protected void print(Term term, String section)
+  protected void print(Term term, String section) throws PrintException
   {
     StringWriter writer = new StringWriter();
     PrintUtils.print(term, writer, manager_, section, Markup.LATEX);
@@ -235,7 +293,7 @@ public class Z2B
   /**
    * Assumes that all the declarations are VarDecls
    */
-  protected Map<ZName,Expr> getVariables(SchExpr schExpr, Class decor)
+  protected Map<ZName,Expr> getVariables(SchExpr schExpr, Class<?> decor)
   {
     Map<ZName,Expr> result = new HashMap<ZName,Expr>();
     for (Decl decl : schExpr.getZSchText().getZDeclList()) {
@@ -340,7 +398,6 @@ public class Z2B
   {
     SchExpr schema = (SchExpr) lookup(triple);
     for (Decl decl : schema.getZSchText().getZDeclList()) {
-      VarDecl varDecl = (VarDecl) decl;
       declareVars((VarDecl) decl, names, preds);
     }
   }
@@ -400,7 +457,8 @@ public class Z2B
   *   Since we want to explicitly handle each kind of top-level
   *   term, we throw an exception to report unexpected kinds of terms.
   */
-  public Object visitTerm(Term term)
+  @Override
+public Object visitTerm(Term term)
   {
     throw new BException("unknown Z term: " + term);
   }
@@ -408,20 +466,23 @@ public class Z2B
   /**
    * Visits a list term by visiting all its children.
    */
-  public Object visitListTerm(ListTerm term)
+  @Override
+public Object visitListTerm(ListTerm<?> term)
   {
     VisitorUtils.visitTerm(this, term);
     return null;
   }
 
-  public Object visitZParaList(ZParaList list)
+  @Override
+public Object visitZParaList(ZParaList list)
   {
     VisitorUtils.visitTerm(this, list);
     return null;
   }
 
   /** Adds all the given types to the 'parameters' list of a B machine. */
-  public Object visitGivenPara(GivenPara para)
+  @Override
+public Object visitGivenPara(GivenPara para)
   {
     Map<String,List<String>> sets = mach_.getSets();
     for (Name name : para.getNames()) {
@@ -432,13 +493,15 @@ public class Z2B
 
 
   /** Process all free types. */
-  public Object visitFreePara(FreePara para)
+  @Override
+public Object visitFreePara(FreePara para)
   {
     para.getFreetypeList().accept(this);
     return null;
   }
 
-  public Object visitZFreetypeList(ZFreetypeList list)
+  @Override
+public Object visitZFreetypeList(ZFreetypeList list)
   {
     for (Freetype freetype : list)
     {
@@ -448,20 +511,22 @@ public class Z2B
   }
 
   /** Ignore Latex markup paragraphs. */
-  public Object visitLatexMarkupPara(LatexMarkupPara para)
+  @Override
+public Object visitLatexMarkupPara(LatexMarkupPara para)
   {
     return null;
   }
 
   /** Adds a simple free type to a B machine. */
-  public Object visitFreetype(Freetype freetype)
+  @Override
+public Object visitFreetype(Freetype freetype)
   {
     Map<String,List<String>> sets = mach_.getSets();
     Iterator<Branch> i = assertZBranchList(freetype.getBranchList()).iterator();
     // now we get all the branch names, and check they are simple.
     List<String> contents = new ArrayList<String>();
     while (i.hasNext()) {
-      Branch branch = (Branch) i.next();
+      Branch branch = i.next();
       if (branch.getExpr() != null)
         throw new BException("free types must be simple enumerations, but "
 			     +branch.getName()+" branch has expression "
@@ -474,7 +539,8 @@ public class Z2B
   }
 
   /** Adds some axiomatic definitions to a B machine. */
-  public Object visitAxPara(AxPara para)
+  @Override
+public Object visitAxPara(AxPara para)
   {
     if (para.getName().size() > 0)
       throw new BException("Generic definitions not handled yet.");
@@ -486,45 +552,52 @@ public class Z2B
     return null;
   }
 
-  public Object visitZDeclList(ZDeclList zDeclList)
+  @Override
+public Object visitZDeclList(ZDeclList zDeclList)
   {
     for (Decl decl : zDeclList) decl.accept(this);
     return null;
   }
 
   /** Ignore conjecture paragraphs. */
-  public Object visitConjPara(ConjPara para)
+  @Override
+public Object visitConjPara(ConjPara para)
   {
     return null;
   }
 
   /** Ignore narrative paragraphs. */
-  public Object visitNarrPara(NarrPara para)
+  @Override
+public Object visitNarrPara(NarrPara para)
   {
     return null;
   }
 
   /** Ignore operator template paragraphs. */
-  public Object visitOptempPara(OptempPara para)
+  @Override
+public Object visitOptempPara(OptempPara para)
   {
     return null;
   }
 
   /** Unparsed Z paragraphs cause the translaton to fail. */
-  public Object visitUnparsedPara(UnparsedPara para)
+  @Override
+public Object visitUnparsedPara(UnparsedPara para)
   {
     throw new BException("cannot translate an incomplete specification "
                          + "(unparsed paragraph)");
   }
 
   //=============== visit methods for Decls inside AxPara ============
-  public Object visitVarDecl(VarDecl decl)
+  @Override
+public Object visitVarDecl(VarDecl decl)
   {
     declareVars(decl, mach_.getConstants(), mach_.getProperties());
     return null;
   }
 
-  public Object visitConstDecl(ConstDecl decl)
+  @Override
+public Object visitConstDecl(ConstDecl decl)
   {
     TypeAnn typeAnn = decl.getExpr().getAnn(TypeAnn.class);
     boolean isSchema = typeAnn.getType() instanceof PowerType &&

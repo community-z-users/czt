@@ -19,26 +19,28 @@
 
 package net.sourceforge.czt.print.z;
 
-import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.parser.util.AbstractVisitor;
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.z.*;
 
 /**
  * A Z visitor used for printing.
  *
  * @author Petra Malik
  */
-public abstract class AbstractPrintVisitor
-  implements Visitor<Object>
+public abstract class AbstractPrintVisitor<R>
+  extends AbstractVisitor<R>
 {
   private ZPrinter printer_;
 
-  public AbstractPrintVisitor()
+  public AbstractPrintVisitor(SectionInfo sectInfo)
   {
+	super(sectInfo);  
   }
-
-  public AbstractPrintVisitor(ZPrinter printer)
+  
+  public AbstractPrintVisitor(SectionInfo sectInfo, ZPrinter printer)
   {
+	super(sectInfo);
     printer_ = printer;
   }
 

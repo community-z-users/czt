@@ -25,6 +25,7 @@ import java.io.Writer;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.Command;
@@ -56,7 +57,11 @@ public class UnicodePrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
+    }
+    catch (PrintException pe)
+    {
+      throw new CommandException(manager.getDialect(), pe);
     }
   }
 
@@ -75,8 +80,9 @@ public class UnicodePrinterCommand
   public void printUnicode(Term term,
                            Writer out,
                            SectionManager sectInfo,
-                           String sectionName)
+                           String sectionName) throws PrintException
   {
+    if (out == null || sectInfo == null || term == null) throw new NullPointerException();
     Properties props = sectInfo.getProperties();
     //ZPrinter printer = new NewlinePrinter(new UnicodePrinter(out));
     ZPrinter printer = new UnicodePrinter(out);

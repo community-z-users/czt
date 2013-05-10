@@ -30,6 +30,7 @@ import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.Dialect;
 
 public class TokenSequence implements Token
 {
@@ -48,11 +49,16 @@ public class TokenSequence implements Token
 
   private int length_ = 0;
   //@ invariant length_ >= 0;
-
+  
   public TokenSequence(String name, ZPrinter printer)
   {
     name_ = name;
     printer_ = printer;
+  }
+  
+  public Dialect getDialect()
+  {
+	  return printer_.getDialect();
   }
 
   public void printTokens()

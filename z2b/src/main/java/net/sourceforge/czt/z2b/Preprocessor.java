@@ -28,6 +28,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.z.ast.*;
 
 class Preprocessor
@@ -39,10 +40,10 @@ class Preprocessor
   {
     try {
       SectionManager manager = new SectionManager(Dialect.ZPATT);
-      rules_ = (RuleTable)
-        manager.get(new Key("expansion_rules", RuleTable.class));
-      RuleTable simplificationRules = (RuleTable)
-        manager.get(new Key("simplification_rules", RuleTable.class));
+      rules_ = 
+        manager.get(new Key<RuleTable>(Section.EXPANSION_RULES.getName(), RuleTable.class));
+      RuleTable simplificationRules = 
+        manager.get(new Key<RuleTable>(Section.SIMPLIFICATION_RULES.getName(), RuleTable.class));
       rules_.addRuleParas(simplificationRules);
     }
     catch(CommandException e) {

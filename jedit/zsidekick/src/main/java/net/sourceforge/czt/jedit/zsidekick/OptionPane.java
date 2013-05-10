@@ -26,7 +26,11 @@ import org.gjt.sp.jedit.*;
 
 public class OptionPane extends AbstractOptionPane
 {
-  private JCheckBox ignoreUnknownLatexCommands_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8263809384758327653L;
+private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox showCompleteTree_;
   private JCheckBox printIds_;
   private JCheckBox printZEves_;
@@ -159,6 +163,24 @@ public class OptionPane extends AbstractOptionPane
     vcgDCInfixApplies_ = new JCheckBox(label);
     vcgDCInfixApplies_.getModel().setSelected(value);
     addComponent(vcgDCInfixApplies_);
+    
+    label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS);
+  value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+            ZSideKickPlugin.PROP_VCG_FEASIBILITY_ADD_GIVENSET_VCS);
+  vcgFSBAddGSetVC_ = new JCheckBox(label);
+  vcgFSBAddGSetVC_.getModel().setSelected(value);
+  addComponent(vcgFSBAddGSetVC_);
+
+
+  label = jEdit.getProperty(ZSideKickPlugin.OPTION_PREFIX +
+          ZSideKickPlugin.PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS);
+	value = jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX +
+	          ZSideKickPlugin.PROP_VCG_FEASIBILITY_CREATE_ZSCHEMAS);
+	vcgFSBAddSchema_ = new JCheckBox(label);
+	vcgFSBAddSchema_.getModel().setSelected(value);
+	addComponent(vcgFSBAddSchema_);
+
 
     label = jEdit.getProperty("options.net.sourceforge.czt.jedit.zsidekick.resetButton");
     JButton resetButton = new JButton(label);

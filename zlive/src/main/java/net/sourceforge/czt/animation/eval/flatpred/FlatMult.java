@@ -72,7 +72,7 @@ public class FlatMult extends FlatPred
         mode = null;
       }
       else {
-        mode.setSolutions(mode.MAYBE_ONE_SOLUTION); // eg. 3*y=5 will fail.
+        mode.setSolutions(Mode.MAYBE_ONE_SOLUTION); // eg. 3*y=5 will fail.
       }
     }
     // restrict the OII mode to avoid zero.
@@ -83,7 +83,7 @@ public class FlatMult extends FlatPred
         mode = null;
       }
       else {
-        mode.setSolutions(mode.MAYBE_ONE_SOLUTION); // eg. x*3=5 will fail.
+        mode.setSolutions(Mode.MAYBE_ONE_SOLUTION); // eg. x*3=5 will fail.
       }
     }
     return mode;

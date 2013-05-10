@@ -23,15 +23,17 @@
 
 package <package/>;
 
-import java.io.*;
-import java.util.Map;
+import java.io.IOException;
 import java.util.Properties;
 
-import java_cup.runtime.*;
+import java_cup.runtime.Symbol;
 
+import net.sourceforge.czt.parser.util.CztScannerImpl;
 import net.sourceforge.czt.parser.util.CztReader;
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
+
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A latex scanner.  This is a convenience class that
@@ -53,11 +55,27 @@ import net.sourceforge.czt.session.*;
  * line and column number information.&lt;/p&gt;
  */
 public class <class/>
-  implements java_cup.runtime.Scanner
+  extends CztScannerImpl
 {
-  private LatexToUnicode latexLexer_;
-  private UnicodeScanner unicodeLexer_;
+  private final LatexToUnicode latexLexer_;
+  private final UnicodeScanner unicodeLexer_;
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
   /**
    * Creates a new scanner.
    *
@@ -71,13 +89,36 @@ public class <class/>
     latexLexer_ = new LatexToUnicode(source, sectInfo, properties);
     CztReader cztReader = new CztReader(latexLexer_);
     unicodeLexer_ = new UnicodeScanner(cztReader, properties);
+    assert dialect_ != null;
+    if (!dialect_.equals(sectInfo.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in LatexScanner. " + dialect_.toString() +
+    		" expected, but section manager dialect " + sectInfo.getDialect() + " found."); 
   }
-
+  
+  @Override
+  public Dialect getDialect()
+  {
+    assert dialect_.equals(latexLexer_.getDialect()) &amp;&amp;
+    	   dialect_.equals(unicodeLexer_.getDialect()) : 
+    	   "dialect_ " + dialect_ + "; latexLexer.dialect = " + 
+    	   latexLexer_.getDialect() + "; unicodeLexer.dialect = " + 
+    	   unicodeLexer_.getDialect();
+  	return latexLexer_.getDialect();
+  }
+  
+  @Override
   public Symbol next_token()
-    throws java.lang.Exception
+    throws Exception
   {
     Symbol symbol = unicodeLexer_.next_token();
     return symbol;
   }
+  
+  @Override
+  protected Class&lt;?&gt; getSymbolClass()
+  {
+    return Sym.class;
+  }
+  
 }
 </scanner>

@@ -1,0 +1,34 @@
+\begin{zsection}
+  \SECTION\ genericOpTest \parents\ prelude
+\end{zsection}
+
+Failed attempt to reproduce a complex ternary operator.
+%\begin{zed}
+%  \generic 5 \rightassoc (\_ \partA \_ \_ \partB \_ \partC)
+%  \\
+%  X \partA Y~ Z \partB W \partC == \{  x: X; y: Y; z: Z; w: W \} 
+%\end{zed}
+
+%%Zchar \emptyset U+2205
+\begin{zed}
+\emptyset [ X ] == \{~ x : X | false ~\}
+\end{zed}
+
+%%Zprechar \langle U+27E8
+%%Zpostchar \rangle U+27E9
+\begin{zed}
+\function (\langle \listarg \rangle)
+\end{zed}
+
+\begin{zed}
+\langle \listarg \rangle [ X ]  == \lambda s : X @ s
+\end{zed}
+
+%%Zinword \bla bla
+\begin{zed}
+\generic 5 \rightassoc (\_ \bla \_)
+\end{zed}
+
+\begin{zed}
+X \bla Y == \{~ f : \power~(X \cross Y) | \forall p , q : f | p.1 = q.1 @ p.2 = q.2 ~\}
+\end{zed}

@@ -16,7 +16,7 @@
   </description>
 
   <properties>
-    <parser.nodes>pattern,zpatt</parser.nodes>
+    <parser.nodes>pattern,zpatt,zpattcore</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.zpatt</parser.package>
     <printer.nodes>z,zpatt,zpattcore</printer.nodes>
     <printer.package>net.sourceforge.czt.print.zpatt</printer.package>

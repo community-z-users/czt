@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
-import net.sourceforge.czt.base.ast.ListTerm;
-import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -59,7 +57,7 @@ public class AnnImpl
   {
     if (obj != null && obj instanceof Ann) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
-        AnnImpl object = (AnnImpl) obj;
+       // AnnImpl object = (AnnImpl) obj;
         return true;
       }
     }
@@ -68,7 +66,7 @@ public class AnnImpl
 
   public int hashCode()
   {
-    final int constant = 31;
+   // final int constant = 31;
 
     int hashCode = super.hashCode();
     hashCode += "AnnImpl".hashCode();

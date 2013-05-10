@@ -19,14 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.z2b;
 
-import java.util.*;
 import java.io.*;
 
 import junit.framework.*;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z2b.*;
 
 
 /**
@@ -37,7 +32,7 @@ import net.sourceforge.czt.z2b.*;
 public class BWriterTest
   extends TestCase
 {
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+ // private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
   private BWriter writer;
   private StringWriter output;
   private String tokens[];

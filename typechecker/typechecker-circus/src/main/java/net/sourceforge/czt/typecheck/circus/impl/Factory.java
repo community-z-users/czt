@@ -43,7 +43,6 @@ import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.StateUpdate;
 import net.sourceforge.czt.circus.ast.ZSignatureList;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
-import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.typecheck.z.impl.VariableSignature;
 import net.sourceforge.czt.typecheck.z.impl.VariableType;
@@ -104,12 +103,14 @@ public class Factory
    * @param term
    * @return
    */
-  public <T extends Term> T deepCloneTerm(T term)
+  @SuppressWarnings("unchecked")
+public <T extends Term> T deepCloneTerm(T term)
   {    
     return (T)Factory.cloneTerm(term);
   }
   
-  public <T extends Term> T shallowCloneTerm(T term)
+  @SuppressWarnings("unchecked")
+public <T extends Term> T shallowCloneTerm(T term)
   {
     return (T)term.create(term.getChildren());
   }

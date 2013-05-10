@@ -34,6 +34,7 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Spec;
 
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A parser for LaTeX mark-up.  This is a convenience class that
@@ -43,8 +44,24 @@ import net.sourceforge.czt.z.ast.Spec;
  */
 public class <class/>
 {
-  private Parser parser_;
+  private final Parser parser_;
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+    				  
   public <class/>(Source source,
                   SectionInfo sectInfo,
                   Properties properties,
@@ -53,6 +70,10 @@ public class <class/>
   {
     LatexScanner scanner = new LatexScanner(source, sectInfo, properties);
     parser_ = new Parser(scanner, source, sectInfo, properties, explicitDeps);
+    assert dialect_ != null;
+    if (!dialect_.equals(sectInfo.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in LatexParser. " + dialect_.toString() +
+    		" expected, but section manager dialect " + sectInfo.getDialect() + " found."); 
   }
 
   public Spec parse()
@@ -71,7 +92,7 @@ public class <class/>
     }
     catch (Exception e) {
       e.printStackTrace();
-      throw new CztException("This should never happen", e);
+      throw new CztException("This exception should never happen (for " + dialect_ + " in LatexParser.", e);
     }
   }
 }

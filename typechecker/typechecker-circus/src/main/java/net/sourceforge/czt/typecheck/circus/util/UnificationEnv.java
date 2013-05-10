@@ -11,7 +11,6 @@
 package net.sourceforge.czt.typecheck.circus.util;
 
 import java.util.List;
-import java.util.Map;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;

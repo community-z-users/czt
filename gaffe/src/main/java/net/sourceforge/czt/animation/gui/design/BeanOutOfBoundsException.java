@@ -28,7 +28,12 @@ import java.awt.Rectangle;
  */
 public class BeanOutOfBoundsException extends Exception
 {
-  private Class<?> type_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 670944014238126764L;
+
+private Class<?> type_;
 
   private Point attemptedLocation_;
 

@@ -197,7 +197,7 @@ public class ParentUpdateNotifier
   {
     Spec spec = parsedData.getSpec();
     if (spec == null) {
-      throw new CommandException("No specification available in the parsed data.");
+      throw new CommandException(parsedData.getSectionManager().getDialect(), "No specification available in the parsed data.");
     }
 
     Set<String> allParents = new HashSet<String>();
@@ -216,7 +216,7 @@ public class ParentUpdateNotifier
     }
 
     if (!foundSect) {
-      throw new CommandException("No sections available in the parsed specification.");
+      throw new CommandException(parsedData.getSectionManager().getDialect(), "No sections available in the parsed specification.");
     }
 
     return allParents;

@@ -230,7 +230,12 @@ public final class ProverUtils
   public static class UnboundJokerRuntimeException
     extends net.sourceforge.czt.util.CztException
   {
-    public UnboundJokerRuntimeException()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6636261022785187318L;
+
+	public UnboundJokerRuntimeException()
     {
     }
 

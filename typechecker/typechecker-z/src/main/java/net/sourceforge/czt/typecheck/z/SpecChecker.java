@@ -28,12 +28,12 @@ import net.sourceforge.czt.z.visitor.*;
 /**
  */
 public class SpecChecker
-  extends Checker<Object>
-  implements SpecVisitor<Object>,
-             ZSectVisitor<Object>,
-             ParentVisitor<Object>,
-             SectVisitor<Object>,
-             ZParaListVisitor<Object>
+  extends Checker<List<NameSectTypeTriple>>
+  implements SpecVisitor<List<NameSectTypeTriple>>,
+             ZSectVisitor<List<NameSectTypeTriple>>,
+             ParentVisitor<List<NameSectTypeTriple>>,
+             SectVisitor<List<NameSectTypeTriple>>,
+             ZParaListVisitor<List<NameSectTypeTriple>>
 {
   public SpecChecker(TypeChecker typeChecker)
   {
@@ -41,16 +41,15 @@ public class SpecChecker
   }
 
   @Override
-  public Object visitSpec(Spec spec)
+  public List<NameSectTypeTriple> visitSpec(Spec spec)
   {
     //visit each section, and get the definition made in that section
     List<Sect> sects = spec.getSect();
     SectTypeEnvAnn specTypes =
       factory().createSectTypeEnvAnn(factory().<NameSectTypeTriple>list());
     List<NameSectTypeTriple> triples = specTypes.getNameSectTypeTriple();
-    for (Sect sect : sects) {
-      List<NameSectTypeTriple> sectTypes =
-        (List<NameSectTypeTriple>) sect.accept(specChecker());
+    for (Sect sect : sects) { 
+      List<NameSectTypeTriple> sectTypes = sect.accept(specChecker());
       for (NameSectTypeTriple triple : sectTypes) {
         if (!triples.contains(triple)) {
           triples.add(triple);
@@ -62,8 +61,9 @@ public class SpecChecker
     addAnn(spec, specTypes);
 
     //get the result and return it
-    Boolean result = getResult();
-    return result;
+    @SuppressWarnings("unused")
+	Boolean result = getResult();
+    return factory().list();
   }
 
   /**
@@ -71,27 +71,27 @@ public class SpecChecker
    * @param sect
    */
   @Override
-  public Object visitSect(Sect sect)
+  public List<NameSectTypeTriple> visitSect(Sect sect)
   {
     return factory().list();
   }
 
   @Override
-  public Object visitZSect(ZSect zSect)
+  public List<NameSectTypeTriple> visitZSect(ZSect zSect)
   {
     List<NameSectTypeTriple> result = checkZSect(zSect);
     return result;
   }
 
   @Override
-  public Object visitZParaList(ZParaList list)
+  public List<NameSectTypeTriple> visitZParaList(ZParaList list)
   {
     checkParaList(list);
     return null;
   }
 
   @Override
-  public Object visitParent(Parent parent)
+  public List<NameSectTypeTriple> visitParent(Parent parent)
   {
     checkParent(parent);
 

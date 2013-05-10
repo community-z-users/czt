@@ -23,10 +23,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.LatexString;
@@ -71,11 +69,11 @@ public class LatexPrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
     }
     catch (PrintException pe)
     {
-      throw new CommandException(pe);
+      throw new CommandException(manager.getDialect(), pe);
     }
   }
 
@@ -96,13 +94,15 @@ public class LatexPrinterCommand
   public void printLatex(Term term,
                          Writer out,
                          SectionManager sectInfo,
-                         String sectionName)
+                         String sectionName) throws PrintException
   {
+	if (out == null || sectInfo == null || term == null) throw new NullPointerException();
+	//if (!(sectInfo instanceof SectionManager)) throw new IllegalArgumentException("Invalid section manager implementation ");
     Properties props = sectInfo.getProperties();
     UnicodePrinter printer = new UnicodePrinter(out);
     TokenSequence tseq = toUnicode(printer, term, sectInfo, sectionName, props);
-    ZmlScanner scanner = new ZmlScanner(tseq.iterator(), props);
-    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
+    ZmlScanner scanner = new ZmlScanner(sectInfo.getDialect(), tseq.iterator(), props);
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term), sectInfo, props, Collections.<Key<?>>emptySet());
     parser.setSectionInfo(sectInfo, sectionName);
     parser.setWriter(printer);
     parse(out, sectInfo, parser, sectionName);
@@ -115,6 +115,7 @@ public class LatexPrinterCommand
 
   protected void parse(Writer out, SectionManager sectInfo, java_cup.runtime.lr_parser parser, String sectionName) throws PrintException
   {
+	if (out == null || sectInfo == null || parser == null) throw new NullPointerException();
     try
     {
       latexPreamble(out, sectInfo);
@@ -123,7 +124,8 @@ public class LatexPrinterCommand
     }
     catch (Exception e)
     {
-      throw new PrintException(MessageFormat.format(ZPrintMessage.MSG_PRINT_LATEX_EXCEPTION.getMessage(), "LaTeX", sectionName), e);
+      throw new PrintException(sectInfo.getDialect(),
+    		  	MessageFormat.format(ZPrintMessage.MSG_PRINT_LATEX_EXCEPTION.getMessage(), "LaTeX", sectionName), e);
     }
   }
 }

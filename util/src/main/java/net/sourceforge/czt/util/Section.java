@@ -50,7 +50,6 @@ public enum Section
   /** Extra toolkit names for Z */
   FUZZ_TOOLKIT("z", "fuzz_toolkit"),
   WHITESPACE("z", "whitespace"),
-  ZSTATE_TOOLKIT("z", "zstate_toolkit"),
 
   /** Z Pattern toolkits */
   ORACLE_TOOLKIT("zpatt", "oracle_toolkit"),

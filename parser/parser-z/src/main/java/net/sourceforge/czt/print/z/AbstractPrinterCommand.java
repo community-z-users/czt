@@ -28,6 +28,7 @@ import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.session.AbstractCommand;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
   public abstract class AbstractPrinterCommand extends AbstractCommand implements PrintPropertiesKeys
@@ -97,14 +98,14 @@ import net.sourceforge.czt.session.SectionManager;
                                  Term term,
                                  SectionManager sectInfo,
                                  String sectionName,
-                                 Properties props)
+                                 Properties props) throws PrintException
   {
     processProperties(props);
     Term tree = preprocess(term, sectInfo, sectionName);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
-    TokenSequenceVisitor visitor = createTokenSequenceVisitor(printer, props);
+    TokenSequenceVisitor visitor = createTokenSequenceVisitor(sectInfo, printer, props);
     tree.accept(visitor);
     TokenSequence tseq = visitor.getResult();
 
@@ -144,9 +145,10 @@ import net.sourceforge.czt.session.SectionManager;
     return new PrettyPrinter(term, textWidth);
   }
 
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected TokenSequenceVisitor createTokenSequenceVisitor(SectionInfo si, 
+		  ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props);
+    return new TokenSequenceVisitor(si, printer, props);
   }
 
   protected Term preprocess(Term term,
@@ -160,7 +162,7 @@ import net.sourceforge.czt.session.SectionManager;
 
   protected Term toPrintTree(AstToPrintTreeVisitor toPrintTree,
                              Term term,
-                             String sectionName)
+                             String sectionName) throws PrintException
   {
     try {
       return toPrintTree.run(term, sectionName);
@@ -169,7 +171,7 @@ import net.sourceforge.czt.session.SectionManager;
       String msg =
         "A command exception occurred while trying to print Unicode markup " +
         "for term within section " + sectionName;
-      throw new PrintException(msg, exception);
+      throw new PrintException(exception.getDialect(), msg, exception);
     }
   }
 }

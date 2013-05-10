@@ -21,10 +21,11 @@ package net.sourceforge.czt.print.z;
 
 import java.io.IOException;
 import java.io.Writer;
-import java_cup.runtime.Scanner;
-import java_cup.runtime.Symbol;
 
+import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.CztScanner;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Spec;
@@ -35,9 +36,9 @@ public abstract class AbstractLatexPrinterCommand
 {
   private boolean latexWrapping_ = PROP_LATEXPRINTER_WRAPPING_DEFAULT;
 
-  protected Scanner prepare(ZmlScanner scanner, Term term)
+  protected CztScanner prepare(ZmlScanner scanner, Term term)
   {
-    Scanner result = scanner;
+    CztScanner result = scanner;
     if (term instanceof Spec || term instanceof ZSect) {
       // do nothing
     }
@@ -88,7 +89,7 @@ public abstract class AbstractLatexPrinterCommand
     return latexWrapping_;
   }
   
-  protected void latexPreamble(Writer out, SectionManager sectInfo) throws IOException
+  protected void latexPreamble(Writer out, SectionInfo sectInfo) throws IOException
   {
     if (getLatexWrapping())
     {
@@ -96,7 +97,7 @@ public abstract class AbstractLatexPrinterCommand
     }
   }
 
-  protected void latexPostscript(Writer out, SectionManager sectInfo) throws IOException
+  protected void latexPostscript(Writer out, SectionInfo sectInfo) throws IOException
   {
     if (getLatexWrapping())
     {

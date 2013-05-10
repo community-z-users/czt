@@ -28,6 +28,7 @@ import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -43,7 +44,7 @@ public class ThetaOracle
     decorated_ = decorated;
   }
 
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     Factory factory = new Factory(new ProverFactory());
@@ -57,7 +58,7 @@ public class ThetaOracle
     else {
       result = (Expr) args.get(1);
     }
-    List errors =
+    List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
     if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);

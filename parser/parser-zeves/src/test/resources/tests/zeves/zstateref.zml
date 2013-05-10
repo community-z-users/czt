@@ -8,7 +8,7 @@
         <Anns>
             <LocAnn Length="15" Start="49" Col="31" Line="2" Loc="./tests/zeves/zstateref.tex"/>
         </Anns>
-        <Word>zstate_toolkit</Word>
+        <Word>zeves_toolkit</Word>
     </Parent>
     <ZParaList>
         <LatexMarkupPara/>
@@ -227,7 +227,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="71" Start="200" Col="0" Line="18" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="STATE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -351,7 +350,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="72" Start="273" Col="0" Line="25" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="STINIT"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -459,7 +457,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="93" Start="347" Col="0" Line="32" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="ASTATE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -588,7 +585,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="85" Start="442" Col="0" Line="39" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="ASTINIT"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -703,7 +699,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="73" Start="529" Col="0" Line="46" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="ASTFIN"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -772,7 +767,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="97" Start="604" Col="0" Line="53" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="CSTATE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -921,7 +915,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="94" Start="703" Col="0" Line="60" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="CSTINIT"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -1061,7 +1054,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="73" Start="799" Col="0" Line="67" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="CSTFIN"/>
             </Anns>
             <ZNameList/>
             <ZSchText>
@@ -1130,7 +1122,6 @@
                     </ZName>
                 </ns6:ZEvesLabel>
                 <LocAnn Length="93" Start="874" Col="0" Line="74" Loc="./tests/zeves/zstateref.tex"/>
-                <ZStateAnn Info="RETRIEVE"/>
             </Anns>
             <ZNameList/>
             <ZSchText>

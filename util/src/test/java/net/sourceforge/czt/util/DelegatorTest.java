@@ -35,7 +35,7 @@ public class DelegatorTest extends TestCase
 
   protected void setUp()
   {
-    Class[] interfaces = {Foo.class, Bar.class };
+    Class<?>[] interfaces = {Foo.class, Bar.class };
     Object[] impls = {new FooImpl(), new BarImpl() };
 
     delegator_ = Delegator.newInstance(interfaces, impls);

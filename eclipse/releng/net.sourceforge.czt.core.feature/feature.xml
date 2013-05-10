@@ -156,7 +156,7 @@
          unpack="false"/>
 
    <plugin
-         id="net.sourceforge.czt.vcg"
+         id="net.sourceforge.czt.vcg-z"
          download-size="0"
          install-size="0"
          version="0.0.0"

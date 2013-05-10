@@ -22,12 +22,15 @@ package net.sourceforge.czt.parser.z;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
 import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
 
 /**
  * A Z parse error.
@@ -58,28 +61,31 @@ public class ZParseError
                             LocInfo locInfo,
                             String info)
   {
-    ZParseError error = new ZParseError(msg, params, locInfo);
+    ZParseError error = new ZParseError(sectInfo, msg, params, locInfo);
     error.setErrorType(errorType);
     error.setInfo(info);
-    report(sectInfo, source, error);
+    report(source, error);
   }
   
-  public static void report(SectionInfo sectInfo, Source source, CztError error)
+  public static void report(Source source, CztError error)
   {
-    try {
-      ParseException parseException = sectInfo.get(
-          new Key<ParseException>(source.getName(), ParseException.class));
-      List<CztError> errorList = parseException.getErrors();
-      errorList.add(error);
-    }
-    catch (CommandException e) {
-      e.printStackTrace();
-    }
+	if (error.hasSectionInfo())
+	{
+	    try {
+	      ParseException parseException = error.getSectionInfo().get(
+	          new Key<ParseException>(source.getName(), ParseException.class));
+	      List<CztError> errorList = parseException.getErrors();
+	      errorList.add(error);
+	    }
+	    catch (CommandException e) {
+	      e.printStackTrace();
+	    }
+	}
   }
 
-  public ZParseError(ZParseMessage msg, Object[] params, LocInfo locInfo)
+  public ZParseError(SectionInfo si, ZParseMessage msg, Object[] params, LocInfo locInfo)
   {
-    super(msg.toString(), params, locInfo);
+    super(si, msg.toString(), params, locInfo);
   }
 
   @Override

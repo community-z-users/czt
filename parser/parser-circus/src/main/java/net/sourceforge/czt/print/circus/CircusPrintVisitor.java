@@ -21,20 +21,24 @@ package net.sourceforge.czt.print.circus;
 
 import java.util.Iterator;
 import java.util.Properties;
-import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.parser.circus.CircusKeyword;
-import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.z.util.WarningManager;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.visitor.*;
+import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.circus.visitor.CircusVisitor;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.circus.CircusToken;
+import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -53,13 +57,13 @@ public class CircusPrintVisitor
      * The section information should be able to provide information of
      * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
      */
-    public CircusPrintVisitor(ZPrinter printer, WarningManager wm) {
-        super(printer);
+    public CircusPrintVisitor(SectionInfo si, ZPrinter printer, WarningManager wm) {
+        super(si, printer);
         warningManager_ = wm;
     }
     
-    public CircusPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm) {
-        super(printer, properties);
+    public CircusPrintVisitor(SectionInfo si, ZPrinter printer, Properties properties, WarningManager wm) {
+        super(si, printer, properties);
         warningManager_ = wm;
     }
     
@@ -86,7 +90,7 @@ public class CircusPrintVisitor
     protected void printFormalParameters(ZDeclList term) {
         assert term != null;
         if (term.isEmpty())
-            throw new PrintException("Empty formal parameters list.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "Empty formal parameters list."));
         visit(term);
     }
     
@@ -96,8 +100,8 @@ public class CircusPrintVisitor
             print(indexes ? CircusKeyword.CIRCINDEX : CircusKeyword.CIRCSPOT);
             visit(term.getCircusProcess());
         } else {
-            throw new PrintException("On-the-fly parameterised process (" +
-                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly parameterised process (" +
+                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor."));
         }
     }
     
@@ -107,8 +111,8 @@ public class CircusPrintVisitor
             print(CircusKeyword.CIRCSPOT);
             visit(term.getCircusAction());
         } else {
-            throw new PrintException("On-the-fly parameterised action (" +
-                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly parameterised action (" +
+                term.getClass().getSimpleName() + ") must be processed by the AstToPrintTreeVisitor."));
         }
     }
     
@@ -121,28 +125,30 @@ public class CircusPrintVisitor
       warn(CircusPrintMessage.MSG_UNEXPECTED_TERM, term);
     }
     
-    private void warnMissingFor(String msg, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
-    }
-    
-    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
-    }
-    
-    private void warnLocalOnTheFly(Term para, BasicProcess term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
-    }
-    
-    private void warnDuplicatedState(Term term) {
-        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
-    }
-    
-    private boolean processedState_ = false;
+    // what's happenning with these warnings? See commented code below. TODO: fix circus print visitor!
+//    private void warnMissingFor(String msg, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+//    }
+//    
+//    private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);
+//    }
+//    
+//    private void warnLocalOnTheFly(Term para, BasicProcess term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);
+//    }
+//    
+//    private void warnDuplicatedState(Term term) {
+//        warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);
+//    }
+//    
+//    private boolean processedState_ = false;
     
     /***********************************************************
      * Channel related
      ***********************************************************/
-    public Object visitChannelPara(ChannelPara term) {
+    @Override
+	public Object visitChannelPara(ChannelPara term) {
         //TODO: Change this to CIRCUS for \begin{circus} at some point.
         print(ZToken.ZED);
         visit(term.getDeclList());
@@ -150,7 +156,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitChannelDecl(ChannelDecl term) {
+    @Override
+	public Object visitChannelDecl(ChannelDecl term) {
 //        if (CircusUtils.isChannelFromDecl(term)) {
 //            print(CircusKeyword.CIRCCHANFROM);
 //            printGenericFormals(term.getNameList().get(0));
@@ -172,7 +179,8 @@ public class CircusPrintVisitor
     /***********************************************************
      * Channel set related
      ***********************************************************/
-    public Object visitChannelSetPara(ChannelSetPara term) {
+    @Override
+	public Object visitChannelSetPara(ChannelSetPara term) {
         print(ZToken.ZED);
         print(CircusKeyword.CIRCCHANSET);
         printGenericFormals(term.getGenFormals());
@@ -183,12 +191,14 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitCircusChannelSet(CircusChannelSet term) {
+    @Override
+	public Object visitCircusChannelSet(CircusChannelSet term) {
         visit(term.getExpr());
         return null;
     }
     
-    public Object visitBasicChannelSetExpr(BasicChannelSetExpr term) {
+    @Override
+	public Object visitBasicChannelSetExpr(BasicChannelSetExpr term) {
         print(CircusToken.LCIRCCHANSET);
         printTermList(term.getCircusCommunicationList());
         print(CircusToken.RCIRCCHANSET);
@@ -203,8 +213,9 @@ public class CircusPrintVisitor
      * The AstToPrintTreeVisitor must have changed OnTheFly paragraphs
      * from ProcessPara to a special form of action call.
      */
-    public Object visitProcessPara(ProcessPara term) {
-        throw new PrintException("Unexpected term ProcessPara");
+    @Override
+	public Object visitProcessPara(ProcessPara term) {
+        throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term ProcessPara"));
       /*
     // TODO: Check here when we have unboxed versions.
     print(ZToken.ZED);
@@ -227,10 +238,11 @@ public class CircusPrintVisitor
     return null;*/
     }
     
-    public Term visitBasicProcess(BasicProcess term) {
+    @Override
+	public Term visitBasicProcess(BasicProcess term) {
       warnUnexpectedTerm(term);
       return null;
-        //throw new PrintException("Unexpected term BasicProcess");
+        //throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term BasicProcess"));
     /*
     processedState_ = false;
     boolean hasState = (term.getStatePara() != null);
@@ -304,20 +316,22 @@ public class CircusPrintVisitor
     return null;*/
     }
     
-    public Object visitCallProcess(CallProcess term) {
+    @Override
+	public Object visitCallProcess(CallProcess term) {
         printLPAREN(term);
         if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getCallExpr());
             printActualParams(term.getZActuals(),
-                CallUsage.Indexed.equals(term.getUsage()));
+                CallUsage.Indexed.equals(term.getCallUsage()));
         } else {
-            throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly process calls must be processed by the AstToPrintTreeVisitor."));
         }
         printRPAREN(term);
         return null;
     }
     
-    public Object visitHideProcess(HideProcess term) {
+    @Override
+	public Object visitHideProcess(HideProcess term) {
         printLPAREN(term);
         visit(term.getCircusProcess());
         print(CircusKeyword.CIRCHIDING);
@@ -326,7 +340,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitRenameProcess(RenameProcess term) {
+    @Override
+	public Object visitRenameProcess(RenameProcess term) {
         visit(term.getCircusProcess());
         print(CircusToken.LCIRCRENAME);
         visit(term.getAssignmentPairs());
@@ -334,7 +349,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitSeqProcess(SeqProcess term) {
+    @Override
+	public Object visitSeqProcess(SeqProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusKeyword.CIRCSEQ);
@@ -343,7 +359,6 @@ public class CircusPrintVisitor
         return null;
     }
     
-
     public Object visitInterruptProcess(InterruptProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
@@ -353,7 +368,8 @@ public class CircusPrintVisitor
         return null;
     }
 
-    public Object visitExtChoiceProcess(ExtChoiceProcess term) {
+    @Override
+	public Object visitExtChoiceProcess(ExtChoiceProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusKeyword.EXTCHOICE);
@@ -362,7 +378,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitIntChoiceProcess(IntChoiceProcess term) {
+    @Override
+	public Object visitIntChoiceProcess(IntChoiceProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusKeyword.INTCHOICE);
@@ -371,7 +388,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitParallelProcess(ParallelProcess term) {
+    @Override
+	public Object visitParallelProcess(ParallelProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusToken.LPAR);
@@ -382,7 +400,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term) {
+    @Override
+	public Object visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusToken.LPAR);
@@ -395,7 +414,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitInterleaveProcess(InterleaveProcess term) {
+    @Override
+	public Object visitInterleaveProcess(InterleaveProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusKeyword.INTERLEAVE);
@@ -404,12 +424,14 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitParamProcess(ParamProcess term) {
+    @Override
+	public Object visitParamProcess(ParamProcess term) {
         printProcessD(term, false);
         return null;
     }
     
-    public Object visitSeqProcessIte(SeqProcessIte term) {
+    @Override
+	public Object visitSeqProcessIte(SeqProcessIte term) {
     /* For replicated sequential composition, we have no choice but to use ZCOMP
      * as there are no unicode left :(. We also allow printing the keyword before
      * checking for on-the-fly as it does not matter where the printer breaks.
@@ -419,19 +441,22 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term) {
+    @Override
+	public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term) {
         print(CircusKeyword.REPEXTCHOICE);
         printProcessD(term, false);
         return null;
     }
     
-    public Object visitIntChoiceProcessIte(IntChoiceProcessIte term) {
+    @Override
+	public Object visitIntChoiceProcessIte(IntChoiceProcessIte term) {
         print(CircusKeyword.REPINTCHOICE);
         printProcessD(term, false);
         return null;
     }
     
-    public Object visitParallelProcessIte(ParallelProcessIte term) {
+    @Override
+	public Object visitParallelProcessIte(ParallelProcessIte term) {
         /* Just like printProcessD, but with the channel set*/
         if (!CircusUtils.isOnTheFly(term)) {
             print(CircusKeyword.REPPARALLEL);
@@ -442,45 +467,52 @@ public class CircusPrintVisitor
             print(CircusKeyword.CIRCSPOT);
             visit(term.getCircusProcess());
         } else {
-            throw new PrintException("On-the-fly replicated parallel process must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly replicated parallel process must be processed by the AstToPrintTreeVisitor."));
         }
         return null;
     }
     
-    public Object visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term) {
-        throw new PrintException("This AlphabetisedParallelProcessIte terms are to be removed from the AST.");
+    @Override
+	public Object visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term) {
+        throw new CztException(new PrintException(getSectionInfo().getDialect(), "This AlphabetisedParallelProcessIte terms are to be removed from the AST."));
     }
     
-    public Object visitInterleaveProcessIte(InterleaveProcessIte term) {
+    @Override
+	public Object visitInterleaveProcessIte(InterleaveProcessIte term) {
         print(CircusKeyword.REPINTERLEAVE);
         printProcessD(term, false);
         return null;
     }
     
-    public Object visitIndexedProcess(IndexedProcess term) {
+    @Override
+	public Object visitIndexedProcess(IndexedProcess term) {
         printProcessD(term, false);
         return null;
     }
     
-    public Object visitSeqProcessIdx(SeqProcessIdx term) {
+    @Override
+	public Object visitSeqProcessIdx(SeqProcessIdx term) {
         print(ZKeyword.ZCOMP);
         printProcessD(term, true);
         return null;
     }
     
-    public Object visitExtChoiceProcessIdx(ExtChoiceProcessIdx term) {
+    @Override
+	public Object visitExtChoiceProcessIdx(ExtChoiceProcessIdx term) {
         print(CircusKeyword.REPEXTCHOICE);
         printProcessD(term, true);
         return null;
     }
     
-    public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term) {
+    @Override
+	public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term) {
         print(CircusKeyword.REPINTCHOICE);
         printProcessD(term, true);
         return null;
     }
     
-    public Object visitParallelProcessIdx(ParallelProcessIdx term) {
+    @Override
+	public Object visitParallelProcessIdx(ParallelProcessIdx term) {
         /* Just like printProcessD, but with the channel set*/
         if (!CircusUtils.isOnTheFly(term)) {
             print(CircusKeyword.REPPARALLEL);
@@ -491,16 +523,18 @@ public class CircusPrintVisitor
             print(CircusKeyword.CIRCINDEX);
             visit(term.getCircusProcess());
         } else {
-            throw new PrintException("On-the-fly indexed parallel process must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly indexed parallel process must be processed by the AstToPrintTreeVisitor."));
         }
         return null;
     }
     
-    public Object visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term) {
-        throw new PrintException("This AlphabetisedParallelProcessIdx terms are to be removed from the AST.");
+    @Override
+	public Object visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term) {
+        throw new CztException(new PrintException(getSectionInfo().getDialect(), "This AlphabetisedParallelProcessIdx terms are to be removed from the AST."));
     }
     
-    public Object visitInterleaveProcessIdx(InterleaveProcessIdx term) {
+    @Override
+	public Object visitInterleaveProcessIdx(InterleaveProcessIdx term) {
         print(CircusKeyword.REPINTERLEAVE);
         printProcessD(term, true);
         return null;
@@ -510,10 +544,11 @@ public class CircusPrintVisitor
      * Action related
      ***********************************************************/
     
-    public Object visitActionPara(ActionPara term) {
+    @Override
+	public Object visitActionPara(ActionPara term) {
       warnUnexpectedTerm(term);
       return null;
-        //throw new PrintException("Unexpected term ActionPara");
+        //throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term ActionPara"));
    /* print(CircusToken.CIRCUSACTION);
     if (CircusUtils.isStatePara(term)) {
         if (processedState_) {
@@ -533,7 +568,8 @@ public class CircusPrintVisitor
     return null;*/
     }
     
-    public Object visitSchExprAction(SchExprAction term) {
+    @Override
+	public Object visitSchExprAction(SchExprAction term) {
         if (!CircusUtils.isOnTheFly(term)) {
             print(CircusToken.LSCHEXPRACT);
             visit(term.getExpr());
@@ -545,25 +581,29 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitChaosAction(ChaosAction term) {
+    @Override
+	public Object visitChaosAction(ChaosAction term) {
         // Ignore parenthesied annotations here
         print(CircusKeyword.CIRCCHAOS);
         return null;
     }
     
-    public Object visitSkipAction(SkipAction term) {
+    @Override
+	public Object visitSkipAction(SkipAction term) {
         // Ignore parenthesied annotations here
         print(CircusKeyword.CIRCSKIP);
         return null;
     }
     
-    public Object visitStopAction(StopAction term) {
+    @Override
+	public Object visitStopAction(StopAction term) {
         // Ignore parenthesied annotations here
         print(CircusKeyword.CIRCSTOP);
         return null;
     }
     
-    public Object visitMuAction(MuAction term) {
+    @Override
+	public Object visitMuAction(MuAction term) {
         printLPAREN(term);
         print(CircusKeyword.CIRCMU);
         visit(term.getName());
@@ -573,19 +613,21 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitCallAction(CallAction term) {
+    @Override
+	public Object visitCallAction(CallAction term) {
         printLPAREN(term);
 //        if (!CircusUtils.isOnTheFly(term)) {
             visit(term.getName());
             printActualParams(term.getZExprList(), false);//not indexes
 //        } else {
-//            throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
+//            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly action calls must be processed by the AstToPrintTreeVisitor."));
 //        }
         printRPAREN(term);
         return null;
     }
     
-    public Object visitHideAction(HideAction term) {
+    @Override
+	public Object visitHideAction(HideAction term) {
         printLPAREN(term);
         visit(term.getCircusAction());
         print(CircusKeyword.CIRCHIDING);
@@ -594,7 +636,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitRenameAction(RenameAction term) {
+    @Override
+	public Object visitRenameAction(RenameAction term) {
         visit(term.getCircusAction());
         print(CircusToken.LCIRCRENAME);
         visit(term.getAssignmentPairs());
@@ -602,7 +645,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitSubstitutionAction(SubstitutionAction term) {
+    @Override
+	public Object visitSubstitutionAction(SubstitutionAction term) {
         visit(term.getCircusAction());
         print(ZToken.LSQUARE);
         visit(term.getRenameList());
@@ -610,7 +654,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitGuardedAction(GuardedAction term) {
+    @Override
+	public Object visitGuardedAction(GuardedAction term) {
         printLPAREN(term);
         print(CircusToken.LCIRCGUARD);
         visit(term.getPred());
@@ -623,7 +668,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitPrefixingAction(PrefixingAction term) {
+    @Override
+	public Object visitPrefixingAction(PrefixingAction term) {
         printLPAREN(term);
         visit(term.getCommunication());
         print(CircusKeyword.PREFIXTHEN);
@@ -632,7 +678,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitCommunication(Communication term) {
+    @Override
+	public Object visitCommunication(Communication term) {
         //boolean needHardSpace = term.getChannelExpr().getZExprList().isEmpty();
         visit(term.getChannelExpr());      
         visit(term.getFieldList());
@@ -643,13 +690,15 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitDotField(DotField term) {        
+    @Override
+	public Object visitDotField(DotField term) {        
         print(term.getAnn(OutputFieldAnn.class) != null ? ZToken.OUTSTROKE : ZKeyword.DOT);
         visit(term.getExpr());
         return null;
     }
     
-    public Object visitInputField(InputField term) {
+    @Override
+	public Object visitInputField(InputField term) {
         print(ZToken.INSTROKE);
         visit(term.getVariableName());
         if (term.getRestriction() != null && !(term.getRestriction() instanceof TruePred)) {
@@ -659,7 +708,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitSeqAction(SeqAction term) {
+    @Override
+	public Object visitSeqAction(SeqAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusKeyword.CIRCSEQ);
@@ -668,7 +718,8 @@ public class CircusPrintVisitor
         return null;
     }
 
-    public Object visitInterruptAction(InterruptAction term) {
+    @Override
+	public Object visitInterruptAction(InterruptAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusKeyword.CIRCINTERRUPT);
@@ -677,7 +728,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitExtChoiceAction(ExtChoiceAction term) {
+    @Override
+	public Object visitExtChoiceAction(ExtChoiceAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusKeyword.EXTCHOICE);
@@ -686,7 +738,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitIntChoiceAction(IntChoiceAction term) {
+    @Override
+	public Object visitIntChoiceAction(IntChoiceAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusKeyword.INTCHOICE);
@@ -695,7 +748,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitParallelAction(ParallelAction term) {
+    @Override
+	public Object visitParallelAction(ParallelAction term) {
         // TODO: Add the simplified version when the namesets are empty.
         printLPAREN(term);
         visit(term.getLeftAction());
@@ -711,7 +765,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitAlphabetisedParallelAction(AlphabetisedParallelAction term) {
+    @Override
+	public Object visitAlphabetisedParallelAction(AlphabetisedParallelAction term) {
         // TODO: Add the simplified version when the namesets are empty.
         printLPAREN(term);
         visit(term.getLeftAction());
@@ -725,7 +780,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitInterleaveAction(InterleaveAction term) {
+    @Override
+	public Object visitInterleaveAction(InterleaveAction term) {
         // TODO: Add the simplified version when the namesets are empty.
         printLPAREN(term);
         visit(term.getLeftAction());
@@ -739,30 +795,35 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitParamAction(ParamAction term) {
+    @Override
+	public Object visitParamAction(ParamAction term) {
         printActionD(term);
         return null;
     }
     
-    public Object visitSeqActionIte(SeqActionIte term) {
+    @Override
+	public Object visitSeqActionIte(SeqActionIte term) {
         print(ZKeyword.ZCOMP);
         printActionD(term);
         return null;
     }
     
-    public Object visitExtChoiceActionIte(ExtChoiceActionIte term) {
+    @Override
+	public Object visitExtChoiceActionIte(ExtChoiceActionIte term) {
         print(CircusKeyword.REPEXTCHOICE);
         printActionD(term);
         return null;
     }
     
-    public Object visitIntChoiceActionIte(IntChoiceActionIte term) {
+    @Override
+	public Object visitIntChoiceActionIte(IntChoiceActionIte term) {
         print(CircusKeyword.REPINTCHOICE);
         printActionD(term);
         return null;
     }
     
-    public Object visitParallelActionIte(ParallelActionIte term) {
+    @Override
+	public Object visitParallelActionIte(ParallelActionIte term) {
         /* Just like printActionD, but with the channel set*/
         if (!CircusUtils.isOnTheFly(term)) {
             // TODO: Add the simplified version when the namesets are empty.
@@ -776,16 +837,18 @@ public class CircusPrintVisitor
             print(CircusToken.RPAR);
             visit(term.getCircusAction());
         } else {
-            throw new PrintException("On-the-fly replicated parallel action must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly replicated parallel action must be processed by the AstToPrintTreeVisitor."));
         }
         return null;
     }
     
-    public Object visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term) {
-        throw new PrintException("This AlphabetisedParallelActionIte terms are to be removed from the AST.");
+    @Override
+	public Object visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term) {
+        throw new CztException(new PrintException(getSectionInfo().getDialect(), "This AlphabetisedParallelActionIte terms are to be removed from the AST."));
     }
     
-    public Object visitInterleaveActionIte(InterleaveActionIte term) {
+    @Override
+	public Object visitInterleaveActionIte(InterleaveActionIte term) {
         if (!CircusUtils.isOnTheFly(term)) {
             // TODO: Add the simplified version when the namesets are empty.
             print(CircusKeyword.REPINTERLEAVE);
@@ -796,7 +859,7 @@ public class CircusPrintVisitor
             print(CircusKeyword.CIRCSPOT);
             visit(term.getCircusAction());
         } else {
-            throw new PrintException("On-the-fly replicated interleave action must be processed by the AstToPrintTreeVisitor.");
+            throw new CztException(new PrintException(getSectionInfo().getDialect(), "On-the-fly replicated interleave action must be processed by the AstToPrintTreeVisitor."));
         }
         return null;
     }
@@ -805,7 +868,8 @@ public class CircusPrintVisitor
      * Command related
      ***********************************************************/
     
-    public Object visitVarDeclCommand(VarDeclCommand term) {
+    @Override
+	public Object visitVarDeclCommand(VarDeclCommand term) {
         printLPAREN(term);
         print(CircusKeyword.CIRCVAR);
         visit(term.getDeclList());
@@ -815,14 +879,16 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitAssignmentCommand(AssignmentCommand term) {
+    @Override
+	public Object visitAssignmentCommand(AssignmentCommand term) {
         printLPAREN(term);
         visit(term.getAssignmentPairs());
         printRPAREN(term);
         return null;
     }
     
-    public Object visitIfGuardedCommand(IfGuardedCommand term) {
+    @Override
+	public Object visitIfGuardedCommand(IfGuardedCommand term) {
         printLPAREN(term);
         print(ZKeyword.IF);
         Iterator<? extends CircusAction> it = term.getGuardedActionList().iterator();
@@ -845,7 +911,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitDoGuardedCommand(DoGuardedCommand term) {
+    @Override
+	public Object visitDoGuardedCommand(DoGuardedCommand term) {
         printLPAREN(term);
         print(CircusKeyword.CIRCDO);
         Iterator<? extends CircusAction> it = term.getGuardedActionList().iterator();
@@ -868,7 +935,8 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitSpecStmtCommand(SpecStmtCommand term) {
+    @Override
+	public Object visitSpecStmtCommand(SpecStmtCommand term) {
         printLPAREN(term);
         if (term.getZFrame().isEmpty()) {
             // Assumption
@@ -911,60 +979,71 @@ public class CircusPrintVisitor
      * Unexpected terms
      ***********************************************************/
     
-    public Object visitChannelSetType(ChannelSetType term) {
+    @Override
+	public Object visitChannelSetType(ChannelSetType term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ChannelSetType.");
         return null;
     }
     
-    public Object visitProcessType(ProcessType term) {
+    @Override
+	public Object visitProcessType(ProcessType term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessType.");
         return null;
     }
     
-    public Object visitActionType(ActionType term) {
+    @Override
+	public Object visitActionType(ActionType term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionType.");
         return null;
     }
     
-    public Object visitNameSetType(NameSetType term) {
+    @Override
+	public Object visitNameSetType(NameSetType term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term NameSetType.");
         return null;
     }
     
-    public Object visitChannelType(ChannelType term) {
+    @Override
+	public Object visitChannelType(ChannelType term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ChannelType.");
         return null;
     }
     
-    public Object visitProcessSignature(ProcessSignature term) {
+    @Override
+	public Object visitProcessSignature(ProcessSignature term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignature.");
         return null;
     }
     
-    public Object visitActionSignature(ActionSignature term) {
+    @Override
+	public Object visitActionSignature(ActionSignature term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignature.");
         return null;
     }
     
-    public Object visitCircusStateAnn(CircusStateAnn term) {
+    @Override
+	public Object visitCircusStateAnn(CircusStateAnn term) {
         warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusStateAnn.");
         return null;
     }
     
-    public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
+    @Override
+	public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
         /* TODO: Annotations need special treatment, see ZPrintVisitor */
         //throw new UnsupportedOperationException("Unexpected term OnTheFlyDefAnn.");
       warnUnexpectedTerm(term);
       return null;
     }
     
-    public Object visitLetMuAction(LetMuAction term) {
+    @Override
+	public Object visitLetMuAction(LetMuAction term) {
         //throw new UnsupportedOperationException("Unexpected term LetMuAction.");
       warnUnexpectedTerm(term);
       return null;
     }
     
-    public Object visitLetVarAction(LetVarAction term) {
+    @Override
+	public Object visitLetVarAction(LetVarAction term) {
         //throw new UnsupportedOperationException("Unexpected term LetVarAction.");
       warnUnexpectedTerm(term);
       return null;
@@ -974,7 +1053,8 @@ public class CircusPrintVisitor
      * Others
      ***********************************************************/
     
-    public Object visitTransformerPara(TransformerPara term) {
+    @Override
+	public Object visitTransformerPara(TransformerPara term) {
         visit(term.getName());
         print(CircusKeyword.CIRCASSERTREF);        
         visit(term.getTransformerPred());        
@@ -998,55 +1078,65 @@ public class CircusPrintVisitor
         }
     }
     
-    public Object visitProcessTransformerPred(ProcessTransformerPred term) {                
+    @Override
+	public Object visitProcessTransformerPred(ProcessTransformerPred term) {                
         visit(term.getSpec());
         visitTransformation(term.getTransformation(), term.getModel());        
         visit(term.getImpl());
         return null;
     }    
     
-    public Object visitActionTransformerPred(ActionTransformerPred term) {                
+    @Override
+	public Object visitActionTransformerPred(ActionTransformerPred term) {                
         visit(term.getSpec());
         visitTransformation(term.getTransformation(), term.getModel());        
         visit(term.getImpl());
         return null;
     }
     
-    public Object visitQualifiedDecl(QualifiedDecl term) {
-        if (ParamQualifier.Result.equals(term.getParamQualifier())) {
+    @Override
+	public Object visitQualifiedDecl(QualifiedDecl term) {
+        if (ParamQualifier.Result.equals(term.getParamQualifier())) 
+        {
             print(CircusKeyword.CIRCRES);
-        } else if (ParamQualifier.ValueResult.equals(term.getParamQualifier())) {
+        } else if (ParamQualifier.ValueResult.equals(term.getParamQualifier())) 
+        {
             print(CircusKeyword.CIRCVRES);
-        } /* else must be by value, so just don't put it */
-        if (ZUtils.assertZNameList(term.getNameList()).isEmpty())
-            throw new PrintException("Empty list of qualified variables/parameters");
+            if (ZUtils.assertZNameList(term.getNameList()).isEmpty())
+            /* else must be by value, so just don't put it */
+               throw new CztException(new PrintException(getSectionInfo().getDialect(), "Empty list of qualified variables/parameters"));
+        }
         visit(term.getNameList());
         print(ZKeyword.COLON);
         visit(term.getExpr());
         return null;
     }
     
-    public Object visitAssignmentPairs(AssignmentPairs term) {
+    @Override
+	public Object visitAssignmentPairs(AssignmentPairs term) {
         printTermList(term.getZLHS());
         print(CircusKeyword.CIRCASSIGN);
         printTermList(term.getZRHS());
         return null;
     }
     
-    public Object visitCircusFieldList(CircusFieldList term) {
+    @Override
+	public Object visitCircusFieldList(CircusFieldList term) {
         for(Field f : term) {
             visit(f);
         }
         return null;
     }
     
-    public Object visitSigmaExpr(SigmaExpr term) {
+    @Override
+	public Object visitSigmaExpr(SigmaExpr term) {
         //throw new UnsupportedOperationException("not yet!");
       warnUnexpectedTerm(term);
       return null;
     }
     
-    public Object visitNameSetPara(NameSetPara term) {
+    @Override
+	public Object visitNameSetPara(NameSetPara term) {
         /* Hum... need to know if it is boxed or not... */
         visit(term.getName());
         print(ZKeyword.DEFEQUAL);
@@ -1054,72 +1144,84 @@ public class CircusPrintVisitor
         return null;
     }
     
-    public Object visitCircusNameSet(CircusNameSet term) {
+    @Override
+	public Object visitCircusNameSet(CircusNameSet term) {
         visit(term.getExpr());
         return null;
     }
 
-  public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
+  @Override
+public Object visitImplicitChannelAnn(ImplicitChannelAnn term)
   {
     //throw new UnsupportedOperationException("Unexpected term ImplicitChannelAnn.");
     warnUnexpectedTerm(term);
     return null;
   }
 
-  public Object visitZSignatureList(ZSignatureList term)
+  @Override
+public Object visitZSignatureList(ZSignatureList term)
   {
     //throw new UnsupportedOperationException("Unexpected term ZSignatureList.");
     warnUnexpectedTerm(term);
     return null;
   }
 
-  public Object visitCircusActionList(CircusActionList term)
+  @Override
+public Object visitCircusActionList(CircusActionList term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusActionList.");
     return null;
   }
 
-  public Object visitActionSignatureList(ActionSignatureList term)
+  @Override
+public Object visitActionSignatureList(ActionSignatureList term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignatureList.");
     return null;
   }
 
-  public Object visitProcessSignatureList(ProcessSignatureList term)
+  @Override
+public Object visitProcessSignatureList(ProcessSignatureList term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignatureList.");
     return null;
   }
 
-  public Object visitCircusCommunicationList(CircusCommunicationList term)
+  @Override
+public Object visitCircusCommunicationList(CircusCommunicationList term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CircusCommunicationList.");
     return null;
   }
-  public Object visitStateUpdate(StateUpdate term)
+  @Override
+public Object visitStateUpdate(StateUpdate term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term StateUpdate.");
     return null;
   }
-  public Object visitStateUpdateAnn(StateUpdateAnn term)
+  @Override
+public Object visitStateUpdateAnn(StateUpdateAnn term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term StateUpdateAnn.");
     return null;
   }
 
-  public Object visitProcessSignatureAnn(ProcessSignatureAnn term)
+  @Override
+public Object visitProcessSignatureAnn(ProcessSignatureAnn term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ProcessSignatureAnn.");
     return null;
   }
 
-  public Object visitActionSignatureAnn(ActionSignatureAnn term)
+  @Override
+public Object visitActionSignatureAnn(ActionSignatureAnn term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term ActionSignatureAnn.");
     return null;
   }
   
-  public Object visitCommunicationType(CommunicationType term)
+  @Override
+public Object visitCommunicationType(CommunicationType term)
   {
     warnUnexpectedTerm(term);//throw new UnsupportedOperationException("Unexpected term CommunicationType.");
     return null;

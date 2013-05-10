@@ -31,7 +31,12 @@ import javax.swing.table.TableCellRenderer;
  */
 public class FontRenderer extends JLabel implements TableCellRenderer
 {
-  public FontRenderer()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6644750798783433396L;
+
+public FontRenderer()
   {
     setOpaque(true);
   };

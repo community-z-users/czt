@@ -110,8 +110,9 @@ public class PrecedenceParenAnnVisitor
       for (int i = 0; i < children.length; i++) {
         Object child = children[i];
         if (child instanceof List) {
-          List list = (List) child;
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
+          @SuppressWarnings("unchecked")
+		List<Object> list = (List<Object>) child;
+          for (Iterator<Object> iter = list.iterator(); iter.hasNext();) {
             Object elem = iter.next();
             addParenAnnIfNecessary(elem, prec);
           }

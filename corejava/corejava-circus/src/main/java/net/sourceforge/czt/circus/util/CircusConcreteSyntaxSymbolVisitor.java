@@ -29,16 +29,12 @@ public class CircusConcreteSyntaxSymbolVisitor
   implements CircusVisitor<CircusConcreteSyntaxSymbol>
 {
 
-  private Utils utils_;
-
   public CircusConcreteSyntaxSymbolVisitor()
   {
-    utils_ = new UtilsImpl();
   }
 
   public CircusConcreteSyntaxSymbolVisitor(Utils utils)
   {
-    utils_ = utils;
   }
 
   public CircusConcreteSyntaxSymbol visitProcessSignature(ProcessSignature term)

@@ -22,7 +22,6 @@ package net.sourceforge.czt.zpatt.util;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.util.Visitor;
 
 /**

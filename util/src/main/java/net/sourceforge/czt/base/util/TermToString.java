@@ -26,7 +26,7 @@ import net.sourceforge.czt.base.visitor.*;
  * Converter from Term to String.  Usually used for debugging purposes.
  */
 public class TermToString
-  implements TermVisitor
+  implements TermVisitor<Object>
 {
   protected StringBuffer buffer_ = new StringBuffer();
 

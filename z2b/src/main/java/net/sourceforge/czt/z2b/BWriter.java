@@ -19,18 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z2b;
 
 import java.io.*;
-import java.lang.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
-import net.sourceforge.czt.z.visitor.*;
-
-import net.sourceforge.czt.z2b.*;
-
 /**
  * This class extends java.io.PrintWriter with some B-specific print methods.
  *
@@ -94,7 +87,7 @@ public class BWriter extends PrintWriter
   public BWriter(Writer dest, String source)
   {
     super(dest);
-    precStack = new Stack();
+    precStack = new Stack<Integer>();
     precStack.push(new Integer(LOOSEST));
     println("/* Translated automatically from " + source + " */");
     bTermWriter_ = new BTermWriter(this);
@@ -107,7 +100,7 @@ public class BWriter extends PrintWriter
 
   /** Print a list of predicates, separated by '&' and newlines. */
   //@ requires preds != null && preds.size() > 0;
-  public void printPreds(List preds) {bTermWriter_.printPreds(preds);}
+  public void printPreds(List<Pred> preds) {bTermWriter_.printPreds(preds);}
 
 
   /** Print a non-deterministic update:  ANY .. WHERE .. END. */
@@ -135,7 +128,7 @@ public class BWriter extends PrintWriter
   //===================== precedence stack ========================
 
   //@invar  precStack.size() > 0
-  protected Stack precStack;
+  protected Stack<Integer> precStack;
 
   /** Starts an output region of a given precedence.
    *  Automatically adds an opening '(' if prec is lower

@@ -1,13 +1,13 @@
-  public CircusProcess getSpec()
+  public net.sourceforge.czt.circus.ast.CircusProcess getSpec()
   {
-    CircusProcess result = null;
+	  net.sourceforge.czt.circus.ast.CircusProcess result = null;
     if (getCircusProcess().size() > 0) {
       result = getCircusProcess().get(0);
     }
     return result;
   }
 
-  public void setSpec(CircusProcess process)
+  public void setSpec(net.sourceforge.czt.circus.ast.CircusProcess process)
   {
     if (getCircusProcess().size() > 0) {
       getCircusProcess().set(0, process);
@@ -17,16 +17,16 @@
     }
   }
 
-  public CircusProcess getImpl()
+  public net.sourceforge.czt.circus.ast.CircusProcess getImpl()
   {
-    CircusProcess result = null;
+	  net.sourceforge.czt.circus.ast.CircusProcess result = null;
     if (getCircusProcess().size() > 1) {
       result = getCircusProcess().get(1);
     }
     return result;
   }
 
-  public void setImpl(CircusProcess process)
+  public void setImpl(net.sourceforge.czt.circus.ast.CircusProcess process)
   {
     if (getCircusProcess().size() == 0) {
       getCircusProcess().add(null);

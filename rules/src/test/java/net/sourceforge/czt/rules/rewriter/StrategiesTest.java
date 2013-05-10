@@ -27,6 +27,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.parser.z.ParseUtils;
 
 public class StrategiesTest
@@ -41,13 +42,13 @@ public class StrategiesTest
   protected void rewrite(String pred1, String pred2)
     throws Exception
   {
-    final String section = "standard_toolkit";
+    final String section = Section.STANDARD_TOOLKIT.getName();
     SectionManager manager = new SectionManager(Dialect.ZPATT);
-    RuleTable rules = (RuleTable)
-      manager.get(new Key("simplification_rules", RuleTable.class));
+    RuleTable rules = 
+      manager.get(new Key<RuleTable>(Section.SIMPLIFICATION_RULES.getName(), RuleTable.class));
     StringSource source = new StringSource(pred1);
     Term term = ParseUtils.parsePred(source, section, manager);
-    Rewriter rewriter = new RewriteVisitor(rules, manager, "standard_toolkit");
+    Rewriter rewriter = new RewriteVisitor(rules, manager, Section.STANDARD_TOOLKIT.getName());
     term = Strategies.innermost(term, rewriter);
     source = new StringSource(pred2);
     Term expected = ParseUtils.parsePred(source, section, manager);

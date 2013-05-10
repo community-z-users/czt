@@ -22,6 +22,7 @@ package net.sourceforge.czt.rules.oracles;
 import java.util.List;
 import java.util.Set;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.zpatt.ast.Binding;
@@ -33,6 +34,6 @@ public abstract class AbstractOracle
    * the set of bindings if it succeeds.
    */
   public abstract
-    Set<Binding> check(List args, SectionManager manager, String section)
+    Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException;
 }

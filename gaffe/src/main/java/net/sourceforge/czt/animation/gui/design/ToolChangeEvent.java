@@ -26,7 +26,12 @@ import java.util.EventObject;
  */
 class ToolChangeEvent extends EventObject
 {
-  private ToolWindow.Tool tool_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -756454034404206986L;
+
+private ToolWindow.Tool tool_;
 
   private ToolWindow.Tool oldTool_;
 

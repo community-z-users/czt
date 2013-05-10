@@ -23,16 +23,17 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseUtils;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.Command;
-import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
@@ -207,7 +208,8 @@ public class TypeCheckUtils
         useNameIds, warningOutput, sectName);
   }
   
-  private String stackTraceAsString(Throwable e)
+  @SuppressWarnings("unused")
+private String stackTraceAsString(Throwable e)
   {    
     StringWriter swriter = new StringWriter();
     PrintWriter pwriter = new PrintWriter(swriter);      
@@ -254,7 +256,8 @@ public class TypeCheckUtils
    *  @param  sectInfo The section manager or SectionManager to use during parsing.
    *  @return A non-typechecked term.
    */
-  protected Term parse(Source source, SectionManager sectInfo)
+  @Override
+protected Term parse(Source source, SectionManager sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException,
       net.sourceforge.czt.base.util.UnmarshalException
   {
@@ -267,29 +270,35 @@ public class TypeCheckUtils
    *  @param  sectInfo The section manager or SectionManager to use during parsing.
    *  @return a non-typechecked term.
    */
-  protected Term parse(String file, SectionManager sectInfo)
+  @Override
+protected Term parse(String file, SectionManager sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException,
            net.sourceforge.czt.base.util.UnmarshalException
   {
     return parse(new FileSource(file), sectInfo);
   }  
   
-  protected String name()
+  @Override
+protected String name()
   {
     return "circustypecheck";
   }
 
-  protected boolean printBenchmarkTimesDefault()
+  @Override
+protected boolean printBenchmarkTimesDefault()
   {
     return true;
   }
   
-  protected boolean printTypesDefault()
+  @Override
+protected boolean printTypesDefault()
   {
     return true;
   }
   
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  
+  @Override
+protected void printTerm(Term term, 
+		  StringWriter writer, SectionManager sectInfo, String sectName, Markup markup) throws PrintException  
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
     super.printTerm(term, writer, sectInfo, sectName, markup);
@@ -302,7 +311,7 @@ public class TypeCheckUtils
     //instance_.typeCheckCommandTest(args[0]);
   }
   
-  private void typeCheckCommandTest(String file)
+  protected void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUS:");
     
@@ -335,7 +344,8 @@ public class TypeCheckUtils
         if (s instanceof ZSect)
         {
           ZSect zs = (ZSect)s;          
-          SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
+          @SuppressWarnings("unused")
+		SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }
@@ -356,7 +366,8 @@ public class TypeCheckUtils
     return new TypeCheckCommand();
   }
 
-  protected List<String> toolkits()
+  @Override
+protected List<String> toolkits()
   {
     List<String> toolkits = super.toolkits();
     toolkits.add("circus_prelude");
@@ -364,7 +375,8 @@ public class TypeCheckUtils
     return toolkits;
   }
 
-  protected SectionManager getSectionManager()
+  @Override
+protected SectionManager getSectionManager()
   {
     SectionManager sectionManager = new SectionManager(Dialect.CIRCUS);
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());

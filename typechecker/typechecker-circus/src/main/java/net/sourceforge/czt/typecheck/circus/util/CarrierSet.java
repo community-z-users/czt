@@ -20,33 +20,19 @@
 package net.sourceforge.czt.typecheck.circus.util;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.ActionSignature;
-import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.NameSetType;
-import net.sourceforge.czt.circus.ast.ProcessSignature;
-import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
-import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
-import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
-import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
 import net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException;
-import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.PowerExpr;
-import net.sourceforge.czt.z.ast.SchText;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.z.ast.ZSchText;
-import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * This class provides carrier sets for the new Circus types.

@@ -100,7 +100,7 @@ public final class FormDelegate extends DefaultPersistenceDelegate
    * @param newInstance The instance to be modified.
    * @param out The encoder to write the statements to.
    */
-  protected void initialize(Class type, Object oldInstance, Object newInstance,
+  protected void initialize(Class<?> type, Object oldInstance, Object newInstance,
       Encoder out)
   {
     Form oldForm = (Form) oldInstance;
@@ -119,7 +119,7 @@ public final class FormDelegate extends DefaultPersistenceDelegate
 
     Form f = (Form) oldInstance;
 
-    for (Iterator i = ((BeanContext) f.getBeanContextProxy()).iterator(); i
+    for (Iterator<?> i = ((BeanContext) f.getBeanContextProxy()).iterator(); i
         .hasNext();) {
       Object obj = i.next();
       if (!(obj instanceof Component))
@@ -138,7 +138,8 @@ public final class FormDelegate extends DefaultPersistenceDelegate
    * @param newList the list the beans are added to.
    * @return newList.
    */
-  private static List makeSortedComponentList(Container c, List bc, List newList)
+  protected static List<Component> makeSortedComponentList(Container c, 
+		  	List<Component> bc, List<Component> newList)
   {
     Component[] components = c.getComponents();
     for (int i = 0; i < components.length; i++)

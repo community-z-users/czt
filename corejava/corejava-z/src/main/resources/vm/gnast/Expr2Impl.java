@@ -1,13 +1,13 @@
-  public Expr getLeftExpr()
+  public net.sourceforge.czt.z.ast.Expr getLeftExpr()
   {
-    Expr result = null;
+	  net.sourceforge.czt.z.ast.Expr result = null;
     if (getExpr().size() > 0) {
       result = getExpr().get(0);
     }
     return result;
   }
 
-  public void setLeftExpr(Expr expr)
+  public void setLeftExpr(net.sourceforge.czt.z.ast.Expr expr)
   {
     if (getExpr().size() > 0) {
       getExpr().set(0, expr);
@@ -17,16 +17,16 @@
     }
   }
 
-  public Expr getRightExpr()
+  public net.sourceforge.czt.z.ast.Expr getRightExpr()
   {
-    Expr result = null;
+	  net.sourceforge.czt.z.ast.Expr result = null;
     if (getExpr().size() > 1) {
       result = getExpr().get(1);
     }
     return result;
   }
 
-  public void setRightExpr(Expr expr)
+  public void setRightExpr(net.sourceforge.czt.z.ast.Expr expr)
   {
     if (getExpr().size() == 0) {
       getExpr().add(null);

@@ -71,7 +71,8 @@ public class ToATermVisitor
     for (int index = 0; index < children.length; index++) {
       if (index > 0) write(", ");
       if (children[index] instanceof Term) {
-        Object o = ((Term) children[index]).accept(this);
+        @SuppressWarnings("unused")
+		Object o = ((Term) children[index]).accept(this);
       }
       else if (children[index] != null) {
         write("\"" + children[index].toString() + "\"");

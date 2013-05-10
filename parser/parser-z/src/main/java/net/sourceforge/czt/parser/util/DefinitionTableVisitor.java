@@ -128,7 +128,7 @@ public class DefinitionTableVisitor
       parentTables.add(parentTable);
     }
     try {
-      table_ = new DefinitionTable(sectName_, parentTables);
+      table_ = new DefinitionTable(getSectionInfo().getDialect(), sectName_, parentTables);
     }
     catch (DefinitionTable.DefinitionException exception)
     {
@@ -280,7 +280,6 @@ public class DefinitionTableVisitor
         // for decorated inclusions, add the stroked version of possible names
         else if (expr instanceof DecorExpr)
         {
-          int strokeCnt = 0;
           // get any previous strokes to consider
           DecorExpr dexpr = (DecorExpr)expr;
           boolean added = strokes.add(dexpr.getStroke());

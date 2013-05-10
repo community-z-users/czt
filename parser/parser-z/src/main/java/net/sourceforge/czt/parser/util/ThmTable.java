@@ -18,9 +18,10 @@
  */
 package net.sourceforge.czt.parser.util;
 
-import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.ConjPara;
 
@@ -33,9 +34,9 @@ public class ThmTable extends InfoTable
   
   private SortedMap<String, ThmInfo> thmTable_ = new TreeMap<String, ThmInfo>();
 
-  public ThmTable(String section)
+  public ThmTable(Dialect d, String section)
   {
-    super(section);
+    super(d, section);
   }
   
   /**
@@ -78,7 +79,7 @@ public class ThmTable extends InfoTable
     String thmName = para.getName();
     if (thmName == null || thmName.isEmpty())
     {
-      throw new ThmTableException("Error: cannot add unnamed conjecture to conjecture table.");
+      throw new ThmTableException(getDialect(), "Error: cannot add unnamed conjecture to conjecture table.");
     }    
     ThmInfo thmInfo = new ThmInfo(getSectionName(), para);
     addTheorem(thmName, thmInfo);
@@ -104,9 +105,14 @@ public class ThmTable extends InfoTable
   public static class ThmTableException
     extends InfoTable.InfoTableException
   {
-    public ThmTableException(String message)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2110188825241660479L;
+
+	public ThmTableException(Dialect d, String message)
     {
-      super(message);
+      super(d, message);
     }
   }
 }

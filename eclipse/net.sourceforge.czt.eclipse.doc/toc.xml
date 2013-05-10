@@ -4,19 +4,19 @@
 <!-- Define the top level topics                                                   -->
 <!-- ============================================================================= -->
 
-<toc label="CZT Development User Guide" topic="target/generated-docs/toc.html">
-   <topic label="Getting Started" href="target/generated-docs/getting-started/index.html">
-      <link toc="topics-getting-started.xml" />
-      <anchor id="czt_getstart" />
-   </topic>
-   <topic label="Concepts" href="target/generated-docs/concepts/index.html">
-      <link toc="topics-concepts.xml" />
-      <anchor id="czt_concepts" />
-   </topic>
-   <topic label="Reference" href="target/generated-docs/reference/index.html">
-      <link toc="topics-reference.xml" />
-      <anchor id="czt_reference" />
-   </topic>
-   
-   <topic label="Legal Notice" href="target/generated-docs/legal-notice.html" />
+<toc label="CZT User Guide">
+  <topic label="Getting started">
+    <link toc="topics-getting-started.xml" />
+    <anchor id="czt_getstart" />
+  </topic>
+  <topic label="Concepts">
+    <link toc="topics-concepts.xml" />
+    <anchor id="czt_concepts" />
+  </topic>
+  <topic label="Reference">
+    <link toc="topics-reference.xml" />
+    <anchor id="czt_reference" />
+  </topic>
+
+  <topic label="Legal notice" href="target/generated-docs/legal-notice.html" />
 </toc>

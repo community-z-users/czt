@@ -30,6 +30,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.Section;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -78,7 +79,7 @@ public class IdTest
     source.setMarkup(Markup.LATEX);
     manager_.put(new Key<Source>(source.getName(), Source.class), source);
     Term term = manager_.get(new Key<Spec>(source.getName(), Spec.class));
-    manager_.get(new Key<SectTypeEnvAnn>("Specification", SectTypeEnvAnn.class));
+    manager_.get(new Key<SectTypeEnvAnn>(Section.ANONYMOUS.getName(), SectTypeEnvAnn.class));
     return term;
   }
 
@@ -250,7 +251,9 @@ public class IdTest
     public Object visitTerm(Term term)
     {
       if (term instanceof AxPara) {
-        VisitorUtils.visitTerm(this, term.getAnn(SignatureAnn.class));
+    	SignatureAnn sig = term.getAnn(SignatureAnn.class);
+    	if (sig != null)
+    		VisitorUtils.visitTerm(this, sig);
       }
       VisitorUtils.visitTerm(this, term);
       return null;

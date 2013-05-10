@@ -24,12 +24,12 @@ skip to the next step.
 
 The general steps to clone a repository in Eclipse IDE are the following:
 
-1.    Launch clone wizard by selecting Import > Projects from Git > URI
+1.    Launch clone wizard by selecting **Import > Projects from Git > URI**
 2.    In the repository information, supply the CZT repository URI:
-      `git://czt.git.sourceforge.net/gitroot/czt/czt`
+      `git://git.code.sf.net/p/czt/code`
 3.    Select branches to clone (e.g. at least `master` - the main branch)
 4.    Provide destination directory
-5.    Select _Import as general project_ to have the root directory visible as
+5.    Select **Import as general project** to have the root directory visible as
       project in Eclipse
 6.    Provide root project name, e.g. `czt`
 
@@ -40,7 +40,7 @@ to [its user guide][egit-usage].
 [egit]: http://www.eclipse.org/egit/
 [egit-usage]: http://wiki.eclipse.org/EGit/User_Guide
 
-## m2e support
+## Import projects into Eclipse
 
 The [Maven integration with Eclipse (m2e)][m2e] project aims to provide
 first-class Apache Maven support in Eclipse IDE. However, it also aims to
@@ -63,7 +63,7 @@ before importing the projects (see below).
 Several Maven plugins used by CZT require installing m2e connectors from
 3rd party update sites (namely `maven-jflex-plugin` and `xml-maven-plugin`).
 They are not available in the official m2e marketplace and should be installed
-from [CZT developer Eclipse update site][czt-dev-p2]:
+from the [CZT developer Eclipse update site][czt-dev-p2]:
 
     http://czt.sourceforge.net/dev/eclipse/updates/
 
@@ -86,15 +86,50 @@ the first time, you can import the CZT projects into Eclipse IDE.
 To do that, follow these steps:
 
 0.    (If EGit was used to checkout the source code, delete the `czt` project).
-1.    Select File > Import > Existing Maven Projects
+1.    Select **File > Import > Existing Maven Projects**
 2.    Select root CZT directory and import all necessary projects
 3.    If asked to get m2e connectors from the marketplace, allow that
       (restart Eclipse if needed)
 4.    After import, wait until _Building workspace_ job finishes
       (can take long!)
+5.    Set CZT target platform ([see below](#Set_CZT_target_platform)).
 5.    If there are build errors, select all projects and refresh them.
       This should trigger another build.
 6.    Done - this should get CZT projects built successfully.
+7.    Launch CZT IDE from within Eclipse ([see below](#Launch_CZT_IDE))
+
+
+## Set CZT target platform
+
+The target platform comprises all dependencies available for building CZT for Eclipse plug-ins. It
+is defined in _net.sourceforge.czt.eclipse.target_ project. Open the target definition file at
+**/net.sourceforge.czt.eclipse.target/net.sourceforge.czt.eclipse.target.target** within Eclipse.
+
+![CZT target platform](images/czt-target-platform.png "CZT target platform")
+
+When the target definition file is opened, wait for some time until its contents are resolved. Then
+select **Set as Target Platform** in the top-right of the editor. These dependencies will be
+loaded for use in builds and all CZT for Eclipse projects should build successfully now. Note that
+this needs to be done once at the beginning and then only if the dependencies/target platform
+change (close the target file afterwards to avoid unnecessary resolution).
+
+If you still encounter build errors, try refreshing the projects (select all and choose
+**File > Refresh**) or cleaning them (**Project > Clean**).
+
+
+## Launch CZT IDE
+
+For convenience, a launch configuration is provided to start CZT IDE from the checked-out projects.
+It defines all features and plug-ins that are required for CZT.
+
+Select the launch configuration at **/net.sourceforge.czt.eclipse.repository/czt-ide.launch**. Choose **Run As > czt-ide** in the context menu.
+
+![CZT IDE launch file](images/czt-ide-launch-file.png)
+
+This will launch CZT IDE as a separate application. All your changes will be reflected in
+the launched program. The launch configuration will also now be available in the main **Run** and
+**Debug** toolbars for convenient access. Use this launch configuration to run and debug CZT for
+Eclipse IDE.
 
 
 ## Link projects to EGit
@@ -104,12 +139,12 @@ allow version control functionality on the source code. To link projects with
 EGit follow these steps:
 
 1.    Select all of CZT projects
-2.    Select Team > Share Project... from the context menu
-3.    In the sharing wizard, select `Git` as the repository type
-4.    Make sure _Use or create repository in parent folder of project_ checkbox
+2.    Select **Team > Share Project...** from the context menu
+3.    In the sharing wizard, select **Git** as the repository type
+4.    Make sure **Use or create repository in parent folder of project** checkbox
       is selected. This relates the project to parent Git repository, as it is
       configured in CZT
-5.    Select all projects to connect and click _Finish_.
+5.    Select all projects to connect and click **Finish**.
 
 Now EGit actions/decorations can be used on the projects.
 
@@ -117,8 +152,8 @@ Now EGit actions/decorations can be used on the projects.
 ## CZT code style
 
 CZT code style file is available for Eclipse IDE to provide common code
-formatting. [Download it][czt-style] and import in Eclipse Preferences >
-Java > Code Style > Formatter tab.
+formatting. [Download it][czt-style] and import in **Eclipse Preferences >
+Java > Code Style > Formatter** tab.
 
 Furthermore, you may want to use [Eclipse Checkstyle][eclipse-cs] plugin with
 [CZT Checkstyle][czt-checkstyle] settings for additional code style checking.
@@ -180,7 +215,7 @@ So resume the build with this plugin version:
 
 If the Eclipse projects were generated successfully with the step before,
 they can now be imported into workspace. Open Eclipse IDE and select
-File > Import > Existing Projects into Workspace. Browse to the root CZT
+**File > Import > Existing Projects into Workspace**. Browse to the root CZT
 directory and select to import all projects.
 Do not check "copy projects to workspace".
 

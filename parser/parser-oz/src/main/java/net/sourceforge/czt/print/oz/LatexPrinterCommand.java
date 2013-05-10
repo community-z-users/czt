@@ -20,13 +20,16 @@
 package net.sourceforge.czt.print.oz;
 
 import java.io.Writer;
+import java.util.Collections;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
-import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
 
 public class LatexPrinterCommand
   extends net.sourceforge.czt.print.z.LatexPrinterCommand
@@ -35,12 +38,13 @@ public class LatexPrinterCommand
   public void printLatex(Term term,
                          Writer out,
                          SectionManager sectInfo,
-                         String sectionName)
+                         String sectionName) throws PrintException
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = toPrintTree(toPrintTree, term, sectionName);
-    ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
-    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term));
+    ZmlScanner scanner = new ZmlScanner(sectInfo, tree, sectInfo.getProperties());
+    Unicode2Latex parser = new Unicode2Latex(prepare(scanner, term), sectInfo, 
+    		sectInfo.getProperties(), Collections.<Key<?>>emptySet());
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -93,9 +97,10 @@ public class LatexPrinterCommand
   }
 
   @Override
-  protected TokenSequenceVisitor createTokenSequenceVisitor(ZPrinter printer, Properties props)
+  protected net.sourceforge.czt.print.z.TokenSequenceVisitor createTokenSequenceVisitor(
+		  SectionInfo si, ZPrinter printer, Properties props)
   {
-    return new TokenSequenceVisitor(printer, props);
+    return new TokenSequenceVisitor(si, printer, props);
   }
 
   @Override

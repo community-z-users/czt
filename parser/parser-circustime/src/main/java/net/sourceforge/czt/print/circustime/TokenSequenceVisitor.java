@@ -6,19 +6,22 @@
 package net.sourceforge.czt.print.circustime;
 
 import java.util.Properties;
+
 import net.sourceforge.czt.print.z.ZPrinter;
+import net.sourceforge.czt.session.SectionInfo;
 
 /**
  *
  * @author leo
  */
 public class TokenSequenceVisitor 
-  extends  net.sourceforge.czt.print.z.TokenSequenceVisitor
+  extends  net.sourceforge.czt.print.circus.TokenSequenceVisitor
 {
-  public TokenSequenceVisitor(ZPrinter printer, Properties props, WarningManager warningManager)
+  public TokenSequenceVisitor(SectionInfo si, ZPrinter printer, Properties props, 
+		  net.sourceforge.czt.print.circus.WarningManager warningManager)
   {
-    super(printer);
-    setZPrintVisitor(new CircusTimePrintVisitor(this, props, warningManager));
+    super(si, printer, props, warningManager);
+    setZPrintVisitor(new CircusTimePrintVisitor(si, this, props, warningManager));
   }
 
 }

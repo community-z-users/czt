@@ -24,13 +24,13 @@ The ASTs of Z extensions supplement the AST of core Z language. To provide modul
 dialect gets its own Corejava project with appropriate dependencies between them.
 For your projects, select just the dialects you need as your dependencies:
 
--   [**Z** (core): `corejava-z`]( corejava-z/ )
--   [**Z Pattern** extension: `corejava-zpatt`]( corejava-zpatt/ )
--   [**Z/EVES** extension: `corejava-zeves`]( corejava-zeves/ )
--   [**Object-Z** extension: `corejava-oz`]( corejava-oz/ )
--   [**Circus** extension: `corejava-circus`]( corejava-circus/ )
--   [**Circus Pattern** extension: `corejava-circuspatt`]( corejava-circuspatt/ )
--   [**Circus Time** extension: `corejava-circustime`]( corejava-circustime/ )
+-   [**Z** (core): `corejava-z`](corejava-z/)
+-   [**Z Pattern** extension: `corejava-zpatt`](corejava-zpatt/)
+-   [**Z/EVES** extension: `corejava-zeves`](corejava-zeves/)
+-   [**Object-Z** extension: `corejava-oz`](corejava-oz/)
+-   [**Circus** extension: `corejava-circus`](corejava-circus/)
+-   [**Circus Pattern** extension: `corejava-circuspatt`](corejava-circuspatt/)
+-   [**Circus Time** extension: `corejava-circustime`](corejava-circustime/)
 
 
 ## Visitor support in Corejava

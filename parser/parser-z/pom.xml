@@ -16,7 +16,7 @@
   </description>
 
   <properties>
-    <parser.nodes>z</parser.nodes>
+    <parser.nodes>z,zcore</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.z</parser.package>
     <printer.nodes>z,zcore</printer.nodes>
     <printer.package>net.sourceforge.czt.print.z</printer.package>

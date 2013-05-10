@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage{czt}
+\begin{document}
+
+Use fuzz toolkit because of the use of $\defs$ below.
+%
+\begin{zsection}
+\SECTION usualdeftable \parents standard\_toolkit
+\end{zsection}
+
+Given sets
+\begin{zed}
+   [G]
+\end{zed}
+
+Usual free types (e.g., recursive, but not mutually recursive)
+\begin{zed}
+   FT ::= constant | func \ldata \nat \cross FT \rdata
+\end{zed}
+
+trivial/usual axdef
+\begin{axdef}
+   maximum: \nat \\
+   minimum: \nat
+\end{axdef}
+
+TODO: handling generics on the FSB / REF signatures isn't ready yet. 
+%
+State schema with generics
+\begin{schema}{State}%[X]
+   x: \nat \\
+   y: \power~\nat \\
+   f: \nat \pfun \nat \\
+   g: \nat
+\where
+   y \cross y \subseteq f \\
+   x \in y \\ 
+   y \cap y = y
+\end{schema}
+
+Init schema with generic instantiation
+\begin{schema}{Init}
+   State~'
+\where
+   x' = 0 \\
+   y' = \{\} \\
+   f' = \{\} \\
+   g' = 0
+\end{schema}
+
+Usual state update with inputs and outputs, with generics instantiated.
+\begin{schema}{OpUpdate}
+   \Delta State \\
+   i?: \nat \\
+   o!: \nat
+\where
+   g = g' = maximum \\ % resolves generic parameter implicitly
+   y' = y \\
+   i? \in y' \\
+   \{i?\} \dres f = \{i?\} \dres f' \\ % avoid dependency with relation\_toolkit
+   f~x = i? \\
+   f'~i? = x' = o!
+\end{schema}
+
+And similarly for a state query operation with generics for $g$ get resolved
+\begin{schema}{OpQuery}
+  \Xi State \\
+  o!: \nat
+\where
+   g' = o! = f~x
+\end{schema}
+
+Update operation with generics carried through from top-level
+\begin{schema}{OpUpd2}%[Y]
+   \Delta State%[Y]
+\where
+    x' = x 
+\end{schema}
+
+Update operation with generics resolved on inclusion.
+\begin{schema}{OpUpd3}
+   \Delta State%[G]
+\where
+    y' = y 
+\end{schema}
+
+This is not very usual, but onkay.
+\begin{zed}
+   OX == \pre OpQuery
+\end{zed}
+
+\begin{axdef}
+   ox: OX
+\end{axdef}
+
+Now examples with the schema calculus --- although an artificial spec ($\land$ of $\Delta$-$\Xi$), it is a real use.
+\begin{zed}
+   TestRef     == OpUpdate \\
+   TestRefAnd  == OpUpdate \land OpQuery \\
+   TestRefOr   == OpUpdate \lor OpQuery \\
+   TestRefAnd2 == OpUpdate \land [ v: \nat ]
+\end{zed}
+
+\begin{axdef}
+   schAsType: \nat \fun \power OpUpdate
+\where
+   \forall i: \nat @ \exists OpUpdate @ x = i \land \theta OpUpdate \in schAsType~i 
+\end{axdef}
+
+These ones below are quite hard: they require type information because $\power OpUpdate$ 
+is not paert of the schema calculus per se, so $schAsType~0$ is taken as an omitbox
+(e.g., Std Z removed the $\defs$ from spivey-z, unfortunatelly!).
+%
+%\begin{}
+%   TestSchAsType0    == schAsType~0 \\
+%   TestSchAsType1    == schAsType~1 \\
+%   TestSchAsTypeAnd  == TestSchAsType0 \land TestSchAsType1
+%\end{}
+
+\begin{zed}
+   MySchema == [ a, b: \nat ]
+\end{zed}
+
+\end{document}

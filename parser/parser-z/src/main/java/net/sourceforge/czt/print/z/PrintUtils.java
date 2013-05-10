@@ -22,7 +22,6 @@ package net.sourceforge.czt.print.z;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.TermCommand;
 import net.sourceforge.czt.print.util.CztPrintString;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.PrintException;
@@ -31,6 +30,7 @@ import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
@@ -63,7 +63,7 @@ public final class PrintUtils
    * This method may be used for terms like Spec and Sect that contain
    * a section header so that context information can be obtained from
    * the tree itself.  See {@link
-   * #print(Term,Writer,SectionManager,String,Markup)} for
+   * #print(Term,Writer,SectionInfo,String,Markup)} for
    * writing trees that do not contain context information.
    * @param term
    * @param out
@@ -73,7 +73,7 @@ public final class PrintUtils
   public static void print(Term term,
                            Writer out,
                            SectionManager sectInfo,
-                           Markup markup)
+                           Markup markup) throws PrintException
   {
     final String sectionName = Section.STANDARD_TOOLKIT.getName();
     print(term, out, sectInfo, sectionName, markup);
@@ -83,8 +83,9 @@ public final class PrintUtils
                            Writer out,
                            SectionManager sectInfo,
                            String sectName,
-                           Markup markup)
+                           Markup markup) throws PrintException
   {
+	assert sectInfo != null;
     switch (markup) {
     case  LATEX:
       new LatexPrinterCommand().printLatex(term, out, sectInfo, sectName);
@@ -94,7 +95,7 @@ public final class PrintUtils
       break;
     default:
       String message = "Attempt to print unsupported markup";
-      throw new PrintException(message);
+      throw new PrintException(sectInfo.getDialect(), message);
     }
   }
 
@@ -124,7 +125,7 @@ public final class PrintUtils
     {
       final String msg = "PRINT-UNKNOWN-SOURCE = " + name;
       sectInfo.getLogger().warning(msg);
-      throw new CommandException(msg, e);
+      throw new CommandException(sectInfo.getDialect(), msg, e);
     }
 
     // prepare the printer's key depending on the markup 
@@ -143,7 +144,7 @@ public final class PrintUtils
       default:
         final String msg = "PRINT-UNKNOWN-MARKUP = " + markup;
         sectInfo.getLogger().warning(msg);
-        throw new CommandException(msg);
+        throw new CommandException(sectInfo.getDialect(), msg);
     }
 
     // compute the printed dcSpec
@@ -157,7 +158,7 @@ public final class PrintUtils
     {
       final String msg = "PRINT-ERROR = " + markup + " for " + name;
       sectInfo.getLogger().warning(msg);
-      throw new CommandException(msg, e);
+      throw new CommandException(sectInfo.getDialect(), msg, e);
     }
     assert output != null;
 

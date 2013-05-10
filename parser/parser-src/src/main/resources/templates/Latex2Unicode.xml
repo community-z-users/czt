@@ -22,15 +22,35 @@
 /* --------------------------Usercode Section------------------------ */
 package <package/>;
 
-import java.io.*;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
+
+
+import java.io.IOException;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.LatexSym;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocToken;
+import net.sourceforge.czt.parser.util.LocTokenImpl;
+import net.sourceforge.czt.parser.util.MarkupDirective;
+import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
+import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.util.ZString;
+//import java.util.logging.Level;
+
+import net.sourceforge.czt.parser.z.ZParseError;
+import net.sourceforge.czt.parser.z.ZParseMessage;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -56,21 +76,6 @@ import net.sourceforge.czt.circus.util.CircusPattString;
 import net.sourceforge.czt.zeves.util.ZEvesString;
 </add:zeves>
 
-import net.sourceforge.czt.parser.util.ErrorType;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.LatexSym;
-import net.sourceforge.czt.parser.util.LocInfo;
-import net.sourceforge.czt.parser.util.LocInfoImpl;
-import net.sourceforge.czt.parser.util.LocToken;
-import net.sourceforge.czt.parser.util.LocTokenImpl;
-import net.sourceforge.czt.parser.util.MarkupDirective;
-import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
-import net.sourceforge.czt.parser.util.ScanException;
-import net.sourceforge.czt.parser.z.ZParseError;
-import net.sourceforge.czt.parser.z.ZParseMessage;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.util.ZString;
 
 /**
  * &lt;p&gt;
@@ -108,6 +113,7 @@ import net.sourceforge.czt.z.util.ZString;
  *   &lt;/li&gt;
  * &lt;/ul&gt;
  */
+@SuppressWarnings("unused") 
 %%
 
 /* -----------------Options and Declarations Section----------------- */
@@ -163,7 +169,7 @@ import net.sourceforge.czt.z.util.ZString;
    * All other "{"-token just push a
    * &lt;code&gt;BraceType.BRACE&lt;/code&gt; on the stack.
    */
-  private Stack braceStack_ = new Stack();
+  private Stack&lt;BraceType&gt; braceStack_ = new Stack&lt;BraceType&gt;();
 
   /**
    * A boolean indicating whether a space has to inserted after all
@@ -182,8 +188,14 @@ import net.sourceforge.czt.z.util.ZString;
    * True iff within a axdef or gendef definition
    * It can be used to mark labelled predicates.
    */
+  <add:z>
+  //@SuppressWarnings("unused")
+  </add:z> 
   private boolean inAxiomaticBox_ = false;
 
+  <add:z>
+  //@SuppressWarnings("unused")
+  </add:z> 
   private boolean inSchemaBox_ = false;
 
   <add:zeves>
@@ -211,11 +223,11 @@ import net.sourceforge.czt.z.util.ZString;
    * where "name" lexis as the (LETTER | DIGIT)* group. We addSpace_=true
    * just before (1) and (2); just after "expression" in state (2).
    */
-  private int NOT_WITHIN_APPLY = -1;
-  private int JUST_AFTER_APPLY =  0;
-  private int JUST_AFTER_THMNM =  1;
-  private int JUST_AFTER_TO    =  2;
-  private int applyState_      = NOT_WITHIN_APPLY;
+  //private int NOT_WITHIN_APPLY = -1;
+  //private int JUST_AFTER_APPLY =  0;
+  //private int JUST_AFTER_THMNM =  1;
+  //private int JUST_AFTER_TO    =  2;
+  //private int applyState_      = NOT_WITHIN_APPLY;
 
   private LocToken synDefOpName_ = null;
 
@@ -239,7 +251,7 @@ import net.sourceforge.czt.z.util.ZString;
    * provide an error message and warning if not). It is not needed
    * by the scanner itself.
    */
-  private Stack&lt;String&gt; openBeginCommands_ = new Stack();
+  private final Stack&lt;String&gt; openBeginCommands_ = new Stack&lt;String&gt;();
 
   /**
    * Name of file from which source text originated.
@@ -271,6 +283,22 @@ import net.sourceforge.czt.z.util.ZString;
    */
   private int locyychar = 0;
 
+  // dialect is a final attribute determined at construction time
+  // depending on the extension being used (i.e. decided at XML transformation time).
+  // this is useful for fine-tuned error information. If no extension is chosen we 
+  // get a compilation error (i.e. final field not assigned).
+  private final Dialect dialect_ = 
+  						<add:zcore>Dialect.Z</add:zcore>
+    					<add:zpattcore>Dialect.ZPATT</add:zpattcore>
+    				  <add:ozcore>Dialect.OZ</add:ozcore>
+    				  <add:ozpattcore>Dialect.OZPATT</add:ozpattcore>
+    				  <add:zevescore>Dialect.ZEVES</add:zevescore>
+    				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
+    				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  // otherwise it will be unassigned, hence a compilation error
+    				  ;
+
   /**
    * Creates a new scanner for the source.
    */
@@ -278,10 +306,26 @@ import net.sourceforge.czt.z.util.ZString;
     throws IOException
   {
     this(source.getReader());
+    if (sectInfo == null) throw new NullPointerException();
     source_ = source;
     sectInfo_ = sectInfo;
     properties_ = properties;
     filename_ = source.toString();
+    assert dialect_ !=null;
+    if (!dialect_.equals(sectInfo.getDialect()))
+    	throw new IllegalArgumentException("Incompatible dialects in Latex2Unicode scanner. " + dialect_.toString() +
+    		" expected, but section manager dialect " + sectInfo.getDialect() + " found.");
+  }
+  
+  /**
+   * Low-level LaTeX scanner gets its dialect from the context and propagate to other scanners.
+   */
+  @Override
+  public Dialect getDialect()
+  {
+  	assert dialect_.equals(sectInfo_.getDialect()) : "dialect = " + 
+  				dialect_ + "; sectInfo.dialect = " + sectInfo_.getDialect();
+  	return sectInfo_.getDialect();
   }
 
   public Source getSource()
@@ -299,7 +343,8 @@ import net.sourceforge.czt.z.util.ZString;
     final int lineNo = locLine + yyline - locyyline;
     final int columnNo = yyline == locLine? locColumn + yycolumn : yycolumn;
     final int charNo = locChar + yychar - locyychar;
-    return new LocInfoImpl(getLoc(),
+    return new LocInfoImpl(getDialect(), 
+    											 getLoc(),
                            lineNo, columnNo,
                            charNo, yytext().length());
   }
@@ -323,12 +368,17 @@ import net.sourceforge.czt.z.util.ZString;
   {
     return result(sym, yytext());
   }
+  
+  protected SectionInfo getSectionInfo()
+  {
+  	return sectInfo_;
+  }
 
   private boolean debug_ = false;
   private long i = 1;
   private void debug(LatexSym sym, String spelling)
   {
-      System.out.println("Latex2Unicode (" + i + ")  : " + spelling + "\t " + sym); i++;
+      System.out.println("Latex2Unicode (" + i + "; "+ getDialect() +")  : " + spelling + "\t " + sym); i++;
       System.out.flush();
   }
 
@@ -366,7 +416,8 @@ import net.sourceforge.czt.z.util.ZString;
   {
     if ("^".equals(string)) return ZString.NE;
     if ("_".equals(string)) return ZString.SE;
-    throw new IllegalArgumentException();
+    throw new IllegalArgumentException("Invalid start LaTeX sub/super script character " + string + 
+    	" for " + dialect_.toString() + " in Latex2Unicode parser.");
   }
 
   /**
@@ -379,7 +430,8 @@ import net.sourceforge.czt.z.util.ZString;
   {
     if ("^".equals(string)) return ZString.SW;
     if ("_".equals(string)) return ZString.NW;
-    throw new IllegalArgumentException();
+    throw new IllegalArgumentException("Invalid end LaTeX sub/super script character " + string + 
+    	" for " + dialect_.toString() + " in Latex2Unicode parser.");
   }
 
   /**
@@ -418,7 +470,9 @@ import net.sourceforge.czt.z.util.ZString;
   private String toUnicode(String latexCommand, boolean spaces)
   {
     if (latexCommands_ == null) {
-      System.out.println("Should not happen");
+    	CztLogger.getLogger(<class/>.class).severe("Null latexCommands_ map! This should never happen, returning null." +
+    		"Cannot tanslate to Unicode: " 
+	    	+ latexCommand + " for " + dialect_.toString() + " in Latex2Unicode scanner.");
       return null;
     }
     MarkupDirective directive = (MarkupDirective)
@@ -442,8 +496,9 @@ import net.sourceforge.czt.z.util.ZString;
   private void reportError(ErrorType type, ZParseMessage msg,
                            String arg0, String info)
   {
-    final Level level =
-      ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
+    // TODO: what's this? To be used somewhere?
+    //final Level level =
+    //  ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo };
     ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
@@ -453,8 +508,8 @@ import net.sourceforge.czt.z.util.ZString;
   private void reportError(ErrorType type, CircusParseMessage msg,
                            String arg0, String info)
   {
-    final Level level =
-      ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
+    //final Level level =
+    //  ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo };
     CircusParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
@@ -496,15 +551,24 @@ import net.sourceforge.czt.z.util.ZString;
 
   private boolean isFuzzCommand(String command)
   {
-    try {
-      Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(
-        net.sourceforge.czt.util.Section.FUZZ_TOOLKIT.getName(), LatexMarkupFunction.class);
-      LatexMarkupFunction lmf = sectInfo_.get(key);
-      if (lmf.getCommandDirective(command) != null) return true;
+    if (sectInfo_ == null)
+    {
+    	CztLogger.getLogger(<class/>.class).severe("Null section infor object for checking Fuzz command " + command
+    		+ " for dialect " + dialect_.toString() + ". Returning false.");
+      return false;
     }
-    catch (CommandException e) {
-    }
-    return false;
+    else
+    {
+	    try {
+	      Key&lt;LatexMarkupFunction&gt; key = new Key&lt;LatexMarkupFunction&gt;(
+	        net.sourceforge.czt.util.Section.FUZZ_TOOLKIT.getName(), LatexMarkupFunction.class);
+	      LatexMarkupFunction lmf = sectInfo_.get(key);
+	      if (lmf.getCommandDirective(command) != null) return true;
+	    }
+	    catch (CommandException e) {
+	    }
+	    return false;
+	  }
   }
 
   private void begin(String name)
@@ -529,6 +593,7 @@ import net.sourceforge.czt.z.util.ZString;
     }
   }
 
+/*
   // yytext() might contain {IGNORE}* tokens when starting with ZSTATE strings...
   // put the longer strings first to avoid catching the smaller ones too early (e.g., retrievein before retrieve)
   private String retrieveZState(String yyt)
@@ -566,8 +631,10 @@ import net.sourceforge.czt.z.util.ZString;
     else if (yyt.startsWith(ZString.ZRETRIEVE))
       return ZString.ZRETRIEVE;
     else
-      throw new ScanException("Unknown Z state " + yyt, getLocation());
+      throw new ScanException(dialect_, "Unknown Z state " + yyt +  	
+	    	" for " + dialect_.toString() + " in Latex2Unicode parser.", getLocation());
   }
+*/
 
   /**
    * A brace type enumeration.
@@ -654,7 +721,7 @@ COMMENT = "%" ~{NL}
 IGNORE = {WS} | {COMMENT}
 
 LETTER = [a-zA-Z]
-NOT_LETTER = !(![^] | {LETTER})
+// NOT_LETTER = !(![^] | {LETTER}) // DECLARED BUT NEVER USED, COMMENTED FOR NOW. TODO: remove?
 
 COMMAND = "\\" . | "\\" {LETTER}*
 SCRIPT = "^" | "_"
@@ -683,10 +750,10 @@ NOT_LB = !(![^] | "{")
 NAME =   {NOT_LB}*
        | {NOT_LB}* "{" {NOT_LB}* "}" {NOT_LB}*
 
-ZSTATE = "zstate" | "zstinit" | "zstfin" | "zastate" | "zcstate" | "zastinit" | "zcstinit" |
-         "zretrievein" | "zretrieveout" | "zretrieve" | "zastfin" | "zcstfin" |
-         "zainitin" | "zafinout" | "zcinitin" | "zcfinout"
-ZSTATE_INFO = "\\" {ZSTATE}
+//ZSTATE = "zstate" | "zstinit" | "zstfin" | "zastate" | "zcstate" | "zastinit" | "zcstinit" |
+//         "zretrievein" | "zretrieveout" | "zretrieve" | "zastfin" | "zcstfin" |
+//         "zainitin" | "zafinout" | "zcinitin" | "zcfinout"
+//ZSTATE_INFO = "\\" {ZSTATE}
 
 <add:zeves>
 /*
@@ -1469,6 +1536,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         }
 </add:tcoz>
 
+/*
   {ZSTATE_INFO} 
         {
           String zst = yytext();
@@ -1500,6 +1568,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           assert ! addSpace_;
           return result(ZString.ZBSREFINES + ZString.SPACE);
         }
+*/
 
   "\\where"
         {
@@ -1569,8 +1638,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         }
   {SCRIPT} {IGNORE}* .
         {
-          String message = "Unexpected subscript or superscript " + yytext();
-          throw new ScanException(message, getLocation());
+          String message = "Unexpected subscript or superscript " + yytext() + 
+          	" for " + dialect_.toString() + " in Latex2Unicode parser.";
+          throw new ScanException(dialect_, message, getLocation());
         }
   "\\_" | "\\{" | "\\}"
         {

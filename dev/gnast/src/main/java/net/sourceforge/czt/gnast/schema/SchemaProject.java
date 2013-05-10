@@ -106,6 +106,8 @@ public class SchemaProject
    */
   private Map<String,List<String>> enum_ = new HashMap<String,List<String>>();
 
+  private Map<String, List<String>> enumPackage_ = new HashMap<String, List<String>>();
+  
   /**
    * The project imported from the XML Schema.
    */
@@ -138,6 +140,12 @@ public class SchemaProject
   private Map<String, List<Object>> props_ =
     new HashMap<String, List<Object>>();
 
+  /**
+   * Give access to the underlying JProject...
+   * TODO: what isn't SchemaProject a Project extension?
+   */
+  private JProject jproject_;
+  
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -148,7 +156,8 @@ public class SchemaProject
    */
   public SchemaProject(URL url,
                        Properties mapping,
-                       GlobalProperties globalProperties)
+                       GlobalProperties globalProperties,
+                       Project proj)
     throws ParserConfigurationException,
            SAXException, IOException, XSDException
   {
@@ -169,8 +178,9 @@ public class SchemaProject
     Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
+      //System.err.println("XPath target name space = " + targetNamespace_);
     }
-    
+    jproject_ = proj;
   }
   
   private void ensureInit() {
@@ -178,6 +188,7 @@ public class SchemaProject
       init = true;
       try {
         doInit();
+        System.out.println("Initialised okay for " + getName());
       }
       catch (XSDException e) {
         throw new GnastException(e);
@@ -193,8 +204,9 @@ public class SchemaProject
         xPath_.getNodeValue(schemaNode, "xs:import/@namespace");      
       if (importNamespace != null) {
         importProject_ = global_.getProjectName(importNamespace);
+        //System.err.println("Import package = " + importProject_.getAstPackage());
       }
-
+      
       Node n;
 
       // collecting all enumerations
@@ -212,14 +224,30 @@ public class SchemaProject
           enumValues.add(xPath_.getNodeValue(valueNode, "@value"));
         }
         enum_.put(enumName, enumValues);
+    	//System.err.println("Added enum for " + getBasePackage() + " = " + enumName);
+    	List<String> enums = null;
+    	if (enumPackage_.containsKey(getBasePackage()))
+    	{
+    		enums = enumPackage_.get(getBasePackage());
+    	}
+    	else
+    	{
+    		enums = new ArrayList<String>();
+        	enumPackage_.put(getBasePackage(), enums);
+    	}
+    	enums.add(enumName);
       }
-
+      
       // collecting all Ast classes
       nl = xPath_.selectNodeIterator(schemaNode, "xs:element");
       while ((n = nl.nextNode()) != null) {
         SchemaClass c = new SchemaClass(n, global_);
         map_.put(c.getName(), c);
       }
+      
+      System.out.println("Enums       = " + enum_.toString());
+      System.out.println("EnumPackage = " + enumPackage_.toString());
+      
     }
     
   }
@@ -279,7 +307,12 @@ public class SchemaProject
                                + packageName
                                + "']/@name");
   }
-
+  
+  public JProject getProject()
+  {
+  	return jproject_;
+  }
+  
   public String getPackageDocumentation(String packageName)
   {
     String result =
@@ -444,7 +477,79 @@ public class SchemaProject
   public Map<String,List<String>> getEnumerations()
   {
     ensureInit();
-    return enum_;
+    return Collections.unmodifiableMap(enum_);
+  }
+  
+  public Map<String, List<String>> getEnumerationsByPackage()
+  {
+	ensureInit();
+	return Collections.unmodifiableMap(enumPackage_);
+  }
+  
+  public boolean isKnownEnumeration(String type)
+  {
+	String pack = "";
+	boolean result = getEnumerations().containsKey(type);
+	if (!result)
+	{
+		Iterator<String> it = getEnumerationsByPackage().keySet().iterator();
+		while (!result && it.hasNext())
+		{	
+			pack = it.next();
+			result = getEnumerationsByPackage().get(pack).contains(type);
+		}
+	}
+	if (!result && importProject_ != null)
+	{
+		result = importProject_.isKnownEnumeration(type);
+		//if (result)System.out.println("Couldn't find Enum, looked into parent and found " 
+		//							  + type + " " + importProject_.getName());
+	}
+	//if (result)
+	//	System.out.println("Is enumeration " + type + " = " + pack);
+	//else
+	//	System.out.println("Couldn't find if " + type + " is enum in " + pack +
+	//			" \n\twith importProj = " + importProject_.getClass().getName() +
+	//			" \n\tnamed as   	  = "  + importProject_.getName());
+	return result;
+  }
+  
+  /**
+   * For a given Enum type name given, returns its full name by looking up
+   * the actual package of interest to add to the name. The package of interest
+   * is either the JAXB or the AST package, as controlled by the given flag.
+   * 
+   * @param type Enum type name
+   * @param asJaxb prepend JAXB or AST prefix 
+   * @return
+   */
+  public String getFullEnumName(String type, boolean asJaxb)
+  {
+	boolean found = false;
+	String result = type;
+    if (isKnownEnumeration(type))
+    {
+    	// not very efficient because redoes the search, but that's okay for now.
+    	Iterator<String> it = getEnumerationsByPackage().keySet().iterator();
+		while (it.hasNext())
+		{	
+			String pack = it.next();
+			if (getEnumerationsByPackage().get(pack).contains(type))
+			{
+				assert pack.equals(getBasePackage());
+				result = (asJaxb ? getJaxbGenPackage() : getAstPackage()) + "." + type;
+				found = true;
+				System.out.println("Found full enum name = " + result + " for JProject AST = " + getProject().getAstPackage());
+				break;
+			}
+		}
+		
+		if (!found && importProject_ != null)
+		{
+			result = importProject_.getFullEnumName(type, asJaxb);
+		}
+    }
+    return result;
   }
 
   /**
@@ -582,9 +687,32 @@ public class SchemaProject
   {
     Project project = objectProjectProps_.get(type);
     if (project != null) {
-      return project.getObject(type);
+      //System.err.println("getObject with project " + project.getName() + " for " + type);  
+      JObject result = project.getObject(type);
+	  //System.err.println("\tresult.getPackage()   = " + result.getPackage());
+      //System.err.println("\tresult.getFullName()  = " + result.getFullName());
+	  //System.err.println("\tresult.getName()      = " + result.getName());
+	  //System.err.println("\tresult.getProject()   = " + result.getProject().getClass());
+	  //System.err.println("\tresult.getProjectAST()= " + result.getProject().getAstPackage());
+      return result;
     }
-    return new JObjectImpl(type);
+    String typePackage = "";
+    //if (type.equals("JokerType"))System.err.println("getObject with no project for " + type);
+    if (getAstClass(type) != null)
+    {
+    	//if (type.equals("JokerType"))System.err.println("\tgetAstClass(" + type + ") = " + getAstClass(type));
+    	//if (type.equals("JokerType"))System.err.println("\t\tgetName       = " + getAstClass(type).getName());
+    	//if (type.equals("JokerType"))System.err.println("\t\tgetPackage    = " + getAstClass(type).getPackage());
+    	//if (type.equals("JokerType"))System.err.println("\t\tgetProperties = " + getAstClass(type).getProperties());
+	    typePackage = getAstClass(type).getPackage();
+	}    
+    //if (type.equals("JokerType"))System.err.println("\tgetAstClasses()     = " + getAstClasses().keySet());
+    //if (type.equals("JokerType"))System.err.println("\tobjectProjectProps_ = " + objectProjectProps_);
+    //if (type.equals("JokerType"))System.err.println("\tprops_ 			  = " + props_.keySet());
+    
+    // we might not know whether the given type is within this
+    // project ast/impl package, so pass it empty. but pass  the project?
+    return new JObjectImpl(type, typePackage, getProject());
   }
 
   // ############################################################
@@ -686,7 +814,7 @@ public class SchemaProject
 
     public JProject getProject()
     {
-      return null;
+      return SchemaProject.this.getProject(); //null;
     }
 
     public boolean getNameEqualsType()
@@ -706,17 +834,42 @@ public class SchemaProject
 
     public String getPackage()
     {
-      return getAstPackage();
+      return SchemaProject.this.getAstPackage();
+    }
+    
+    public String getVisitorPackage()
+    {
+      return SchemaProject.this.getVisitorPackage();
     }
 
     public String getImplPackage()
     {
       return SchemaProject.this.getImplPackage();
     }
+    
+    public boolean isKnownEnumeration(String type)
+    {	
+      return SchemaProject.this.isKnownEnumeration(type);
+    }
+    
+    public String getFullEnumName(String type, boolean asJaxb)
+    {
+    	return SchemaProject.this.getFullEnumName(type, asJaxb);	
+    }
+
+    public Map<String, List<String>> getEnumerationsByPackage()
+    {
+    	return SchemaProject.this.getEnumerationsByPackage();
+    }
 
     public String getNamespace()
     {
-      return getTargetNamespace();
+      return SchemaProject.this.getTargetNamespace();
+    }
+    
+    public JObject getObject(String type)
+    {
+      return SchemaProject.this.getObject(type);
     }
 
     /**
@@ -896,7 +1049,8 @@ public class SchemaProject
         if (startNode == null) {
           LOGGER.warning("Cannot find definition of complex type "
                          + typeName
-                         + "; proceeding anyway.");
+                         + "; proceeding anyway. For SchemaClass " 
+                         + name_ + " extends " + extends_);
           LOGGER.exiting(CLASS_NAME, methodName, erg);
           return erg;
         }
@@ -1063,23 +1217,39 @@ public class SchemaProject
       }
       return typeAttributePresent;
     }
+    
+    public boolean isKnownEnumeration(String type)
+    {	
+    	boolean result = SchemaProject.this.isKnownEnumeration(type);
+    	//if (result)System.out.println("Is known enumeration " + type + "? =" + result);
+      return result;
+    }
+    
+    public String getFullEnumName(boolean asJaxb)
+    {
+    	assert isEnum();
+      return SchemaProject.this.getFullEnumName(name_, asJaxb);	
+    }
 
     public String getName()
     {
-      return name_;
+    	//if (isEnum())
+    	//	return getFullEnumName();
+    	//else
+    		return name_;
     }
 
     public JObject getType()
     {
-      return getObject(type_);
+      return SchemaProject.this.getObject(type_);
     }
 
     public JObject getListType()
     {
       if (listType_ != null) {
-        return getObject(listType_);
+        return SchemaProject.this.getObject(listType_);
       }
-      return getObject("java.lang.Object");
+      return SchemaProject.this.getObject("java.lang.Object");
     }
 
     public boolean isReference()
@@ -1090,6 +1260,11 @@ public class SchemaProject
     public boolean isList()
     {
       return listType_ != null;
+    }
+    
+    public boolean isEnum()
+    {
+      return isKnownEnumeration(name_);	
     }
   } // end class SchemaAttribute
 } // end class SchemaProject

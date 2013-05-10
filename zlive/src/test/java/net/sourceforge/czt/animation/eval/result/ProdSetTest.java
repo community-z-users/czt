@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.z.ast.Expr;
 
 /**
  * Tests for PowerSet.
@@ -44,7 +45,7 @@ public class ProdSetTest extends ZTestCase
     assertEquals(BigInteger.ZERO, prodSet.maxSize());
     assertEquals(0.0, prodSet.estSize(), ACCURACY);
     assertEquals(0, prodSet.size());
-    Iterator iter = prodSet.iterator();
+    Iterator<Expr> iter = prodSet.iterator();
     assertFalse(iter.hasNext());
   }
 
@@ -59,7 +60,7 @@ public class ProdSetTest extends ZTestCase
     assertEquals(BigInteger.ZERO, prodSet.maxSize());
     assertEquals(0.0, prodSet.estSize(), ACCURACY);
     assertEquals(0, prodSet.size());
-    Iterator iter = prodSet.iterator();
+    Iterator<Expr> iter = prodSet.iterator();
     assertFalse(iter.hasNext());
   }
 
@@ -75,7 +76,7 @@ public class ProdSetTest extends ZTestCase
     assertEquals(BigInteger.valueOf(1), prodSet.maxSize());
     assertEquals(1.0, prodSet.estSize(), ACCURACY);
     assertEquals(1, prodSet.size());
-    Iterator iter = prodSet.iterator();
+    Iterator<Expr> iter = prodSet.iterator();
     assertTrue(iter.hasNext());
     assertTrue(prodSet.contains(iter.next()));
     assertFalse(iter.hasNext());
@@ -91,7 +92,7 @@ public class ProdSetTest extends ZTestCase
     assertEquals(BigInteger.valueOf(2), prodSet.maxSize());
     assertEquals(2.0, prodSet.estSize(), ACCURACY);
     assertEquals(2, prodSet.size());
-    Iterator iter = prodSet.iterator();
+    Iterator<Expr> iter = prodSet.iterator();
     assertTrue(iter.hasNext());
     assertTrue(prodSet.contains(iter.next()));
     assertTrue(iter.hasNext());

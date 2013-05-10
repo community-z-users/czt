@@ -24,6 +24,7 @@ import java.io.Writer;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Section;
 
@@ -59,7 +60,7 @@ public final class PrintUtils
   public static void print(Term term,
                            Writer out,
                            SectionManager sectInfo,
-                           Markup markup)
+                           Markup markup) throws PrintException
   {
     final String sectionName = Section.STANDARD_TOOLKIT.getName();
     print(term, out, sectInfo, sectionName, markup);
@@ -69,7 +70,7 @@ public final class PrintUtils
                            Writer out,
                            SectionManager sectInfo,
                            String sectName,
-                           Markup markup)
+                           Markup markup) throws PrintException
   {
     switch (markup) {
     case  LATEX:
@@ -80,7 +81,7 @@ public final class PrintUtils
       break;
     default:
       String message = "Attempt to print unsupported markup";
-      throw new PrintException(message);
+      throw new PrintException(sectInfo.getDialect(), message);
     }
   }
 }

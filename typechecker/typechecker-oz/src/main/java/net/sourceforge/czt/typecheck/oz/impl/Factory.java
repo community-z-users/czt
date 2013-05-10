@@ -20,12 +20,8 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import java.util.List;
 
-import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
-
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  * A factory for creating types that hide VariableTypes.

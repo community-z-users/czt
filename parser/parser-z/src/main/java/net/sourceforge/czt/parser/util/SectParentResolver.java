@@ -32,7 +32,11 @@ public class SectParentResolver
   public static class CyclicSectionsException extends Exception
   {
 
-    private final List<List<String>> cycles;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1095064817735467171L;
+	private final List<List<String>> cycles;
 
     public CyclicSectionsException(List<List<String>> cycles)
     {
@@ -249,7 +253,7 @@ public class SectParentResolver
     if (!manager.isCached(sectKey)) {
       // The section in question has not been parsed yet - do not continue.
       // Note that we choose not to parse, we assume parsing is done separately
-      throw new CommandException("Cannot resolve section " + sectName);
+      throw new CommandException(manager.getDialect(), "Cannot resolve section " + sectName);
     }
     
     ZSect zs = manager.get(sectKey);

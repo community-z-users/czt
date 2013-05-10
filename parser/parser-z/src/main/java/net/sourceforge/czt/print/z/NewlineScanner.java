@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.print.z;
 
-import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
+import net.sourceforge.czt.parser.util.CztScanner;
 import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * This scanner gets token from another scanner and provides them
@@ -32,11 +33,11 @@ import net.sourceforge.czt.parser.util.CztScannerImpl;
 public class NewlineScanner
   extends CztScannerImpl
 {
-  Scanner scanner_;
-  Symbol lastToken_ = new Symbol(0);
-  Symbol lastButOneToken_ = new Symbol(0);
+  private final CztScanner scanner_;
+  private Symbol lastToken_ = new Symbol(0);
+  private Symbol lastButOneToken_ = new Symbol(0);
 
-  public NewlineScanner(Scanner scanner)
+  public NewlineScanner(CztScanner scanner)
   {
     scanner_ = scanner;
   }
@@ -90,4 +91,9 @@ public class NewlineScanner
   {
     return Sym.class;
   }
+
+	@Override
+	public Dialect getDialect() {
+		return scanner_.getDialect();
+	}
 }

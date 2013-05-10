@@ -32,16 +32,16 @@ public class ConfigChangeListener implements java.awt.event.ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    Map<String, Class> customMap = GaffeUtil.getCustomMap();
+    Map<String, Class<?>> customMap = GaffeUtil.getCustomMap();
     JTable customMapTable = designDialog.getCustomMapTable();
     designDialog.setVisible(false);
     String key = "";
     TableCellEditor selected = null;
-    Class curAdapter;
+    Class<?> curAdapter;
     for (int row = 0; row < customMapTable.getRowCount(); row++) {
       key = (String) customMapTable.getValueAt(row, 0);
       selected = customMapTable.getCellEditor(row, 1);
-      curAdapter = (Class) (selected.getCellEditorValue());
+      curAdapter = (Class<?>) (selected.getCellEditorValue());
       customMap.put(key, curAdapter);
       System.out.println(key + " is adapted by " + curAdapter);
     }

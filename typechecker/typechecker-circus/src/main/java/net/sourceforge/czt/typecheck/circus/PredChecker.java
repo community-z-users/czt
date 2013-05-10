@@ -20,8 +20,7 @@ package net.sourceforge.czt.typecheck.circus;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
-import net.sourceforge.czt.circus.ast.CircusCommunicationList;
-import net.sourceforge.czt.circus.ast.ProcessSignature;
+//import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
 import net.sourceforge.czt.circus.visitor.ActionTransformerPredVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTransformerPredVisitor;
@@ -68,8 +67,10 @@ public class PredChecker
   @Override
   public UResult visitProcessTransformerPred(ProcessTransformerPred term)  
   {
-    CircusCommunicationList spec = term.getSpec().accept(processChecker());
-    CircusCommunicationList impl = term.getImpl().accept(processChecker());
+//    CircusCommunicationList spec = 
+    			term.getSpec().accept(processChecker());
+//    CircusCommunicationList impl = 
+    		term.getImpl().accept(processChecker());
     
 //    ProcessType ptSpec = factory().createProcessType(psSpec);
 //    ProcessType ptImpl = factory().createProcessType(psImpl);
@@ -86,8 +87,10 @@ public class PredChecker
 
   public UResult visitActionTransformerPred(ActionTransformerPred term)
   {
-    CircusCommunicationList spec = visit(term.getSpec());
-    CircusCommunicationList impl = visit(term.getImpl());
+//    CircusCommunicationList spec = 
+    		visit(term.getSpec());
+//    CircusCommunicationList impl = 
+    		visit(term.getImpl());
     
 //    ActionType atSpec = factory().createProcessType(asSpec);
 //    ActionType atImpl = factory().createProcessType(asImpl);

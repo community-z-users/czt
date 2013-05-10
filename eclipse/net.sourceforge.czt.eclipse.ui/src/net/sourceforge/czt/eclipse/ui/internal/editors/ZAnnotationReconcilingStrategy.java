@@ -70,9 +70,14 @@ public class ZAnnotationReconcilingStrategy
 
   private boolean fNotify = true;
 
-  private IZReconcilingListener fZReconcilingListener;
+  //private IZReconcilingListener fZReconcilingListener;
 
-  private boolean fIsJavaReconcilingListener;
+  //private boolean fIsJavaReconcilingListener;
+  
+  protected boolean isNotify()
+  {
+	  return fNotify;
+  }
   
   /**
    * 
@@ -102,6 +107,12 @@ public class ZAnnotationReconcilingStrategy
   {
     fProgressMonitor = monitor;
   }
+  
+  protected IProgressMonitor getIProgressMonitor()
+  {
+	  return fProgressMonitor;
+  }
+  
 
   /*
    * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#initialReconcile()

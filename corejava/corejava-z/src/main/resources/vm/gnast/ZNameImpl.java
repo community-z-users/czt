@@ -26,51 +26,60 @@
    * It returns the ZStrokeList if ZStrokeList is an instance of
    * ZStrokeList and throws an UnsupportedAstClassException otherwise.
    */
-  public ZStrokeList getZStrokeList()
+  public net.sourceforge.czt.z.ast.ZStrokeList getZStrokeList()
   {
-    StrokeList strokeList = getStrokeList();
-    if (strokeList instanceof ZStrokeList) {
-      return (ZStrokeList) strokeList;
+	  net.sourceforge.czt.z.ast.StrokeList strokeList = getStrokeList();
+    if (strokeList instanceof net.sourceforge.czt.z.ast.ZStrokeList) {
+      return (net.sourceforge.czt.z.ast.ZStrokeList) strokeList;
     }
     final String message = "Expected the default (Z) implementation of StrokeList" +
       " but found " + String.valueOf(strokeList);
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException(message);
   }
 
-   private static Set<String> idPool_ = null;	
-   private static Map<String, Set<String>> nameIdPool_ = new TreeMap<String, Set<String>>(); 
-   public static Map<String, Set<String>> nameIdPool()
+   private static java.util.Set<String> idPool_ = null;	
+   private static java.util.Map<String, java.util.Set<String>> nameIdPool_ = new java.util.TreeMap<String, java.util.Set<String>>(); 
+   
+   public static java.util.Map<String, java.util.Set<String>> nameIdPool()
    {
-     return Collections.unmodifiableMap(nameIdPool_);
+     return java.util.Collections.unmodifiableMap(nameIdPool_);
    }
+   
+   public static boolean debugZName_ = false;
 
   private void setWordInternal(String word)
   {
     word_ = word;
-    if (!nameIdPool_.containsKey(word))
+    if (debugZName_)
     {
-      nameIdPool_.put(word, new TreeSet<String>());
-      idPool_ = nameIdPool_.get(word);
-      //assert id_ == null; ??? could this be non-null? set id before the name?
+	    if (!nameIdPool_.containsKey(word))
+	    {
+	      nameIdPool_.put(word, new java.util.TreeSet<String>());
+	      idPool_ = nameIdPool_.get(word);
+	      //assert id_ == null; ??? could this be non-null? set id before the name?
+	    }
+		if (id_ != null)
+		{
+	      assert idPool_ != null;
+		  idPool_.add(id_);
+		}
+	    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setWord \t");
+	    net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(word, result);
+	    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
     }
-	if (id_ != null)
-	{
-      assert idPool_ != null;
-	  idPool_.add(id_);
-	}
-    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setWord \t");
-    net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(word, result);
-    TermInstanceCountManager.log(this, result.toString());
   }
   
   private void setIdInternal(String id)
   {
     id_ = id;
-    assert idPool_ != null && word_ != null;
-    assert nameIdPool_.containsKey(word_);
-    idPool_.add(String.valueOf(id));// might be null
-    
-    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setId \t");
-    if (id != null) net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(id, result); else result.append("null");
-    TermInstanceCountManager.log(this, result.toString());
+    if (debugZName_)
+    {
+	    assert idPool_ != null && word_ != null;
+	    assert nameIdPool_.containsKey(word_);
+	    idPool_.add(String.valueOf(id));// might be null
+	    
+	    StringBuffer result = new StringBuffer("\t\t " + instanceCount() + " setId \t");
+	    if (id != null) net.sourceforge.czt.z.util.ZUtils.unicodeToAscii(id, result); else result.append("null");
+	    net.sourceforge.czt.base.util.TermInstanceCountManager.log(this, result.toString());
+    }
   }

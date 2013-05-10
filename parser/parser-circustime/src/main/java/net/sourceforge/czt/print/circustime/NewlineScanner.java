@@ -19,12 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.print.circustime;
 
-import java_cup.runtime.Scanner;
+import net.sourceforge.czt.parser.util.CztScanner;
 
 public class NewlineScanner extends net.sourceforge.czt.print.z.NewlineScanner
 {
   
-  public NewlineScanner(Scanner scanner)
+  public NewlineScanner(CztScanner scanner)
   {
     super(scanner);
   }

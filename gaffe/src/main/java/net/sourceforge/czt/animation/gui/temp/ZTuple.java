@@ -163,7 +163,7 @@ public class ZTuple implements ZValue
   /**
    * @return An iterator over the values in the tuple.
    */
-  public ListIterator iterator()
+  public ListIterator<ZValue> iterator()
   {
     //return tuple_.iterator();
     return new ZTupleIterator(expr_.getZExprList().listIterator());

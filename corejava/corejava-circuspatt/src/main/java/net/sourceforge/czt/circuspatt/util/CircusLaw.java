@@ -10,14 +10,9 @@
 package net.sourceforge.czt.circuspatt.util;
 
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
-import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
-import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.circus.util.Factory;
-import net.sourceforge.czt.zpatt.ast.Deduction;
 import net.sourceforge.czt.zpatt.ast.Rule;
-import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.ast.SequentList;
 import net.sourceforge.czt.zpatt.impl.RuleImpl;
 

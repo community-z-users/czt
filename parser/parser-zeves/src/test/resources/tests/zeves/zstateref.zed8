@@ -1,4 +1,4 @@
-─ section zstaterefUtf parents zstate_toolkit └ 
+─ section zstaterefUtf parents zeves_toolkit └ 
 
 ╷ foo : ℕ |
  foo = 1 └ 
@@ -8,47 +8,38 @@
 
 
 ┌ S 
-zstate 
 x : ℕ |
  bar > x └ 
 
 ┌ SInit 
-zstinit 
 S ′ |
  x′ = 0 └ 
 
 ┌ AState 
-zastate 
 x : ℙ ℕ |
  x ≠ ∅ └ 
 
 ┌ ASInit 
-zastinit 
 AState ′ |
  x′ = { 0 } └ 
 
 ┌ ASFin 
-zastfin 
 AState |
  true └ 
 
 ┌ CState 
-zcstate 
 y : seq ℕ |
  y ≠ ⟨ ⟩ └ 
 
 ┌ CSInit 
-zcstinit 
 CState ′ |
  y′ = ⟨ 0 ⟩ └ 
 
 ┌ CSFin 
-zcstfin 
 CState |
  true └ 
 
 ┌ Retr 
-zretrieve 
 AState 
 CState |
  ran y = x └ 
@@ -68,7 +59,6 @@ i? : ℕ |
  x′ = x ∪ { i? } └ 
 
 ┌ COp1 
-zfsrefines AOp1 
 ΔCState 
 i? : ℕ |
  y′ = y ⁀ ⟨ i? ⟩ └ 
@@ -79,7 +69,6 @@ o! : ℕ |
  o! ∈ x′ └ 
 
 ┌ COp2 
-zbsrefines AOp2 
 ΞCState 
 o! : ℕ |
  o! ∈ ran y′ └ 

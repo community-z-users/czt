@@ -16,7 +16,7 @@
   </description>
 
   <properties>
-    <parser.nodes>oz,ozz,pattern,ozpatt</parser.nodes>
+    <parser.nodes>oz,pattern,ozpatt,ozpattcore</parser.nodes>
     <parser.package>net.sourceforge.czt.parser.ozpatt</parser.package>
   </properties>
 

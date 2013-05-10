@@ -31,7 +31,12 @@ import javax.swing.table.TableCellRenderer;
  */
 public class ColorRenderer extends JLabel implements TableCellRenderer
 {
-  public ColorRenderer()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7785512903623767497L;
+
+public ColorRenderer()
   {
     setOpaque(true);
   };

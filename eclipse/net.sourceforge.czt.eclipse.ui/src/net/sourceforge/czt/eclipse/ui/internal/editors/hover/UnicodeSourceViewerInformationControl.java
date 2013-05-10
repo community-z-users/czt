@@ -95,7 +95,7 @@ public class UnicodeSourceViewerInformationControl
   /**
    * Initialize the font to the CZT editor font.
    */
-  private void initializeFont() {
+  protected void initializeFont() {
     FontData viewFontData = new FontData();
     viewFontData.setName("CZT"); //$NON-NLS-1$
     //        viewFontData.setHeight(10);
@@ -104,6 +104,7 @@ public class UnicodeSourceViewerInformationControl
     StyledText styledText= getViewer().getTextWidget();
     styledText.setFont(cztUnicodeFont);
   }
+  // TODO: never used? private->protected
   
   /*
    * @see org.eclipse.jface.text.IInformationControl#setInformation(java.lang.String)

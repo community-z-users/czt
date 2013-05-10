@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 
@@ -36,17 +37,13 @@ public class DefinitionTable extends InfoTable
   private static final Logger logger_ = Logger.getLogger(SectionManager.class.getName());
 
   /**
-   * The name of the section.
-   */
-  private String section_;
-
-  /**
    * Records all operators defined in this section.
    *
    * @czt.todo should the domain be String or Name?
    */
-  private /*@non_null@*/ SortedMap<String,Definition> definitions_ =
+  private final /*@non_null@*/ SortedMap<String,Definition> definitions_ =
     new TreeMap<String,Definition>();
+  
 
   /**
    * Constructs a definition table for a new section. Changed the originally
@@ -57,11 +54,11 @@ public class DefinitionTable extends InfoTable
    * @param parents Definition tables of all direct parents of the new section.
    * @throws net.sourceforge.czt.parser.util.DefinitionTable.DefinitionException
    */
-  protected DefinitionTable(String sectionName,
+  protected DefinitionTable(Dialect d, String sectionName,
                          Collection<DefinitionTable> parents)
     throws DefinitionException
   {
-    super(sectionName);
+    super(d, sectionName);
 
     // do not use InfoTable.addParents in this specialised case
     // in a constructor, we shall not override addParents either :-(
@@ -97,7 +94,7 @@ public class DefinitionTable extends InfoTable
           ". This occurs either because the section is not typechecked, or because type-compatible " +
           "names (i.e., those with different declared types but same carrier set) are repeated.";
         logger_.warning(message + " with exceptions " + exceptions.toString());
-        throw new DefinitionException(message, exceptions);
+        throw new DefinitionException(d, message, exceptions);
       }
     }
   }
@@ -135,7 +132,7 @@ public class DefinitionTable extends InfoTable
     }
     else if (exceptions.size() > 1)
     {
-      throw new DefinitionException("DEFTBL-ADDPARENT", exceptions);
+      throw new DefinitionException(getDialect(), "DEFTBL-ADDPARENT", exceptions);
     }
   }
 
@@ -155,7 +152,7 @@ public class DefinitionTable extends InfoTable
   @Override
   public String toString()
   {
-    return "DefinitionTable for " + sectionName_ + "\n" + definitions_;
+    return "DefinitionTable for " + getSectionName() + "\n" + definitions_;
   }
 
   /**
@@ -178,7 +175,7 @@ public class DefinitionTable extends InfoTable
     if (old != null && ! old.getSectionName().equals(def.getSectionName()))
     {
       final String message = "Duplicated def \"" + defName + "\" in " + getSectionName();
-      throw new DefinitionException(message);
+      throw new DefinitionException(getDialect(), message);
       //logger_.warning(message);
     }
   }
@@ -189,29 +186,33 @@ public class DefinitionTable extends InfoTable
   public static class DefinitionException
     extends InfoTable.InfoTableException
   {
-    private final List<DefinitionException> exceptions_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3082756228588908110L;
+	private final List<DefinitionException> exceptions_;
 
-    public DefinitionException(String message)
+    public DefinitionException(Dialect d, String message)
     {
-      super(message);
+      super(d, message);
       exceptions_ = null;
     }
 
-    public DefinitionException(String message, Throwable cause)
+    public DefinitionException(Dialect d, String message, Throwable cause)
     {
-      super(message, cause);
+      super(d, message, cause);
       exceptions_ = null;
     }
 
-    public DefinitionException(String message, List<DefinitionException> exceptions)
+    public DefinitionException(Dialect d, String message, List<DefinitionException> exceptions)
     {
-      super(message);
+      super(d, message);
       exceptions_ = Collections.unmodifiableList(exceptions);
     }
 
-    public DefinitionException(String message, Throwable cause, List<DefinitionException> exceptions)
+    public DefinitionException(Dialect d, String message, Throwable cause, List<DefinitionException> exceptions)
     {
-      super(message, cause);
+      super(d, message, cause);
       exceptions_ = Collections.unmodifiableList(exceptions);
     }
 

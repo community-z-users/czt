@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.z.util;
 
-import java.util.Iterator;
-
 import junit.framework.*;
 
 /**

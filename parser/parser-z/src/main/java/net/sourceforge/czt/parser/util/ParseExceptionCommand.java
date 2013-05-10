@@ -34,7 +34,8 @@ public class ParseExceptionCommand
     final Key<ParseException> key = new Key<ParseException>(name, ParseException.class);
     if (! manager.isCached(key)) {
       // parser exception has no dependencies
-      manager.endTransaction(key, new ParseException(new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY)));
+      manager.endTransaction(key, new ParseException(manager.getDialect(), 
+    		  new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY)));
     }
     return true;
   }

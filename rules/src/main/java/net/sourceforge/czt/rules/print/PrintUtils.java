@@ -26,7 +26,8 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.print.z.UnicodePrinter;
 import net.sourceforge.czt.print.zpatt.ZpattPrintVisitor;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 
 /**
@@ -65,7 +66,7 @@ public final class PrintUtils
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree;
     try {
-      tree = (Term) toPrintTree.run(term, sectionName);
+      tree = toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
       throw new CztException(exception);
@@ -75,7 +76,7 @@ public final class PrintUtils
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
     Properties props = sectInfo.getProperties();
-    ZpattPrintVisitor visitor = new ZpattPrintVisitor(printer, props);
+    ZpattPrintVisitor visitor = new ZpattPrintVisitor(sectInfo, printer, props);
     tree.accept(visitor);
   }
 }

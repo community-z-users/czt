@@ -22,18 +22,13 @@ package net.sourceforge.czt.rules.oldrewriter;
 import static net.sourceforge.czt.rules.prover.ProverUtils.collectConjectures;
 
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.net.URL;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
@@ -41,14 +36,20 @@ import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.prover.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.unification.Unifier;
+import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.UrlSource;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.IffPred;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 public class RewriteTest
@@ -73,15 +74,15 @@ public class RewriteTest
     SectionManager manager = new SectionManager(Dialect.ZPATT);
     manager.putCommands(Dialect.ZPATT);
     Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
-    manager.put(new Key("unfold", Source.class), unfoldSource);
+    manager.put(new Key<Source>("unfold", Source.class), unfoldSource);
     URL url = RewriteTest.class.getResource(resource);
     assertFalse(url == null);
-    manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
-    Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
+    manager.put(new Key<Source>(url.toString(), Source.class), new UrlSource(url));
+    Term term = manager.get(new Key<Spec>(url.toString(), Spec.class));
     String sectname = term.accept(new GetZSectNameVisitor());
-    manager.get(new Key(sectname, SectTypeEnvAnn.class));
+    manager.get(new Key<SectTypeEnvAnn>(sectname, SectTypeEnvAnn.class));
     RuleTable rules =
-      (RuleTable) manager.get(new Key(sectname, RuleTable.class));
+    			manager.get(new Key<RuleTable>(sectname, RuleTable.class));
     for (ConjPara conjPara : collectConjectures(term)) {
       Pred pred = conjPara.getPred();
       suite.addTest(new RewriteTester(manager, sectname, rules, pred));
@@ -91,10 +92,10 @@ public class RewriteTest
   static class RewriteTester
     extends TestCase
   {
-    private SectionManager manager_;
-    private String section_;
-    private RuleTable rules_;
-    private Pred pred_;
+    private final SectionManager manager_;
+    private final String section_;
+    private final RuleTable rules_;
+    private final Pred pred_;
 
     RewriteTester(SectionManager manager, String sectname,
                   RuleTable rules, Pred pred)
@@ -122,16 +123,17 @@ public class RewriteTest
       assertTrue(result);
     }
 
-    private void print(Term term)
+    private void print(Term term) throws PrintException
     {
-      XmlWriter writer = new JaxbXmlWriter();
+      //XmlWriter writer = new JaxbXmlWriter();
       PrintUtils.print(term, new OutputStreamWriter(System.out),
                        manager_, section_, Markup.LATEX);
       System.out.println();
       //        writer.write(term, System.out);
     }
 
-    public void runTest()
+    @Override
+	public void runTest()
       throws Exception
     {
       if (pred_ instanceof IffPred) {

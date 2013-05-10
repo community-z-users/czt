@@ -37,7 +37,8 @@ public class SimpleCircusTimeFormatter extends Formatter {
     private boolean    fShowStackTrace      = true;
     private boolean    fShowSourceMethod    = true;
     private boolean    fShowRecordedMessage = true;
-    private boolean    fShowDirectory       = true;
+    @SuppressWarnings("unused")
+	private boolean    fShowDirectory       = true;
 
     // Line separator string.  This is the value of the line.separator
     // property at the moment that the SimpleFormatter was created.

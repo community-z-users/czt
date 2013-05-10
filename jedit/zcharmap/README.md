@@ -3,7 +3,7 @@
 The ZCharMap plugin displays a dockable window listing important Z characters and Z constructs.
 The plugin currently supports two markup formats for Z: the LaTeX markup and the Unicode markup.
 
-![CZT ZCharMap palette for jEdit]( images/czt-jedit-zcharmap.png )
+![CZT ZCharMap palette for jEdit](images/czt-jedit-zcharmap.png)
 
 ## Usage
 

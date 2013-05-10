@@ -51,7 +51,7 @@ public final class IntrospectionHelper
   //be edited.
   //Without this cache significant delays happen when creating/switching beans.
   //Even with this cache there are still some delays.
-  private static final HashMap<Class, PropertyEditor> editorCache = new HashMap<Class, PropertyEditor>();
+  private static final HashMap<Class<?>, PropertyEditor> editorCache = new HashMap<Class<?>, PropertyEditor>();
 
   /**
    * Private unused constructor to prevent creation of IntrospectionHelper
@@ -250,7 +250,7 @@ public final class IntrospectionHelper
    * @param bean The bean to register with.
    * @param listener The type of listener to check <code>bean</code> for.
    */
-  public static boolean providesEventSet(Object bean, Class listener)
+  public static boolean providesEventSet(Object bean, Class<?> listener)
   {
     BeanInfo bi;
     try {
@@ -274,7 +274,7 @@ public final class IntrospectionHelper
    * @param listener The listener to register with <code>bean</code>.
    * @return true if successful.
    */
-  public static boolean addBeanListener(Object bean, Class listenerType,
+  public static boolean addBeanListener(Object bean, Class<?> listenerType,
       Object listener)
   {
     BeanInfo bi;
@@ -312,7 +312,7 @@ public final class IntrospectionHelper
    * @param listener The listener to unregister with <code>bean</code>.
    * @return true if successful.
    */
-  public static boolean removeBeanListener(Object bean, Class listenerType,
+  public static boolean removeBeanListener(Object bean, Class<?> listenerType,
       Object listener)
   {
     BeanInfo bi;
@@ -342,7 +342,7 @@ public final class IntrospectionHelper
     return true;
   }
 
-  public static EventListener[] getBeanListeners(Object bean, Class listenerType)
+  public static EventListener[] getBeanListeners(Object bean, Class<?> listenerType)
   {
     BeanInfo bi;
     try {
@@ -409,7 +409,7 @@ public final class IntrospectionHelper
     }
   }
 
-  public static String translateClassName(Class c)
+  public static String translateClassName(Class<?> c)
   {
     return translateClassName(c.getName());
   }
@@ -419,7 +419,7 @@ public final class IntrospectionHelper
     rememberedBeanInfos.add(bi);
   }
 
-  public static void rememberBeanInfo(Class type)
+  public static void rememberBeanInfo(Class<?> type)
   {
     try {
       rememberBeanInfo(Introspector.getBeanInfo(type));
@@ -427,7 +427,7 @@ public final class IntrospectionHelper
     };
   }
 
-  public static PropertyEditor getEditor(Class clazz)
+  public static PropertyEditor getEditor(Class<?> clazz)
   {
     if (clazz == null)
       return null;

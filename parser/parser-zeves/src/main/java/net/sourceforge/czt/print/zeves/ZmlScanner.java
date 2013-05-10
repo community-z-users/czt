@@ -21,15 +21,17 @@ package net.sourceforge.czt.print.zeves;
 
 import java.util.Iterator;
 import java.util.Properties;
-import net.sourceforge.czt.base.ast.Term;
+
 import java_cup.runtime.Symbol;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.zeves.ZEvesProofKeyword;
 import net.sourceforge.czt.parser.zeves.ZEvesSymMap;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
-import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**
@@ -47,22 +49,22 @@ public class ZmlScanner
    * @param manager
    * @param prop
    */
-  public ZmlScanner(Term term, WarningManager manager, Properties prop)
+  public ZmlScanner(SectionInfo si, Term term, WarningManager manager, Properties prop)
   {
-    super(prop);
+    super(si.getDialect(), prop);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class, this);
-    ZEvesPrintVisitor visitor = new ZEvesPrintVisitor(collector, prop, manager);
+    SymbolCollector collector = new SymbolCollector(si.getDialect(), Sym.class, this);
+    ZEvesPrintVisitor visitor = new ZEvesPrintVisitor(si, collector, prop, manager);
     term.accept(visitor);
-    symbols_ = collector.getSymbols();
+    setSymbols(collector.getSymbols());
 
   }
 
-  public ZmlScanner(Iterator<Token> iter, Properties props)
+  public ZmlScanner(Dialect d, Iterator<Token> iter, Properties props)
   {
-    super(iter, props);
+    super(d, iter, props);
   }
 
   @Override

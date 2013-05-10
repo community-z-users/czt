@@ -34,6 +34,8 @@ import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
+import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
@@ -52,7 +54,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class ZPrintVisitor
-  extends AbstractPrintVisitor
+  extends AbstractPrintVisitor<Object>
   implements TermVisitor<Object>,
              ListTermVisitor<Object>,
              ZVisitor<Object>,
@@ -64,21 +66,21 @@ public class ZPrintVisitor
              PrintPropertiesKeys
 {
   protected boolean ref_ = false;
-  private Properties properties_;
-  private Utils utils_ = new UtilsImpl();
+  private final Properties properties_;
+  private final Utils utils_ = new UtilsImpl();
   private Visitor<Object> visitor_ = this;
 
   /**
    * Creates a new Z print visitor.
    */
-  public ZPrintVisitor(ZPrinter printer)
+  public ZPrintVisitor(SectionInfo si, ZPrinter printer)
   {
-    super(printer);
+    this(si, printer, null);
   }
 
-  public ZPrintVisitor(ZPrinter printer, Properties properties)
+  public ZPrintVisitor(SectionInfo si, ZPrinter printer, Properties properties)
   {
-    super(printer);
+    super(si, printer);
     properties_ = properties;
   }
 
@@ -143,10 +145,10 @@ public class ZPrintVisitor
 
   public Object visitTerm(Term term)
   {
-    throw new PrintException("Unexpected term " + term);
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term " + term));
   }
 
-  public Object visitListTerm(ListTerm listTerm)
+  public Object visitListTerm(ListTerm<?> listTerm)
   {
     for (Object o : listTerm) {
       if (o instanceof Term) {
@@ -158,7 +160,7 @@ public class ZPrintVisitor
 
   public Object visitAndPred(AndPred andPred)
   {
-    throw new PrintException("Unexpeced term AndPred");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpeced term AndPred"));
   }
 
   public Object visitAndExpr(AndExpr andExpr)
@@ -178,7 +180,7 @@ public class ZPrintVisitor
    */
   public Object visitAxPara(AxPara axPara)
   {
-    throw new PrintException("Unexpeced term AxPara");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpeced term AxPara"));
   }
 
    public Object visitApplication(Application appl)
@@ -199,7 +201,7 @@ public class ZPrintVisitor
    */
   public Object visitApplExpr(ApplExpr applExpr)
   {
-    throw new PrintException("Unexpected term " + applExpr);
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term " + applExpr));
   }
 
   public Object visitBindExpr(BindExpr bindExpr)
@@ -431,12 +433,12 @@ public class ZPrintVisitor
 
   public Object visitGenericType(GenericType genType)
   {
-    throw new PrintException("Unexpected term GenType");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term GenType"));
   }
 
   public Object visitGenParamType(GenParamType genType)
   {
-    throw new PrintException("Unexpected term GenType");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term GenType"));
   }
 
   public Object visitGivenPara(GivenPara givenPara)
@@ -452,7 +454,7 @@ public class ZPrintVisitor
 
   public Object visitGivenType(GivenType givenType)
   {
-    throw new PrintException("Unexpected term GenType");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term GenType"));
   }
 
   public Object visitHideExpr(HideExpr hideExpr)
@@ -582,12 +584,12 @@ public class ZPrintVisitor
 
   public Object visitLocAnn(LocAnn locAnn)
   {
-    throw new PrintException("Unexpeced term LocAnn");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpeced term LocAnn"));
   }
 
   public Object visitMemPred(MemPred memPred)
   {
-    throw new PrintException("Unexpeced term MemPred");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpeced term MemPred"));
   }
 
   public Object visitMuExpr(MuExpr muExpr)
@@ -621,13 +623,13 @@ public class ZPrintVisitor
   public Object visitNameSectTypeTriple(NameSectTypeTriple triple)
   {
     String message = "Unexpected term NameSectTypeTriple.";
-    throw new PrintException(message);
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), message));
   }
 
   public Object visitNameTypePair(NameTypePair pair)
   {
     String message = "Unexpected term NameTypePair.";
-    throw new PrintException(message);
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), message));
   }
 
   public Object visitNarrPara(NarrPara narrPara)
@@ -723,7 +725,7 @@ public class ZPrintVisitor
     String message =
       printOperator(appl.getOperatorName(), appl.getArgs());
     if (message != null) {
-      throw new PrintException("Cannot print appl");
+      throw new CztException(new PrintException(getSectionInfo().getDialect(), "Cannot print appl"));
     }
     if (braces) print(ZToken.RPAREN);
     return null;
@@ -816,13 +818,13 @@ public class ZPrintVisitor
 
   public Object visitParenAnn(ParenAnn parenAnn)
   {
-    throw new PrintException("Unexpected term ParenAnn.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term ParenAnn."));
   }
 
   public Object visitParent(Parent parent)
   {
     String word = parent.getWord();
-    if (word == null) throw new PrintException("Invalid (null) parent");
+    if (word == null) throw new CztException(new PrintException(getSectionInfo().getDialect(), "Invalid (null) parent"));
     print(ZToken.DECORWORD, new Decorword(word));
     return null;
   }
@@ -850,7 +852,7 @@ public class ZPrintVisitor
 
   public Object visitPowerType(PowerType powerType)
   {
-    throw new PrintException("Unexpected term PowerType.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term PowerType."));
   }
 
   public Object visitPreExpr(PreExpr preExpr)
@@ -940,7 +942,7 @@ public class ZPrintVisitor
 
   public Object visitProdType(ProdType prodType)
   {
-    throw new PrintException("Unexpected term ProdType.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term ProdType."));
   }
 
   public Object visitProjExpr(ProjExpr projExpr)
@@ -962,7 +964,7 @@ public class ZPrintVisitor
       String message = "RefExpr with Mixfix set to true are not contained " +
         "in print trees; did you run the AstToPrintTreeVisitor before " +
         "calling this ZPrintVisitor?";
-      throw new PrintException(message);
+      throw new CztException(new PrintException(getSectionInfo().getDialect(), message));
     }
     else { // Mixfix == false
       ref_ = true;
@@ -1042,7 +1044,7 @@ public class ZPrintVisitor
 
   public Object visitSchemaType(SchemaType schemaType)
   {
-    throw new PrintException("Unexpected term SchemaType.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term SchemaType."));
   }
 
   public Object visitSchExpr(SchExpr schExpr)
@@ -1077,7 +1079,7 @@ public class ZPrintVisitor
 
   public Object visitSectTypeEnvAnn(SectTypeEnvAnn ann)
   {
-    throw new PrintException("Unexpected term SectTypeEnvAnn.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term SectTypeEnvAnn."));
   }
 
   public Object visitSetCompExpr(SetCompExpr setCompExpr)
@@ -1102,7 +1104,7 @@ public class ZPrintVisitor
 
   public Object visitSignature(Signature s)
   {
-    throw new PrintException("Unexpected term Signature.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term Signature."));
   }
 
   public Object visitSpec(Spec spec)
@@ -1152,23 +1154,12 @@ public class ZPrintVisitor
 
   public Object visitSignatureAnn(SignatureAnn signatureAnn)
   {
-    throw new PrintException("Unexpected term SignatureAnn.");
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term SignatureAnn."));
   }
 
   public Object visitTypeAnn(TypeAnn typeAnn)
   {
-    throw new PrintException("Unexpected term TypeAnn.");
-  }
-
-  public Object visitZRefinesAnn(ZRefinesAnn term)
-  {
-    throw new PrintException("Unexpected term ZRefinesAnn");
-  }
-
-  public Object visitZStateAnn(ZStateAnn term)
-  {
-     throw new PrintException("Unexpected term ZStateAnn");
-
+    throw new CztException(new PrintException(getSectionInfo().getDialect(), "Unexpected term TypeAnn."));
   }
 
   public Object visitUnparsedPara(UnparsedPara unparsedPara)
@@ -1198,7 +1189,7 @@ public class ZPrintVisitor
     final List<Parent> parents = zSect.getParent();
     print(ZToken.ZED);
     print(ZKeyword.SECTION);
-    if (name == null) throw new PrintException("Invalid section name.");
+    if (name == null) throw new CztException(new PrintException(getSectionInfo().getDialect(), "Invalid section name."));
     print(ZToken.DECORWORD, new Decorword(name));
     if (parents.size() > 0) {
       print(ZKeyword.PARENTS);
@@ -1233,11 +1224,12 @@ public class ZPrintVisitor
    * they might be in fact different ones (with the same newline
    * category).
    */
-  private String printOperator(OperatorName op, Object arguments)
+@SuppressWarnings("unchecked")
+private String printOperator(OperatorName op, Object arguments)
   {
     List<Object> args = new ArrayList<Object>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     if (arguments instanceof List) {
-      args = (List) arguments;
+      args = (List<Object>) arguments; // unchecked warning 
     }
     else {
       if (op.isUnary()) {

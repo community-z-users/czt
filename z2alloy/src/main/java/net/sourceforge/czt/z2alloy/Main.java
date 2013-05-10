@@ -30,6 +30,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -109,21 +110,21 @@ public class Main
     FileSource source = new FileSource(input);
     SectionManager manager = new SectionManager(Dialect.ZPATT);
     String name = "spec";
-    manager.put(new Key(name, Source.class), source);
-    Spec spec = (Spec) manager.get(new Key(name, Spec.class));
+    manager.put(new Key<Source>(name, Source.class), source);
+    Spec spec = manager.get(new Key<Spec>(name, Spec.class));
 
 
     // now create the output file
     // choose the section -- we just take the last one!
     ZSect sect;
-    List sects = spec.getSect();
+    List<Sect> sects = spec.getSect();
     if (sects.size() > 0 && sects.get(sects.size()-1) instanceof ZSect) {
       sect = (ZSect) spec.getSect().get(sects.size()-1);
     }
     else {
       throw new Exception("last section is not a ZSect");
     }
-    manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
+    manager.get(new Key<SectTypeEnvAnn>(sect.getName(), SectTypeEnvAnn.class)); // typecheck
 
     Z2Alloy foo = Z2Alloy.setInstance(manager);
     foo.setUnfolding(unfolding);

@@ -21,7 +21,6 @@ package net.sourceforge.czt.zpatt.util;
 
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * @author Petra Malik

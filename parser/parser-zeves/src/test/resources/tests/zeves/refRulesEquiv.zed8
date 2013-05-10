@@ -1,20 +1,17 @@
-─ section refRulesEquivUtf parents zstate_toolkit └ 
+─ section refRulesEquivUtf parents zeves_toolkit └ 
 
 Bla bla
 
 ┌ AS 
-zastate 
 x : ℙ ℕ └ 
 ─ FI ::= NatIn ⟪ ℕ ⟫ └ ─ FO ::= NatOut ⟪ ℕ ⟫ └ 
 
 ┌ CS 
-zcstate 
 y : seq ℕ └ 
 
 The next refinement tag is mistaken on purpose - just to test the parser for it.
 
 ┌ AOper 
-zbsrefines COper 
 ΔAS 
 ai? : ℕ 
 ao! : ℕ |
@@ -22,7 +19,6 @@ ao! : ℕ |
 ao! ∈ x └ 
 
 ┌ COper 
-zfsrefines AOper 
 ΔCS 
 ci? : FI 
 co! : FO |
@@ -30,19 +26,16 @@ co! : FO |
 ( NatOut ∼ ) ( co! ) ∈ ran y └ 
 
 ┌ R 
-zretrieve 
 AS 
 CS |
  x = ran y └ 
 
 ┌ RIn 
-zretrievein 
 ai? : ℕ 
 ci? : FI |
  ai? = ( NatIn ∼ ) ( ci? ) └ 
 
 ┌ ROut 
-zretrieveout 
 ao! : ℕ 
 co! : FO |
  ao! = ( NatOut ∼ ) ( co! ) └ 

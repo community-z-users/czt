@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.rules.rewriter;
 
-import java.io.StringWriter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.CopyVisitor;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
@@ -45,7 +43,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxSymbol;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.SyntaxSymbolVisitor;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -71,7 +68,8 @@ public class RewriteVisitor
   private List<Oracle> oracles_ = new ArrayList<Oracle>();
   private SectionManager manager_;
   private String section_;
-  private SimpleProver prover_;
+  @SuppressWarnings("unused")
+private SimpleProver prover_;
   private SyntaxSymbolVisitor visitor_ = new SyntaxSymbolVisitor();
 
   /**
@@ -176,7 +174,8 @@ public class RewriteVisitor
     return rewrite(term, map.get(key));
   }
 
-  private void checkTypes(Term term1, Term term2)
+  @SuppressWarnings("unused")
+private void checkTypes(Term term1, Term term2)
   {
     PrintVisitor printer = new PrintVisitor();
     printer.setPrintIds(true);
@@ -188,7 +187,7 @@ public class RewriteVisitor
           (UnificationUtils.unify(type1, type2) != null &&
           (type1.getType() instanceof PowerType) &&
           ((PowerType) type1.getType()).getType() instanceof SchemaType)) {
-        for (Iterator iter = term2.getAnns().iterator(); iter.hasNext(); ) {
+        for (Iterator<?> iter = term2.getAnns().iterator(); iter.hasNext(); ) {
           if (iter.next() instanceof TypeAnn) {
             iter.remove();
           }
@@ -273,7 +272,8 @@ public class RewriteVisitor
         AbstractOracle checker =
           ProverUtils.ORACLES.get(oracleAppl.getName());
         if (checker != null) {
-          List args = oracleAppl.getAnn(List.class);
+          @SuppressWarnings("unchecked")
+		List<? extends Term> args = (List<? extends Term>)oracleAppl.getAnn(List.class);
           try {
             Set<Binding> bdgs = checker.check(args, manager_, section_);
             if (bdgs != null) {

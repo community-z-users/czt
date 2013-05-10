@@ -44,10 +44,10 @@ CZT also provides a basic user interface to drive the main functions of CZT tool
 parsing and typechecking specifications written in Z and its extensions, inspecting the document
 structure as well as running [ZLive animator][zlive].
 
-![CZT user interface]( images/czt-ui.png )
+![CZT user interface](images/czt-ui.png)
 
 Recent development effort has been towards providing a better support for developing
 Z specifications and a richer user interface via CZT integrations with IDEs:
 
--   [CZT Eclipse]( ../eclipse/ )
--   [CZT jEdit]( ../jedit/ )
+-   [CZT Eclipse](../eclipse/)
+-   [CZT jEdit](../jedit/)

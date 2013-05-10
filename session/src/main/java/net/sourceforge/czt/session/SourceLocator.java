@@ -144,7 +144,7 @@ public class SourceLocator extends AbstractCommand
     // if empty or null, try czt.properties
     if (path == null || path.isEmpty())
     {
-      Properties cztprops = retrieveCZTProperties();
+      Properties cztprops = retrieveCZTProperties(manager.getDialect());
       if (cztprops != null)
       {
         // gets within czt.properties (if it exists) czt.path or "." by default
@@ -177,7 +177,7 @@ public class SourceLocator extends AbstractCommand
     }
     traceLog("SL-CZTP-FAILED  = "+path);
     // raise an error that name could not be found.
-    throw new SourceLocatorException(name, path);
+    throw new SourceLocatorException(manager.getDialect(), name, path);
   }
   
   
@@ -186,7 +186,7 @@ public class SourceLocator extends AbstractCommand
    * @return the properties file containing information from czt.properties, or null if not found.
    * @throws CommandException if czt.properties cannot be processed
    */
-  public static Properties retrieveCZTProperties() throws CommandException
+  public static Properties retrieveCZTProperties(Dialect d) throws CommandException
   {
     traceLog("Trying czt.path as user.dir and look for czt.properties");
     // if not set, look for the user working directory, or "." by default      
@@ -213,7 +213,7 @@ public class SourceLocator extends AbstractCommand
           }
         } catch (IOException e)
         {        
-          throw new SourceLocatorException("czt.properties", path, e);
+          throw new SourceLocatorException(d, "czt.properties", path, e);
         }        
     }
     traceLog("SL-CZT-czt.path = " + path);
@@ -338,24 +338,28 @@ public class SourceLocator extends AbstractCommand
   /**
    * Exception thrown when source could not be found.
    */
-  @SuppressWarnings("serial")
   public static class SourceLocatorException
     extends CommandException
   {
-    private String name_;
-    private String path_;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5010516393930955258L;
+	
+	private final String name_;
+    private final String path_;
 
-    public SourceLocatorException(String name, String path)
+    public SourceLocatorException(Dialect d, String name, String path)
     {
-      super("Cannot find source for section " + name
+      super(d, "Cannot find source for section " + name
           + " with czt.path="+path);
       name_ = name;
       path_ = path;
     }
     
-    public SourceLocatorException(String name, String path, Throwable cause)
+    public SourceLocatorException(Dialect d, String name, String path, Throwable cause)
     {
-      super("Cannot find source for section " + name
+      super(d, "Cannot find source for section " + name
           + " with czt.path="+path, cause);
       name_ = name;
       path_ = path;      

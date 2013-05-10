@@ -48,6 +48,7 @@ public abstract class AbstractCommand implements Command {
   public final boolean compute(String name, SectionManager manager)
     throws CommandException
   {
+	if (manager == null) throw new NullPointerException();
     processProperties(manager);
     return doCompute(name, manager);
   }

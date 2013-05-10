@@ -1,13 +1,13 @@
-  public CircusAction getLeftAction()
+  public net.sourceforge.czt.circus.ast.CircusAction getLeftAction()
   {
-    CircusAction result = null;
+	  net.sourceforge.czt.circus.ast.CircusAction result = null;
     if (getCircusAction().size() > 0) {
       result = getCircusAction().get(0);
     }
     return result;
   }
 
-  public void setLeftAction(CircusAction action)
+  public void setLeftAction(net.sourceforge.czt.circus.ast.CircusAction action)
   {
     if (getCircusAction().size() > 0) {
       getCircusAction().set(0, action);
@@ -17,16 +17,16 @@
     }
   }
 
-  public CircusAction getRightAction()
+  public net.sourceforge.czt.circus.ast.CircusAction getRightAction()
   {
-    CircusAction result = null;
+	  net.sourceforge.czt.circus.ast.CircusAction result = null;
     if (getCircusAction().size() > 1) {
       result = getCircusAction().get(1);
     }
     return result;
   }
 
-  public void setRightAction(CircusAction action)
+  public void setRightAction(net.sourceforge.czt.circus.ast.CircusAction action)
   {
     if (getCircusAction().size() == 0) {
       getCircusAction().add(null);

@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.session.CommandException;
@@ -29,15 +30,14 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
+import net.sourceforge.czt.typecheck.z.util.DependencyGraph;
 import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.typecheck.z.util.TypeEnv;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UnificationEnv;
-import net.sourceforge.czt.typecheck.z.util.DependencyGraph;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.Para;
@@ -45,6 +45,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.visitor.DeclVisitor;
 import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.ParaVisitor;
@@ -102,7 +103,7 @@ public class TypeChecker
   protected SectionManager sectInfo_;
 
   //for storing the name of the current section
-  private StringBuffer sectName_ = new StringBuffer("Specification");
+  private final StringBuffer sectName_ = new StringBuffer("Specification");
 
   //the list of errors thrown by retrieving type info
   protected List<ErrorAnn> errors_;
@@ -129,7 +130,7 @@ public class TypeChecker
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   //the visitors used to typechecker a spec
-  protected Checker<Object> specChecker_ = null;
+  protected Checker<List<NameSectTypeTriple>> specChecker_ = null;
   protected Checker<Signature> paraChecker_ = null;
   protected Checker<List<NameTypePair>> declChecker_ = null;
   protected Checker<Type2> exprChecker_ = null;
@@ -204,6 +205,11 @@ public class TypeChecker
     charTupleChecker_ = new CharTupleChecker(this);
   }
   
+  protected SectionManager getManager()
+  {
+	  return sectInfo_;
+  }
+  
   protected void setSectName(String sectName)
   {
     sectName_.replace(0, sectName_.length(), sectName);
@@ -265,31 +271,36 @@ public class TypeChecker
     return sectTypeEnv_.getFactory();
   }
 
-  public Object visitTerm(Term term)
+  @Override
+public Object visitTerm(Term term)
   {
     return term.accept(specChecker_);
   }
 
-  public Signature visitPara(Para para)
+  @Override
+public Signature visitPara(Para para)
   {
     return para.accept(paraChecker_);
   }
 
-  public List<NameTypePair> visitDecl(Decl decl)
+  @Override
+public List<NameTypePair> visitDecl(Decl decl)
   {
     return decl.accept(declChecker_);
   }
 
-  public Object visitExpr(Expr expr)
+  @Override
+public Object visitExpr(Expr expr)
   {
     expr.accept(exprChecker_);
     postChecker_.postCheck();
     return null;
   }
 
-  public Object visitPred(Pred pred)
+  @Override
+public Object visitPred(Pred pred)
   {
-    UResult solved = (UResult) pred.accept(predChecker_);
+    UResult solved = pred.accept(predChecker_);
     //if there are unsolved unifications in this predicate,
     //visit it again
     if (solved == UResult.PARTIAL) {

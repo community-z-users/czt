@@ -21,7 +21,6 @@ package net.sourceforge.czt.rules.oldrewriter;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.prover.Prover;

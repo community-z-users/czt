@@ -26,11 +26,16 @@ import java.util.Properties;
 import java.util.Vector;
 
 import java_cup.runtime.Symbol;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.CztScannerImpl;
+import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.Pair;
+import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZOpToken;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
 
 /**
@@ -42,26 +47,32 @@ import net.sourceforge.czt.util.CztException;
 public class ZmlScanner
   extends CztScannerImpl
 {
-  protected List<Symbol> symbols_;
-  private int pos_ = 0;
+  private List<Symbol> symbols_;
+  private final Iterator<Token> iter_;
+  protected final Dialect dialect_;
 
-  private Iterator<Token> iter_;
   private Symbol pre_;
+  private int pos_ = 0;
   private Symbol post_;
 
   /**
    * Creates a new ZML scanner.
    * @param properties
    */
-  protected ZmlScanner(Properties properties)
+  protected ZmlScanner(Dialect d, Properties properties)
   {
     super(properties);
+    symbols_ =  new Vector<Symbol>();
+    iter_ = null;
+    dialect_ = d;
   }
 
-  public ZmlScanner(Iterator<Token> iter, Properties properties)
+  public ZmlScanner(Dialect d, Iterator<Token> iter, Properties properties)
   {
     super(properties);
     iter_ = iter;
+    symbols_ = null;
+    dialect_ = d;
   }
 
   /**
@@ -69,16 +80,23 @@ public class ZmlScanner
    * @param term
    * @param properties
    */
-  public ZmlScanner(Term term, Properties properties)
+  public ZmlScanner(SectionInfo si, Term term, Properties properties)
   {
     super(properties);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
-    SymbolCollector collector = new SymbolCollector(Sym.class, this);
-    ZPrintVisitor visitor = new ZPrintVisitor(collector, properties);
+    SymbolCollector collector = new SymbolCollector(si.getDialect(), Sym.class, this);
+    ZPrintVisitor visitor = new ZPrintVisitor(si, collector, properties);
     term.accept(visitor);
-    symbols_ = collector.getSymbols();
+    setSymbols(collector.getSymbols());
+    iter_ = null;
+    dialect_ = si.getDialect();
+  }
+  
+  protected void setSymbols(List<Symbol> ls)
+  {
+	  symbols_ = ls;
   }
 
   public void prepend(Symbol s)
@@ -183,6 +201,11 @@ public class ZmlScanner
     return Sym.class;
   }
 
+  @Override
+  public Dialect getDialect() {
+	return dialect_;
+  }
+
   /**
    * An implementation of AbstractPrintVisitor.ZPrinter.
    */
@@ -192,11 +215,18 @@ public class ZmlScanner
     private final List<Symbol> symbolList_ = new Vector<Symbol>();
     private final Map<String, Object> fieldMap_;
     private final ZmlScanner scanner_;
+    private final Dialect dialect_;
 
-    public SymbolCollector(Class<?> clazz, ZmlScanner scanner)
+    public SymbolCollector(Dialect d, Class<?> clazz, ZmlScanner scanner)
     {
       fieldMap_ = DebugUtils.getFieldMap2(clazz);
       scanner_ = scanner;
+      dialect_ = d;
+    }
+
+    @Override
+    public Dialect getDialect() {
+    	return dialect_;
     }
 
     @Override

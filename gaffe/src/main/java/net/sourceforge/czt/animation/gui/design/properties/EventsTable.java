@@ -37,7 +37,12 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  */
 final class EventsTable extends AbstractTableModel
 {
-  private PropertiesWindow propertiesWindow;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5864396599010731482L;
+
+private PropertiesWindow propertiesWindow;
 
   /**
    * The bean that this table is for.

@@ -1,0 +1,55 @@
+\begin{zsection}
+   \SECTION ZRefinesUnknownAbsName\_AxPara \parents standard\_toolkit
+\end{zsection}
+
+\begin{schema}{AState}
+%\zastate\\
+   x: \power \nat
+\where
+  x \neq \emptyset
+\end{schema}
+
+\begin{schema}{ASInit}
+%\zastinit\\
+   AState~'
+\where
+   x' = \{ 0 \}
+\end{schema}
+
+Typo on Abstract name
+\begin{schema}{BOp}
+   \Delta AState \\
+   i?: \nat
+\where
+   x' = x \cup \{ i? \}
+\end{schema}
+
+\begin{schema}{CState}
+%\zcstate\\
+  y: \seq \nat
+\where
+   y \neq \langle \rangle
+\end{schema}
+
+\begin{schema}{CStInit}
+%\zcstinit\\
+   CState~'
+\where
+  y' = \langle 0 \rangle
+\end{schema}
+
+\begin{schema}{Retr}
+%\zretrieve\\
+   AState \\
+   CState
+\where
+   \ran~y = x
+\end{schema}
+
+\begin{schema}{COp}
+%\zfsrefines AOp \\
+   \Delta CState \\
+   i?: \nat
+\where
+   y' = y \cat \langle i? \rangle
+\end{schema}

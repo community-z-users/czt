@@ -21,9 +21,9 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
-import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.*;
@@ -129,7 +129,7 @@ public class ExprChecker
         unificationEnv().enterScope();
 
         //add new vtypes for the (missing) parameters
-        ZNameList genNames = assertZNameList(genericType.getNameList());
+        ZNameList genNames = ZUtils.assertZNameList(genericType.getNameList());
         for (Name genName : genNames) {
           //add a variable type corresponding to this name
           VariableType vType = factory().createVariableType();
@@ -150,7 +150,7 @@ public class ExprChecker
       }
       //if the instantiation is explicit
       else {
-        ZNameList genNames = assertZNameList(genericType.getNameList());
+        ZNameList genNames = ZUtils.assertZNameList(genericType.getNameList());
         if (genNames.size() == exprs.size()) {
           List<Type2> instantiations = factory().list();
           unificationEnv().enterScope();
@@ -389,7 +389,8 @@ public class ExprChecker
 
     //get the signature from the SchText
     SchText schText = setCompExpr.getSchText();
-    Signature signature = schText.accept(schTextChecker());
+    @SuppressWarnings("unused")
+	Signature signature = schText.accept(schTextChecker());
 
     //get the expr
     Expr expr = setCompExpr.getExpr();
@@ -456,7 +457,7 @@ public class ExprChecker
 
       //if the select value is invalid, raise an error
       Numeral numeral = tupleSelExpr.getNumeral();
-      int select = assertZNumeral(numeral).getValue().intValue();
+      int select = ZUtils.assertZNumeral(numeral).getValue().intValue();
       if (select > prodType.getType().size() || select < 1) {
         Object [] params = {tupleSelExpr, prodType.getType().size()};
         error(tupleSelExpr, ErrorMessage.INDEX_ERROR_IN_TUPLESELEXPR, params);
@@ -580,7 +581,8 @@ public class ExprChecker
 
     //get and visit the SchText
     SchText schText = muExpr.getSchText();
-    Signature signature = schText.accept(schTextChecker());
+    @SuppressWarnings("unused")
+	Signature signature = schText.accept(schTextChecker());
 
     //get the expr
     Expr expr = muExpr.getExpr();
@@ -1214,7 +1216,7 @@ public class ExprChecker
     for (NameTypePair decl : decls) {
       ZName zName = decl.getZName();
       //if this name is duplicated, raise an error
-      if (containsZName(names, zName)) {
+      if (ZUtils.containsZName(names, zName)) {
         Object [] params = {bindExpr, zName};
         error(bindExpr, ErrorMessage.DUPLICATE_IN_BINDEXPR, params);
       }

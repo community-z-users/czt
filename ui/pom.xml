@@ -1,17 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt-parent</artifactId>
     <version>1.6-SNAPSHOT</version>
   </parent>
+
   <artifactId>ui</artifactId>
   <packaging>jar</packaging>
+
   <name>CZT User Interface</name>
   <description>
     Provides a user interface for CZT.
   </description>
+
+  <properties>
+    <czt.aggregate.dir>${project.basedir}/../lib</czt.aggregate.dir>
+    <czt.jar.name>czt.jar</czt.jar.name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -40,7 +48,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>vcg</artifactId>
+      <artifactId>vcg-z</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -54,6 +62,7 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -65,6 +74,7 @@
           <skipTests>${java.awt.headless}</skipTests>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -87,6 +97,7 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -95,11 +106,11 @@
             <phase>install</phase>
             <configuration>
               <tasks>
-                <property name="dir" location="../lib"/>
+                <property name="dir" location="${czt.aggregate.dir}"/>
                 <mkdir dir="${dir}"/>
                 <copy failonerror="false"
                   file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar"
-                  tofile="${dir}/czt.jar"/>
+                  tofile="${dir}/${czt.jar.name}"/>
               </tasks>
             </configuration>
             <goals>
@@ -109,21 +120,83 @@
         </executions>
       </plugin>
     </plugins>
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
-	<excludes>
-	  <exclude>**/images/*</exclude>
-	</excludes>
+        <excludes>
+          <exclude>**/images/*</exclude>
+        </excludes>
       </resource>
       <resource>
         <directory>src/main/resources</directory>
         <filtering>false</filtering>
-	<includes>
-	  <include>**/images/*.png</include>
-	</includes>
+          <includes>
+            <include>**/images/*.png</include>
+          </includes>
       </resource>
     </resources>
   </build>
+
+  <profiles>
+    <profile>
+      <!-- A profile to deploy nightly build artifacts to release area.
+           Deploy using `mvn clean deploy -P nightly -P sonatype-oss-release` and provide the
+           appropriate logins in settings.xml.
+
+           The `sonatype-oss-release` profile is used to ensure that Maven SNAPSHOT artifacts
+           are signed and have sources and javadocs attached during deployment to repository.
+           -->
+      <id>nightly</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <nightly.czt.path>czt/nightly/${timestamp}</nightly.czt.path>
+        <nightly.jedit.path>czt-jedit/nightly/${timestamp}</nightly.jedit.path>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>wagon-maven-plugin</artifactId>
+            <version>1.0-beta-4</version>
+            <executions>
+              <execution>
+                <id>upload-czt-jar</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${czt.aggregate.dir}</fromDir>
+                  <includes>${czt.jar.name}</includes>
+                  <url>${files.deploy.url}/${nightly.czt.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+
+              <execution>
+                <!-- Upload czt.jar to jEdit nightly as well (make the dir self-contained) -->
+                <id>upload-czt-jar-jedit</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${czt.aggregate.dir}</fromDir>
+                  <includes>${czt.jar.name}</includes>
+                  <url>${files.deploy.url}/${nightly.jedit.path}</url>
+                  <serverId>sourceforge</serverId>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>

@@ -28,7 +28,6 @@ import net.sourceforge.czt.circus.ast.AssignmentPairs;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CallAction;
 import net.sourceforge.czt.circus.ast.CallProcess;
-import net.sourceforge.czt.circus.ast.CallUsage;
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ChannelType;
@@ -39,7 +38,6 @@ import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSet;
 import net.sourceforge.czt.circus.ast.NameSetType;
-import net.sourceforge.czt.circus.ast.ParamAction;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.ProcessSignatureAnn;
 import net.sourceforge.czt.circus.ast.ProcessSignatureList;
@@ -924,7 +922,7 @@ public abstract class Checker<R>
     
     ProcessSignature result = factory().getCircusFactory().createProcessSignature(
       signature.getProcessName(), genFormals, sigs, instChanSets, instStUpd, 
-      signature.getUsage());    
+      signature.getCallUsage());    
     return result;
   }
   
@@ -2030,13 +2028,13 @@ public abstract class Checker<R>
       // if the signature refers to the call name, we are on
       if (ZUtils.namesEqual(term.getCallExpr().getName(), pSig.getProcessName()))
       {        
-        if (!pSig.getUsage().equals(term.getUsage()))
+        if (!pSig.getCallUsage().equals(term.getCallUsage()))
         {
           Object[] params = {
             getCurrentProcessName(),            
             term.getCallExpr().getName(),
-            pSig.getUsage(),
-            term.getUsage()              
+            pSig.getCallUsage(),
+            term.getCallUsage()              
           };
           result.add(errorAnn(term, ErrorMessage.PROCESS_USAGE_INCONSISTENCY, params));
         }  

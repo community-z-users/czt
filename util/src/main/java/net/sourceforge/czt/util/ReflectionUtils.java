@@ -111,7 +111,8 @@ public final class ReflectionUtils
     List<Class<?>> superCls = reflexiveTransitiveSuperClasses(o);
     Set<Method> allPublicMethods = new HashSet<Method>();
     for (Class<?> cls : superCls) {
-      for (Method m : o.getClass().getMethods()) {
+      for (Method m : cls.getMethods()) {
+      //for (Method m : o.getClass().getMethods()) {
         if (m.getName().startsWith(startingWith)) {
           allPublicMethods.add(m);
         }

@@ -27,6 +27,7 @@ import net.sourceforge.czt.rules.UnboundJokerException;
 import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 import net.sourceforge.czt.z.ast.*;
@@ -36,14 +37,14 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class TypecheckOracle
   extends AbstractOracle
 {
-  public Set<Binding> check(List args, SectionManager manager, String section)
+  public Set<Binding> check(List<? extends Term> args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     Expr expr = (Expr) args.get(0);
     expr = (Expr) ProverUtils.removeJoker(expr);
     //    expr.getAnns().clear();
     final Expr type = (Expr) args.get(1);
-    List errors =
+    List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(expr, manager, false, false, true, section);
     if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);

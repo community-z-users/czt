@@ -45,11 +45,22 @@ public class PrettyPrinter
     term_ = term;
     lineWidth_ = initW;
   }
+  
+  public Term getTerm()
+  {
+	  return term_;
+  }
 
   public void setOffset(int offset)
   {
     offset_ = offset;
   }
+  
+  public int getOffSet()
+  {
+	  return offset_;
+  }
+  
 
   public void setLineWidth(int width)
   {
@@ -57,14 +68,14 @@ public class PrettyPrinter
   }
 
   public int handleTokenSequence(TokenSequence tseq,
-                                 int startPos)
+                                 int startPos) throws PrintException
   {
     return handleTokenSequence(tseq, lineWidth_-startPos, 0);
   }
 
   public int handleTokenSequence(TokenSequence tseq,
                                  int space,
-                                 int indentAmount)
+                                 int indentAmount) throws PrintException
   {
     final List<Token> list = tseq.getSequence();
     int spaceLeft = space;
@@ -103,7 +114,7 @@ public class PrettyPrinter
    * @param current
    * @return
    */
-  protected boolean isSpecialCase(Token previous, Token current)
+  protected boolean isSpecialCase(Token previous, Token current) throws PrintException
   {
     if (current instanceof TokenSequence)
     {
@@ -133,10 +144,14 @@ public class PrettyPrinter
    * @return
    * @throws PrintException is either previous or current is a token sequence.
    */
-  protected boolean isSpecialTokenCase(Token previous, Token current)
+  protected boolean isSpecialTokenCase(Token previous, Token current) throws PrintException
   {
-    if (previous instanceof TokenSequence || current instanceof TokenSequence)
-      throw new PrintException("Cannot test special pretty printin case over token sequences");
+    if (previous instanceof TokenSequence)
+      throw new PrintException(((TokenSequence)previous).getDialect(), 
+    		  "Cannot test special pretty print in case over token sequences - previous");
+    if (current instanceof TokenSequence)
+        throw new PrintException(((TokenSequence)current).getDialect(), 
+      		  "Cannot test special pretty print in case over token sequences - current");
     // there is this one special case because THEOREM is not a proper environment
     // and yet within Unicode2Latex it does not allow for NL/IDENT between them,
     // although ZED allowed NL after it
@@ -152,7 +167,7 @@ public class PrettyPrinter
   }
 
   protected boolean considerAddingNL(Token previous, Token current,
-          int spaceLeft, int length, boolean startedProcessing)
+          int spaceLeft, int length, boolean startedProcessing) throws PrintException
   {
     boolean result = (spaceLeft < 0 ||
            (spaceLeft < length && startedProcessing));
@@ -186,15 +201,20 @@ public class PrettyPrinter
   }
 
   protected boolean considerAddingNLForToken(Token previous, Token current,
-          int spaceLeft, int length, boolean startedProcessing)
+          int spaceLeft, int length, boolean startedProcessing) throws PrintException
   {
-    if (previous instanceof TokenSequence || current instanceof TokenSequence)
-      throw new PrintException("Cannot consider adding NL case over token sequences");
+    if (previous instanceof TokenSequence)
+        throw new PrintException(((TokenSequence)previous).getDialect(), 
+      		  "Cannot consider adding NL case over token sequences - previous");
+      if (current instanceof TokenSequence)
+          throw new PrintException(((TokenSequence)current).getDialect(), 
+        		  "Cannot consider adding NL case over token sequences - current");
     return false;
   }
 
   protected int handleSpaces(ListIterator<Token> iter, Token previous,
-          Token current, int spaceLeft, int length, boolean startedProcessing, int indentAmount)
+          Token current, int spaceLeft, int length, boolean startedProcessing, int indentAmount) 
+        		  throws PrintException
   {
     assert previous != null && current != null;
     boolean nlAllowedOnPrevious = allowsNlAfter(previous);

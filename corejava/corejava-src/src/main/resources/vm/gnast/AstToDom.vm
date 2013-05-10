@@ -30,6 +30,123 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
+##// --------------------------------------
+##// ALL PROPERTIES
+##// class 				= ${class}
+##// class.getName		= ${class.getName()}
+##// class.getClass       = ${class.getClass()}
+##// class.getPackage     = ${class.getPackage()}
+##// class.getImplPackage = ${class.getImplPackage()}
+##// class.getVisitorPack = ${class.getVisitorPackage()}
+##// class.getAllProps    = ${class.getAllProperties()}
+##// --------------------------------------
+##// forall(prop in class getAllProperties) 
+##// #foreach($prop in ${class.getAllProperties()})
+##//		prop 									  = ${prop}
+##//		prop.getName							  = ${prop.getName()}
+##//		#if(${prop.isList()})
+##//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+##//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+##//
+##//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+##//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+##//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+##//		#else
+##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+##//
+##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+##//		#end
+##// --------------------------------------
+##// #end
+##// class.getProps       =${class.getProperties()}
+##// --------------------------------------
+##// forall(prop in class getProperties) 
+##// #foreach($prop in ${class.getProperties()})
+##//		prop 		       = ${prop}
+##//		prop.getName	   = ${prop.getName()}
+##//		prop.getClass      = ${prop.getClass()}
+##//		prop.getVarName    = ${prop.VarName}
+##//		prop.getMemVarName = ${prop.MemVarName}
+##//		prop.getGetterName = ${prop.GetterName}
+##//		prop.SetterName    = ${prop.SetterName}
+##//		prop.getType	   = ${prop.getType().getClass()}
+##//
+##//		prop.Type.FullName       			  = ${prop.Type.FullName}
+##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+##//
+##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+##// --------------------------------------
+##// #end
+##// #if(${ImportProject})
+##// ImportProject             = ${ImportProject}
+##// ImportProject.BasePackage = ${ImportProject.BasePackage}
+##// #end
+##// --------------------------------------
+##//
+##// #foreach($c in $classes)
+##// #if(!$c.Abstract)
+	##// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	##// ALL PROPERTIES
+	##// c 				= ${c}
+	##// c.getName		= ${c.getName()}
+	##// c.getClass       = ${c.getClass()}
+	##// c.getPackage     = ${c.getPackage()}
+	##// c.getImplPackage = ${c.getImplPackage()}
+	##// c.getVisitorPack = ${c.getVisitorPackage()}
+	##// c.getAllProps    = ${c.getAllProperties()}
+	##// --------------------------------------
+	##// forall(prop in c getAllProperties) 
+	##// #foreach($prop in ${c.getAllProperties()})
+	##//		prop 									  = ${prop}
+	##//		prop.getName  							  = ${prop.getName()}
+	##//		#if(${prop.isList()})
+	##//		prop.getListType.getFullName 			  = ${prop.getListType().getFullName()}
+	##//		prop.getListType.getPackage  			  = ${prop.getListType().getPackage()}
+	##//
+	##//		prop.getListType.getProject  			  = ${prop.getListType().getProject().getClass()}
+	##//		prop.getListType.getProject.getAstPackage = ${prop.getListType().getProject().getAstPackage()}
+	##//		prop.getListType.getProject.getImplPackage= ${prop.getListType().getProject().getImplPackage()}
+	##//		#else
+	##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	##//
+	##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	##//		#end
+	##// --------------------------------------
+	##// #end
+	##// c.getProps       =${c.getProperties()}
+	##// --------------------------------------
+	##// forall(prop in c getProperties) 
+	##// #foreach($prop in ${c.getProperties()})
+	##//		prop 		       = ${prop}
+	##//		prop.getName	   = ${prop.getName()}
+	##//		prop.getClass      = ${prop.getClass()}
+	##//		prop.getVarName    = ${prop.VarName}
+	##//		prop.getMemVarName = ${prop.MemVarName}
+	##//		prop.getGetterName = ${prop.GetterName}
+	##//		prop.SetterName    = ${prop.SetterName}
+	##//		prop.getType	   = ${prop.getType().getClass()}
+	##//
+	##//		prop.Type.FullName       			  = ${prop.Type.FullName}
+	##//		prop.getType.getFullName 			  = ${prop.getType().getFullName()}
+	##//		prop.getType.getPackage  			  = ${prop.getType().getPackage()}
+	##//
+	##//		prop.getType.getProject  			  = ${prop.getType().getProject().getClass()}
+	##//		prop.getType.getProject.getAstPackage = ${prop.getType().getProject().getAstPackage()}
+	##//		prop.getType.getProject.getImplPackage= ${prop.getType().getProject().getImplPackage()}
+	##// #end
+##// #end
+##// #end
+##// --------------------------------------
+
 import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
@@ -152,7 +269,7 @@ public class $class.Name
       iter = null;
 #else
       if (zedObject.${prop.GetterName}() != null) {
-#if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'DirectiveType' || $prop.Type.FullName == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || $prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || $prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || $prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || $prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || $prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage' || $prop.Type.Name == 'ZStateInfo' || $prop.Type.Name == 'ZRefKind')
+#if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'DirectiveType' || $prop.Type.FullName == 'And' || $prop.Type.Name == 'CommUsage' || $prop.Type.Name == 'CommPattern' || $prop.Type.Name == 'CallUsage' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'Transformation' || $prop.Type.Name == 'CircusJokerType' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType' || $prop.Type.Name == 'RewriteKind' || $prop.Type.Name == 'NormalizationKind' || $prop.Type.Name == 'CaseAnalysisKind' || $prop.Type.Name == 'SubstitutionKind' || $prop.Type.Name == 'RewritePower' || $prop.Type.Name == 'InstantiationKind' || $prop.Type.Name == 'ProofStepKind' || $prop.Type.Name == 'ProofStepScope' || $prop.Type.Name == 'LabelAbility' || $prop.Type.Name == 'LabelUsage')
 #if(${prop.Attribute})
         elem.setAttributeNS(ns, "${prop.Name}", zedObject.${prop.GetterName}().toString());
 #else

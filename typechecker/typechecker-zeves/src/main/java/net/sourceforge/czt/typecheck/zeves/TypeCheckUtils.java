@@ -23,17 +23,15 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.zeves.ast.ZEvesFactory;
-import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
-import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
@@ -46,6 +44,9 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.zeves.ast.ZEvesFactory;
+import net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl;
+import net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter;
 
 /**
  *
@@ -221,7 +222,7 @@ public class TypeCheckUtils
             useNameIds, warningOutput, sectName);
   }
 
-  private String stackTraceAsString(Throwable e)
+  protected String stackTraceAsString(Throwable e)
   {
     StringWriter swriter = new StringWriter();
     PrintWriter pwriter = new PrintWriter(swriter);
@@ -243,7 +244,6 @@ public class TypeCheckUtils
    * @return
    */
   @Override
-  @SuppressWarnings({"unchecked", "CallToThreadDumpStack"})
   protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> lTypecheck(Term term,
           SectionManager sectInfo,
 
@@ -327,7 +327,8 @@ public class TypeCheckUtils
   }
 
   @Override
-  protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)
+  protected void printTerm(Term term, StringWriter writer, 
+		  SectionManager sectInfo, String sectName, Markup markup) throws PrintException
   {
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
     super.printTerm(term, writer, sectInfo, sectName, markup);
@@ -347,7 +348,7 @@ public class TypeCheckUtils
     return WarningManager.WarningOutput.HIDE;
   }
 
-  private void typeCheckCommandTest(String file)
+  protected void typeCheckCommandTest(String file)
   {
     System.out.println("Testing TypeCheckCommand for CIRCUS:");
 
@@ -383,7 +384,8 @@ public class TypeCheckUtils
         if (s instanceof ZSect)
         {
           ZSect zs = (ZSect) s;
-          SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
+          @SuppressWarnings("unused")
+		SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
           break;
         }
       }

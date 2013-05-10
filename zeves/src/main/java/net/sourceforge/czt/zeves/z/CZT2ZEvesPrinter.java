@@ -617,7 +617,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitCaseAnalysisCommand(CaseAnalysisCommand term)
   {
-    switch (term.getKind())
+    switch (term.getCaseAnalysisKind())
     {
       case Cases:
         return "cases";
@@ -627,14 +627,14 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return "split " + getPred(term.getPred());
       default:
         throw new ZEvesIncompatibleASTException(
-                "Unsupported case analysis kind: " + term.getKind());
+                "Unsupported case analysis kind: " + term.getCaseAnalysisKind());
     }
   }
 
   @Override
   public String visitNormalizationCommand(NormalizationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getNormalizationKind())
     {
       case Conjunctive:
         return "conjunctive";
@@ -646,7 +646,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         return "with normalization " + term.getProofCommand().accept(this);
       default:
         throw new ZEvesIncompatibleASTException(
-                "Unsupported normalization command kind: " + term.getKind());
+                "Unsupported normalization command kind: " + term.getNormalizationKind());
     }
   }
 
@@ -676,8 +676,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     assert !fCurrInstKind.isEmpty();
     InstantiationKind k = fCurrInstKind.peek();
-    assert k.equals(term.getKind()) : "inconsistent instantiation kind. found "
-                                             + term.getKind() + "; expected " + k;
+    assert k.equals(term.getInstantiationKind()) : "inconsistent instantiation kind. found "
+                                             + term.getInstantiationKind() + "; expected " + k;
     StringBuilder result = new StringBuilder();
     result.append(getVarName(term.getZName(), true));
     result.append(k.equals(InstantiationKind.Quantifier) ? " == " : " := ");
@@ -710,10 +710,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   @Override
   public String visitSimplificationCommand(SimplificationCommand term)
   {
-    switch (term.getKind())
+    switch (term.getRewriteKind())
     {
       case Reduce:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             return "reduce";
@@ -724,10 +724,10 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
                     "Trivial reduce is not supported by Z/EVES");
           default:
             throw new ZEvesIncompatibleASTException(
-                    "Unsupported simplification command power: " + term.getPower());
+                    "Unsupported simplification command power: " + term.getRewritePower());
         }
       case Rewrite:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             return "rewrite";
@@ -737,11 +737,11 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             return "trivial rewrite";
           default:
             throw new ZEvesIncompatibleASTException(
-                    "Unsupported simplification command power: " + term.getPower());
+                    "Unsupported simplification command power: " + term.getRewritePower());
         }
 
       case Simplify:
-        switch (term.getPower())
+        switch (term.getRewritePower())
         {
           case None:
             return "simplify";
@@ -752,12 +752,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             return "trivial simplify";
           default:
             throw new ZEvesIncompatibleASTException(
-                    "Unsupported simplification command power: " + term.getPower());
+                    "Unsupported simplification command power: " + term.getRewritePower());
         }
 
       default:
         throw new ZEvesIncompatibleASTException(
-                "Unsupported simplification command kind: " + term.getKind());
+                "Unsupported simplification command kind: " + term.getRewriteKind());
     }
   }
 
@@ -837,7 +837,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
   {
     assert term.getProofCommand() == null && term.getNameList() == null
            || term.getNameList() instanceof ZNameList : "subst command must have a subcmd and a Z namelist";
-    switch (term.getKind())
+    switch (term.getSubstitutionKind())
     {
       case Invoke:
         assert term.getExpr() == null : "invoke command cannot have an expression";
@@ -866,7 +866,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         }
       default:
         throw new ZEvesIncompatibleASTException(
-                "Unsupported substition command kind: " + term.getKind());
+                "Unsupported substition command kind: " + term.getSubstitutionKind());
     }
   }
 
@@ -1335,7 +1335,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return (name.indexOf(ZString.ARG) != -1);
   }
 
-  private boolean hasOpArg(ZName name)
+  @SuppressWarnings("unused")
+private boolean hasOpArg(ZName name)
   {
     return hasOpArg(name.getWord());
   }
@@ -1397,7 +1398,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     return getZEvesName(name, false, false, keepOpArgs);
   }
 
-  private String getDeclName(ZName name)
+  @SuppressWarnings("unused")
+private String getDeclName(ZName name)
   {
     return getZEvesName(name, true, false, null);
   }
@@ -2155,7 +2157,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
             boolean lhsIsUnaryMinus = argLHS.startsWith(ZString.NEG);
             boolean rhsIsUnaryMinus = argRHS.startsWith(ZString.NEG);
             // (-1 + i) for i - 1; (-1 * x + i) for (i - x); (-1 * f(x) + i) for (i - f(x))
-            boolean unaryMinusRewritePattern = (op.startsWith(ZString.PLUS) || op.startsWith(ZString.MULT)) && lhsIsUnaryMinus;
+            //boolean unaryMinusRewritePattern = (op.startsWith(ZString.PLUS) || op.startsWith(ZString.MULT)) && lhsIsUnaryMinus;
 
             // parenthesise depending on what kind of param this is: operators need paren explicit applexpr don't
             // ex: ((a \cup b) \cup c) x (f~x \cup c)  [if it was ((f~x) \cup c) ZEves doesn't like it]
@@ -2974,12 +2976,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String getAbility(ZEvesLabel label)
   {
-    if (label == null || label.getAbility() == LabelAbility.none)
+    if (label == null || label.getLabelAbility() == LabelAbility.none)
     {
       return "";
     }
 
-    return format(ABILITY_PATTERN, label.getAbility().name());
+    return format(ABILITY_PATTERN, label.getLabelAbility().name());
   }
 
   /**
@@ -2989,12 +2991,12 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
    */
   private String getUsage(ZEvesLabel label)
   {
-    if (label == null || label.getUsage() == LabelUsage.none)
+    if (label == null || label.getLabelUsage() == LabelUsage.none)
     {
       return "";
     }
 
-    return format(USAGE_PATTERN, label.getUsage().name());
+    return format(USAGE_PATTERN, label.getLabelUsage().name());
   }
 
   private String getLabel(Term term)
@@ -3005,8 +3007,8 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     {
       assert l.getZName().getZStrokeList().isEmpty();
       result = format(LABEL_PATTERN,
-              l.getAbility().equals(LabelAbility.none) ? "" : l.getAbility().name(),
-              l.getUsage().equals(LabelUsage.none) ? "" : l.getUsage().name(),
+              l.getLabelAbility().equals(LabelAbility.none) ? "" : l.getLabelAbility().name(),
+              l.getLabelUsage().equals(LabelUsage.none) ? "" : l.getLabelUsage().name(),
               getIdent(l.getZName()));
     }
     return result;
@@ -3437,7 +3439,7 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
     boolean hasOpTable = fetchOpTable();
     for(Directive d : term.getDirective())
     {
-      Pair<String, DirectiveType> old = latexMarkupDirectives_.put(d.getUnicode(), Pair.getPair(d.getCommand(), d.getType()));
+      Pair<String, DirectiveType> old = latexMarkupDirectives_.put(d.getUnicode(), Pair.getPair(d.getCommand(), d.getDirectiveType()));
       assert old == null;
 
       // assume every directive has an operator.
@@ -3448,9 +3450,9 @@ public class CZT2ZEvesPrinter extends BasicZEvesTranslator implements
         hasOper = opt != null;
       }
       // if the name is "none" then add it as syndef{word}; or if it is anything else (e.g., pre/post/infix) that isn't an operator
-      boolean addOpTemp = d.getType().equals(DirectiveType.NONE) || !hasOper;
+      boolean addOpTemp = d.getDirectiveType().equals(DirectiveType.NONE) || !hasOper;
       final String comment = comment("Original LaTeX markup directive " + (addOpTemp ? " added as operator template" : " to be used by OpTempPara"),
-              format(LATEX_MARKUP_DIRECTIVE_COMMENT, getDirectiveType(d.getType(), d.getUnicode().startsWith("U+")), d.getCommand(), d.getUnicode()));
+              format(LATEX_MARKUP_DIRECTIVE_COMMENT, getDirectiveType(d.getDirectiveType(), d.getUnicode().startsWith("U+")), d.getCommand(), d.getUnicode()));
       result.append(comment);
       if (addOpTemp)
       {

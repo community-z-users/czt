@@ -24,6 +24,7 @@ import java.util.List;
 import net.sourceforge.czt.base.util.PerformanceSettings;
 
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Dialect;
 
 /**
  * A parse exception.  It contains a list of errors that caused the
@@ -35,25 +36,32 @@ public class ParseException
   extends CommandException
   implements CztErrorList
 {
-  private final List<CztError> errorList_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2265450712247923060L;
+	private final List<CztError> errorList_;
 
-  public ParseException()
+  public ParseException(Dialect dialect)
   {
+    super(dialect);
     errorList_ = new ArrayList<CztError>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   }
   /**
    * Constructs a new parse exception with the specified error list.
    * @param errorList
    */
-  public ParseException(List<CztError> errorList)
+  public ParseException(Dialect d, List<CztError> errorList)
   {
-    this();
-    errorList_.addAll(errorList);
+    this(d);
+    if (errorList == null) throw new NullPointerException();
+   	errorList_.addAll(errorList);
   }
 
-  public ParseException(CztError error)
+  public ParseException(Dialect d, CztError error)
   {
-    this();
+    this(d);
+    if (error == null) throw new NullPointerException();
     errorList_.add(error);
   }
 
@@ -70,6 +78,7 @@ public class ParseException
 
   public void printErrorList()
   {
+	System.err.println("ParseException errors for " + getDialect().toString());
     for (CztError parseError : errorList_) {
       System.err.println(parseError.toString());
     }
@@ -79,6 +88,7 @@ public class ParseException
   public String getMessage()
   {
     StringBuilder result = new StringBuilder();
+    result.append("ParseException errors for ").append(getDialect().toString()).append("\n");
     for (CztError parseError : errorList_) {
       result.append("\n").append(parseError.toString());
     }

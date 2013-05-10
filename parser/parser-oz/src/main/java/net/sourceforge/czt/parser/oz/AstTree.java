@@ -28,7 +28,11 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class AstTree extends JTree
 {
-  AstTreeModel model_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 564950389196626734L;
+AstTreeModel model_;
 
   public AstTree(TermModel termModel)
   {

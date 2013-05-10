@@ -66,11 +66,11 @@ public class CircusTimePrintVisitor
     implements CircusTimeVisitor<Object> {
     
     public CircusTimePrintVisitor(SectionInfo si, ZPrinter printer, WarningManager wm) {
-        super(printer, wm);        
+        super(si, printer, wm);        
     }
     
     public CircusTimePrintVisitor(SectionInfo si, ZPrinter printer, Properties properties, WarningManager wm) {
-        super(printer, properties, wm);
+        super(si, printer, properties, wm);
     }    
       
   /* Support for Circus Time : Process */

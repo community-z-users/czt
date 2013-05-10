@@ -20,12 +20,10 @@
 package net.sourceforge.czt.rules.unification;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.rules.Joker;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.MemPred;
-import net.sourceforge.czt.zpatt.ast.JokerExpr;
 import junit.framework.TestCase;
 
 public class OccursCheckVisitorTest extends TestCase

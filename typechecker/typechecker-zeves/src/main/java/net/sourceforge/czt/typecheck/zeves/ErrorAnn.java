@@ -22,15 +22,12 @@ import java.io.Writer;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.zeves.PrintUtils;
-
-import net.sourceforge.czt.z.ast.LocAnn;
-
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
-
-
 import net.sourceforge.czt.typecheck.zeves.util.CarrierSet;
+import net.sourceforge.czt.z.ast.LocAnn;
 
 /**
  * A class for annotating terms associated with error messages.
@@ -68,7 +65,8 @@ public class ErrorAnn
       Writer writer,
       SectionManager sectInfo,
       String sectName,
-      Markup markup) {
+      Markup markup) throws PrintException
+  {
     PrintUtils.print(term, writer, sectInfo, sectName, markup_);
   }
 

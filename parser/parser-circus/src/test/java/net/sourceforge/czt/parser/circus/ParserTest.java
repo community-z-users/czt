@@ -20,7 +20,6 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.io.*;
-import java.io.FileOutputStream;
 
 import java.util.logging.Level;
 

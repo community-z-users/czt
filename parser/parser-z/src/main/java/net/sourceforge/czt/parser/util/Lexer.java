@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser.util;
 import java.io.IOException;
 
 import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.Dialect;
 
 public interface Lexer
 {
@@ -32,4 +33,6 @@ public interface Lexer
    * @return lexer source
    */
   Source getSource();
+  
+  Dialect getDialect();
 }

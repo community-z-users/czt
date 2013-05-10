@@ -167,7 +167,7 @@ public class DesignerCore implements BeanContextProxy
     bcsSupport.addService(DesignerCore.class, new BeanContextServiceProvider()
     {
       public Object getService(BeanContextServices bcs, Object requestor,
-          Class serviceClass, Object serviceSelector)
+          @SuppressWarnings("rawtypes") Class serviceClass, Object serviceSelector)
       {
         return DesignerCore.this;
       };
@@ -178,7 +178,7 @@ public class DesignerCore implements BeanContextProxy
       };
 
       public Iterator<Object> getCurrentServiceSelectors(BeanContextServices bcs,
-          Class serviceClass)
+          @SuppressWarnings("rawtypes") Class serviceClass)
       {
         return null;
       };
@@ -186,7 +186,7 @@ public class DesignerCore implements BeanContextProxy
     bcsSupport.addService(ToolWindow.class, new BeanContextServiceProvider()
     {
       public Object getService(BeanContextServices bcs, Object requestor,
-          Class serviceClass, Object serviceSelector)
+          @SuppressWarnings("rawtypes") Class serviceClass, Object serviceSelector)
       {
         return getToolWindow();
       };
@@ -197,7 +197,7 @@ public class DesignerCore implements BeanContextProxy
       };
 
       public Iterator<Object> getCurrentServiceSelectors(BeanContextServices bcs,
-          Class serviceClass)
+    		  @SuppressWarnings("rawtypes") Class serviceClass)
       {
         return null;
       };
@@ -625,7 +625,11 @@ public class DesignerCore implements BeanContextProxy
     Action action_new_form;
     action_new_form = new AbstractAction("New Form")
     {
-      private int i = 1;
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -8754034273204539204L;
+	private int i = 1;
 
       public void actionPerformed(ActionEvent e)
       {
@@ -639,7 +643,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_quit;
     action_quit = new AbstractAction("Quit")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 5889514569705569123L;
+
+	public void actionPerformed(ActionEvent e)
       {
         String confirmText = "This action will exit the program.\n"
             + "Are you sure you want to do this?\n";
@@ -661,7 +670,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_show_properties_window;
     action_show_properties_window = new AbstractAction("Show Properties Window")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -6433723370617787699L;
+
+	public void actionPerformed(ActionEvent e)
       {
         propertiesWindow.setVisible(true);
         propertiesWindow.toFront();
@@ -673,7 +687,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_show_toolbox_window;
     action_show_toolbox_window = new AbstractAction("Show Toolbox Window")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1117360825409225961L;
+
+	public void actionPerformed(ActionEvent e)
       {
         toolWindow.setVisible(true);
         toolWindow.toFront();
@@ -685,7 +704,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_show_about_dialog;
     action_show_about_dialog = new AbstractAction("About...")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -5920403473085689067L;
+
+	public void actionPerformed(ActionEvent e)
       {
         String message = "GAfFE Copyright 2003 Nicholas Daley\n"
             + "GAfFE comes under the GPL (See Help->License).";
@@ -699,7 +723,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_show_license_dialog;
     action_show_license_dialog = new AbstractAction("License...")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2649118383604557339L;
+
+	public void actionPerformed(ActionEvent e)
       {
         licenseDialog.setVisible(true);
         licenseDialog.toFront();
@@ -711,7 +740,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_show_initscript_dialog;
     action_show_initscript_dialog = new AbstractAction("Init Script...")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4162570919300637810L;
+
+	public void actionPerformed(ActionEvent e)
       {
         initScriptDialog.setVisible(true);
         initScriptDialog.toFront();
@@ -723,11 +757,16 @@ public class DesignerCore implements BeanContextProxy
     Action action_save_forms;
     action_save_forms = new AbstractAction("Save...")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2891580714664635416L;
+
+	public void actionPerformed(ActionEvent e)
       {
         boolean allNonVisible = true;
-        for (Iterator it = forms.iterator(); it.hasNext();)
-          if (((FormDesign) it.next()).getForm().getStartsVisible()) {
+        for (Iterator<FormDesign> it = forms.iterator(); it.hasNext();)
+          if (( it.next()).getForm().getStartsVisible()) {
             allNonVisible = false;
             break;
           }
@@ -783,7 +822,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_open_forms;
     action_open_forms = new AbstractAction("Open...")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4368271836388602569L;
+
+	public void actionPerformed(ActionEvent e)
       {
         //XXX Change to delegate to a delete all forms action?
         String message = "Opening an interface design will clear all other designs.\n"
@@ -819,15 +863,20 @@ public class DesignerCore implements BeanContextProxy
     Action action_import_forms;
     action_import_forms = new AbstractAction("Import...")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4270381310872830577L;
+
+	public void actionPerformed(ActionEvent e)
       {
         JFileChooser fc = new JFileChooser();
         fc.addChoosableFileFilter(Utils.gaffeFileFilter);
         if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
           return;
-        Vector formDesigns = readFile(fc.getSelectedFile());
-        for (Iterator it = formDesigns.iterator(); it.hasNext();) {
-          FormDesign fd = (FormDesign) it.next();
+        Vector<FormDesign> formDesigns = readFile(fc.getSelectedFile());
+        for (Iterator<FormDesign> it = formDesigns.iterator(); it.hasNext();) {
+          FormDesign fd =  it.next();
           addForm(fd, fd.getForm().getStartsVisible());
         }
       };
@@ -839,7 +888,12 @@ public class DesignerCore implements BeanContextProxy
     Action action_view_highlight_all_beans;
     action_view_highlight_all_beans = new AbstractAction("Highlight All Beans")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1794596959224711436L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setBeanHighlightingStatus(BHS_HIGHLIGHT_ALL_BEANS);
         System.err.println("All beans highlighting");
@@ -852,7 +906,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_component_beans = new AbstractAction(
         "Highlight Components")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1016527654336416206L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setBeanHighlightingStatus(BHS_HIGHLIGHT_COMPONENT_BEANS);
       };
@@ -864,7 +923,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_nonvisual_beans = new AbstractAction(
         "Highlight Non-visual Beans")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -141699344771600075L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setBeanHighlightingStatus(BHS_HIGHLIGHT_NONVISUAL_BEANS);
       };
@@ -876,7 +940,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_no_beans = new AbstractAction(
         "Highlight Non-visual Beans")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -372356445740038987L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setBeanHighlightingStatus(BHS_HIGHLIGHT_NO_BEANS);
       };
@@ -888,7 +957,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_all_event_links = new AbstractAction(
         "Highlight All Event Links")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -5827750931707437569L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_ALL_LINKS);
         System.err.println("All EventLinks Highlighting");
@@ -901,7 +975,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_current_all_event_links = new AbstractAction(
         "Highlight Current Bean's Event Links")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2268484360334780763L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_ALL_LINKS);
       };
@@ -914,7 +993,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_current_incoming_event_links = new AbstractAction(
         "Highlight Current Bean's Incoming Event Links")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4406143568907736216L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS);
       };
@@ -927,7 +1011,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_current_outgoing_event_links = new AbstractAction(
         "Highlight Current Bean's Outgoing Event Links")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -1250883901048228774L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS);
       };
@@ -940,7 +1029,12 @@ public class DesignerCore implements BeanContextProxy
     action_view_highlight_no_event_links = new AbstractAction(
         "Don't Highlight Event Links")
     {
-      public void actionPerformed(ActionEvent e)
+      /**
+		 * 
+		 */
+		private static final long serialVersionUID = -5630078707206228803L;
+
+	public void actionPerformed(ActionEvent e)
       {
         setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS);
       };
@@ -1010,7 +1104,12 @@ public class DesignerCore implements BeanContextProxy
    */
   private final static class LicenseDialog extends JDialog
   {
-    public LicenseDialog()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8063718535766310934L;
+
+	public LicenseDialog()
     {
       super();
       BufferedReader input;
@@ -1053,11 +1152,17 @@ public class DesignerCore implements BeanContextProxy
    */
   private final class InitScriptDialog extends JDialog
   {
-    public JComboBox scriptLibraryCB;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8451737641558063375L;
+
+	public JComboBox scriptLibraryCB;
 
     public JButton scriptLibraryPaste;
 
-    public InitScriptDialog()
+    @SuppressWarnings("serial")
+	public InitScriptDialog()
     {
       super((JFrame) null, "Edit Init Script");
       final JTextField languageField = new JTextField();
@@ -1081,7 +1186,12 @@ public class DesignerCore implements BeanContextProxy
       constraints.fill = GridBagConstraints.BOTH;
       scriptLibraryPaste = new JButton(new AbstractAction("Paste from Library")
       {
-        public void actionPerformed(ActionEvent ev)
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 9103894973359695758L;
+
+		public void actionPerformed(ActionEvent ev)
         {
           try {
             URL scriptURL = (URL) scriptLibrary.get(scriptLibraryCB
@@ -1120,7 +1230,13 @@ public class DesignerCore implements BeanContextProxy
       southPane.setLayout(new FlowLayout(FlowLayout.CENTER));
       southPane.add(new JButton(new AbstractAction("OK")
       {
-        public void actionPerformed(ActionEvent e)
+    	  
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 7033479319892300411L;
+
+		public void actionPerformed(ActionEvent e)
         {
           setInitScript(scriptField.getText());
           setInitScriptLanguage(languageField.getText());
@@ -1129,7 +1245,8 @@ public class DesignerCore implements BeanContextProxy
       }));
       southPane.add(new JButton(new AbstractAction("Cancel")
       {
-        public void actionPerformed(ActionEvent e)
+        
+		public void actionPerformed(ActionEvent e)
         {
           setVisible(false);
         };

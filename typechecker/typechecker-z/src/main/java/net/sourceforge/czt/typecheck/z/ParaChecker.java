@@ -23,13 +23,9 @@ import java.util.List;
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
-import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.*;
-import net.sourceforge.czt.typecheck.z.impl.*;
 
 /**
  *
@@ -115,7 +111,8 @@ public class ParaChecker
     //exit the variable scope
     typeEnv().exitScope();
 
-    checkZStateInfo(axPara);
+    //REFACTOR: moved to vcg-z/feasibility
+    //checkZStateInfo(axPara);
 
     return signature;
   }
@@ -176,7 +173,8 @@ public class ParaChecker
     ZName freeTypeName = freetype.getZName();
     factory().addNameID(freeTypeName);
     GivenType givenType = factory().createGivenType(freeTypeName);
-    PowerType powerType = factory().createPowerType(givenType);
+    @SuppressWarnings("unused")
+	PowerType powerType = factory().createPowerType(givenType);
     paraChecker().addContext(givenType);
 
     //we don't visit the branches with their a "proper" visit method

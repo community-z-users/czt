@@ -19,14 +19,23 @@
 
 package net.sourceforge.czt.rules;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.visitor.*;
-
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.visitor.SpecVisitor;
+import net.sourceforge.czt.z.visitor.ZParaListVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zpatt.ast.RulePara;
+import net.sourceforge.czt.zpatt.visitor.RuleParaVisitor;
 
 public class RuleTableCommand
   implements Command
@@ -48,8 +57,8 @@ public class RuleTableCommand
                ZSectVisitor<Object>,
                RuleParaVisitor<Object>
   {
-    private RuleTable rules_ = new RuleTable();
-    private SectionManager manager_;
+    private final RuleTable rules_ = new RuleTable();
+    private final SectionManager manager_;
 
     public RuleTableVisitor(SectionManager manager)
     {
@@ -125,7 +134,7 @@ public class RuleTableCommand
       ast.accept(visitor);
     }
     catch (VisitorException e) {
-      throw new CommandException(e.getCause());
+      throw new CommandException(manager.getDialect(), e.getCause());
     }
     return visitor.getRuleTable();
   }
@@ -133,7 +142,12 @@ public class RuleTableCommand
   public static class VisitorException
     extends net.sourceforge.czt.util.CztException
   {
-    public VisitorException(Exception cause)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1958378042480636635L;
+
+	public VisitorException(Exception cause)
     {
       super(cause);
     }

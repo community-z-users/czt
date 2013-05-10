@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.zeves;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.Command;
@@ -56,7 +57,7 @@ public class XmlPrinterCommand
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(e);
+      throw new CommandException(manager.getDialect(), e);
     }
   }
 }

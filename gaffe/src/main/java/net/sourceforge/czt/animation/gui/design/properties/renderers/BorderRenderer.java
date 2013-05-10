@@ -31,7 +31,12 @@ import javax.swing.table.TableCellRenderer;
  */
 public class BorderRenderer extends JLabel implements TableCellRenderer
 {
-  public BorderRenderer()
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5132997362448118459L;
+
+public BorderRenderer()
   {
     setOpaque(true);
   };
@@ -40,7 +45,7 @@ public class BorderRenderer extends JLabel implements TableCellRenderer
       boolean isSelected, boolean hasFocus, int row, int column)
   {
     System.err.println(value);
-    Class[] classes = value.getClass().getInterfaces();
+    Class<?>[] classes = value.getClass().getInterfaces();
     for (int i = 0; i < classes.length; i++)
       System.err.println(classes[i]);
     System.err.println(value.getClass().getSuperclass());

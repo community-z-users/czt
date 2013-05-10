@@ -1,0 +1,18 @@
+\begin{zsection}
+   \SECTION ZStateInfoInconsistency\_AxPara\_2 \parents zstandard\_toolkit
+\end{zsection}
+
+\begin{schema}{S}
+%\zstate\\
+   x: \nat
+\where
+   10 > x
+\end{schema}
+
+\begin{schema}{T}
+%\zastate\\
+   y: \nat
+\where
+   y = 0
+\end{schema}
+

@@ -23,7 +23,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.zpatt.ast.Binding;
 
