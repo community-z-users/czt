@@ -121,11 +121,14 @@ public class DefaultOhCircusSectionParentsTest {
 	public void testOhCircusPrelude() {
 		assertEquals(cmd_.defaultParents(Section.OHCIRCUS_PRELUDE.getName()), 
 				ZUtils.parentsArgListAsSetOfString(Section.PRELUDE.getName(), 
-									Section.CIRCUS_PRELUDE.getName()//, 
+									Section.CIRCUS_PRELUDE.getName(),
+									Section.CIRCUSTIME_PRELUDE.getName()//,
 									//Section.STANDARD_TOOLKIT.getName()
 									));
 	}
-
+	
+	
+	
 	@Test
 	public void testOhCircusToolkit() {
 		assertEquals(cmd_.defaultParents(Section.OHCIRCUS_TOOLKIT.getName()), 
@@ -135,8 +138,9 @@ public class DefaultOhCircusSectionParentsTest {
 									Section.OHCIRCUS_PRELUDE.getName()//, 
 									//Section.STANDARD_TOOLKIT.getName()
 									));
-	}
-
+	}	
+	
+	
 	@Test
 	public void testAnonymous() {
 		assertEquals(cmd_.defaultParents(Section.ANONYMOUS.getName()), 

@@ -171,7 +171,7 @@ public class KeywordScanner
 
 <add:ohcircus>
     /* Adds all Circus keyword tokens */
-    addKeywords(result, OhCircusKeyword.values());
+    addKeywords(result, net.sourceforge.czt.parser.ohcircus.OhCircusKeyword.values());
 </add:ohcircus>
 
 <add:zeves>

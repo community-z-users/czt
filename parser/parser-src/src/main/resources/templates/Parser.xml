@@ -2766,6 +2766,10 @@ terminal LocInfo
         SUMMARY, THROUGH,
 
 </add:zeves>
+
+<add:ohcircus>
+OHCIRCDOT,
+</add:ohcircus>
 <add:circus>
         // Environment chars
         CIRCUS, CIRCUSACTION,
@@ -2837,7 +2841,7 @@ terminal LocInfo
  <add:ohcircus>
    	/* Support OhCircus for Class and Methods */ 
         OHCIRCCLASS, OHCIRCSTATE, OHCIRCINITIAL, OHCIRCPUBLIC, OHCIRCPRIVATE, OHCIRCPROTECTED, 
-        OHCIRCLOGICAL, OHCIRCEXTENDS, OHCIRCSUPER, OHCIRCDOT, OHCIRCNEW, OHCIRCINSTANCEOF, OHCIRCNULL,
+        OHCIRCLOGICAL, OHCIRCEXTENDS, OHCIRCSUPER, OHCIRCNEW, OHCIRCINSTANCEOF, OHCIRCNULL,
         OHCIRCSELF,
  </add:ohcircus>
  
@@ -3502,6 +3506,11 @@ non terminal Connection connection;
 /* non terminal ChannelType chantype;*/
 </add:tcoz>
 
+
+<add:ohcircus>
+precedence left         OHCIRCDOT;
+</add:ohcircus>
+
 // These are ordered from loosest first to tightest last.
 precedence right        BAR;
 precedence left         TEXT;
@@ -3605,6 +3614,7 @@ precedence left         RULELINE;
 precedence left         DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
+
 <add:circus>
 /* TODO: Need to test funny cases to see whether this precedences are really useful.
  */

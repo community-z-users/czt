@@ -43,7 +43,7 @@ public interface OhCircusString extends CircusPattString
   /* Support for OhCircus */
   String OHCIRCCLASS = "class";
   String OHCIRCEXTENDS = "extends";
-  String OHCIRCTHIS = "this";
+  String OHCIRCSELF = "self";
   String OHCIRCNULL = "null";
   String OHCIRCNEW = "new";
   String OHCIRCSUPER = "super";
@@ -52,6 +52,8 @@ public interface OhCircusString extends CircusPattString
   String OHCIRCPRIVATE = "private";
   String OHCIRCLOGICAL = "logical";
   String OHCIRCINITIAL = "initial";
+  String OHCIRCINSTANCEOF = "instanceof";
+  String OHCIRCSTATE = "state";
 }
 <xsl:text>
 </xsl:text>

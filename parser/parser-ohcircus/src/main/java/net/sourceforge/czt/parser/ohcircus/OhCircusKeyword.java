@@ -41,7 +41,7 @@ public enum OhCircusKeyword implements Token {
 	
 	OHCIRCCLASS(OhCircusString.OHCIRCCLASS, NewlineCategory.AFTER),
 	OHCIRCEXTENDS(OhCircusString.OHCIRCEXTENDS, NewlineCategory.AFTER),
-	OHCIRCTHIS(OhCircusString.OHCIRCTHIS, NewlineCategory.AFTER),
+	OHCIRCSELF(OhCircusString.OHCIRCSELF, NewlineCategory.AFTER),
 	OHCIRCNULL(OhCircusString.OHCIRCNULL, NewlineCategory.AFTER),
 	OHCIRCNEW(OhCircusString.OHCIRCNEW, NewlineCategory.AFTER),
 	OHCIRCSUPER(OhCircusString.OHCIRCSUPER, NewlineCategory.AFTER),
@@ -49,7 +49,9 @@ public enum OhCircusKeyword implements Token {
 	OHCIRCPROTECTED(OhCircusString.OHCIRCPROTECTED, NewlineCategory.AFTER),
 	OHCIRCPRIVATE(OhCircusString.OHCIRCPRIVATE, NewlineCategory.AFTER),
 	OHCIRCLOGICAL(OhCircusString.OHCIRCLOGICAL, NewlineCategory.AFTER),
-	OHCIRCINITIAL(OhCircusString.OHCIRCINITIAL, NewlineCategory.AFTER);
+	OHCIRCINITIAL(OhCircusString.OHCIRCINITIAL, NewlineCategory.AFTER),
+	OHCIRCINSTANCEOF(OhCircusString.OHCIRCINSTANCEOF, NewlineCategory.AFTER),
+	OHCIRCSTATE(OhCircusString.OHCIRCSTATE, NewlineCategory.AFTER);
 	
   private String spelling_;
   private NewlineCategory newlineCategory_;

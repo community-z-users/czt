@@ -118,10 +118,18 @@ public class <class/>
     map.put("CHANNELDOT", NewlineCategory.NEITHER);    
 </add:circus>
 
+<add:ohcircus>
+ /* OHCIRCDOT does not accept new lines */
+    map.put("OHCIRCDOT", NewlineCategory.NEITHER);
+</add:ohcircus>
+
+
 <add:circustime>
     insertInto(map, CircusTimeToken.values());
     insertInto(map, CircusTimeKeyword.values());
 </add:circustime>
+
+
 
 <add:ohcircus>
     insertInto(map, OhCircusToken.values());

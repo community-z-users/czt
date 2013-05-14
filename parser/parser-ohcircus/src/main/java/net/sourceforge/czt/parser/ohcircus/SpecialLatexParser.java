@@ -36,13 +36,13 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
-import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.ohcircus.jaxb.JaxbXmlWriter;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 
-import net.sourceforge.czt.print.circustime.PrintUtils;
+import net.sourceforge.czt.print.ohcircus.PrintUtils;
 import net.sourceforge.czt.session.Key;
 
 /**
@@ -103,7 +103,7 @@ public class SpecialLatexParser {
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
       
-      logger = CztLogger.getLogger(net.sourceforge.czt.print.circustime.Unicode2Latex.class);
+      logger = CztLogger.getLogger(net.sourceforge.czt.print.ohcircus.Unicode2Latex.class);
       logger.addHandler(ch);
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
@@ -113,10 +113,10 @@ public class SpecialLatexParser {
       logger.addHandler(fh);
       logger.setLevel(Level.FINEST);
       
-      sm = new SectionManager(Dialect.CIRCUSTIME);  
+      sm = new SectionManager(Dialect.OHCIRCUS);  
       sm.setProperty("czt.path", "/Users/nljsf/Local/reps/git/czt/parser/parser-z/src/main/resources/lib/:" +
-          "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/:" +
-    	  "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/");
+          "/Users/nljsf/Local/reps/git/czt/parser/parser-ohcircus/src/main/resources/lib/:" +
+    	  "/Users/nljsf/Local/reps/git/czt/parser/parser-ohcircus/src/main/resources/lib/");
     }
     
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
@@ -179,7 +179,7 @@ public class SpecialLatexParser {
     }
     
     public static void printZML(Term term, String filename) throws IOException {
-      JaxbXmlWriter writer = new net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter();
+      JaxbXmlWriter writer = new net.sourceforge.czt.ohcircus.jaxb.JaxbXmlWriter();
       System.out.println("Printing ZML of term of to " + filename + PRINT_ZML_EXT);
       StringWriter stw = new StringWriter();
       writer.write(term, stw);      
@@ -195,7 +195,7 @@ public class SpecialLatexParser {
      * Converts latex to zml.
      */
     public static void main(String[] args) {
-        String usage = "\nUsage: net.sourceforge.czt.parser.circustime.SpecialLatexParser"
+        String usage = "\nUsage: net.sourceforge.czt.parser.ohcircus.SpecialLatexParser"
                 + " [ -in <texInputfile>] [ -tokenise] [ -printLatex] [ -printUnicode] [ -reparseLatex] [ -printZML]";
         long time = System.currentTimeMillis();       
         try {
