@@ -1,5 +1,5 @@
 /*
- * C	ircusPrintMessage.java
+ * CircusPrintMessage.java
  *
  * Created on 01 May 2007, 08:41
  *
@@ -24,8 +24,7 @@ public enum OhCircusPrintMessage {
 	//new warning messages for OhCircus 
 	MSG_OHCIRCUS_CLASS_MISSING_ENTITY("Missing ''{0}'' for OhCircus class while printing AST:\n\t''{1}''"),
 	MSG_OHCIRCUS_CLASS_BAD_PARAGRAPH("''{0}'' declared class paragraph ''{1}'' is not allowed within basic process\n\t''{2}''"),
-	MSG_OHCIRCUS_CLASS_DUPLICATED_STATE_PARAGRAPH("Duplicated state paragraph ''{0}'' for OhCircus class.");  
-   
+	MSG_OHCIRCUS_CLASS_DUPLICATED_STATE_PARAGRAPH("Duplicated state paragraph ''{0}'' for OhCircus class."); 
  
   private final String message_;
   private final String explanation_;

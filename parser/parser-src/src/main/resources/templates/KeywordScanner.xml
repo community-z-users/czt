@@ -114,6 +114,7 @@ public class KeywordScanner
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  <add:ohcircuscore>Dialect.OHCIRCUS</add:ohcircuscore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
   

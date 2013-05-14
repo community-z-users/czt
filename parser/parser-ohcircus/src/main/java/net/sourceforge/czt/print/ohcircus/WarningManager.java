@@ -12,7 +12,6 @@ package net.sourceforge.czt.print.ohcircus;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.ohcircus.ast.OhCircusClass;
-import net.sourceforge.czt.print.circustime.CircusTimePrintMessage;
 import net.sourceforge.czt.z.ast.Para;
 
 /**
@@ -20,7 +19,7 @@ import net.sourceforge.czt.z.ast.Para;
  * @author leo
  */
 public class WarningManager extends
-    net.sourceforge.czt.z.util.WarningManager {
+    net.sourceforge.czt.print.circustime.WarningManager {
     
     public WarningManager() {
         super();
@@ -32,9 +31,11 @@ public class WarningManager extends
     }
     
 
+
     public void warn(OhCircusPrintMessage cpm, Object... arguments) {
         warn(cpm.getMessage(), arguments);
     }
+
     
     public void warnMissingFor(String msg, BasicProcess term) {
         warn(OhCircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
@@ -65,6 +66,5 @@ public class WarningManager extends
     public void warnDuplicatedClassState(Term term) {
         warn(OhCircusPrintMessage.MSG_OHCIRCUS_CLASS_DUPLICATED_STATE_PARAGRAPH, term);
     }
-
     
 }

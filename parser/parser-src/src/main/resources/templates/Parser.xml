@@ -2339,6 +2339,7 @@ parser code
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+    				  <add:ohcircuscore>Dialect.CIRCUSTIME</add:ohcircuscore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
 
@@ -2837,7 +2838,7 @@ terminal LocInfo
    	/* Support OhCircus for Class and Methods */ 
         OHCIRCCLASS, OHCIRCSTATE, OHCIRCINITIAL, OHCIRCPUBLIC, OHCIRCPRIVATE, OHCIRCPROTECTED, 
         OHCIRCLOGICAL, OHCIRCEXTENDS, OHCIRCSUPER, OHCIRCDOT, OHCIRCNEW, OHCIRCINSTANCEOF, OHCIRCNULL,
-        OHCIRCSELF, OHCIRCCLASSBEGIN, OHCIRCCLASSEND,
+        OHCIRCSELF,
  </add:ohcircus>
  
 <add:oz>

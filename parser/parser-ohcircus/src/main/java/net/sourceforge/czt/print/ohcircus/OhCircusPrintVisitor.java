@@ -21,8 +21,23 @@ package net.sourceforge.czt.print.ohcircus;
 
 import java.util.Iterator;
 import java.util.Properties;
+
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.circustime.util.CircusTimeUtils;
+import net.sourceforge.czt.circus.visitor.CircusVisitor;
+import net.sourceforge.czt.circustime.ast.PrefixingTimeAction;
+import net.sourceforge.czt.circustime.ast.TimeEndByAction;
+import net.sourceforge.czt.circustime.ast.TimeEndByProcess;
+import net.sourceforge.czt.circustime.ast.TimeStartByAction;
+import net.sourceforge.czt.circustime.ast.TimeStartByProcess;
+import net.sourceforge.czt.circustime.ast.TimedinterruptAction;
+import net.sourceforge.czt.circustime.ast.TimedinterruptProcess;
+import net.sourceforge.czt.circustime.ast.TimeoutAction;
+import net.sourceforge.czt.circustime.ast.TimeoutProcess;
+import net.sourceforge.czt.circustime.ast.WaitAction;
+import net.sourceforge.czt.circustime.ast.WaitExprAction;
+import net.sourceforge.czt.circustime.visitor.CircusTimeVisitor;
 import net.sourceforge.czt.ohcircus.ast.CallMethod;
 import net.sourceforge.czt.ohcircus.ast.DoOhCircusGuardedCommand;
 import net.sourceforge.czt.ohcircus.ast.GuardedMethod;
@@ -56,27 +71,23 @@ import net.sourceforge.czt.ohcircus.ast.SeqMethod;
 import net.sourceforge.czt.ohcircus.ast.VarDeclOhCircusCommand;
 import net.sourceforge.czt.ohcircus.visitor.OhCircusVisitor;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
+import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 import net.sourceforge.czt.parser.ohcircus.OhCircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.z.util.WarningManager;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circustime.ast.*;
-import net.sourceforge.czt.circus.visitor.*;
-import net.sourceforge.czt.circustime.visitor.*;
-import net.sourceforge.czt.parser.circus.CircusToken;
-//import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
 import net.sourceforge.czt.parser.z.ZToken;
-import net.sourceforge.czt.print.circustime.CircusTimePrintMessage;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.util.WarningManager;
 import net.sourceforge.czt.z.util.ZUtils;
+//import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 
 /**
  * An Circus visitor used for printing.
@@ -84,65 +95,60 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @author Petra Malik, Leo Freitas
  */
 public class OhCircusPrintVisitor
-    extends net.sourceforge.czt.print.circustime.CircusTimePrintVisitor
+    extends net.sourceforge.czt.print.circus.CircusPrintVisitor
     implements OhCircusVisitor<Object> {
     
-      
-    /**
-     * Creates a new Object-Z print visitor.
-     * The section information should be able to provide information of
-     * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
-     */
-	 public OhCircusPrintVisitor(SectionInfo si, ZPrinter printer, WarningManager wm) {
-	        super(si, printer, wm);        
-	    }
-	    
-	 public OhCircusPrintVisitor(SectionInfo si, ZPrinter printer, Properties properties, WarningManager wm) {
-	        super(si, printer, properties, wm);
-	    }    
+    public OhCircusPrintVisitor(SectionInfo si, ZPrinter printer, WarningManager wm) {
+        super(si, printer, wm);        
+    }
     
-   
-/* Support for OhCircus : Methods and Class */
+    public OhCircusPrintVisitor(SectionInfo si, ZPrinter printer, Properties properties, WarningManager wm) {
+        super(si, printer, properties, wm);
+    }
+    
+    /* Support for OhCircus Class and Methods */
 
-public Object visitOhCircusClassPara(OhCircusClassPara term) {
-    printLPAREN(term);
-    print(OhCircusKeyword.OHCIRCCLASS);
-    visit(term.getName());
-    print(CircusKeyword.CIRCDEF);
-    //may be add some condition to detect extended class 
-    print(OhCircusKeyword.OHCIRCEXTENDS); 
-    visit(term.getName());
-    visit(term.getOhCircusClassDef());
-    print(CircusKeyword.CIRCSPOT);    
-    printRPAREN(term);
-    return null;
-}
-
-public Object visitOhCircusClassDef(OhCircusClassDef term) {
-    printLPAREN(term);
-    print(CircusKeyword.CIRCBEGIN);
-    visit(term.getOhCircusClass());
-    visit(term.getOhCircusClassInitialState());
-    visit(term.getOhCircusClassState());
-    print(CircusKeyword.CIRCEND);
-    printRPAREN(term);
-    return null;
-}
-
-
-    public  Object visitOhCircusClassInitialState(OhCircusClassInitialState term) {
-    	printLPAREN(term);
-    	visit(term.getPred());
-    	printRPAREN(term);
+    public Object visitOhCircusClassPara(OhCircusClassPara term) {
+        printLPAREN(term);
+        print(OhCircusKeyword.OHCIRCCLASS);
+        visit(term.getName());
+        print(CircusKeyword.CIRCDEF);
+        //may be add some condition to detect extended class 
+        print(OhCircusKeyword.OHCIRCEXTENDS); 
+        visit(term.getName());
+        visit(term.getOhCircusClassDef());
+        print(CircusKeyword.CIRCSPOT);    
+        printRPAREN(term);
         return null;
     }
 
+    public Object visitOhCircusClassDef(OhCircusClassDef term) {
+        printLPAREN(term);
+        print(CircusKeyword.CIRCBEGIN);
+        visit(term.getOhCircusClass());
+        visit(term.getOhCircusClassInitialState());
+        visit(term.getOhCircusClassState());
+        print(CircusKeyword.CIRCEND);
+        printRPAREN(term);
+        return null;
+    }
+
+
+        public  Object visitOhCircusClassInitialState(OhCircusClassInitialState term) {
+        	printLPAREN(term);
+        	visit(term.getPred());
+        	printRPAREN(term);
+            return null;
+        }
+    
 	@Override
 	public Object visitOhCircusMethodSignatureList(
 			OhCircusMethodSignatureList term) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 	@Override
 	public Object visitOhCircusClassRefList(OhCircusClassRefList term) {
@@ -264,6 +270,7 @@ public Object visitOhCircusClassDef(OhCircusClassDef term) {
 		return null;
 	}
 
+	
 	@Override
 	public Object visitLetVarMethod(LetVarMethod term) {
 		// TODO Auto-generated method stub
@@ -305,7 +312,10 @@ public Object visitOhCircusClassDef(OhCircusClassDef term) {
 	public Object visitOhCircusClassRef(OhCircusClassRef term) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}    
+      
+ 
 
+  
 
 }
