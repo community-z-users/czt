@@ -1,0 +1,40 @@
+\begin{zsection}
+   \SECTION test\_circustime\_process \parents circustime\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+\begin{circus}
+     \circchannel\ c: \nat \\
+     \circchannel\ d: \nat \\
+\end{circus}
+
+\begin{circus}
+    \circprocess P \circdef \circbegin \circspot c?x \then \Skip \circend \\
+\end{circus}
+
+
+\begin{circus}
+    \circprocess Q \circdef \circbegin \circspot d?x \then \Skip \circend \\
+\end{circus}
+
+
+\begin{circus}
+   \circprocess Test2 \circdef  \lcirctime 1 \upto 20 \rcirctime \circstartby P  \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test10 \circdef  P \circendby \lcirctime 1 \upto 20 \rcirctime  \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test18 \circdef  P \circtimeout \lcirctime 1 \upto 20 \rcirctime Q \\
+\end{circus}
+
+\begin{circus}
+   \circprocess Test26 \circdef  P \circtimedinterrupt \lcirctime 1 \upto 20 \rcirctime Q \\
+\end{circus}
