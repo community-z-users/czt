@@ -1,0 +1,51 @@
+\begin{zsection}
+   \SECTION test\_circustime\_process \parents circustime\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   tval: \nat
+\where
+   tval > 20 \land tval<30
+\end{axdef}
+
+\begin{circus}
+     \circchannel\ c: \nat \\
+     \circchannel\ d: \nat \\
+\end{circus}
+
+%Let, Mu, Conditional, Binding and Tuple expressions
+\begin{zed}
+  letExpr == \LET x == 1 @ x\\
+  muExpr1 == (\mu x : \nat @ x)\\
+  muExpr2 == (\mu x : \nat | true)\\
+  condExpr == \IF true \THEN 1 \ELSE 2\\
+  bindExpr == \lblot one == 1 \rblot\\
+  tupleExpr == (1, \{2\}, \power \{3\})\\
+\end{zed}
+
+\begin{circus}
+    \circprocess P \circdef \circbegin \circspot c?x \then \Skip \circend \\
+    \circprocess Q \circdef \circbegin \circspot d?x \then \Skip \circend \\
+
+    %Tests production rule:  LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY process:pr
+    \circprocess Test1 \circdef \lcirctime 20 \rcirctime \circstartby P \\
+    \circprocess Test2 \circdef \lcirctime tval \rcirctime \circstartby P \\
+    \circprocess Test3 \circdef \lcirctime 10 + tval \rcirctime \circstartby P \\
+    
+    %Let expression is allowed  when expression type is arithmos only
+    \circprocess Test4 \circdef \lcirctime letExpr \rcirctime \circstartby P \\
+    
+    %Mu expression is allowed  when expression type is arithmos only
+    \circprocess Test5 \circdef \lcirctime muExpr1 \rcirctime \circstartby P \\
+    \circprocess Test6 \circdef \lcirctime muExpr2 \rcirctime \circstartby P \\
+    
+    %Conditional expression is allowed  when expression type is arithmos only
+    \circprocess Test7 \circdef \lcirctime condExpr \rcirctime \circstartby P \\
+    
+    %Binding expression is allowed  when expression type is arithmos only
+    \circprocess Test8 \circdef \lcirctime bindExpr.one \rcirctime \circstartby P \\
+    
+    %Tuple expression is allowed  when expression type is arithmos only
+    \circprocess Test9 \circdef \lcirctime tupleExpr.1 \rcirctime \circstartby P \\
+
+\end{circus}
