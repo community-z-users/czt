@@ -222,6 +222,11 @@ class <class/> extends CztScannerImpl
    */
   private static final Set&lt; String &gt; CIRCUS_SYMBOL_NAMES_ONLY = CircusSymMap.CIRCUS_SYMBOL_NAMES_ONLY;
 </add:circus>  
+
+<add:circustime>
+  private static final Set&lt; String &gt; CIRCUSTIME_SYMBOL_NAMES_ONLY = CircusTimeSymMap.CIRCUSTIME_SYMBOL_NAMES_ONLY;
+</add:circustime>
+
   
   private TokenStack dumb_;
 
@@ -851,7 +856,7 @@ class <class/> extends CztScannerImpl
           // DECORWORD is not allowd to change into FIELDNAME, if current symbol   
 	      // is followed by a symbol ATTIEM (@)  
           
-          if (symbol.sym == Sym.DECORWORD <add:circustime> &amp;&amp; tokens.get(i-1).sym != Sym.ATTIME </add:circustime> )
+          if (symbol.sym == Sym.DECORWORD <add:circustime> &amp;&amp; i>0 &amp;&amp; tokens.get(i-1).sym != Sym.ATTIME </add:circustime> )
           {
             changed = true;
             // count field change
@@ -970,14 +975,13 @@ class <class/> extends CztScannerImpl
     Symbol currsym = dumb_.pop();
     tokens.addLast(currsym);
   
-    // add a condition to look ahead the ATTIME (@) symbol for circus-time 
     // while finding non Circus symbols, then carry on looking ahead    
     // and also, in case of a quite messy spec that reaches EOF too early
     //
     // PREFIXCOLON is a special case: we still need to look forward
     while (currsym.sym == Sym.PREFIXCOLON || 
            (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
-           currsym.sym != Sym.EOF))
+           currsym.sym != Sym.EOF) <add:circustime>&amp;&amp; !CIRCUSTIME_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) </add:circustime> )
     {    
       currsym = dumb_.pop();
       tokens.addLast(currsym);
