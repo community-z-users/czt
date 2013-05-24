@@ -22,15 +22,18 @@
     \circprocess Q \circdef \circbegin \circspot d?x \then \Skip \circend \\
 \end{circus}
 
+    %Tests production rule:  LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY process:pr
 
-%Tests production rule:  LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY process:pr
+\begin{circus}
+    \circprocess Test1 \circdef \lcirctime 20 \rcirctime \circstartby P \\
+\end{circus}
+
+
 \begin{circus}
    \circprocess Test1 \circdef  \lcirctime 20 \rcirctime \circstartby P  \\
 \end{circus}
 
 %Same production rule with different type of expression
-
-
 
 \begin{circus}
    \circprocess Test3 \circdef  \lcirctime 10 + 20 \rcirctime \circstartby P  \\

@@ -19,13 +19,8 @@
 
 package net.sourceforge.czt.print.circustime;
 
-import java.util.Iterator;
 import java.util.Properties;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.circus.visitor.CircusVisitor;
 import net.sourceforge.czt.circustime.ast.PrefixingTimeAction;
 import net.sourceforge.czt.circustime.ast.TimeEndByAction;
 import net.sourceforge.czt.circustime.ast.TimeEndByProcess;
@@ -39,22 +34,12 @@ import net.sourceforge.czt.circustime.ast.WaitAction;
 import net.sourceforge.czt.circustime.ast.WaitExprAction;
 import net.sourceforge.czt.circustime.visitor.CircusTimeVisitor;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
-import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeToken;
-import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.ZKeyword;
-import net.sourceforge.czt.parser.z.ZToken;
-import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.TruePred;
-import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.util.WarningManager;
-import net.sourceforge.czt.z.util.ZUtils;
-//import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 
 /**
  * An Circus visitor used for printing.
