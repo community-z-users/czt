@@ -1,0 +1,218 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This is file `circustime.sty',
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\fileversion{v.1.0}
+\def\filedate{2013/05/24}
+\def\filedesc{Circustime style file by the Community Z Tools}
+
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{circustime}
+    [\filedate\space\fileversion\space \filedesc]
+\message{`\filedesc'\space \fileversion\space <\filedate>}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Design guidelines:
+%   1) keep it minimal + simple + consistent
+%   2) for machine readable Circus only
+%   3) identify code sources (when different)
+%   4) normalise definitions for consistency
+%   5) complete missing cases (use common sense)
+%   6) keep it well documented, but not verbose
+%   7) order of definitions from Circus.xsd, circus_prelude.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package options - zed.sty (old version of zed-csp.sty)        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% Call czt.sty with the same options as given for circus.sty
+\RequirePackageWithOptions{czt}[2008/10/01]
+\RequirePackageWithOptions{circus}[2008/10/01]
+
+% create conditionals for each option available, init=false
+\newif\if@cttkkeyword@ \@cttkkeyword@false
+
+% Pass czt.sty options to its package
+\DeclareOption{lucida}{\PassOptionsToPackage{lucida}{czt}}
+\DeclareOption{color}{\PassOptionsToPackage{color}{czt}}
+\DeclareOption{colour}{\PassOptionsToPackage{colour}{czt}}
+\DeclareOption{mathit}{\PassOptionsToPackage{mathit}{czt}}
+\DeclareOption{mathrm}{\PassOptionsToPackage{mathrm}{czt}}
+\DeclareOption{tkkeyword}{\PassOptionsToPackage{tkkeyword}{czt}}
+\DeclareOption{cntglobally}{\PassOptionsToPackage{cntglobally}{czt}}
+\DeclareOption{cntbychapter}{\PassOptionsToPackage{cntbychapter}{czt}}
+\DeclareOption{cntbysection}{\PassOptionsToPackage{cntbysection}{czt}}
+
+% Pass circus.sty options to its package
+\DeclareOption{ctkkeyword}{\PassOptionsToPackage{ctkkeyword}{circus}}
+
+% New options from this package
+\DeclareOption{cttkkeyword}{\PackageInfo{circustime}{'cttkkeyword' option chosen} \@cttkkeyword@true}
+
+% default option as using math italics for mathcode names.
+\ExecuteOptions{mathit,colour,cntglobally}
+\ProcessOptions\relax
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Treating colours                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% If colouring is available
+\if@color@
+  \PackageInfo{circustime}{Rendering Circustime math mode with colours}
+
+  % check whether to load color package or not
+  \@ifpackageloaded{color}{%
+        \relax
+  }{%
+        \PackageInfo{circustime}{Package `color' loaded with `dvipsnames' \MessageBreak and `usenames' options}
+        \RequirePackage[dvipsnames,usenames]{color}
+  }
+
+  \definecolor{CSPBoxColor}{cmyk}{1,0,1,0}% Green
+  \definecolor{MetaColor}{cmyk}{0,0.61,0.87,0}% Orange
+  \definecolor{CSPColor}{cmyk}{0.50,1,0,0}% Plum
+
+  \PackageInfo{circustime}{Circustime colours defined as:\MessageBreak%
+    \space\space CSPBoxColor\space\space          = cmyk(   1,   0,   1,0) \MessageBreak%
+    \space\space MetaColor\space\space\space      = cmyk(   0,0.61,0.87,0) \MessageBreak%
+    \space\space CSPColor\space\space\space\space = cmyk(0.50,   1,   0,0)}%
+
+\else
+  \PackageInfo{circus}{Rendering Circustime math mode in monochrome.}
+
+  \@ifpackageloaded{color}{\relax}{\def\color#1{\relax}}
+\fi
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Loading mathematical symbols from AMS/Lucuida fonts           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% declares the math version for fonts as circustime -
+% there is no need to create a new math version for Circustime
+%\DeclareMathVersion{circustime}
+%\PackageInfo{circustime}{Creating `circustime' math version}
+
+\@ifpackageloaded{lucidabr}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Lucida Bright font setup                                      %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
+    \PackageInfo{circustime}{Loading Lucida Bright font symbols for Circustime}
+
+  %%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circustime
+    
+    \def \ctsym@lcirctime      {\zopenop{\langle}} %\langle 
+    \def \ctsym@rcirctime      {\zcloseop{\rangle}} %\rangle 
+
+ 
+  %%%%%%%%%%%%%%%%% 2) Special symbols used in Circustime             %
+     
+    \def \ctsym@circtimeout             {\mathbin{\zsym@rres}} %\timeout
+    \def \ctsym@circtimedinterrupt      {\mathbin{\bigtriangleup}} %\timedinterrupt
+    \def \ctsym@circstartby      	{\mathbin{\blacktriangleleft}} %\startby
+    \def \ctsym@circendby      		{\mathbin{\blacktriangleright}} %\endby
+    \def \ctsym@circat		        {\hbox{\texttt{@}}} %attime operator (@) 
+
+    %to define prefix with time delay
+    %\def \ctsym@then		        {\mathbin{\longrightarrow}} %attime operator (@) 
+ 
+}{%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % AMS font setup                                                %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                                               %
+    \PackageInfo{circustime}{Loading AMS font symbols for Circustime}
+
+ %%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circustime
+    
+    \def \ctsym@lcirctime      {\zopenop{\langle}} %\langle 
+    \def \ctsym@rcirctime      {\zcloseop{\rangle}} %\rangle 
+
+ 
+  %%%%%%%%%%%%%%%%% 2) Special symbols used in Circustime             %
+     
+    \def \ctsym@circtimeout             {\mathbin{\zsym@rres}} %\timeout
+    \def \ctsym@circtimedinterrupt      {\mathbin{\bigtriangleup}} %\timedinterrupt
+    \def \ctsym@circstartby      	{\mathbin{\blacktriangleleft}} %\startby
+    \def \ctsym@circendby      		{\mathbin{\blacktriangleright}} %\endby
+    \def \ctsym@circat		        {\hbox{\texttt{@}}} %attime operator (@) 
+
+    %to define prefix with time delay
+    %\def \ctsym@then		        {\mathbin{\longrightarrow}} %attime operator (@) 
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language keywords                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Just like in Z, but with \textsl and underline instead of \texrm.
+% This (i.e., being different from Z keywords) is useful because
+% some names are reused (e.g., if)
+%
+\def\mathsl#1{\hbox{\slshape #1}}
+\def\circustimeword#1{\zword{#1}} % changed from: \zword{\mathsl{#1}}
+\def\circustimekeyword#1{\zkeyword{#1}}        %  \zkeyword{\mathsl{#1}}
+\def\circustimetoolkit#1{\if@ctkkeyword@ \circustimekeyword{#1} \else \circustimeword{#1} \fi}
+
+%%%%%%%%%%%%%%%%% 1) circustime wait
+
+\def \circwait    {\zpreop{\circustimekeyword{wait}}}
+
+\PackageInfo{circus}{Loading Circus keywords}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Core symbols                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%% 1) BRACKETS - brackets used in Circus         %
+
+   \def \lcirctime 	{\zopenop{\ctsym@lcirctime}}
+   \def \rcirctime 	{\zopenop{\ctsym@rcirctime}}
+
+
+\PackageInfo{circustime}{Loading Circustime brackets}
+
+%%%%%%%%%%%%%%%%% 2) Special symbols used in Circus             %
+
+   \def \circtimeout    	#1{\zbinop{\stackrel{#1}{\ctsym@circtimeout}}}
+   \def \circtimedinterrupt    	#1{\zbinop{{\ctsym@circtimedinterrupt}_{#1}}}
+   \def \circstartby    	{\zbinop{\ctsym@circstartby}}
+   \def \circendby    		{\zbinop{\ctsym@circendby}}
+   \def \circat    		{\zpreop{\ctsym@circat}}
+ 
+   %to define prefix with time delay
+   %\renewcommand \then          [1]{\zbinop{\stackrel{#1}{\ctsym@then}}}
+
+\PackageInfo{circustime}{Loading Circustime special symbols}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Few extra helpful commands                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+
+% users referring to this file in their \LaTeX
+\def \circustimestylefile {\texttt{circustime.sty}}
+
+\def \Circustime {{\sf\slshape Circustime}}
+
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\newcommand{\then}[1]{\stackrel{#1}{\longrightarrow}}  % then is already defined in circus
+
