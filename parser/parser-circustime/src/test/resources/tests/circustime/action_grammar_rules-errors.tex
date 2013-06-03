@@ -1,0 +1,124 @@
+%Negative test cases for Circus Time Action
+
+\begin{zsection}
+   \SECTION action_grammar_rules \parents circustime\_toolkit
+\end{zsection}
+
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+\begin{circusaction}
+    	\t1 A \circdef c \then \Skip
+	\also
+        \t1 B \circdef d \then \Skip 
+\end{circusaction}
+
+\section{Example 1 --- $CIRCWAIT$}
+
+Production rule: 
+\begin{verbatim}
+	CIRCWAIT:cw expression:e
+\end{verbatim}
+%
+The following examples presents with erroneous productions like
+
+\begin{circusaction}
+	\t1 TestX1 \circdef \circwait 10 \then \Skip
+	\also
+	\t1 TestX2 \circdef \circwait \lcirctime 10 \rcirctime 
+\end{circusaction}
+
+
+\section{Example 2 --- $CIRCSTARTBY$ and $CIRCENDBY$}
+
+Production rule:
+\begin{verbatim}
+   LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
+   circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+\end{verbatim}
+
+An erroneous example for the gievn production 
+\begin{circusaction}
+	\t1 TestX3 \circdef A \lcirctime 10 + outside \rcirctime \circstartby \Skip 
+	\also
+	\t1 TestX4 \circdef  10 \circstartby A 
+	\also
+	\t1 TestX5 \circdef  ( 20 + 4 )  \circstartby A 
+	\also
+	\t1 TestX6 \circdef A \circendby \lcirctime f \rcirctime \then A
+	\also
+        \t1 TestX7 \circdef A \circendby 10
+\end{circusaction}
+
+
+\section{Example 3 --- $CIRCTIMEOUT$}
+
+
+Production rule:
+\begin{verbatim}
+   circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
+\end{verbatim}
+
+An erroneous example for the gievn production 
+\begin{circusaction}
+	\t1 TestX8 \circdef A \circtimeout 10 A
+	\also
+	\t1 TestX9 \circdef  A \circtimeout B 
+\end{circusaction}
+
+
+\section{Example 4 --- $CIRCTIMEDINTERRUPT$}
+
+Production rule:
+\begin{verbatim}
+ circusAction CIRCTIMEDINTERRUPT LCIRCTIME expression RCIRCTIME circusAction
+\end{verbatim}
+	
+An erroneous example for the gievn production 
+\begin{circusaction}
+	\t1 TestX10 \circdef A \circtimedinterrupt 10 A
+	\also
+	\t1 TestX11 \circdef  A \circtimedinterrupt B  \\
+\end{circusaction}
+		
+\section{Example 5 --- timed prefix}
+
+Production rule:
+\begin{verbatim}
+ communication PREFIXTHEN:pt LCIRCTIME expression RCIRCTIME circusAction
+\end{verbatim}
+
+\begin{circusaction}
+	\t1 TestX12 \circdef c \then 20 A
+	\also
+	\t1 TestX13 \circdef  c \then (20+5) B
+\end{circusaction}
+
+
+\section{Example 6 --- AT timed prefix}
+
+Production rule:
+\begin{verbatim}
+ communication ATTIME DECORWORD  PREFIXTHEN  circusAction
+ communication ATTIME DECORWORD PREFIXTHEN LCIRCTIME expression RCIRCTIME circusAction
+\end{verbatim}
+
+\begin{circusaction}
+	\t1 TestX14 \circdef  c~\circat~N \then 20 B
+	\also
+	\t1 TestX15 \circdef  c~\circat~N \then (3+20) B
+	\also
+	\t1 TestX16 \circdef  c~\circat~c \then B
+	\also
+	\t1 TestX17 \circdef  c?x~\circat~x \then B
+\end{circusaction}
+
+\begin{circusaction}
+   \circspot A \circseq B
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}

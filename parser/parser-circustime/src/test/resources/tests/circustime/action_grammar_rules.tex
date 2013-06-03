@@ -1,0 +1,574 @@
+\documentclass{article}
+
+\usepackage{czt, amssymb, circus-time}
+\usepackage[color]{circus}
+
+\begin{document}
+
+\section{Preamble}
+
+\begin{itemize}
+   \item section name and its parents
+   \item basic process header
+   \item typed channel
+   \item generic typed channels
+   \item synchronisation channels
+   \item various auxiliary declarations used
+\end{itemize}
+
+\begin{zsection}
+  \SECTION\ action\_grammar\_rules \parents\ circustime\_toolkit
+\end{zsection}
+
+\begin{circus}
+     \circchannel\ d: \nat \\
+\end{circus}
+
+\begin{axdef}
+    outside: \nat
+\end{axdef}
+
+\begin{circus}
+   \circchannel\ c: \nat \cross \nat \cross \nat \cross \nat
+\end{circus}
+
+\begin{circus}
+   \circprocess\ CircusTimeActionTests \circdef \circbegin
+\end{circus}
+
+\begin{axdef}
+   n1, n2: \nat \\
+   x?, y!, z?: \nat
+\end{axdef}
+
+\begin{axdef}
+   f : \nat \fun \nat \cross \nat
+\end{axdef}
+
+\begin{zed}
+   S == [~ y: \nat ~]
+\end{zed}
+
+%Let, Mu, Conditional, Binding and Tuple expressions
+\begin{zed}
+  letExpr == \LET x == 1 @ x\\
+  muExpr1 == (\mu x : \nat @ x)\\
+  muExpr2 == (\mu x : \nat | true)\\
+  condExpr == \IF true \THEN 1 \ELSE 2\\
+  bindExpr == \lblot one == 1 \rblot\\
+  tupleExpr == (1, \{2\}, \power \{3\})\\
+\end{zed}
+
+\begin{circusaction}
+	\t1 A \circdef \Skip
+\end{circusaction}
+
+
+\section{Example 1 --- $CIRCWAIT$}
+
+Production rule: 
+\begin{verbatim}
+	CIRCWAIT:cw expression:e
+\end{verbatim}
+%
+\begin{itemize}
+   \item simple wait with expressions of various kinds and no following action
+   \item expressions can come from within and outside the process
+   \item expressions that look {\bf funny like partially applied on several type expressions like theta, mu, condition, bind and tuple expressions}
+\end{itemize}
+%
+\begin{circusaction}
+   \t1 Test0 \circdef \circwait 10 + outside
+   \also
+   \t1 Test1 \circdef \circwait n1+n2 
+   \also
+   \t1 Test2 \circdef \circwait f 
+   \also
+   \t1 Test3 \circdef \circwait \theta S 
+   \also
+   \t1 Test4 \circdef \circwait [~ x: \nat | x > 10 ~] 
+   \also
+   \t1 Test5 \circdef \circwait letExpr
+   \also
+   \t1 Test6 \circdef \circwait muExpr1
+   \also
+   \t1 Test7 \circdef \circwait muExpr2
+   \also
+   \t1 Test8 \circdef \circwait condExpr
+   \also
+   \t1 Test9 \circdef \circwait bindExpr
+   \also
+   \t1 Test10 \circdef \circwait tupleExpr.1
+   \also
+   \t1 Test11 \circdef \circwait 1 \upto 10
+   \also
+   \t1 Test12 \circdef c \then \circwait outside
+   \also
+   \t1 Test13 \circdef \circwait outside \circseq \circwait outside
+   \also
+   \t1 Test14 \circdef c \then \circwait outside \circseq c \then \circwait outside
+   \also
+   \t1 Test15 \circdef d!x \then \circwait x + outside
+   \also
+   \t1 Test16 \circdef \circvres vart : \nat  \circspot \circwait vart 
+   \also
+   \t1 Test17 \circdef \circvres vart : \nat  \circspot c \then \circwait vart + outside
+\end{circusaction}
+%
+The following examples presents with erroneous productions like
+\begin{verbatim}
+	\t1 TestX1 \circdef \circwait 10 \then \Skip
+	\t1 TestX2 \circdef \circwait \lcirctime 10 \rcirctime 
+\end{verbatim}
+
+Production rule:
+\begin{verbatim}
+	CIRCWAIT DECLWORD:dw COLON expression:e CIRCSPOT circusAction:ac
+\end{verbatim}
+%
+\begin{itemize}
+	\item complex wait patterns with ensuing actions
+	\item complex wait patterns with duplicated names (i.e. already declared)
+        \item the strokes are accepatable by the parser, but that must be avoided during type checking
+\end{itemize}
+
+%
+\begin{circusaction}
+   \t1 Test18 \circdef \circwait x : 10 + outside \circspot \Skip
+   \also
+   \t1 Test19 \circdef \circwait y : n1+n2 \circspot \Skip 
+   \also
+   \t1 Test20 \circdef \circwait z : f \circspot \Skip
+   \also
+   \t1 Test21 \circdef \circwait w: \theta S \circspot \Skip
+   \also
+   \t1 Test22 \circdef \circwait x?: S \circspot \Skip
+   \also
+   \t1 Test23 \circdef \circwait f: S \circspot \Skip
+   \also
+   \t1 Test24 \circdef \circwait m: letExpr \circspot \Skip
+   \also
+   \t1 Test25 \circdef \circwait m: muExpr1 \circspot \Skip
+   \also
+   \t1 Test26 \circdef \circwait m: muExpr2 \circspot \Skip
+   \also
+   \t1 Test27 \circdef \circwait m: condExpr \circspot \Skip
+   \also
+   \t1 Test28 \circdef \circwait m: bindExpr \circspot \Skip
+   \also
+   \t1 Test29 \circdef \circwait m: tupleExpr \circspot \Skip
+   \also
+   \t1 Test30 \circdef \circwait m: 1 \upto 20 \circspot c \then \Skip
+   \also
+   \t1 Test31 \circdef c \then \circwait m: 1 \upto 20 \circspot c \then \Skip
+   \also
+   \t1 Test32 \circdef \circwait m: 1 \upto 20 \circspot c \then \circwait outside 
+   \also
+   \t1 Test33 \circdef d!u \then \circwait m: 1 \upto 20 \circspot \circwait outside + u 
+   \also
+   \t1 Test34 \circdef \circwait m: 1 \upto 20 \circspot \Skip \circseq \circwait n: 1 \upto 20 
+   \circspot \Skip
+   \also
+   \t1 Test35 \circdef \circvres vart : \nat \circspot \circwait m: 1 \upto 20 \circspot \Skip 
+   \also
+   \t1 Test36 \circdef \circvres vart : \nat \circspot \circwait m: 1 \upto 20 \circspot c \then 
+   \circwait vart + outside
+   \also
+   \t1 Test37 \circdef \circwait m: 1 \upto 20 \circspot \circwait n: 1 \upto 20 \circspot \Skip
+\end{circusaction}
+
+        
+\section{Example 2 --- $CIRCSTARTBY$ and $CIRCENDBY$}
+
+Production rule:
+\begin{verbatim}
+   LCIRCTIME expression:e RCIRCTIME CIRCSTARTBY circusAction:ca
+   circusAction:ca CIRCENDBY LCIRCTIME expression:e RCIRCTIME
+\end{verbatim}
+
+\begin{itemize}
+	\item StartBy and EndBy operatrs with actions
+	\item Expressions are acceptable by parser (similar to wait expression)
+\end{itemize}
+%
+\begin{circusaction}
+   \t1 Test38 \circdef \lcirctime 10 + outside \rcirctime \circstartby \Skip
+   \also
+   \t1 Test39 \circdef \lcirctime n1+n2 \rcirctime \circstartby \Skip 
+   \also
+   \t1 Test40 \circdef \lcirctime f \rcirctime \circstartby \Skip
+   \also
+   \t1 Test41 \circdef \lcirctime \theta S \rcirctime \circstartby \Skip
+   \also
+   \t1 Test42 \circdef \lcirctime x? \rcirctime \circstartby \Skip
+   \also
+   \t1 Test43 \circdef \lcirctime letExpr \rcirctime \circstartby \Skip
+   \also
+   \t1 Test44 \circdef \lcirctime muExpr1 \rcirctime \circstartby \Skip
+   \also
+   \t1 Test45 \circdef \lcirctime muExpr2 \rcirctime \circstartby \Skip
+   \also
+   \t1 Test46 \circdef \lcirctime condExpr \rcirctime \circstartby \Skip
+   \also
+   \t1 Test47 \circdef \lcirctime bindExpr \rcirctime \circstartby \Skip
+   \also
+   \t1 Test48 \circdef \lcirctime tupleExpr.1 \rcirctime \circstartby \Skip
+   \also
+   \t1 Test49 \circdef \lcirctime 1 \upto 20  \rcirctime \circstartby \Skip
+   \also
+   \t1 Test50 \circdef \lcirctime outside  \rcirctime \circstartby c \then \Skip
+   \also
+   \t1 Test51 \circdef c \then \lcirctime outside  \rcirctime \circstartby \Skip
+   \also
+   \t1 Test52 \circdef c \then \lcirctime outside  \rcirctime \circstartby d \then \lcirctime    
+   outside \rcirctime \circstartby \Skip
+   \also
+   \t1 Test53 \circdef d!u \then \lcirctime u  \rcirctime \circstartby \Skip
+   \also
+   \t1 Test54 \circdef  \circvres vart : \nat \circspot  c \then \lcirctime vart  \rcirctime 
+   \circstartby \Skip
+   \also
+   \t1 Test55 \circdef  \circvres vart : \nat \circspot  c \then \lcirctime vart + outside  
+   \rcirctime \circstartby \Skip
+   \also
+   \t1 Test56 \circdef  A \circseq \lcirctime 10 + outside \rcirctime \circstartby \Skip 
+\end{circusaction}
+
+An erroneous example for the gievn production 
+\begin{verbatim}
+	\t1 TestX3 \circdef A \lcirctime 10 + outside \rcirctime \circstartby \Skip 
+	\t1 TestX4 \circdef  10 \circstartby A 
+\end{verbatim}
+
+
+
+\begin{circusaction}
+   \t1 Test57 \circdef A \circendby \lcirctime 10 + outside \rcirctime 
+   \also
+   \t1 Test58 \circdef A \circendby \lcirctime n1+n2 \rcirctime 
+   \also
+   \t1 Test59 \circdef A \circendby \lcirctime f \rcirctime 
+   \also
+   \t1 Test60 \circdef A \circendby \lcirctime \theta S \rcirctime 
+   \also
+   \t1 Test61 \circdef A \circendby \lcirctime x? \rcirctime 
+   \also
+   \t1 Test62 \circdef A \circendby \lcirctime 1 \upto 20 \rcirctime 
+   \also
+   \t1 Test63 \circdef A \circendby \lcirctime letExpr \rcirctime 
+   \also
+   \t1 Test64 \circdef A \circendby \lcirctime muExpr \rcirctime 
+   \also
+   \t1 Test65 \circdef A \circendby \lcirctime muExpr1 \rcirctime 
+   \also
+   \t1 Test66 \circdef A \circendby \lcirctime condExpr \rcirctime 
+   \also
+   \t1 Test67 \circdef A \circendby \lcirctime bindExpr \rcirctime 
+   \also
+   \t1 Test68 \circdef A \circendby \lcirctime tupleExpr \rcirctime 
+   \also
+   \t1 Test69 \circdef c \then A \circendby \lcirctime outside \rcirctime 
+   \also
+   \t1 Test70 \circdef d!u \then A \circendby \lcirctime u \rcirctime 
+   \also
+   \t1 Test71 \circdef \circvres vart : \nat \circspot  c \then A \circendby \lcirctime vart 
+   \rcirctime 
+   \also
+   \t1 Test72 \circdef \circvres vart : \nat \circspot  c \then A \circendby \lcirctime vart + 
+   outside \rcirctime 
+   \also
+   \t1 Test73 \circdef  A \circendby \lcirctime outside \rcirctime \circseq A 
+\end{circusaction}
+
+An erroneous example for the gievn production 
+\begin{verbatim}
+	\t1 TestX5 \circdef A \circendby \lcirctime f \rcirctime \then A
+        \t1 TestX6 \circdef A \circendby 10
+\end{verbatim}
+
+
+\section{Example 3 --- $CIRCTIMEOUT$}
+
+
+Production rule:
+\begin{verbatim}
+   circusAction:al CIRCTIMEOUT LCIRCTIME expression:e RCIRCTIME  circusAction:ar
+\end{verbatim}
+
+\begin{itemize}
+	\item Timeout operator with actions
+	\item Expressions are acceptable by parser (similar to previous expression patterns)
+\end{itemize}
+
+
+\begin{circusaction}
+   \t1 Test74 \circdef A \circtimeout {\lcirctime 10 + outside \rcirctime} A
+   \also
+   \t1 Test75 \circdef c \then A \circtimeout {\lcirctime outside  \rcirctime} A 
+   \also
+   \t1 Test76 \circdef c \then A \circtimeout {\lcirctime outside  \rcirctime} d \then A 
+   \also
+   \t1 Test77 \circdef A \circtimeout {\lcirctime f  \rcirctime} A \circseq A
+   \also
+   \t1 Test78 \circdef c \then A \circtimeout {\lcirctime f  \rcirctime} c \then A \circseq d  
+   \then A
+   \also
+   \t1 Test79 \circdef d!u \then A \circtimeout {\lcirctime u  \rcirctime} A
+   \also
+   \t1 Test80 \circdef \circvres vart : \nat \circspot c \then A \circtimeout {\lcirctime vart 
+   \rcirctime} A
+   \also
+   \t1 Test81 \circdef \circvres vart : \nat \circspot c \then A \circtimeout {\lcirctime vart + 
+   outside \rcirctime} A
+\end{circusaction}
+
+An erroneous example for the gievn production 
+\begin{verbatim}
+	\t1 TestX7 \circdef A \circtimeout 10 A
+\end{verbatim}
+
+
+
+\section{Example 4 --- $CIRCTIMEDINTERRUPT$}
+
+Production rule:
+\begin{verbatim}
+ circusAction CIRCTIMEDINTERRUPT LCIRCTIME expression RCIRCTIME circusAction
+\end{verbatim}
+	
+\begin{itemize}
+	\item Timedinterrupt operator with actions
+	\item Expressions are acceptable by parser (similar to previous expression patterns)
+\end{itemize}
+
+
+\begin{circusaction}
+   \t1 Test82 \circdef A \circtimedinterrupt {\lcirctime 10 + outside \rcirctime} A
+   \also
+   \t1 Test83 \circdef c \then A \circtimedinterrupt {\lcirctime outside  \rcirctime} A 
+   \also
+   \t1 Test84 \circdef c \then A \circtimedinterrupt {\lcirctime outside  \rcirctime} d \then A 
+   \also
+   \t1 Test85 \circdef A \circtimedinterrupt {\lcirctime f  \rcirctime} A \circseq A
+   \also
+   \t1 Test86 \circdef c \then A \circtimedinterrupt {\lcirctime f  \rcirctime} c \then A  
+   \circseq d \then A
+   \also
+   \t1 Test87 \circdef d!u \then A \circtimedinterrupt {\lcirctime u  \rcirctime} A
+   \also
+   \t1 Test88 \circdef \circvres vart : \nat \circspot c \then A \circtimedinterrupt {\lcirctime 
+   vart \rcirctime} A
+   \also
+   \t1 Test89 \circdef \circvres vart : \nat \circspot c \then A \circtimedinterrupt {\lcirctime 
+   vart + outside \rcirctime} A
+\end{circusaction}
+	
+An erroneous example for the gievn production 
+\begin{verbatim}
+	\t1 TestX8 \circdef A \circtimedinterrupt 10 A
+\end{verbatim}
+		
+\section{Example 5 --- timed prefix}
+
+Production rule:
+\begin{verbatim}
+ communication PREFIXTHEN:pt LCIRCTIME expression RCIRCTIME circusAction
+\end{verbatim}
+
+\begin{itemize}
+	\item Timed prefix with communication channel is uesed to express the complexity of timed communication using circus-time operators to test the smart scanner.
+	\item Expressions are acceptable by parser (similar to previous expression patterns)
+\end{itemize}
+
+%
+\begin{circusaction}
+   \t1 Test90 \circdef c?x?y?z \then {\lcirctime 10 + outside \rcirctime} \Skip
+   \also
+   \t1 Test91 \circdef c?x!n1.n2 \then \lcirctime x? \rcirctime \Skip 
+   \also
+   \t1 Test92 \circdef c!n1?x.n2 \then \lcirctime f \rcirctime \Skip
+   \also
+   \t1 Test93 \circdef c.n1!n2?x \then \lcirctime 20 \rcirctime d \then \lcirctime \theta S 
+   \rcirctime \Skip 
+   \also
+   \t1 Test94 \circdef d \then \lcirctime f \rcirctime e \then \lcirctime f \rcirctime \Skip 
+   \also
+   \t1 Test95 \circdef c~?i~!(f~i) \then \lcirctime f \rcirctime \Skip
+   \also
+   \t1 Test96 \circdef c.(S.y)?z \then \lcirctime 20 \rcirctime \Skip
+   \also
+   \t1 Test97 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime \Skip 
+   \also
+   \t1 Test98 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime \lcirctime outside 
+   \rcirctime \circstartby \Skip 
+   \also
+   \t1 Test99 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime A \circendby \lcirctime 
+   outside \rcirctime
+   \also
+   \t1 Test100 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime \circwait outside
+   \also
+   \t1 Test101 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime \circwait t : \nat 
+   \circspot  A
+   \also
+   \t1 Test102 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime d \then A \circtimeout   
+   {\lcirctime outside \rcirctime}  \Skip
+   \also
+   \t1 Test103 \circdef c.(x?)!(y!)!(z?) \then \lcirctime 20 \rcirctime d \then \lcirctime 20 
+   \rcirctime A \circtimeout {\lcirctime outside \rcirctime} \Skip
+\end{circusaction}     
+%
+\textbf{* $S \in \power~(\lblot y == \nat \rblot)$, hence $S.y \in \nat$.}
+\\
+\indent \textbf{* $x?, y!, z?$ are decorated names; usually they appear in schemas.}
+%
+If this proves too complicated, perhaps having it separate as another file 
+is a good away to divide-and-conquer.
+
+\paragraph{Description \\ \\}
+
+\vspace{2pt}
+\begin{tabular}{l|l}
+   \hline
+   Action   & Communication pattern \\
+   \hline
+   $Test25$  & In($x, \nat$), In($y, \nat$), In($z, \nat$) \\
+   \hline
+   $Test26$  & In($x, \nat$), Out($n1$), Dot($n2$) \\
+   \hline
+   $Test27$  & Out($n1$), In($x, \nat$), Dot($n2$) \\
+   \hline
+   $Test28$  & Dot($n1$), Out($n2$), In($x, \nat$), Synch \\
+   \hline
+   $Test29$  & Synch, Synch, Synch \\
+   \hline
+   $Test30$  & In($i, \nat$), Out($\nat \cross \nat$) \\
+   \hline
+   $Test31$  & Dot($S.y$), In($z, \nat \cross \nat$) \\
+   \hline
+   $Test32$  & Out($x?$), Out($y!$), Out($z?$) \\
+   \hline
+\end{tabular}
+\\
+
+Timed comminication prefix  with restricting expression. 
+%
+\begin{circusaction}
+   \t1 Test104 \circdef c?x \prefixcolon (x > 1)!(f~x) \then  \Skip
+   \also
+   \t1 Test105 \circdef c?x \then \\
+                  \t4 c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \Skip 
+   \also
+   \t1 Test106 \circdef c?x \prefixcolon (x > 1).(f~(x.2+x.3)) \then \lcirctime outside \rcirctime 
+   \Skip 
+   \also
+   \t1 Test107 \circdef c?x \prefixcolon (x > 1).(f~(x.2+x.3)) \then \lcirctime outside \rcirctime 
+    c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \Skip 
+   \also
+   \t1 Test108 \circdef c?x \prefixcolon (x > 1).(f~(x.2+x.3)) \then \lcirctime outside \rcirctime 
+    c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \lcirctime 20 \rcirctime \Skip 
+   \also
+   \t1 Test109 \circdef c?x \prefixcolon (x > 1).(f~(x.2+x.3)) \then \lcirctime outside \rcirctime 
+    c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \lcirctime 20 \rcirctime \lcirctime outside 
+   \rcirctime \circstartby A 
+   \also
+   \t1 Test110 \circdef c?x \prefixcolon (x > 1).(f~(x.2+x.3)) \then \lcirctime outside \rcirctime 
+    c?z \prefixcolon (z > x.1).(f~(x.2+x.3)) \then \lcirctime 20 \rcirctime A \circendby  
+   \lcirctime outside \rcirctime 
+\end{circusaction}
+
+\paragraph{Description \\ \\}
+
+\vspace{2pt}
+\begin{tabular}{l|l}
+   \hline
+   Action   & Communication pattern \\
+   \hline
+   $Test33$  & In($x, \{~ v: \nat | v > 1 ~\}$), Out($\nat \cross \nat$) \\
+   \hline
+   $Test34$  & In($x, \nat \cross \nat \cross \nat$);~ In($z, \{~ v: \nat | v > x.1 ~\}$), Out($\nat \cross \nat$) \\
+   \hline
+\end{tabular}
+\\
+
+\textbf{* type on inputs are restricted according to given predicate.}
+\\
+\indent \textbf{* $Test34$ input on $z$ is from ``$?z \prefixcolon (z > x.1)$''.}
+
+Finally we have generic channels version with time
+%
+\begin{circusaction}
+   \t1 Test111 \circdef g[\nat \cross \nat \cross \nat]?x!n1.n2 \then \lcirctime 20 \rcirctime 
+   \Skip
+   \also
+   \t1 Test112 \circdef g.n1.(f~n1) \then \lcirctime 20 \rcirctime \Skip 
+\end{circusaction}
+
+
+\section{Example 6 --- AT timed prefix}
+
+Production rule:
+\begin{verbatim}
+ communication ATTIME DECORWORD  PREFIXTHEN  circusAction
+ communication ATTIME DECORWORD PREFIXTHEN LCIRCTIME expression RCIRCTIME circusAction
+\end{verbatim}
+
+\begin{itemize}
+	\item Grammar for $\circat$ operator with actions
+	\item Grammer for $\circat$ operator with expression and action 
+	\item Expressions are acceptable by parser (similar to previous expression patterns)
+	\item Comminication channel can allow previous communication patterns and restricted inputs 
+\end{itemize}
+
+%
+\begin{circusaction}
+   \t1 Test113 \circdef c?x?y?z \circat X \then \lcirctime 10 + outside \rcirctime \Skip
+   \also
+   \t1 Test114 \circdef c?x!n1.n2 \circat Z \then \lcirctime x? \rcirctime \Skip 
+   \also
+   \t1 Test115 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime \Skip
+   \also
+   \t1 Test116 \circdef c.n1!n2?x \circat x? \then \lcirctime 20 \rcirctime d \circat f \then \lcirctime \theta S \rcirctime \Skip 
+   \also
+   \t1 Test117 \circdef d \then \lcirctime f \rcirctime e \then \lcirctime f \rcirctime \Skip 
+   \also
+   \t1 Test118 \circdef c~?i~!(f~i) \circat W \then \Skip
+       \also
+   \t1 Test119 \circdef c.(S.y)?z \circat K \then \Skip
+       \also
+   \t1 Test120 \circdef c.(x?)!(y!)!(z?) \circat Q \then \lcirctime 20 \rcirctime \Skip 
+   \also
+   \t1 Test121 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime d \then \Skip
+   \also
+   \t1 Test122 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime d \then \lcirctime 
+   outside \rcirctime \Skip
+   \also
+   \t1 Test122 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime d \then \lcirctime 
+   outside \rcirctime \lcirctime 20 \rcirctime \circstartby \Skip  
+   \also
+   \t1 Test123 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime d \then \lcirctime 
+   outside \rcirctime \lcirctime 20 \rcirctime \circstartby \circwait 20
+   \also
+   \t1 Test124 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime d \then \lcirctime 
+   outside \rcirctime \lcirctime 20 \rcirctime \circstartby \circwait t : \nat \circspot d \then 
+   \Skip   
+   \also
+   \t1 Test125 \circdef c!n1?x.n2 \circat Y \then \lcirctime f \rcirctime d\circat X \then 
+   \lcirctime outside \rcirctime \lcirctime 20 \rcirctime \circstartby \circwait t : \nat 
+   \circspot d \then \Skip
+
+\end{circusaction}    
+
+\newpage
+\section{($!$ Prolegomena) --- basic process footer}
+
+It just terminates
+
+\begin{circusaction}
+   \circspot \Skip
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}
+
+\end{document} 
