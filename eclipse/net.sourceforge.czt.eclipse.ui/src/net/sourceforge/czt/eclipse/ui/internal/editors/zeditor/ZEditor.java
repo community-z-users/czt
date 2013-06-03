@@ -66,6 +66,7 @@ import net.sourceforge.czt.eclipse.ui.internal.util.IZMarker;
 import net.sourceforge.czt.eclipse.ui.internal.util.Selector;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.core.resources.IFile;
@@ -1625,6 +1626,10 @@ public class ZEditor extends TextEditor implements IZReconcilingListener, IZEdit
       }
       updateOutlinePage(getParsedData());
       return fOutlinePage;
+    }
+
+    if (SectionInfo.class.equals(required)) {
+      return getModel().getParsedData().getSectionManager();
     }
 
     if (fProjectionSupport != null) {
