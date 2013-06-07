@@ -48,8 +48,8 @@ more details about the style file itself.
 
 For Z 
 
--   [Download **CZT Z** Scheduler specification](z/Sched.pdf)
--   [Download **CZT Z** Scheduler specification source](z/Sched.tex)
+-   [Download **CZT Z** Scheduler specification](z/scheduler.pdf)
+-   [Download **CZT Z** Scheduler specification source](z/scheduler.tex)
 
 For Circus
 
