@@ -401,6 +401,7 @@ BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
     <add:pattern> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:pattern>    
     <add:circuspatt> | {CIRCUSJOKERCHAR} | {CIRCUSACTIONLAWCHAR} | {CIRCUSPROCESSLAWCHAR}</add:circuspatt>
     <add:circus> | {CIRCUSCHAR} | {CIRCUSACTIONCHAR} </add:circus>
+    <add:ohcircus> | {OHCIRCUSMETHODCHAR} </add:ohcircus>
     <add:zeves> | {ZPROOFCHAR} | //{ZPROOFSECTIONCHAR} | 
     			  {DISABLEDTHMTAGCHAR} | {DISABLEDDEFTAGCHAR}</add:zeves>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
@@ -423,6 +424,9 @@ CIRCUSPROCESSLAWCHAR = "\u25A3" /* hollow contained version of Rule char */
 CIRCUSCHAR = "\u257A"       
 CIRCUSACTIONCHAR = "\u2576"  
 </add:circus>
+<add:ohcircus>
+OHCIRCUSMETHODCHAR = "\u23AF"  
+</add:ohcircus>
 <add:zeves>
 ZPROOFCHAR = "\u251C"  /* big turnstyle not bold */
 //ZPROOFSECTIONCHAR ="\u2523" /* big turnstyle BOLD */
@@ -513,6 +517,9 @@ CIRCUSPROCESSLAW = {CIRCUSPROCESSLAWCHAR}
 CIRCUS = {CIRCUSCHAR}
 CIRCUSACTION = {CIRCUSACTIONCHAR}
 </add:circus>
+<add:ohcircus>
+OHCIRCUSMETHOD = {OHCIRCUSMETHODCHAR}
+</add:ohcircus>
 <add:zeves>
 ZPROOF = {ZPROOFCHAR}
 //ZPROOFSECTION = {ZPROOFSECTIONCHAR}
@@ -575,7 +582,11 @@ ZREFINES = //{NL_SPACE}*
   {CIRCUS}            {  beginZed(); return symbol(Sym.CIRCUS); }   
   {CIRCUSACTION}      {  beginZed(); return symbol(Sym.CIRCUSACTION); }   
   </add:circus>
-
+  
+  <add:ohcircus>   
+  {OHCIRCUSMETHOD}      {  beginZed(); return symbol(Sym.OHCIRCUSMETHOD); }   
+  </add:ohcircus>
+  
   <add:zeves>
   {ZPROOF}            { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOF); }
   //{ZPROOFSECTION}     { seenApply_ = false; beginZed(); return symbol(Sym.ZPROOFSECTION); }

@@ -54,6 +54,7 @@ public interface OhCircusString extends CircusPattString
   String OHCIRCINITIAL = "initial";
   String OHCIRCINSTANCEOF = "instanceof";
   String OHCIRCSTATE = "state";
+  String OHCIRCUSMETHOD = OHCIRCUSMETHODCHAR;
 }
 <xsl:text>
 </xsl:text>

@@ -62,6 +62,7 @@ import net.sourceforge.czt.ohcircus.ast.OhCircusMethodPara;
 import net.sourceforge.czt.ohcircus.ast.OhCircusMethodSignature;
 import net.sourceforge.czt.ohcircus.ast.OhCircusMethodSignatureList;
 import net.sourceforge.czt.ohcircus.ast.OhCircusMethodType;
+import net.sourceforge.czt.ohcircus.ast.OhExpr;
 import net.sourceforge.czt.ohcircus.ast.OhExprList;
 import net.sourceforge.czt.ohcircus.ast.ParamMethod;
 import net.sourceforge.czt.ohcircus.ast.PredExpr;
@@ -312,9 +313,8 @@ public class OhCircusPrintVisitor
 	public Object visitOhCircusClassRef(OhCircusClassRef term) {
 		// TODO Auto-generated method stub
 		return null;
-	}    
-      
- 
+	}
+
 
   
 

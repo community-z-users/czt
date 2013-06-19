@@ -422,7 +422,7 @@
   
   <!-- the OhExpr hierarchy -->
   
-  <xs:element name="OhExpr" type="OHCIRCUS:OhExpr" abstract="true">
+  <xs:element name="OhExpr" type="OHCIRCUS:OhExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
       <xs:documentation>
 	<p>
@@ -500,8 +500,30 @@
     </xs:annotation>
   </xs:element>
  
+ <xs:element name="OhCircusSignature" type="OHCIRCUS:OhCircusSignature" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          An OhCircus method signature.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:complexType name="OhCircusSignature">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <!-- maybe this is useless here: ActionSignature within actions do not have names? But they do within ActionPara -->
+          <xs:element ref="Z:Name"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+ 
   <!-- Additional top-level signatures in OhCircus -->
-   <xs:element name="OhCircusClassSignature" type="OHCIRCUS:OhCircusClassSignature" substitutionGroup="CIRCUS:CircusSignature">
+   <xs:element name="OhCircusClassSignature" type="OHCIRCUS:OhCircusClassSignature" substitutionGroup="OHCIRCUS:OhCircusSignature">
     <xs:annotation>
       <xs:documentation>
       	<p>
@@ -511,7 +533,7 @@
     </xs:annotation>
   </xs:element>
  
-  <xs:element name="OhCircusMethodSignature" type="OHCIRCUS:OhCircusMethodSignature" substitutionGroup="CIRCUS:CircusSignature">
+  <xs:element name="OhCircusMethodSignature" type="OHCIRCUS:OhCircusMethodSignature" substitutionGroup="OHCIRCUS:OhCircusSignature">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -842,7 +864,7 @@
   
   <xs:complexType name="OhExpr">
     <xs:complexContent>
-      <xs:extension base="Z:Term"/>
+      <xs:extension base="Z:Expr"/>
     </xs:complexContent>
   </xs:complexType>
   
@@ -871,7 +893,7 @@
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Pred" minOccurs="0"/>
-          <xs:element ref="Z:SchExpr2" minOccurs="0"/>
+          <!-- <xs:element ref="Z:SchExpr2" minOccurs="0"/>  -->
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
       </xs:extension>
@@ -936,7 +958,7 @@
   
    <xs:complexType name="OhCircusClassSignature">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:CircusSignature">
+      <xs:extension base="OHCIRCUS:OhCircusSignature">
         <xs:sequence>               
           <xs:element ref="OHCIRCUS:OhCircusClassRefList">
             <xs:annotation>
@@ -955,7 +977,7 @@
   
   <xs:complexType name="OhCircusMethodSignature">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:CircusSignature">
+      <xs:extension base="OHCIRCUS:OhCircusSignature">
          <xs:sequence>              
            <xs:element ref="OHCIRCUS:OhCircusMethodList">
               <xs:annotation>
@@ -991,7 +1013,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:SignatureList">
         <xs:sequence>
-          <xs:element ref="OHCIRCUS:OhCircusClassSignature" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OHCIRCUS:OhCircusClassSignature" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+             </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1001,11 +1029,18 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:SignatureList">
         <xs:sequence>
-          <xs:element ref="OHCIRCUS:OhCircusMethodSignature" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OHCIRCUS:OhCircusMethodSignature" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+           </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>       
+  
   
   <xs:complexType name="OhCircusClassRef">
     <xs:complexContent>

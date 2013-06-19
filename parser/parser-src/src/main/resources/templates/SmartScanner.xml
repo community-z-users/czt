@@ -57,6 +57,11 @@ import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.circus.CircusSymMap;
 </add:circustime>
 
+<add:ohcircus>
+import net.sourceforge.czt.parser.circustime.CircusTimeSymMap;
+</add:ohcircus>
+
+
 import net.sourceforge.czt.session.Dialect;
 
 /**

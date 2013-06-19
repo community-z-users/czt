@@ -4,6 +4,10 @@
     <BRACKET>
     <!-- Add extra symbol related to bracket here -->
     </BRACKET>    
+    
+  <BOXCHAR>                  
+      <char id="OHCIRCUSMETHODCHAR" hex="23AF" description="box drawings horizontal line."/>            
+    </BOXCHAR>
   </SPECIAL>
   <SYMBOL>
      

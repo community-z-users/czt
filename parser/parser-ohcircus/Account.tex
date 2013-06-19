@@ -1,0 +1,197 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{inputenc,circus,amssymb,ohcircus}
+\usepackage{zed-csp}
+
+
+\begin{document}
+
+
+\begin{zsection}
+  \SECTION\ Account \parents\ ohcircus\_toolkit
+\end{zsection}
+
+\begin{schema}{AccState}
+\ohcircpublic ~ number : \nat \\
+\ohcircprotected ~ balance : \nat \\
+\end{schema}
+
+
+\begin{schema}{AccInit}
+\Delta AccState
+number?:\nat\\
+\where
+number' = number?\\
+balance' = 0 
+\end{schema}
+
+ 
+ \begin{schema}{Deposit}
+ \Delta AccState\\
+ amount?:\nat\\
+ \where
+ balance' = balance + amount?\\
+ number' = number
+ \end{schema}
+
+\begin{circus}
+  \ohcircclass ~ Account ~ \circdef \circbegin\\  
+  \ohcircstate  AccState \\
+  \ohcircinitial  AccInit \\
+  \ohcircpublic ~ Deposit \\
+
+  \ohcircpublic ~ Balance ~ \circdef  \circres bal:\nat \circspot bal:= balance \\
+
+  \ohcircpublic ~ getNumber ~ \circdef \circres n : \nat \circspot n := number \\
+
+  \ohcircpublic Withdraw ~ \circdef \circval amount : \nat \\
+  \circspot  balance \prefixcolon [ amount \leq balance , balance' = balance - amount ]\\
+
+\circend
+\end{circus}
+
+
+\begin{schema}{CAccState}
+\ohcircprotected credit : \nat \\
+\where
+balance + credit \geq 0
+\end{schema}
+
+
+ \begin{schema}{CDeposit}
+ \Delta CAccState\\
+ amount?:\nat\\
+ \where
+ balance' = balance + amount?\\
+ number' = number\\
+ credit' = credit 
+ \end{schema}
+
+ \begin{schema}{SetCredit}
+ \Delta CAccState\\
+ \Xi AccState\\
+ credit?:\nat\\
+ \where
+ credit' = credit? 
+ \end{schema}
+
+
+
+\begin{circus}
+  \ohcircclass ~ CAccount ~ \circdef \ohcircextends Account ~ \circbegin\\
+
+  \ohcircstate ~ CAccState \\
+
+  \ohcircinitial ~ CAccInit \circdef \circval number: \nat ; initCred : \nat \\
+  \circspot AccInit \circseq credit := initCred ~ \circseq number := \ohcircnull\\
+
+  \ohcircpublic ~ CDeposit\\
+  
+  \ohcircpublic ~ Withdraw ~ \circdef \circval amount : \nat \\
+  \circspot  balance \prefixcolon [ amount \leq balance + credit , balance' = balance - amount ] \\
+  
+  \ohcircpublic ~ SetCredit\\
+
+\circend
+\end{circus}
+
+
+
+\begin{circus}
+\circchannel open : Account ; balance : \nat ;\\
+             deposit : \nat \cross \nat ; out : \nat
+\end{circus}
+
+
+\begin{schema}{BState}
+ accounts : \power Account\\
+\where
+\forall acct : accounts \spot acct \neq \ohcircnull ;\\
+\forall acct1,acct2 : accounts | acct1 \neq acct2 @ acct1.number \neq acct2.number
+\end{schema}
+
+
+\begin{schema}{BInit}
+ BState'
+\where
+accounts' = \emptyset 
+\end{schema}
+
+
+\begin{schema}{Open}
+ \Delta BState \\
+acct? :Account
+\where
+acct? \neq \ohcircnull ;
+\forall acct : account \spot acct.number \neq acct?.number \\
+accounts' = accounts \cup \{ acct?\}
+\end{schema}
+
+
+\begin{schema}{Lookup}
+ \Delta BState \\
+number? : \nat\\
+acct, acct' :Account\\
+\where
+acct \in accounts \\
+acc.number = number?\\
+accounts'=(accounts \setminus \{acct\}) \cup \{acct'\}\\
+\end{schema}
+
+
+\begin{schema}{PDeposit}
+ Lookup\\
+ amount?:\nat\\
+ \where
+ acct.Deposit(amount?)
+\end{schema}
+
+\begin{schema}{PWithdraw}
+ Lookup\\
+ amount?:\nat\\
+ \where
+ acct.Withdraw(amount?)
+\end{schema}
+
+
+\begin{schema}{Deposit}
+ PDeposit \setminus (acct,acct')\\
+\end{schema}
+
+
+\begin{schema}{PBalance}
+ Lookup\\
+ bal:\nat\\
+ \where
+ acct.Balance(bal!)
+\end{schema}
+
+\begin{schema}{Balance}
+ PBalance \setminus (acct,acct') \\
+\end{schema}
+
+\begin{circus}
+\circprocess Bank \circdef \circbegin\\
+\end{circus}
+
+\begin{circusaction}
+\circstate BState\\
+\end{circusaction}
+
+
+\begin{circusaction}
+\circspot BInit \circseq\\
+open?acct \then Open \circseq \\
+\circmu~X \circspot (open?acct \then Open\\
+\extchoice\\
+deposit?number?amount \then Deposit\\
+\extchoice\\
+balance?number \then \circvar bal : num \\
+\circspot Balance \circseq out!bal \then \Skip) \circseq X
+\end{circusaction}
+
+\begin{circus}
+\circend
+\end{circus}
+
+
+\end{document}

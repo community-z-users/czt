@@ -888,6 +888,10 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
 
                  
 </add:circus>
+<add:ohcircus>
+/* Support for OhCircus*/
+                   OHCIRCUSMETHOD,
+</add:ohcircus>
 <add:circustime>
     /* Support for Circus Time */
                    LCIRCTIME, RCIRCTIME,
@@ -1210,6 +1214,18 @@ precedence nonassoc INDENT;
                 parser.write(result);
             :}
 </add:circus>
+
+<add:ohcircus>
+            |
+            OHCIRCUSMETHOD tokenSeq:s END
+            {:
+                String result = begin("ohcircusmethod");
+                if (s != null) result += s.getName();
+                result += end("ohcircusmethod");
+                parser.write(result);
+            :}
+</add:ohcircus>
+
 <add:zeves>
             |
             ZPROOF specialSeq:sq decorword:w proofTokenSeq:s END

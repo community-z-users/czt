@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.ohcircus;
 
+import net.sourceforge.czt.ohcircus.util.OhCircusString;
 import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
@@ -33,12 +34,8 @@ public enum OhCircusToken
   implements Token
 {
   	/* Support for OhCircus */
-	//TODO : Add any parenthesis here (in case of removing ambiguity) ie. 
-  //LCIRCTIME(CircusTimeString.LCIRCTIME, NewlineCategory.AFTER),
-  //RCIRCTIME(CircusTimeString.RCIRCTIME, NewlineCategory.BEFORE);
-  
-	
-  ;
+	 OHCIRCUSMETHOD(OhCircusString.OHCIRCUSMETHOD, NewlineCategory.BOTH);
+    
   private String spelling_;
   private NewlineCategory newlineCategory_;
 

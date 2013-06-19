@@ -66,6 +66,9 @@ import net.sourceforge.czt.parser.circus.CircusParseMessage;
 import net.sourceforge.czt.circustime.util.CircusTimeString;
 import net.sourceforge.czt.parser.circus.CircusParseError;
 </add:circustime>
+<add:ohcircus>
+import net.sourceforge.czt.ohcircus.util.OhCircusString;
+</add:ohcircus>
 <add:pattern>
 import net.sourceforge.czt.zpatt.util.ZPattString;
 </add:pattern>
@@ -1045,6 +1048,16 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           yybegin(CIRCUSTOOLSOFF);          
         }        
 </add:circus>
+<add:ohcircus>
+ "\\begin" {IGNORE}* "{ohcircusmethod}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("ohcircusmethod");                    
+          return result(OhCircusString.OHCIRCUSMETHOD);
+        }
+</add:ohcircus>
+
 <add:oz>
   //look ahead to see if this is a generic class
   //this also supports the "[" inside the "{..}" because the latex
@@ -1425,6 +1438,17 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           assert inAxiomaticBox_ ;
         }
  </add:circus>
+ 
+ <add:ohcircus>
+ "\\end" {IGNORE}* "{ohcircusmethod}"
+        { 
+          end("ohcircusmethod");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }        
+ </add:ohcircus>
+ 
 <add:oz>
   "\\begin" {IGNORE}* "{classcom}"
         {
