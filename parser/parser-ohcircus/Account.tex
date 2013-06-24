@@ -36,6 +36,8 @@ balance' = 0
 \begin{circus}
   \ohcircclass ~ Account ~ \circdef \circbegin\\  
   \ohcircstate  AccState \\
+
+
   \ohcircinitial  AccInit \\
   \ohcircpublic ~ Deposit \\
 
@@ -168,6 +170,7 @@ accounts'=(accounts \setminus \{acct\}) \cup \{acct'\}\\
 \begin{schema}{Balance}
  PBalance \setminus (acct,acct') \\
 \end{schema}
+
 
 \begin{circus}
 \circprocess Bank \circdef \circbegin\\

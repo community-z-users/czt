@@ -29,6 +29,7 @@ import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.ohcircus.util.OhCircusUtils;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
 import net.sourceforge.czt.parser.util.LocInfo;
@@ -708,4 +709,61 @@ public class ParserState
   {
     fModel = null;
   }
+  
+  /* New functions for ohcircus parser*/
+  
+  protected Name createDefaultClassStateName(LocInfo loc)
+  {
+    String qualifiedName = CircusUtils.createFullQualifiedName(
+      OhCircusUtils.DEFAULT_CLASS_STATE_NAME,
+      toLocAnn(loc, false /* no file name */));
+    Name dn = factory_.createZName(qualifiedName);
+    addLocAnn(dn, loc);
+    return dn;
+  }
+  
+  protected Para createClassStatePara(Name n, Expr e, LocInfo loc, boolean implicitlyDeclared)
+  { 
+    // Creates a horizontal schema: n == e as ConstDecl    
+    ConstDecl cd = factory_.createConstDecl(n, e);
+    addLocAnn(cd, loc);
+    ZDeclList decls = factory_.createZDeclList(factory_.list(cd));
+    ZSchText st = factory_.createZSchText(decls, null);
+    addLocAnn(st, loc);
+
+    // no generic arguments for state schema   
+    ZNameList zdnl = factory_.createZNameList();
+    Para result = factory_.createAxPara(zdnl, st, Box.OmitBox);
+    addLocAnn(result, loc);
+
+    // add CircusStateAnn to paragraph. assumes there is LocInfo in result
+    //if (isValidStatePara(result))
+    //{
+      addCircusStateAnn(result);
+    //}
+    //else
+    //{
+      // tell the parser to raise an error
+    //  result = null;
+    //}
+
+    // Add it as a locally declared paragraph, or raise an error if duplicated
+    //if (getStatePara() == null)
+    //{
+    //  setStatePara(result);
+      if (implicitlyDeclared)
+      {
+        addCircusOnTheFlyAnn(result);
+      }
+      addLocallyDeclPara(result);
+    //}
+    //else
+    //{
+    //  result = null;
+    //}
+    return result;
+  }
+
+  
+  
 }

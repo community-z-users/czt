@@ -1901,6 +1901,7 @@ action code
        return result;
     }
 
+
     protected void setMainAction(CircusAction mainAction, LocInfo loc)
     {
        checkForDuplicatedMainAction(loc);
@@ -2251,6 +2252,48 @@ action code
 
 </add:circus>
 
+<add:ohcircus>
+protected Para createClassStatePara(Name n, Expr e, LocInfo loc, boolean implicitlyDeclared)
+    {
+       // check if the state is duplicated and raise the error
+       checkForDuplicatedClassState((implicitlyDeclared ? "implicitly declared" : "horizontally declared"), loc);
+
+       // create the class state para.
+       Para result = parserState_.createClassStatePara(n, e, loc, implicitlyDeclared);
+       checkOhCircusClassStateAnnParaIsSchema(result);
+
+       // set the result to the parser state
+       parserState_.setStatePara(result);
+
+       return result;
+    }
+    
+     protected boolean checkOhCircusClassStateAnnParaIsSchema(Para p) {
+      // call the CircusUtils version of isSchema to include Schema Actions
+      boolean result = parserState_.isValidStatePara(p);
+      if (!result) {
+         parser.report_error(OhCircusParseMessage.MSG_INVALID_CLASS_STATE_PARA,
+               new Object[0], getLocation(p));
+      }
+      return result;
+    }
+    
+    
+     protected boolean checkForDuplicatedClassState(String msg, LocInfo loc) {
+      boolean result = parserState_.getStatePara() == null;
+      CztLogger.getLogger(<class/>.class).fine("DUPLICATED STATE PARA (" +
+            msg + ")?: " + !result + " @ " + loc.toString() + " for " + getDialect().toString() + " in Parser.");
+      if (!result) {
+         parser.report_error(OhCircusParseMessage.MSG_DUPLICATED_CLASS_STATE,
+               new Object[] { msg, loc} , loc);
+      }
+      return result;
+    }
+</add:ohcircus>
+
+
+
+
     // could be useful for other parsers as well
     protected void logProductionResult(Object term, String from, LocInfo loc) {
         CztLogger.getLogger(<class/>.class).fine("PRODUCTION RESULT: " +
@@ -2575,6 +2618,16 @@ parser code
       report_error(null, new CircusParseError(sectInfo_, msg, params, locInfo));
     }
 </add:circus>
+
+<add:ohcircus>
+    public void report_error(OhCircusParseMessage msg,
+                             Object[] params,
+                             LocInfo locInfo)
+    {
+      report_error(null, new OhCircusParseError(sectInfo_, msg, params, locInfo));
+    }
+</add:ohcircus>
+
 
     public void syntax_error(Symbol token)
     {
@@ -3392,20 +3445,15 @@ non terminal Para
 non terminal List&lt;Para&gt;
     ohcircusInnerClassParaList;    
     
-non terminal OhCircusCommand
-    paramConstruction; 
-       
-non terminal QualifiedClassDecl
-    ohcircusClassQualifier;
-
-/*    
 non terminal ClassQualifier
+	ohcircusClassQualifier,
   	ohcircusQualifier;
-*/  
+  
     
 non terminal OhCircusMethod
     paramMethod,
-    methodBody;
+    methodBody,
+    paramConstruction;
 
 non terminal OhCircusCommand
     ohcircusCommand,
@@ -3418,13 +3466,12 @@ non terminal GuardedMethod
     guardedMethodCommand;
     
 non terminal OhExpr
-    ohcircusExpr;
+    ohcircusExpr,
+    ohcircusdotExpr;
     
 non terminal OhExprList
-    ohcircusExprList;	
-    
-non terminal OhCircusDot    
- 	ohcircusdotExpr;   
+    ohcircusExprList;
+   
 </add:ohcircus>
 
 
@@ -5632,8 +5679,6 @@ singleCircusParagraphItem ::=
         {: RESULT = rp; :}        
         ;
 
-
-
 <add:ohcircus>
 /* OhCircus class constructs */
 classDecl ::=
@@ -5650,7 +5695,7 @@ classDecl ::=
 	   LocInfo loc = getLocation(ohc, cd);
 	   RESULT = factory_.createOhCircusClassPara(n, cd);
 	   addLocAnn(RESULT, loc);       
-	:}
+	:}	
 	;
         
     classDef ::= 
@@ -5705,18 +5750,22 @@ ohcircusInnerClassPara ::=
         ohcircusState:ohcs
         {:
         	RESULT = ohcs;
-        	// raise a scoping warning if needed
-           //addBasicProcessScopePostCheckFor("class state", getLocation(ohcs));       	
+        	LocInfo loc = getLocation(ohcs);  
+        	addLocAnn(RESULT, loc);     	
         :}
         |
         ohcircusInitialState:ohis
         {:
            RESULT = ohis;
+           LocInfo loc = getLocation(ohis);       
+           addLocAnn(RESULT, loc); 	
         :}
         |
         ohcircusClass:ohc
         {:
            RESULT = ohc;
+           LocInfo loc = getLocation(ohc);    
+           addLocAnn(RESULT, loc);    	
         :}
         ;
                 
@@ -5724,24 +5773,26 @@ ohcircusInnerClassPara ::=
         /* explicit schema definition is a horizontal box */
         OHCIRCSTATE:ohcs name:n DEFEQUAL:equal predicate:p
         {:
-			//RESULT = factory_.createOhCircusClassState(p,Box.SchBox);
-            addLocAnn(RESULT, getLocation(ohcs, p));
+			RESULT = (Para) factory_.createOhCircusClassState(p,Box.SchBox);
+            LocInfo loc = getLocation(ohcs,p);    
+           	addLocAnn(RESULT, loc);
         :}
         |
         /* On-the-fly state schema is a horizontal box with special name */
         OHCIRCSTATE:ohcs expression:e 
         {:
            LocInfo loc = getLocation(e);
-           //Name dn = parserState_.createDefaultProcessStateName(loc);
-           //RESULT = createOhCircusStatePara(dn, p, loc, true /* implicit */);
-        :}        
+           Name dn = parserState_.createDefaultClassStateName(loc);
+           //RESULT = createClassStatePara(dn, e, loc, true /* implicit */);  // TODO : remove the bug
+        :}
         ;    
         
  ohcircusInitialState::=
         OHCIRCINITIAL:ohi paramConstruction:pc 
         {:
-	   		//RESULT = factory_.createOhCircusInitialState(pc, Box.SchBox);
-	   		addLocAnn(RESULT, getLocation(ohi, pc));
+	   		//RESULT = (Para) pc;
+	   		LocInfo loc = getLocation(ohi,pc);    
+           	//addLocAnn(RESULT, loc);
         :}
         ;     
         
@@ -5749,36 +5800,38 @@ ohcircusInnerClassPara ::=
 paramConstruction ::=
 		methodBody:mb
 		{:
-		//RESULT = mb;
+			RESULT = mb;
+			LocInfo loc = getLocation(mb);    
+        	addLocAnn(RESULT, loc);
 		:}
 		|
 		name:n CIRCDEF paramConstruction : pc
 		{:
-		 	//RESULT = createOhCircusCommand(cdwl, e, pm);
-	  	 	//addLocAnn(RESULT, getLocation(getLocation(e), getLocation(pm)));
-		
+		 	RESULT = pc;
+		 	LocInfo loc = getLocation(n,pc);    
+        	addLocAnn(RESULT, loc);		
 		:}
 		|
 		CIRCVAL circusParamZDeclList:cdwl CIRCSPOT:co paramMethod:pm
 		{:
-	  	 	//RESULT = createOhCircusCommand(cdwl, e, pm);
-	  	 	//addLocAnn(RESULT, getLocation(getLocation(e), getLocation(pm)));
+	  	 	RESULT = pm;
+	  	 	LocInfo loc = getLocation(cdwl, pm);    
+        	addLocAnn(RESULT, loc);	
 		:} 
 		;
-
 	
 	
   ohcircusClass ::= 
 		ohcircusClassQualifier:cq name:n CIRCDEF paramMethod:pm
 		{:
-	   		//RESULT = factory_.createQualifiedClassDecl(cq, n, pm);
-	   		addLocAnn(RESULT, getLocation(cq,pm));          
+	   		//RESULT =factory_.createQualifiedClassDecl(n); // TODO : remove the bug
+	   		//addLocAnn(RESULT, getLocation(cq,pm));    
 		:}
 		|
 		ohcircusClassQualifier:cq name:n
 		{:
-			//RESULT = factory_.createQualifiedClassDecl(cq, n, pm);
-	   		//addLocAnn(RESULT, getLocation(cq,pm));          
+			//RESULT = (Para)factory_.createQualifiedClassDecl(n); // TODO : remove the bug
+	   		//addLocAnn(RESULT, getLocation(cq,n));          
 		:}
 		;     
        
@@ -5786,22 +5839,22 @@ paramConstruction ::=
 ohcircusClassQualifier ::=
         OHCIRCPUBLIC
         {: 
-           //RESULT = ClassQualifier.Public; 
+           RESULT = ClassQualifier.Public; 
         :}
         |
         OHCIRCPROTECTED
         {:
-           //RESULT = ClassQualifier.Protected; 
+           RESULT = ClassQualifier.Protected; 
         :}
         |
         OHCIRCPRIVATE
         {: 
-           //RESULT = ClassQualifier.Private; 
+           RESULT = ClassQualifier.Private; 
         :}
         |
         OHCIRCLOGICAL
         {: 
-           //RESULT = ClassQualifier.Logical; 
+           RESULT = ClassQualifier.Logical; 
         :}
         ;       
         
@@ -5809,12 +5862,14 @@ paramMethod ::=
 		methodBody:mb
 		{:
 			RESULT = mb;
+			LocInfo loc = getLocation(mb);    
+        	addLocAnn(RESULT, loc);	
 		:}
 		|
 		qualifiedDecl:qd CIRCSPOT:co paramMethod:pm
 		{:
-	   		//RESULT = createParamMethod(pm, qd);
-	   		addLocAnn(RESULT, getLocation(getLocation(qdleft, qdright), getLocation(pm)));
+	   		RESULT = pm;
+        	addLocAnn(RESULT, getLocation(getLocation(qdleft, qdright), getLocation(pm)));
 		:}
 		;         
         
@@ -5822,70 +5877,71 @@ methodBody ::=
 		/* primitive commands for OhCircus class method body */
 		ohcircusCommand:ohc
 		{:
-			//RESULTS = ohc;
+			 //empty body
 		:}
 		|
 		/* Super call (Note: Here we have consider ohcircus expression*/
 		OHCIRCSUPER:ohs OHCIRCDOT name:n
         {:
-            //RESULT = n;
+            //empty body
         :}
         |
         OHCIRCSUPER:ohs OHCIRCDOT name:n LPAREN expressionList:el RPAREN
         {:
-            //RESULT = n;
+            RESULT = factory_.createCallMethod(n, el);
+            addLocAnn(RESULT, getLocation(ohs, el));
         :} 
         |
         /* Method Body Instatiation */
         name:n
         {:
-           //RESULT = n;
+           //empty body
         :}
         |
         name:n LPAREN expressionList:el RPAREN
         {:
-            //RESULT = factory_.createOhExprList(factory_.list(n, el));
-            //addLocAnn(RESULT, getLocation(n, el));
+            RESULT = factory_.createCallMethod(n, el);
+            addLocAnn(RESULT, getLocation(n, el));
         :} 
         |
         LPAREN paramMethod:pm RPAREN LPAREN expressionList:el RPAREN
         {:
-            //RESULT = factory_.createOhExpr(factory_.list(pm, el));
-            //addLocAnn(RESULT, getLocation(pm, el));
+            RESULT = pm;
+            addLocAnn(RESULT, getLocation(pm, el));
         :} 
         |
         /* Sequence of OhCircus methods */
 		methodBody:mbl CIRCSEQ:cs methodBody:mbr
         {:
-            //RESULT = factory_.createSeqMethod(factory_.list(mbl, mbr));
-            //addLocAnn(RESULT, getLocation(mbl, mbr));
+            RESULT = factory_.createSeqMethod(factory_.list(mbl, mbr));
+            addLocAnn(RESULT, getLocation(mbl, mbr));
         :}
         |
         /* Alternative */
         IF:cif guardedMethodCommands:gmcs CIRCFI:cfi
         {:
-            //RESULT = factory_.createIfOhCircusGuardedCommand(factory_.createOhCircusMethodList(gmcs));
-            //addLocAnn(RESULT, getLocation(cif, cfi));
+            RESULT = factory_.createIfOhCircusGuardedCommand(factory_.createOhCircusMethodList(gmcs));
+            addLocAnn(RESULT, getLocation(cif, cfi));
         :}
         |
         /* Iteration */
         CIRCDO:cdo guardedMethodCommands:gmcs CIRCOD:cod
         {:
-            //RESULT = factory_.createDoOhCircusGuardedCommand(factory_.createOhCircusMethodList(gmcs));
-            //addLocAnn(RESULT, getLocation(cdo, cod));
+            RESULT = factory_.createDoOhCircusGuardedCommand(factory_.createOhCircusMethodList(gmcs));
+            addLocAnn(RESULT, getLocation(cdo, cod));
         :}
         |
         /* Variable declaration */
         CIRCVAR:cv circusParamZDeclList:dp CIRCSPOT methodBody:mb
         {:
-            //RESULT = factory_.createVarDeclOhCircusCommand(dp, mb);
-            //addLocAnn(RESULT, getLocation(cv, mb));
+            RESULT = factory_.createVarDeclOhCircusCommand(dp, mb);
+            addLocAnn(RESULT, getLocation(cv, mb));
         :}
         |        
         CIRCMU:cm name:n CIRCSPOT methodBody:mb
         {:
-            //RESULT = factory_.createMuMethod(mb, n);
-            //addLocAnn(RESULT, getLocation(cm, mb));
+            RESULT = factory_.createMuMethod(mb, n);
+            addLocAnn(RESULT, getLocation(cm, mb));
         :}
         ;
 
@@ -5893,36 +5949,34 @@ ohcircusCommand ::=
       
         refNameList:rnl CIRCASSIGN:ca ohcircusCommandAssign:ohca
         {:
-            //RESULT = factory_.createAssignmentCommand(createAssignmentPairs(ca, factory_.createZNameList(rnl), el));
-            //addLocAnn(RESULT, getLocation(rnlleft, rnlright, rnl.get(0)),ohca);
+            RESULT = ohca;
+        	addLocAnn(RESULT, getLocation(rnl.get(rnl.size()-1),ohca));		
         :}
         |
       	/* Specification statement */
         refNameList:rnl PREFIXCOLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
         {:
-           //RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl),factory_.list(pre, post));
-            //addLocAnn(RESULT, getLocation(getLocation(rnlleft, rnlright), getLocation(post)));
+           //empty body
         :}
         |
         /* Specification statement with empty frame*/
         PREFIXCOLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
         {:
-          // RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),factory_.list(pre, post));
-            //addLocAnn(RESULT, getLocation(c, rsq));
+           //empty body
+           //RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),factory_.list(pre, post));
+           //addLocAnn(RESULT, getLocation(c, rsq));
         :}
         /* Assumption */
         |
         LBRACE:lb predicate:pre RBRACE:rb
         {:
-            //RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),factory_.list(pre, factory_.createTruePred()));
-            //addLocAnn(RESULT, getLocation(getLocation(lbleft, lbright), getLocation(rbleft, rbright)));
+            //empty body
         :}
         /* Coercion */
         |
         LSQUARE:ls predicate:post RSQUARE:rs
         {:
-            //RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(),factory_.list(factory_.createTruePred(), post));
-            //addLocAnn(RESULT, getLocation(getLocation(lsleft, lsright), getLocation(rsleft, rsright)));
+            //empty body
         :}  
         ;        
         
@@ -5930,16 +5984,19 @@ ohcircusCommand ::=
     		/* Assignment */
    			expressionList:el
    			{: 
+   			 	//empty body
    			:}
    			|
    			/* OhCircus Class Assignment */
         	OHCIRCNEW refName:nr 
         	{:
+        	 	//empty body
         	:}
         	|
         	/* OhCircus Class Parametric Assignment */
         	OHCIRCNEW refName:nr LPAREN expressionList:el RPAREN
         	{:
+        	 	//empty body
         	:}
         	;
 
@@ -5959,67 +6016,58 @@ guardedMethodCommands ::=
 guardedMethodCommand ::=
         guard:g CIRCTHEN methodBody:mb
         {:
-            //RESULT = factory_.createGuardedAction(mb, g);
-            //addLocAnn(RESULT, getLocation(g, mb));
+            RESULT = factory_.createGuardedMethod(mb, g);
+            addLocAnn(RESULT, getLocation(g, mb));
         :}
         ;             
- /*                 
- ohcircusExprList ::=
-        ohcircusExprList:el COMMA ohcircusExpr:e
-        {:
-           el.add(e);
-           RESULT = el;
-        :}
-        |
-        ohcircusExpr:e
-        {:
-           RESULT = factory_.createOhExprList();
-           RESULT.add(e);
-        :}
-        ;        
-  */    
- ohcircusExpr ::=
+
+
+ohcircusExpr ::=
         OHCIRCSELF:ohs
         {: 
-           	//RESULT = ohs;
+           	 //empty body
         :}
         |
         OHCIRCNULL:ohn
         {: 
-           	//RESULT = ohn;
+           	 //empty body
         :}
        |
-        ohcircusdotExpr :e
+        ohcircusdotExpr :ohde
         {:
-           // RESULT = n;
+            RESULT = ohde;
+            addLocAnn(RESULT, getLocation(ohde));
+            
         :} 
         |        
         ohcircusExpr:ohe OHCIRCINSTANCEOF name:n
         {:
-        	//RESULT = ohe;
+        	 RESULT = ohe;
+             addLocAnn(RESULT, getLocation(ohe,n));
         :}
        /* |
         LPAREN refName:n RPAREN ohcircusExpr:ohe
         {:
-        	//RESULT = n;
+        	 RESULT = ohe;
+             addLocAnn(RESULT, getLocation(n,ohe));
         :}*/ //generating error during testing
         ;            
         
 ohcircusdotExpr ::= 
-  		ohcircusdotExpr LPAREN expressionList:el RPAREN
+  		ohcircusdotExpr :ohe LPAREN expressionList:el RPAREN
   		{:
+  		    RESULT = ohe;
+  		    addLocAnn(RESULT, getLocation(ohe, getLocation(elleft,elright)));
   		:} 
   		|
   		ohcircusExpr:ohe OHCIRCDOT name:n
         {:
-        	//RESULT = ohel;
+        	RESULT = ohe;
+        	addLocAnn(RESULT, getLocation(ohe,n));
         :}
         ;    
            
 </add:ohcircus>
-    
-
-
 
 /**
  * List of inner process paragraphs for Circus.
@@ -9321,14 +9369,15 @@ term ::=
            RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
-</add:circus>
-<add:ohcircus>
-|
-ohcircusExpr
-{:
-:}
-</add:ohcircus>
- ;
+		</add:circus>
+		<add:ohcircus>
+		|
+		ohcircusExpr : ex
+		{:
+		 RESULT = expr(ex); 
+		:}
+		</add:ohcircus>
+ 		;
 
 <add:circus>
 optCommunicationList ::=

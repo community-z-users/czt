@@ -36,6 +36,14 @@ public final class OhCircusUtils
   /** The name of the Circus prelude. */
   public static final String OHCIRCUS_PRELUDE = "ohcircus_prelude";
   
+ 
+  /**
+   * Default name of state for stateless class.
+   */
+  public static final String DEFAULT_CLASS_STATE_NAME = "$$defaultSt";
+  
+  
+  
   /**
    * Concrete syntax symbol visitor that can be used everywhere.
    */

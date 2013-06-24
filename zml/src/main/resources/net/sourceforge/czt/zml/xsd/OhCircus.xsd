@@ -1130,11 +1130,11 @@
         <xs:sequence>
           <xs:element ref="Z:Name"/>
         </xs:sequence>
-	<!--<xs:attribute name="ClassQualifier" type="OHCIRCUS:ClassQualifier" use="optional" default="Private"/>   -->
+	<xs:attribute name="ClassQualifier" type="OHCIRCUS:ClassQualifier" use="optional" default="Private"/>   
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <!--
+  
   <xs:simpleType name="ClassQualifier">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Public"/>
@@ -1143,5 +1143,5 @@
       <xs:enumeration value="Logical"/>
     </xs:restriction>
   </xs:simpleType>  
-  -->          
+            
 </xs:schema>

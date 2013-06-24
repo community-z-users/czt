@@ -12,8 +12,11 @@ package net.sourceforge.czt.parser.ohcircus;
 
 public enum OhCircusParseMessage {
   
-  MSG_NOT_IMPLEMENTED_OHCIRCUS("{0} feature not implemented yet.")
-    ;    
+  MSG_NOT_IMPLEMENTED_OHCIRCUS("{0} feature not implemented yet."),
+  MSG_DUPLICATED_CLASS_STATE("Duplicated ({0}) state paragraph for class at ''{1}''."),
+  MSG_INVALID_CLASS_STATE_PARA("State paragraph is not a schema", "Basic class state must be either a horizontal or boxed schema, or a schema expression."),
+  
+  ;    
   
   private final String message_;
   private final String explanation_;
