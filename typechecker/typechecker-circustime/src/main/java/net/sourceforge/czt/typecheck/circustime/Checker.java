@@ -25,6 +25,18 @@ public abstract class Checker<R>
     super(typeChecker);
     assert typeChecker != null;
     typeChecker_ = typeChecker;
+  protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object[] params)
+  {
+    ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
+      sectName(), GlobalDefs.nearestLocAnn(term), markup());
+    return errorAnn;
+  }
+  
+  protected void error(Term term, ErrorMessage errorMsg, Object[] params)
+  {
+    ErrorAnn errorAnn = errorAnn(term, errorMsg, params);
+    error(term, errorAnn);
+  }
   }
 }
 
