@@ -18,96 +18,44 @@
  */
 package net.sourceforge.czt.typecheck.circustime;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
-import net.sourceforge.czt.circustime.ast.TimeEndByProcess;
-import net.sourceforge.czt.circustime.ast.TimeStartByProcess;
-import net.sourceforge.czt.circustime.ast.TimedinterruptProcess;
-import net.sourceforge.czt.circustime.ast.TimeoutProcess;
-import net.sourceforge.czt.circustime.visitor.TimeEndByProcessVisitor;
-import net.sourceforge.czt.circustime.visitor.TimeStartByProcessVisitor;
-import net.sourceforge.czt.circustime.visitor.TimedinterruptProcessVisitor;
-import net.sourceforge.czt.circustime.visitor.TimeoutProcessVisitor;
-import net.sourceforge.czt.typecheck.circus.ErrorAnn;
-import net.sourceforge.czt.typecheck.circustime.ErrorMessage;
-import net.sourceforge.czt.typecheck.circustime.ProcessChecker;
-import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
-import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.circus.ast.CircusProcess;
+import net.sourceforge.czt.circustime.ast.ProcessTime1;
+import net.sourceforge.czt.circustime.ast.ProcessTime2;
+import net.sourceforge.czt.circustime.visitor.ProcessTime1Visitor;
+import net.sourceforge.czt.circustime.visitor.ProcessTime2Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.Type2;
-import net.sourceforge.czt.z.util.ZString;
 
 public class ProcessChecker extends
-		net.sourceforge.czt.typecheck.circus.ProcessChecker implements
+		Checker<CircusCommunicationList> implements
+		ProcessTime2Visitor<CircusCommunicationList>,
+		ProcessTime1Visitor<CircusCommunicationList> {
+	
+	
+    //a Circus process checker
+	protected net.sourceforge.czt.typecheck.circus.ProcessChecker circusProcessChecker_;
 
-TimeoutProcessVisitor<CircusCommunicationList>,
-		TimeStartByProcessVisitor<CircusCommunicationList>,
-		TimeEndByProcessVisitor<CircusCommunicationList>,
-		TimedinterruptProcessVisitor<CircusCommunicationList> {
-	// Needed to check the time expression is of the right (maximal) type
-	private final Expr arithmos_;
 
-	public ProcessChecker(TypeChecker typeChecker) {
+	public ProcessChecker(TypeChecker typeChecker) 
+	{
 		super(typeChecker);
-		arithmos_ = factory().createRefExpr(
-				factory().createZDeclName(ZString.ARITHMOS));
+		circusProcessChecker_ = new net.sourceforge.czt.typecheck.circus.ProcessChecker(typeChecker);
+	}
+	
+	protected CircusCommunicationList typeCheckProcessTimeExpr(CircusProcess term, Expr expr) 
+	{
+		assert expr != null && term != null;
+		typeCheckTimeExpr(term, expr);
+		return term.accept(circusProcessChecker_);
 	}
 
 	@Override
-	public CircusCommunicationList visitTimedinterruptProcess(
-			TimedinterruptProcess term) {
-		checkProcessParaScope(term, null);
-		CircusCommunicationList commList = visitProcess2(term);
-		typeCheckTimeExpr(term, term.getExpr());
-		return commList;
+	public CircusCommunicationList visitProcessTime1(ProcessTime1 term) {
+		return typeCheckProcessTimeExpr(term, term.getExpr());
 	}
 
 	@Override
-	public CircusCommunicationList visitTimeEndByProcess(TimeEndByProcess term) {
-		checkProcessParaScope(term, null);
-		CircusCommunicationList commList = term.getCircusProcess().accept(
-				processChecker());
-		typeCheckTimeExpr(term, term.getExpr());
-		return commList;
-	}
-
-	@Override
-	public CircusCommunicationList visitTimeStartByProcess(
-			TimeStartByProcess term) {
-		checkProcessParaScope(term, null);
-		CircusCommunicationList commList = term.getCircusProcess().accept(
-				processChecker());
-		typeCheckTimeExpr(term, term.getExpr());
-		return commList;
-	}
-
-	@Override
-	public CircusCommunicationList visitTimeoutProcess(TimeoutProcess term) {
-		CircusCommunicationList commList = visitProcess2(term);
-		typeCheckTimeExpr(term, term.getExpr());
-		return commList;
-	}
-
-	protected void typeCheckTimeExpr(Term term, Expr expr) {
-		Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
-		Type2 expected = arithmos_.accept(exprChecker());
-		if (expected instanceof PowerType) {
-			expected = ((PowerType) expected).getType();
-		}
-		if (!unify(found, expected).equals(UResult.SUCC)) {
-			Object[] params = { getCurrentProcessName(),
-					getCurrentActionName(), term.getClass().getSimpleName(),
-					expr, expected, found };
-			ErrorAnn errorAnn = errorAnn(term,
-					ErrorMessage.CIRCUS_TIME_EXPR_DONT_UNIFY, params);
-			error(term, errorAnn);
-		}
-	}
-
-	private ErrorAnn errorAnn(Term term, ErrorMessage error, Object[] params) {
-		ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-				sectName(), GlobalDefs.nearestLocAnn(term), markup());
-		return errorAnn;
+	public CircusCommunicationList visitProcessTime2(ProcessTime2 term) {
+		return typeCheckProcessTimeExpr(term, term.getExpr());
 	}
 }
