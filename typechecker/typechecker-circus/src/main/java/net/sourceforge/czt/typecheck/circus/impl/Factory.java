@@ -66,7 +66,7 @@ public class Factory
 {
   
   /** The CircusToolsFactory that is used to create wrapped types. */
-  protected CircusFactory circusFactory_;
+  protected final CircusFactory circusFactory_;
     
   public Factory()
   {
@@ -80,16 +80,20 @@ public class Factory
 
   public Factory(ZFactory zFactory, CircusFactory circusFactory)
   {
-    // use the circus.util.Factory to create Z objects ;-)
-    super(zFactory, new net.sourceforge.czt.circus.util.Factory(circusFactory));
-    init(circusFactory);         
+    this(zFactory, new net.sourceforge.czt.circus.util.Factory(circusFactory));
   }
   
-  private void init(CircusFactory circusFactory)
+  public Factory(ZFactory zFactory, net.sourceforge.czt.circus.util.Factory factory)
   {
-    //zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    circusFactory_ = circusFactory;
-    
+    // use the circus.util.Factory to create Z objects ;-)
+    super(zFactory, factory);
+    circusFactory_ = factory.getCircusFactory();
+    init();         
+  }
+
+  
+  private void init()
+  {
     //creates a synchronisation channel and transformer paragraph type names with ID.    
     //i.e., all ZNames in CircusUtils MUST be initialised here ;-)
     overwriteNameID(CircusUtils.SYNCH_CHANNEL_TYPE_NAME);
