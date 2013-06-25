@@ -15,7 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.czt.typecheck.circustime;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -38,84 +38,76 @@ import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.util.ZString;
 
-public class ProcessChecker
-extends net.sourceforge.czt.typecheck.circus.ProcessChecker
-implements
+public class ProcessChecker extends
+		net.sourceforge.czt.typecheck.circus.ProcessChecker implements
+
 TimeoutProcessVisitor<CircusCommunicationList>,
-TimeStartByProcessVisitor<CircusCommunicationList>,
-TimeEndByProcessVisitor<CircusCommunicationList>,
-TimedinterruptProcessVisitor<CircusCommunicationList>
-{  
-private final Expr arithmos_; 
-public ProcessChecker(TypeChecker typeChecker)
-{
-  super(typeChecker);
-  arithmos_ = factory().createRefExpr(factory().createZDeclName(ZString.ARITHMOS));
-}
+		TimeStartByProcessVisitor<CircusCommunicationList>,
+		TimeEndByProcessVisitor<CircusCommunicationList>,
+		TimedinterruptProcessVisitor<CircusCommunicationList> {
+	// Needed to check the time expression is of the right (maximal) type
+	private final Expr arithmos_;
 
-@Override
-public CircusCommunicationList visitTerm(Term term)
-{
-  return term.accept(this);
-}
+	public ProcessChecker(TypeChecker typeChecker) {
+		super(typeChecker);
+		arithmos_ = factory().createRefExpr(
+				factory().createZDeclName(ZString.ARITHMOS));
+	}
 
+	@Override
+	public CircusCommunicationList visitTimedinterruptProcess(
+			TimedinterruptProcess term) {
+		checkProcessParaScope(term, null);
+		CircusCommunicationList commList = visitProcess2(term);
+		typeCheckTimeExpr(term, term.getExpr());
+		return commList;
+	}
 
-@Override
-public CircusCommunicationList visitTimedinterruptProcess(
-		TimedinterruptProcess term) {
-	checkProcessParaScope(term, null);
-	CircusCommunicationList commList = visitProcess2(term);
-	typeCheckTimeExpr(term, term.getExpr());    
-    return commList;
-}
+	@Override
+	public CircusCommunicationList visitTimeEndByProcess(TimeEndByProcess term) {
+		checkProcessParaScope(term, null);
+		CircusCommunicationList commList = term.getCircusProcess().accept(
+				processChecker());
+		typeCheckTimeExpr(term, term.getExpr());
+		return commList;
+	}
 
-@Override
-public CircusCommunicationList visitTimeEndByProcess(TimeEndByProcess term) {
-	checkProcessParaScope(term, null);
-	CircusCommunicationList commList = term.getCircusProcess().accept(processChecker());
-	typeCheckTimeExpr(term, term.getExpr());    
-    return commList;
-}
+	@Override
+	public CircusCommunicationList visitTimeStartByProcess(
+			TimeStartByProcess term) {
+		checkProcessParaScope(term, null);
+		CircusCommunicationList commList = term.getCircusProcess().accept(
+				processChecker());
+		typeCheckTimeExpr(term, term.getExpr());
+		return commList;
+	}
 
-@Override
-public CircusCommunicationList visitTimeStartByProcess(TimeStartByProcess term) {
-	checkProcessParaScope(term, null);
-	CircusCommunicationList commList = term.getCircusProcess().accept(processChecker());
-	typeCheckTimeExpr(term, term.getExpr());    
-    return commList;
-}
+	@Override
+	public CircusCommunicationList visitTimeoutProcess(TimeoutProcess term) {
+		CircusCommunicationList commList = visitProcess2(term);
+		typeCheckTimeExpr(term, term.getExpr());
+		return commList;
+	}
 
-@Override
-public CircusCommunicationList visitTimeoutProcess(TimeoutProcess term) {
-	CircusCommunicationList commList = visitProcess2(term);
-	typeCheckTimeExpr(term, term.getExpr());    
-    return commList;
-}
+	protected void typeCheckTimeExpr(Term term, Expr expr) {
+		Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
+		Type2 expected = arithmos_.accept(exprChecker());
+		if (expected instanceof PowerType) {
+			expected = ((PowerType) expected).getType();
+		}
+		if (!unify(found, expected).equals(UResult.SUCC)) {
+			Object[] params = { getCurrentProcessName(),
+					getCurrentActionName(), term.getClass().getSimpleName(),
+					expr, expected, found };
+			ErrorAnn errorAnn = errorAnn(term,
+					ErrorMessage.CIRCUS_TIME_EXPR_DONT_UNIFY, params);
+			error(term, errorAnn);
+		}
+	}
 
-protected void typeCheckTimeExpr(Term term, Expr expr)
-{
-  Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
-  Type2 expected = arithmos_.accept(exprChecker());
-  if (expected instanceof PowerType)
-  {
-    expected = ((PowerType)expected).getType();
-  }
-  if (!unify(found, expected).equals(UResult.SUCC))
-  {
-    Object[] params = {
-      getCurrentProcessName(), getCurrentActionName(),
-      term.getClass().getSimpleName(), expr, expected, found
-    };
-    ErrorAnn errorAnn = errorAnn(term, ErrorMessage.CIRCUS_TIME_EXPR_DONT_UNIFY, params);
-    error(term, errorAnn);
-  }
+	private ErrorAnn errorAnn(Term term, ErrorMessage error, Object[] params) {
+		ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
+				sectName(), GlobalDefs.nearestLocAnn(term), markup());
+		return errorAnn;
+	}
 }
-
-private ErrorAnn errorAnn(Term term, ErrorMessage error,
-		Object[] params) {
-	ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
-		    sectName(), GlobalDefs.nearestLocAnn(term), markup());
-		  return errorAnn;
-}
-}
-
