@@ -300,7 +300,9 @@ protected boolean printTypesDefault()
 protected void printTerm(Term term, 
 		  StringWriter writer, SectionManager sectInfo, String sectName, Markup markup) throws PrintException  
   {
-    //PrintUtils.print(term, writer, sectInfo, sectName, markup);
+    // TODO: fix Circus pretty printer!
+	  //PrintUtils.print(term, writer, sectInfo, sectName, markup);
+	  boolean warning;
     super.printTerm(term, writer, sectInfo, sectName, markup);
   }
   
