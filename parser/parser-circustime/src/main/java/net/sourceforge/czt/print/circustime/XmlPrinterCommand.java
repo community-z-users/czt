@@ -48,11 +48,16 @@ public class XmlPrinterCommand
       xmlWriter.write(term, writer);
       writer.close();
       manager.endTransaction(new Key<XmlString>(name, XmlString.class),
-                  new XmlString(writer.toString(), Dialect.CIRCUSTIME));
+                  new XmlString(writer.toString()));
       return true;
     }
     catch (IOException e) {
-      throw new CommandException(manager.getDialect(), e);
-    }
+	    throw new CommandException(manager.getDialect(), e);
+	  }
+	  catch (PrintException pe)
+	  {
+	    throw new CommandException(manager.getDialect(), pe);
+	  }
   }
 }
+
