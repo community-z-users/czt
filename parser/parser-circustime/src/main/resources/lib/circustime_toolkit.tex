@@ -9,9 +9,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Like the Z standard toolkit, the Circus toolkit defines the prelude for the 
-% Circus language, and put in context all Z standard toolkit operators. 
-% The right way to specify user toolkits is to inherit from circus\_toolkit.
+% Like the Z standard toolkit, the Circus time toolkit defines the prelude for the 
+% Circus time language, and put in context all Z standard toolkit operators as well as Circus operators.
+% In particular the inclusion of circus\_prelude (through the toolkit) is vital for things to work properly.
+% 
+% The right way to specify user toolkits is to inherit from circustime\_toolkit.
 %
 \begin{zsection}
   \SECTION circustime\_toolkit \parents circus\_toolkit, circustime\_prelude
