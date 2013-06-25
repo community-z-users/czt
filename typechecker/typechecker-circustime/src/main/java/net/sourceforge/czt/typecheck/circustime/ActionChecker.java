@@ -77,7 +77,10 @@ public class ActionChecker
 		// enter the scope for input fields
 	    typeEnv().enterScope();
 	    Communication comm = term.getCommunication();
+	    
 	    List<NameTypePair> comSig = comm.accept(commChecker());
+	    	// TODO: this signature is not being used properly! FIX-PLEASE! 
+	    
 	    CircusCommunicationList commList = visit(term.getCircusAction());	    
 	    if (term.isAtPrefixingAction()){
 	    	// Typechecking for the channel elapsed time (N) (c@N -> A)
