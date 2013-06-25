@@ -43,6 +43,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.print.circustime.PrintUtils;
 import net.sourceforge.czt.print.util.PrintException;
 
 
@@ -50,7 +51,8 @@ public class TypeCheckUtils
     extends net.sourceforge.czt.typecheck.circus.TypeCheckUtils {
   
   private static final TypeCheckUtils instance_ = new TypeCheckUtils();
- /**
+  
+  /**
    * Do not generate instances of this class.
    * You should use the static methods directly.
    */
@@ -282,8 +284,10 @@ public class TypeCheckUtils
   
   protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  throws PrintException
   {
+	  // TODO: finish circus time pretty printer!
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
-    super.printTerm(term, writer, sectInfo, sectName, markup);
+	  boolean warning;
+	  super.printTerm(term, writer, sectInfo, sectName, markup);
   }
   
   
