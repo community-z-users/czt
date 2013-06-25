@@ -21,7 +21,7 @@ package net.sourceforge.czt.print.circustime;
 
 import net.sourceforge.czt.parser.util.CztScanner;
 
-public class NewlineScanner extends net.sourceforge.czt.print.z.NewlineScanner
+public class NewlineScanner extends net.sourceforge.czt.print.circus.NewlineScanner
 {
   
   public NewlineScanner(CztScanner scanner)

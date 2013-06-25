@@ -19,24 +19,25 @@
 
 package net.sourceforge.czt.print.circustime;
 
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.XmlString;
-import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.print.z.AbstractPrinterCommand;
 import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter;
 
 public class XmlPrinterCommand
-  implements Command
+  extends AbstractPrinterCommand
 {
   @Override
-  public boolean compute(String name, SectionManager manager)
+  protected boolean doCompute(String name, SectionManager manager)
     throws CommandException
   {
     try {

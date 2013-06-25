@@ -62,6 +62,10 @@ public class CircusTimePrintVisitor
 
   public Object visitTimeEndByProcess(TimeEndByProcess term) {
         printLPAREN(term);
+        	// TODO: AstToPrintTreeVisitor needs to add the ParenAnn to the places where 
+        	//		 precendences are to observed, such that x+y*z doesn't get to be x+(y*z).
+        	//
+        	//		 Note these rules for Circus also need adjusting. Follow what's done in Z.
         visit(term.getCircusProcess());
         print(CircusTimeKeyword.CIRCENDBY);
         print(CircusTimeToken.LCIRCTIME);        

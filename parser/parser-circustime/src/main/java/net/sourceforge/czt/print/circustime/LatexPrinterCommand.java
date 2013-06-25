@@ -33,7 +33,7 @@ import net.sourceforge.czt.session.SectionManager;
 
 
 public class LatexPrinterCommand 
-  extends net.sourceforge.czt.print.z.LatexPrinterCommand
+  extends net.sourceforge.czt.print.circus.LatexPrinterCommand
 {
     @Override
     public void printLatex(Term term,

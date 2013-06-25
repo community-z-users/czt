@@ -29,7 +29,7 @@ import net.sourceforge.czt.session.SectionManager;
 
 
 public class UnicodePrinterCommand
-  extends net.sourceforge.czt.print.z.UnicodePrinterCommand
+  extends net.sourceforge.czt.print.circus.UnicodePrinterCommand
 {   
   @Override
   protected Term preprocess(Term term,
