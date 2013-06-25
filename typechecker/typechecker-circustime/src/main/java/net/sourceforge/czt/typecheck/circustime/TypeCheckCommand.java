@@ -23,7 +23,6 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
 
 /**
  * A command to compute the SectTypeInfo of a CircusTime section.
