@@ -108,12 +108,12 @@ public class TypeChecker
     
   //the visitors used to typechecker a Circus program
   protected Checker<Signature> signatureChecker_;
-  protected ActionChecker actionChecker_;
+  protected Checker<CircusCommunicationList> actionChecker_;
   protected Checker<CircusCommunicationList> commandChecker_;
   protected Checker<List<NameTypePair>> commChecker_;
-  protected ProcessChecker processChecker_;
+  protected Checker<CircusCommunicationList> processChecker_;
   protected Checker<Signature> processParaChecker_;
-  protected BasicProcessChecker basicProcessChecker_;
+  protected Checker<CircusCommunicationList> basicProcessChecker_;
   // auxiliar visitor to typechecker a channel declaration
   protected Checker<Boolean> channelDeclChecker_;
   // auxiliar visitor to find used channels into a process
@@ -166,9 +166,6 @@ public class TypeChecker
     commChecker_ = new CommunicationChecker(this);
     processChecker_ = new ProcessChecker(this);
     
-    warningManager_ = new WarningManager(TypeChecker.class, sectInfo);
-    warningManager_.setMarkup(markup_);
-    concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;    
     pendingCallErrors_ = factory.list();
     
     currentProcessName_ = null;
@@ -189,7 +186,11 @@ public class TypeChecker
     shouldCreateLetVars_ = PROP_TYPECHECK_CREATE_LETVAR_DEFAULT;
     shouldCreateLetMu_ = PROP_TYPECHECK_RESOLVE_MUTUAL_REC_DEFAULT;    
 
+    concreteSyntaxSymbolVisitor_ = CircusUtils.CIRCUS_CONCRETE_SYNTAXSYMBOL_VISITOR;    
+
     // raise warnings has priority over hide warnings (e.g., can only hide if not raising)
+    warningManager_ = new WarningManager(TypeChecker.class, sectInfo);
+    warningManager_.setMarkup(markup_);
     warningManager_.setWarningOutput(PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT);
     
 //    channels_ = new ArrayList<ChannelInfo>();
@@ -201,7 +202,7 @@ public class TypeChecker
 //    // auxiliar visitors
 //    channelDeclChecker_ = new GenChannelDeclChecker(this);
 //    channelsUsedChecker_ = new ChannelsUsedChecker(this);
-    
+
     // override default type environment classes to be 
     // a Circus type environment, which allows extra info for checkers.
     typeEnv_ = new TypeEnv(getFactory());

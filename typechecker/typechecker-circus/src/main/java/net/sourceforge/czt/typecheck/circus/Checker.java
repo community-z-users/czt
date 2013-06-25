@@ -179,7 +179,7 @@ public abstract class Checker<R>
    **********************************************************************/
   protected ProcessChecker processChecker()
   {
-    return getCircusTypeChecker().processChecker_;
+    return (ProcessChecker)getCircusTypeChecker().processChecker_;
   }
 
   protected Checker<Signature> processParaChecker()
@@ -189,12 +189,12 @@ public abstract class Checker<R>
 
   protected BasicProcessChecker basicProcessChecker()
   {
-    return getCircusTypeChecker().basicProcessChecker_;
+    return (BasicProcessChecker)getCircusTypeChecker().basicProcessChecker_;
   }
   
   protected ActionChecker actionChecker()
   {
-    return getCircusTypeChecker().actionChecker_;
+    return (ActionChecker)getCircusTypeChecker().actionChecker_;
   }
 
   protected Checker<List<NameTypePair>> commChecker()

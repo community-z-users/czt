@@ -33,6 +33,7 @@ import net.sourceforge.czt.circus.ast.IndexedProcess;
 import net.sourceforge.czt.circus.ast.ParProcess;
 import net.sourceforge.czt.circus.ast.ParallelProcess;
 import net.sourceforge.czt.circus.ast.ParamProcess;
+import net.sourceforge.czt.circus.ast.Process1;
 import net.sourceforge.czt.circus.ast.Process2;
 import net.sourceforge.czt.circus.ast.ProcessD;
 import net.sourceforge.czt.circus.ast.ProcessIdx;
@@ -48,6 +49,7 @@ import net.sourceforge.czt.circus.visitor.HideProcessVisitor;
 import net.sourceforge.czt.circus.visitor.IndexedProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ParamProcessVisitor;
+import net.sourceforge.czt.circus.visitor.Process1Visitor;
 import net.sourceforge.czt.circus.visitor.Process2Visitor;
 import net.sourceforge.czt.circus.visitor.ProcessIdxVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessIteVisitor;
@@ -84,6 +86,7 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
       ZParaListVisitor<CircusCommunicationList>,         // C.7.1, C.7.2      
       BasicProcessVisitor<CircusCommunicationList>,      // C.8.1
       CallProcessVisitor<CircusCommunicationList>,       // C.8.2, C.8.9--C.8.15
+      Process1Visitor<CircusCommunicationList>,			 
       HideProcessVisitor<CircusCommunicationList>,       // C.8.3
       Process2Visitor<CircusCommunicationList>,           
       //SeqActionVisitor,                            C.8.4
@@ -612,6 +615,23 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     @SuppressWarnings("unused")
 	ChannelSetType csType = typeCheckChannelSet(cs, getChannelSetErrorParams());
     GlobalDefs.addNoDuplicates(0, cs, processSig_.getCircusProcessChannelSets()); 
+
+    // check the process itself and add signature
+    CircusCommunicationList commList = term.getCircusProcess().accept(processChecker());
+
+    checkProcessSignatureNotBasic(term);
+    return commList;
+  }
+  
+  /**
+   * There are no type rules for unary circus process, except hiding. 
+   * Deriving classes/extensions could take advantage of common features
+   * for all unary circus processes and call this method.  
+   */
+  public CircusCommunicationList visitProcess1(Process1 term)
+  {
+    // check within an process paragraph scope.
+    checkProcessParaScope(term, null);
 
     // check the process itself and add signature
     CircusCommunicationList commList = term.getCircusProcess().accept(processChecker());
