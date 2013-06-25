@@ -105,9 +105,6 @@ public enum ErrorMessage
   IS_NOT_CHANNEL_NAME_IN_RENAME_ACTION,
   RENAME_ACTION_LIST_DONT_UNIFY,
 
-  /* Specific to Circus Time */
-  CIRCUS_TIME_EXPR_DONT_UNIFY,
-  
   /** CommandChecker.java  */
 
   INVALID_DECL_IN_VARDECLCOMMAND,

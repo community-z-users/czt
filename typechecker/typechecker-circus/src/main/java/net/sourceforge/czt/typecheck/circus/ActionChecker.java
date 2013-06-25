@@ -169,15 +169,12 @@ public class ActionChecker
 //  DeadlineActionVisitor<CircusCommunicationList>
   
 {
-  private final Expr arithmos_;
   
   /** Creates a new instance of ActionChecker */
   public ActionChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
     setCurrentActionSignature(null);
-    arithmos_ = factory().createRefExpr(factory().createZDeclName(ZString.ARITHMOS));
-    
   }
   
   private ActionSignature actionSignature_;  
@@ -322,28 +319,6 @@ public class ActionChecker
     return params;
   }
 
-  protected void typeCheckTimeExpr(Term term, Expr expr)
-  {
-    // whatever the type, even if with generic, it must be at least ARITHMOS
-    // this include both \nat and \real for the time of TIME.
-    Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
-    Type2 expected = arithmos_.accept(exprChecker());
-    if (expected instanceof PowerType)
-    {
-      expected = ((PowerType)expected).getType();
-    }
-    // if arithmos type is wrong somehow, this will catch it.
-    // DON'T CACHE arithmos type as it won't work from the beginning.
-    if (!unify(found, expected).equals(UResult.SUCC))
-    {
-      Object[] params = {
-        getCurrentProcessName(), getCurrentActionName(),
-        term.getClass().getSimpleName(), expr, expected, found
-      };
-      error(term, ErrorMessage.CIRCUS_TIME_EXPR_DONT_UNIFY, params);
-    }
-  }
-  
   protected CircusCommunicationList typeCheckParActionIte(ParActionIte term, ChannelSet cs)
   {
     // type check name set and channel set
