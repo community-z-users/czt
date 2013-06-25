@@ -78,10 +78,18 @@ The CZT plugins for the [jEdit editor](http://www.jedit.org) give WYSIWYG editin
 
 See the [CZT jEdit subproject](jedit/) for more information on installing and using the CZT jEdit plugins.
 
+## CZT LaTeX
+
+A [CZT LaTeX][latex] style is available that supports the LaTeX characters for Z and its extensions. 
+See the [latex page][latex] for information on downloading and using the font.
+
+[latex]: latex/
+
 
 ## CZT font
 
-A [CZT font][font] is available that supports the Z Standard characters. See the [font page][font] for information on downloading and using the font.
+A [CZT font][font] is available that supports the Z Standard characters and its extensions. 
+See the [font page][font] for information on downloading and using the font.
 
 [font]: fonts/
 

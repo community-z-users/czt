@@ -174,7 +174,7 @@
                 <copy failonerror="false" quiet="true" file="README.md" tofile="${site.build.md.dir}/index.md"/>
                 <copy failonerror="false" quiet="true" file="README.md" tofile="${site.build.md.dir}/manual.md"/>
                 <copy failonerror="false" quiet="true" file="INSTALL.md" tofile="${site.build.md.dir}/install.md"/>
-<!--                     <copy overwrite="true" failonerror="false" todir="${site.build.dir}">
+<!--            <copy overwrite="true" failonerror="false" todir="${site.build.dir}">
                   <fileset dir="src/site" />
                 </copy> -->
               </target>
@@ -182,7 +182,7 @@
           </execution>
           <execution>
             <!-- Copies font files during site generation.
-                 Not inherited by child projects. -->
+                 Not inherited by child projects (i.e. runs just on top-level). -->
             <id>copy-font-files</id>
             <phase>pre-site</phase>
             <goals>
@@ -193,6 +193,33 @@
               <target>
                 <copy failonerror="false" quiet="true" file="fonts/README.md" tofile="${site.build.md.dir}/fonts/index.md"/>
                 <copy failonerror="false" quiet="true" file="fonts/CZTSans.ttf" tofile="${site.build.dir}/resources/fonts/CZTSans.ttf"/>
+              </target>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Copies LaTeX files during site generation.
+                 Not inherited by child projects (i.e. runs just on top-level). -->
+            <id>copy-latex-files</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <target>
+                <copy failonerror="false" quiet="true" file="dtx/README.md" tofile="${site.build.md.dir}/latex/index.md"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/czt.sty" tofile="${site.build.dir}/resources/latex/z/czt.sty"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/czt-guide.pdf" tofile="${site.build.dir}/resources/latex/z/czt-guide.pdf"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/czt-guide.tex" tofile="${site.build.dir}/resources/latex/z/czt-guide.tex"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/czt-guide.bib" tofile="${site.build.dir}/resources/latex/z/czt-guide.bib"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/refcard.pdf" tofile="${site.build.dir}/resources/latex/z/zrefcard.pdf"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/Sched.pdf" tofile="${site.build.dir}/resources/latex/z/scheduler.pdf"/>
+                <copy failonerror="false" quiet="true" file="dtx/z/Sched.tex" tofile="${site.build.dir}/resources/latex/z/scheduler.tex"/>
+                <copy failonerror="false" quiet="true" file="dtx/circus/circus.sty" tofile="${site.build.dir}/resources/latex/circus/circus.sty"/>
+                <copy failonerror="false" quiet="true" file="dtx/circus/circus-guide.pdf" tofile="${site.build.dir}/resources/latex/circus/circus-guide.pdf"/>
+                <copy failonerror="false" quiet="true" file="dtx/circus/circus-guide.tex" tofile="${site.build.dir}/resources/latex/circus/circus-guide.tex"/>
+                <copy failonerror="false" quiet="true" file="dtx/circus/buffer-refinement-multienv.pdf" tofile="${site.build.dir}/resources/latex/circus/buffer-refinement-multienv.pdf"/>
+                <copy failonerror="false" quiet="true" file="dtx/circus/buffer-refinement-multienv.tex" tofile="${site.build.dir}/resources/latex/circus/buffer-refinement-multienv.tex"/>
               </target>
             </configuration>
           </execution>
