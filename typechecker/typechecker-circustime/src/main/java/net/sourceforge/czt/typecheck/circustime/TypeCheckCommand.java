@@ -33,7 +33,7 @@ public class TypeCheckCommand
   implements TypecheckPropertiesKeys
 {
   @Override
-  protected List<? extends ErrorAnn> typecheck(Term term,
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                SectionManager manager) {
     return TypeCheckUtils.typecheck(term, manager, recursiveTypes_, sortDeclNames_,
       useNameIds_, warningOutput_, null);
