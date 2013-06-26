@@ -1,27 +1,41 @@
 \documentclass{article}
 
-\usepackage{circus}
+\usepackage[cntbysection,colour]{circus}
 
-\begin{document} 
+% count definitions please
+\CountDefstrue
 
+\begin{document}
+
+\section{Introduction}
+
+\begin{verbatim}
 %-----------------------------------------------------------------------------
 %-- A REACTIVE BUFFER    - Case Study                                        -
 %-- Action Refinement: controller and ring partitions                        -
 %-- Example extracted from the paper "A Refinement Strategy for Circus"      -
 %-----------------------------------------------------------------------------
+\end{verbatim}
+
 
 You must always include the circus\_toolkit, and also check inside
 it to see the LaTeX commands the parser recognises (or to create
 your own commands)
 
+\section{Channels}
+
+Section name is to be the same as the name of the file, is possible. It helps IDEs
+%
 \begin{zsection}
-  \SECTION\ mysection2 \parents\ circus\_toolkit
+  \SECTION\ buffer\_refinement\_multienv \parents\ circus\_toolkit
 \end{zsection}
 
+Z paragraphs can be defined at top level
 \begin{axdef}
  maxbuff, maxring : \nat
 \end{axdef}
 
+CSP paragraphs can be defined at top-level 
 \begin{circus}
  \circchannel\ input, output : \nat
 \end{circus}
@@ -38,19 +52,31 @@ your own commands)
  \circchannel\ read\_2 : \nat
 \end{circus}
 
+With \verb'\CircusDeclSummary' you can create a summary of declarations
+%
+\CircusDeclSummary
+
+\section{Buffer}
+
 Unfortunately boxed processes (those spread across multiple
 begin/end Circus) are not yet available. You need to define your
 processes within one environment only. The only real problem is for
 axiomatic definitions (that I am looking into now). Schemas can be
 given horizontally.
 
-I know it doesn't typeset nicely. This boxed-process feature will be
-available soon. The bottom line is that apart from
-
+A \textsf{circus} environment starts the process context
+%
 \begin{circus}
     \circprocess\ BufferMultiEnv \circdef \circbegin
 \end{circus}
 
+Z paragraphs within a process context are local to that process. They can be used
+within the process' actions but are unknown outside the process. That means names
+might be repeated, so long as they are globally unique, as well as locally unique
+(i.e.~ variable $x$ can be declared globally, and within a process $P$ and another $Q$
+with different types. You cannot declare a process named $x$, though, as this would
+duplicate the name $x$ globally).
+%
 \begin{schema}{ControllerState}
     cache : \nat
 \\%
@@ -65,14 +91,15 @@ available soon. The bottom line is that apart from
         ringsize = size-1
 \end{schema}
 
-% some  schemas can be given in multiple horizontal paragraph within a single Z environment.
+Schemas  can be given in multiple horizontal paragraph within a single Z environment.
 \begin{zed}
     RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
     CBufferState ~~==~~ (ControllerState \lor RingState)
 \end{zed}
 
+\Circus\ state is marked accordingly within a \textsf{circusaction} environment
 \begin{circusaction}
-    \circstate\ CBufferState
+    \circstate\  CBufferState
 \end{circusaction}
 
 \begin{schema}{ControllerInit}
@@ -121,30 +148,44 @@ available soon. The bottom line is that apart from
         (bot'=bot) \land (top'=(top \mod maxring)+1)
 \end{schema}
 
-%Actions and circus staff need \circdef rather than \defs or ==
-%        % the \t1 is optional, just to show it accepts tabulation
-%
-%        % because guards are "Predicate", and predicates can be
-%        % parenthesised, we need a different token for disambiguation.
-%        % so, every guard REQUIRES a \lcircguard pred \rcircguard \circguard A
-%
-%        % like for variable names, channel names can accept ?/!/'
-%        % so the hard space is needed to indicate this is input prefix
-%        % the choice of restricting channel names not to have ?/!/' is not
-%        % as straightforward as it sounds, and it does not solve the problem anyway.
+Actions, and other \Circus\ declarations \textbf{must} use
+\verb'\circdef' instead of \verb'\defs' or \verb'==' from Z. This
+is needed to avoid parsing ambiguities with the Z grammar. 
+One can use tabulation and blocks (see .tex file).
 
+Because guards are Z predicates, and predicates can be
+parenthesised, we need a different token for disambiguation as well.
+So, every guard \textbf{requires} a \verb'\lcircguard pred \rcircguard \circguard A'
+and it typesets as $\lcircguard pred \rcircguard \circguard A$. Other 
+similar marker-tokens are used for disambiguation.
+
+Like for variable names, channel names can accept $?$ or $!$ or $'$.
+So, hard space is needed to indicate this is input prefix: you must type \verb'input~?x'
+instead of simply \verb'input?x', and similarly for other strokes. Restricting channel
+names not to have strokes (i.e. \verb'input~?x?' for the input on channel named $x?$)
+is not straightforward (i.e. such names are in context because of the Z type rules for inputs), 
+and it does not solve the problem anyway.
+
+Moreover, also notice the extra parenthesis within the input prefixing. This is important 
+in this context because of potential precedence confusion to the parser. They keep the
+variable $x$ in scope for the $StoreInput$ schema, say.
+%
 \begin{circusaction}
     InputController ~~\circdef~~ \\
-        \t1 \lcircguard size < maxbuff \rcircguard \circguard (input~?x \then
-            ((\lcircguard size = 0 \rcircguard \circguard \lschexpract CacheInput \rschexpract)
-            \extchoice
+        \t1 \lcircguard size < maxbuff \rcircguard \circguard (input~?x \then \\
+           \t2 \circblockbegin
+            ((\lcircguard size = 0 \rcircguard \circguard \lschexpract CacheInput \rschexpract) \\
+            \extchoice \\
              (\lcircguard size > 0 \rcircguard \circguard write.top~!x \then \lschexpract StoreInputController \rschexpract)
-	     )) \\
+            ) 
+            \circblockend) \\
     CInput \circdef \\
-        \t1 \lcircguard size < maxbuff \rcircguard \circguard input~?x \then
-            ((\lcircguard size = 0 \rcircguard \circguard \lschexpract CacheInput \rschexpract)
-            \extchoice
-            (\lcircguard size > 0 \rcircguard \circguard \lschexpract StoreInput \rschexpract))
+        \t1 \lcircguard size < maxbuff \rcircguard \circguard (input~?x \then \\
+        	\t6 \circblockbegin
+            ((\lcircguard size = 0 \rcircguard \circguard \lschexpract CacheInput \rschexpract) \\
+            \extchoice \\
+            (\lcircguard size > 0 \rcircguard \circguard \lschexpract StoreInput \rschexpract) )
+           \circblockend)
 \end{circusaction}
 
 \begin{schema}{NoNewCache}
@@ -160,6 +201,10 @@ available soon. The bottom line is that apart from
 \end{schema}
 
 
+Function application within Z schemas (as in Standard Z) do require hard spaces
+or parenthesis (i.e. \verb'f~x' or \verb'f(x)'), otherwise the soft space is eaten during
+lexing (i.e. \verb'f x' becomes \verb'fx', which leads to a type error).
+%
 \begin{schema}{StoreNewCache}
     \Delta CBufferState
 \where
@@ -188,34 +233,37 @@ available soon. The bottom line is that apart from
             bot' = (bot \mod maxring)+1 \land top' = top
 \end{schema}
 
-%        % new hard line (\\, \also) after \circdef is optional
+New hard lines (\verb'\\' and \verb'\also') are option after \verb'\circdef'.
+%
 \begin{circusaction}
-    OutputController ~~\circdef~~
-            \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then
-            (\lcircguard size > 1 \rcircguard \circguard read.bot~?x \then \lschexpract StoreNewCacheController \rschexpract)
-            \extchoice
+    OutputController ~~\circdef~~ \\
+            \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then \\
+            \t2 \circblockbegin
+            (\lcircguard size > 1 \rcircguard \circguard read.bot~?x \then \lschexpract StoreNewCacheController \rschexpract) \\ 
+            \extchoice \\
             (\lcircguard size = 1 \rcircguard \circguard \lschexpract NoNewCache \rschexpract)
+            \circblockend
 \end{circusaction}
 
 \begin{circusaction}
-    COutput ~~\circdef~~
-            \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then
-            (\lcircguard size > 1 \rcircguard \circguard \lschexpract StoreNewCache \rschexpract)
-            \extchoice
+    COutput ~~\circdef~~ \\
+            \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then \\
+            \t2 \circblockbegin
+            (\lcircguard size > 1 \rcircguard \circguard \lschexpract StoreNewCache \rschexpract) \\
+            \extchoice \\
             (\lcircguard size = 1 \rcircguard \circguard \lschexpract NoNewCache \rschexpract)
+            \circblockend
 \end{circusaction}
 
-    % You should be careful with the precedences. See the process.tex for this, and then
-    % properly include the parenthesis. See the Z standard precedence table for Z,
-    % and FDR manual for CSP precedence.
 
-    % Sequential composition IS NOT semicolon. This creates too many conflicts with Z.
-    % We need a different LaTeX markup. It typesets just like ";", however.
-
-    % missing parenthesis errors are the harder to find and the worst in error generation!
+One should be careful with the precedences. See the file \textsf{process.tex} in the type checker tests directory for this, 
+and then properly include the parenthesis. See the Z standard precedence table for Z,  and FDR manual for CSP precedence.
+Sequential composition \textsf{is not} just normal semicolon ($;$). This creates too many conflicts with Z and we used a different
+unicode/\LaTeX\ symbol ($\circseq$). It typesets just like $;$, however.  Missing-parenthesis errors are the harder to find and the 
+worst in error generation!
 
 \begin{circusaction}
-    ControllerAction \circdef \lschexpract ControllerInit \rschexpract \circseq (\circmu\ X \circspot ((InputController \extchoice OutputController) \circseq X)) \\
+    ControllerAction \circdef \lschexpract ControllerInit \rschexpract \circseq (\circmu\ X \circspot ((InputController \extchoice OutputController) \circseq X)) 
 \end{circusaction}
 
 
@@ -242,15 +290,20 @@ available soon. The bottom line is that apart from
 
    % The production is : circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
    % Why did you use two (identical) channelSets as if it was an Alphabetised parallel action (which does not exist)?
-   (ControllerAction \lpar
+   \circblockbegin
+   ( \t1 ControllerAction \\ \lpar 
         \{ size, ringsize, cache, top, bot \} |
         \lchanset write, read \rchanset |
-        \{ ring \} \rpar
-    RingAction) \circhide \lchanset write, read \rchanset
+        \{ ring \} \rpar \\
+     \t1 RingAction)
+    \circblockend    \\
+     \t4 \circhide \lchanset write, read \rchanset
 \end{circusaction}
 
 \begin{circus}
     \circend
 \end{circus}
+
+\CircusDeclSummary
 
 \end{document}

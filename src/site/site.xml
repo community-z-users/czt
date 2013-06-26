@@ -112,6 +112,7 @@
     </menu>
     <menu name="Download" inherit="top">
       <item name="Download" href="http://sourceforge.net/projects/czt/files" />
+      <item name="CZT LaTeX" href="latex/index.html" />
       <item name="CZT Font" href="fonts/index.html" />
     </menu>
     <menu name="Documentation" inherit="top">
