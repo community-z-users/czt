@@ -19,19 +19,15 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.Action1;
-import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circustime.ast.PrefixingTimeAction;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
-import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.util.ZUtils;
 
 public abstract class Checker<R>
   extends net.sourceforge.czt.typecheck.circus.Checker<R>
@@ -139,7 +135,7 @@ public abstract class Checker<R>
 		  // if we do have an explicit ATTIME, add it as a pair to the type environment visible for the following action
 		  if (atTimeType != null)
 		  {
-			  inputVars.add(factory().createNameTypePair(pta.getChannelElapsedTime(), atTimeType));
+			  inputVars.add(factory().createNameTypePair(pta.getChannelElapsedTimeDeclName(), atTimeType));
 			  
 			  // TODO: check if need to say typeEnv.addPair(factory().createNameTypePair(pta.getChannelElapsedTime(), atTimeType));
 			  

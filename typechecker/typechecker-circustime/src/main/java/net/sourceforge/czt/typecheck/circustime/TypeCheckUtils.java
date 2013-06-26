@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.circus.ast.CircusFactory;
-import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circustime.ast.CircusTimeFactory;
 import net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl;
 import net.sourceforge.czt.parser.circus.WarningManager;
@@ -43,7 +41,6 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.print.circustime.PrintUtils;
 import net.sourceforge.czt.print.util.PrintException;
 
 

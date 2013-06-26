@@ -31,7 +31,6 @@ import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusCommand;
-import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.GuardedAction;
 import net.sourceforge.czt.circus.ast.HideAction;
 import net.sourceforge.czt.circus.ast.InterleaveAction;

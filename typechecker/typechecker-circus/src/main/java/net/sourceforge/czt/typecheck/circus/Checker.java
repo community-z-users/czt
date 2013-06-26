@@ -194,9 +194,9 @@ public abstract class Checker<R>
     return (BasicProcessChecker)getCircusTypeChecker().basicProcessChecker_;
   }
   
-  protected ActionChecker actionChecker()
+  protected Checker<CircusCommunicationList> actionChecker()
   {
-    return (ActionChecker)getCircusTypeChecker().actionChecker_;
+    return getCircusTypeChecker().actionChecker_;
   }
 
   protected Checker<List<NameTypePair>> commChecker()
