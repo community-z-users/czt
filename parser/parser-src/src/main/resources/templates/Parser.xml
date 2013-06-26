@@ -6398,7 +6398,7 @@ process ::=
 		|
         process:pl CIRCTIMEDINTERRUPT:ti LCIRCTIME expression:e RCIRCTIME  process:pr
         {:
-		    RESULT = factory_.createTimedinterruptProcess(factory_.list(pl, pr),e);
+		    RESULT = factory_.createTimedInterruptProcess(factory_.list(pl, pr),e);
 		    addLocAnn(RESULT, getLocation(pl, pr));
 		:}
         </add:circustime>
@@ -7192,7 +7192,7 @@ cspAction ::=
 		|
         circusAction:al CIRCTIMEDINTERRUPT:ti LCIRCTIME expression:e RCIRCTIME circusAction:ar
         {:
-		    RESULT = factory_.createTimedinterruptAction(factory_.list(al, ar),e);
+		    RESULT = factory_.createTimedInterruptAction(factory_.list(al, ar),e);
 		    addLocAnn(RESULT, getLocation(al, ar));
 		:}
 		</add:circustime>
