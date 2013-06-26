@@ -40,6 +40,13 @@ import net.sourceforge.czt.session.SectionInfo;
 public class ZmlScanner
   extends net.sourceforge.czt.print.z.ZmlScanner
 {  
+	
+   // expose the protected constructor as well so that Circustime can have it's own warning manager
+   protected ZmlScanner(Dialect d, Properties properties)
+   {
+     super(d, properties);
+   }
+
   /**
    * Creates a new ZML scanner.
    * @param term
@@ -48,8 +55,8 @@ public class ZmlScanner
    */
   public ZmlScanner(SectionInfo si, Term term, Properties props, WarningManager manager)
   {
-    // DON'T CALL super(term, props)! We want to pass just props to CztScannerImpl
-    super(si.getDialect(), props);
+    // DON'T CALL super(si, term, props)! We want to pass just props to CztScannerImpl
+    this(si.getDialect(), props);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);

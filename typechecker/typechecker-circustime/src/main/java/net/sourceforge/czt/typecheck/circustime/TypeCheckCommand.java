@@ -23,7 +23,6 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
 
 /**
  * A command to compute the SectTypeInfo of a CircusTime section.
@@ -33,7 +32,7 @@ public class TypeCheckCommand
   implements TypecheckPropertiesKeys
 {
   @Override
-  protected List<? extends ErrorAnn> typecheck(Term term,
+  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term,
                                                SectionManager manager) {
     return TypeCheckUtils.typecheck(term, manager, recursiveTypes_, sortDeclNames_,
       useNameIds_, warningOutput_, null);

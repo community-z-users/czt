@@ -31,7 +31,7 @@ import net.sourceforge.czt.session.Dialect;
  * @author Petra Malik, Leo Freitas
  */
 public class UnicodePrinter
-  extends net.sourceforge.czt.print.z.UnicodePrinter
+  extends net.sourceforge.czt.print.circus.UnicodePrinter
 {
   /**
    * Create a new PrintWriter, without automatic line flushing.

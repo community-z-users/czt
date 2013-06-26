@@ -63,8 +63,10 @@ import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 <add:circustime>
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
-import net.sourceforge.czt.circustime.util.CircusTimeString;
 import net.sourceforge.czt.parser.circus.CircusParseError;
+
+// not used yet but is fine to keep here - once parser completed it will be needed
+import net.sourceforge.czt.circustime.util.CircusTimeString;
 </add:circustime>
 <add:pattern>
 import net.sourceforge.czt.zpatt.util.ZPattString;

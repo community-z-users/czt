@@ -113,26 +113,7 @@
   
 
   <!-- CSP Process :: Basic -->
-  <!-- Wait Action -->
-  <xs:element name="WaitAction" type="CT:WaitAction" substitutionGroup="CIRCUS:BasicAction">
-    <xs:annotation>
-      <xs:documentation>
-        Wait action of Circus Time as a basic action.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
 
-  <!-- Wait Action -->
-  <xs:complexType name="WaitAction">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:BasicAction">
-        <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  
 
   <!-- CSP Process :: Unary -->  
   
@@ -204,7 +185,7 @@
 
 
   
-  <xs:element name="TimedinterruptProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
+  <xs:element name="TimedInterruptProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
     <xs:annotation>
       <xs:documentation>
         Timed Interrupt process of the Circus Time.
@@ -212,14 +193,36 @@
     </xs:annotation>
   </xs:element>
 
- 
+
+  <!-- CSP Action :: Basic -->
+  <!-- Wait Action -->
+  <xs:element name="WaitAction" type="CT:WaitAction" substitutionGroup="CIRCUS:BasicAction">
+    <xs:annotation>
+      <xs:documentation>
+        Wait action of Circus Time as a basic action. This covers wait on any expression,
+        as well wait on a range (upto) expression.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- Wait Action -->
+  <xs:complexType name="WaitAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:BasicAction">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+   
     <!-- CSP Action :: Unary -->  
   
   
    <xs:element name="ActionTime1" type="CT:ActionTime1" substitutionGroup="CIRCUS:Action1" abstract="true">
     <xs:annotation>
       <xs:documentation>
-	Base class for unary Circus time action
+	Base class for unary Circus time action. It contains an expression
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -238,7 +241,7 @@
   <xs:element name="TimeEndByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
     <xs:annotation>
       <xs:documentation>
-        Deadline process of Circus Time (End). This is for (P |&gt; e)
+        Deadline process of Circus Time (End). This is for (P |&gt; e).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -246,7 +249,7 @@
  <xs:element name="TimeStartByAction" type="CT:ActionTime1" substitutionGroup="CT:ActionTime1">
     <xs:annotation>
       <xs:documentation>
-        Deadline process of Circus Time (Start). This is for (e &lt;| P)
+        Deadline process of Circus Time (Start). This is for (e &lt;| P).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -274,8 +277,6 @@
   </xs:complexType>
   
    <!-- CSP Action :: Binary -->  
-    
-  
    <xs:element name="ActionTime2" type="CT:ActionTime2" substitutionGroup="CIRCUS:Action2" abstract="true">
     <xs:annotation>
       <xs:documentation>
@@ -295,7 +296,7 @@
   </xs:complexType>
   
    
-<xs:element name="TimeoutAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
+  <xs:element name="TimeoutAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
     <xs:annotation>
       <xs:documentation>
         Timeout action.
@@ -304,7 +305,7 @@
   </xs:element>
   
   
-  <xs:element name="TimedinterruptAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
+  <xs:element name="TimedInterruptAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
     <xs:annotation>
       <xs:documentation>
         Timed Interrupt action.
@@ -313,7 +314,7 @@
   </xs:element>
   
   
-  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
+  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CT:ActionTime1">
     <xs:annotation>
       <xs:documentation>
 		 <p>
@@ -341,17 +342,23 @@
 
   <xs:complexType name="PrefixingTimeAction">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:PrefixingAction">
+      <xs:extension base="CT:ActionTime1">
         <xs:sequence>
+          <xs:element ref="CIRCUS:Communication">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ChannelElapsedTime"
+                <jaxb:property name="ChannelElapsedTimeDeclName"
                                generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

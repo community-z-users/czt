@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.circus.ast.CircusFactory;
-import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circustime.ast.CircusTimeFactory;
 import net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl;
 import net.sourceforge.czt.parser.circus.WarningManager;
@@ -50,7 +48,8 @@ public class TypeCheckUtils
     extends net.sourceforge.czt.typecheck.circus.TypeCheckUtils {
   
   private static final TypeCheckUtils instance_ = new TypeCheckUtils();
- /**
+  
+  /**
    * Do not generate instances of this class.
    * You should use the static methods directly.
    */
@@ -221,9 +220,8 @@ public class TypeCheckUtils
                                                 String sectName)
   {
 	ZFactory zFactory = new ZFactoryImpl();
-	CircusFactory circusFactory = new CircusFactoryImpl();
     CircusTimeFactory circustimeFactory = new CircusTimeFactoryImpl();    
-    Factory factory = new Factory(zFactory, circusFactory, circustimeFactory);
+    Factory factory = new Factory(zFactory, circustimeFactory);
     TypeChecker typeChecker = new TypeChecker(factory,sectInfo, recursiveTypes, sortDeclNames);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
@@ -282,8 +280,10 @@ public class TypeCheckUtils
   
   protected void printTerm(Term term, StringWriter writer, SectionManager sectInfo, String sectName, Markup markup)  throws PrintException
   {
+	  // TODO: finish circus time pretty printer!
     //PrintUtils.print(term, writer, sectInfo, sectName, markup);
-    super.printTerm(term, writer, sectInfo, sectName, markup);
+	  boolean warning;
+	  super.printTerm(term, writer, sectInfo, sectName, markup);
   }
   
   

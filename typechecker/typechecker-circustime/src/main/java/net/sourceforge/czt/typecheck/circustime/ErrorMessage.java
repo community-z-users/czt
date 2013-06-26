@@ -21,6 +21,8 @@ package net.sourceforge.czt.typecheck.circustime;
 public enum ErrorMessage 
 {
   	/* Message for Circus Time */
-  CIRCUS_TIME_EXPR_DONT_UNIFY
+  CIRCUS_TIME_EXPR_DONT_UNIFY,
+  CIRCUS_TIME_UNKNOWN_PREFIXTIMEACTION,
+  CIRCUS_TIME_UNKNOWN_TIMED_PROCESS
  
 }

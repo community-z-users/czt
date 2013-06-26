@@ -234,7 +234,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
   }
 
   @Override
-  protected NameTypePair lastUsedChannelDecl()
+  public NameTypePair lastUsedChannelDecl()
   {
     assert lastUsedChannelDecl_ != null : "cannot query for last used channel information before analysing any";
     return lastUsedChannelDecl_;

@@ -24,16 +24,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.circus.ast.ActionPara;
+import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.ProcessPara;
+import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.circus.util.CircusString;
+import net.sourceforge.czt.circus.visitor.ActionParaVisitor;
+import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
+import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.circus.ast.*;
-import net.sourceforge.czt.circus.visitor.*;
 
 /**
  * AstToPrintTreeVisitors should not use ZKeyword enum. Instead,
@@ -41,6 +48,9 @@ import net.sourceforge.czt.circus.visitor.*;
  * the Unicode2Latex parser does not yet know about keywords.
  * The CircusPrintVisitor.visitPrintParagraph (in ZPrintVisitor)
  * will associate CircusString as a DecorWord!
+ * 
+ * TODO: Circus pretty printing is incomplete. We need to add precedences/associativity to that too
+ * 		 see Z AstToPrintTreeVisitor for how this is to be done. 
  */
 public class AstToPrintTreeVisitor
   extends net.sourceforge.czt.print.z.AstToPrintTreeVisitor

@@ -17,30 +17,31 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.typecheck.circustime.impl;
 
-import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circustime.ast.CircusTimeFactory;
 import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public class Factory 
   extends net.sourceforge.czt.typecheck.circus.impl.Factory
 {
   /** The CircusToolsFactory that is used to create wrapped types. */
-  protected CircusTimeFactory circustimeFactory_;
+  protected final CircusTimeFactory circustimeFactory_;
   
   public Factory()
   {
-    zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    circusFactory_ = new net.sourceforge.czt.circus.impl.CircusFactoryImpl();
-    circustimeFactory_ = new net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl();
+	this(new ZFactoryImpl(), new net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl());
   }
   
-  public Factory(ZFactory zFactory, CircusFactory circusFactory, CircusTimeFactory circustimeFactory)
+  public Factory(ZFactory zFactory, CircusTimeFactory circustimeFactory)
   {
-    zFactory_ = zFactory;
-    circusFactory_ = circusFactory;
-    circustimeFactory_ = circustimeFactory;
+	this(zFactory, new net.sourceforge.czt.circustime.util.Factory(circustimeFactory));
   }
   
+  public Factory(ZFactory zFactory, net.sourceforge.czt.circustime.util.Factory factory)
+  {
+	super(zFactory, factory);
+	circustimeFactory_ = factory.getCircusTimeFactory();
+  }
 
   public CircusTimeFactory getCircusTimeFactory()
   {

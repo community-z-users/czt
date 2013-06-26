@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.circus.ast.Action1;
 import net.sourceforge.czt.circus.ast.ActionSignature;
 import net.sourceforge.czt.circus.ast.ActionSignatureAnn;
 import net.sourceforge.czt.circus.ast.ActionSignatureList;
@@ -34,6 +35,7 @@ import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.CircusType;
+import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.CommunicationType;
 import net.sourceforge.czt.circus.ast.MuAction;
 import net.sourceforge.czt.circus.ast.NameSet;
@@ -179,7 +181,7 @@ public abstract class Checker<R>
    **********************************************************************/
   protected ProcessChecker processChecker()
   {
-    return getCircusTypeChecker().processChecker_;
+    return (ProcessChecker)getCircusTypeChecker().processChecker_;
   }
 
   protected Checker<Signature> processParaChecker()
@@ -189,10 +191,10 @@ public abstract class Checker<R>
 
   protected BasicProcessChecker basicProcessChecker()
   {
-    return getCircusTypeChecker().basicProcessChecker_;
+    return (BasicProcessChecker)getCircusTypeChecker().basicProcessChecker_;
   }
   
-  protected ActionChecker actionChecker()
+  protected Checker<CircusCommunicationList> actionChecker()
   {
     return getCircusTypeChecker().actionChecker_;
   }
@@ -447,6 +449,16 @@ public abstract class Checker<R>
       getCircusTypeChecker().currentChannelSet_ != null);
   }
 
+  protected boolean checkProcessParaScope(Term term)
+  {
+	Name name = null;
+	if (term instanceof CallProcess)
+	{
+		name = ((CallProcess)term).getCallExpr().getName();
+	}
+	return checkProcessParaScope(term, name);
+  }
+  
   protected boolean checkProcessParaScope(Term term, Name name)
   {
     processChecker().checkProcessSignature(term);
@@ -594,6 +606,16 @@ public abstract class Checker<R>
       getCircusTypeChecker().currentNameSetName_ != null &&
       getCircusTypeChecker().currentNameSet_ != null);
   }  
+  
+  protected boolean checkActionParaScope(Term term)
+  {
+	Name name = null;
+	if (term instanceof CallAction)
+	{
+		name = ((CallAction)term).getName();
+	}
+	return checkActionParaScope(term, name);
+  }
 
   protected boolean checkActionParaScope(Term term, Name name)
   {    
@@ -1099,7 +1121,7 @@ public abstract class Checker<R>
     return result;
   }
 
-  protected NameTypePair lastUsedChannelDecl()
+  public NameTypePair lastUsedChannelDecl()
   {
     throw new UnsupportedOperationException("cannot call last used channel directly, but only through a Communication checker");
   }
@@ -2895,5 +2917,124 @@ public abstract class Checker<R>
     checkCircusNameStrokes(declName, type, 1);        
     addTypeAnn(term, type);  
     return result;
+  }
+  
+  private ActionSignature actionSignature_;  
+  
+  protected void checkActionSignature(Object term)
+  {
+    assert actionSignature_ != null : "null action signature whilst visiting " + (term != null ? term.getClass().getSimpleName() : "null");
+  }
+  
+  protected ActionSignature getCurrentActionSignature()
+  {    
+    checkActionSignature(null); 
+    return actionSignature_;
+  }
+  
+  protected ActionSignature setCurrentActionSignature(ActionSignature sig)
+  {
+    ActionSignature old = actionSignature_;      
+    actionSignature_ = sig;
+    return old;
+  }
+
+  
+  /**
+   * Typechecks the given communication by calling the right checker and filtering
+   * the input variable on the name type pairs created. It assumes a type context
+   * and and action scope are in place. This decoupling is done to enable extending
+   * typecheckers to interfere with the typechecking process.
+   * @param comm
+   * @return
+   */
+  protected List<NameTypePair> typeCheckCommunication(Communication comm)
+  {
+	  assert isWithinActionParaScope();
+	  
+	  checkActionSignature(comm);
+	  
+	  // typecheck the communication part returning a list of name type pairs
+      // it returns the input variables that need to be declared.
+      // * calculate (VarsC c \Gamma)
+      List<NameTypePair> comSig = comm.accept(commChecker());
+      List<NameTypePair> inputVars = ((CommunicationChecker) commChecker()).filterInputs(comSig);
+
+      // Adds input variables into S1. The oplus at the signature level is implemented down below.
+      // * create \Gamma' = (\Gamma \oplus (VarsC c \Gamma)) 
+      // 
+      // NOTE: variables should be added locally at the input field 
+      //addStateVars(inputVars, ? pos ?);
+      
+      return inputVars;
+  }
+  
+  /**
+   * For Circus, this just typechecks the following action from a prefix. Extensions could
+   * do more before hand. It assumes an action para scope as well as scope for input variables.
+   * If input variables scope isn't in place, they won't be visible to the given action.
+   * Any input variables already calculated are given in case the following action needs to extend
+   * them before typechecking. Nothing is done for Circus.
+   * @param term
+   * @return
+   */
+  protected CircusCommunicationList typeCheckPrefixFollowingAction(Action1 term, List<NameTypePair> inputVars)
+  {
+	  assert isWithinActionParaScope();
+	  
+	  checkActionSignature(term);
+	  
+	  // type check given action in scope enriched with input variables
+	  // * checks \Gamma' \rhd a : Action
+	  CircusCommunicationList commList = visit(term.getCircusAction());
+
+	  return commList;
+  }
+  
+  protected void adjustPrefixActionSignature(List<NameTypePair> inputVars, Communication comm, CircusCommunicationList commList)
+  {
+	  checkActionSignature(comm);
+	  
+      // updates the local variable signature for the prefixed action.
+	  getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(inputVars);
+      
+      // add the channels used channels
+      GlobalDefs.addNoDuplicates(0, commChecker().lastUsedChannelDecl(), 
+      getCurrentActionSignature().getUsedChannels().getNameTypePair());
+        
+      // add the communication expressions!    
+      //GlobalDefs.addNoDuplicates(0, comm, actionSignature_.getUsedCommunications());
+      GlobalDefs.addNoDuplicates(0, comm, commList);
+  }
+  
+  /**
+   * This method is a refactoring of the original code from #visitPrefixingAction(PrefixingAction)
+   * that enables reuse by extending typecheckers. It enables a different prefixing action to be 
+   * passed as the action parameter.
+   * @param action
+   * @param comm
+   */
+  protected CircusCommunicationList typeCheckPrefixingAction(Action1 term, Communication comm)
+  {
+	  assert term != null && comm != null;
+	  
+	  // check action is within paragraph scope
+	  checkActionParaScope(term.getCircusAction());
+
+	  // enter the scope for input fields
+	  typeEnv().enterScope();
+
+	  // type check communication
+      List<NameTypePair> inputVars = typeCheckCommunication(comm);
+	  
+      // type check following actions
+      CircusCommunicationList commList = typeCheckPrefixFollowingAction(term, inputVars);
+      
+      adjustPrefixActionSignature(inputVars, comm, commList);
+      
+      // close input variables scope after analysing the entailing action
+      typeEnv().exitScope();
+      
+      return commList;
   }
 }

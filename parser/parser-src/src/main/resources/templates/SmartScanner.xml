@@ -856,7 +856,18 @@ class <class/> extends CztScannerImpl
           // DECORWORD is not allowd to change into FIELDNAME, if current symbol   
 	      // is followed by a symbol ATTIEM (@)  
           
-          if (symbol.sym == Sym.DECORWORD <add:circustime> &amp;&amp; i>0 &amp;&amp; tokens.get(i-1).sym != Sym.ATTIME </add:circustime> )
+          if (symbol.sym == Sym.DECORWORD 
+          		<add:circustime> 
+          			// TODO: This is a hack. Decordword checking is the wrong place for smart scanning
+          			//		 because it will confuse validc channel names with the name containing the
+          			//		 special ATTIME character. You need to tokenise everything up to it and then
+          			//		 upon encountring it (ATTIME) deal with it (i.e. look ahead and push/pop symbols around)
+          			//
+          			//		 That is, the scanner might be telling the parser the right thing for well-formed
+          			//		 examples, yet, it might also tell the parser the right thing for ill-formed examples!
+          			//		 Thus, both positive and negative testing for this (only complicated) feature is VITAL!
+          		&amp;&amp; i>0 &amp;&amp; tokens.get(i-1).sym != Sym.ATTIME 
+          		</add:circustime> )
           {
             changed = true;
             // count field change
@@ -981,7 +992,14 @@ class <class/> extends CztScannerImpl
     // PREFIXCOLON is a special case: we still need to look forward
     while (currsym.sym == Sym.PREFIXCOLON || 
            (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
-           currsym.sym != Sym.EOF) <add:circustime>&amp;&amp; !CIRCUSTIME_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) </add:circustime> )
+           currsym.sym != Sym.EOF) 
+           <add:circustime>
+           // TODO: This is almost there but not quite right because CIRCUS_ONLY symbols
+           //		need to be completely filtered from CIRCUSTIME symbols and because
+           //		we need to mix CIRCUS (PREFIXCOLON, PREFIXTHEN) and CIRCUSTIME (ATTIME)
+           //		symbols in our filtering of what's to be done.
+           &amp;&amp; !CIRCUSTIME_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) 
+           </add:circustime> )
     {    
       currsym = dumb_.pop();
       tokens.addLast(currsym);

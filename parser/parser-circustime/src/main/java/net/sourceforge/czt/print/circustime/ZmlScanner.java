@@ -23,9 +23,6 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.circus.CircusKeyword;
-import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.session.Dialect;
@@ -38,7 +35,7 @@ import net.sourceforge.czt.session.SectionInfo;
  * @author Petra Malik
  */
 public class ZmlScanner
-  extends net.sourceforge.czt.print.z.ZmlScanner
+  extends net.sourceforge.czt.print.circus.ZmlScanner
 {  
   /**
    * Creates a new ZML scanner.
@@ -50,35 +47,17 @@ public class ZmlScanner
   {
     // DON'T CALL super(term, props)! We want to pass just props to CztScannerImpl
     super(si.getDialect(), props);
-    PrecedenceParenAnnVisitor precVisitor =
-      new PrecedenceParenAnnVisitor();
+    PrecedenceParenAnnVisitor precVisitor = new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(si.getDialect(), Sym.class, this);
     CircusTimePrintVisitor visitor = new CircusTimePrintVisitor(si, collector, manager);
     term.accept(visitor);
     setSymbols(collector.getSymbols());
   }
-  
-  public ZmlScanner(Dialect d, Iterator<Token> iter, Properties props)
-  {
-    super(d, iter, props);
-  }
 
-  // Substitutes keywords as DECORWORD for Unicode printing - easier scanning
-  @Override
-  protected Pair<String, Object> getSymbolName(Token token)
+  public ZmlScanner(Dialect dialect, Iterator<Token> iter, Properties props)
   {
-    String name = token.getName();
-    Object value = token.getSpelling();
-    try {
-      Enum.valueOf(CircusKeyword.class, name);
-      name = "DECORWORD";
-      value = new Decorword(token.spelling());
-    }
-    catch (IllegalArgumentException exception) {
-      return super.getSymbolName(token);
-    }
-    return new Pair<String, Object>(name, value);
+    super(dialect, iter, props);
   }
 
   @Override

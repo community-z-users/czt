@@ -17,7 +17,8 @@ package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
 import java.util.ListIterator;
-import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.circus.ast.Action1;
 import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionD;
 import net.sourceforge.czt.circus.ast.ActionIte;
@@ -30,7 +31,6 @@ import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusCommand;
-import net.sourceforge.czt.circus.ast.Communication;
 import net.sourceforge.czt.circus.ast.GuardedAction;
 import net.sourceforge.czt.circus.ast.HideAction;
 import net.sourceforge.czt.circus.ast.InterleaveAction;
@@ -47,9 +47,7 @@ import net.sourceforge.czt.circus.ast.ParActionIte;
 import net.sourceforge.czt.circus.ast.ParallelActionIte;
 import net.sourceforge.czt.circus.ast.AlphabetisedParallelActionIte;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
-//import net.sourceforge.czt.circus.ast.DeadlineAction;
-//import net.sourceforge.czt.circus.ast.TimeoutAction;
-//import net.sourceforge.czt.circus.ast.WaitAction;
+import net.sourceforge.czt.circus.visitor.Action1Visitor;
 import net.sourceforge.czt.circus.visitor.Action2Visitor;
 import net.sourceforge.czt.circus.visitor.ActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionVisitor;
@@ -65,30 +63,24 @@ import net.sourceforge.czt.circus.visitor.ParamActionVisitor;
 import net.sourceforge.czt.circus.visitor.ParActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.ParallelActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
-//import net.sourceforge.czt.circus.visitor.DeadlineActionVisitor;
 import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.RenameActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
-//import net.sourceforge.czt.circus.visitor.TimeoutActionVisitor;
-//import net.sourceforge.czt.circus.visitor.WaitActionVisitor;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NewOldPair;
-import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.z.util.ZString;
 
 /**
  * <p> bla bla bla </p>
@@ -152,6 +144,8 @@ public class ActionChecker
   InterleaveActionVisitor<CircusCommunicationList>,             //  C.12.15, C.12.16
   ParallelActionVisitor<CircusCommunicationList>,               //  C.12.17
   AlphabetisedParallelActionVisitor<CircusCommunicationList>,   //  C.12.17-2
+  
+  Action1Visitor<CircusCommunicationList>,
   HideActionVisitor<CircusCommunicationList>,                   //  C.12.18
   RenameActionVisitor<CircusCommunicationList>,                 //  NEW
   MuActionVisitor<CircusCommunicationList>,                     //  C.12.21
@@ -169,35 +163,12 @@ public class ActionChecker
 //  DeadlineActionVisitor<CircusCommunicationList>
   
 {
-  private final Expr arithmos_;
   
   /** Creates a new instance of ActionChecker */
   public ActionChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
     setCurrentActionSignature(null);
-    arithmos_ = factory().createRefExpr(factory().createZDeclName(ZString.ARITHMOS));
-    
-  }
-  
-  private ActionSignature actionSignature_;  
-  
-  protected ActionSignature getCurrentActionSignature()
-  {    
-    checkActionSignature(null); 
-    return actionSignature_;
-  }
-  
-  protected ActionSignature setCurrentActionSignature(ActionSignature sig)
-  {
-    ActionSignature old = actionSignature_;      
-    actionSignature_ = sig;
-    return old;
-  }
-  
-  protected void checkActionSignature(Object term)
-  {
-    assert actionSignature_ != null : "null action signature whilst visiting " + (term != null ? term.getClass().getSimpleName() : "null");
   }
   
   /**
@@ -255,7 +226,7 @@ public class ActionChecker
     // contain parameters itself
     boolean formalsAreBadlyFormed = 
        (!(action instanceof CallAction) &&
-       !actionSignature_.getFormalParams().getNameTypePair().isEmpty())
+       !getCurrentActionSignature().getFormalParams().getNameTypePair().isEmpty())
        ||    
        ((action instanceof MuAction) && ((MuAction)action).isParameterised())        
        ;
@@ -265,13 +236,13 @@ public class ActionChecker
       error(term, ErrorMessage.NESTED_FORMAL_PARAMS_IN_ACTION, params);
     }   
     // updates the formal parameters signature with gParams     
-    actionSignature_.setFormalParams(factory().createSignature(gParams));    
+    getCurrentActionSignature().setFormalParams(factory().createSignature(gParams));    
         
     // updates the local variable signature with allVars - duplicates are fine; they represent scoping
-    actionSignature_.getLocalVars().getNameTypePair().addAll(0, allVars);
+    getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(0, allVars);
     
     // add all communications.
-    //GlobalDefs.addAllNoDuplicates(commList, actionSignature_.getUsedCommunications());    
+    //GlobalDefs.addAllNoDuplicates(commList, getCurrentActionSignature().getUsedCommunications());    
     
     typeEnv().exitScope();            
     
@@ -295,7 +266,7 @@ public class ActionChecker
       false /* allowQualifiedDecl */);
     
     // iterated actions do not have parameters
-    actionSignature_.getFormalParams().getNameTypePair().clear();
+    getCurrentActionSignature().getFormalParams().getNameTypePair().clear();
     return commList;
   }
   
@@ -322,28 +293,6 @@ public class ActionChecker
     return params;
   }
 
-  protected void typeCheckTimeExpr(Term term, Expr expr)
-  {
-    // whatever the type, even if with generic, it must be at least ARITHMOS
-    // this include both \nat and \real for the time of TIME.
-    Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
-    Type2 expected = arithmos_.accept(exprChecker());
-    if (expected instanceof PowerType)
-    {
-      expected = ((PowerType)expected).getType();
-    }
-    // if arithmos type is wrong somehow, this will catch it.
-    // DON'T CACHE arithmos type as it won't work from the beginning.
-    if (!unify(found, expected).equals(UResult.SUCC))
-    {
-      Object[] params = {
-        getCurrentProcessName(), getCurrentActionName(),
-        term.getClass().getSimpleName(), expr, expected, found
-      };
-      error(term, ErrorMessage.CIRCUS_TIME_EXPR_DONT_UNIFY, params);
-    }
-  }
-  
   protected CircusCommunicationList typeCheckParActionIte(ParActionIte term, ChannelSet cs)
   {
     // type check name set and channel set
@@ -360,12 +309,12 @@ public class ActionChecker
     // typecheck inner action
     CircusCommunicationList commList = typeCheckActionIte(term);    
     
-    GlobalDefs.addNoDuplicates(0, ns, actionSignature_.getUsedNameSets());
+    GlobalDefs.addNoDuplicates(0, ns, getCurrentActionSignature().getUsedNameSets());
     
     // null for interleaving
     if (cs != null)
     {
-      GlobalDefs.addNoDuplicates(0, cs, actionSignature_.getUsedChannelSets());      
+      GlobalDefs.addNoDuplicates(0, cs, getCurrentActionSignature().getUsedChannelSets());      
     }
     
     return commList;
@@ -387,8 +336,8 @@ public class ActionChecker
         
     // update name sets used - L first; R next
     // i.e., add the last one first at the head then the next, gives this order    
-    GlobalDefs.addNoDuplicates(0, nsR, actionSignature_.getUsedNameSets());
-    GlobalDefs.addNoDuplicates(0, nsL, actionSignature_.getUsedNameSets());
+    GlobalDefs.addNoDuplicates(0, nsR, getCurrentActionSignature().getUsedNameSets());
+    GlobalDefs.addNoDuplicates(0, nsL, getCurrentActionSignature().getUsedNameSets());
        
     
     // within the ActionChecker, it must be for an action use 
@@ -403,7 +352,7 @@ public class ActionChecker
       ChannelSet cs = lit.previous();
       @SuppressWarnings("unused")
 	ChannelSetType cst = typeCheckChannelSet(cs, errorParams);      
-      GlobalDefs.addNoDuplicates(0, cs, actionSignature_.getUsedChannelSets());      
+      GlobalDefs.addNoDuplicates(0, cs, getCurrentActionSignature().getUsedChannelSets());      
     }    
         
     return commList;
@@ -418,7 +367,7 @@ public class ActionChecker
    *
    *@law C.12.1, C.12.2, C.16.1
    */
-  public CircusCommunicationList visitParamAction(ParamAction term)
+  @Override public CircusCommunicationList visitParamAction(ParamAction term)
   {     
     // commands allow qualified declarations    
     // and types of declarations do not need to be finite
@@ -433,7 +382,7 @@ public class ActionChecker
    *
    *@law C.12.3
    */
-  @Override
+  @Override 
   public CircusCommunicationList visitSchExprAction(SchExprAction term)
   {
     // Action ::= Schema-Exp    
@@ -454,7 +403,7 @@ public class ActionChecker
       // if no errors were found, add local vars to the signature
       if (varScopeErrors.isEmpty())
       {        
-        actionSignature_.getLocalVars().getNameTypePair().addAll(schType.getSignature().getNameTypePair());
+        getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(schType.getSignature().getNameTypePair());
       }
       // otherwise raise the errors
       else
@@ -499,7 +448,7 @@ public class ActionChecker
    * </p>
    *@law C.12.4, C.12.19, C.12.20, C.17.6
    */  
-  public CircusCommunicationList visitCallAction(CallAction term)
+  @Override public CircusCommunicationList visitCallAction(CallAction term)
   {
     // NOTE: Most of this code follows the pattern from z.ExprChecker.visitRefExpr.
 
@@ -594,7 +543,7 @@ public class ActionChecker
       SchemaType schType = referenceToSchema(type);
       if (schType != null)
       {
-        actionSignature_.getLocalVars().getNameTypePair().addAll(schType.getSignature().getNameTypePair());
+        getCurrentActionSignature().getLocalVars().getNameTypePair().addAll(schType.getSignature().getNameTypePair());
       }      
     }        
    
@@ -606,8 +555,7 @@ public class ActionChecker
    *
    *@law C.12.5
    */
-  @Override
-  public CircusCommunicationList visitCircusCommand(CircusCommand term)
+  @Override public CircusCommunicationList visitCircusCommand(CircusCommand term)
   {
     return term.accept(commandChecker());
   }
@@ -618,7 +566,7 @@ public class ActionChecker
    *@law C.12.6, C.12.7, C.12.8
    */
   // Action ::= Skip | Stop | Chaos
-  public CircusCommunicationList visitBasicAction(BasicAction term)
+  @Override public CircusCommunicationList visitBasicAction(BasicAction term)
   {
     checkActionParaScope(term, null);
     return factory().createEmptyCircusCommunicationList();    
@@ -649,7 +597,7 @@ public class ActionChecker
   /**
    *@law C.12.9
    */ 
-  public CircusCommunicationList visitSubstitutionAction(SubstitutionAction term)
+  @Override public CircusCommunicationList visitSubstitutionAction(SubstitutionAction term)
   { 
     checkActionParaScope(term, null);
 
@@ -716,45 +664,9 @@ public class ActionChecker
    *@law C.12.10
    */
   // Action ::= Communication -> Action  
-  public CircusCommunicationList visitPrefixingAction(PrefixingAction term)
+  @Override public CircusCommunicationList visitPrefixingAction(PrefixingAction term)
   {
-    checkActionParaScope(term, null);
-
-    // enter the scope for input fields
-    typeEnv().enterScope();
-
-    // typecheck the communication part returning a list of name type pairs
-    // it returns the input variables that need to be declared.
-    // * calculate (VarsC c \Gamma)
-    Communication comm = term.getCommunication();
-    List<NameTypePair> comSig = comm.accept(commChecker());
-    List<NameTypePair> inputVars = ((CommunicationChecker) commChecker()).filterInputs(comSig);
-
-    // Adds input variables into S1. The oplus at the signature level is implemented down below.
-    // * create \Gamma' = (\Gamma \oplus (VarsC c \Gamma)) 
-    // 
-    // NOTE: variables should be added locally at the input field 
-    //addStateVars(inputVars, ? pos ?);
-
-    // type check given action in scope enriched with input variables
-    // * checks \Gamma' \rhd a : Action
-    CircusCommunicationList commList = visit(term.getCircusAction());
-
-    // updates the local variable signature for the prefixed action.
-    actionSignature_.getLocalVars().getNameTypePair().addAll(inputVars);
-    
-    // add the channels used channels
-    GlobalDefs.addNoDuplicates(0, commChecker().lastUsedChannelDecl(), 
-      actionSignature_.getUsedChannels().getNameTypePair());
-      
-    // add the communication expressions!    
-    //GlobalDefs.addNoDuplicates(0, comm, actionSignature_.getUsedCommunications());
-    GlobalDefs.addNoDuplicates(0, comm, commList);
-
-    // close input variables scope after analysing the entailing action
-    typeEnv().exitScope();
-    
-    return commList;
+	return typeCheckPrefixingAction(term, term.getCommunication());
   }
 
   /**
@@ -763,14 +675,23 @@ public class ActionChecker
    * 
    *@law C.12.11
    */
-  // Action ::= Predicate & Action  
-  @Override
-  public CircusCommunicationList visitGuardedAction(GuardedAction term)
+  // Action ::= Predicate & Action 
+  @Override public CircusCommunicationList visitGuardedAction(GuardedAction term)
   {
     checkActionParaScope(term, null);    
     typeCheckPred(term, term.getPred());
     CircusCommunicationList commList = visit(term.getCircusAction());
     return commList;
+  }
+  
+  @Override public CircusCommunicationList visitAction1(Action1 term)
+  {
+	// check within an action paragraph scope.
+    checkActionParaScope(term, null);
+
+    // check inside
+    CircusCommunicationList result = visit(term.getCircusAction());
+    return result;
   }
 
   /**
@@ -787,8 +708,7 @@ public class ActionChecker
    * </p>
    *@law C.12.12, C.12.13, C.12.14, C.12.15
    */
-  @Override
-  public CircusCommunicationList visitAction2(Action2 term)
+  @Override public CircusCommunicationList visitAction2(Action2 term)
   {
     // check within an action paragraph scope.
     checkActionParaScope(term, null);
@@ -807,7 +727,7 @@ public class ActionChecker
    * Partial.
    *@law C.12.16
    */
-  public CircusCommunicationList visitInterleaveAction(InterleaveAction term)
+  @Override public CircusCommunicationList visitInterleaveAction(InterleaveAction term)
   {
     CircusCommunicationList commList = typeCheckParAction(term, factory().<ChannelSet>list());        
     return commList;
@@ -816,13 +736,13 @@ public class ActionChecker
   /**   
    *@law C.12.17
    */
-  public CircusCommunicationList visitParallelAction(ParallelAction term)
+  @Override public CircusCommunicationList visitParallelAction(ParallelAction term)
   {    
     CircusCommunicationList commList = typeCheckParAction(term, factory().<ChannelSet>list(term.getChannelSet()));    
     return commList;   
   }
   
-  public CircusCommunicationList visitAlphabetisedParallelAction(AlphabetisedParallelAction term)
+  @Override public CircusCommunicationList visitAlphabetisedParallelAction(AlphabetisedParallelAction term)
   {
     CircusCommunicationList commList = typeCheckParAction(term, factory().<ChannelSet>list(
       term.getLeftAlpha(), term.getRightAlpha()));    
@@ -836,7 +756,7 @@ public class ActionChecker
    *
    *@law C.12.18
    */
-  public CircusCommunicationList visitHideAction(HideAction term)
+  @Override public CircusCommunicationList visitHideAction(HideAction term)
   {
     // check within an action paragraph scope.
     checkActionParaScope(term, null);
@@ -849,7 +769,7 @@ public class ActionChecker
     CircusCommunicationList commList = visit(term.getCircusAction());
     
     // update name sets used    
-    GlobalDefs.addNoDuplicates(0, cs, actionSignature_.getUsedChannelSets()); 
+    GlobalDefs.addNoDuplicates(0, cs, getCurrentActionSignature().getUsedChannelSets()); 
     
     return commList;
   }
@@ -860,7 +780,7 @@ public class ActionChecker
    * @return 
    * @law NEW
    */
-  public CircusCommunicationList visitRenameAction(RenameAction term)
+  @Override public CircusCommunicationList visitRenameAction(RenameAction term)
   {    
     checkActionParaScope(term, null);
 
@@ -878,7 +798,7 @@ public class ActionChecker
    *
    *@law C.12.21
    */
-  public CircusCommunicationList visitMuAction(MuAction term)
+  @Override public CircusCommunicationList visitMuAction(MuAction term)
   {
     Name aName = term.getName();
     CircusAction action = term.getCircusAction();
@@ -942,7 +862,7 @@ public class ActionChecker
    * 
    * @law C.12.22, C.12.23, C.12.24
    */
-  public CircusCommunicationList visitActionIte(ActionIte term)
+  @Override public CircusCommunicationList visitActionIte(ActionIte term)
   {    
     CircusCommunicationList commList = typeCheckActionIte(term);    
     return commList;    
@@ -955,7 +875,7 @@ public class ActionChecker
    * 
    * * @law C.12.25, C.12.26
    */
-  public CircusCommunicationList visitParActionIte(ParActionIte term)
+  @Override public CircusCommunicationList visitParActionIte(ParActionIte term)
   {     
     CircusCommunicationList commList = typeCheckParActionIte(term, null);        
     return commList;    
@@ -968,7 +888,7 @@ public class ActionChecker
    * 
    * @law C.12.27
    */   
-  public CircusCommunicationList visitParallelActionIte(ParallelActionIte term)
+  @Override public CircusCommunicationList visitParallelActionIte(ParallelActionIte term)
   { 
     CircusCommunicationList commList = typeCheckParActionIte(term, term.getChannelSet());    
     return commList;
@@ -981,7 +901,7 @@ public class ActionChecker
    * 
    * @law C.12.27-2
    */   
-  public CircusCommunicationList visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term)
+  @Override public CircusCommunicationList visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term)
   {
     CircusCommunicationList commList = typeCheckParActionIte(term, term.getChannelSet());    
     return commList;
@@ -989,7 +909,7 @@ public class ActionChecker
 
   /* Support for Circus Time (hack F Zeyda) */
 //  @Override
-//  public CircusCommunicationList visitTimeoutAction(TimeoutAction term)
+//  @Override public CircusCommunicationList visitTimeoutAction(TimeoutAction term)
 //  {
 //    CircusCommunicationList commList = visitAction2(term);
 //    typeCheckTimeExpr(term, term.getExpr());
@@ -997,7 +917,7 @@ public class ActionChecker
 //  }
 //
 //  @Override
-//  public CircusCommunicationList visitWaitAction(WaitAction term)
+//  @Override public CircusCommunicationList visitWaitAction(WaitAction term)
 //  {
 //    CircusCommunicationList commList = visitBasicAction(term);
 //    typeCheckTimeExpr(term, term.getExpr());
@@ -1005,7 +925,7 @@ public class ActionChecker
 //  }
 //
 //  @Override
-//  public CircusCommunicationList visitDeadlineAction(DeadlineAction term)
+//  @Override public CircusCommunicationList visitDeadlineAction(DeadlineAction term)
 //  {
 //    checkActionParaScope(term, null);
 //    CircusCommunicationList commList = visit(term.getCircusAction());

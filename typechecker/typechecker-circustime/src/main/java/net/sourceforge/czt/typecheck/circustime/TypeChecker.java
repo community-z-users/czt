@@ -15,41 +15,53 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.czt.typecheck.circustime;
 
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.typecheck.circustime.ProcessChecker;
-import net.sourceforge.czt.typecheck.circustime.ActionChecker;
-import net.sourceforge.czt.typecheck.circustime.SpecChecker;
 
-public class TypeChecker 
-  extends net.sourceforge.czt.typecheck.circus.TypeChecker
-  implements net.sourceforge.czt.typecheck.circus.TypecheckPropertiesKeys
-{
-	  public TypeChecker(net.sourceforge.czt.typecheck.circustime.impl.Factory factory,
-              SectionManager sectInfo)
-	  {
-		  this(factory, sectInfo, true, false);
-	  }
+public class TypeChecker extends
+		net.sourceforge.czt.typecheck.circus.TypeChecker implements
+		net.sourceforge.czt.typecheck.circus.TypecheckPropertiesKeys {
+	public TypeChecker(
+			net.sourceforge.czt.typecheck.circustime.impl.Factory factory,
+			SectionManager sectInfo) {
+		this(factory, sectInfo, true, false);
+	}
 
-	  public TypeChecker(net.sourceforge.czt.typecheck.circustime.impl.Factory factory,
-		      SectionManager sectInfo,
-		      boolean recursiveTypes,
-		      boolean sortDeclNames)
-	  {
-		  super(factory, sectInfo, recursiveTypes, sortDeclNames);
-		  specChecker_ = new SpecChecker(this);
-		  processChecker_ = new ProcessChecker(this);
-		  actionChecker_ = new ActionChecker(this);		  
-	  }
-	  
-	  public net.sourceforge.czt.typecheck.circustime.impl.Factory getFactory()
-	  {
-	    return (net.sourceforge.czt.typecheck.circustime.impl.Factory) super.getFactory();
-	  }
-	  protected void setPreamble(String sectName, SectionManager sectInfo)
-	  {
-	    super.setPreamble(sectName, sectInfo);
-	  }   
+	public TypeChecker(
+			net.sourceforge.czt.typecheck.circustime.impl.Factory factory,
+			SectionManager sectInfo, boolean recursiveTypes,
+			boolean sortDeclNames) {
+		super(factory, sectInfo, recursiveTypes, sortDeclNames);
+
+		// make sure specChecker is the first checker created
+		// this is important because it creates the "Synch" channel
+		// into the sectTypeEnv(), which is looked up by the
+		// CommunicationChecker constructor
+		specChecker_ = new SpecChecker(this);
+
+		actionChecker_ = new ActionChecker(this);
+		processChecker_ = new ProcessChecker(this);
+
+		// raise warnings has priority over hide warnings (e.g., can only hide
+		// if not raising)
+		warningManager_ = new WarningManager(TypeChecker.class, sectInfo);
+		warningManager_.setMarkup(markup_);
+		warningManager_
+				.setWarningOutput(PROP_TYPECHECK_WARNINGS_OUTPUT_DEFAULT);
+	}
+
+	public net.sourceforge.czt.typecheck.circustime.impl.Factory getFactory() {
+		return (net.sourceforge.czt.typecheck.circustime.impl.Factory) super
+				.getFactory();
+	}
+
+	protected void setPreamble(String sectName, SectionManager sectInfo) {
+		super.setPreamble(sectName, sectInfo);
+	}
+
+	public WarningManager getCircusTimeWarningManager() {
+		return (net.sourceforge.czt.typecheck.circustime.WarningManager) warningManager_;
+	}
 }

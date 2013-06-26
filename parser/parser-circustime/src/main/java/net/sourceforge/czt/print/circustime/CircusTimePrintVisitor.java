@@ -26,8 +26,8 @@ import net.sourceforge.czt.circustime.ast.TimeEndByAction;
 import net.sourceforge.czt.circustime.ast.TimeEndByProcess;
 import net.sourceforge.czt.circustime.ast.TimeStartByAction;
 import net.sourceforge.czt.circustime.ast.TimeStartByProcess;
-import net.sourceforge.czt.circustime.ast.TimedinterruptAction;
-import net.sourceforge.czt.circustime.ast.TimedinterruptProcess;
+import net.sourceforge.czt.circustime.ast.TimedInterruptAction;
+import net.sourceforge.czt.circustime.ast.TimedInterruptProcess;
 import net.sourceforge.czt.circustime.ast.TimeoutAction;
 import net.sourceforge.czt.circustime.ast.TimeoutProcess;
 import net.sourceforge.czt.circustime.ast.WaitAction;
@@ -62,6 +62,10 @@ public class CircusTimePrintVisitor
 
   public Object visitTimeEndByProcess(TimeEndByProcess term) {
         printLPAREN(term);
+        	// TODO: AstToPrintTreeVisitor needs to add the ParenAnn to the places where 
+        	//		 precendences are to observed, such that x+y*z doesn't get to be x+(y*z).
+        	//
+        	//		 Note these rules for Circus also need adjusting. Follow what's done in Z.
         visit(term.getCircusProcess());
         print(CircusTimeKeyword.CIRCENDBY);
         print(CircusTimeToken.LCIRCTIME);        
@@ -95,7 +99,7 @@ public Object visitTimeoutProcess(TimeoutProcess term) {
     }
 
 
-public Object visitTimedinterruptProcess(TimedinterruptProcess term) {
+public Object visitTimedInterruptProcess(TimedInterruptProcess term) {
         printLPAREN(term);
         visit(term.getLeftProcess());
         print(CircusTimeToken.LCIRCTIME);        
@@ -145,7 +149,7 @@ public Object visitTimeoutAction(TimeoutAction term) {
     }
 
 
-public Object visitTimedinterruptAction(TimedinterruptAction term) {
+public Object visitTimedInterruptAction(TimedInterruptAction term) {
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusTimeToken.LCIRCTIME);
