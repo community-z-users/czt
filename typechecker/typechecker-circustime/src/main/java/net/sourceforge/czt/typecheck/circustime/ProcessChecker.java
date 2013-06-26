@@ -45,7 +45,10 @@ public class ProcessChecker extends
 	protected CircusCommunicationList typeCheckProcessTimeExpr(CircusProcess term, Expr expr) 
 	{
 		assert expr != null && term != null;
+		checkProcessParaScope(term, null);
 		typeCheckTimeExpr(term, expr);
+		// we want to fall back to the Circus process checker, which will catch
+		// this production as either Process1/2.
 		return term.accept(circusProcessChecker_);
 	}
 
