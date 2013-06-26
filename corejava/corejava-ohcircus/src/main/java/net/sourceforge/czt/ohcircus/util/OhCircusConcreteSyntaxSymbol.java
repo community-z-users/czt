@@ -34,13 +34,13 @@ public enum OhCircusConcreteSyntaxSymbol
   LOGICAL_QUALIFIER("logical qualifier"),
   INITIAL_STATE("initila keyword"),
 
-/* Class level paragraph */
+  /* Class level paragraph */
   OHCIRCUS_CLASS_PARA("OhCircus Class paragraph"),
 
-/* Method level paragraph */
+  /* Method level paragraph */
   METHOD_PARA("Method paragraph"),
 
-/* (Abstract) Method definitions */
+  /* (Abstract) Method definitions */
   OHCIRCUS_METHOD("Method definition"),                     // Method
   UNARY_METHOD("Unary method definition"),                // Method1
   BINARY_METHOD("Binary method definition"),              // Method2
@@ -52,7 +52,7 @@ public enum OhCircusConcreteSyntaxSymbol
   SEQ_METHOD("Sequential composition method"),
   MU_METHOD("Recursive Method"),
 
-/* Commands */
+  /* Commands */
   OHCIRCUS_COMMAND("OhCircus Command"),
   OHCIRCUS_IF_CMD("Guarded alternation - OhCircus if statement"),
   OHCIRCUS_DO_CMD("Guarded loop - OhCircus do statement"),

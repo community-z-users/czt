@@ -15,7 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.ohcircus.util;
 
@@ -28,40 +28,35 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * @author Petra Malik
  */
-public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor
-{
-  private String resourceName_ =
-    "net.sourceforge.czt.ohcircus.util.LongDescriptionResourceBundle";
+public class ConcreteSyntaxDescriptionVisitor extends
+		net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor {
+	private String resourceName_ = "net.sourceforge.czt.ohcircus.util.LongDescriptionResourceBundle";
 
-  private Visitor<OhCircusConcreteSyntaxSymbol> visitor_ =
-    new OhCircusConcreteSyntaxSymbolVisitor();
+	private Visitor<OhCircusConcreteSyntaxSymbol> visitor_ = new OhCircusConcreteSyntaxSymbolVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
-  {
-    setNameVisitor(new GetNameVisitor());
-  }
+	public ConcreteSyntaxDescriptionVisitor() {
+		setNameVisitor(new GetNameVisitor());
+	}
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
-		  								  String circusResourceName,                                
-		  								  String circustimeResourceName,
-                                          String ohcircusResourceName)
-  {
-    super(resourceName, circusResourceName, circustimeResourceName);
-    resourceName_ = ohcircusResourceName;
-    setNameVisitor(new GetNameVisitor());
- }
+	public ConcreteSyntaxDescriptionVisitor(String resourceName,
+			String circusResourceName, String circustimeResourceName,
+			String ohcircusResourceName) {
+		super(resourceName, circusResourceName, circustimeResourceName);
+		resourceName_ = ohcircusResourceName;
+		setNameVisitor(new GetNameVisitor());
+	}
 
-  public String visitTerm(Term term)
-  {
-    OhCircusConcreteSyntaxSymbol symbol = term.accept(visitor_);
-    if (symbol != null) {
-      String localized =
-        ResourceBundle.getBundle(resourceName_).getString(symbol.toString());
-      String name = term.accept(getNameVisitor());
-      if (name != null) return localized + " \"" + name + "\"";
-      else return localized;
-    }
-    return super.visitTerm(term);
-  }
+	public String visitTerm(Term term) {
+		OhCircusConcreteSyntaxSymbol symbol = term.accept(visitor_);
+		if (symbol != null) {
+			String localized = ResourceBundle.getBundle(resourceName_)
+					.getString(symbol.toString());
+			String name = term.accept(getNameVisitor());
+			if (name != null)
+				return localized + " \"" + name + "\"";
+			else
+				return localized;
+		}
+		return super.visitTerm(term);
+	}
 }

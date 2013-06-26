@@ -15,15 +15,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.ohcircus.util;
 
-
 /**
  * @author Leo Freitas
  */
-public class PrintVisitor
-  extends net.sourceforge.czt.z.util.PrintVisitor
- // implements any element you want to have toString capability for OhCircus
+public class PrintVisitor extends net.sourceforge.czt.z.util.PrintVisitor
+// implements any element you want to have toString capability for OhCircus
 
-  //implements OhCircusVisitor<String>
+// implements OhCircusVisitor<String>
 {
 
 }

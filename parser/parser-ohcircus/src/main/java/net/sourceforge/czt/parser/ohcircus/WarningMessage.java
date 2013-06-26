@@ -15,63 +15,56 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.czt.parser.ohcircus;
 
 /**
- *
+ * 
  * @author leo
  */
 public enum WarningMessage {
 
-  WRONG_NUMBER_FIELD_STROKES(
-    "Wrong number of fields in communication pattern." +
-      "\n\tChannel.: {0}" +
-      "\n\tExpected: {1}" +
-      "\n\tFound...: {2}" +
-      "\n\tSymbol..: {3}" +
-      "\n\tLocation: {4}",
-    "\n\tThe number of fields in a communication pattern is determined by the right scanning " +
-    "of tokens, and a mismatch has been found. That is, there are more ''?'', ''!'', or ''.'' " +
-    "than the number of expressions/variable names.");
-  
-  private final String message_;
-  private final String explanation_;
-  private boolean flagged_;
+	WRONG_NUMBER_FIELD_STROKES(
+			"Wrong number of fields in communication pattern."
+					+ "\n\tChannel.: {0}" + "\n\tExpected: {1}"
+					+ "\n\tFound...: {2}" + "\n\tSymbol..: {3}"
+					+ "\n\tLocation: {4}",
+			"\n\tThe number of fields in a communication pattern is determined by the right scanning "
+					+ "of tokens, and a mismatch has been found. That is, there are more ''?'', ''!'', or ''.'' "
+					+ "than the number of expressions/variable names.");
 
-  WarningMessage(String message)
-  {
-    this(message, null);
-  }
+	private final String message_;
+	private final String explanation_;
+	private boolean flagged_;
 
-  WarningMessage(String message, String explanation)
-  {    
-    message_ = message;
-    explanation_ = explanation;
-    flagged_ = false;
-  }
+	WarningMessage(String message) {
+		this(message, null);
+	}
 
-  String getMessage()
-  {
-    return message_;
-  }
+	WarningMessage(String message, String explanation) {
+		message_ = message;
+		explanation_ = explanation;
+		flagged_ = false;
+	}
 
-  String getExplanation()
-  {
-    String result = explanation_;
-    flagged_ = true;
-    return result;
-  }
-  
-  boolean alreadyFlagged()
-  {
-    return flagged_;
-  }
-  
-  String getFullMessage()
-  {
-    String result = getMessage();
-    if (!flagged_) result += getExplanation();
-    return result;
-  }
+	String getMessage() {
+		return message_;
+	}
+
+	String getExplanation() {
+		String result = explanation_;
+		flagged_ = true;
+		return result;
+	}
+
+	boolean alreadyFlagged() {
+		return flagged_;
+	}
+
+	String getFullMessage() {
+		String result = getMessage();
+		if (!flagged_)
+			result += getExplanation();
+		return result;
+	}
 }

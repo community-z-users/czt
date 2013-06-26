@@ -24,59 +24,42 @@ import net.sourceforge.czt.session.Source;
 /**
  * A parse error.
  */
-public class OhCircusParseError
-  extends CztErrorImpl
-{
-  private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.ohcircus.OhCircusParseResources";
-  
-  public static void report(SectionInfo sectInfo,
-                            Source source,
-                            ErrorType errorType,
-                            OhCircusParseMessage msg,
-                            Object[] params,
-                            LocInfo locInfo)
-  {
-    report(sectInfo, source, errorType, msg, params, locInfo, null);
-  }
+public class OhCircusParseError extends CztErrorImpl {
+	private static String RESOURCE_NAME = "net.sourceforge.czt.parser.ohcircus.OhCircusParseResources";
 
-  public static void report(SectionInfo sectInfo,
-                            Source source,
-                            ErrorType errorType,
-                            OhCircusParseMessage msg,
-                            Object[] params,
-                            LocInfo locInfo,
-                            String info)
-  {
-    OhCircusParseError error = new OhCircusParseError(sectInfo, msg, params, locInfo);
-    error.setErrorType(errorType);
-    error.setInfo(info);
-    if (error.hasSectionInfo())
-    {
-	    try {
-	      ParseException parseException = 
-	        error.getSectionInfo().get(new Key<ParseException>(source.getName(),
-	                             ParseException.class));
-	      List<CztError> errorList = parseException.getErrors();
-	      errorList.add(error);
-	    }
-	    catch (CommandException e) {
-	      e.printStackTrace();
-	    }
-    }
-  }
-  
-  public OhCircusParseError(SectionInfo si,
-		  				OhCircusParseMessage msg,
-                         Object[] params,
-                         LocInfo locInfo)
-  {
-    super(si, msg.toString(), params, locInfo);
-  }
+	public static void report(SectionInfo sectInfo, Source source,
+			ErrorType errorType, OhCircusParseMessage msg, Object[] params,
+			LocInfo locInfo) {
+		report(sectInfo, source, errorType, msg, params, locInfo, null);
+	}
 
-  @Override
-  protected ResourceBundle getResourceBundle()
-  {
-    return ResourceBundle.getBundle(RESOURCE_NAME);
-  }
+	public static void report(SectionInfo sectInfo, Source source,
+			ErrorType errorType, OhCircusParseMessage msg, Object[] params,
+			LocInfo locInfo, String info) {
+		OhCircusParseError error = new OhCircusParseError(sectInfo, msg,
+				params, locInfo);
+		error.setErrorType(errorType);
+		error.setInfo(info);
+		if (error.hasSectionInfo()) {
+			try {
+				ParseException parseException = error.getSectionInfo().get(
+						new Key<ParseException>(source.getName(),
+								ParseException.class));
+				List<CztError> errorList = parseException.getErrors();
+				errorList.add(error);
+			} catch (CommandException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public OhCircusParseError(SectionInfo si, OhCircusParseMessage msg,
+			Object[] params, LocInfo locInfo) {
+		super(si, msg.toString(), params, locInfo);
+	}
+
+	@Override
+	protected ResourceBundle getResourceBundle() {
+		return ResourceBundle.getBundle(RESOURCE_NAME);
+	}
 }

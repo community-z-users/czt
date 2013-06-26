@@ -15,7 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with czt); if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.parser.ohcircus;
 
@@ -24,44 +24,36 @@ import net.sourceforge.czt.parser.util.NewlineCategory;
 import net.sourceforge.czt.parser.util.Token;
 
 /**
- * These tokens are for the ContextFreeScanner that occurs before
- * decorwords are translated into keywords, so that the context
- * sensitive lexing can take place. TODO: review this list and
- * add CIRCUS box into here (which may solve the \begin{circus} 
- * problem with \begin{zed} within the scanners.
+ * These tokens are for the ContextFreeScanner that occurs before decorwords are
+ * translated into keywords, so that the context sensitive lexing can take
+ * place. TODO: review this list and add CIRCUS box into here (which may solve
+ * the \begin{circus} problem with \begin{zed} within the scanners.
  */
-public enum OhCircusToken  
-  implements Token
-{
-  	/* Support for OhCircus */
-	 OHCIRCUSMETHOD(OhCircusString.OHCIRCUSMETHOD, NewlineCategory.BOTH);
-    
-  private String spelling_;
-  private NewlineCategory newlineCategory_;
+public enum OhCircusToken implements Token {
+	/* Support for OhCircus */
+	OHCIRCUSMETHOD(OhCircusString.OHCIRCUSMETHOD, NewlineCategory.BOTH);
 
-  OhCircusToken(String spelling, NewlineCategory newlineCategory)
-  {
-    spelling_ = spelling;
-    newlineCategory_ = newlineCategory;
-  }
+	private String spelling_;
+	private NewlineCategory newlineCategory_;
 
-  public String getName()
-  {
-    return toString();
-  }
+	OhCircusToken(String spelling, NewlineCategory newlineCategory) {
+		spelling_ = spelling;
+		newlineCategory_ = newlineCategory;
+	}
 
-  public Object getSpelling()
-  {
-    return spelling_;
-  }
+	public String getName() {
+		return toString();
+	}
 
-  public String spelling()
-  {
-    return spelling_;
-  }
+	public Object getSpelling() {
+		return spelling_;
+	}
 
-  public NewlineCategory getNewlineCategory()
-  {
-    return newlineCategory_;
-  }
+	public String spelling() {
+		return spelling_;
+	}
+
+	public NewlineCategory getNewlineCategory() {
+		return newlineCategory_;
+	}
 }

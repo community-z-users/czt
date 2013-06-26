@@ -15,7 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.ohcircus.jaxb;
 
@@ -30,29 +30,24 @@ import net.sourceforge.czt.ohcircus.ast.OhCircusFactory;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
- *
+ * 
  * @author Petra Malik
  */
-public class JaxbXmlReader
-  extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
-{
-  public JaxbXmlReader(ZFactory zFactory,
-                       ZpattFactory zpattFactory,
-                       CircusFactory circusFactory,
-                       CircusPatternFactory circusPattFactory,
-                       CircusTimeFactory circusTimeFactory,
-                       OhCircusFactory ohcircusFactory)
-  {
-    super(new JaxbToAst(zFactory, zpattFactory, circusFactory, circusPattFactory, circusTimeFactory, ohcircusFactory));
-  }
+public class JaxbXmlReader extends net.sourceforge.czt.base.jaxb.JaxbXmlReader {
+	public JaxbXmlReader(ZFactory zFactory, ZpattFactory zpattFactory,
+			CircusFactory circusFactory,
+			CircusPatternFactory circusPattFactory,
+			CircusTimeFactory circusTimeFactory, OhCircusFactory ohcircusFactory) {
+		super(new JaxbToAst(zFactory, zpattFactory, circusFactory,
+				circusPattFactory, circusTimeFactory, ohcircusFactory));
+	}
 
-  public JaxbXmlReader()
-  {
-    super(new JaxbToAst());
-  }
-  
-  @Override
-  protected JAXBContext getContext() {
-    return JaxbXmlWriter.JAXB_CONTEXT;
-  }
+	public JaxbXmlReader() {
+		super(new JaxbToAst());
+	}
+
+	@Override
+	protected JAXBContext getContext() {
+		return JaxbXmlWriter.JAXB_CONTEXT;
+	}
 }

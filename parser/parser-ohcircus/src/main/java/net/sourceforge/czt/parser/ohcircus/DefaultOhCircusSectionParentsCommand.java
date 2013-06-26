@@ -5,36 +5,34 @@ import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.util.Section;
 import net.sourceforge.czt.parser.circustime.DefaultCircusTimeSectionParentsCommand;
 
-public class DefaultOhCircusSectionParentsCommand extends DefaultCircusTimeSectionParentsCommand {
-	  
-	private boolean isAnyOfOhCircusStandardToolkits(String sectName)
-	{
+public class DefaultOhCircusSectionParentsCommand extends
+		DefaultCircusTimeSectionParentsCommand {
+
+	private boolean isAnyOfOhCircusStandardToolkits(String sectName) {
 		return knownToolkits(Dialect.OHCIRCUS.toString()).contains(sectName);
 	}
-	
+
 	@Override
-	protected boolean doCalculateDefaultAnonymousParents(Set<String> result)
-	{
+	protected boolean doCalculateDefaultAnonymousParents(Set<String> result) {
 		boolean shouldStop = super.doCalculateDefaultAnonymousParents(result);
-		if (!shouldStop)
-		{
+		if (!shouldStop) {
 			result.add(Section.OHCIRCUS_TOOLKIT.getName());
 		}
 		return shouldStop;
 	}
-	
+
 	@Override
-	protected boolean doCalculateDefaultParents(String sectName, Set<String> result) {
-		// calculate the default parents for the given section name for Circus dialect
+	protected boolean doCalculateDefaultParents(String sectName,
+			Set<String> result) {
+		// calculate the default parents for the given section name for Circus
+		// dialect
 		boolean shouldStop = super.doCalculateDefaultParents(sectName, result);
-		
+
 		// if we should keep calculating defaults go ahead. stop otherwise
-		if (!shouldStop)
-		{
+		if (!shouldStop) {
 			// if not the OHCIRCUS_PRELUDE itself, add it as a default.
-			shouldStop = sectName.equals(Section.OHCIRCUS_PRELUDE.getName()); 
-			if (!shouldStop)
-			{
+			shouldStop = sectName.equals(Section.OHCIRCUS_PRELUDE.getName());
+			if (!shouldStop) {
 				result.add(Section.OHCIRCUS_PRELUDE.getName());
 			}
 		}

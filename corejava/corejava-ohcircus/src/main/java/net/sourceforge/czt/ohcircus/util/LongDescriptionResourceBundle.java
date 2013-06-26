@@ -15,38 +15,36 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.ohcircus.util;
 
 import java.util.ListResourceBundle;
 
-/** This resource bundle translates ConcreteSyntaxSymbol
- *  elements into long human-readable descriptions.
- *  The resulting strings (typically 20-40 characters long)
- *  can be displayed as a summary of the meaning of each Z construct.
- *
+/**
+ * This resource bundle translates ConcreteSyntaxSymbol elements into long
+ * human-readable descriptions. The resulting strings (typically 20-40
+ * characters long) can be displayed as a summary of the meaning of each Z
+ * construct.
+ * 
  * @author Petra Malik
  */
-public class LongDescriptionResourceBundle
-  extends ListResourceBundle
-{
-  private static final Object[][] CONTENTS = computeContents();
+public class LongDescriptionResourceBundle extends ListResourceBundle {
+	private static final Object[][] CONTENTS = computeContents();
 
-  private static Object[][] computeContents()
-  {
-    Object[][] result = new Object[OhCircusConcreteSyntaxSymbol.values().length][2];
-    int i = 0;
-    for (OhCircusConcreteSyntaxSymbol sym : OhCircusConcreteSyntaxSymbol.values()) {
-      result[i][0] = sym.toString();
-      result[i][1] = sym.getDescription();
-      i++;
-    }
-    return result;
-  }
+	private static Object[][] computeContents() {
+		Object[][] result = new Object[OhCircusConcreteSyntaxSymbol.values().length][2];
+		int i = 0;
+		for (OhCircusConcreteSyntaxSymbol sym : OhCircusConcreteSyntaxSymbol
+				.values()) {
+			result[i][0] = sym.toString();
+			result[i][1] = sym.getDescription();
+			i++;
+		}
+		return result;
+	}
 
-  public Object[][] getContents()
-  {
-    return CONTENTS;
-  }
+	public Object[][] getContents() {
+		return CONTENTS;
+	}
 }

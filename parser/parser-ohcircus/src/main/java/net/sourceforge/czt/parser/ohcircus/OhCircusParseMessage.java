@@ -9,52 +9,45 @@
 
 package net.sourceforge.czt.parser.ohcircus;
 
-
 public enum OhCircusParseMessage {
-  
-  MSG_NOT_IMPLEMENTED_OHCIRCUS("{0} feature not implemented yet."),
-  MSG_DUPLICATED_CLASS_STATE("Duplicated ({0}) state paragraph for class at ''{1}''."),
-  MSG_INVALID_CLASS_STATE_PARA("State paragraph is not a schema", "Basic class state must be either a horizontal or boxed schema, or a schema expression."),
-  
-  ;    
-  
-  private final String message_;
-  private final String explanation_;
-  private boolean flagged_;
 
-  OhCircusParseMessage(String message)
-  {
-    this(message, null);
-  }
+	MSG_NOT_IMPLEMENTED_OHCIRCUS("{0} feature not implemented yet."), 
+	MSG_DUPLICATED_CLASS_STATE("Duplicated ({0}) state paragraph for class at ''{1}''."), 
+	MSG_INVALID_CLASS_STATE_PARA("State paragraph is not a schema","Basic class state must be either a horizontal or boxed schema, or a schema expression."),
+	;
 
-  OhCircusParseMessage(String message, String explanation)
-  {    
-    message_ = message;
-    explanation_ = explanation;
-    flagged_ = false;
-  }
+	private final String message_;
+	private final String explanation_;
+	private boolean flagged_;
 
-  String getMessage()
-  {
-    return message_;
-  }
+	OhCircusParseMessage(String message) {
+		this(message, null);
+	}
 
-  String getExplanation()
-  {
-    String result = explanation_;
-    flagged_ = true;
-    return result;
-  }
-  
-  boolean alreadyFlagged()
-  {
-    return flagged_;
-  }
-  
-  String getFullMessage()
-  {
-    String result = getMessage();
-    if (!flagged_) result += getExplanation();
-    return result;
-  }  
+	OhCircusParseMessage(String message, String explanation) {
+		message_ = message;
+		explanation_ = explanation;
+		flagged_ = false;
+	}
+
+	String getMessage() {
+		return message_;
+	}
+
+	String getExplanation() {
+		String result = explanation_;
+		flagged_ = true;
+		return result;
+	}
+
+	boolean alreadyFlagged() {
+		return flagged_;
+	}
+
+	String getFullMessage() {
+		String result = getMessage();
+		if (!flagged_)
+			result += getExplanation();
+		return result;
+	}
 }

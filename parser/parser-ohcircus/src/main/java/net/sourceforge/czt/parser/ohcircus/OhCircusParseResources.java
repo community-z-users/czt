@@ -11,24 +11,21 @@ package net.sourceforge.czt.parser.ohcircus;
 
 import java.util.ListResourceBundle;
 
-public class OhCircusParseResources extends ListResourceBundle
-{
-  private static final Object[][] contents_ = computeContents();
+public class OhCircusParseResources extends ListResourceBundle {
+	private static final Object[][] contents_ = computeContents();
 
-  private static Object[][] computeContents()
-  {
-    Object[][] result = new Object[OhCircusParseMessage.values().length][2];
-    int i = 0;
-    for (OhCircusParseMessage msg : OhCircusParseMessage.values()) {
-      result[i][0] = msg.toString();
-      result[i][1] = msg.getFullMessage();
-      i++;
-    }
-    return result;
-  }
+	private static Object[][] computeContents() {
+		Object[][] result = new Object[OhCircusParseMessage.values().length][2];
+		int i = 0;
+		for (OhCircusParseMessage msg : OhCircusParseMessage.values()) {
+			result[i][0] = msg.toString();
+			result[i][1] = msg.getFullMessage();
+			i++;
+		}
+		return result;
+	}
 
-  public Object[][] getContents()
-  {
-    return contents_;
-  }
+	public Object[][] getContents() {
+		return contents_;
+	}
 }

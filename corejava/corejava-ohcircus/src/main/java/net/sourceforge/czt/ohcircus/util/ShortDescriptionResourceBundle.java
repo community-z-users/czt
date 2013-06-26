@@ -15,40 +15,37 @@
   You should have received a copy of the GNU General Public License
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.ohcircus.util;
 
 import java.util.ListResourceBundle;
 
-/** This resource bundle translates {@link CircusConcreteSyntaxSymbol}
- *  elements into short descriptions.
- *  Currently, the resulting string (typically 4-14 characters long)
- *  is simply the name of the CircusConcreteSyntaxSymbol itself.
- *  This can be used as a very short summary of the AST node,
- *  for example, in an outline editor in JEdit or Eclipse.
- *
+/**
+ * This resource bundle translates {@link CircusConcreteSyntaxSymbol} elements
+ * into short descriptions. Currently, the resulting string (typically 4-14
+ * characters long) is simply the name of the CircusConcreteSyntaxSymbol itself.
+ * This can be used as a very short summary of the AST node, for example, in an
+ * outline editor in JEdit or Eclipse.
+ * 
  * @author Petra Malik
  */
-public class ShortDescriptionResourceBundle
-  extends ListResourceBundle
-{
-  private static final Object[][] CONTENTS = computeContents();
+public class ShortDescriptionResourceBundle extends ListResourceBundle {
+	private static final Object[][] CONTENTS = computeContents();
 
-  private static Object[][] computeContents()
-  {
-    Object[][] result = new Object[OhCircusConcreteSyntaxSymbol.values().length][2];
-    int i = 0;
-    for (OhCircusConcreteSyntaxSymbol sym : OhCircusConcreteSyntaxSymbol.values()) {
-      result[i][0] = sym.toString();
-      result[i][1] = sym.toString();
-      i++;
-    }
-    return result;
-  }
+	private static Object[][] computeContents() {
+		Object[][] result = new Object[OhCircusConcreteSyntaxSymbol.values().length][2];
+		int i = 0;
+		for (OhCircusConcreteSyntaxSymbol sym : OhCircusConcreteSyntaxSymbol
+				.values()) {
+			result[i][0] = sym.toString();
+			result[i][1] = sym.toString();
+			i++;
+		}
+		return result;
+	}
 
-  public Object[][] getContents()
-  {
-    return CONTENTS;
-  }
+	public Object[][] getContents() {
+		return CONTENTS;
+	}
 }
