@@ -185,7 +185,7 @@
 
 
   
-  <xs:element name="TimedinterruptProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
+  <xs:element name="TimedInterruptProcess" type="CT:ProcessTime2" substitutionGroup="CT:ProcessTime2">
     <xs:annotation>
       <xs:documentation>
         Timed Interrupt process of the Circus Time.
@@ -305,7 +305,7 @@
   </xs:element>
   
   
-  <xs:element name="TimedinterruptAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
+  <xs:element name="TimedInterruptAction" type="CT:ActionTime2" substitutionGroup="CT:ActionTime2">
     <xs:annotation>
       <xs:documentation>
         Timed Interrupt action.
@@ -314,7 +314,7 @@
   </xs:element>
   
   
-  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CIRCUS:PrefixingAction">
+  <xs:element name="PrefixingTimeAction" type="CT:PrefixingTimeAction" substitutionGroup="CT:ActionTime1">
     <xs:annotation>
       <xs:documentation>
 		 <p>
@@ -342,17 +342,23 @@
 
   <xs:complexType name="PrefixingTimeAction">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:PrefixingAction">
+      <xs:extension base="CT:ActionTime1">
         <xs:sequence>
+          <xs:element ref="CIRCUS:Communication">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ChannelElapsedTime"
+                <jaxb:property name="ChannelElapsedTimeDeclName"
                                generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
