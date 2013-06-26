@@ -20,8 +20,8 @@ import net.sourceforge.czt.circustime.ast.TimeEndByAction;
 import net.sourceforge.czt.circustime.ast.TimeEndByProcess;
 import net.sourceforge.czt.circustime.ast.TimeStartByAction;
 import net.sourceforge.czt.circustime.ast.TimeStartByProcess;
-import net.sourceforge.czt.circustime.ast.TimedinterruptAction;
-import net.sourceforge.czt.circustime.ast.TimedinterruptProcess;
+import net.sourceforge.czt.circustime.ast.TimedInterruptAction;
+import net.sourceforge.czt.circustime.ast.TimedInterruptProcess;
 import net.sourceforge.czt.circustime.ast.TimeoutAction;
 import net.sourceforge.czt.circustime.ast.TimeoutProcess;
 import net.sourceforge.czt.circustime.ast.WaitAction;
@@ -59,7 +59,7 @@ public class PrintVisitor
 	}
 
 	@Override
-	public String visitTimedinterruptProcess(TimedinterruptProcess term) {
+	public String visitTimedInterruptProcess(TimedInterruptProcess term) {
 		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getLeftProcess()));
@@ -82,7 +82,7 @@ public class PrintVisitor
 	}
 	
 	@Override
-	public String visitTimedinterruptAction(TimedinterruptAction term) {
+	public String visitTimedInterruptAction(TimedInterruptAction term) {
 		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getLeftAction()));
@@ -153,7 +153,7 @@ public class PrintVisitor
 		result.append("(");
 		result.append(visit(term.getCommunication()));
 		result.append(" @ ");
-		result.append(term.getChannelElapsedTime());
+		result.append(term.getChannelElapsedTimeDeclName());
 		result.append("->");
 		result.append(visit(term.getExpr()));
 		result.append(visit(term.getCircusAction()));

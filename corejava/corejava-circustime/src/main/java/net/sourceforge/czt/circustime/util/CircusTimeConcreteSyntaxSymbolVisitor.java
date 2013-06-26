@@ -46,7 +46,7 @@ public CircusTimeConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process
   }
 
 
- public CircusTimeConcreteSyntaxSymbol visitTimedinterruptProcess(TimedinterruptProcess process) {
+ public CircusTimeConcreteSyntaxSymbol visitTimedInterruptProcess(TimedInterruptProcess process) {
     return CircusTimeConcreteSyntaxSymbol.TIMEDINTERRUPT_PROCESS;
   }
 
@@ -67,7 +67,7 @@ public CircusTimeConcreteSyntaxSymbol visitTimeoutProcess(TimeoutProcess process
   }
 
 
- public CircusTimeConcreteSyntaxSymbol visitTimedinterruptAction(TimedinterruptAction action) {
+ public CircusTimeConcreteSyntaxSymbol visitTimedInterruptAction(TimedInterruptAction action) {
     return CircusTimeConcreteSyntaxSymbol.TIMEDINTERRUPT_ACTION;
   }
 
