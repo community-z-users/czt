@@ -223,9 +223,8 @@ public class TypeCheckUtils
                                                 String sectName)
   {
 	ZFactory zFactory = new ZFactoryImpl();
-	CircusFactory circusFactory = new CircusFactoryImpl();
     CircusTimeFactory circustimeFactory = new CircusTimeFactoryImpl();    
-    Factory factory = new Factory(zFactory, circusFactory, circustimeFactory);
+    Factory factory = new Factory(zFactory, circustimeFactory);
     TypeChecker typeChecker = new TypeChecker(factory,sectInfo, recursiveTypes, sortDeclNames);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.setUseNameIds(useNameIds);
