@@ -37,177 +37,206 @@ import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeKeyword;
 import net.sourceforge.czt.parser.circustime.CircusTimeToken;
 import net.sourceforge.czt.parser.z.ZKeyword;
+import net.sourceforge.czt.parser.z.ZToken;
 import net.sourceforge.czt.print.z.ZPrinter;
 import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.z.ast.ParenAnn;
 import net.sourceforge.czt.z.util.WarningManager;
 
 /**
  * An Circus visitor used for printing.
- *
+ * 
  * @author Petra Malik, Leo Freitas
  */
-public class CircusTimePrintVisitor
-    extends net.sourceforge.czt.print.circus.CircusPrintVisitor
-    implements CircusTimeVisitor<Object> {
-    
-    public CircusTimePrintVisitor(SectionInfo si, ZPrinter printer, WarningManager wm) {
-        super(si, printer, wm);        
-    }
-    
-    public CircusTimePrintVisitor(SectionInfo si, ZPrinter printer, Properties properties, WarningManager wm) {
-        super(si, printer, properties, wm);
-    }    
-      
-  /* Support for Circus Time : Process */
+public class CircusTimePrintVisitor extends
+		net.sourceforge.czt.print.circus.CircusPrintVisitor implements
+		CircusTimeVisitor<Object> {
 
-  public Object visitTimeEndByProcess(TimeEndByProcess term) {
-        printLPAREN(term);
-        	// TODO: AstToPrintTreeVisitor needs to add the ParenAnn to the places where 
-        	//		 precendences are to observed, such that x+y*z doesn't get to be x+(y*z).
-        	//
-        	//		 Note these rules for Circus also need adjusting. Follow what's done in Z.
-        visit(term.getCircusProcess());
-        print(CircusTimeKeyword.CIRCENDBY);
-        print(CircusTimeToken.LCIRCTIME);        
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);        
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitTimeStartByProcess(TimeStartByProcess term) {
-        printLPAREN(term);
-        print(CircusTimeToken.LCIRCTIME);        
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);        
-        print(CircusTimeKeyword.CIRCSTARTBY);
-        visit(term.getCircusProcess());
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitTimeoutProcess(TimeoutProcess term) {
-        printLPAREN(term);
-        visit(term.getLeftProcess());
-        print(CircusTimeKeyword.CIRCTIMEOUT);
-        print(CircusTimeToken.LCIRCTIME);        
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);        
-        visit(term.getRightProcess());
-        printRPAREN(term);
-        return null;
-    }
-
-
-public Object visitTimedInterruptProcess(TimedInterruptProcess term) {
-        printLPAREN(term);
-        visit(term.getLeftProcess());
-        print(CircusTimeToken.LCIRCTIME);        
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);        
-        visit(term.getRightProcess());
-        printRPAREN(term);
-        return null;
-    }
-
-
-
- /* Support for Circus Time : Action */
-
-  public Object visitTimeEndByAction(TimeEndByAction term) {
-        printLPAREN(term);
-        visit(term.getCircusAction());
-        print(CircusTimeKeyword.CIRCENDBY);
-        print(CircusTimeToken.LCIRCTIME); 
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME); 
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitTimeStartByAction(TimeStartByAction term) {
-        printLPAREN(term);
-        print(CircusTimeToken.LCIRCTIME);
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);
-        print(CircusTimeKeyword.CIRCSTARTBY);
-        visit(term.getCircusAction());
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitTimeoutAction(TimeoutAction term) {
-        printLPAREN(term);
-        visit(term.getLeftAction());
-        print(CircusTimeKeyword.CIRCTIMEOUT);
-        print(CircusTimeToken.LCIRCTIME);
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);
-        visit(term.getRightAction());
-        printRPAREN(term);
-        return null;
-    }
-
-
-public Object visitTimedInterruptAction(TimedInterruptAction term) {
-        printLPAREN(term);
-        visit(term.getLeftAction());
-        print(CircusTimeToken.LCIRCTIME);
-        visit(term.getExpr());
-        print(CircusTimeToken.RCIRCTIME);
-        visit(term.getRightAction());
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitWaitAction(WaitAction term) {
-    printLPAREN(term);
-    print(CircusTimeKeyword.CIRCWAIT);
-    visit(term.getExpr());
-    printRPAREN(term);
-    return null;
-}
-
-public Object visitWaitExprAction(WaitExprAction term) {
-        printLPAREN(term);
-        print(CircusTimeKeyword.CIRCWAIT);
-        visit(term.getName());
-        print(ZKeyword.COLON);
-        visit(term.getExpr());
-        print(CircusKeyword.CIRCSPOT);
-        visit(term.getCircusAction());
-        printRPAREN(term);
-        return null;
-    }
-
-public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
-        printLPAREN(term);
-        visit(term.getCommunication());
-	if(term.isAtPrefixingAction())
-	{
-			print(CircusTimeKeyword.ATTIME);
-	        print(CircusKeyword.PREFIXTHEN);       
-	        visit(term.getCircusAction());
+	public CircusTimePrintVisitor(SectionInfo si, ZPrinter printer,
+			WarningManager wm) {
+		super(si, printer, wm);
 	}
-	else if (term.isPrefixingExprAction())
-	{
+
+	public CircusTimePrintVisitor(SectionInfo si, ZPrinter printer,
+			Properties properties, WarningManager wm) {
+		super(si, printer, properties, wm);
+	}
+
+	/* Support for Circus Time : Process */
+
+	// TODO: AstToPrintTreeVisitor needs to add the ParenAnn to the places where
+	// precendences are to observed, such that x+y*z doesn't get to be x+(y*z).
+	//
+	// Note these rules for Circus also need adjusting. Follow what's done in Z.
+
+	public Object visitTimeEndByProcess(TimeEndByProcess term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getCircusProcess());
+		print(CircusTimeKeyword.CIRCENDBY);
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitTimeStartByProcess(TimeStartByProcess term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		print(CircusTimeKeyword.CIRCSTARTBY);
+		visit(term.getCircusProcess());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitTimeoutProcess(TimeoutProcess term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getLeftProcess());
+		print(CircusTimeKeyword.CIRCTIMEOUT);
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		visit(term.getRightProcess());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitTimedInterruptProcess(TimedInterruptProcess term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getLeftProcess());
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		visit(term.getRightProcess());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	/* Support for Circus Time : Action */
+
+	public Object visitTimeEndByAction(TimeEndByAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getCircusAction());
+		print(CircusTimeKeyword.CIRCENDBY);
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitTimeStartByAction(TimeStartByAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		print(CircusTimeKeyword.CIRCSTARTBY);
+		visit(term.getCircusAction());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitTimeoutAction(TimeoutAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getLeftAction());
+		print(CircusTimeKeyword.CIRCTIMEOUT);
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		visit(term.getRightAction());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitTimedInterruptAction(TimedInterruptAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getLeftAction());
+		print(CircusTimeToken.LCIRCTIME);
+		visit(term.getExpr());
+		print(CircusTimeToken.RCIRCTIME);
+		visit(term.getRightAction());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitWaitAction(WaitAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		print(CircusTimeKeyword.CIRCWAIT);
+		visit(term.getExpr());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitWaitExprAction(WaitExprAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		print(CircusTimeKeyword.CIRCWAIT);
+		visit(term.getName());
+		print(ZKeyword.COLON);
+		visit(term.getExpr());
+		print(CircusKeyword.CIRCSPOT);
+		visit(term.getCircusAction());
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
+	}
+
+	public Object visitPrefixingTimeAction(PrefixingTimeAction term) {
+		final boolean braces = term.getAnn(ParenAnn.class) != null;
+		if (braces)
+			print(ZToken.LPAREN);
+		visit(term.getCommunication());
+		if (term.isAtPrefixingAction()) {
+			print(CircusTimeKeyword.ATTIME);
 			print(CircusKeyword.PREFIXTHEN);
-	        print(CircusTimeToken.LCIRCTIME);
-	        visit(term.getExpr());
-        	print(CircusTimeToken.RCIRCTIME);       
-        	visit(term.getCircusAction());
-	}
-	else if (term.isAtPrefixingExprAction())
-	{	
+			visit(term.getCircusAction());
+		} else if (term.isPrefixingExprAction()) {
+			print(CircusKeyword.PREFIXTHEN);
+			print(CircusTimeToken.LCIRCTIME);
+			visit(term.getExpr());
+			print(CircusTimeToken.RCIRCTIME);
+			visit(term.getCircusAction());
+		} else if (term.isAtPrefixingExprAction()) {
 			print(CircusTimeKeyword.ATTIME);
-	        print(CircusKeyword.PREFIXTHEN);
-	        print(CircusTimeToken.LCIRCTIME);
-	        visit(term.getExpr());
-	        print(CircusTimeToken.RCIRCTIME);       
-	        visit(term.getCircusAction());
+			print(CircusKeyword.PREFIXTHEN);
+			print(CircusTimeToken.LCIRCTIME);
+			visit(term.getExpr());
+			print(CircusTimeToken.RCIRCTIME);
+			visit(term.getCircusAction());
+		}
+		if (braces)
+			print(ZToken.RPAREN);
+		return null;
 	}
-	printRPAREN(term);
-	return null;
-    }
 
 }
