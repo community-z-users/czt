@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.circus.ast.CircusFactory;
+import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.circustime.ast.CircusTimeFactory;
 import net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl;
 import net.sourceforge.czt.parser.circus.WarningManager;

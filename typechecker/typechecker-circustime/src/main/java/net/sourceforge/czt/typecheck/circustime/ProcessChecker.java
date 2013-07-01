@@ -18,32 +18,40 @@
  */
 package net.sourceforge.czt.typecheck.circustime;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circustime.ast.ProcessTime1;
 import net.sourceforge.czt.circustime.ast.ProcessTime2;
 import net.sourceforge.czt.circustime.visitor.ProcessTime1Visitor;
 import net.sourceforge.czt.circustime.visitor.ProcessTime2Visitor;
+import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
 
-public class ProcessChecker extends
-		Checker<CircusCommunicationList> implements
+public class ProcessChecker extends Checker<CircusCommunicationList> implements
 		ProcessTime2Visitor<CircusCommunicationList>,
 		ProcessTime1Visitor<CircusCommunicationList> {
-	
-	
-    //a Circus process checker
+
+	// a Circus process checker
 	protected net.sourceforge.czt.typecheck.circus.ProcessChecker circusProcessChecker_;
 
-
-	public ProcessChecker(TypeChecker typeChecker) 
-	{
+	public ProcessChecker(TypeChecker typeChecker) {
 		super(typeChecker);
-		circusProcessChecker_ = new net.sourceforge.czt.typecheck.circus.ProcessChecker(typeChecker);
+		circusProcessChecker_ = new net.sourceforge.czt.typecheck.circus.ProcessChecker(
+				typeChecker);
 	}
-	
-	protected CircusCommunicationList typeCheckProcessTimeExpr(CircusProcess term, Expr expr) 
-	{
+
+	/**
+	 * For all other Process terms, use the standard Circus typechecking rules
+	 * within the checking environment for CircusTime.
+	 */
+
+	public CircusCommunicationList visitTerm(Term term) {
+		return term.accept(circusProcessChecker_);
+	}
+
+	protected CircusCommunicationList typeCheckProcessTimeExpr(
+			CircusProcess term, Expr expr) {
 		assert expr != null && term != null;
 		checkProcessParaScope(term, null);
 		typeCheckTimeExpr(term, expr);
