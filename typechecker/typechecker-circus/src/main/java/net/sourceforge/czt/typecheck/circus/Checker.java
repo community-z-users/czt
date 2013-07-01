@@ -176,12 +176,29 @@ public abstract class Checker<R>
     return getCircusTypeChecker().shouldCreateLetMu_;
   }
 
+  
+  protected boolean processedState_;
+  private ProcessSignature basicProcessSig_;
+
+  protected ProcessSignature getCurrentBasicProcesssignature()
+  {
+    return basicProcessSig_;
+  }
+  
+  
+  protected ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
+  {
+    ProcessSignature old = basicProcessSig_;
+    basicProcessSig_ = sig;
+    processedState_ = false;
+    return old;
+  }
   /***********************************************************************
    * Checker accessors per syntactic category
    **********************************************************************/
-  protected ProcessChecker processChecker()
+  protected Checker<CircusCommunicationList> processChecker()
   {
-    return (ProcessChecker)getCircusTypeChecker().processChecker_;
+    return getCircusTypeChecker().processChecker_;
   }
 
   protected Checker<Signature> processParaChecker()
@@ -189,9 +206,9 @@ public abstract class Checker<R>
     return getCircusTypeChecker().processParaChecker_;
   }
 
-  protected BasicProcessChecker basicProcessChecker()
+  protected Checker<CircusCommunicationList> basicProcessChecker()
   {
-    return (BasicProcessChecker)getCircusTypeChecker().basicProcessChecker_;
+    return getCircusTypeChecker().basicProcessChecker_;
   }
   
   protected Checker<CircusCommunicationList> actionChecker()
@@ -458,6 +475,27 @@ public abstract class Checker<R>
 	}
 	return checkProcessParaScope(term, name);
   }
+  
+  private ProcessSignature processSig_;
+  
+  protected void checkProcessSignature(Object term)
+  {
+    assert processSig_ != null : "null process signature whilst visiting " + (term != null ? term.getClass().getSimpleName() : "null");
+  }
+  
+  protected ProcessSignature getCurrentProcessSignature()
+  {
+    checkProcessSignature(null);
+    return processSig_;
+  }
+  
+  protected ProcessSignature setCurrentProcessSignature(ProcessSignature sig)
+  {
+    ProcessSignature old = processSig_;
+    processSig_ = sig;
+    return old;
+  }
+  
   
   protected boolean checkProcessParaScope(Term term, Name name)
   {
@@ -2991,7 +3029,7 @@ public abstract class Checker<R>
 	  return commList;
   }
   
-  protected void adjustPrefixActionSignature(List<NameTypePair> inputVars, Communication comm, CircusCommunicationList commList)
+	protected void adjustPrefixActionSignature(List<NameTypePair> inputVars, Communication comm, CircusCommunicationList commList)
   {
 	  checkActionSignature(comm);
 	  
@@ -3037,4 +3075,5 @@ public abstract class Checker<R>
       
       return commList;
   }
+  
 }
