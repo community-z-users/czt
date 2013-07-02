@@ -67,21 +67,38 @@ public class CircusTimeSymMap
   
   private static Set<String> getCircusTimeSymbolNamesOnly()
   {
-  // get all symbol tables for Circustime, Circus and Z
+    // get both symbol tables for Circus Time, Circus and Z
     Set<String> result = new TreeSet<String>(getMap().keySet());    
-    Map<String,Integer> circustimeSymbols = new TreeMap<String,Integer>(net.sourceforge.czt.parser.circustime.SymMap.getMap());
-    // remove Circustime elements
-    circustimeSymbols.values().remove(Sym.CIRCSTARTBY);
-    circustimeSymbols.values().remove(Sym.CIRCENDBY);
-    circustimeSymbols.values().remove(Sym.CIRCTIMEDINTERRUPT);
-    circustimeSymbols.values().remove(Sym.CIRCTIMEOUT);
-    circustimeSymbols.values().remove(Sym.CIRCWAIT);
-    circustimeSymbols.values().remove(Sym.LCIRCTIME);
-    circustimeSymbols.values().remove(Sym.RCIRCTIME);    
-    result.removeAll(circustimeSymbols.keySet());    
-
+    Map<String,Integer> zSymbols = new TreeMap<String,Integer>(net.sourceforge.czt.parser.z.SymMap.getMap());    
+    Map<String,Integer> circusSymbols = new TreeMap<String,Integer>(net.sourceforge.czt.parser.circus.SymMap.getMap());    
+    
+    // ignore shared Z symbols (i.e. Circus get priority) ANDALSO and ZCOMP from Z
+    zSymbols.values().remove(Sym.ANDALSO);
+    zSymbols.values().remove(Sym.ZCOMP);
+        
+    // remove all Z elements, but those reused for REPSEQ (ZCOMP) and CIRCGUARD (ANDASLO) :-(
+    result.removeAll(zSymbols.keySet());
+    
+    result.removeAll(circusSymbols.keySet());
+    
     // return the symbol names.
     return Collections.unmodifiableSet(result);
+
+  // get all symbol tables for Circustime, Circus and Z
+//    Set<String> result = new TreeSet<String>(getMap().keySet());    
+//    Map<String,Integer> circustimeSymbols = new TreeMap<String,Integer>(net.sourceforge.czt.parser.circustime.SymMap.getMap());
+//    // remove Circustime elements
+//    circustimeSymbols.values().remove(Sym.CIRCSTARTBY);
+//    circustimeSymbols.values().remove(Sym.CIRCENDBY);
+//    circustimeSymbols.values().remove(Sym.CIRCTIMEDINTERRUPT);
+//    circustimeSymbols.values().remove(Sym.CIRCTIMEOUT);
+//    circustimeSymbols.values().remove(Sym.CIRCWAIT);
+//    circustimeSymbols.values().remove(Sym.LCIRCTIME);
+//    circustimeSymbols.values().remove(Sym.RCIRCTIME);    
+//    result.removeAll(circustimeSymbols.keySet());    
+//
+//    // return the symbol names.
+//    return Collections.unmodifiableSet(result);
   }
 }
 

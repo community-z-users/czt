@@ -989,17 +989,19 @@ class <class/> extends CztScannerImpl
     // while finding non Circus symbols, then carry on looking ahead    
     // and also, in case of a quite messy spec that reaches EOF too early
     //
-    // PREFIXCOLON is a special case: we still need to look forward
+    // PREFIXCOLON is a circus special case: we still need to look forward up to next Circus symbol (usually PREFIXTHEN)
+    <add:circustime>
+    // ATTIME is a circus time special and it appears _after_ PREFIXCOLON: we still need to look forward up to next Circus 
+    //		or CircusTime symbol (usually PREFIXTHEN)
+    </add:circustime>
     while (currsym.sym == Sym.PREFIXCOLON || 
+    		<add:circustime>currsym.sym == Sym.ATTIME || </add:circustime>
+           
            (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
-           currsym.sym != Sym.EOF) 
+           currsym.sym != Sym.EOF 
            <add:circustime>
-           // TODO: This is almost there but not quite right because CIRCUS_ONLY symbols
-           //		need to be completely filtered from CIRCUSTIME symbols and because
-           //		we need to mix CIRCUS (PREFIXCOLON, PREFIXTHEN) and CIRCUSTIME (ATTIME)
-           //		symbols in our filtering of what's to be done.
            &amp;&amp; !CIRCUSTIME_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) 
-           </add:circustime> )
+           </add:circustime> ))
     {    
       currsym = dumb_.pop();
       tokens.addLast(currsym);
