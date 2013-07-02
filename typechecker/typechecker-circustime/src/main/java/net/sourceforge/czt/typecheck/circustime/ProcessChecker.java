@@ -20,6 +20,7 @@ package net.sourceforge.czt.typecheck.circustime;
 
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
 import net.sourceforge.czt.circus.ast.CircusProcess;
+import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circustime.ast.ProcessTime1;
 import net.sourceforge.czt.circustime.ast.ProcessTime2;
 import net.sourceforge.czt.circustime.visitor.ProcessTime1Visitor;
@@ -61,4 +62,22 @@ public class ProcessChecker extends
 	public CircusCommunicationList visitProcessTime2(ProcessTime2 term) {
 		return typeCheckProcessTimeExpr(term, term.getExpr());
 	}
+	
+  @Override
+  public ProcessSignature setCurrentProcessSignature(ProcessSignature sig)
+  {
+	 return circusProcessChecker_.setCurrentProcessSignature(sig);
+  }
+  
+  @Override
+  public ProcessSignature getCurrentProcessSignature()
+  {
+	 return circusProcessChecker_.getCurrentProcessSignature();
+  }
+  
+  @Override
+  public void checkProcessSignature(Object term)
+  {
+	  circusProcessChecker_.checkProcessSignature(term);
+  }
 }

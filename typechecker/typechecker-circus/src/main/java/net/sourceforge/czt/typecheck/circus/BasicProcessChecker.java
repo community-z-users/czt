@@ -74,7 +74,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
    * has already been processed or not.
    * @param sig
    */
-  protected ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
+  public ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
   {
     ProcessSignature old = basicProcessSig_;
     basicProcessSig_ = sig;
@@ -82,7 +82,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     return old;
   }
   
-  protected ProcessSignature getCurrentBasicProcesssignature()
+  public ProcessSignature getCurrentBasicProcesssignature()
   {
     return basicProcessSig_;
   }

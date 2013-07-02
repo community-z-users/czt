@@ -179,21 +179,24 @@ public abstract class Checker<R>
   /***********************************************************************
    * Checker accessors per syntactic category
    **********************************************************************/
-  protected ProcessChecker processChecker()
+  
+  // NOTE: do not cast any of these to specific checkers as it will compromise
+  //	   the implicit multiple inheritance we achieve with the typechecker patterns.
+  protected Checker<CircusCommunicationList> processChecker()
   {
-    return (ProcessChecker)getCircusTypeChecker().processChecker_;
+    return getCircusTypeChecker().processChecker_;
   }
-
+  
+  protected Checker<CircusCommunicationList> basicProcessChecker()
+  {
+    return getCircusTypeChecker().basicProcessChecker_;
+  }
+  
   protected Checker<Signature> processParaChecker()
   {
     return getCircusTypeChecker().processParaChecker_;
   }
 
-  protected BasicProcessChecker basicProcessChecker()
-  {
-    return (BasicProcessChecker)getCircusTypeChecker().basicProcessChecker_;
-  }
-  
   protected Checker<CircusCommunicationList> actionChecker()
   {
     return getCircusTypeChecker().actionChecker_;
@@ -219,6 +222,49 @@ public abstract class Checker<R>
     return getCircusTypeChecker().warningManager_;
   }
   
+  protected Checker<Signature> signatureChecker()
+  {
+    return getCircusTypeChecker().signatureChecker_;
+  }  
+  // TODO
+////  protected Checker<Boolean> channelDeclChecker()
+////  {
+////    return typeChecker_.channelDeclChecker_;
+////  }
+////  
+////  protected Checker<NameList> channelsUsedChecker()
+////  {
+////    return typeChecker_.channelsUsedChecker_;
+////  }
+  
+  // NOTE: extending classes can make the proper implementation (i.e. CircusTime ProcessChecker)
+  // ProcessChecker methods
+  public ProcessSignature setCurrentProcessSignature(ProcessSignature sig)
+  {
+	 throw new UnsupportedOperationException();
+  }
+  
+  public ProcessSignature getCurrentProcessSignature()
+  {
+	 throw new UnsupportedOperationException();
+  }
+  
+  public void checkProcessSignature(Object term)
+  {
+	 throw new UnsupportedOperationException();
+  }
+  
+  // BasicProcessChecker methods
+  public ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
+  {
+	 throw new UnsupportedOperationException();
+  }
+  
+  public ProcessSignature getCurrentBasicProcesssignature()
+  {
+	 throw new UnsupportedOperationException();
+  }
+
   @Override
   protected void setMarkup(Markup markup)
   {
@@ -233,21 +279,6 @@ public abstract class Checker<R>
     warningManager().setCurrentSectName(sectName);
   }
   
-  // TODO
-  protected Checker<Signature> signatureChecker()
-  {
-    return getCircusTypeChecker().signatureChecker_;
-  }  
-//  protected Checker<Boolean> channelDeclChecker()
-//  {
-//    return typeChecker_.channelDeclChecker_;
-//  }
-//  
-//  protected Checker<NameList> channelsUsedChecker()
-//  {
-//    return typeChecker_.channelsUsedChecker_;
-//  }
-
 //  /** 
 //   * General method that checks whether the given name is typed with
 //   * the expected type Type class. If the type info stack does not have

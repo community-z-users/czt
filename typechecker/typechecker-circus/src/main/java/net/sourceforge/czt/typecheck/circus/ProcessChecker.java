@@ -109,20 +109,20 @@ public class ProcessChecker extends Checker<CircusCommunicationList>
     setCurrentProcessSignature(null);
   }
 
-  protected ProcessSignature getCurrentProcessSignature()
+  public ProcessSignature getCurrentProcessSignature()
   {
     checkProcessSignature(null);
     return processSig_;
   }
   
-  protected ProcessSignature setCurrentProcessSignature(ProcessSignature sig)
+  public ProcessSignature setCurrentProcessSignature(ProcessSignature sig)
   {
     ProcessSignature old = processSig_;
     processSig_ = sig;
     return old;
   }
   
-  protected void checkProcessSignature(Object term)
+  public void checkProcessSignature(Object term)
   {
     assert processSig_ != null : "null process signature whilst visiting " + (term != null ? term.getClass().getSimpleName() : "null");
   }
