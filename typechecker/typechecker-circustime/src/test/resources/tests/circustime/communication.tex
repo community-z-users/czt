@@ -1,0 +1,18 @@
+\begin{zsection}
+   \SECTION communication \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c1, c2, c3: \boolean
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+    	\t1 \circstate\ State == [~ x: \nat | true ~] \\
+        \t1 A \circdef c1.\true \circat N \then c2?a \circat M \then 
+        			c3?b \prefixcolon ((a \implies b) \land N+x \leq M) 
+        				\circat K \then x := x + K \\
+        \t1 \circspot A \\
+    \circend
+\end{circus}
+
