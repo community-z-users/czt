@@ -115,7 +115,7 @@ public class SpecialLatexParser {
       
       sm = new SectionManager(Dialect.CIRCUSTIME);  
       sm.setProperty("czt.path", "/Users/nljsf/Local/reps/git/czt/parser/parser-z/src/main/resources/lib/:" +
-          "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/:" +
+          "/Users/nljsf/Local/reps/git/czt/parser/parser-circus/src/main/resources/lib/:" +
     	  "/Users/nljsf/Local/reps/git/czt/parser/parser-circustime/src/main/resources/lib/");
     }
     

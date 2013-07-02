@@ -28,3 +28,5 @@ target/
 /util/src/main/resources
 /vcg/src/test/resources/tests/z/czt.sty
 velocity.log*
+parser/parser-circustime/SpecialLatexParser.log.1
+parser/parser-circustime/SpecialLatexParser.log.lck
