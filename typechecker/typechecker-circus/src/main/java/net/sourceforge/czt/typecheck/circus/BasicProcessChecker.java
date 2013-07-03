@@ -58,15 +58,14 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
   TransformerParaVisitor<CircusCommunicationList>
 {
 
-  //private boolean processedState_;
-  //private ProcessSignature basicProcessSig_;
+  private boolean processedState_;
+  private ProcessSignature basicProcessSig_;
 
   public BasicProcessChecker(TypeChecker tc)
   {
     super(tc);
     setCurrentBasicProcessSignature(null);
   }
-  
               
   /**
    * Sets the current basic process signature being filled as a result of 
@@ -75,7 +74,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
    * has already been processed or not.
    * @param sig
    */
-  /*protected ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
+  protected ProcessSignature setCurrentBasicProcessSignature(ProcessSignature sig)
   {
     ProcessSignature old = basicProcessSig_;
     basicProcessSig_ = sig;
@@ -87,7 +86,6 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
   {
     return basicProcessSig_;
   }
-  */
   
   protected void checkBPSignature(Object term)
   {
@@ -120,7 +118,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     
     if (type == null)
     {
-      result = getCurrentBasicProcesssignature().getStateSignature();
+      result = basicProcessSig_.getStateSignature();
       warningManager().warn("Invalid state paragraph. It is not of SchemaType. " +
         "This is a inconsistency problem and shouldn't happen. Please, report.");
     }
@@ -128,12 +126,12 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     {
       // TODO:? unify paraSig with term's? nah. leave it
       result = addStateVars(type);
-      getCurrentBasicProcesssignature().setStateSignature(paraSig);
+      basicProcessSig_.setStateSignature(paraSig);
       processedState_ = true;
     }
     else
     { 
-      result = getCurrentBasicProcesssignature().getStateSignature();
+      result = basicProcessSig_.getStateSignature();
       assert result != null : "invalid state signature for basic process";      
       warningManager().warn(term, WarningMessage.DUPLICATED_PROCESS_STATE, 
         getCurrentProcessName(), getConcreteSyntaxSymbol(term));
@@ -172,7 +170,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     } 
     else 
     {
-    	getCurrentBasicProcesssignature().getBasicProcessLocalZSignatures().add(paraSig);
+      basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);
     }
     
     // added by ParaChecker within ProcessParaChecker
@@ -202,7 +200,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
       
       // get the action signature for this basic process
       // TODO:? unify paraSig with term's? nah. leave it
-      getCurrentBasicProcesssignature().getActionSignatures().add(
+      basicProcessSig_.getActionSignatures().add(
         aType.getActionSignature());
     }
     else
@@ -240,7 +238,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     if (innerType instanceof NameSetType)
     { 
       // TODO:? unify paraSig with term's? leave it for now.
-    	getCurrentBasicProcesssignature().getBasicProcessLocalZSignatures().add(paraSig);      
+      basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);      
     }
     // raise a basic process level error otherwise.
     else
@@ -266,7 +264,7 @@ public class BasicProcessChecker extends Checker<CircusCommunicationList>
     if (((ParaChecker)paraChecker()).transformerType().getClass().isInstance(type))
     { 
       // TODO:? unify paraSig with term's? nah. leave it
-    	getCurrentBasicProcesssignature().getBasicProcessLocalZSignatures().add(paraSig);            
+      basicProcessSig_.getBasicProcessLocalZSignatures().add(paraSig);            
     }
     else
     {        
