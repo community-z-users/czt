@@ -31,11 +31,13 @@ import net.sourceforge.czt.circustime.visitor.CircusTimeVisitor;
 /**
  * @author Leo Freitas
  */
-public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
-		implements CircusTimeVisitor<String> {
+public class PrintVisitor
+  extends net.sourceforge.czt.circus.util.PrintVisitor
+  implements CircusTimeVisitor<String>
+{
 	@Override
 	public String visitTimeoutProcess(TimeoutProcess term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getLeftProcess()));
 		result.append("[>");
@@ -47,7 +49,7 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 
 	@Override
 	public String visitTimeStartByProcess(TimeStartByProcess term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getExpr()));
 		result.append(" <| ");
@@ -58,7 +60,7 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 
 	@Override
 	public String visitTimedInterruptProcess(TimedInterruptProcess term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getLeftProcess()));
 		result.append(" /^\\ ");
@@ -67,10 +69,10 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 		result.append(")");
 		return result.toString();
 	}
-
+	
 	@Override
 	public String visitTimeEndByProcess(TimeEndByProcess term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getCircusProcess()));
 		result.append(" |> ");
@@ -78,10 +80,10 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 		result.append(")");
 		return result.toString();
 	}
-
+	
 	@Override
 	public String visitTimedInterruptAction(TimedInterruptAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getLeftAction()));
 		result.append(" /^\\ ");
@@ -90,10 +92,10 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 		result.append(")");
 		return result.toString();
 	}
-
+	
 	@Override
 	public String visitTimeStartByAction(TimeStartByAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getExpr()));
 		result.append(" <| ");
@@ -101,10 +103,10 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 		result.append(")");
 		return result.toString();
 	}
-
+	
 	@Override
 	public String visitTimeEndByAction(TimeEndByAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getCircusAction()));
 		result.append(" |> ");
@@ -115,7 +117,7 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 
 	@Override
 	public String visitTimeoutAction(TimeoutAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getLeftAction()));
 		result.append("[>");
@@ -124,10 +126,10 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 		result.append(")");
 		return result.toString();
 	}
-
+	
 	@Override
 	public String visitWaitExprAction(WaitExprAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("( wait ");
 		result.append(visit(term.getExpr()));
 		result.append(" @ ");
@@ -138,16 +140,16 @@ public class PrintVisitor extends net.sourceforge.czt.circus.util.PrintVisitor
 
 	@Override
 	public String visitWaitAction(WaitAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("( wait ");
 		result.append(visit(term.getExpr()));
 		result.append(")");
 		return result.toString();
 	}
-
+	
 	@Override
 	public String visitPrefixingTimeAction(PrefixingTimeAction term) {
-		StringBuilder result = new StringBuilder("");
+		StringBuilder result= new StringBuilder("");
 		result.append("(");
 		result.append(visit(term.getCommunication()));
 		result.append(" @ ");
