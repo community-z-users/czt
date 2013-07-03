@@ -21,28 +21,31 @@ import net.sourceforge.czt.circustime.ast.CircusTimeFactory;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
-public class Factory extends net.sourceforge.czt.typecheck.circus.impl.Factory {
-	/** The CircusToolsFactory that is used to create wrapped types. */
-	protected final CircusTimeFactory circustimeFactory_;
+public class Factory 
+  extends net.sourceforge.czt.typecheck.circus.impl.Factory
+{
+  /** The CircusToolsFactory that is used to create wrapped types. */
+  protected final CircusTimeFactory circustimeFactory_;
+  
+  public Factory()
+  {
+	this(new ZFactoryImpl(), new net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl());
+  }
+  
+  public Factory(ZFactory zFactory, CircusTimeFactory circustimeFactory)
+  {
+	this(zFactory, new net.sourceforge.czt.circustime.util.Factory(circustimeFactory));
+  }
+  
+  public Factory(ZFactory zFactory, net.sourceforge.czt.circustime.util.Factory factory)
+  {
+	super(zFactory, factory);
+	circustimeFactory_ = factory.getCircusTimeFactory();
+  }
 
-	public Factory() {
-		this(new ZFactoryImpl(),
-				new net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl());
-	}
-
-	public Factory(ZFactory zFactory, CircusTimeFactory circustimeFactory) {
-		this(zFactory, new net.sourceforge.czt.circustime.util.Factory(
-				circustimeFactory));
-	}
-
-	public Factory(ZFactory zFactory,
-			net.sourceforge.czt.circustime.util.Factory factory) {
-		super(zFactory, factory);
-		circustimeFactory_ = factory.getCircusTimeFactory();
-	}
-
-	public CircusTimeFactory getCircusTimeFactory() {
-		return circustimeFactory_;
-	}
-
+  public CircusTimeFactory getCircusTimeFactory()
+  {
+    return circustimeFactory_;
+  }
+ 
 }
