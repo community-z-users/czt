@@ -26,6 +26,7 @@ import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.UResult;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -49,6 +50,7 @@ public abstract class Checker<R>
     //arithmosType_ = factory().createPowerType(factory().createGivenType(factory().createZName(ZString.ARITHMOS)));
   }
   
+  
   protected ErrorAnn errorAnn(Term term, ErrorMessage error, Object[] params)
   {
     ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
@@ -62,18 +64,18 @@ public abstract class Checker<R>
     error(term, errorAnn);
   }
 
-  protected Type2 typeCheckTimeExpr(Term term, Expr expr)
+  public Type2 typeCheckTimeExpr(Term term, Expr expr)
   {
     // whatever the type, even if with generic, it must be at least ARITHMOS
     // this include both \nat and \real for the time of TIME.
     Type2 found = GlobalDefs.unwrapType(expr.accept(exprChecker()));
     Type2 expected = arithmosExpr_.accept(exprChecker());
     
-    //if (expected instanceof PowerType)
-    //{
-      //assert arithmosType_.equals(expected);
-    //  expected = ((PowerType)expected).getType();
-    //}
+    if (expected instanceof PowerType)
+    {
+      assert arithmosExpr_.equals(expected);
+      expected = ((PowerType)expected).getType();
+    }
     // TODO: debug to see if such unwrapping is needed
     
     // if arithmos type is wrong somehow, this will catch it.
