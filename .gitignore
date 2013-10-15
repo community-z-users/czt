@@ -27,3 +27,11 @@ target/
 /util/src/main/resources
 /vcg/src/test/resources/tests/z/czt.sty
 velocity.log*
+doc/papers/ifm/OZTypeChecker-eps-converted-to.pdf
+doc/papers/ifm/ZTypeChecker-eps-converted-to.pdf
+doc/papers/ifm/ifm.fdb_latexmk
+doc/papers/ifm/ifm.fls
+doc/papers/ifm/ifm.pdf
+doc/papers/zml/master.fdb_latexmk
+doc/papers/zml/master.fls
+doc/papers/zml/master.pdf

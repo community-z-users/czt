@@ -42,16 +42,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Set-up for latex or pdflatex.
 
-\ifx\pdfoutput\undefined% Ordinary LaTeX with dvips driver
-  \newcommand{\outputdriver}{dvips}%
-  \usepackage[dvips]{epsfig}%
-  \usepackage[dvips]{graphics}%
-  \newcommand{\imgsrc}[2]{\epsfig{file=#1.eps,#2}}%
-\else%                    PDFLaTeX with pdftex driver
-  \newcommand{\outputdriver}{pdftex}%
-  \usepackage[pdftex]{graphics}%
-  \newcommand{\imgsrc}[2]{\includegraphics{#1.pdf}}%
-\fi%
+%\ifx\pdfoutput\undefined% Ordinary LaTeX with dvips driver
+%  \newcommand{\outputdriver}{dvips}%
+%  \usepackage[dvips]{epsfig}%
+%  \usepackage[dvips]{graphics}%
+%  \newcommand{\imgsrc}[2]{\epsfig{file=#1.eps,#2}}%
+%\else%                    PDFLaTeX with pdftex driver
+%  \newcommand{\outputdriver}{pdftex}%
+%  \usepackage[pdftex]{graphics}%
+%  %\newcommand{\imgsrc}[2]{\includegraphics{#1.pdf}}%
+%  \relax
+%\fi%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Margins etc. (from John Nicholls' zstan.sty)
