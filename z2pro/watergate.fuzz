@@ -1,0 +1,456 @@
+(DATA 20
+  (NAME "POOL" "")
+  (LIST
+    (ARM 20
+      (NAME "pool1" "")
+      (NOTHING 20))
+    (ARM 20
+      (NAME "pool2" "")
+      (NOTHING 20))
+    (ARM 20
+      (NAME "pool3" "")
+      (NOTHING 20))
+    (ARM 20
+      (NAME "pool4" "")
+      (NOTHING 20))
+    (ARM 20
+      (NAME "pool5" "")
+      (NOTHING 20))))
+
+(DATA 21
+  (NAME "GATE" "")
+  (LIST
+    (ARM 21
+      (NAME "gate1" "")
+      (NOTHING 21))
+    (ARM 21
+      (NAME "gate2" "")
+      (NOTHING 21))
+    (ARM 21
+      (NAME "gate3" "")
+      (NOTHING 21))
+    (ARM 21
+      (NAME "gate4" "")
+      (NOTHING 21))))
+
+(AXDEF 30
+  (BODY 31
+    (LIST
+      (DECL 31
+        (LIST
+          (NAME "mingauge" "")
+          (NAME "maxgauge" ""))
+        (INGEN 31
+          (NAME "\fun" "")
+          (REF 31 (NAME "POOL" "") ())
+          (REF 31 (NAME "\nat" "") ()))))
+    (LIST
+      (FORALL 33
+        (BODY 33
+          (LIST
+            (DECL 33
+              (LIST
+                (NAME "p" ""))
+              (REF 33 (NAME "POOL" "") ())))
+          ())
+        (INREL 33
+          (NAME "\leq" "")
+          (APPLY 33
+            (REF 33 (NAME "mingauge" "") ())
+            (REF 33 (NAME "p" "") ()))
+          (APPLY 33
+            (REF 33 (NAME "maxgauge" "") ())
+            (REF 33 (NAME "p" "") ()))))
+      (EQUAL 34
+        (REF 34 (NAME "mingauge" "") ())
+        (EXT 34
+          (LIST
+            (TUPLE 34
+              (LIST
+                (REF 34 (NAME "pool1" "") ())
+                (NUMBER 34 "1")))
+            (TUPLE 34
+              (LIST
+                (REF 34 (NAME "pool2" "") ())
+                (NUMBER 34 "1")))
+            (TUPLE 34
+              (LIST
+                (REF 34 (NAME "pool3" "") ())
+                (NUMBER 34 "2")))
+            (TUPLE 34
+              (LIST
+                (REF 34 (NAME "pool4" "") ())
+                (NUMBER 34 "2")))
+            (TUPLE 34
+              (LIST
+                (REF 34 (NAME "pool5" "") ())
+                (NUMBER 34 "3"))))))
+      (EQUAL 35
+        (REF 35 (NAME "maxgauge" "") ())
+        (EXT 35
+          (LIST
+            (TUPLE 35
+              (LIST
+                (REF 35 (NAME "pool1" "") ())
+                (NUMBER 35 "1")))
+            (TUPLE 35
+              (LIST
+                (REF 35 (NAME "pool2" "") ())
+                (NUMBER 35 "2")))
+            (TUPLE 35
+              (LIST
+                (REF 35 (NAME "pool3" "") ())
+                (NUMBER 35 "2")))
+            (TUPLE 35
+              (LIST
+                (REF 35 (NAME "pool4" "") ())
+                (NUMBER 35 "3")))
+            (TUPLE 35
+              (LIST
+                (REF 35 (NAME "pool5" "") ())
+                (NUMBER 35 "3")))))))))
+
+(AXDEF 42
+  (BODY 43
+    (LIST
+      (DECL 43
+        (LIST
+          (NAME "connect" ""))
+        (INGEN 43
+          (NAME "\fun" "")
+          (REF 43 (NAME "GATE" "") ())
+          (POWER 43
+            (REF 43 (NAME "POOL" "") ())))))
+    (LIST
+      (FORALL 45
+        (BODY 45
+          (LIST
+            (DECL 45
+              (LIST
+                (NAME "r" ""))
+              (APPLY 45
+                (REF 45 (NAME "\ran" "") ())
+                (REF 45 (NAME "connect" "") ()))))
+          ())
+        (EQUAL 45
+          (APPLY 45
+            (REF 45 (NAME "\#" "") ())
+            (REF 45 (NAME "r" "") ()))
+          (NUMBER 45 "2")))
+      (EQUAL 46
+        (REF 46 (NAME "connect" "") ())
+        (EXT 46
+          (LIST
+            (TUPLE 47
+              (LIST
+                (REF 47 (NAME "gate1" "") ())
+                (EXT 47
+                  (LIST
+                    (REF 47 (NAME "pool1" "") ())
+                    (REF 47 (NAME "pool2" "") ())))))
+            (TUPLE 48
+              (LIST
+                (REF 48 (NAME "gate2" "") ())
+                (EXT 48
+                  (LIST
+                    (REF 48 (NAME "pool2" "") ())
+                    (REF 48 (NAME "pool3" "") ())))))
+            (TUPLE 49
+              (LIST
+                (REF 49 (NAME "gate3" "") ())
+                (EXT 49
+                  (LIST
+                    (REF 49 (NAME "pool3" "") ())
+                    (REF 49 (NAME "pool4" "") ())))))
+            (TUPLE 50
+              (LIST
+                (REF 50 (NAME "gate4" "") ())
+                (EXT 50
+                  (LIST
+                    (REF 50 (NAME "pool4" "") ())
+                    (REF 50 (NAME "pool5" "") ())))))))))))
+
+(SDEF 58
+  (SHEAD 58
+    "State"
+    ())
+  (BODY 59
+    (LIST
+      (DECL 59
+        (LIST
+          (NAME "gauge" ""))
+        (INGEN 59
+          (NAME "\fun" "")
+          (REF 59 (NAME "POOL" "") ())
+          (REF 59 (NAME "\nat" "") ())))
+      (DECL 60
+        (LIST
+          (NAME "opengates" ""))
+        (POWER 60
+          (REF 60 (NAME "GATE" "") ()))))
+    (LIST
+      (FORALL 62
+        (BODY 62
+          (LIST
+            (DECL 62
+              (LIST
+                (NAME "p" ""))
+              (REF 62 (NAME "POOL" "") ())))
+          ())
+        (AND 63
+          (INREL 63
+            (NAME "\leq" "")
+            (APPLY 63
+              (REF 63 (NAME "mingauge" "") ())
+              (REF 63 (NAME "p" "") ()))
+            (APPLY 63
+              (REF 63 (NAME "gauge" "") ())
+              (REF 63 (NAME "p" "") ())))
+          (INREL 63
+            (NAME "\leq" "")
+            (APPLY 63
+              (REF 63 (NAME "gauge" "") ())
+              (REF 63 (NAME "p" "") ()))
+            (APPLY 63
+              (REF 63 (NAME "maxgauge" "") ())
+              (REF 63 (NAME "p" "") ())))))
+      (FORALL 64
+        (BODY 64
+          (LIST
+            (DECL 64
+              (LIST
+                (NAME "g" ""))
+              (REF 64 (NAME "opengates" "") ()))
+            (DECL 64
+              (LIST
+                (NAME "p1" "")
+                (NAME "p2" ""))
+              (REF 64 (NAME "POOL" "") ())))
+          (LIST
+            (EQUAL 64
+              (APPLY 64
+                (REF 64 (NAME "connect" "") ())
+                (REF 64 (NAME "g" "") ()))
+              (EXT 64
+                (LIST
+                  (REF 64 (NAME "p1" "") ())
+                  (REF 64 (NAME "p2" "") ()))))))
+        (EQUAL 65
+          (APPLY 65
+            (REF 65 (NAME "gauge" "") ())
+            (REF 65 (NAME "p1" "") ()))
+          (APPLY 65
+            (REF 65 (NAME "gauge" "") ())
+            (REF 65 (NAME "p2" "") ())))))))
+
+(SDEF 0
+  (SHEAD 0
+    "\Delta State"
+    ())
+  (BODY 0
+    (LIST
+      (SDECL 0
+        (SREF 0 "State" "" () ()))
+      (SDECL 0
+        (SREF 0 "State" "'" () ())))
+    ()))
+
+(SDEF 73
+  (SHEAD 73
+    "GateOperation"
+    ())
+  (BODY 74
+    (LIST
+      (SDECL 74
+        (SREF 74 "\Delta State" "" () ()))
+      (DECL 75
+        (LIST
+          (NAME "gate" "?"))
+        (REF 75 (NAME "GATE" "") ())))
+    (LIST
+      (EQUAL 77
+        (REF 77 (NAME "gauge" "'") ())
+        (REF 77 (NAME "gauge" "") ())))))
+
+(SDEF 80
+  (SHEAD 80
+    "Close"
+    ())
+  (BODY 81
+    (LIST
+      (SDECL 81
+        (SREF 81 "GateOperation" "" () ())))
+    (LIST
+      (MEMBER 83
+        (REF 83 (NAME "gate" "?") ())
+        (REF 83 (NAME "opengates" "") ()))
+      (EQUAL 84
+        (REF 84 (NAME "opengates" "'") ())
+        (INOP 84
+          (NAME "\setminus" "")
+          (REF 84 (NAME "opengates" "") ())
+          (EXT 84
+            (LIST
+              (REF 84 (NAME "gate" "?") ()))))))))
+
+(SDEF 88
+  (SHEAD 88
+    "Open"
+    ())
+  (BODY 89
+    (LIST
+      (SDECL 89
+        (SREF 89 "GateOperation" "" () ())))
+    (LIST
+      (INREL 91
+        (NAME "\notin" "")
+        (REF 91 (NAME "gate" "?") ())
+        (REF 91 (NAME "opengates" "") ()))
+      (EQUAL 92
+        (REF 92 (NAME "opengates" "'") ())
+        (INOP 92
+          (NAME "\cup" "")
+          (REF 92 (NAME "opengates" "") ())
+          (EXT 92
+            (LIST
+              (REF 92 (NAME "gate" "?") ())))))
+      (FORALL 93
+        (BODY 93
+          (LIST
+            (DECL 93
+              (LIST
+                (NAME "p1" "")
+                (NAME "p2" ""))
+              (REF 93 (NAME "POOL" "") ())))
+          (LIST
+            (EQUAL 93
+              (APPLY 93
+                (REF 93 (NAME "connect" "") ())
+                (REF 93 (NAME "gate" "?") ()))
+              (EXT 93
+                (LIST
+                  (REF 93 (NAME "p1" "") ())
+                  (REF 93 (NAME "p2" "") ()))))))
+        (EQUAL 93
+          (APPLY 93
+            (REF 93 (NAME "gauge" "") ())
+            (REF 93 (NAME "p1" "") ()))
+          (APPLY 93
+            (REF 93 (NAME "gauge" "") ())
+            (REF 93 (NAME "p2" "") ())))))))
+
+(SDEF 100
+  (SHEAD 100
+    "PoolOperation"
+    ())
+  (BODY 101
+    (LIST
+      (SDECL 101
+        (SREF 101 "\Delta State" "" () ()))
+      (DECL 102
+        (LIST
+          (NAME "pool" "?"))
+        (REF 102 (NAME "POOL" "") ())))
+    (LIST
+      (EQUAL 104
+        (REF 104 (NAME "opengates" "'") ())
+        (REF 104 (NAME "opengates" "") ()))
+      (FORALL 105
+        (BODY 105
+          (LIST
+            (DECL 105
+              (LIST
+                (NAME "g" ""))
+              (REF 105 (NAME "opengates" "") ())))
+          ())
+        (INREL 105
+          (NAME "\notin" "")
+          (REF 105 (NAME "pool" "?") ())
+          (APPLY 105
+            (REF 105 (NAME "connect" "") ())
+            (REF 105 (NAME "g" "") ())))))))
+
+(SDEF 110
+  (SHEAD 110
+    "Raise"
+    ())
+  (BODY 111
+    (LIST
+      (SDECL 111
+        (SREF 111 "PoolOperation" "" () ())))
+    (LIST
+      (INREL 113
+        (NAME "<" "")
+        (APPLY 113
+          (REF 113 (NAME "gauge" "") ())
+          (REF 113 (NAME "pool" "?") ()))
+        (APPLY 113
+          (REF 113 (NAME "maxgauge" "") ())
+          (REF 113 (NAME "pool" "?") ())))
+      (EQUAL 114
+        (REF 114 (NAME "gauge" "'") ())
+        (INOP 114
+          (NAME "\oplus" "")
+          (REF 114 (NAME "gauge" "") ())
+          (EXT 114
+            (LIST
+              (INOP 114
+                (NAME "\mapsto" "")
+                (REF 114 (NAME "pool" "?") ())
+                (INOP 114
+                  (NAME "+" "")
+                  (APPLY 114
+                    (REF 114 (NAME "gauge" "") ())
+                    (REF 114 (NAME "pool" "?") ()))
+                  (NUMBER 114 "1"))))))))))
+
+(SDEF 118
+  (SHEAD 118
+    "Lower"
+    ())
+  (BODY 119
+    (LIST
+      (SDECL 119
+        (SREF 119 "PoolOperation" "" () ())))
+    (LIST
+      (INREL 121
+        (NAME ">" "")
+        (APPLY 121
+          (REF 121 (NAME "gauge" "") ())
+          (REF 121 (NAME "pool" "?") ()))
+        (APPLY 121
+          (REF 121 (NAME "mingauge" "") ())
+          (REF 121 (NAME "pool" "?") ())))
+      (EQUAL 122
+        (REF 122 (NAME "gauge" "'") ())
+        (INOP 122
+          (NAME "\oplus" "")
+          (REF 122 (NAME "gauge" "") ())
+          (EXT 122
+            (LIST
+              (INOP 122
+                (NAME "\mapsto" "")
+                (REF 122 (NAME "pool" "?") ())
+                (INOP 122
+                  (NAME "-" "")
+                  (APPLY 122
+                    (REF 122 (NAME "gauge" "") ())
+                    (REF 122 (NAME "pool" "?") ()))
+                  (NUMBER 122 "1"))))))))))
+
+(SDEF 129
+  (SHEAD 129
+    "Init"
+    ())
+  (BODY 130
+    (LIST
+      (SDECL 130
+        (SREF 130 "State" "'" () ())))
+    (LIST
+      (EQUAL 132
+        (REF 132 (NAME "gauge" "'") ())
+        (REF 132 (NAME "mingauge" "") ()))
+      (EQUAL 133
+        (REF 133 (NAME "opengates" "'") ())
+        (REF 133 (NAME "\emptyset" "") ())))))
+
