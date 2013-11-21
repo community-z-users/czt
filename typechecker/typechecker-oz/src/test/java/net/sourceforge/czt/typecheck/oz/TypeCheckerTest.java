@@ -101,7 +101,7 @@ public class TypeCheckerTest
   {
     // Important to use the complete method parameters otherwise there is capture with useNameIds with same signture in z.TypeCheck!
     return net.sourceforge.czt.typecheck.oz.TypeCheckUtils.typecheck(term,
-            manager, useBeforeDecl_, recursiveTypes_, false, useStrongTyping_, null)
+            manager, useBeforeDecl_, recursiveTypes_, false, useStrongTyping_, null, null)
             ;
   }
 }

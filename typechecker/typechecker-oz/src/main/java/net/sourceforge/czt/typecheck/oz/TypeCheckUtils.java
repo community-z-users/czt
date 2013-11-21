@@ -81,7 +81,8 @@ public class TypeCheckUtils
                                                    boolean useStrongTyping)
   {
     net.sourceforge.czt.typecheck.oz.TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, recursiveTypes, false, useStrongTyping, null);
+    return utils.lTypecheck(term, sectInfo, PROP_TYPECHECK_USE_BEFORE_DECL_DEFAULT, 
+                            recursiveTypes, false, useStrongTyping, null, null);
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
@@ -90,10 +91,12 @@ public class TypeCheckUtils
                                                    boolean recursiveTypes,
                                                    boolean sortDeclNames,
 						   boolean useStrongTyping,
+						   WarningManager.WarningOutput warningOutput,
 						   String sectName)
   {
     net.sourceforge.czt.typecheck.oz.TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames, useStrongTyping, null, sectName);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames,
+    		                useStrongTyping, warningOutput, sectName);
   }
   
   /** An internal method of the typechecker. */
@@ -106,7 +109,8 @@ public class TypeCheckUtils
                                                 String sectName)
   {
     net.sourceforge.czt.typecheck.oz.TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames, false, null, sectName);
+    return utils.lTypecheck(term, sectInfo, useBeforeDecl, recursiveTypes, sortDeclNames,
+    		                false, warningOutput, sectName);
   }
 
   /** An internal method of the typechecker. */

@@ -48,6 +48,7 @@ public class TypeCheckCommand
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
-    return TypeCheckUtils.typecheck(term, manager, recursiveTypes_, strongTyping_);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_,
+        recursiveTypes_, false, strongTyping_, warningOutput_, null);
   }
 }
