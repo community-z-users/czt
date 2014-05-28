@@ -2093,7 +2093,16 @@ private String getDeclName(ZName name)
       else if (op.startsWith("&lvparen;&rvparen;"))
       {
         assert args.size() == 2;
-        result = format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, getExpr(args.get(0), true), getExpr(args.get(1), true));
+        
+        List<String> params = new ArrayList<String>(2);
+        for (Expr e : args) {
+        	String eStr = getExpr(e, true);
+        	// wrap parameter into parentheses if it a complex appl expression.
+        	String param = ZUtils.isFcnOpApplExpr(e) ? "(" + eStr + ")" : eStr;
+        	params.add(param);
+        }
+        
+        result = format(MIXFIX_APPL_EXPR_RELIMAGE_PATTERN, params.get(0), params.get(1));
       }
       // all other cases
       else
