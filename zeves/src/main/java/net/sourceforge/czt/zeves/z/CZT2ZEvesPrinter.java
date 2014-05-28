@@ -2014,7 +2014,15 @@ private String getDeclName(ZName name)
   @Override
   public String visitHideExpr(HideExpr term)
   {
-    return format(HIDE_EXPR_PATTERN, getExpr(term.getExpr(), true), getDeclNameList(term.getZNameList(), true));
+    String expr = getExpr(term.getExpr(), true);
+    String param;
+    if (term.getExpr() instanceof SchExpr2) {
+      // wrap into parentheses: complex expression being hidden, e.g. composed schemas
+      param = "(" + expr + ")";
+    } else {
+      param = expr;
+    }
+    return format(HIDE_EXPR_PATTERN, param, getDeclNameList(term.getZNameList(), true));
   }
 
 
