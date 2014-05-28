@@ -64,15 +64,16 @@ public class ZEvesSchemaDef
   {
 
     String axStr = !axPart.getItems().isEmpty() ? 
-        ZEvesResponseUtil.concat(axPart.getItems(), ZString.NL) : "";
+    	ZString.VL + ZString.NL
+    	+ ZEvesResponseUtil.concat(axPart.getItems(), ZString.NL) + ZString.NL : 
+    	  "";
 
     return ZEvesAbility.getInfo(ability) 
         + ZString.SCHCHAR 
         + ZEvesAxDef.getGenChar(formals) + String.valueOf(name) + ZEvesAxDef.getGenFormalsInfo(formals) 
         + ZString.NL 
         + ZEvesResponseUtil.concat(decPart, ZString.NL) + ZString.NL 
-        + ZString.VL + ZString.NL 
-        + axStr + ZString.NL + ZString.ENDCHAR;
+        + axStr + ZString.ENDCHAR;
   }
 
 }
