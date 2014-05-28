@@ -68,7 +68,7 @@ import static net.sourceforge.czt.eclipse.ui.util.TextUtil.*;
 
 public class ZEditorResults {
 
-	private static int TEXT_WIDTH = 80;
+	private static int TEXT_WIDTH = 160;
 	
 	public static ISnapshotEntry getSnapshotEntryApprox(String filePath, IDocument document,
 			int offset, Set<ResultType> allowedTypes) {
