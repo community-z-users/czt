@@ -1,11 +1,14 @@
 package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
+import net.sourceforge.czt.parser.util.DeleteAnnVisitor;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -26,7 +29,7 @@ public class ZEvesResultConverter {
 
 		assertSectionAvailable(sectInfo, sectName);
 		Source source = createParseSource(zEvesPredStr);
-		return ParseUtils.parsePred(source, sectName, sectInfo);
+		return clean(ParseUtils.parsePred(source, sectName, sectInfo));
 	}
 	
 	public static Expr parseZEvesExpr(SectionManager sectInfo, String sectName, String zEvesExprStr)
@@ -34,7 +37,7 @@ public class ZEvesResultConverter {
 		
 		assertSectionAvailable(sectInfo, sectName);
 		Source source = createParseSource(zEvesExprStr);
-		return ParseUtils.parseExpr(source, sectName, sectInfo);
+		return clean(ParseUtils.parseExpr(source, sectName, sectInfo));
 	}
 	
 	public static List<Para> parseZEvesParas(SectionManager sectInfo, String sectName, String zEvesExprStr)
@@ -42,9 +45,26 @@ public class ZEvesResultConverter {
 		
 		assertSectionAvailable(sectInfo, sectName);
 		Source source = createParseSource(zEvesExprStr);
-		return ParseUtils.parseParas(source, sectName, sectInfo);
+		List<Para> paras = ParseUtils.parseParas(source, sectName, sectInfo);
+		List<Para> cleanedParas = new ArrayList<Para>(paras.size());
+		for (Para para : paras) {
+			cleanedParas.add(clean(para));
+		}
+		
+		return cleanedParas;
 	}
+
 	
+	private static final TermVisitor<?> DELETE_ANNS = new DeleteAnnVisitor();
+
+	private static <T extends Term> T clean(T term) {
+		// drop extra annotations (e.g. ParenAnn, etc), which will result in more canonical
+		// representation of Z/EVES results in CZT
+		term.accept(DELETE_ANNS);
+		return term;
+	}
+
+
 	/**
 	 * Parses given Z/EVES result string first as Expr and if that fails, tries
 	 * parsing it as Pred
@@ -60,7 +80,7 @@ public class ZEvesResultConverter {
 			throws IOException, CommandException {
 		
 		try {
-			return parseZEvesExpr(sectInfo, sectName, zEvesStr);			
+			return parseZEvesExpr(sectInfo, sectName, zEvesStr);      
 		} catch (CommandException e) {
 			return parseZEvesPred(sectInfo, sectName, zEvesStr);
 		}
