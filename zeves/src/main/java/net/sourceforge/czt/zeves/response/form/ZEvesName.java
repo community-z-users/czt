@@ -135,7 +135,12 @@ public class ZEvesName
       if (ident.endsWith("'")) {
         // Z/EVES outputs a simple ' instead of Prime, and it is not separated as a decorator,
         // so instead just check and replace
-        ident = ident.substring(0, ident.length() - 1) + ZString.PRIME;
+        // note there may be many prime decorators at the end, so replace all of them.
+        StringBuilder replaced = new StringBuilder();
+        for (int i = ident.length() - 1; i >= 0 && ident.charAt(i) == '\''; i--) {
+          replaced.append(ZString.PRIME);
+        }
+        ident = ident.substring(0, ident.length() - replaced.length()) + replaced;
       } else if (ident.equals("\\")) {
         // Z/EVES outputs a simple backslash instead of setminus, so check and replace
         ident = ZString.SETMINUS;
