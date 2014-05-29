@@ -2,13 +2,14 @@ package net.sourceforge.czt.eclipse.zeves.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.eclipse.core.document.DocumentUtil;
 import net.sourceforge.czt.eclipse.zeves.core.internal.ZEvesCorePlugin;
-import net.sourceforge.czt.parser.util.DeleteAnnVisitor;
 import net.sourceforge.czt.parser.zeves.ParseUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -18,6 +19,7 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ParenAnn;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ZSect;
 
@@ -54,8 +56,22 @@ public class ZEvesResultConverter {
 		return cleanedParas;
 	}
 
+	private static class DeleteParenAnnVisitor implements TermVisitor<Object> {
+
+		@Override
+		public Object visitTerm(Term term) {
+			VisitorUtils.visitTerm(this, term);
+			for (Iterator<?> annIt = term.getAnns().iterator(); annIt.hasNext(); ) {
+				Object ann = annIt.next();
+				if (ann instanceof ParenAnn) {
+					annIt.remove();
+				}
+			}
+			return null;
+		}
+	}
 	
-	private static final TermVisitor<?> DELETE_ANNS = new DeleteAnnVisitor();
+	private static final TermVisitor<?> DELETE_ANNS = new DeleteParenAnnVisitor();
 
 	private static <T extends Term> T clean(T term) {
 		// drop extra annotations (e.g. ParenAnn, etc), which will result in more canonical
