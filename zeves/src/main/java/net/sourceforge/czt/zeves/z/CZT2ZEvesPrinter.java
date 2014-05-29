@@ -2000,9 +2000,19 @@ private String getDeclName(ZName name)
      * This production covers: CompExpr, PipeExpr, ProjExpr, AndExpr,
      * OrExpr, ImpliesExpr, and IffExpr.
      */
-    String lhs = getExpr(term.getLeftExpr(), true);
-    String rhs = getExpr(term.getRightExpr(), true);
+    String lhs = getSchExpr(term.getLeftExpr());
+    String rhs = getSchExpr(term.getRightExpr());
     return format(BIN_SCHEXPR_PATTERN, lhs, getSchExprOpName(term), rhs);
+  }
+
+  private String getSchExpr(Expr expr) {
+    String exprStr = getExpr(expr, true);
+    if (expr instanceof SchExpr2) {
+      // wrap into parentheses: complex expression, e.g. composed schemas
+      return "(" + exprStr + ")";
+    } else {
+      return exprStr;
+    }
   }
 
   @Override
@@ -2014,15 +2024,8 @@ private String getDeclName(ZName name)
   @Override
   public String visitHideExpr(HideExpr term)
   {
-    String expr = getExpr(term.getExpr(), true);
-    String param;
-    if (term.getExpr() instanceof SchExpr2) {
-      // wrap into parentheses: complex expression being hidden, e.g. composed schemas
-      param = "(" + expr + ")";
-    } else {
-      param = expr;
-    }
-    return format(HIDE_EXPR_PATTERN, param, getDeclNameList(term.getZNameList(), true));
+    return format(HIDE_EXPR_PATTERN,
+      getSchExpr(term.getExpr()), getDeclNameList(term.getZNameList(), true));
   }
 
 
