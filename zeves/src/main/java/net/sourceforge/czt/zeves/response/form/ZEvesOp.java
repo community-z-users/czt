@@ -92,7 +92,7 @@ public class ZEvesOp
 
   private String getMixFixOp(String opName, List<?> form)
   {
-    String first = getNestedOp(form.get(0));
+    String first = ZEvesResponseUtil.withParentheses(form.get(0));
 
     switch (type) {
       case PREOP :
@@ -123,7 +123,7 @@ public class ZEvesOp
           result.append(ZString.SPACE);
           result.append(opName);
           result.append(ZString.SPACE);
-          result.append(getNestedOp(form.get(index)));
+          result.append(ZEvesResponseUtil.withParentheses(form.get(index)));
           result.append(opSuffix);
         }
         
@@ -177,16 +177,6 @@ public class ZEvesOp
     
     // nothing to fix
     return name;
-  }
-
-  private String getNestedOp(Object elem)
-  {
-    // Check if nested mixfix Op, then wrap into parentheses
-    if (elem instanceof ZEvesOp && ((ZEvesOp) elem).type == OpType.INOP) {
-      return ZEvesResponseUtil.withParentheses(elem);
-    } else {
-      return String.valueOf(elem);
-    }
   }
 
 }
