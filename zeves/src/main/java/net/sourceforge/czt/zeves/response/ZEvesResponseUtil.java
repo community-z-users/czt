@@ -28,7 +28,7 @@ public class ZEvesResponseUtil
   {
     String val = String.valueOf(elem);
 
-    if (elem instanceof ZEvesName || elem instanceof ZEvesParenForm) {
+    if (elem instanceof ZEvesName || elem instanceof ZEvesParenForm || elem instanceof String) {
       // simple element - no parentheses
       return val;
     }
