@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.zeves.response.form.ZEvesName;
+import net.sourceforge.czt.zeves.response.form.ZEvesNumber;
 import net.sourceforge.czt.zeves.response.form.ZEvesParenForm;
 
 public class ZEvesResponseUtil
@@ -28,7 +29,8 @@ public class ZEvesResponseUtil
   {
     String val = String.valueOf(elem);
 
-    if (elem instanceof ZEvesName || elem instanceof ZEvesParenForm || elem instanceof String) {
+    if (elem instanceof ZEvesName || elem instanceof ZEvesParenForm
+        || elem instanceof ZEvesNumber || elem instanceof String) {
       // simple element - no parentheses
       return val;
     }
