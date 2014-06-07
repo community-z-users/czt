@@ -867,7 +867,7 @@ abstract public class Checker<R>
       removeAnn(zName, uAnn);
 
       int paraID = sectTypeEnv().getParaID(zName);
-      if (paraID >= 0) {
+      if (paraID >= 0 && paraID != uAnn.getParaID()) {
         dependencies().add(paraID, uAnn.getParaID());
       }
     }
