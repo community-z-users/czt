@@ -9,9 +9,10 @@ public enum Dialect {
    ZEVES,			//4
    CIRCUSPATT,		//5
    CIRCUS,			//6
-   CIRCUSTIME;		//7
+   CIRCUSTIME,		//7
+   CIRCUSCONF;		//8
    
-   private static final int NUM_OF_DIALECTS = CIRCUSTIME.ordinal()+1;
+   private static final int NUM_OF_DIALECTS = CIRCUSCONF.ordinal()+1;
    
    private static String[] known_ = null;
    public static String[] knownDialectsAsStringArray()
@@ -35,15 +36,16 @@ public enum Dialect {
     * TODO: find a more compact (yet clear) way of describing this. Perhaps BitSet?
     */
    private static final boolean[][] EXTENSION_MATRIX = 
-	   	{ //   0	  1		 2		3		4	  5		 6		7
-	   		{ true, false, false, false, false, false, false, false }, //0
-	   		{ true, true,  false, false, false, false, false, false }, //1
-	   		{ true, true,  true,  false, false, false, false, false }, //2
-	   		{ true, true,  true,  true,  false, false, false, false }, //3
-	   		{ true, false, false, false, true,  false, false, false }, //4
-	   		{ true, true,  false, false, false, true,  true,  false }, //5
-	   		{ true, true,  false, false, false, false, true,  false }, //6
-	   		{ true, true,  false, false, false, true,  true,  true  }  //7
+	   	{ //   0	  1		 2		3		4	  5		 6		7	  8
+	   		{ true, false, false, false, false, false, false, false, false }, //0
+	   		{ true, true,  false, false, false, false, false, false, false }, //1
+	   		{ true, true,  true,  false, false, false, false, false, false }, //2
+	   		{ true, true,  true,  true,  false, false, false, false, false }, //3
+	   		{ true, false, false, false, true,  false, false, false, false }, //4
+	   		{ true, true,  false, false, false, true,  true,  false, false }, //5
+	   		{ true, true,  false, false, false, false, true,  false, false }, //6
+	   		{ true, true,  false, false, false, true,  true,  true , false },  //7
+	   		{ true, true,  false, false, false, true,  true,  false, true }  //8
 	   	};
    
    public boolean isExtensionOf(Dialect d)
@@ -51,7 +53,8 @@ public enum Dialect {
 	   return d != null && EXTENSION_MATRIX[ordinal()][d.ordinal()];
    }
    
-   public String toString()
+   @Override
+public String toString()
    {
 	   return name().toLowerCase();
    }
