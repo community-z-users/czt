@@ -56,6 +56,9 @@ import net.sourceforge.czt.parser.util.Decorword;
 <add:circustime>
 import net.sourceforge.czt.parser.circus.CircusSymMap;
 </add:circustime>
+<add:circusconf>
+import net.sourceforge.czt.parser.circus.CircusSymMap;
+</add:circusconf>
 
 import net.sourceforge.czt.session.Dialect;
 
@@ -248,6 +251,7 @@ class <class/> extends CztScannerImpl
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+      				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;

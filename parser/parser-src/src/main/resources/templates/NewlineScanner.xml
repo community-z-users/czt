@@ -40,6 +40,10 @@ import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 </add:circustime>
+<add:circusconf>
+import net.sourceforge.czt.parser.circus.CircusToken;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
+</add:circusconf>
 
 /**
  * &lt;p&gt;This is a NL lexer
@@ -61,6 +65,7 @@ public class <class/>
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
@@ -115,6 +120,11 @@ public class <class/>
     insertInto(map, CircusTimeToken.values());
     insertInto(map, CircusTimeKeyword.values());
 </add:circustime>
+
+<add:circusconf>
+    insertInto(map, CircusConfToken.values());
+    //insertInto(map, CircusConfKeyword.values());
+</add:circusconf>
 
 <add:zeves>
     insertInto(map, ZEvesProofToken.values());

@@ -1,0 +1,27 @@
+\begin{zsection}
+   \SECTION circusconf\_example \parents circusconf\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d \\
+\end{circus}
+
+\begin{circus}
+    \circprocess\ P \circdef \circbegin \\
+\end{circus}
+
+tests production rule: CIRCWAIT:cw expression:e
+\begin{circusaction}
+        \t1 A \circdef \lcircconf c \then A  \rcircconf \\
+\end{circusaction} 
+      
+\begin{circusaction}
+     \t1 \circspot A \circseq A  \\
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+
+
+   
