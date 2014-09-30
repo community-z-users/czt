@@ -91,6 +91,10 @@ import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.circustime.util.CircusTimeString;
 </add:circustime>
 
+<add:circusconf>
+import net.sourceforge.czt.circusconf.util.CircusConfString;
+</add:circusconf>
+
 <add:zeves>
 import net.sourceforge.czt.zeves.util.ZEvesString;
 </add:zeves>
@@ -481,6 +485,7 @@ parser code {:
   	<add:zpattcore>Dialect.ZPATT</add:zpattcore>
   	<add:circuscore>Dialect.CIRCUS</add:circuscore>
   	<add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
+	  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
   	<add:zevescore>Dialect.ZEVES</add:zevescore>
   	);
   protected String sectionName_;
@@ -499,6 +504,7 @@ parser code {:
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+      				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
@@ -887,6 +893,10 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
     /* Support for Circus Time */
                    LCIRCTIME, RCIRCTIME,
  </add:circustime> 
+<add:circusconf>
+    /* Support for Circus Confidentiality */
+                   LCIRCCONF, RCIRCCONF,
+ </add:circusconf> 
 
 <add:zeves>
                    // Proof environment chars and specific proof words
@@ -1788,6 +1798,21 @@ schGenerics  ::=
 	        RESULT = resultTT("~\\rcirctime~", CircusTimeString.RCIRCTIME);
 	     :}	
   </add:circustime>
+
+ <add:circusconf>
+ 
+	     |
+             /* Support for Circus confidentiality */
+         LCIRCCONF
+	     {:
+	        RESULT = resultTT("~\\lcircconf~", CircusConfString.LCIRCCONF);
+	     :}
+	     |
+	     RCIRCCONF
+	     {:
+	        RESULT = resultTT("~\\rcircconf~", CircusConfString.RCIRCCONF);
+	     :}	
+  </add:circusconf>
  
 
 

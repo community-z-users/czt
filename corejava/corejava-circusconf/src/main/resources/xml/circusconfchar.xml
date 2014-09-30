@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CIRCUSTIMECHAR>
+  <SPECIAL>    
+    <BRACKET>
+      <char id="LCIRCCONF" hex="2329" description="left confidentiality bracket"/>
+      <char id="RCIRCCONF" hex="232A" description="right confidentiality bracket"/>
+    </BRACKET>    
+  </SPECIAL>
+  <SYMBOL>
+     
+    <CIRCUSTOOLKITSYMBOL>      
+    </CIRCUSTOOLKITSYMBOL>
+     
+  </SYMBOL>
+</CIRCUSTIMECHAR>

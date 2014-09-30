@@ -74,9 +74,15 @@ import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
 <add:circuspatt>
 import net.sourceforge.czt.circuspatt.jaxb.JaxbXmlReader;
 </add:circuspatt>
-<add:circus>
+<add:circuscore>
 import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
-</add:circus>
+</add:circuscore>
+<add:circustimecore>
+import net.sourceforge.czt.circustime.jaxb.JaxbXmlReader;
+</add:circustimecore>
+<add:circusconfcore>
+import net.sourceforge.czt.circusconf.jaxb.JaxbXmlReader;
+</add:circusconfcore>
 <add:oz>
 import net.sourceforge.czt.oz.jaxb.JaxbXmlReader;
 </add:oz>
@@ -107,6 +113,7 @@ public class <class/> extends AbstractCommand
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;

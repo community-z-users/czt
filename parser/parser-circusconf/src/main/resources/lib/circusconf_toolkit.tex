@@ -1,0 +1,25 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PREAMBLE: Circus confidentiality prelude, v 0.1, Sep 2014
+%           Copyright 2004-2014 Leo Freitas
+%           School of Computer Science
+%           Newcastle University, NE1 7RU UK
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Like the Z standard toolkit, the Circus toolkit defines the prelude for the 
+% Circus language, and put in context all Z standard toolkit operators. 
+% The right way to specify user toolkits is to inherit from circus\_toolkit.
+%
+\begin{zsection}
+  \SECTION circusconf\_toolkit \parents circus\_toolkit, circusconf\_prelude
+\end{zsection}
+
+Choice of character here fore $\circconf$ was arbitrary.
+%Zchar \circconf U+2301 
+\begin{zed}
+\function (\circconf~\_)
+\end{zed}
+
+\begin{gendef}[NAME]
+	\circconf~\_ : NAME \fun NAME
+\end{gendef}

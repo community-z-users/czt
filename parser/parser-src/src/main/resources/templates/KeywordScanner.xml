@@ -55,6 +55,7 @@ import net.sourceforge.czt.z.ast.ZStrokeList;
 <add:oz> * Object Z</add:oz>
 <add:circus> * Circus </add:circus>
 <add:circustime> * CircusTime </add:circustime>
+<add:circustime> * CircusConf </add:circustime>
 <add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
@@ -89,6 +90,7 @@ public class KeywordScanner
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
@@ -143,6 +145,11 @@ public class KeywordScanner
     /* Adds all Circus keyword tokens */
     addKeywords(result, net.sourceforge.czt.parser.circustime.CircusTimeKeyword.values());
 </add:circustime>
+<add:circusconf>
+    /* Adds all Circus keyword tokens = none yet*/
+    //addKeywords(result, net.sourceforge.czt.parser.circusconf.CircusConfKeyword.values());
+</add:circusconf>
+
 <add:zeves>
     /* Technically proof words are not keywords, since they can appear in the
      * user specification, albeit that's rare. This is easily achieved in Z/EVES
