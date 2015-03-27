@@ -26,7 +26,12 @@ public class CompareUserTests
         EvalTest.getTestExample("animate_"+fileType.toLowerCase()+".tex");
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
-      out.println("animate_"+fileType.toLowerCase()+".tex");
+      final int p1 = passedTests1.size();
+      final int p2 = passedTests2.size();
+      final String connector = (p1==p2 ? "==" : "->");
+      final String emotion = (p1<p2 ? ":-)" : (p1>p2 ? ":-(" : ""));
+      out.format("%-30s  %3d %s %3d %s\n", "animate_"+fileType.toLowerCase()+".tex", 
+    		  p1, connector, p2, emotion);
       int counter = 0;
       try {
         if (gainedTests.size()>0){
