@@ -2,6 +2,9 @@
 <project name="zlive-tests" basedir="." default="usertest_compare"
   xmlns:artifact="antlib:org.apache.maven.artifact.ant">
   <artifact:pom id="project" file="../pom.xml"/>
+  <artifact:dependencies pathId="junit.classpath">
+    <dependency groupId="junit" artifactId="junit" version="4.5" scope="test"/>
+  </artifact:dependencies>
   <property name="name" value="${project.build.finalName}"/>
   <property name="jar"
     location="${project.build.directory}/${name}-jar-with-dependencies.jar"/>
@@ -22,10 +25,7 @@
   <path id="classpath">
     <pathelement location="${jar}"/>
     <pathelement location="${test-jar}"/>
-    <!-- we add several JUnit paths, for each of our machines... -->
-    <pathelement location="/usr/share/junit/lib/junit.jar"/> <!-- petra@galatea -->
-    <pathelement location="/research/tools/apache-ant-1.6.5/lib/junit.jar"/> <!-- marku@spot -->
-    <pathelement location="D:/marku/czt/junit.jar"/> <!-- marku@sophie -->
+    <path refid="junit.classpath"/>
   </path>
 
   <target name="usertest_compare" depends="usertest,compare"
@@ -88,14 +88,16 @@
   </target>
 
 
-  <target name="test" description="Run all unit tests">
+  <target name="test" description="Unit tests are best run by 'mvn test' in the main zlive directory.">
+    <echo message="Unit tests are best run by 'mvn test' in the main zlive directory."/>
+    <!--
     <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
       <formatter type="xml" usefile="true"/>
       <batchtest>
-        <fileset dir="src">
+        <fileset dir="${src.test.java}">
           <include name="**/*Test.java"/>
-          <exclude name="**/Animate*Test.java"/> <!-- see usertest target -->
-          <exclude name="**/EvalTest.java"/>  <!-- an abstract superclass -->
+          <exclude name="**/Animate*Test.java"/>
+          <exclude name="**/EvalTest.java"/>
        </fileset>
       </batchtest>
       <classpath>
@@ -105,6 +107,7 @@
         <enable/>
       </assertions>
     </junit>
+    -->
   </target>
 
   <target name="printclasspath" description="Show the CLASSPATH">
