@@ -162,4 +162,29 @@ Selection of fields within tuples
 \begin{zed} \vdash? first ~ (5,6) = 5 \end{zed}
 \begin{zed} \vdash? second ~ (5,6) = 6 \end{zed}
 
+
+\section{Testing disjunctions with inputs and outputs}
+
+\begin{zed} \vdash?       (\forall x:1..9 @ x < 9 \lor x = 9)      \end{zed}
+\begin{zed} \vdash? \lnot (\forall x:1..9 @ x < 8 \lor x = 9)      \end{zed}
+\begin{zed} \vdash? (\forall x:1..4       @ x=4 \lor x=2 \lor x \mod 2 = 1)   \end{zed}
+\begin{zed} \vdash? (\forall x,y:1..4     @ y>1 \lor x*y \leq 4)   \end{zed}
+These next tests illustrated a bug in the output vars of FlatOr. Fixed 27 March 2015.
+\begin{zed} \vdash? (\forall x,y:1..4     @ y>1 \implies x*y > 1)  \end{zed}
+\begin{zed} \vdash? (\forall x:1..9 @ \lnot \lnot (x < 9) \lor \lnot \lnot (x = 9)) \end{zed}
+
+Similar disjunction tests, but within schemas and sets.
+\begin{zed} \vdash? \# [x:1..100 | x < 9 \lor x = 5] = 8 \end{zed}
+\begin{zed} \vdash? \# [x:1..100 | x < 8 \lor x = 9] = 8 \end{zed}
+\begin{zed} \vdash? \# [x:1..100 | x < x*x < 9 \lor x = 9] = 2 \end{zed}
+\begin{zed} \vdash? \# \{x:0..5 | x \neq 4 \land 2 \neq x \implies x \mod 2 = 1\} = 5 \end{zed}
+
+This next one needs bounds inference to be propagated out of disjunctions.
+(If the multiply operator had bounds inference, the x+y<100 constraint could be omitted too).
+\begin{zed} \vdash? \{ x,y:\nat | y > 3 \land x+y \leq 4 \lor x*y = 9 \land x+y < 100 \} = \{ (0,4), (1,9), (9,1), (3,3) \} \end{zed}
+\begin{zed} \vdash? \# \{ x,y:0..2 | y>1 \land x>0 \implies x*y \geq 2 \} = 9 \end{zed}
+\begin{zed} \vdash? \# \{ x,y:0..2 | \lnot y>1 \lor x=0 \lor x*y \geq 2 \} = 9 \end{zed}
+\begin{zed} \vdash? \{ (2,1), (1,2), (0,0) \} = \{ x,y:0..2 | x*y=2 \lor \lnot(y>0 \lor x \neq 0) \} \end{zed}
+
+
 \end{document}
