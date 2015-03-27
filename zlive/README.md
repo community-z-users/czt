@@ -40,7 +40,7 @@ and the 'set' command shows all the current settings.  More documentation is nee
 We really need a tutorial...
 
 <<Developer help:>> As well as over 200 unit tests, ZLive has a comprehensive
-suite of over 1000 system tests, which are driven by Z specifications in the
+suite of over 700 system tests, which are driven by Z specifications in the
 src/tests/resources/animate*.tex input files.
 These do not all pass yet, since some of them test features of Z that are not yet supported.
 The current (and historic) coverage is recorded in tests/UserTest-Statistics.xls.
