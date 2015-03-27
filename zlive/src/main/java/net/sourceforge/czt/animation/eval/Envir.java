@@ -180,6 +180,7 @@ public class Envir
   */
   public boolean equals(Object obj)
   {
+    // assert false : "Envir.equals() should not be used?";
     if ( ! (obj instanceof Envir))
       return false;
     Envir e2 = (Envir)obj;

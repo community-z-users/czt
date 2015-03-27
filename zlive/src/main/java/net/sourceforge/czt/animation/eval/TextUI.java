@@ -85,6 +85,9 @@ public class TextUI {
   /** The animator engine */
   protected ZLive zlive_;
 
+  /** Turn this on to see stack traces upon errors. */
+  protected static boolean DEBUG = false; // true;
+
   /** The current output stream */
   protected PrintWriter output_;
 
@@ -366,6 +369,9 @@ public class TextUI {
         output_.print("    term = ");
         zlive_.printTerm(output_, ex.getTerm(), zlive_.getMarkup());
         output_.println();
+      }
+      if (DEBUG) {
+    	  ex.printStackTrace();
       }
     }
     catch (ParseException ex) {

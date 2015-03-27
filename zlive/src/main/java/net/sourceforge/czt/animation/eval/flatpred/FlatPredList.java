@@ -162,6 +162,9 @@ public class FlatPredList extends FlatPred
   /** @inheritDoc
    *  The first time this is called, it calculates freeVars and
    *  sets <code>args</code> to contain the same set of variables.
+   *  
+   *  Note that 'tmp*' variables generated within this list are
+   *  considered bound variables of the list, not free variables.
    */
   @Override public List<ZName> getArgs()
   {
@@ -329,6 +332,7 @@ public class FlatPredList extends FlatPred
    */
   public void addExistsPred(Pred pred)
   {
+	assert freeVars_ == null;
     if (pred instanceof AndPred) {
       AndPred and = (AndPred) pred;
       addExistsPred(and.getLeftPred());
