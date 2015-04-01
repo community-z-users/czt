@@ -174,9 +174,12 @@ public class DefinitionTable extends InfoTable
     Definition old = definitions_.put(defName, def);
     if (old != null && ! old.getSectionName().equals(def.getSectionName()))
     {
-      final String message = "Duplicated def \"" + defName + "\" in " + getSectionName();
-      throw new DefinitionException(getDialect(), message);
-      //logger_.warning(message);
+      final String message = "Duplicated def \"" + defName + "\" in " + getSectionName()
+    		  + " from " + old.getSectionName();
+      // MarkU: 2/4/2015 downgraded this to a warning, because it stops ZLive working
+      //throw new DefinitionException(getDialect(), message);
+      System.err.println("WARNING: " + message);  
+      logger_.warning(message);
     }
   }
 
