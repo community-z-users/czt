@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sourceforge.czt.animation.eval.result.EvalResult;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -35,10 +36,14 @@ import net.sourceforge.czt.z.ast.ZName;
     This is why add() returns a new environment.
     
     TODO: think more about the semantics of the equals.  Should the
-    order matter?  Should duplicate names matter?
+    order matter?  Should duplicate names matter?  
+    But is equals used anywhere, apart from unit tests?
 */
 public class Envir
 {
+  /** When 'expr_' is set to this unique value it means that 'name_' is hidden. */
+  private static final EvalResult hiddenValue = new EvalResult() {};
+  
   protected Envir nextEnv;
   // An empty environment always has name==null && term==null;
   protected ZName name_;
@@ -57,8 +62,12 @@ public class Envir
   public/*@pure@*/Expr lookup(/*@non_null@*/ZName want) {
     Envir env = this;
     while (env != null) {
-      if (sameName(want, env.name_))
+      if (sameName(want, env.name_)) {
+    	if (env.expr_ == hiddenValue) {
+    	    throw new EvalException("Hidden name in envir: " + want);
+    	}
         return env.expr_;
+      }
       env = env.nextEnv;
     }
     throw new EvalException("Missing name in envir: " + want);
@@ -76,13 +85,33 @@ public class Envir
   public /*@pure@*/ Set<ZName> definedSince(/*@non_null@*/Envir env0)
   {
     Set<ZName> result = new HashSet<ZName>();
+    Set<ZName> hiddenNames = null;
     Envir env = this;
     while (env != null && env != env0) {
-      if (env.name_ != null)
-        result.add(env.name_);
+      if (env.name_ != null) {
+    	if (env.expr_ == hiddenValue) {
+    	  if (hiddenNames == null) {
+    		hiddenNames = new HashSet<ZName>();
+    	  }
+    	  hiddenNames.add(env.name_);
+    	} else {
+    	  result.add(env.name_);
+    	}
+      }
       env = env.nextEnv;
     }
+    if (hiddenNames != null) {
+      result.removeAll(hiddenNames);
+    }
     return result;
+  }
+
+  private Set<ZName> plusHiddenName(Set<ZName> hidden, ZName name) {
+  	if (hidden == null) {
+  		hidden = new HashSet<ZName>();
+  	}
+  	hidden.add(name);
+  	return hidden;
   }
 
   /** See if a name is recently defined in the Environment.
@@ -93,22 +122,32 @@ public class Envir
       /*@non_null@*/Envir env0,
       /*@non_null@*/ZName want) {
     Envir env = this;
+    Set<ZName> hiddenNames = null;
     while (env != null && env != env0) {
+      if (env.expr_ == hiddenValue) {
+    	hiddenNames = plusHiddenName(hiddenNames, env.name_);
+      }
       if (sameName(want, env.name_))
-        return true;
+        return hiddenNames == null || !hiddenNames.contains(want);
       env = env.nextEnv;
     }
     return false;
   }
 
+  //TODO: just call isDefinedSince(null)?
+  
   /** See if a name is defined in the Environment. 
   @return true if the name exists, false if it does not exist.
   */
  public/*@pure@*/boolean isDefined(/*@non_null@*/ZName want) {
    Envir env = this;
+   Set<ZName> hiddenNames = null;
    while (env != null) {
+	 if (env.expr_ == hiddenValue) {
+	   hiddenNames = plusHiddenName(hiddenNames, env.name_);
+	 }
      if (sameName(want, env.name_))
-       return true;
+         return hiddenNames == null || !hiddenNames.contains(want);
      env = env.nextEnv;
    }
    return false;
@@ -126,6 +165,9 @@ public class Envir
     Envir env = this;
     while (env != null) {
       if (sameName(name, env.name_)) {
+    	if (env.expr_ == hiddenValue){
+   	      throw new EvalException("illegal Envir setValue hidden: "+name+"="+newvalue);
+    	}
         env.expr_ = newvalue;
         return;
       }
@@ -166,6 +208,16 @@ public class Envir
       result = result.plus(cdecl.getZName(), cdecl.getExpr());
     }
     return result;
+  }
+
+  /**
+   * Hides the given name, so the the environment *appears* not to include that name.
+   *
+   * @param name
+   * @return
+   */
+  public Envir hide(ZName name) {
+	return plus(name, hiddenValue);
   }
 
   @Override
@@ -214,20 +266,38 @@ public class Envir
 
     return true;
   }
-  
+
   public String toString() {
     StringBuffer result = new StringBuffer();
     result.append("Envir{");
     Envir env = this;
     while (env != null) {
-      result.append(env.name_);
-      result.append("=");
-      result.append(env.expr_);
+      env.pairToString(result);
       result.append(", ");
       env = env.nextEnv;
     }
     result.append("}");
     return result.toString();
+  }
+
+  protected void pairToString(StringBuffer result) {
+	if (expr_ == hiddenValue) {
+	  result.append("HIDE ");
+	  result.append(name_);
+	} else {
+	  result.append(name_);
+      result.append("=");
+      // truncate multi-line values, so output is not TOO verbose.
+      String es = "";
+      if (expr_ != null) {
+        es = expr_.toString();
+        final int nl = es.indexOf('\n');
+        if (nl >= 0) {
+          es = es.substring(0, nl) + "...";
+        }
+      }
+    result.append(es);
+	}
   }
   
   /** Returns a copy of this environment, with no values shared.
@@ -243,7 +313,7 @@ public class Envir
     tail.expr_ = src.expr_;
     tail.name_ = src.name_;
     while (src.nextEnv != null) {
-      // invar: dest is non-null and its name_ and expr_ fields are
+      // invar: tail is non-null and its name_ and expr_ fields are
       // a copy of src, but its nextEnv field must be copied from src.nextEnv.
       tail.nextEnv = new Envir();
       tail = tail.nextEnv;
