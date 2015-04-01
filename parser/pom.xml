@@ -58,6 +58,7 @@
     <module>parser-ozpatt</module>
     <module>parser-circus</module>
     <module>parser-circustime</module>
+    <module>parser-circusconf</module>
   </modules>
 
   <build>

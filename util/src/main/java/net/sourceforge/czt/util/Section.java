@@ -19,10 +19,10 @@
 package net.sourceforge.czt.util;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Common section names.
@@ -72,6 +72,10 @@ public enum Section
   /** Circus Time toolkits */
   CIRCUSTIME_PRELUDE("circustime", "circustime_prelude"),
   CIRCUSTIME_TOOLKIT("circustime", "circustime_toolkit"),
+
+  /** Circus Time toolkits */
+  CIRCUSCONF_PRELUDE("circusconf", "circusconf_prelude"),
+  CIRCUSCONF_TOOLKIT("circusconf", "circusconf_toolkit"),
 
   /** VCG toolkits */
   DC_TOOLKIT("dc_toolkit"),

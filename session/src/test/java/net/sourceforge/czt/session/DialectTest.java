@@ -1,6 +1,9 @@
 package net.sourceforge.czt.session;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -111,7 +114,8 @@ public class DialectTest {
 		String[] exptected = new String[] { Dialect.Z.toString(), Dialect.ZPATT.toString(),
 				 Dialect.OZ.toString(), Dialect.OZPATT.toString(),	
 				 Dialect.ZEVES.toString(), Dialect.CIRCUSPATT.toString(),
-				 Dialect.CIRCUS.toString(), Dialect.CIRCUSTIME.toString()
+				 Dialect.CIRCUS.toString(), Dialect.CIRCUSTIME.toString(),
+				 Dialect.CIRCUSCONF.toString()
 				 };
 		assertArrayEquals("", exptected, Dialect.knownDialectsAsStringArray());
 	}

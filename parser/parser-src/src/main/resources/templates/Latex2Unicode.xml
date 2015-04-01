@@ -63,9 +63,18 @@ import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
 <add:circustime>
 import net.sourceforge.czt.parser.circus.CircusParseMessage;
-import net.sourceforge.czt.circustime.util.CircusTimeString;
 import net.sourceforge.czt.parser.circus.CircusParseError;
+
+import net.sourceforge.czt.circustime.util.CircusTimeString;
 </add:circustime>
+
+<add:circusconf>
+import net.sourceforge.czt.parser.circus.CircusParseMessage;
+import net.sourceforge.czt.parser.circus.CircusParseError;
+
+import net.sourceforge.czt.circusconf.util.CircusConfString;
+</add:circusconf>
+
 <add:pattern>
 import net.sourceforge.czt.zpatt.util.ZPattString;
 </add:pattern>
@@ -295,6 +304,7 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
@@ -1044,6 +1054,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           yybegin(CIRCUSTOOLSOFF);          
         }        
 </add:circus>
+// TODO: CircusConf: could try a more complex use of \circconf{X} for variables?
 <add:oz>
   //look ahead to see if this is a generic class
   //this also supports the "[" inside the "{..}" because the latex

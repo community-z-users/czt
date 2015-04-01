@@ -71,6 +71,16 @@ import net.sourceforge.czt.parser.circus.CircusParseMessage;
 import net.sourceforge.czt.circustime.util.Factory;
 </add:circustimecore>
 
+
+<add:circusconf>
+import net.sourceforge.czt.parser.circus.CircusParseError;
+import net.sourceforge.czt.parser.circus.CircusParseMessage;
+</add:circusconf>
+<add:circusconfcore>
+import net.sourceforge.czt.circusconf.util.Factory;
+</add:circusconfcore>
+
+
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
@@ -2325,6 +2335,7 @@ parser code
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
@@ -2818,6 +2829,10 @@ terminal LocInfo
    	/* Support Circus time for Action and Process */ 
         CIRCWAIT, ATTIME, CIRCENDBY, CIRCSTARTBY, CIRCTIMEOUT, CIRCTIMEDINTERRUPT, LCIRCTIME, RCIRCTIME,
  </add:circustime>
+ <add:circusconf>
+   	/* Support Circus confidentiality for Action and Process */ 
+        LCIRCCONF, RCIRCCONF,
+ </add:circusconf>
  
 
 <add:oz>
@@ -3546,7 +3561,9 @@ precedence nonassoc     CIRCASSIGN;
 precedence nonassoc  LCIRCTIME, RCIRCTIME;
 precedence nonassoc     CIRCWAIT;
  </add:circustime>
-
+ <add:circusconf>
+precedence nonassoc  LCIRCCONF, RCIRCCONF;
+ </add:circusconf>
 
 <add:zeves>
 precedence nonassoc     LLABEL, RLABEL; //, LZNOTE, RZNOTE;
@@ -5392,7 +5409,7 @@ prefixTemplate ::=
 
 postfixTemplate ::=
         LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
-        {:
+        {: 
            ol.add(0, createOperator(n));
            ol.add(0, v);
            RESULT = ol;
@@ -6362,6 +6379,14 @@ process ::=
 		    addLocAnn(RESULT, getLocation(pr,e));
         :}
         </add:circustime>
+        <add:circusconf>
+		|
+		LCIRCCONF:lc process:p RCIRCCONF:rc
+		{:
+            RESULT = factory_.createConfidentialityProcess(p);
+            addLocAnn(RESULT, getLocation(lc, rc));			
+		:}
+		</add:circusconf>
         |
         process:pl INTERLEAVE:in process:pr
         {:
@@ -7108,6 +7133,14 @@ cspAction ::=
 		    addLocAnn(RESULT, getLocation(zn, ac));
 		:}
 		</add:circustime>
+		<add:circusconf>
+		|
+		LCIRCCONF:lc circusAction:ca RCIRCCONF:rc
+		{:
+            RESULT = factory_.createConfidentialityAction(ca);
+            addLocAnn(RESULT, getLocation(lc, rc));			
+		:}
+		</add:circusconf>
         |
         circusAction:cal LINTER:li nameSet:nsl BAR nameSet:nsr RINTER:ri circusAction:car
         {:

@@ -41,6 +41,7 @@
     <module>corejava-circus</module>
     <module>corejava-circuspatt</module>
     <module>corejava-circustime</module>
+    <module>corejava-circusconf</module>
   </modules>
 
   <build>
@@ -66,6 +67,7 @@
               <mappingFileLocation>/gnast-mapping.properties</mappingFileLocation>
               <sourceSchemas>
               	<!-- Couldn't these be inferred from the context? -->
+                <schemaLocation>net/sourceforge/czt/zml/xsd/CircusConf.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/CircusTime.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/Circus.xsd</schemaLocation>
                 <schemaLocation>net/sourceforge/czt/zml/xsd/CircusPattern.xsd</schemaLocation>

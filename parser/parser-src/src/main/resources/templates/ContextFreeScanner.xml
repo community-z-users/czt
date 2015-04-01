@@ -99,6 +99,7 @@ import net.sourceforge.czt.parser.zeves.Proofword;
     				  <add:zevescore>Dialect.ZEVES</add:zevescore>
     				  <add:circuspattcore>Dialect.CIRCUSPATT</add:circuspattcore>
     				  <add:circuscore>Dialect.CIRCUS</add:circuscore>
+    				  <add:circusconfcore>Dialect.CIRCUSCONF</add:circusconfcore>
     				  <add:circustimecore>Dialect.CIRCUSTIME</add:circustimecore>
     				  // otherwise it will be unassigned, hence a compilation error
     				  ;
@@ -386,6 +387,11 @@ RINTER = "\u301B"   /* left interleave bracket */
 LCIRCTIME = "\u27EC" /* left time bracket */
 RCIRCTIME = "\u27ED" /* right time bracket */
 </add:circustime>
+
+<add:circusconf>
+LCIRCCONF = "\u2329"
+RCIRCCONF = "\u232A"
+</add:circusconf>
 
 
 <add:zeves>
@@ -702,6 +708,12 @@ ZREFINES = //{NL_SPACE}*
   {RCIRCTIME} {  return symbol(Sym.RCIRCTIME); }
   </add:circustime>
   
+  <add:circusconf>
+  /* Support for Circus Time */
+  {LCIRCCONF} {  return symbol(Sym.LCIRCCONF); }
+  {RCIRCCONF} {  return symbol(Sym.RCIRCCONF); }
+  </add:circusconf>
+
   <add:zeves>
   {LLABEL}      { return symbol(Sym.LLABEL); }
   {RLABEL}      { return symbol(Sym.RLABEL); }
