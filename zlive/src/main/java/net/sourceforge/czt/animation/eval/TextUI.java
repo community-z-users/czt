@@ -395,7 +395,9 @@ public class TextUI {
     }
     catch (Exception ex) {
       output_.println("Error: " + ex);
-      // ex.printStackTrace();
+      if (DEBUG) {
+    	  ex.printStackTrace();
+      }
     }
     output_.flush();
   }

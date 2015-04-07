@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatEqualsVisitor;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -31,6 +32,9 @@ import net.sourceforge.czt.z.ast.ZName;
 /** FlatEquals implements the a = b predicate. */
 public class FlatEquals extends FlatPred
 {
+  /** The most recent bounds object. */
+  private Bounds bounds_;
+  
   public FlatEquals(ZName a, ZName b)
   {
     args_ = new ArrayList<ZName>(2);
@@ -66,13 +70,82 @@ public class FlatEquals extends FlatPred
 
     // now record the actual equality
     bnds.addAlias(left, right);
+    bounds_ = bnds;
     return changed;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
+	// This is problematic for set equality, because it says cost=1.0
+	// regardless of the possible expense/size of the set.
+	// It would be nice to give preference to smaller sets.
     return modeOneOutput(env);
+    /*
+    // This is a draft attempt at finding information about the size of a set.
+    // It is not very successful, because most of the sets in env have no information!
+    // To make this work better, the inferBounds or choosemode methods of
+    // FlatSetComp etc. need to record more useful information about the
+    // size of the set (either in the environment, or in the Bounds object).
+    // Then the following code should become more useful.
+	Mode result = new Mode(this, env, getArgs(), 0.0);
+	if (result.numOutputs() == 0)
+		result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
+	else if (result.numOutputs() == 1) {
+		// do we have a known input?
+		Expr input = null;
+		if (result.isInput(0)) {
+			input = findSetInfo(args_.get(0), env);
+		} else if (result.isInput(1)) {
+			input = findSetInfo(args_.get(1), env);
+		}
+		// now try to estimate how complex the input value will be to evaluate
+		if (input != null && input instanceof EvalSet) {
+			EvalSet set = (EvalSet) input;
+			double size = set.estSize();
+			double logSize = Math.log10(size);
+			System.out.println("Equals " + toString() + " EvalSet estSize=" + size + " logSize=" + logSize);
+			result.setSolutions(logSize);
+		} else if (input == null) {
+			result.setSolutions(1.1); // 
+			System.out.println("Equals " + toString() + " unknown so " + 1.1);
+		} else {
+			result.setSolutions(Mode.ONE_SOLUTION);
+			System.out.println("Equals " + toString() + " 1.0");
+		}
+	}
+	else {
+		result = null;
+	}
+    return result;
+    */
+  }
+
+  /** Tries to find approximate information about the given name. */
+  private Expr findSetInfo(ZName name, Envir env) {
+	  Expr result = null;
+	  if (env.isDefined(name)) {
+		  result = env.lookup(name);
+		  if (result != null) {
+			  System.out.println("FOUND env info for " + name + " : " + result);
+			  return result;
+		  }
+	  }
+	  // try a synonym of name?
+	  ZName bestName = bounds_.getBestAlias(name);
+	  if (env.isDefined(bestName)) {
+		  result = env.lookup(bestName);
+	  }
+	  if (result != null) {
+		  System.out.println("FOUND env info for " + name + " : " + result);
+		  return result;
+	  }
+	  // try getting approx info from bounds.
+	  result = bounds_.getEvalSet(bestName); // approximate
+	  if (result != null) {
+		  System.out.println("FOUND bounds eval set info for " + name + " : " + result);
+	  }
+	  return result;
   }
 
   /** Does the actual evaluation */
