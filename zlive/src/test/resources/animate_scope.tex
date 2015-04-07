@@ -63,17 +63,19 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
  Complex schema nestings
 \begin{zed}
    X == \{ 42 \} \\
-   S1 == (\exists X:\power \nat @ [a:X] \land [X:\power \nat | X=\emptyset])
+   S1 == [a:X] \land [X:\power \nat |  X=\emptyset] \\
+   S2 == (\exists X:\power \nat @ [a:X] \land [X:\power \nat | X=\emptyset])
 \end{zed}
 
-TODO: is this true?
-\begin{zed} \vdash? \# \{S1\} = 1 \end{zed}
+\begin{zed} \vdash? \# S1 = 1 \end{zed}
 
  Moving predicates from types into predicate part.
 \begin{schema}{SX}
     X : X
 \where
-    X=42
+    X=43
 \end{schema}
+
+\begin{zed} \vdash? \# SX = 0 \end{zed}
 
 \end{document}

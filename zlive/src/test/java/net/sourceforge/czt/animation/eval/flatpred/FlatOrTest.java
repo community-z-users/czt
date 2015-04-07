@@ -71,7 +71,7 @@ public class FlatOrTest
                + "  tmp3 == 1;\n"
                + "  tmp2 = y + tmp3;\n"
                + "  tmp4 = { tmp2, tmp0 };\n"
-               + "  z in tmp4\n"
+               + "  z in tmp4 :: 1000.0 \n"
                + ")",
                pred.toString());
   }
