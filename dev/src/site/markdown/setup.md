@@ -18,7 +18,7 @@ You need at least the following to build CZT:
 *    [Git][git] client to get the source files
      ([various GUI clients are available][git-gui])
      
-*    [Java Development Kit][jdk] version 6 or newer (we are using Java 8, so Java 6 may be untested)
+*    [Java Development Kit][jdk] version 8 or newer
 
 *    [Maven][mvn] version 3.3.3 or newer
 
