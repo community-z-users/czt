@@ -415,6 +415,9 @@
         </reportSets>
         <configuration>
           <detectLinks>true</detectLinks>
+          <!-- Disable doclint in JDK 8 for now:
+               http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html -->
+          <additionalparam>-Xdoclint:none</additionalparam>
         </configuration>
       </plugin>
 
