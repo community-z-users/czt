@@ -1,7 +1,7 @@
 # Setup CZT in Eclipse
 
 These instructions outline steps how to develop CZT source code using
-[Eclipse IDE][eclipse]. Information is based on Eclipse Juno (4.2).
+[Eclipse IDE][eclipse]. Information is based on Eclipse Mars (4.5).
 
 Refer to [general setup instructions][setup] for more details on CZT
 development setup.

@@ -43,6 +43,7 @@
         </executions>
         <configuration>
           <formats>
+            <win32>zip</win32>
             <linux>tar.gz</linux>
             <macosx>tar.gz</macosx>
           </formats>
@@ -50,7 +51,12 @@
             <product>
               <id>net.sourceforge.czt.eclipse.product</id>
               <archiveFileName>czt-ide-${unqualifiedVersion}.${czt.buildId}</archiveFileName>
-              <rootFolder>czt-ide</rootFolder>
+                <rootFolders>
+                  <win32>czt-ide</win32>
+                  <linux>czt-ide</linux>
+                  <!-- for MacOSX, make sure you use a folder ending with .app , see bug 463670 -->
+                  <macosx>CZT IDE.app</macosx>
+                </rootFolders>
             </product>
           </products>
           <profile>SDKProfile</profile>
