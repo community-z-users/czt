@@ -6,8 +6,8 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
-import sun.beans.editors.ColorEditor;
-import sun.beans.editors.FontEditor;
+import com.sun.beans.editors.ColorEditor;
+import com.sun.beans.editors.FontEditor;
 
 /**
  * @author Linan Zhang
