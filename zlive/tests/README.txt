@@ -31,6 +31,12 @@ In addition, the UserTest-Results directory stores the actual junit
 output files (TEST-.....Animate*.txt) that correspond to each line
 in UserTest-Statistics.csv.
 
+Warning: individual tests are identified just by their line number in
+the source animate*.tex file, so it is best to add new tests at the end.
+If you do add/delete lines within those files, you should update the
+UserTest-Results by copying the new TEST-...Animate*.txt files in there,
+so that future comparisons will be meaningful.
+
 After making a change to ZLive, you should:
 1.  ant test         (to check that the unit tests all pass)
 2.  ant usertest     (to run the user-level tests)

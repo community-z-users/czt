@@ -56,7 +56,7 @@ public class FlatForallTest
 
   public void testToString()
   {
-    assertEquals("(forall\n  tmp0 = x .. y;\n  i in tmp0\n@ z < i\n)", sut_.toString());
+    assertEquals("(forall\n  tmp0 = x .. y;\n  i in tmp0 :: 1000.0 \n@ z < i\n)", sut_.toString());
   }
 
   public void testFreeVars()

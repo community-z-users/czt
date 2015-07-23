@@ -76,16 +76,17 @@ public class FlatMu extends FlatPred
     LOG.entering("FlatMu","chooseMode",env0);
     Mode mode = this.modeFunction(env0);
     if (mode != null) {
+      Envir insideEnv = env0;
       if (mode.isInput(resultName_)) {
-        // Note: we disallow the III mode.
+    	insideEnv = env0.hide(resultName_);
+        // Note: we implement the III mode as IIO followed by an equals check.
         // For example, (\mu x:0..10 @ x) = 3
-        // will give the wrong results if it is transformed into
+        // would give the wrong results if it is transformed into
         // (\mu x:0..10 @ 3).  So the III mode is not sound.
-        LOG.exiting("FlatMu","chooseMode",null);
-        return null;
+    	// So we avoid it by hiding resultName_ before passing the env to schText_.
       }
       // Now check if the bound vars are finite enough to enumerate
-      Mode schmode = schText_.chooseMode(env0);
+      Mode schmode = schText_.chooseMode(insideEnv);
       LOG.fine("schema text gives mode = " + mode);
       if (schmode == null)
         mode = null;  // cannot evaluate the FlatMu.
@@ -144,7 +145,7 @@ public class FlatMu extends FlatPred
           new UndefException("Mu expression has no solutions: " + this);
         throw ex;
       }
-      if (evalMode_.isInput(args_.size()-1)) {
+      if (evalMode_.isInput(resultName_)) {
         if (value.equals(env.lookup(resultName_)))
           result = true;
       }

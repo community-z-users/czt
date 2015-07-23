@@ -1,7 +1,7 @@
 # Setup CZT in Eclipse
 
 These instructions outline steps how to develop CZT source code using
-[Eclipse IDE][eclipse]. Information is based on Eclipse Juno (4.2).
+[Eclipse IDE][eclipse]. Information is based on Eclipse Mars (4.5).
 
 Refer to [general setup instructions][setup] for more details on CZT
 development setup.
@@ -69,8 +69,8 @@ from the [CZT developer Eclipse update site][czt-dev-p2]:
 
 [Install the connectors][eclipse-update] before importing CZT Maven projects:
 
--    _m2e connector for `maven-jflex-plugin`_, version `>= 1.1.0`
--    _m2e Connector for XML Transform_ (`xml-maven-plugin`), version `>= 0.6.0`
+-    _m2e connector for `maven-jflex-plugin`_, version `>= 1.2.0`
+-    _m2e Connector for XML Transform_ (`xml-maven-plugin`), version `>= 3.0.0`
 
 Several other Maven plugins have m2e connectors available in m2e marketplace.
 Install them when asked during CZT project import.

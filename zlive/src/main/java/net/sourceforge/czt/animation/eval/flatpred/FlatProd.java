@@ -90,6 +90,12 @@ public class FlatProd extends FlatPred
   {
     assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
+//    // April 2015 experiment: adding this does not make much difference to evaluate success.
+//    if (m != null && m.isOutput(getLastArg())) {
+//    	// Try to avoid generating cartesian products - they are usually large!
+//      // But they can be used for testing membership, so we don't always have to generate all members.
+//    	m.setSolutions(1.3);
+//    }
     return m;
   }
 

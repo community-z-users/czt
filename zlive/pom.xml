@@ -27,7 +27,7 @@
     <dependency>
       <groupId>nz.ac.waikato.modeljunit</groupId>
       <artifactId>modeljunit</artifactId>
-      <version>1.5</version>
+      <version>2.5</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -75,20 +75,5 @@
       </resource>
     </resources>
   </build>
-
-  <repositories>
-    <!-- CZT repository for modeljunit library, because it is not available in Maven Central at the moment -->
-    <repository>
-      <id>czt</id>
-      <name>CZT repository</name>
-      <url>http://czt.sourceforge.net/maven/repository</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
 </project>

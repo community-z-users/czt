@@ -14,6 +14,10 @@
 \usepackage{url}
 
 % Extra general macros for this paper.
+%This is just for the \ding{52} character (a tick). 
+%Could use \surd instead?
+%or \checked from the wasysyn general symbols?
+\usepackage{pifont}   
 
 % Extra math-mode macros for this paper.
 % Some of these may eventually go into czt.sty
@@ -23,23 +27,24 @@
 \newcommand{\declListUnfoldsTo}{\mathrel{=_d}}
 \newcommand{\unprefix}{\mathrel{unprefix}}
 \newcommand{\schemaEquals}{\mathrel{=_S}}
-\newcommand{\hasDefn}{\mathrel{hasDefn}}
-\newcommand{\is}{\mathrel{is}}
+%\newcommand{\hasDefn}{\mathrel{hasDefn}}
+%\newcommand{\is}{\mathrel{is}}
 
 \def\lastname{Utting, Malik and Toyn}
 
 \begin{document}
+\date{January 7, 2010}
 \begin{frontmatter}
   \title{Transforming Z with Rules}
-  \author{Mark Utting\thanksref{emailMark}}
+  \author{Mark Utting$^1$} %\thanksref{emailMark}}
   \address{Department of Computer Science\\
     The University of Waikato\\
     Hamilton, New Zealand} 
-  \author{Petra Malik\thanksref{emailPetra}}
+  \author{Petra Malik$^2$} %\thanksref{emailPetra}}
   \address{Department of Computer Science\\
     The University of Waikato\\
     Hamilton, New Zealand} 
-  \author{Ian Toyn\thanksref{emailIan}}
+  \author{Ian Toyn$^3$} %\thanksref{emailIan}}
   \address{Department of Computer Science\\
     The University of York\\
     Heslington, York, UK}
@@ -58,9 +63,13 @@
   set is used by the ZLive animator to preprocess Z expressions into
   a form more suitable for animation.
 \end{abstract}
-\begin{keyword}
+%\begin{keyword}
+{\vspace{1ex}
+\small
+\textbf{Keywords:}
   CZT, ZedRules, reasoning, rewriting rules, theorem proving
-\end{keyword}
+}
+%\end{keyword}
 \end{frontmatter}
 
 

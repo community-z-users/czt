@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatOrVisitor;
 import net.sourceforge.czt.util.Visitor;
@@ -111,16 +112,18 @@ public class FlatOr extends FlatPred
     if (leftMode == null) {
       return null;
     }
+    // It would be nice to give 'right_' some hints about which mode to choose here.
+    // It has to choose the same mode as 'left_'.
     Mode rightMode = right_.chooseMode(env0);
     if (rightMode == null) {
       return null;
     }
     Set<ZName> leftVars = leftMode.getEnvir().definedSince(env0);
-    Set<ZName> rightVars = rightMode.getEnvir().definedSince(env0);
+    leftVars.retainAll(left_.freeVars());  // discard bound vars
     // TODO: investigate why left_.boundVars_ is legal here --
     //       should be protected.
-    leftVars.retainAll(left_.freeVars());
-    rightVars.retainAll(right_.freeVars());
+    Set<ZName> rightVars = rightMode.getEnvir().definedSince(env0);
+    rightVars.retainAll(right_.freeVars()); // discard bound vars
     //System.err.println("Leftvars="+leftVars+", rightVars="+rightVars);
     if (leftVars.equals(rightVars)) {
       double solutions = leftMode.getSolutions() + rightMode.getSolutions();
@@ -148,12 +151,25 @@ public class FlatOr extends FlatPred
     super.setMode(mode);
     // and set the left_ and right_ modes.
     ModeList modes = (ModeList) mode;
+    assert modes.size() == 2;
     Mode leftMode = modes.get(0);
     Mode rightMode = modes.get(1);
     left_.setMode(leftMode);
     right_.setMode(rightMode);
     outputs_ = leftMode.getEnvir().definedSince(leftMode.getEnvir0());
-    outputs_.removeAll(left_.boundVars_);
+    // WAS: outputs_.removeAll(left_.boundVars_);
+    // (but that only removed bound vars at the top level of the predicate,
+    //  whereas retaining just freeVars also removes inner bound vars.
+    //  For example, this happens with: (not P) or Q, when P has bound vars). 
+    outputs_.retainAll(left_.freeVars());  // discard bound vars
+
+    // Now double check that both sides have the same outputs
+    Set<ZName> rOutputs = rightMode.getEnvir().definedSince(leftMode.getEnvir0());
+    // WAS: rOutputs.removeAll(right_.boundVars_);
+    rOutputs.retainAll(right_.freeVars());
+    if (!rOutputs.equals(outputs_)) {
+    	throw new EvalException("FlatOr outputs " + outputs_ + "  !=   " + rOutputs);
+    }
   }
 
   public void startEvaluation()

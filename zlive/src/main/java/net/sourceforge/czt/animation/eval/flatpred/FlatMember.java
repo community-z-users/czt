@@ -146,7 +146,7 @@ public class FlatMember extends FlatPred
    * @return
    */
   protected double estSize(Envir env)
-  {        
+  {
     ZName setName = args_.get(0);
     RangeSet range = range(env);
     BigInteger maxSize = (range==null) ? null : range.maxSize();
@@ -185,6 +185,10 @@ public class FlatMember extends FlatPred
       result = Math.min(result, maxSize.doubleValue());
     }
 
+    if (result == EvalSet.INFINITE_SIZE) {
+    	// We have no useful data, so default to middle size. 
+    	result = EvalSet.UNKNOWN_SIZE;
+    }
     return result;
   }
 
