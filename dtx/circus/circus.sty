@@ -19,8 +19,8 @@
 %% is granted to distribute a modified version of this
 %% file under its original name.
 %%
-\def\fileversion{v.1.3}
-\def\filedate{2015/05/08}
+\def\fileversion{v.1.4}
+\def\filedate{2015/07/23}
 \def\filedesc{Circus style file by the Community Z Tools}
 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
@@ -65,7 +65,7 @@
 \DeclareOption{ctkkeyword}{\PackageInfo{circus}{'ctkkeyword' option chosen} \@ctkkeyword@true}
 
 % default option as using math italics for mathcode names.
-\ExecuteOptions{mathit,colour,cntglobally}
+%\ExecuteOptions{mathit,colour,cntglobally}
 \ProcessOptions\relax
 
 %                                                               %
@@ -337,12 +337,12 @@
 % Low-level TeX register used to define what to count
 % 0 = channels     (i.e., \circchannel, \circchannelfrom)
 % 1 = channel sets (i.e., \circchanset)
-% 2 = processes
-% 3 = process ref.
+% 2 = processes (i.e. \circprocess)
+% 3 = process ref. (i.e. \circassertref)
 % 4 = start action counting
-% 5 = name sets
-% 6 = actions
-% 7 = action ref.
+% 5 = name sets (i.e. \circnameset)
+% 6 = actions (\i.e. \begin{circusaction})
+% 7 = action ref. (i.e. \circassertref within basic process -after \circbegin-)
 % 8 = end action counting
 % 99= nothing
 \newcount\@circuscountingwhat
@@ -350,6 +350,12 @@
 
 % Flag used to switch tools-only commands typesetting on/off
 \newif\ifTypesetCircusToolsCmds
+
+\newif\if@circusbasicproc@               % determines whether within circus basic process
+\@circusbasicproc@false
+
+\newif\if@circusdefnameset@
+\@circusdefnameset@false
 
 % Few counters used to calculate number of definitions.
 % Reset is controlled by flag/option, default is "cntglobally".
@@ -406,56 +412,55 @@
 \newcounter{cntCircustotDeclShallow}
 \newcounter{cntCircustotDeclDeep}
 
+\newcounter{cntCircusunknown}
+\newcounter{cntCircustotunknown}
+
 \newcounter{cntCircusZtotunboxed}
 \newcounter{cntCircusZtotaxdef}
 \newcounter{cntCircusZtotgendef}
 \newcounter{cntCircusZtotschema}
 \newcounter{cntCircusZtotgenschema}
+\newcounter{cntCircusZunknown}  % bug? / double-check
+\newcounter{cntCircusZtotunknown}  % bug? / double-check
 
 % update the reseting rationale based on package options.
 % maybe put this code at the \DeclareOption part (?)
-%\if@cntbychapter@
-%  \@addtoreset{cntCircusChannel}{chapter}
-%  \@addtoreset{cntCircusChannelset}{chapter}
-%  \@addtoreset{cntCircusProcess}{chapter}
-%  \@addtoreset{cntCircusProcessRef}{chapter}
-%  \@addtoreset{cntCircusDeclDeep}{chapter}
-%
-%%  \@addtoreset{cntCircusNameset}{chapter}
-%%  \@addtoreset{cntCircusAction}{chapter}
-%%  \@addtoreset{cntCircusActionRef}{chapter}
-%%  \@addtoreset{cntCircusDeclShallow}{chapter}
-%
-%
-%%  \renewcommand{\thecntCircusChannel}{\arabic{cntCircus} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Chapter~\thechapter}
-%%  \renewcommand{\thecntCircusChannelset}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
-%%  \renewcommand{\thecntCircusProcess}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
-%%  \renewcommand{\thecntCircusProcessRef}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
-%%  \renewcommand{\thecntCircusNameset}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
-%%  \renewcommand{\the}{\arabic{cntZdecl} in Chapter~\thechapter}
-%\else
-%  \if@cntbysection@
-%     \@addtoreset{cntCircusChannel}{chapter}
-%     \@addtoreset{cntCircusChannelset}{chapter}
-%     \@addtoreset{cntCircusProcess}{chapter}
-%     \@addtoreset{cntCircusProcessRef}{chapter}
-%     \@addtoreset{cntCircusDeclDeep}{chapter}
-%
-%%     \@addtoreset{cntCircusNameset}{chapter}
-%%     \@addtoreset{cntCircusAction}{chapter}
-%%     \@addtoreset{cntCircusActionRef}{chapter}
-%%     \@addtoreset{cntCircusDeclShallow}{chapter}
-%
-%%    % this is not a very helpful command. TODO: CHANGE PLEASE
-%%    \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Section~\thesection}
-%%    \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
-%%    \renewcommand{\thecntZgendef}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
-%%    \renewcommand{\thecntZschema}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
-%%    \renewcommand{\thecntZgenschema}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Section~\thesection}
-%%    \renewcommand{\thecntZdecl}{\arabic{cntZdecl} in Section~\thesection}
-%  \fi
-%  %\else \if@cntglobally@ \relax \fi
-%\fi
+\if@cntbychapter@
+  \@addtoreset{cntCircusChannel}{chapter}
+  \@addtoreset{cntCircusChannelset}{chapter}
+  \@addtoreset{cntCircusProcess}{chapter}
+  \@addtoreset{cntCircusProcessRef}{chapter}
+  \@addtoreset{cntCircusDeclDeep}{chapter}
+  \@addtoreset{cntCircusunknown}{chapter}
+  \@addtoreset{cntCircusZunknown}{chapter}
+
+% These counters are to be reset by cntCircusProcess
+%  \@addtoreset{cntCircusNameset}{chapter}
+%  \@addtoreset{cntCircusAction}{chapter}
+%  \@addtoreset{cntCircusActionRef}{chapter}
+%  \@addtoreset{cntCircusDeclShallow}{chapter}
+
+
+%  \renewcommand{\thecntCircusChannel}{\arabic{cntCircus} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items\fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusChannelset}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusProcess}{\arabic{cntZgendef} generic axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusProcessRef}{\arabic{cntZschema} \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+%  \renewcommand{\thecntCircusNameset}{\arabic{cntZgenschema} generic \ifnum \arabic{cntZaxdef} = 1 schema \else schemas \fi in Chapter~\thechapter}
+%  \renewcommand{\the}{\arabic{cntZdecl} in Chapter~\thechapter}
+\else
+  \if@cntbysection@
+     \@addtoreset{cntCircusChannel}{section}
+     \@addtoreset{cntCircusChannelset}{section}
+     \@addtoreset{cntCircusProcess}{section}
+     \@addtoreset{cntCircusProcessRef}{section}
+     \@addtoreset{cntCircusDeclDeep}{section}
+  \@addtoreset{cntCircusunknown}{section}
+  \@addtoreset{cntCircusZunknown}{section}
+\else 
+  \if@cntglobally@ \relax 
+\fi
+\fi
+\fi
 
 %%%%%%%%%% registers initialisation                             %
 
@@ -466,6 +471,7 @@
     \space\space\space\protect\TypesetCircusToolsCmds=\ifTypesetCircusToolsCmds true \else false \fi%
 }
 
+% Count Z paragraphs to keep czt.sty happy then count Circus paragraphs, possibly inner
 \let\@@countZGlobal=\@countZGlobal
 \def\@countZGlobal {%
     \@@countZGlobal
@@ -474,6 +480,7 @@
 \let\@@countZPara=\@countZPara
 \def\@countZPara {%
     \ifCountDefs
+    		% if counting global Circus items
        \ifnum \@circuscountingwhat < 4      % x < 4
           % count Z global, updating circus global counters
           \@@countZPara
@@ -491,8 +498,73 @@
     \fi
 }
 
+\let\@@countZHNL=\@countZHNL
+\def\@countZHNL{%
+	\@@countZHNL
+	\@circusdefnameset@false
+}
+
+% 0 = channels     (i.e., \circchannel, \circchannelfrom)
+% 1 = channel sets (i.e., \circchanset)
+% 2 = processes (i.e. \circprocess)
+% 3 = process ref. (i.e. \circassertref)
+% 4 = start action counting
+% 5 = name sets (i.e. \circnameset)
+% 6 = actions (\i.e. \begin{circusaction})
+% 7 = action ref. (i.e. \circassertref within basic process -after \circbegin-)
+% 8 = end action counting
+% 99= nothing
+
+\def\circuscountingwhat{%
+       \ifnum \@circuscountingwhat= 0
+           channel
+       \else
+          \ifnum \@circuscountingwhat = 1
+             channel set
+          \else
+             \ifnum \@circuscountingwhat = 2
+                process
+          \else
+             \ifnum \@circuscountingwhat = 3
+                process ref.
+             \else
+                \ifnum \@circuscountingwhat = 4
+                  start act count
+                \else
+                   \ifnum \@circuscountingwhat = 5
+                      name set
+                   \else
+                     \ifnum \@circuscountingwhat = 6
+                        action def.
+                      \else
+                     \ifnum \@circuscountingwhat = 7
+                        action ref.
+                      \else
+                     \ifnum \@circuscountingwhat = 8
+                        end act count
+                      \else
+                      	\ifnum \@circuscountingwhat = 99
+							nothing
+					\else
+                       %don't count at all but debug?
+                          unknown?
+                       \fi
+                     \fi
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+       \fi
+       \fi
+       \fi
+}
+
+
 \def\@countCircusZPara{%
    \ifCountDefs
+       \PackageWarning{circus}{Counting (Z) \zcountingwhat}
+       \PackageWarning{circus}{Counting (C) \circuscountingwhat \if@circusbasicproc@ in BP. Ok. \else not in BP? Error! \fi} 
        \ifnum \@zcountingwhat = 0
           %unboxed para code...
           \stepcounter{cntCircusZunboxed}
@@ -522,13 +594,18 @@
                       \stepcounter{cntCircusZgenschema}
                       \stepcounter{cntCircusZtotgenschema}
                       \@countCircusGlobal
-                   \else
-                      %don't count at all
-                      \relax
+                      \else
+                      	\ifnum \@zcountingwhat = 99
+							\relax
+					\else
+                       %don't count at all but debug?
+                          \stepcounter{cntCircusZunknown}
+                          \stepcounter{cntCircusZtotunknown}
                    \fi
                 \fi
              \fi
           \fi
+       \fi
        \fi
    \else
       \relax
@@ -542,6 +619,7 @@
       \stepcounter{cntCircustotDeclDeep}}
 \def\@countCircusPara{%
    \ifCountDefs
+       \PackageWarning{circus}{Counting  (C) \circuscountingwhat \if@circusbasicproc@ in BP \else not in BP \fi}
        \ifnum \@circuscountingwhat = 0
           %channel and channel from para code...
           \stepcounter{cntCircusChannel}
@@ -568,8 +646,10 @@
                 \else
                    \ifnum \@circuscountingwhat = 4
                       %inner basic process counting code...
-                      %we need to redefine the way \@countZPara works
-                      \relax % TODO!
+                      %we need to redefine the way \@countZPara works?
+                      
+                      % using Count Circus Z Para, which will count \@countZPara as well as \@countCircusGlobal accordingly
+                      \@countCircusZPara 
                    \else
                        % if within \circbegin (4) .. \circend (8)
                        \ifnum \@circuscountingwhat > 4
@@ -594,17 +674,36 @@
                                       \@countCircusGlobal
                                    \else
                                       % don't count, e.g., \@circuscountingwhat=99
-                                      \relax
+                                    	\ifnum \@circuscountingwhat = 99
+              							\relax
+              					\else
+                                     %don't count at all but debug?
+                                        \stepcounter{cntCircusunknown}
+                                        \stepcounter{cntCircustotunknown}
                                    \fi
                                 \fi
                              \fi
+                             \fi
                           \else
                              % don't count, reached \circend, \@circuscountingwhat=8
-                             \relax
+                             \ifnum \@circuscountingwhat = 99
+          							\relax
+          					\else
+                                 %don't count at all but debug?
+                                    \stepcounter{cntCircusunknown}
+                                    \stepcounter{cntCircustotunknown}
+                               \fi 
                           \fi
                        \else
                           %don't count, e.g., \@circuscountingwhat=99
-                          \relax
+                         \ifnum \@circuscountingwhat = 99
+        							\relax
+        					\else
+                               %don't count at all but debug?
+                                  \stepcounter{cntCircusunknown}
+                                  \stepcounter{cntCircustotunknown}
+                             \fi 
+
                        \fi
                    \fi
                 \fi
@@ -639,62 +738,99 @@
          \@countCircusPara
       \fi}
 
+\newcounter{cntCircusOverallTotShallow}
+\newcounter{cntCircusOverallTotDeep}
+\setcounter{cntCircusOverallTotShallow}{\value{cntZtotdecl}}
+\setcounter{cntCircusOverallTotDeep}{\value{cntZtotdecl}}
+\addtocounter{cntCircusOverallTotShallow}{\value{cntCircustotDeclShallow}}
+\addtocounter{cntCircusOverallTotDeep}{\value{cntCircustotDeclDeep}}
+
+\def\CircusDeclTblInfoGlobal{%
+					\hline
+                    \hline
+                    \textbf{\Circus\ Declarations}   & \textbf{Total} \\
+                    \hline
+                     Channel decls.          & \arabic{cntCircustotChannel} \\
+                    \hline
+                    Channel set decls.      & \arabic{cntCircustotChannelset} \\
+                    \hline
+                    Process decls.          & \arabic{cntCircustotProcess} \\
+                    \hline
+                    Process ref. assertions & \arabic{cntCircustotProcessRef} \\
+                    \hline
+                    Name sets & \arabic{cntCircustotNameset} \\
+                    \hline
+                    Actions & \arabic{cntCircustotAction} \\
+                    \hline
+                    Action ref. assertions & \arabic{cntCircustotActionRef} \\
+%                    \hline
+%                    Z unboxed  & \arabic{cntCircusZtotunboxed} \\
+%                    \hline
+%                    Axiomatic Defs & \arabic{cntCircusZtotaxdef} \\
+%                    \hline
+%                    Gen defs & \arabic{cntCircusZtotgendef} \\
+%                    \hline
+%                    Schemas & \arabic{cntCircusZtotschema} \\
+%                    \hline
+%                    Generic schemas & \arabic{cntCircusZtotgenschema} \\
+                    \hline
+                     \textbf{Total}          & \textbf{\arabic{cntCircustotDeclShallow}} \\
+%                    \hline
+%                     \textbf{TotalD}          & \textbf{\arabic{cntCircustotDeclDeep}} \\
+                    \hline
+}
+
+\def\CircusDeclTblInfoBy{%
+                    \hline
+                    \hline
+                    \textbf{\Circus\ Declarations}   & \textbf{This \@cntpart} & \textbf{Total} \\
+                    \hline
+                     Channel decls.          & \arabic{cntCircusChannel} & \arabic{cntCircustotChannel} \\
+                    \hline
+                    Channel set decls.      & \arabic{cntCircusChannelset}  & \arabic{cntCircustotChannelset} \\
+                    \hline
+                    Process decls.          & \arabic{cntCircusProcess} & \arabic{cntCircustotProcess} \\
+                    \hline
+                    Process ref. assertions & \arabic{cntCircusProcessRef} & \arabic{cntCircustotProcessRef} \\
+                    \hline
+                    Name sets 			& \arabic{cntCircusNameset} & \arabic{cntCircustotNameset} \\
+                    \hline
+                    Actions 					& \arabic{cntCircusAction} & \arabic{cntCircustotAction} \\
+                    \hline
+                    Action ref. assertions & \arabic{cntCircusActionRef} & \arabic{cntCircustotActionRef} \\
+%                    \hline
+%                    Z unboxed  			& \arabic{cntCircusZunboxed} & \arabic{cntCircusZtotunboxed} \\
+%                    \hline
+%                    Axiomatic Defs 		& \arabic{cntCircusZaxdef} & \arabic{cntCircusZtotaxdef} \\
+%                    \hline
+%                    Gen defs 				& \arabic{cntCircusZgendef} & \arabic{cntCircusZtotgendef} \\
+%                    \hline
+%                    Schemas 				& \arabic{cntCircusZschema} & \arabic{cntCircusZtotschema} \\
+%                    \hline
+%                    Generic schemas & \arabic{cntCircusZgenschema} & \arabic{cntCircusZtotgenschema} \\
+                    \hline
+                     \textbf{Total}          & \arabic{cntCircusDeclShallow} & \textbf{\arabic{cntCircustotDeclShallow}} \\
+                    %\hline
+                    % \textbf{TotalD}     & \arabic{cntCircusDeclDeep}     & \textbf{\arabic{cntCircustotDeclDeep}} \\
+                    \hline
+}
+
 \def \CircusDeclSummary {%
-   %\ZDeclSummary
    \ifCountDefs
       \begin{table}[ht]
         \begin{center}
             \if@cntglobally@
-                \begin{tabular}{|l|l|r|}
-                    \hline
-                    \textbf{Category} & \textbf{Declarations}   & \textbf{Total} \\
-                    \hline
-                                      & Unboxed items           & \arabic{cntZtotunboxed} \\
-                    %& \multicolumn{2}{c}{\hline} \\
-                                      & Axiomatic defs          & \arabic{cntZtotaxdef} \\
-                    \hline
-                    Top-level         & Generic axiomatic defs. & \arabic{cntZtotgendef} \\
-                    \hline
-                    Z decls           & Schemas                 & \arabic{cntZtotschema} \\
-                    \hline
-                                      & Generic schemas         & \arabic{cntZtotgenschema} \\
-                    \hline
-                                      & \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\
-                    \hline
-                    \hline
-                                      & Channel decls.          & \arabic{cntCircustotChannel} \\
-                    \hline
-                    Top-level         & Channel set decls.      & \arabic{cntCircustotChannelset} \\
-                    \hline
-                    \Circus{} decs    & Process decls.          & \arabic{cntCircustotProcess} \\
-                    \hline
-                                      & Process ref. assertions & \arabic{cntCircustotProcessRef} \\
-                    \hline
-                                      & \textbf{Total}          & \textbf{\arabic{cntCircustotDeclShallow}} \\
-                    \hline
-                    \hline
-                    Overall           & \textbf{Total}          &  \\% \textbf{\arabic{cntZtotdecl}\plus\arabic{cntCircustotDeclShallow}} \\
-                    \hline
+                \begin{tabular}{|l|r|}
+                    \ZDeclTblInfoGlobal
+                    \CircusDeclTblInfoGlobal
+                    %\hline
+                    %\textbf{Overall Total}          &   \textbf{\arabic{cntCircusOverallTotShallow}} \\
+                    %\hline
                 \end{tabular}
             \else
-                \def \@circuscntpart {%
-                    \if@cntbychapter@ Chapter \else \if@cntbysection@ Section \else ??? \fi \fi}
                 \begin{tabular}{|l|c|c|}
-                    \hline
-                    \textbf{Declarations}   & \textbf{This \@circuscntpart}       & \textbf{Globally} \\
-                    \hline
-                    Unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
-                    \hline
-                    Axiomatic definitions   & \arabic{cntZaxdef}             & \arabic{cntZtotaxdef} \\
-                    \hline
-                    Generic axiomatic defs. & \arabic{cntZgendef}            & \arabic{cntZtotgendef} \\
-                    \hline
-                    Schemas                 & \arabic{cntZschema}            & \arabic{cntZtotschema} \\
-                    \hline
-                    Generic schemas         & \arabic{cntZgenschema}         & \arabic{cntZtotgenschema} \\
-                    \hline
-                    \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
-                    \hline
+                    \ZDeclTblInfoBy
+                    \CircusDeclTblInfoBy
                 \end{tabular}
             \fi
         \end{center}
@@ -724,11 +860,11 @@
 
 \def\@circus#1{%
     \@circuscountingwhat=#1
-    \zed}
-\def\circus{\@circus{0}}       % make it as global (top level)
+    \@zed}
+\def\circus{\@circus{99}}       % make it as global (top level)
 \let\endcircus=\endzed
 
-\def\circusaction{\@circus{4}} % make it as local (\circbegin)
+\def\circusaction{\@circusbasicproc@true\@circus{4}} % make it as local (\circbegin)
 \let\endcircusaction=\endzed
 
 \PackageInfo{circus}{Setting up Circus LaTeX environments}
@@ -767,14 +903,25 @@
 \def \circchannel     {\zpreop{\circuskeyword{channel}}\@circuscountingwhat=0 \@countCircusPara}
 \def \circchannelfrom {\zpreop{\circuskeyword{channelfrom}}\@circuscountingwhat=0 \@countCircusPara}
 \def \circchannelset  {\zpreop{\circuskeyword{channelset}}\@circuscountingwhat=1 \@countCircusPara}
-\def \circnameset     {\zpreop{\circuskeyword{nameset}}\@circuscountingwhat=15 \@countCircusPara}
+\def \circnameset     {\zpreop{\circuskeyword{nameset}}\@circuscountingwhat=5 \@countCircusPara\@circusdefnameset@true}
 
 %%%%%%%%%%%%%%%%% 3) Processes                                  %
 
-\def \circprocess {\zpreop{\circuskeyword{process}}\@zcountingwhat=3 \@countCircusPara}
-\def \circbegin   {\zpreop{\circuskeyword{begin}}\@zcountingwhat=4}
-\def \circend     {\zpreop{\circuskeyword{end}}}
-\def \circstate   {\zpreop{\circuskeyword{state}}}
+\def \circprocess {\zpreop{\circuskeyword{process}}\@circuscountingwhat=2 \@countCircusPara}
+\def \circbegin   {\zpreop{\circuskeyword{begin}} \@circusbasicproc@true \@circuscountingwhat=4}%starts basic process! cool
+% for main action, count the circend instead to keep it simple
+\def \circend{%
+	\zpreop{\circuskeyword{end}}
+	\@circuscountingwhat=6 
+	\@countCircusPara
+	\@circusbasicproc@false
+	\@circuscountingwhat=8
+}
+
+\def \circstate   {\zpreop{\circuskeyword{state}}
+	\@circuscountingwhat=6 
+	\@countCircusPara
+}
 
 %%%%%%%%%%%%%%%%% 4) Actions                                    %
 
@@ -823,9 +970,30 @@
 \def \circspot      {\zrelop{\csym@circspot}}
 \def \circindex     {\zrelop{\csym@circindex}}
 
-% count paragraphs: 3=process ref, 7=action ref; 2=process, 6=action
-\def \circdef       {\zrelop{\csym@circdef}\@circusPossibleInnerParaCount{3}{7}}
-\def \circassertref {\zrelop{\csym@circassertref}\@circusPossibleInnerParaCount{2}{6}}
+% if I've seen a \circbegin (and not \circend), then \circdef is for 
+\def \circdef{%
+	\zrelop{\csym@circdef}
+	\if@circusdefnameset@
+		% if after \circnameset X \circdef xxxx ignore
+		\relax
+	\else
+		% ifnot but within basic it's an action
+		\if@circusbasicproc@ 
+			\@circuscountingwhat=6
+			\@countCircusPara 
+		\else  
+		% it's neither nameset nor action must be process?
+			\ifnum  \@circuscountingwhat = 2
+				\relax
+			\else
+				\PackageWarning{circus}{Couln't identify kind of definition for circdef command (\circuscountingwhat); ignored counting}
+			\fi
+		\fi
+	\fi
+}
+
+%\def \circdef       {\zrelop{\csym@circdef}\@circuscountingwhat=6\@countCircusPara}%\@circusPossibleInnerParaCount{2}{6}}
+\def \circassertref {\zrelop{\csym@circassertref}\@circuscountingwhat=7\@countCircusPara}
 
 \PackageInfo{circus}{Loading Circus special symbols}
 

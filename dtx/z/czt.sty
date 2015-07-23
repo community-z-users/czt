@@ -1,4 +1,3 @@
-%%
 %% This is file `czt.sty',
 %% generated with the docstrip utility.
 %%
@@ -19,8 +18,8 @@
 %% is granted to distribute a modified version of this
 %% file under its original name.
 %%
-\def\fileversion{v.1.3}
-\def\filedate{2011/11/08}
+\def\fileversion{v.1.4}
+\def\filedate{2015/07/23}
 \def\filedesc{Standard Z style file by the Community Z Tools}
 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
@@ -69,7 +68,7 @@
 \DeclareOption{cntbysection}{\PackageInfo{czt}{'cntbysection' option chosen} \@cntglobally@false \@cntbychapter@false \@cntbysection@true}
 
 % default option as using math italics for mathcode names.
-\ExecuteOptions{mathit,cntglobally}
+%\ExecuteOptions{mathit,cntglobally}
 \ProcessOptions\relax
 
 % if Lucida Bright is chosen, then load the package with necessary dependencies
@@ -682,14 +681,15 @@
 \CountDefstrue
 \PackageInfo{czt}{Counting Z declarations? \ifCountDefs YES \else NO \fi}
 
-% Low-level TeX register used to define what to count
-% 0 = unboxed para
-% 1 = axdef
-% 2 = gendef
-% 3 = schemas
-% 4 = gen schemas
-% 5 = theorems
-% 99= nothing
+% Low-level TeX register used to define what to count; started from 1 (instead of 0) because thought of cause of bug; but it wasn't so go bakc to 0; now with debug info too.
+% 1 = unboxed para  (e.g. \begin{zed})
+% 2 = axdef		(e.g. \begin{axdef})
+% 3 = gendef	(e.g. \begin{gendef})
+% 4 = schemas	(e.g. \begin{schema})
+% 5 = gen schemas  (e.g. \begin{schema})
+% 6 = theorems   (e.g. \begin{theorem})
+% 7 = proofs (e.g. \begin{zproof})
+% 99= nothing  
 \newcount\@zcountingwhat
 \@zcountingwhat=99
 
@@ -726,6 +726,7 @@
 \newcounter{cntZtheorem}    %f) local
 \newcounter{cntZproof}    %g) local
 \newcounter{cntZdecl}         %h) local
+\newcounter{cntZunknown}  % bug? / double-check
 
 \newcounter{cntZtotunboxed}   %a) global
 \newcounter{cntZtotaxdef}     %b) global
@@ -735,6 +736,7 @@
 \newcounter{cntZtottheorem}    %f) global
 \newcounter{cntZtotproof}    %g) global
 \newcounter{cntZtotdecl}      %h) global
+\newcounter{cntZtotunknown}  % bug? / double-check
 
 % update the reseting rationale based on package options.
 % maybe put this code at the \DeclareOption part (?)
@@ -747,6 +749,7 @@
   \@addtoreset{cntZtheorem}{chapter}
   \@addtoreset{cntZproof}{chapter}
   \@addtoreset{cntZdecl}{chapter}
+  \@addtoreset{cntZunknown}{chapter}
 
   \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items \fi in Chapter~\thechapter}
   \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Chapter~\thechapter}
@@ -766,6 +769,7 @@
     \@addtoreset{cntZtheorem}{section}
     \@addtoreset{cntZproof}{section}
     \@addtoreset{cntZdecl}{section}
+	  \@addtoreset{cntZunknown}{section}
 
     \renewcommand{\thecntZunboxed}{\arabic{cntZunboxed} unboxed \ifnum \arabic{cntZaxdef} = 1 item \else items \fi in Section~\thesection}
     \renewcommand{\thecntZaxdef}{\arabic{cntZaxdef} axiomatic \ifnum \arabic{cntZaxdef} = 1 definition \else definitions \fi in Section~\thesection}
@@ -779,56 +783,33 @@
   %\else \if@cntglobally@ \relax \fi
 \fi
 
-% counts the appropriate Z paragraph with correct
-% dependant counter reseting according to the rule
-% chosen by the package option given.
-\def\@countZGlobal{\stepcounter{cntZdecl}\stepcounter{cntZtotdecl}}
-\def\@countZPara{%
-   \ifCountDefs
-       \ifnum \@zcountingwhat = 0
-          %unboxed para code...
-          \stepcounter{cntZunboxed}
-          \stepcounter{cntZtotunboxed}
-          \@countZGlobal
+\def\zcountingwhat{%
+       \ifnum \@zcountingwhat = 1
+           unboxed
        \else
-          \ifnum \@zcountingwhat = 1
-             %axdef code...
-             \stepcounter{cntZaxdef}
-             \stepcounter{cntZtotaxdef}
-             \@countZGlobal
+          \ifnum \@zcountingwhat = 2
+             axdef
           \else
-             \ifnum \@zcountingwhat = 2
-                %gendef code...
-                \stepcounter{cntZgendef}
-                \stepcounter{cntZtotgendef}
-                \@countZGlobal
+             \ifnum \@zcountingwhat = 3
+                gendef
              \else
-                \ifnum \@zcountingwhat = 3
-                   %schemas code...
-                   \stepcounter{cntZschema}
-                   \stepcounter{cntZtotschema}
-                   \@countZGlobal
+                \ifnum \@zcountingwhat = 4
+                  schema
                 \else
-                   \ifnum \@zcountingwhat = 4
-                      %gen schemas code...
-                      \stepcounter{cntZgenschema}
-                      \stepcounter{cntZtotgenschema}
-                      \@countZGlobal
+                   \ifnum \@zcountingwhat = 5
+                      genschema
                    \else
-                     \ifnum \@zcountingwhat = 5
-                        %theorem code...
-                        \stepcounter{cntZtheorem}
-                        \stepcounter{cntZtottheorem}
-                        \@countZGlobal
-                      \else
                      \ifnum \@zcountingwhat = 6
-                        %proof code...
-                        \stepcounter{cntZproof}
-                        \stepcounter{cntZtotproof}
-                        \@countZGlobal
+                        theorem
                       \else
-                       %don't count at all
-                          \relax
+                     \ifnum \@zcountingwhat = 7
+                        proof
+                      \else
+                      	\ifnum \@zcountingwhat = 99
+							nothing
+					\else
+                       %don't count at all but debug?
+                          unknown?
                        \fi
                      \fi
                    \fi
@@ -836,19 +817,129 @@
              \fi
           \fi
        \fi
+       \fi
+}
+% counts the appropriate Z paragraph with correct
+% dependant counter reseting according to the rule
+% chosen by the package option given.
+\def\@countZGlobal{\stepcounter{cntZdecl}\stepcounter{cntZtotdecl}}
+\def\@countZPara{%
+   \ifCountDefs
+		\PackageWarning{czt}{Counting  \zcountingwhat}
+       \ifnum \@zcountingwhat = 1
+          %unboxed para code...
+          \stepcounter{cntZunboxed}
+          \stepcounter{cntZtotunboxed}
+          \@countZGlobal
+       \else
+          \ifnum \@zcountingwhat = 2
+             %axdef code...
+             \stepcounter{cntZaxdef}
+             \stepcounter{cntZtotaxdef}
+             \@countZGlobal
+          \else
+             \ifnum \@zcountingwhat = 3
+                %gendef code...
+                \stepcounter{cntZgendef}
+                \stepcounter{cntZtotgendef}
+                \@countZGlobal
+             \else
+                \ifnum \@zcountingwhat = 4
+                   %schemas code...
+                   \stepcounter{cntZschema}
+                   \stepcounter{cntZtotschema}
+                   \@countZGlobal
+                \else
+                   \ifnum \@zcountingwhat = 5
+                      %gen schemas code...
+                      \stepcounter{cntZgenschema}
+                      \stepcounter{cntZtotgenschema}
+                      \@countZGlobal
+                   \else
+                     \ifnum \@zcountingwhat = 6
+                        %theorem code...
+                        \stepcounter{cntZtheorem}
+                        \stepcounter{cntZtottheorem}
+                        \@countZGlobal
+                      \else
+                     \ifnum \@zcountingwhat = 7
+                        %proof code...
+                        \stepcounter{cntZproof}
+                        \stepcounter{cntZtotproof}
+                        \@countZGlobal
+                      \else
+                      	\ifnum \@zcountingwhat = 99
+							\relax
+					\else
+                       %don't count at all but debug?
+                          \stepcounter{cntZunknown}
+                          \stepcounter{cntZtotunknown}
+                       \fi
+                     \fi
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+       \fi
    \else
       \relax
    \fi
 }
 
-\def \ZDeclSummary {%
+% Count hard new lines within Z definitions: not ideal but without complex boolean ifs then this a solution
+\def\@countZHNL{%
    \ifCountDefs
-      \begin{table}[ht]
-        \begin{center}
-            \if@cntglobally@
-                \begin{tabular}{|l|r|}
+       \ifnum \@zcountingwhat = 1
+       	  % zed unboxed item
+          \@countZPara
+       \else
+          \ifnum \@zcountingwhat = 2
+             %axdef code...
+	          \@countZPara
+          \else
+             \ifnum \@zcountingwhat = 3
+                %gendef code...
+	              \@countZPara
+             \else
+                \ifnum \@zcountingwhat = 4
+                   %schemas code...
+                   \relax
+                \else
+                   \ifnum \@zcountingwhat = 5
+                      %gen schemas code...
+			          \@countZPara
+                   \else
+                     \ifnum \@zcountingwhat = 6
+                        %theorem code...
+                        \relax
+                      \else
+                     \ifnum \@zcountingwhat = 7
+                        %proof code...
+                        \relax
+                      \else
+                      	\ifnum \@zcountingwhat = 99
+							\relax
+					\else
+                       %don't count at all but debug?
+                          \stepcounter{cntZunknown}
+                          \stepcounter{cntZtotunknown}
+                       \fi
+                     \fi
+                   \fi
+                \fi
+             \fi
+          \fi
+       \fi
+       \fi
+   \else
+      \relax
+   \fi
+}
+
+\def\ZDeclTblInfoGlobal{%
                     \hline
-                    \textbf{Declarations}   & \textbf{Total} \\
+                    \textbf{Z Declarations}   & \textbf{Total} \\
                     \hline
                     Unboxed items           & \arabic{cntZtotunboxed} \\
                     \hline
@@ -866,13 +957,14 @@
                     \hline
                     \textbf{Total}          & \textbf{\arabic{cntZtotdecl}} \\
                     \hline
-                \end{tabular}
-            \else
-                \def \@zcntpart {%
-                    \if@cntbychapter@ Chapter \else \if@cntbysection@ Section \else ??? \fi \fi}
-                \begin{tabular}{|l|c|c|}
                     \hline
-                    \textbf{Declarations}   & \textbf{This \@zcntpart}       & \textbf{Globally} \\
+                    \textbf{Unknown?} & \textbf{\arabic{cntZtotunknown}} \\
+                    \hline
+}
+\def \@cntpart {\if@cntbychapter@ Chapter \else \if@cntbysection@ Section \else ??? \fi \fi}
+\def\ZDeclTblInfoBy{%
+                    \hline
+                    \textbf{Z Declarations}   & \textbf{This \@cntpart}       & \textbf{Globally} \\
                     \hline
                     Unboxed items           & \arabic{cntZunboxed}           & \arabic{cntZtotunboxed} \\
                     \hline
@@ -890,6 +982,22 @@
                     \hline
                     \textbf{Total}          & \textbf{\arabic{cntZdecl}} & \textbf{\arabic{cntZtotdecl}} \\
                     \hline
+                    \hline
+                    \textbf{Unknown?} & \textbf{\arabic{cntZunknown}} & \textbf{\arabic{cntZtotunknown}} \\
+                    \hline
+}
+
+\def \ZDeclSummary {%
+   \ifCountDefs
+      \begin{table}[ht]
+        \begin{center}
+            \if@cntglobally@
+                \begin{tabular}{|l|r|}
+                		\ZDeclTblInfoGlobal
+                \end{tabular}
+            \else
+                \begin{tabular}{|l|c|c|}
+					\ZDeclTblInfoBy
                 \end{tabular}
             \fi
         \end{center}
@@ -1000,13 +1108,13 @@
 
 % Small vertical space within z paragraph mode - relative to \zedskip
 \def\@also{\crcr \noalign{\penalty\interdisplaylinepenalty\vskip\zedskip}}
-\def\also{\ifnum \@zcountingwhat = 0 \@countZPara \fi \@also}
+\def\also{\@countZHNL\@also}
 
 % varied spacing based in \also - from oz.sty
 \def\@Also{\@also\@also}
 \def\@ALSO{\@Also\@Also}
-\def\Also{\@countZPara\@Also}
-\def\ALSO{\@countZPara\@Also\@Also}
+\def\Also{\@countZHNL\@Also}
+\def\ALSO{\@countZHNL\@Also\@Also}
 
 % forces a page break within z paragraph mode
 \def\znewpage{\@also\noalign{\penalty\forcepagepenalty}\@also}
@@ -1149,7 +1257,7 @@
   % Must have \def and not \let for nested alignments.
   % Also, count extra definitions at each "\\", whenever within
   % a unboxed paragraph. Changed "\also" accordingly.
-  \def\\{\crcr \ifnum \@zcountingwhat = 0 \@countZPara \fi}
+  \def\\{\crcr \@countZHNL}
   \let\par=\relax
   \tabskip=0pt}
 
@@ -1166,7 +1274,8 @@
 % 3) changes the tabskip (\zling) for each tabskip (?)
 % 4) restores tabskip after the new line (\cr)     (?)
 \def\zed{%
-  \@zcountingwhat=0    % sets the kind of counter to addto, 0=unboxed para
+% 1 = unboxed para  (e.g. \begin{zed})
+  \@zcountingwhat=1    % sets the kind of counter to addto, 1=unboxed para
   \@zed}
 
 % corresponds to "ENDCHAR" markup in LaTeX
@@ -1187,7 +1296,7 @@
 % corresponds to "ZEDCHAR" markup in LaTeX for section headers
 
 % zsection environment
-\let\zsection=\zed
+\let\zsection=\@zed
 \let\endzsection=\endzed
 
 % z named conjecture or theorem environment
@@ -1202,7 +1311,8 @@
 \def\theorem#1{\@ifnextchar[{\@theorem{#1}}{\@@theorem{#1}}}
 \def\@theorem#1[#2]{\@@theorem{#1 $[#2]$}}
 \def\@@theorem#1{%
-  \@zcountingwhat=5    % sets the kind of counter to addto, 0=unboxed para
+% 6 = theorems   (e.g. \begin{theorem})
+  \@zcountingwhat=6    % sets the kind of counter to addto, 0=unboxed para
   \@@zed\@znoskip\halign to\linewidth\bgroup%
   {\strut$\color{ZedColor}\@zlign\hskip\zedleftsep##$}\hfil \tabskip=0pt plus1fil\crcr
 \hskip -\zedleftsep\hbox{\bf theorem \rm \@ability {\color{ZedColor}#1}}\cr}
@@ -1229,13 +1339,15 @@
     \strut{\color{ZedBoxColor}\vrule width\arrayrulewidth} \hskip\zedleftsep
     {$\color{ZedColor}\@zlign##$}\hfil \tabskip=0pt plus1fil\cr}
 \def\axdef{%
-  \@zcountingwhat=1    % sets the kind of counter to addto, 1=axdef para
+% 2 = axdef		(e.g. \begin{axdef})
+  \@zcountingwhat=2    % sets the kind of counter to addto, 2=axdef para
   \@axdef}
 
 % synonym for \endzed
 \let\endaxdef=\endzed
 
 % stared version which is ignored by the parser.
+% 99= nothing  
 \@namedef{axdef*}{\@zcountingwhat=99 \@axdef}
 \expandafter\let\csname endaxdef*\endcsname=\endaxdef
 
@@ -1249,7 +1361,9 @@
 % 3) otherwise, \@@nschema{#1} is called, where #1=name
 % 4) \@@nschema draws a narrow \axdef with the name #1 in the middle
 
-\def\schema#1{\@ifnextchar[{\@zcountingwhat=4 \@@schema{#1}} {\@zcountingwhat=3 \@@nschema{#1}}}
+% 4 = schemas	(e.g. \begin{schema})
+% 5 = gen schemas  (e.g. \begin{schema})
+\def\schema#1{\@ifnextchar[{\@zcountingwhat=5 \@@schema{#1}} {\@zcountingwhat=4 \@@nschema{#1}}}
 \def\@schema#1{\@zcountingwhat=99 \@ifnextchar[{\@@schema{#1}}{\@@nschema{#1}}}
 \def\@@schema#1[#2]{\@@nschema{#1[#2]}}
 \def\@@nschema#1{\@narrow\@axdef \omit\@topline{$\strut#1$}\cr}
@@ -1260,7 +1374,7 @@
 
 % for schemas without name, use \begin{plainschema}
 % it is ignored by the parser
-\def\plainschema{\@narrow \@zcountingwhat=3 \@axdef \@zedline \@zskip\@jot}
+\def\plainschema{\@narrow \@zcountingwhat=99 \@axdef \@zedline \@zskip\@jot}
 \let\endplainschema=\endschema
 
 % similarly, one could use the stared version of the
@@ -1279,7 +1393,9 @@
 % 3) otherwise, \@@gendef is called to draw double lines but
 %    with the generic formals given
 % 4) lines are draw similarly to \axdef but doubled
-\def\gendef{\@zcountingwhat=2 \@ifnextchar[{\@@gendef}{\@@ngendef}}
+
+  % 3 = gendef	(e.g. \begin{gendef})
+\def\gendef{\@zcountingwhat=3 \@ifnextchar[{\@@gendef}{\@@ngendef}}
 \def\@gendef{\@zcountingwhat=99 \@ifnextchar[{\@@gendef}{\@@ngendef}}
 \def\@@gendef[#1]{\@narrow \@axdef \omit \setbox0=\hbox{$\strut[#1]$}%
   \rlap{\raise\doublerulesep\@topline{\hskip\wd0}}\@topline{\box0}\cr}
@@ -1287,6 +1403,7 @@
     height\doublerulesep width\arrayrulewidth \@zrulefill}\cr
   \@zskip\@jot
   }
+
 
 % synonym for \endschema
 \let\endgendef=\endschema
@@ -1818,7 +1935,8 @@ $#2$}\nulldelimiterspace\z@ \m@th}
 %% -- otherwise the \fi gets ignored!
 %%
 \def\zproof{\ifshowzproofs% 
- \@zcountingwhat=6% sets the kind of counter to addto, 0=unboxed para
+% 7 = proofs (e.g. \begin{zproof})
+ \@zcountingwhat=7% sets the kind of counter to addto, 0=unboxed para
  \@@zed\@znoskip\let\par=\cr\obeylines\@vobeyspaces\halign to\linewidth\bgroup
 \strut$\@zlign##$\hfil \tabskip=0pt plus1fil\crcr
 \hskip -\zedleftsep\hbox{\bf proof} \let\0\relax
