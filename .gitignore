@@ -35,3 +35,5 @@ doc/papers/ifm/ifm.pdf
 doc/papers/zml/master.fdb_latexmk
 doc/papers/zml/master.fls
 doc/papers/zml/master.pdf
+typechecker/typechecker-circus/src/test/resources/tests/circus/circus_cookies.fdb_latexmk
+typechecker/typechecker-circus/src/test/resources/tests/circus/circus_cookies.fls

@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.util.List;
+
 import net.sourceforge.czt.circus.ast.ChannelSet;
 import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.CircusCommunicationList;
@@ -208,7 +209,8 @@ public class TypeChecker
     pending_ = new TypeEnv(getFactory());
   }  
 
-  public net.sourceforge.czt.typecheck.circus.impl.Factory getFactory()
+  @Override
+public net.sourceforge.czt.typecheck.circus.impl.Factory getFactory()
   {
     return (net.sourceforge.czt.typecheck.circus.impl.Factory) super.getFactory();
   }
@@ -225,6 +227,7 @@ public class TypeChecker
     return result;
   }
 
+  @Override
   protected void setPreamble(String sectName, SectionManager sectInfo)
   {
     super.setPreamble(sectName, sectInfo);

@@ -9,16 +9,18 @@
 package net.sourceforge.czt.typecheck.circus;
 
 import java.io.StringWriter;
+import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.PerformanceSettings;
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
-import java.util.ArrayList;
-import net.sourceforge.czt.base.util.PerformanceSettings;
-import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.util.CztException;
 
@@ -32,7 +34,7 @@ public class WarningManager
   private Markup markup_ = Markup.LATEX;
   private final SectionInfo sectInfo_;
   private Term term_ = null;
-  private List<net.sourceforge.czt.typecheck.z.ErrorAnn> warnErrors_ = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+  private final List<net.sourceforge.czt.typecheck.z.ErrorAnn> warnErrors_ = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>(PerformanceSettings.INITIAL_ARRAY_CAPACITY);
   
   public WarningManager()
   {
@@ -61,6 +63,16 @@ public class WarningManager
     sectInfo_ = manager;
   }
   
+  protected SectionManager getManager()
+  {
+	  return (SectionManager)sectInfo_;
+  }
+  
+  protected void print(Term t, Writer w)
+  {
+	 PrintUtils.print(t, w, getManager(), getCurrentSectName(), getMarkup());
+  }
+  
   @Override
   protected String format(String message, Object... arguments)
   { 
@@ -74,7 +86,7 @@ public class WarningManager
           try 
           {
             StringWriter writer = new StringWriter();          
-            PrintUtils.print((Term)arguments[i], writer, (SectionManager)sectInfo_, getCurrentSectName(), getMarkup());
+            print((Term)arguments[i], writer);
             values[i] = writer.toString();
           } catch (CztException e)
           {

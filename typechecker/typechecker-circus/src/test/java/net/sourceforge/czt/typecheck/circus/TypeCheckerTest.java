@@ -27,12 +27,11 @@ import java.util.logging.Level;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
 
@@ -89,7 +88,6 @@ public class TypeCheckerTest
       DEBUG_LEVEL = Level.WARNING;
     }
   }
-  private final SectionManager manager_ = new SectionManager(Dialect.CIRCUS);
 
   public static Test suite()
   {
@@ -103,7 +101,13 @@ public class TypeCheckerTest
 
   public TypeCheckerTest(boolean recursiveTypes)
   {
-    super(false, recursiveTypes);
+    this(Dialect.CIRCUS, recursiveTypes);
+  }
+
+  public TypeCheckerTest(Dialect dialect, boolean recursiveTypes)
+  {
+    super(dialect, false, recursiveTypes);
+    printer_ = new net.sourceforge.czt.circus.util.PrintVisitor();
   }
   
   protected void collectTests(TestSuite suite, List<String> directoryNames) 
@@ -119,7 +123,7 @@ public class TypeCheckerTest
     //System.out.println("CZT-HOME = " + cztHome);
     if (cztHome == null || cztHome.length() == 0)
     {
-      cztHome = manager_.getProperty("czt.path");
+      cztHome = getManager().getProperty("czt.path");
       //System.out.println("CZT-PATH = " + cztHome);
       if (cztHome == null)
       {
@@ -207,10 +211,10 @@ public class TypeCheckerTest
       suite.addTest(createNormalTest(fullPath));
     }
   }
-
-  protected SectionManager getManager()
+  
+  protected PrintVisitor getCircusPrinter()
   {
-    return manager_;
+	  return (PrintVisitor)printer_;
   }
   
   protected Term parse(String file, SectionManager manager)
@@ -220,7 +224,7 @@ public class TypeCheckerTest
     if (VERBOSE) { System.out.println("\tabout to parse as " + Markup.getMarkup(file) + " file " + file); }
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
-        PrintVisitor pv = new PrintVisitor();
+        PrintVisitor pv = getCircusPrinter();
         System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + file);        
         System.out.println(pv.printProcessPara(term));
         System.out.println();
@@ -230,7 +234,8 @@ public class TypeCheckerTest
     return term;
   }
   
-  protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term, SectionManager manager)
+  @Override
+protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Term term, SectionManager manager)
     throws Exception
   {
     return TypeCheckUtils.typecheck(term,  manager,   recursiveTypes_);
@@ -250,14 +255,15 @@ public class TypeCheckerTest
     extends TestCase
   {
 
-    private String file_;
+    private final String file_;
 
     TestNormal(String file)
     {
       file_ = file;
     }
 
-    public void runTest()
+    @Override
+	public void runTest()
     {
       SectionManager manager = getManager();
       List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
@@ -305,8 +311,8 @@ public class TypeCheckerTest
     extends TestCase
   {
 
-    private String file_;
-    private String exception_;
+    private final String file_;
+    private final String exception_;
 
     TestError(String file, String exception)
     {
@@ -314,7 +320,8 @@ public class TypeCheckerTest
       exception_ = exception;
     }
 
-    public void runTest()
+    @Override
+	public void runTest()
     {
       SectionManager manager = getManager();
       List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();

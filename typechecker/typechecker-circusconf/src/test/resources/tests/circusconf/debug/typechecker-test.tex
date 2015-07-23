@@ -1,0 +1,3351 @@
+\begin{zsection}
+   \SECTION nsexpr\_wrongelem \parents circusconf\_toolkit
+\end{zsection}
+
+\begin{circus}
+   \circchannel\ c, d: \nat \\
+   \circchannel\ e : \nat \cross \nat \\
+   \circchannelset\ CS == \lchanset c, d \rchanset
+\end{circus}
+
+\begin{circus}
+   \circprocess\ Q \circdef \circbegin
+\end{circus}
+
+Name sets are rather tricky. They allow any variable to be there,
+including global and local variables, as well as process, action,
+or command parameters. Nevertheless, they cannot allow names of
+any Circus type (e.g., channel, nameset, channelset, process, 
+and action), as this would not make sense. 
+\begin{circusaction}
+    \circstate St == [ a: \nat; b: \nat \cross \nat ]
+\end{circusaction}
+
+\begin{circusaction}
+% some unknown name raises an error
+%   \circnameset NS0 == \{ a, b, UNKN \}
+%   \\
+% but some known name that is not right might require postchecking
+% if names are declared later on
+   \circnameset NS == \{ a, b, c \}
+\end{circusaction}
+
+\begin{circusaction}
+    A \circdef c.a \then \Skip
+    \\
+    B \circdef e.b \then \Skip
+    \\
+    % heterogeneous elements in name set display
+%    C \circdef A \lpar \{a \} | CS | \{ c\} \rpar B 
+    \\
+    % NS + CS reference
+    D \circdef A \lpar NS | CS | NS \rpar B
+    \\    
+%    E \circdef A \lpar NS \setminus \{ c \} | CS \setminus \lchanset d \rchanset | NS \setminus \{ b \} \rpar B 
+\end{circusaction}
+
+\begin{circusaction}
+    \circspot \Skip
+\end{circusaction}
+
+\begin{circus}
+   \circend
+\end{circus}
+
+
+%
+%% ============ Documentclass Stuff
+%\documentclass[twoside]{article}
+%
+%
+%% =========== End Documentclass Stuff
+%
+%\author{J. McDermott and L. Freitas}
+%\title{Xenon Hypercall Interface Specification}
+%
+%% =========== Package Stuff
+%
+%\usepackage{czt}
+%\usepackage{circus}
+%\usepackage{zproofs}
+%\showLabelsfalse
+%\showzproofsfalse
+%%\showzproofstrue
+%\usepackage{enumerate}
+%%\usepackage{fancyhdr}
+%\usepackage{datetime}
+%%\usepackage[left=1.25in,top=1in,bottom=1in,right=1.25in]{geometry}
+%%\usepackage{draftcopy}
+%
+%% =========== End Package Stuff
+%
+%% ===== Heading Commands
+%
+%%\lhead{} % subsection names are too long to fit if there is a left header
+%
+%% ===== Index Commands
+%
+%% no indexing in this paper
+%
+%% ===== End Index Commands
+%
+%% ===== Global Custom LaTeX Stuff
+%
+%% ===== End Global Custom LaTeX Stuff
+%
+%% ===== ISO-Z Markup Directives
+%
+%
+%
+%% ===== End ISO-Z Markup Directives
+%
+%% ===== Document
+%
+%\begin{document}
+%
+%%\pagestyle{fancy}
+%
+%\maketitle
+%
+%\xxivtime
+%
+%\tableofcontents
+%
+%\section{To Do}
+%
+%\subsection{Notes to Leo}
+%
+%We will have 2 tech. report versions of this? If that is OK, please put your
+%name first on the York version of this. I will put my name first on the Oak
+%Ridge Labs extended abstract? You should be first author on the full paper
+%that goes to whatever formal methods venue you think we should use for
+%reporting the full verification?
+%
+%\verb+\circnote+ does not work outside of a Circus block on my system, so I
+%commented it out.
+%
+%Leo wrote:
+%        Even then, it boils down to a further requirement that
+%        $(domains' dom0).vcpu$ has at lease two elements in its domain.
+%        Is that right?
+%John says:
+%
+%       Yes, could be an invariant except we have to initialize each domain
+%       with properly initialized VCPUs. Could we change initialization to have
+%       VCPUs already in place?
+%
+%
+%Incomplete proofs list. Justification and discussion.
+%\begin{itemize}
+%    \item $fEvtChnParamINMaxFinType$ and $fEvtChnParamOUTMaxFinType$
+%
+%        These two rules are relatively trivial, yet painful to prove.
+%        Just reuse the Mondex strategy for $PayDetails$ finiteness here.
+%
+%    \item $general\_initVCPU\$domainCheck$ : $targetVCPUid \in \dom vcpus'$
+%
+%        It doesn't seem right this dependency on $vcpus'$. I will double check
+%        after reviewing the schema calculus usage.
+%
+%    \item $initSchedule$ requires that $dom0 \in \dom~domains'$
+%
+%        Even then, it boils down to a further requirement that
+%        $(domains' dom0).vcpu$ has at lease two elements in its domain.
+%        Is that right?
+%
+%    \item $ScheduleCurrentNotEnd$ complex
+%
+%    \item $ScheduleCurrentAtEnd$ requires that $dom0 \in \dom~vcpus$
+%
+%    \item $schedAddDomain$ requires $vcpu$ again to have at least two elements
+%        in its domain.
+%
+%    \item In $xsmEvtchnBindInterdomainYes$ and $xsmEvtchnBindInterdomainNo$
+%        there is a problem. Both $vcpuDomain$ and $rDomID?$ are pretty
+%        restricted because the $xsmEvtchnBindInterdomain$ function is
+%        given pointwise (e.g., with each element explicitly). This requires
+%        revision.
+%\end{itemize}
+%
+%\subsection{Notes to John}
+%
+%\subsection{Notes from Leo}
+%
+%\begin{itemize}
+%   \item when possible, try to avoid cardinality ($\#~S$) as it implies a lot of
+%         proof obligation about the finiteness of the underlying elements of $S$.
+%
+%         For instance, instead of $\#S > 0$, you could say $\lnot S = \{\}$, or
+%         $\#vcpus \leq MAX\_VIRT\_CPUS$ as $\dom~vcpus \subseteq 0 \upto MAX\_VIRT\_CPUS$.
+%         In both cases, the specification says the same, yet the later forms are
+%         much easier to reason with.
+%
+%   \item In various places, whenever I could simplify the axiomatic definition I did.
+%        That leaves easier proofs later on. And nothing is lost: any axiomatically
+%        defined property has been proved as a theorem. That means not only easier
+%        proofs whenever the axioms are needed, but also simpler proof of consistency
+%        for axioms as well.
+%
+%   \item I think we should make the names more uniform and ``easy-to-catch'' in their
+%        meaning. For instance, capital names should be made uniform
+%        (e.g., $VCPUid$ vs. $EvtchnID$);~renamed schema values and schema names
+%        (e.g., $localEvtchn$ as schema vs. $local\_evtchn$ as schema component);~etc
+%
+%   \item Some invariants, like $p \in \dom~evtchn$ and $evtcn~p \in \dom~event\_channels$
+%        seem like more general (e.g., they need to appear in various places). For now,
+%        I am just replicating them wherever needed. Later, when I check the schema
+%        operations themselves, I will come back to this [NOTE TO SELF].
+%
+%
+%\end{itemize}
+%
+%\subsection{General Todo List}
+%
+%A list of things to do to this spec. before we call it good. Delete this
+%section before publication.
+%\begin{itemize}
+%    \item Parallel \Circus\ expression is broken.
+%
+%    \item Fix definition of $Word$. Need machine words to have the LSB start
+%          at 0, but built-in sequence operations may not apply to finite function
+%          currently in use. Can we just define a sequence type that starts at
+%          0 or better yet, minimal auxiliary structure to make the existing
+%          definition of $Word$ work?
+%
+%    \item Add $pre$ where appropriate.
+%
+%    \item Are VCPU id's really unique? Reveiw initialization wrt adding
+%      invariants and simplifying.
+%
+%    \item Fix $Domain$, $localDomain$ so it follows the pattern used for local and
+%          remote event channels.
+%
+%    \item Try to remove set comprehension.
+%
+%    \item Re-write English commentary, as needed.
+%
+%    \item Check generalization schemas to see if all parts of general state are
+%          connected.
+%
+%    \item $VCPUInfo$ \Circus\ channels are not wired in to the domains. This could be
+%          complicated, since each $vcpuInfo$ channel should only be shared
+%          with between its guest and the hypervisor process.
+%
+%    \item Ensure $\Xi$ hiding convention is applied to all places that
+%          need it, in a tool-friendly manner.
+%
+%    \item Check for possibilities to refactor to be more Oxford - do not
+%          get carried away.
+%
+%    \item Fix definition of $Global$ so that event channels of one domain
+%          are disjoint from the event channels of another domain.
+%
+%    \item Scheduler is broken - replace or fix?
+%
+%    \item Add constraints regarding types, domains, ranges.
+%
+%    \item Check unnecessary use of $\Xi, \Delta$
+%
+%\end{itemize}
+%
+%\subsection{Notes from John}
+%
+%VCPUid has been changed to VCPUID. This one has been problematic for a long
+%time. I like camelCase, but this is one where camelCase has probs. Identifier
+%type names should start with a cap., so vcpuID is inconsistent. As you point
+%out, VCPUid is inconsistent with the other names. Using VCPUID now looks like
+%a constant. But there is no satisfactory choice, I think?
+%
+%%%%% Begin actual tech. report %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Introduction}
+%
+%This specification captures the desired hypercall interface behavior of the
+%Xenon hypervisor. The Xenon project is investigating the construction of an
+%open source \emph{separation hypervisor} based on the open source Xen
+%hypervisor \cite{barham2003xen}.  According to Randell and Rushby, a
+%\emph{separation kernel} \cite{rushby2007distributed} is a ``specialized
+%operating system core \ldots that focuses solely on the provision of isolated
+%address spaces with controlled communications between them, while policy is
+%enforced by trusted applications running in some of those address spaces.''  A
+%separation hypervisor is similar to but larger than a separation kernel; it
+%provides stronger separation than a conventional hypervisor but, because of
+%its larger size, is likely to have less assurance than a pure separation
+%kernel.  In exchange for this likely reduction in assurance, the separation
+%hypervisor should have lower cost and better support for a range of commodity
+%software running on a range of commodity hardware, e.g. the latest x86\_64
+%instruction set and the full Advanced Programmable Interrupt Controller (APIC)
+%standard.
+%
+%This specification describes the \emph{intent} of the hypervisor
+%behavior, what the implementation is supposed to do at its interface, rather
+%than what the current Xenon prototype actually does. On the other hand, the
+%specified intent is as close to the implementation as possible, so this is not a
+%toy specification. The Xenon hypervisor will have over 100 hypercalls in its
+%interface. Ultimately, this specification should model all of them. The version
+%you are reading now only describes 2 hypercalls because we are still
+%constructing definitions and proofs of security.
+%
+%This specification incorporates the Xenon security model
+%\cite{mcdermott2008formal}. The Xenon security model defines information
+%flow security for the hypervisor. By including a more refined form of that
+%definition, this specification can demonstrate the security of the Xenon
+%hypercall interface.
+%
+%\subsection{\Circus}
+%
+%We have chosen the \Circus\ \cite{woodcock2005operational} specification
+%language for 3 reasons: 1) because of the readability of the basic
+%descriptions, 2) because of its ability to specify rich state spaces in a
+%natural way that retains much of the structure of practical system
+%implementation languages like C, and 2) its ability to specify concurrency in
+%process algebra form.
+%
+%We use the term \emph{specific} to refer to what is typically called the local
+%state and \emph{general} to refer to what is typically called the global
+%state. So promotion becomes generalization.
+%
+%\subsection{Organization}
+%
+%The organization of this specification is complex, because of the complexity
+%of the Xenon hypercall interface. The specification is also complex because
+%the Xen designers made decisions that complicate the relationships between key
+%implementation concepts.
+%
+%\subsubsection{Capturing Key Implementation Relationships}
+%
+%Since we want to not only verify security but also identify problems with the
+%implmentation, our specification is organized to capture some of the essential
+%relationships of the implementation. Formost of these is the triangular
+%dependency between the three major entities from the Xenon state space:
+%domains, VCPUs, and event channels. These three entities depend on and refer
+%to each other. For example a specific domain contains ``tables'' that ``manage''
+%the VCPUs and event channels of that domain. (The implementation even
+%allocates space for event channels through their domain structure.) So it
+%would seem natural to make domains the defining entity. However, in the
+%implementation, event channels refer to VCPUs and domains. VCPUs refer to
+%domains as well. Some hypercalls do not have a parameter for the applicable
+%domain, but determine it internally, from the scheduler. We have tried to
+%reflect this structure in the specification, as essential relationships to be
+%captured.
+%
+%The first step in doing this is to define identifiers for domains, VCPUs, and
+%event channels. Then we define state schemas for specific domains, VCPUs, and
+%event channels: $Domain$, $VCPU$, and $Evtchn$ respectively. Triangular
+%references, e.g. VCPU to domain to event channel to VCPU, are addressed by
+%having identifiers to the appropriate entity in the referring state
+%schema. These specific state space schemas are then promoted using a general
+%state space schema $Global$. State space schema $Global$ contains functions
+%$Domains$, $VCPUs$, and $EventChannels$ that uniquely identify the
+%respective entities.
+%
+%An interesting complication occurs because a specific $Domain$ state must
+%contain ``tables'' of event channels and VCPUs, from the global state. Update
+%of a specific local state then appears to be changing the global state, e.g.
+%$evtchn' = evtchn \oplus \{p! \mapsto local\_evtchnID' \}$ from partial
+%operation schema $evtchnAllocUnboundGetPortOK$, appears to be updating global
+%state, since the function $evtchn$ maps to event channel identifiers from the
+%global state. However, at this partial local level, no more is said than
+%necessary about event channel identifiers. Conditions relating the specific
+%operations on a specific state's $evtchn$ function to the global state are
+%given in the corresponding framing or generalization schema. In the case of
+%the example, the details are encapsulated in a predicate schema
+%$localEvtchnIsInGlobal$ as $EventChannels' = EventChannels \oplus \{~
+%remote\_evtchnID' \mapsto e ~\}$. This predicate schema is then used in the
+%framing schema $generalEvtnAllocUnbound$ that promotes the specific allocate
+%unbound event channel operation.
+%
+%As in the Xenon implementation, the operations on a specific state are not
+%cleanly organized into opertions on either VCPUs, event channels, or
+%domains. Instead, for each hypercall, an operation on the specific state
+%affected by that hypercall is built up from partial schemas. This
+%state-specific hypercall is then promoted or generalized, to relate it to the
+%general state of the hypervisor process. For an example of this, the allocate
+%unbound event channel hypercall, as generalized onto the global state, is
+%represented by the operation schema $evtchnAllocUnbound$ which is a promotion
+%of the specific operation schema $(evtchnAllocUnboundSuccess \lor
+%evtchnAllocUnboundFailure)$. This is promoted by conjunction with a
+%generalizing schema $generalEvtchnAllocUnbound$ and a parameter schema
+%$paramsEvtchnAllocUnbound$. Schema $generalEvtchnAllocUnbound$ promotes the
+%operation on the specific state space, as typically seen in a Z
+%specification. Schema $paramsEvtchnAllocUnbound$ is used to ``promote'' or
+%connect Z variables to the \Circus\ actions and channels relating to the
+%hypercall. That is, it defines variables for the parameter lists and shows how
+%the parameter list values are related to Z schema variables,
+%e.g. $rDomID?$. Notice that the parameter schema establishes that the newly
+%allocated port $p!$ is ``returned'' in $param\_out~0$, but says nothing about
+%how this value is related to the global state or specific operation.
+%
+%\subsubsection{Proof Scaffolding}
+%
+%Parts of this specification are valid descriptions of Xenon's hypercall
+%interface behavior but are less faithful to implementation issues. Besides the
+%proof labels used to show that high information does not flow into low
+%domains, there are two significant structures: the scheduler schemas and the Xen
+%Security Modules (XSM) functions. The scheduler does not model a scheduler but
+%merely generates the complete set of \Circus\ traces. Xenon's actual scheduler
+%is complex; too complex for this initial version where our chief concern is
+%discovering a way to verify the security of the interface. Later versions of
+%this document can include a scheduler that faithfully captures implementation
+%issues in the scheduler. Xen Security Modules is a policy decision point in
+%the Xenon internals; it checks a requested hypecall to see if the hypercall
+%should be denied, for security reasons.
+%
+%\subsubsection{Section Organization}
+%
+%From its Standard Z heritage, \Circus\ inherits the \emph{section} concept
+%that allows us to organize the specification. The specification begins with
+%programmers model that defines concepts relating to the implementation's
+%underlying hardware and compiler. It is followed by a Xenon section that
+%defines basic types and constants that are provided by the Xenon
+%implementation. The next section is the hypervisor section that defines both
+%the specific hypercalls and the supporting structures needed to define general
+%hypervisor behavior.
+%
+%\section{Programmer's Model}
+%
+%This section contains types and other definitions for the underlying
+%hardware, as seen by the programmer.  It also provides types and
+%definitions for constructs and artifacts provided by the C programming
+%language, as defined by gcc using the \verb+std=gnu99+ flag.
+%
+%\begin{zsection}
+%\SECTION ~ programmers\_model ~ \parents ~ circus\_toolkit, fuzz\_toolkit
+%\end{zsection}
+%
+%We begin with basic bit and byte level data types.  An unsigned word is
+%defined as a finite function, rather than as sequence, so that the least
+%significant bit (LSB) is at position 0.  (This version of the specification
+%does not require signed words.)
+%\begin{zed}
+%    BitType == 0 \upto 1 \also
+%    WordType == \{~ w: \nat \ffun BitType | \# w > 0 \land \dom w = 0 \upto \#w - 1 ~\}
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{grule gBitTypeMaxType}
+%BitType \in  \power  \num
+%\end{theorem}
+%
+%\begin{theorem}{grule gWordTypeMaxType}
+%WordType \in  \power  (\power  (\num  \cross  \num ))
+%\end{theorem}
+%
+%\begin{theorem}{grule gWordTypeMaxFinType}
+%WordType \in  \power  (\finset  (\num  \cross  \num ))
+%\end{theorem}
+%
+%\begin{theorem}{frule fWordTypePFunMaxType}
+%\forall  w: WordType @ w \in  \num  \pfun  \num
+%\end{theorem}
+%
+%\begin{theorem}{rule lWordTypeElemDom}
+%\forall  w: WordType @ \dom  w = 0 \upto \# w - 1
+%\end{theorem}
+%
+%\begin{theorem}{frule lWordTypeElemTopDom}
+%\forall  w: WordType @ 0 \leq  - 1 + \# w
+%\end{theorem}
+%
+%\begin{theorem}{rule lWordTypeElemNonZeroCard}
+%\forall  w: WordType @ \# w > 0
+%\end{theorem}
+%
+%\begin{theorem}{rule lWordTypeElemNotEmpty}
+%\forall  w: WordType @ \lnot  w = \{\}
+%\end{theorem}
+%
+%\begin{zproof}[WordType\$domainCheck]
+%prove by reduce;
+%\end{zproof}
+%\begin{zproof}[gBitTypeMaxType]
+%prove by reduce;
+%\end{zproof}
+%\begin{zproof}[gWordTypeMaxType]
+%prove by reduce;
+%\end{zproof}
+%\begin{zproof}[gWordTypeMaxFinType]
+%prove by reduce;
+%\end{zproof}
+%\begin{zproof}[fWordTypePFunMaxType]
+%prove by reduce;
+%\end{zproof}
+%\begin{zproof}[lWordTypeElemDom]
+%prove by reduce;
+%\end{zproof}
+%\begin{zproof}[lWordTypeElemTopDom]
+%invoke WordType;
+%prove;
+%\end{zproof}
+%\begin{zproof}[lWordTypeElemNonZeroCard]
+%invoke WordType;
+%prove;
+%\end{zproof}
+%\begin{zproof}[lWordTypeElemNotEmpty]
+%invoke WordType;
+%use card0[\num  \cross  \num ][S := w];
+%prove;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%Two alternative definitions for \texttt{wtail}: one ($wtail0$) is a total function,
+%yet might not return a $WordType$ (e.g., case when parameter is singleton);
+%the other ($wtail$) is a partial function defined much like sequence $tail$.
+%Depending on how proof goes, will adopt one or the other. Started with $wtail$.
+%\begin{axdef}
+%  wtail0: WordType \fun  \nat  \ffun  BitType
+%\where
+%\Label{disabled rule dWTail0}
+%  \forall  w: WordType @ wtail0~w = \IF  \# w = 1 \THEN  \{\} \ELSE  (\lambda  i: 0 \upto \# w - 2 @ w (i + 1))
+%\end{axdef}
+%
+%\begin{axdef}
+%  wtail: WordType \pfun  WordType
+%\where
+%\Label{disabled rule dWTailDom}
+%  	\dom  wtail = WordType \setminus  \{  n: WordType | \# n = 1 \}\\
+%\Label{disabled rule dWTail}
+%  	\forall  w: WordType | \# w > 1 @ wtail~w = (\lambda  i: 0 \upto \# w - 2 @ w (i + 1))
+%\end{axdef}
+%
+%We will need a \emph{value} function $val$ that recovers the natural number
+%currently stored in a word.  The functions $LSB, MSB$ and $bitval$ are
+%primarily used to simplify the definition of function $val$.
+%\begin{axdef}
+%  LSB, MSB: WordType \fun  BitType\\
+%  bit\_val: BitType \surj  BitType\\
+%  wordVal: WordType \fun  \nat
+%\where
+%\Label{disabled rule dLSB}
+%     \forall  wl: WordType @ LSB~wl = wl~0\\
+%\Label{disabled rule dMSB}
+%     \forall  wm: WordType @ MSB~wm = wm~(\#~ wm - 1)\\
+%\Label{disabled rule dBitVal}
+%     bit\_val = \{0 \mapsto  0, 1 \mapsto  1\}\\
+%\Label{disabled rule dWordVal}
+%      \forall  w: WordType @ \# w = 1 \implies  wordVal~ w = bit\_val (LSB~ w) \land \\
+%        \t2 \# w > 1 \implies  wordVal~ w = bit\_val (LSB~ w) + 2 * wordVal (wtail~ w)
+%\end{axdef}
+%%begin{axdef}
+%%    LSB, MSB : WordType \fun BitType \\
+%%    bit\_val : BitType \surj 0 \upto 1 \\
+%%    wordVal : WordType \fun \nat
+%%\where
+%%    \forall w : WordType @ \\
+%%        \t1 LSB~w = w~0 \land MSB~w = w~(\#w - 1) \\
+%%    bit\_val = \{~ 0 \mapsto 0, 1 \mapsto 1 ~\} \\
+%%    \forall w : WordType @ \\
+%%        \t1 \#w = 1 \implies wordVal~w = bit\_val~(LSB~w) \land \\
+%%        \t1 \#w > 1 \implies wordVal~w = bit\_val~(LSB~w) + 2 * wordVal~(tail~ w)
+%%end{axdef}
+%
+%Fundamental data types from the x86\_64 hardware and C programming language
+%are defined as words of specific size.  (Recall that Xenon code is restricted
+%to 64-bit implementations.)
+%\begin{zed}
+%    Byte == \{~ w : WordType | \# w =  8 ~\} \also
+%    Word == \{~ w : WordType | \# w = 16 ~\} \also
+%    Doubleword  == \{~ w : WordType | \# w = 32 ~\} \also
+%    Quadword == \{~ w : WordType | \# w = 64 ~\} \also
+%    Unsigned == Doubleword \also
+%    UnsignedLong == Quadword
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{grule gUnsignedLongIsWordType}
+%UnsignedLong \in  \power  WordType
+%\end{theorem}
+%\begin{theorem}{grule gUnsignedIsWordType}
+%Unsigned \in  \power  WordType
+%\end{theorem}
+%
+%\begin{zproof}[gUnsignedLongIsWordType]
+%invoke UnsignedLong;
+%invoke Quadword;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gUnsignedIsWordType]
+%invoke Unsigned;
+%invoke Doubleword;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[wtail0\$domainCheck]
+%prove;
+%\end{zproof}
+%\begin{zproof}[wtail\$domainCheck]
+%prove;
+%\end{zproof}
+%\begin{zproof}[unnamed\$n3\$domainCheck]%for LSB, MSB, etc
+%prove;
+%\end{zproof}
+%\begin{zproof}[Byte\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[Word\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[Doubleword\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[Quadword\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\section{Xenon}
+%
+%This section discusses definitions and types provided by the Xenon
+%implementation, as distinct from definitions and types provided by either the
+%hardware or the programming language/compiler.
+%
+%\begin{zsection}
+%\SECTION ~ xenon ~ \parents ~ programmers\_model
+%\end{zsection}
+%
+%\subsection{Proof Labels}
+%
+%The security properties of this specification depend on being able to
+%partition events into classes between which no information should
+%flow. Following tradition and with no loss of generality, we name these
+%classes $High$ and $Low$.
+%\begin{zed}
+%        PROOF\_LABEL ::= Low | High
+%\end{zed}
+%Values of type $PROOF\_LABEL$ are used to label the events of our
+%specification.
+%
+%\subsection{Error Codes}
+%
+%Xen and Xenon define error codes using the Unix/Linux definitions. We also
+%follow the Unix/GNU Linux/Xen practice of reporting success as the ``error''
+%$ok$. We include some of them here to support documentation of errors reported
+%by the separation hypervisor interface.  This definition assumes values as
+%found in the header file \texttt{errno.h}. A complete discussion of what file
+%precisely constitutes the effective \texttt{errno.h} is beyond the scope of
+%this model. See the implementation.  This version of the model combines Xen
+%Security Modules (XSM) error codes with the error codes in \texttt{errno.h}.
+%\begin{zed}
+%    RC ::=  ok | eperm | enoent | esrch | enomem | eexist \\
+%        \t2 | einval | enospc | emediumtype | xsmAccessDenied
+%\end{zed}
+%
+%\subsection{Hypercall Interface}
+%
+%The hypercall interface is modelled using \Circus\ channels. The like its
+%parent Xen, the Xenon hypervisor interface has a ``signature'' comprising a
+%collection of \emph{hypercall operation codes} and \emph{hypercall parameter
+%  structures}. The hypercalling domain is an implicit parameter, defined by
+%the VCPU currently scheduled to run.
+%
+%We define unique identifiers for domains (i.e. Xen/Xenon term for virtual
+%machine), VCPU's (a virtual machine can have more than 1 VCPU), and event
+%channels.  Notice that in the implementation, VCPU identifiers are not unique
+%outside of a specific domain, but we do not model that.  $DOMID\_SELF$ is a
+%constant for self-reference when you may not know what your domain ID is.  The
+%value is taken from the implementation. No domain has this value as its
+%recorded domain identifier.
+%
+%\begin{axdef}
+%        MAXdomainID : \nat \\
+%        MAXvcpuID : \nat \\
+%        MAXevtchnID : \nat \\
+%        MAXhypercallOP : \nat
+%\where
+%\Label{disabled rule dMAXdomainIDLowerBound}
+%    2 \leq MAXdomainID \\
+%\Label{disabled rule dMAXvcpuIDLowerBound}
+%	2 \leq MAXvcpuID
+%\end{axdef}
+%%
+%Added an axiom about the lower bound of $MAXdomainID$ since we need
+%to have at least three for $dom0$, $domU1$, $domU2$.
+%
+%Given limits, we define ``types'' for the domain, VCPU, event channel
+%identifiers, and hypercall operation codes. We also add constants for specific
+%VCPU identifiers, to be used in renaming.
+%\begin{zed}
+%        DOMID\_SELF == 32752 \also
+%        DomainID == 0 \upto MAXdomainID \also
+%        VCPUID == 0 \upto MAXvcpuID \also
+%        EvtchnID == 0 \upto MAXevtchnID \also
+%        HypercallOP == 0 \upto MAXhypercallOP
+%\end{zed}
+%%
+%Some specific operation codes
+%\begin{axdef}
+%       doEvtchnAllocUnbound, doEvtchnBindInterdomain : HypercallOP
+%\end{axdef}
+%
+%\subsubsection{Hypercall Parameters}
+%
+%Hypercall parameters are passed as ``lists'', here described by finite
+%functions. Each hypercall has its own specific parameter structure.  We use a
+%single parameter list type to simplify the channel structure. Because Xenon
+%has well over 100 hypercalls, per-hypercall channels would be unwieldy.
+%
+%Since each hypercall will contain different types (e.g. domain IDs, port
+%numbers, grant table handles, memory allocation sizes), in different positions
+%on the list, we do not want to apply too much typing to the parameter list
+%elements per se. We do limit the size of the possible parameters.
+%
+%We also take the opportunity to limit the size of parameter lists.
+%\begin{axdef}
+%        MAX\_HypercallParam : \nat \\
+%        MAX\_HypercallParamList : \nat
+%\where
+%\Label{disabled rule dMaxHypercallParamList}
+%        MAX\_HypercallParamList = 128
+%\end{axdef}
+%%
+%Given a bound, we define the type.
+%\begin{zed}
+%        HypercallParam == 0 \upto MAX\_HypercallParam
+%\end{zed}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{grule gHypercallParamFinMaxType}
+%HypercallParam \in  \finset  \num
+%\end{theorem}
+%\begin{zproof}[gHypercallParamFinMaxType]
+%reduce;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%We define the ``parameter list'' type as a finite function, with a maximum
+%list size of 128. Used $\lnot p = \{\}$ instead of $\# p > 0$ to avoid finiteness proofs.
+%\begin{zed}
+%        HypercallParamList == \\
+%                \t1 \{~ p: 0 \upto MAX\_HypercallParamList \ffun HypercallParam | \lnot p = \{\} ~\}
+%\end{zed}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{grule gHypercallParamListMaxType}
+%HypercallParamList \in  \power  (\power  (\num  \cross  \num ))
+%\end{theorem}
+%\begin{theorem}{grule gHypercallParamListFinMaxType}
+%HypercallParamList \in  \power  (\finset  (\num  \cross  \num ))
+%\end{theorem}
+%\begin{theorem}{grule gHypercallParamListPFunMaxType}
+%HypercallParamList \in  \power  (\num  \pfun  \num )
+%\end{theorem}
+%
+%Just to show that the change in representation is harmless,
+%let's prove that indeed the original property holds.
+%\begin[disabled]{theorem}{rule lHypercallParamListSizeProp}
+%    \forall f: HypercallParamList @ \#~f > 0
+%\end{theorem}
+%
+%\begin{zproof}[gHypercallParamListMaxType]
+%invoke HypercallParamList;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gHypercallParamListFinMaxType]
+%invoke HypercallParamList;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gHypercallParamListPFunMaxType]
+%invoke HypercallParamList;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[lHypercallParamListSizeProp]
+%invoke HypercallParamList;
+%rewrite;
+%use card0[\num\cross\num][S:=f];
+%use cardIsNonNegative[\num\cross\num][S:=f];
+%rearrange;
+%with predicate (f \in \finset~(\num \cross \num)) rewrite;
+%simplify;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%The \verb+evtchn_alloc_unbound+ hypercall has 3 parameters
+%\begin{itemize}
+%        \item IN - the local domain ID,
+%        \item IN - the remote domain ID, and
+%        \item OUT - the number of the allocated event channel port.
+%\end{itemize}
+%%
+%We define these parameters as specific ``lists''.
+%As these lists are reused across various points,
+%we have a general type to represent all of them,
+%followed by appropriate type-aliases.
+%
+%% NOTE TO JOHN:
+%%   This use of subset of HypercallParamList leads to long-winded
+%%   proofs that turn out to be quite hard, unnecessarily. I tried
+%%   to keep to this at first, and found that ''\_Type'' defs needed
+%%   to at least rule out empty types (ie., use $\power_1$). Then
+%%   I come up with a simpler, yet mostly equivalent definition.
+%%   And I do derive the axiomatic definitions of their size as
+%%   proved theorems, so we are okay.
+%%
+%%begin{axdef}
+%%        evtchnAllocUnboundParamIN : HypercallParamList \\
+%%        evtchnAllocUnboundParamOUT : HypercallParamList
+%%\where
+%%\Label{disabled rule dEvtChnAllocUnboundParamINSize}
+%%       \#evtchnAllocUnboundParamIN = 2 \\
+%%\Label{disabled rule dEvtChnAllocUnboundParamOUTSize}
+%%       \#evtchnAllocUnboundParamOUT = 1
+%%\end{axdef}
+%%%
+%%Since the values that are passed may change, we need to be able to define
+%%variables of the appropriate type. These types cannot be empty. Otherwise,
+%%there would be no model (e.g., empty types) for the parameters.
+%%begin{zed}
+%%       evtchnAllocUnboundParamIN\_Type == \power_1 evtchnAllocUnboundParamIN \also %<--- NOTE DIFFERENT \power_1
+%%       evtchnAllocUnboundParamOUT\_Type == \power_1 evtchnAllocUnboundParamOUT
+%%end{zed}
+%%
+%The \verb+evtchn_bind_interdomain+ hypercall has 3 parameters
+%\begin{itemize}
+%       \item IN - the remote domain ID,
+%       \item IN - the remote port,
+%       \item OUT - and the local port.
+%\end{itemize}
+%%
+%%\begin{axdef}
+%%        evtchnBindInterdomainParamIN : HypercallParamList \\
+%%        evtchnBindInterdomainParamOUT : HypercallParamList
+%%\where
+%%\Label{disabled rule dEvtChnBindInterdomainParamINSize}
+%%       \#evtchnBindInterdomainParamIN = 2 \\
+%%\Label{disabled rule dEvtChnBindInterdomainParamOUTSize}
+%%        \#evtchnBindInterdomainParamOUT = 1
+%%\end{axdef}
+%%%
+%%Since the values that are passed may change, we need to be able to define
+%%variables of the appropriate type. These types cannot be empty.
+%%\begin{zed}
+%%       evtchnBindInterdomainParamIN\_Type == \power_1 evtchnBindInterdomainParamIN \also
+%%       evtchnBindInterdomainParamOUT\_Type == \power_1 evtchnBindInterdomainParamOUT
+%%\end{zed}
+%
+%% Note: Empty types are automatically ruled out since the function is total
+%%       on a non-empty domain. In any case, I do add proofs to that effect.
+%\begin{zed}
+%    evtchnParamIN == 0 \upto 1 \fun  HypercallParam \also
+%    evtchnParamOUT == 0 \upto 0 \fun  HypercallParam \also
+%    evtchnAllocUnboundParamIN == evtchnParamIN \also
+%    evtchnAllocUnboundParamOUT == evtchnParamOUT \also
+%    evtchnBindInterdomainParamIN == evtchnParamIN \also
+%    evtchnBindInterdomainParamOUT == evtchnParamOUT
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{frule fEvtChnParamINMaxType}
+%\forall  f: evtchnParamIN @ f \in  \power  (\num  \cross  \num )
+%\end{theorem}
+%\begin{theorem}{frule fEvtChnParamOUTMaxType}
+%\forall  f: evtchnParamOUT @ f \in  \power  (\num  \cross  \num )
+%\end{theorem}
+%\begin{theorem}{frule fEvtChnParamINMaxPFunType}
+%\forall  f: evtchnParamIN @ f \in  \num  \pfun  \num
+%\end{theorem}
+%\begin{theorem}{frule fEvtChnParamOUTMaxPFunType}
+%\forall  f: evtchnParamOUT @ f \in  \num  \pfun  \num
+%\end{theorem}
+%\begin{theorem}{frule fEvtChnParamINFirstDomElem}
+%\forall  f: evtchnParamIN @ 0 \in  \dom  f
+%\end{theorem}
+%\begin{theorem}{frule fEvtChnParamINLastDomElem}
+%\forall  f: evtchnParamIN @ 1 \in  \dom  f
+%\end{theorem}
+%\begin{theorem}{frule fEvtChnParamOUTOnlyDomElem}
+%\forall  f: evtchnParamOUT @ 0 \in  \dom  f
+%\end{theorem}
+%
+%INCOMPLETE PROOF
+%\begin{theorem}{frule fEvtChnParamINMaxFinType}
+%\forall  f: evtchnParamIN @ f \in  \num  \ffun  \num
+%\end{theorem}
+%INCOMPLETE PROOF
+%\begin{theorem}{frule fEvtChnParamOUTMaxFinType}
+%\forall  f: evtchnParamOUT @ f \in  \num  \ffun  \num
+%\end{theorem}
+%
+%%CHECK: maybe not necessary - it will depend on the proof strategy for fEvtChnParamINMaxFinType
+%\begin{zed}
+%ECPIN\_Witness == (\lambda  f: evtchnParamIN @ (\lambda  i: 1 \upto 2 @ (i, f (i - 1))))
+%\end{zed}
+%%\begin{theorem}{grule gECPINWitnessType}
+%%\forall  f: evtchnParamIN @ ECPIN\_Witness f \in  1 \upto 2 \fun  f
+%%\end{theorem}
+%%\begin{theorem}{rule lECPINWitnessValue}
+%%\forall  f: evtchnParamIN @ ECPIN\_Witness f = (\lambda  i: 1 \upto 2 @ (i, f (i - 1)))
+%%\end{theorem}
+%\begin{zproof}[ECPIN\_Witness\$domainCheck]
+%invoke evtchnParamIN;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gECPINWitnessType]
+%invoke ECPIN\_Witness;
+%use   applyLambdaConstFn[evtchnParamIN][a := (\lambda  i: 1 \upto 2 @ f(i-1)), y := f];
+%invoke evtchnParamIN;
+%\end{zproof}
+%%END-CHECK
+%
+%Properties from the original axioms
+%\begin[disabled]{theorem}{rule lEvtChnParamINSize}
+%    \forall  f: evtchnParamIN @ \#~f = 2
+%\end{theorem}
+%\begin[disabled]{theorem}{rule lEvtChnParamOUTSize}
+%    \forall  f: evtchnParamOUT @ \#~f = 1
+%\end{theorem}
+%
+%\begin{zproof}[fEvtChnParamINMaxType]
+%invoke evtchnParamIN;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamOUTMaxType]
+%invoke evtchnParamOUT;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamINMaxPFunType]
+%invoke evtchnParamIN;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamOUTMaxPFunType]
+%invoke evtchnParamOUT;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamINFirstDomElem]
+%invoke evtchnParamIN;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamINLastDomElem]
+%invoke evtchnParamIN;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamOUTOnlyDomElem]
+%invoke evtchnParamOUT;
+%rewrite;
+%\end{zproof}
+%
+%\begin{zproof}[fEvtChnParamINMaxFinType]
+%TODO
+%invoke evtchnParamIN;
+%invoke (\_\ffun \_);
+%invoke (\_\fun \_);
+%rewrite;
+%use finiteFunction[\num , \num ][f := f];
+%invoke evtchnParamIN;
+%rearrange;
+%rewrite;
+%invoke (\finset \_);
+%trivial rewrite;
+%prove;
+%instantiate n == 2;
+%rewrite;
+%instantiate f\_\_0 == ECPIN\_Witness f;
+%rewrite;
+%apply ranDefinition to expression \ran  (ECPIN\_Witness f);
+%rewrite;
+%apply lECPINWitnessValue to expression ECPIN\_Witness f;
+%prove;
+%apply extensionality;
+%prove;
+%prenex;
+%rewrite;
+%prenex;
+%rewrite;
+%prenex;
+%apply lECPINWitnessValue to expression ECPIN\_Witness f;
+%rewrite;
+%apply ranDefinition to expression \ran  \{  i: 1 \upto 2 @ (i, (i, (f (i - 1)))) \};
+%rewrite;
+%invoke HypercallParam;
+%prove;
+%\end{zproof}
+%\begin{zproof}[fEvtChnParamOUTMaxFinType]
+%TODO
+%\end{zproof}
+%\begin{zproof}[lEvtChnParamINSize]
+%use functionFinite[\num , \num ][A := 0 \upto 1, B := HypercallParam, f := f];
+%rearrange;
+%rewrite;
+%simplify;
+%use finiteFunction[\num , \num ][f := f];
+%rearrange;
+%rewrite;
+%invoke evtchnParamIN;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[lEvtChnParamOUTSize]
+%use functionFinite[\num , \num ][A := 0 \upto 0, B := HypercallParam, f := f];
+%use finiteFunction[\num , \num ][f := f];
+%rearrange;
+%rewrite;
+%invoke evtchnParamOUT;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\subsubsection{Hypercall Channels}
+%
+%There are two channels, one to model ``passing in'' opcodes and IN parameters and
+%another to model ``returning'' a status code and the OUT parameters.
+%\begin{circus}
+%        \circchannel\ hyp : PROOF\_LABEL \cross HypercallOP \cross HypercallParamList \\
+%        \circchannel\ ret : PROOF\_LABEL \cross RC \cross HypercallParamList \\
+%        \circchannelset\ HypercallInterface == \lchanset hyp, ret \rchanset
+%\end{circus}
+%
+%\subsubsection{Scheduling Channel}
+%
+%The scheduling channel will be used to ``control'' or define when a guest is
+%executing. In the description of the guests, actions will be restricted to
+%only have an effect when the value of $cpu$ matches their own domain ID.
+%
+%\begin{circus}
+%        \circchannel\ cpu : DomainID
+%\end{circus}
+%
+%\subsection{VCPU Info Interface}
+%
+%Before we describe event channels per se, we define the state space of the
+%hypervisor's event notification interface with its guest operating systems.
+%We model the implementation's shared (with the guest) structure
+%\verb+struct vcpu_info+ that records the notification processing of event
+%channels, for each VCPU. In our simplified model, we gloss over the fact that
+%the implementation identifies the event channel status per port in a domain
+%structure.  Instead, we combine the meaning of that structure with the VCPU's
+%$vcpuInfoType$.
+%
+%Both the hypervisor and its guest virtual machines access these ``bit
+%masks''. This specification models both the actual guest operating system's and
+%the hypervisor's interface to them.
+%\begin{itemize}
+%        \item $evtchnUpcallPending$ - the hypervisor ``sets'' this by putting the
+%        port number in the set. It does this to notify
+%        the guest there is an event, the guest resets this (defined here as removing the port
+%        number from the set) when it is about to deal with the event,
+%        \item $evtchnUpcallMask$ - the guest is the only one to change this. If
+%        it is clear (defined as the corresponding port number is not in the set) then
+%        the hypervisor will schedule the configured upcall, when the hypervisor
+%        sets $evtchnUpcallPending$. If the mask is set (the corresponding port
+%        number is in the set), then the hypervisor will not schedule the
+%        upcall, giving the effect of a masked interrupt.
+%\end{itemize}
+%%
+%We establish the maximum number of event channels here because event channels
+%are referenced by their \emph{port number}.
+%\begin{zed}
+%        MAX\_EVTCHNS == 4096
+%\end{zed}
+%%
+%Now we can define the port number type.
+%\begin{zed}
+%        PortNumber == 0 \upto MAX\_EVTCHNS -1
+%\end{zed}
+%%
+%The external view of the pending and mask upcall bit mask is that each mask is
+%a set of port numbers.  Specifying port number $p$ to be a member of the set
+%is specifying that the implementation should have bit $p$ set in the
+%corresponding event channel mask. The current masks are sent on a per-domain
+%\Circus\ channel: the first member is the $VCPUID$ of the VCPU that should be
+%notified of the virtual ``interrupt''; the second member is a set of
+%$PortNumber$s that represents $evtchnUpcallPending$; the third member
+%represents $evtchnUpcallMask$. As we will see later, each guest shares its own
+%$vcpuInfo$ channel with the hypervisor.
+%\begin{circus}
+%        \circchannel\ vcpuInfoDom0 : VCPUID \cross \power PortNumber \cross \power PortNumber \\
+%        \circchannel\ vcpuInfoDomU1 : VCPUID \cross \power PortNumber \cross \power PortNumber \\
+%        \circchannel\ vcpuInfoDomU2 : VCPUID \cross \power PortNumber \cross \power PortNumber
+%\end{circus}
+%
+%\subsection{Parameter Schemas}
+%
+%Parameter schemas are similar to the framing schemas (called generalization
+%schemas in this document) used to promote local state. Instead of promoting
+%specific operations to the global state, by schema conjunction, parameter
+%schemas relate the global state of a Z operation schema to the channels of its
+%enclosing process. As in the case of promotion, schema conjunction is used.
+%
+%Hypercall parameters are ``passed'' in and out by the parameter ``list''
+%variables. The parameter schema describes the relationships between external
+%\Circus\ action variables and the internal Z variables of the hypervisor
+%state. Local and remote domain identifiers are passed in; the port number is
+%passed back and a result code is ``returned''. Values of $param\_in$ and
+%$param\_out$ are set deterministically by actions of the appropriate
+%parameterized guest process $Guest(d)$. The value of $result\_code$ will be
+%established deterministically by a hypercall operation schema of the
+%$Hypervisor$ process.
+%
+%A guest wishing to allocate an unbound event channel passes in a local and a
+%remote domain ID and the hypervisor returns the port number of the newly
+%allocated event channel.
+%\begin{schema}{paramsEvtchnAllocUnbound}
+%        lDomID?, rDomID? : DomainID \\
+%        param\_in : evtchnAllocUnboundParamIN \\
+%        p! : PortNumber \\
+%        result\_code, rc! : RC \\
+%        param\_out : evtchnAllocUnboundParamOUT
+%\where
+%        lDomID? \in \dom param\_in \land rDomID? \in \dom param\_in \\
+%        lDomID? = param\_in ~ 0 \land rDomID? = param\_in ~ 1\\
+%        result\_code = rc! \\
+%        param\_out~0 = p!
+%\end{schema}
+%%
+%A guest wishing to bind a previously allocated but unbound event channel
+%between 2 domains passes in a remote domain ID and the corresponding remote
+%port of the other end of the channel. The hypervisor returns the port number
+%of the newly bound event channel.
+%\begin{schema}{paramsEvtchnBindInterdomain}
+%        rDomID? : DomainID \\
+%        param\_in : evtchnBindInterdomainParamIN \\
+%        remote\_p?, local\_p! : PortNumber \\
+%        result\_code, rc! : RC \\
+%        param\_out : evtchnBindInterdomainParamOUT
+%\where
+%        rDomID? \in \dom param\_in \land remote\_p? \in \dom param\_in \\
+%        rDomID? = param\_in ~ 0 \land remote\_p? = param\_in ~ 1\\
+%        result\_code = rc! \\
+%        local\_p! \in \dom param\_out \\
+%        param\_out~0 = local\_p!
+%\end{schema}
+%%
+%We also collect the parameter passing schemas.
+%\begin{zed}
+%        evtchnParamSchemas \defs \\
+%                \t1 paramsEvtchnAllocUnbound \land paramsEvtchnBindInterdomain
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[paramsEvtchnAllocUnbound\$domainCheck]
+%invoke evtchnAllocUnboundParamIN;
+%invoke evtchnAllocUnboundParamOUT;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[paramsEvtchnBindInterdomain\$domainCheck]
+%invoke evtchnBindInterdomainParamIN;
+%invoke evtchnBindInterdomainParamOUT;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Hypervisor Process}
+%
+%\begin{zsection}
+%\SECTION ~ hypervisor ~ \parents ~ xenon
+%
+%\end{zsection}
+%
+%\section{Hypervisor Process}
+%
+%\begin{circus}
+%        \circprocess\ Hypervisor \circdef \circbegin
+%\end{circus}
+%
+%Leo, this is hacky, but I don't know a cleaner way to get the tools to accept
+%a load of constants like this. We need to name some VCPU identifiers, in order
+%to use them in defining the initial hypervisor state $startXenon$.
+%\begin{zed}
+%        vcpuID1 == 1 \also
+%        vcpuID2 == 2 \also
+%        vcpuID3 == 3 \also
+%        vcpuID4 == 4 \also
+%        vcpuID5 == 5 \also
+%        vcpuID6 == 6
+%\end{zed}
+%%
+%\subsection{Event Channel State Space}
+%
+%We introduce the event channel state space first.  Event channels are managed
+%on a per-domain basis, by including event channels in the state space of Xen
+%domains.
+%
+%%
+%We describe the 7 states an event channel can be in: its \emph{event channel state}.
+%\begin{zed}
+%    ECS ::= ECS\_FREE | ECS\_RESERVED | ECS\_UNBOUND | \\
+%    \t1 ECS\_INTERDOMAIN | ECS\_PIRQ | ECS\_VIRQ | ECS\_IPI
+%\end{zed}
+%
+%
+%Now we define the event channel state space.
+%All kinds of event channels have some common state space:
+%%
+%\begin{itemize}
+%        \item $evtchnID$ - a unique identifier for event channels, not present
+%        in the implementation but really useful in the specification,
+%        \item $state$ - an event channel state, e.g. $ECS\_FREE$,
+%        \item $consumerIsXen$ - the channel is/is not being used to send events
+%        to the hypervisor,
+%        \item $notifyVCPUID$ - the channel is/is not supposed to notify a VCPU
+%        other than the first VCPU of a Xen domain,
+%        \item $remotePort$ - the port number used by the other end of an
+%        attached channel,
+%        \item $remoteDomid$ - the domain at the other end of an attached
+%        channel.
+%\end{itemize}
+%\begin{schema}{Evtchn}
+%        evtchnID : EvtchnID \\
+%        state : ECS \\
+%        consumerIsXen : \nat \\
+%        notifyVCPUID : VCPUID \\
+%        remotePort : PortNumber \\
+%        remoteDomid : DomainID
+%\where
+%        remotePort \leq MAX\_EVTCHNS -1
+%\end{schema}
+%%
+%Some hypercalls operate on more than one event channel at a time. To clarify
+%the behavior of these hypercalls, we provide a shorthand for the local channel
+%and a second schema, to play the role of the remote channel.
+%\begin{zed}
+%        localEvtchn \defs Evtchn[~
+%                localEvtchnID / evtchnID, \\
+%                \t1 localState / state, \\
+%                \t1 localConsumerIsXen / consumerIsXen, \\
+%                \t1 localNotifyVCPUID / notifyVCPUID, \\
+%                \t1 localRemotePort / remotePort,\\
+%                \t1 localRemoteDomid / remoteDomid  ~]
+%\also
+%        remoteEvtchn \defs Evtchn[~
+%                remoteEvtchnID / evtchnID, \\
+%                \t1 remoteState / state, \\
+%                \t1 remoteConsumerIsXen / consumerIsXen, \\
+%                \t1 remoteNotifyVCPUID / notifyVCPUID, \\
+%                \t1 remoteRemotePort / remotePort,\\
+%                \t1 remoteRemoteDomid / remoteDomid  ~]
+%\end{zed}
+%%
+%The following abbreviations for event channel operations schemas will make the
+%specification more compact. These schema abbreviations bound the changes made
+%to a specific state.
+%\begin{zed}
+%        evtchnOnlyremoteDomid \defs \\
+%                \t1 \Xi localEvtchn \hide (localRemoteDomid) \also
+%        evtchnOnlystate \defs \\
+%                \t1 \Xi localEvtchn \hide (localState) \also
+%        evtchnOnlyremoteDomain\_remotePort\_state \defs \\
+%                \t1 \Xi localEvtchn \hide (localRemoteDomid, localRemotePort, localState) \also
+%        evtchnOnlyRemote\_remoteDomain\_remotePort\_state \defs \\
+%                \t1 \Xi remoteEvtchn \hide (remoteRemoteDomid, remoteRemotePort, remoteState)
+%\end{zed}
+%
+%\subsection{VCPU State Space}
+%
+%We may need an internal state structure for the hypervisor, as the state
+%schema $vcpuInfoTyp$ that corresponds to the internal C data structure of the
+%same name. In our model, this schema defines internal state that the
+%hypervisor would use to track its external presentation of event upcall
+%status.
+%\begin{schema}{vcpuInfoType}
+%        evtchnUpcallPending : \power PortNumber \\
+%        evtchnUpcallMask : \power PortNumber
+%\end{schema}
+%
+%We introduce the specific virtual CPU (VCPU) state space next, simply because
+%it appears next in the source text of the implementation. Xenon uses its VCPU
+%state space to virtualize CPU's for its guests. Currently, we do not model the
+%entire VCPU state, but only a subset.
+%
+%\noindent
+%Like its parent Xen, Xenon supports up to 32 virtual CPU's per domain.
+%\begin{zed}
+%   MAX\_VIRT\_CPUS == 32
+%\end{zed}
+%%
+%The scheduling, or run states of a VCPU.
+%\begin{zed}
+%    Runstate == 0 \upto 3 \also
+%    RUNSTATErunning == 0 \also
+%    RUNSTATErunnable == 1 \also
+%    RUNSTATEblocked == 2 \also
+%    RUNSTATEoffline == 3
+%\end{zed}
+%%
+%A specific VCPU contains the following state:
+%\begin{itemize}
+%        \item $vcpuID$ - the identifier of the VCPU,
+%        \item $vcpuDomain$ - the domain corresponding to this VCPU, called
+%        \verb+domain+ in the implementation,
+%       % \item $processor$ - the hardware CPU that this VCPU ``has affinity for'',
+%        \item $vcpuInfo$ - a structure that records guest notification state, for
+%events,
+%        \item $nextInList$ - the set of VCPU's for the corresponding Xen domain
+%        (implemented in Xen/Xenon as a list),
+%        \item $runstate$ - records run state for this VCPU,
+%        \item $isRunning$ - is this VCPU currently running on a CPU,
+%        \item $pollEvtchn$ - polling status, a positive number indicates a single
+%        port is being polled, zero indicates no polling, and a negative number
+%        indicates multiple ports might be polled,
+%\begin{zed}
+%        noPolling == 0
+%\end{zed}
+%%         \item $pauseFlags$ - flags to record the pause
+%%         status of this VCPU,
+%%         \item $pauseCount$ - counts the number of pause and unpause operations
+%%         that have been applied to this VCPU.
+%\end{itemize}
+%
+%\begin{schema}{VCPU}
+%        vcpuID : VCPUID \\
+%        vcpuDomain : DomainID \\
+%        %processor : \nat \\
+%        nextInList : \power VCPUID \\
+%% Avoid schema "scafolding" and just use "vcpuInfoType" inclusion directly
+%        %vcpuInfo : vcpuInfoType \\
+%		vcpuInfoType \\
+%        isRunning : \nat \\
+%        runstate : Runstate \\
+%        pollEvtchn : \num \\
+%        % pauseFlags : UnsignedLong \\ % will be needed later
+%        %pauseCount : \nat
+%\end{schema} %\circnote{Scheduling and interdomain binding touch pauseFlags.}
+%
+%\subsection{Domain State Space}
+%
+%Now we introduce the specific state of a Xenon domain.  (The term \emph{domain} is
+%used by Xenon and its parent Xen to refer to a virtual machine.)  We define
+%the state of a domain with all of the members found in the implementation
+%struct.  A domain contains the following state:
+%\begin{itemize}
+%    \item $domainID$ - the unique identifier of this domain,
+%    \item $evtchn$ - the table of event channels for this domain,
+%    \item $isHVM$ - is this domain running as an HVM guest,
+%    \item $isPrivileged$ - determines if this domain is privileged, ( Notice
+%           that this privilege is not part of the security state
+%           determined by XSM.)
+%    \item $vcpu$ - the table of VCPU's for this domain,
+%    \item $pollMask$ - records the VCPU's that are currently polling,
+%%     \item $domainPauseCount$ - records the number of pause operations that
+%%       have been applied to this domain.
+%\end{itemize}
+%Event channels are kept in domains, rather than VCPU's, because events may be
+%sent to more than one VCPU, and because event channel policies are enforced on
+%a per domain basis. No domain ever uses the $DOMID\_SELF$ value as its domain
+%identifier. The number of event channels is fixed. The number of virtual CPU's
+%is bounded. There are precisely 2 VCPUs per domain, so
+%we could have $vcpu = \{3 \mapsto vcpuX, 7 \mapsto vcpuY \}$.
+%\begin{schema}{Domain}
+%    domainID : DomainID \\
+%%John: There is an event channel id for every port number
+%%Leo : This one says that there is a unique EvtchnID for each PortNumber. Is that right?
+%	evtchn : PortNumber \inj EvtchnID \\
+%    isHVM : \nat \\
+%    isPrivileged : \nat \\
+%    vcpu : 0 \upto 1 \fun VCPU \\
+%    pollMask : Unsigned %\\
+%    %domainPauseCount : \nat
+%\where
+%    domainID \neq DOMID\_SELF \\
+%%Alternative 1: using \#~\dom will unnecesarrily complicate proofs
+%    %\# \dom  vcpu = 2 \\ %Leo, this really simplifies the initialization. It
+%%Alternative 2: using specific domain value is better, but still
+%%				unecessarily complicated. Ideal solution if "<=2"
+%	%\dom~vcpu = 0 \upto 2 % same as \#dom~vcpu = 2;
+%%Alternative 3: just state it in the definition itself as a
+%%				total function from 0 to 1.
+%    % does not matter how this is expressed, but the size needs to be fixed at
+%    % 2 (or some other definite value).
+%
+%% No, you don' need. The total injection above does it.
+%%    \dom evtchn = PortNumber \\ % Do I need to say this, given \inj above?
+%
+%
+%% This generalised \forall is okay if vcpu domain is large. Since it
+%% is so small (\dom~vcpu = \{0,1\}).
+%%    \forall i, j : \dom vcpu @ vcpu~i = vcpu~j \implies i = j
+%% Actually, this will follow trivially a more explicit restriction like
+%%vcpu~0 = vcpu~0 => 0 = 0  = true 				= vcpu~0 \neq vcpu~1
+%%vcpu~0 = vcpu~1 => 0 = 1  = vcpu~0 \neq vcpu~1
+%%vcpu~1 = vcpu~0 => 1 = 0  = vcpu~1 \neq vcpu~0
+%%vcpu~1 = vcpu~1 => 1 = 1  = true
+%%
+%% But vcpu~0 \neq \vcpu~1 can be derived as a theorem if we say a
+%% bit more about the VCPU / Domain relationship with something like this
+%%	
+%%(vcpu~0).vcpuID = 0
+%%(vcpu~1).vcpuID = 1
+%%(vcpu~0).vcpuDomain = domainID
+%%(vcpu~1).vcpuDomain = domainID
+%%
+%% And now, for a general solution (e.g., in case \dom~vcpu grows
+%%
+%(\forall i: \dom~vcpu @	i = (vcpu~i).vcpuID \\
+%	\t1 \land domainID = (vcpu~i).vcpuDomain)
+%\end{schema}
+%
+%Then a series of theorems should hold for this definition for the
+%sake of $VCPU$'s consistency:
+%\begin{theorem}{frulefDomainVCPUBounded}
+%  \vdash? \forall Domain @ \dom~vcpu \in \power~VCPUID  % \dom~vcpu \subseteq VCPUID
+%\end{theorem}
+%\begin[disabled]{theorem}{rule lDomainVCPUConsistency}
+%\forall Domain @ \forall i, j: \dom~vcpu | i = j @ vcpu~i = vcpu~j
+%\end{theorem}
+%% Provable, yet a bit hard for technical reasons. Leave it out.
+%%\begin{theorem}{frule fDomainEvtchnIsFinite}
+%%\forall Domain @ evtchn \in \finset~(PortNumber \cross EvtchnID)
+%%\end{theorem}
+%
+%
+%%
+%Some hypercalls operate on more than one domain at a time. To clarify
+%the behavior of these hypercalls, we provide an alias for the local domain
+%and a second schema, to play the role of the remote domain.
+%\begin{zed}
+%        localDomain \defs Domain [
+%                local\_domainID / domainID, \\
+%                \t1 local\_evtchn / evtchn, \\
+%                \t1 local\_isHVM / isHVM, \\
+%                \t1 local\_isPrivileged / isPrivileged, \\
+%                \t1 local\_vcpu / vcpu, \\
+%                \t1 local\_pollMask / pollMask ~]
+%
+%\also
+%        remoteDomain \defs Domain [
+%                remote\_domainID / domainID, \\
+%                \t1 remote\_evtchn / evtchn, \\
+%                \t1 remote\_isHVM / isHVM, \\
+%                \t1 remote\_isPrivileged / isPrivileged, \\
+%                \t1 remote\_vcpu / vcpu, \\
+%                \t1 remote\_pollMask / pollMask ~]
+%\end{zed}
+%%
+%The following abbreviations for domain operations schemas will make the
+%specification more compact. These schema abbreviations bound the changes made
+%to a specific state.
+%\begin{zed}
+%       domainOnlyevtchn \defs \Xi Domain \hide (evtchn)
+%\end{zed}
+%%
+%We also take the time to introduce the domain identifier for the privileged
+%$dom0$ that acts as a control plane for the hypervisor. We also introduce 2
+%unprivileged domains $domU1$ and $domU2$, for use in the proofs of
+%security.
+%\begin{zed}
+%              dom0 == 0 \also
+%             domU1 == 1 \also
+%             domU2 == 2
+%\end{zed}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[Domain\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fDomainVCPUBounded]
+%use dMAXvcpuIDLowerBound;
+%invoke Domain;
+%invoke VCPUID;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[lDomainVCPUConsistency]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\subsection{Scheduler State Space}
+%
+%We provide a rudimentary, but not fully functional scheduler. This scheduler
+%is proof scaffolding. It only serves to define a plausible set of traces that
+%can be used to prove the security of the defined hypercalls. It only schedules
+%the 4 domains of this specification. It does not allow domains to be removed
+%or even paused. In a future version of this specification, a faithful model of
+%the real scheduler will be constructed. The scheduler provides strict
+%round-robin execution, because it is covert channel free.
+%
+%Like its parent Xen, the Xenon separation hypervisor uses a 2-level pluggable
+%scheduler.  The higher-level scheduler defines the operations that must be
+%provided and implements a binary interface to the scheduler, for the rest of
+%Xenon. The lower-level scheduler hides the specific scheduling algorithm that
+%is used, e.g. round-robin or earliest-deadline-first. A lower-level scheduler
+%can be replaced by any conforming lower-level implementation, to change the
+%scheduler algorithm.
+%
+%Notice that scheduling is by VCPU as well as by domain, one reason a VCPU has
+%to ``know'' its domain.
+% In our specification, scheduling is by VCPU
+%only, but there is still a need to refer to the domain of the $current$ VCPU.
+%\begin{schema}{SchedulerState}
+%        schedule : \iseq VCPUID \\
+%        current : VCPUID \\
+%        current\_domain : DomainID
+%\end{schema}
+%%
+%
+%\subsection{General Hypervisor State Space}
+%
+%The general state space is straightforward. We construct it as a global state
+%and add constraints that relate the global state to the state of specific
+%objects.
+%
+%Function $EventChannels$ is used to identify distinct event channel objects.
+%
+%
+%%%%%%%%%%%%% Global State %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{schema}{GlobalState}
+%        SchedulerState \\
+%        Domains : DomainID \pfun Domain \\
+%        VCPUs : VCPUID \pfun VCPU \\
+%        EventChannels : EvtchnID \pfun Evtchn
+%\where
+%        \forall d1, d2 : Domain | d1 \neq d2 @ d1.domainID \neq d2.domainID \\
+%        \forall d : Domain | d.domainID \in \dom Domains @ Domains~(d.domainID) = d
+%\also
+%        \forall v1, v2 : VCPU | v1 \neq v2 @ v1.vcpuID \neq v2.vcpuID \\
+%        \forall v : VCPU | v.vcpuID \in \dom VCPUs @ VCPUs~(v.vcpuID) = v
+%\also
+%        \forall e1, e2 : Evtchn | e1 \neq e2 @ e1.evtchnID \neq e2.evtchnID \\
+%        \forall e : Evtchn | e.evtchnID \in \dom EventChannels @ EventChannels~(e.evtchnID) = e
+%\also
+%        current \in \dom VCPUs
+%\end{schema}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[GlobalState\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%%
+%\subsubsection{Invariants on the Global State}
+%
+%%Leo, it is faster for me to write in Z, even if it comes out hard to prove or wrong. The English takes too long, when I try to be precise.
+%
+%The notify VCPU of an event channel must be from the general VCPU set.
+%The notify VCPU an event channel must be a VCPU of the event channel's domain.
+%\begin{schema}{evtchnNotifyVCPUidConsistency}
+%        GlobalState
+%\where
+%        \forall e : \ran EventChannels @ e.notifyVCPUID \in \dom VCPUs \\
+%        \forall e : \ran EventChannels @ \\
+%                \t1 \exists d : \ran Domains; p : PortNumber @ \\
+%                        \t2 (EventChannels~(d.evtchn~p)).evtchnID = e.evtchnID \land \\
+%                        \t2 e.notifyVCPUID \in \dom d.vcpu
+%\end{schema}
+%%
+%We establish consistency for the remote domain of an event channel that may be
+%connected at the far end of a duplex connection.
+%\begin{schema}{evtchnRemoteDomainConsistency}
+%        GlobalState
+%\where
+%        \forall e : \ran EventChannels @ \\
+%                \t1  \exists d : \ran Domains @ \\
+%                        \t2 e.remoteDomid \in \dom Domains \land \\
+%                        \t2 d = Domains~(e.remoteDomid) \land \\
+%                        \t2 e.remotePort \in \dom d.evtchn
+%\end{schema}
+%%
+%The identifiers of VCPUs in a domain's VCPU ``table'' must match the
+%identifier used to look them up. Each VCPU belonging to a domain must agree
+%that it belongs to the domain that owns it. Finally, the VCPUs of a domain are
+%unique to it.
+%\begin{schema}{VCPUDomainIDConsistency}
+%        GlobalState
+%\where
+%        \forall d : \ran Domains @ \exists v : \ran VCPUs @ v.vcpuID \in \dom d.vcpu \land d.vcpu~(v.vcpuID) = v \\
+%        \forall v : \ran VCPUs @ \exists d : \ran Domains @ v.vcpuDomain = d.domainID \\
+%        \forall d1, d2 : \ran Domains @ d1 \neq d2 \iff \disjoint \langle \dom d1.vcpu, \dom d2.vcpu \rangle %Leo, we can use just an implication, if that makes proofs easier
+%\end{schema}
+%%
+%Each VCPU's list of VCPUs that belong to its domain must match the domain's ``table'' of VCPUs.
+%\begin{schema}{VCPUDomainCrossListConsistency}
+%        GlobalState
+%\where
+%        \forall v : \ran VCPUs @ \\
+%                \t1 \exists d : \ran Domains @ VCPUDomainIDConsistency \land v.nextInList = \dom d.vcpu
+%\end{schema}
+%%
+%Domains do not share event channels. An event channel's internal identifier
+%must match the event channel identifier mapped by the corresponding port
+%number.
+%\begin{schema}{DomainEvtchnTableConsistency}
+%        GlobalState
+%\where
+%        \forall d1, d2 : \ran Domains @ d1 \neq d2 \iff \disjoint \langle \ran d1.evtchn, \ran d2.evtchn \rangle \\
+%        \forall d : \ran Domains; e : \ran EventChannels @ \\
+%                \t1 \exists p : PortNumber @ d.evtchn~p = (EventChannels~(d.evtchn~p)).evtchnID
+%\end{schema}
+%%
+%We define the global state with invariants.
+%\begin{zed}
+%        Global \defs \\
+%                \t1 GlobalState \land \\
+%                \t1 evtchnNotifyVCPUidConsistency \land \\
+%                \t1 evtchnRemoteDomainConsistency \land \\
+%                \t1 VCPUDomainIDConsistency \land \\
+%                \t1 VCPUDomainCrossListConsistency  \land \\
+%                \t1 DomainEvtchnTableConsistency
+%\end{zed}
+%
+%\subsubsection{Hypervisor State Schema}
+%
+%We name a schema for the $HypervisorState$ that will be used in the \Circus\
+%actions of the hypervisor process.
+%\begin{zed}
+%        HypervisorState \defs Evtchn \land VCPU \land Domain \land SchedulerState
+%        \land Global
+%\end{zed}
+%%
+%We define useful abbreviations for showing the boundary of change to a specific state.
+%\begin{zed}
+%         globalOnlyDomainsAndEventChannels \defs \Xi Global \hide (Domains, EventChannels)
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[Global\$domainCheck]
+%prove;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{grule gPortNumberMaxType}
+%PortNumber \in  \power  \num
+%\end{theorem}
+%\begin{theorem}{grule gEvtChnIDMaxType}
+%EvtchnID \in  \power  \num
+%\end{theorem}
+%\begin{theorem}{grule gVCPUIDMaxType}
+%VCPUID \in  \power  \num
+%\end{theorem}
+%\begin{theorem}{grule gVCPUIDNatType}
+%VCPUID \in  \power  \nat
+%\end{theorem}
+%\begin{theorem}{frule fGlobalCurrentInDomVCPUs}
+%\forall  Global @ current \in \dom~VCPUs
+%\end{theorem}
+%\begin{theorem}{frule fGlobalFreeVCPUsMaxType}
+%\forall  Global @ free\_vcpus \in \power~\num
+%\end{theorem}
+%\begin{theorem}{frule fGlobalFreeVCPUsNatType}
+%\forall  Global @ free\_vcpus \in \power~\nat
+%\end{theorem}
+%\begin{theorem}{frule fDomainEvtchnPFunMaxType}
+%\forall  Domain @ evtchn \in  \num  \pfun  \num
+%\end{theorem}
+%
+%\begin{zproof}[gPortNumberMaxType]
+%invoke PortNumber;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gEvtChnIDMaxType]
+%invoke EvtchnID;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gVCPUIDMaxType]
+%invoke VCPUID;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gVCPUIDNatType]
+%invoke VCPUID;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fGlobalCurrentInDomVCPUs]
+%invoke Global;
+%simplify;
+%\end{zproof}
+%\begin{zproof}[fGlobalFreeVCPUsMaxType]
+%invoke Global;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fGlobalFreeVCPUsNatType]
+%invoke Global;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fDomainEvtchnPFunMaxType]
+%invoke Domain;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%These are the ones for internal schema structures.
+%They are big just because we need to talk about
+%maximal binding-types for each schema. :-(
+%%
+%%PS: in proofs, ";" within binding MUST be without spaces ";XXX" and not "; XXX".
+%\begin{theorem}{grule gVCPUMaxType}
+%    VCPU \in  \power \lblot isRunning: \num ; \\
+%        \t1 nextInList: \power  \num ;\\
+%        \t1 pauseCount: \num ; \\
+%        \t1 pauseFlags: \power  (\num  \cross  \num ); \\
+%        \t1 pollEvtchn: \num ; \\
+%        \t1 processor: \num ; \\
+%        \t1 runstate: \num ; \\
+%        \t1 vcpuDomain: \num ; \\
+%        \t1 vcpuID: \num ; \\
+%        \t1 vcpuInfo: \lblot evtchnUpcallMask: \power  \num ; \\
+%                \t2 evtchnUpcallPending: \power  \num \rblot \rblot
+%\end{theorem}
+%\begin{theorem}{grule gDomainIDMaxType}
+%DomainID \in  \power  \num
+%\end{theorem}
+%\begin{theorem}{grule gDom0IsDomainID}
+%dom0 \in  DomainID
+%\end{theorem}
+%\begin{theorem}{grule gDomU1IsDomainID}
+%domU1 \in  DomainID
+%\end{theorem}
+%\begin{theorem}{grule gDomU2IsDomainID}
+%domU2 \in  DomainID
+%\end{theorem}
+%\begin{theorem}{grule gDomainMaxType}
+%    Domain \in  \power  \lblot domainID: \num ; \\
+%        \t1 domainPauseCount: \num ; \\
+%        \t1 evtchn: \power  (\num  \cross  \num ); \\
+%        \t1 isHVM: \num ; \\
+%        \t1 isPrivileged: \num ; \\
+%        \t1 pollMask: \power  (\num  \cross  \num ); \\
+%        \t1 vcpu: \power  (\num  \cross  \lblot isRunning: \num ; \\
+%                \t2 nextInList: \power  \num ; \\
+%                \t2 pauseCount: \num ; \\
+%                \t2 pauseFlags: \power  (\num  \cross  \num ); \\
+%                \t2 pollEvtchn: \num ; \\
+%                \t2 processor: \num ; \\
+%                \t2 runstate: \num ; \\
+%                \t2 vcpuDomain: \num ; \\
+%                \t2 vcpuID: \num ; vcpuInfo: \lblot evtchnUpcallMask: \power  \num ; \\
+%                        \t3evtchnUpcallPending: \power  \num \rblot \rblot )\rblot
+%\end{theorem}
+%\begin{theorem}{frule fGlobalDomainsVCPUMaxRelType}
+%    \forall  Global @ Domains \in \num  \rel  \lblot domainID: \num ; \\
+%        \t1 domainPauseCount: \num ; \\
+%        \t1 evtchn: \power  (\num  \cross  \num ); \\
+%        \t1 isHVM: \num ; \\
+%        \t1 isPrivileged: \num ; \\
+%        \t1 pollMask: \power  (\num  \cross  \num ); \\
+%        \t1 vcpu: \power  (\num  \cross  \lblot isRunning: \num ; \\
+%            \t2 nextInList: \power  \num ; \\
+%            \t2 pauseCount: \num ; \\
+%            \t2 pauseFlags: \power  (\num  \cross  \num ); \\
+%            \t2 pollEvtchn: \num ; \\
+%            \t2 processor: \num ; \\
+%            \t2 runstate: \num ; \\
+%            \t2 vcpuDomain: \num ; \\
+%            \t2 vcpuID: \num ; \\
+%            \t2 vcpuInfo: \lblot evtchnUpcallMask: \power  \num ; \\
+%                \t3 evtchnUpcallPending: \power  \num \rblot \rblot )\rblot
+%\end{theorem}
+%\begin{theorem}{frule fGlobalDomainsVCPUMaxPFunType}
+%    \forall  Global @ Domains \in \num  \pfun  \lblot domainID: \num ; \\
+%        \t1 domainPauseCount: \num ; \\
+%        \t1 evtchn: \power  (\num  \cross  \num ); \\
+%        \t1 isHVM: \num ; \\
+%        \t1 isPrivileged: \num ; \\
+%        \t1 pollMask: \power  (\num  \cross  \num ); \\
+%        \t1 vcpu: \power  (\num  \cross  \lblot isRunning: \num ; \\
+%            \t2 nextInList: \power  \num ; \\
+%            \t2 pauseCount: \num ; \\
+%            \t2 pauseFlags: \power  (\num  \cross  \num ); \\
+%            \t2 pollEvtchn: \num ; \\
+%            \t2 processor: \num ; \\
+%            \t2 runstate: \num ; \\
+%            \t2 vcpuDomain: \num ; \\
+%            \t2 vcpuID: \num ; \\
+%            \t2 vcpuInfo: \lblot evtchnUpcallMask: \power  \num ; \\
+%                \t3 evtchnUpcallPending: \power  \num \rblot  \rblot ) \rblot
+%\end{theorem}
+%\begin{theorem}{rule rGlobalDomainsVCPUMaxType}
+%    \forall  Global; d: DomainID | d \in  \dom  Domains @ \\
+%        \t1 (Domains d).vcpu \in \power  (\num  \cross  \lblot isRunning: \num ; \\
+%            \t2 nextInList: \power  \num ; \\
+%            \t2 pauseCount: \num ; \\
+%            \t2 pauseFlags: \power  (\num  \cross  \num ); \\
+%            \t2 pollEvtchn: \num ; \\
+%            \t2 processor: \num ; \\
+%            \t2 runstate: \num ; \\
+%            \t2 vcpuDomain: \num ; \\
+%            \t2 vcpuID: \num ; \\
+%            \t2 vcpuInfo: \lblot evtchnUpcallMask: \power  \num ; \\
+%                \t3 evtchnUpcallPending: \power  \num \rblot \rblot )
+%\end{theorem}
+%\begin{theorem}{rule lGlobalDomainsResType}
+%\forall  Global; d: DomainID | d \in  \dom  Domains @ Domains d \in  Domain
+%\end{theorem}
+%\begin{theorem}{rule rGlobalDomainsVCPUMaxPFunType}
+%    \\ \forall  Global; d: DomainID | d \in  \dom  Domains @ \\
+%        \t1 (Domains d).vcpu \in  \num  \pfun \lblot isRunning: \num ; \\
+%            \t2 nextInList: \power  \num ; \\
+%            \t2 pauseCount: \num ; \\
+%            \t2 pauseFlags: \power  (\num  \cross  \num ); \\
+%            \t2 pollEvtchn: \num ; \\
+%            \t2 processor: \num ; \\
+%            \t2 runstate: \num ; \\
+%            \t2 vcpuDomain: \num ; \\
+%            \t2 vcpuID: \num ; \\
+%            \t2 vcpuInfo: \lblot evtchnUpcallMask: \power  \num ; \\
+%                \t3 evtchnUpcallPending: \power  \num \rblot \rblot
+%\end{theorem}
+%\begin{theorem}{frule fVCPUVCPUIdMaxType}
+%    \forall VCPU @ vcpuID \in \num
+%\end{theorem}
+%
+%\begin{zproof}[gVCPUMaxType]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gDomainIDMaxType]
+%invoke DomainID;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gDom0IsDomainID]
+%use MAXdomainID\$declaration;
+%apply inNat;
+%invoke DomainID;
+%invoke dom0;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[gDomU1IsDomainID]
+%use MAXdomainID\$declaration;
+%apply inNat;
+%invoke DomainID;
+%invoke domU1;
+%rewrite;
+%use dMAXdomainIDLowerBound;
+%simplify;
+%\end{zproof}
+%\begin{zproof}[gDomU2IsDomainID]
+%use MAXdomainID\$declaration;
+%apply inNat;
+%invoke DomainID;
+%invoke domU2;
+%rewrite;
+%use dMAXdomainIDLowerBound;
+%simplify;
+%\end{zproof}
+%\begin{zproof}[gDomainMaxType]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fGlobalDomainsVCPUMaxRelType]
+%invoke (\_\rel \_);
+%invoke Global;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fGlobalDomainsVCPUMaxPFunType]
+%invoke Global;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[rGlobalDomainsVCPUMaxType]
+%apply inDom;
+%prenex;
+%rewrite;
+%use pairInFunction[DomainID, Domain][f := Domains, x := d, y := y];
+%rearrange;
+%rewrite;
+%equality substitute Domains d;
+%apply Domain\$inSet;
+%prenex;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[lGlobalDomainsResType]
+%apply inDom;
+%rewrite;
+%prenex;
+%use pairInFunction[DomainID, Domain][f := Domains, x := d, y := y];
+%rearrange;
+%rewrite;
+%equality substitute Domains d;
+%invoke Global;
+%invoke (\_\pfun \_);
+%invoke (\_\rel \_);
+%rewrite;
+%apply inPower to predicate Domains \in  \power  (DomainID \cross  Domain);
+%instantiate e == (d, y);
+%rearrange;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[rGlobalDomainsVCPUMaxPFunType]
+%rewrite;
+%use lGlobalDomainsResType;
+%rearrange;
+%simplify;
+%apply Domain\$member;
+%apply inDom;
+%prenex;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[fVCPUVCPUIdMaxType]
+%invoke VCPU;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%\subsubsection{Promoting Specific Channels into the General State}
+%
+%The general state space does not have local (or remote) event channels. We
+%construct a schema that defines equality between local event channel values
+%and event channel values, and states that the event channel state values are
+%in the general state. This schema is intended to be used as a predicate in a
+%framing or generalizing schema.
+%\begin{schema}{localEvtchnIsInGlobal}
+%        \Delta Global \\
+%        \Delta localEvtchn \\
+%        e : Evtchn
+%\where
+%        e.evtchnID = localEvtchnID \\
+%        e.state = localState \\
+%        e.consumerIsXen = localConsumerIsXen \\
+%        e.notifyVCPUID =  localNotifyVCPUID \\
+%        e.remotePort = localRemotePort \\
+%        e.remoteDomid = localRemoteDomid \\
+%        EventChannels' = EventChannels \oplus \{~ localEvtchnID' \mapsto e ~\}
+%\end{schema}
+%%
+%Following the same pattern, we add another schema that defines how a local
+%event channel is in the event channel ``table'' $evtchn$ of a domain that is
+%in the general state space.
+%\begin{schema}{localEvtchnIsInDomain}
+%        \Delta Global \\
+%        \Delta Domain \\
+%        Evtchn; \Delta localEvtchn \\
+%        VCPU \\
+%        e : Evtchn \\
+%        p : PortNumber
+%\where
+%        vcpuDomain \in \dom~Domains \\      % NOTE: These seem like invariants for earlier on, they repeat a lot below.
+%        p \in \dom evtchn \land evtchn~p \in \dom~EventChannels
+%        \also
+%        \theta VCPU = VCPUs~current \\
+%        \theta Domain = Domains~(\theta VCPU.vcpuDomain) \\
+%        Domains' = Domains \oplus \{ \theta VCPU.vcpuDomain \mapsto \theta Domain~' \} \\
+%        \theta Evtchn = EventChannels~((\theta Domain).evtchn~p) \\
+%        \theta Evtchn.evtchnID = e.evtchnID = localEvtchnID
+%\end{schema}
+%%
+%The general state space does not have remote (or local) event channels. We
+%construct a schema that defines equality between remote event channel values
+%and event channel values, and states that the event channel state values are
+%in the general state. This schema is intended to be used as a predicate in a
+%framing or generalizing schema.
+%\begin{schema}{remoteEvtchnIsInGlobal}
+%        \Delta Global \\
+%        \Delta remoteEvtchn \\
+%        e : Evtchn
+%\where
+%        e.evtchnID = remoteEvtchnID \\
+%        e.state = remoteState \\
+%        e.consumerIsXen = remoteConsumerIsXen \\
+%        e.notifyVCPUID =  remoteNotifyVCPUID \\
+%        e.remotePort = remoteRemotePort \\
+%        e.remoteDomid = remoteRemoteDomid \\
+%        EventChannels' = EventChannels \oplus \{~ remoteEvtchnID' \mapsto e ~\}
+%\end{schema}
+%%
+%
+%Following the same pattern, we add another schema that defines how a remote
+%event channel is in the event channel ``table'' $evtchn$ of a domain that is
+%in the general state space. Notice that the effective remote domain is taken
+%as requested by the hypercalling domain, rather than computed by the
+%scheduler.
+%\begin{schema}{remoteEvtchnIsInDomain}
+%        \Delta Global \\
+%        \Delta Domain \\
+%        Evtchn; \Delta remoteEvtchn \\
+%        rDomID : DomainID \\
+%        e : Evtchn \\
+%        p : PortNumber
+%\where
+%        p \in \dom evtchn \land evtchn~p \in \dom~EventChannels % repeated
+%        \also
+%        rDomID \in \dom Domains \\
+%        \theta Domain = Domains~rDomID \\
+%        Domains' = Domains \oplus \{ rDomID \mapsto \theta Domain~' \} \\
+%        \theta Evtchn = EventChannels~((\theta Domain).evtchn~p) \\
+%        \theta Evtchn.evtchnID = e.evtchnID = remoteEvtchnID
+%\end{schema}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[localEvtchnIsInDomain\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[remoteEvtchnIsInDomain\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\subsubsection{Promoting Specific Domains into the General State}
+%The general state space does not have local (or remote) domains. We construct
+%a schema that defines equality between local domain values and domain values,
+%and claims that these domain state values are in the general state. This
+%schema is intended to be used as a predicate in a framing or generalizing
+%schema. Notice that the equivalence between the domain identifiers ensures
+%that the domain is the domain of $targetDomID$. Intended usage is that
+%$targetDomID$ be renamed as appropriate to properly relate the domain of this
+%schema to the domain that might appear in other promotion schemas.
+%\begin{schema}{localDomainIsInGlobal}
+%        \Delta Global \\
+%        \Delta localDomain \\
+%        VCPU \\
+%        local : Domain \\
+%        targetDomID : DomainID
+%\where
+%        local.domainID = local\_domainID = local\_domainID' = targetDomID \\
+%        local.evtchn = local\_evtchn \\
+%        local.isHVM = local\_isHVM \\
+%        local.isPrivileged = local\_isPrivileged \\
+%        local.vcpu = local\_vcpu \\
+%        local.pollMask = local\_pollMask \\
+%        Domains' = Domains \oplus \{local\_domainID'  \mapsto local \}
+%\end{schema}
+%%
+%We define a similar schema for the remote domain.
+%\begin{schema}{remoteDomainIsInGlobal}
+%        \Delta Global \\
+%        \Delta remoteDomain \\
+%        VCPU \\
+%        remote : Domain \\
+%        targetDomID : DomainID
+%\where
+%        remote.domainID = remote\_domainID = remote\_domainID' = targetDomID \\
+%        remote.evtchn = remote\_evtchn \\
+%        remote.isHVM = remote\_isHVM \\
+%        remote.isPrivileged = remote\_isPrivileged \\
+%        remote.vcpu = remote\_vcpu \\
+%        remote.pollMask = remote\_pollMask \\
+%        Domains' = Domains \oplus \{remote\_domainID'  \mapsto remote \}
+%\end{schema}
+%
+%\section{VCPU Operations}
+%
+%The VCPU operations defined here are scaffolding to make the model work. They
+%do not accurately model the Xenon VCPU or VCPU-related hypercalls. Mapping
+%global VCPU identifiers to VCPU schemas does not work that way in the
+%implementation. The implementation's VCPU identifiers are local.
+%
+%We need an operation to initialize the VCPUs. Initialization is described it
+%terms of a placeholder $targetVCPUID$ that will be renamed for each VCPU.
+%
+%For each specific state, we initialize the VCPU and domain identifiers, set
+%the status to runnable but not running, not paused, and not polling event
+%channels. We ``clear'' the internal hypervisor $vcpuInfo$ sets that represent
+%the notification masks that are shared with the guest corresponding to this
+%VCPU.
+%\begin{schema}{initVCPU}
+%        Global~' \\
+%        VCPU~' \\
+%        targetVCPUID : VCPUID \\
+%        domainOf : DomainID
+%\where
+%        vcpuID' = targetVCPUID \\
+%        vcpuDomain' = domainOf \\
+%        nextInList' = \emptyset \\
+%        isRunning' = 0 \\
+%        pollEvtchn' = noPolling \\
+%         evtchnUpcallPending' = \emptyset \\
+%        evtchnUpcallMask' = \emptyset \\
+%        runstate' = RUNSTATErunnable
+%\end{schema}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%INCOMPLETE PROOF
+%\begin{zproof}[general\_initVCPU\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[specific\_initVCPU\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Domain Operations}
+%
+%The domain operations defined here are scaffolding to make the model
+%work. They do not accurately model the Xenon domain or domain-related
+%hypercalls that will be added to the model later.
+%
+%We need an operation to initialize domains; we build it up from 3 parts: a
+%generalization schema that relates specific initialisation to the global
+%state, initialization for a specific domain, and a schema to initialize the
+%event channel table of a specific domain.
+%
+%First, we need some specialized state for domain initialization. The
+%initialisation schema are applied to specific domains by renaming
+%$targetDomID$ and $targetPriv$. The latter ``sets'' the $isPrivileged$ status
+%of each domain, as explained above. Trusted domain $dom0 $ gets the
+%privilge. A small schema provides the extra state we need and allows us to
+%carry it forward into the \Circus\ actions of the hypervisor process. VCPU
+%identifier variables $vcpu1$ and $vcpu2$ eventually become the 2 unique VCPU
+%identifiers allocated to a domain.
+%\begin{schema}{initDomState}
+%        targetDomID : DomainID \\
+%        targetPriv : \nat \\
+%        hasPrivilege, hasNoPrivilege : \nat \\
+%        vcpu1, vcpu2 : VCPU \\
+%        targetVCPUID1, targetVCPUID2 : VCPUID
+%\where
+%        hasNoPrivilege = 0 \land hasPrivilege = 1
+%\end{schema}
+%%
+%We connect the target domain to the general state space.
+%\begin{schema}{generalInitDom}
+%        Global~' \\
+%        Domain~' \\
+%        VCPU~' \\
+%        initDomState
+%\where
+%        targetDomID \in \dom Domains' \\
+%        \theta Domain~' = (Domains')~targetDomID \\
+%        domainID' = targetDomID
+%\end{schema}
+%%
+%Each specific domain is initialized to run an HVM guest and not
+%to poll. Privilege over other domains is defined through $targetPriv$.
+%There are no VCPUs at the most initial state of a domain.
+%\begin{schema}{initDomExceptEvtchn}
+%        \Delta Global \\
+%        Domain~' \\
+%        VCPU~' \\
+%        initDomState
+%\where
+%        targetDomID \in \dom Domains' \\
+%        \theta Domain~' = (Domains')~targetDomID \\
+%        domainID' = targetDomID \\
+%\also
+%        targetVCPUID1 \in \dom VCPUs \land targetVCPUID2 \in \dom VCPUs \\
+%        vcpu1 = VCPUs~targetVCPUID1 \land vcpu2 = VCPUs~targetVCPUID2 \\
+%        initVCPU[targetDomID/domainOf, targetVCPUID1/targetVCPUID] \land \\
+%                \t1 initVCPU[targetDomID/domainOf, targetVCPUID2/targetVCPUID] \\
+%        vcpu' = \{targetVCPUID1 \mapsto vcpu1, targetVCPUID2 \mapsto vcpu2 \} \\
+%        vcpu1.nextInList = \dom vcpu' \land vcpu2.nextInList = \dom vcpu' \\
+%\also
+%        isHVM' = 1 \\
+%        isPrivileged' = targetPriv \\
+%        wordVal~pollMask' = 0
+%\end{schema}
+%%
+%We used $\Delta Global$ to get both sides of the scheduler state, for VCPU
+%initialization.
+%
+%Finally, we also describe the initial state of all the event channels held by
+%this domain. Every event channel in the range of the domain's event channel
+%``table'' $evtchn$ has its event channel state set to $ECS\_FREE$ and all
+%other values ``cleared''.
+%\begin{schema}{initDomEventChannels}
+%        Global~' \\
+%        Domain~' \\
+%        VCPU~' \\
+%        initDomState
+%\where
+%        (\forall eci : \ran \theta Domain~'.evtchn @ \exists e : Evtchn | e.evtchnID = eci @\\
+%                \t1 e.state = ECS\_FREE \land \\
+%                \t1 e.consumerIsXen = 0 \land \\
+%                \t1 e.notifyVCPUID = \min \dom \theta Domain~'.vcpu \land \\
+%                \t1 e.remoteDomid = 0 \land \\
+%                \t1 e.remotePort = 0)
+%\end{schema}
+%%
+%We combined domain generalization, the specfic domain state state
+%initialization, and the domain-related event channel initialization, to get
+%the complete domain initialization.
+%\begin{zed}
+%        initDom \defs initDomExceptEvtchn \land initDomEventChannels
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[general\_initDom\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[specific\_initDom\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Scheduler Operations}
+%
+%The scheduler operations defined here are scaffolding to make the model
+%work. They do not accurately model the Xenon scheduler or scheduler-related
+%hypercalls.
+%The scheduler is initialized to run the 2 VCPU's of domain 0, one after the
+%other.
+%\begin{schema}{initSchedule}
+%        Global~'
+%\where
+%        dom0 \in \dom~Domains' \\
+%        schedule' = \{ 1 \mapsto ((Domains'~dom0).vcpu~1).vcpuID, \\
+%                \t1 2 \mapsto ((Domains'~dom0).vcpu~2).vcpuID \} \\
+%        current' =  ((Domains'~dom0).vcpu~1).vcpuID \\
+%        current\_domain' = ((Domains'~dom0).vcpu~1).vcpuDomain
+%\also
+%        ((Domains'~dom0).vcpu~1).isRunning = 1 \\
+%        ((Domains'~dom0).vcpu~1).runstate = RUNSTATErunning
+%\end{schema}
+%%
+%A very strict but inefficient round-robin scheduler. It does not introduce
+%covert channels. We begin with the case where the scheduler is not at the end
+%of its list. The next VCPU in the schedule list is made current and the states
+%of the previous and running VCPU are update.
+%\begin{schema}{ScheduleCurrentNotEnd}
+%        \Delta Global
+%\where
+%        current < \# schedule \\
+%        current' = schedule~(current + 1) \\
+%        \exists previous : VCPU | previous = VCPUs~current \\ @ (\t1
+%                previous.isRunning = 0 \land previous.runstate = RUNSTATErunnable) \\
+%        \exists running : VCPU | running = VCPUs~current' \\ @ (\t1
+%                running.isRunning = 1 \land running.runstate = RUNSTATErunning)
+%\end{schema}
+%%
+%When the scheduler reaches the end of the list, it starts over at the beginning.
+%\begin{schema}{ScheduleCurrentAtEnd}
+%        \Delta Global
+%\where
+%        current = \# schedule \\
+%        current' = dom0 \\
+%        \exists previous : VCPU | previous = VCPUs~current \\ @ (\t1
+%                previous.isRunning = 0 \land previous.runstate = RUNSTATErunnable) \\
+%        \exists running : VCPU | running = VCPUs~current'  \\ @ (\t1
+%                running.isRunning = 1 \land running.runstate = RUNSTATErunning)
+%\end{schema}
+%%
+%Combine these to get the complete scheduler.
+%\begin{zed}
+%        Schedule \defs ScheduleCurrentNotEnd \lor ScheduleCurrentAtEnd
+%\end{zed}
+%%
+%This operation schema assumes an initialzed domain with precisely 2 VCPU's;
+%this domain is added to the schedule.
+%\begin{schema}{schedAddDomain}
+%        \Delta Global \\
+%        Domain \\
+%        targetDom? : DomainID
+%\where
+%        targetDom? \in \dom Domains' \\
+%        targetDom? \in \dom Domains \\
+%        schedule' = \\
+%                \t1 schedule \cat \\
+%                \t1 \langle ((Domains'~targetDom?).vcpu~1).vcpuID, \\
+%                \t1 ((Domains'~targetDom?).vcpu~2).vcpuID \rangle
+%\end{schema}
+%%
+%We define an operation to start the hypervisor.
+%This describes the initial sequence of state changes that must be found in any Xenon hypervisor state history.
+%\begin{zed}
+%        startXenon \defs \\
+%                \t1 initDom[dom0 / targetDomID, vcpuID1 / targetVCPUID1, vcpuID2 / targetVCPUID2, hasPrivilege / targetPriv] \semi \\
+%                \t1 initSchedule \semi \\
+%                \t1 initDom[domU1 / targetDomID,  vcpuID3 / targetVCPUID1, vcpuID4 / targetVCPUID2, hasNoPrivilege / targetPriv] \semi \\
+%                \t1 schedAddDomain[domU1 / targetDom?] \semi \\
+%                \t1 initDom[domU2 / targetDomID,  vcpuID5 / targetVCPUID1, vcpuID6 / targetVCPUID2, hasNoPrivilege / targetPriv] \semi \\
+%                \t1 schedAddDomain[domU2 / targetDom?]
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%INCOMPLETE PROOF
+%\begin{zproof}[initSchedule\$domainCheck]
+%rewrite;
+%use lGlobalDomainsResType[d := dom0, schedule := schedule', current := current',
+%    current\_domain := current\_domain', runnable := runnable', blocked := blocked',
+%    offline := offline', Domains := Domains', VCPUs := VCPUs',
+%    alloc\_vcpus := alloc\_vcpus',  free\_vcpus := free\_vcpus',
+%    EventChannels := EventChannels'];
+%rearrange;
+%simplify;
+%apply inDom to predicate dom0 \in  \dom  Domains';
+%rewrite;
+%prenex;
+%use pairInFunction[DomainID, Domain][f := Domains', x := dom0, y := y];
+%rearrange;
+%rewrite;
+%rearrange;
+%equality substitute Domains' dom0;
+%apply Domain\$member;
+%prenex;
+%equality substitute;
+%rewrite;
+%\end{zproof}
+%INCOMPLETE PROOF
+%\begin{zproof}[ScheduleCurrentNotEnd\$domainCheck]
+%prenex;
+%rewrite;
+%\end{zproof}
+%INCOMPLETE PROOF
+%\begin{zproof}[ScheduleCurrentAtEnd\$domainCheck]
+%prenex;
+%rewrite;
+%\end{zproof}
+%INCOMPLETE PROOF
+%\begin{zproof}[schedAddDomain\$domainCheck]
+%rewrite;
+%use lGlobalDomainsResType[d := targetDom?, schedule := schedule', current := current',
+%    current\_domain := current\_domain', runnable := runnable', blocked := blocked',
+%    offline := offline', Domains := Domains', VCPUs := VCPUs',
+%    alloc\_vcpus := alloc\_vcpus',  free\_vcpus := free\_vcpus',
+%    EventChannels := EventChannels'];
+%rearrange;
+%simplify;
+%apply inDom to predicate targetDom? \in  \dom  Domains';
+%rewrite;
+%prenex;
+%use pairInFunction[DomainID, Domain][f := Domains', x := targetDom?, y := y];
+%rearrange;
+%rewrite;
+%rearrange;
+%equality substitute Domains' targetDom?;
+%apply Domain\$member;
+%prenex;
+%equality substitute;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\section{Xen Security Modules}
+%
+%Xen Security Modules (XSM) provides a substantial portion, but not all of the
+%security enforcement mechanisms for both Xenon and its parent Xen. XSM offers
+%a choice between 2 mechanisms: XSM proper, which functions like the security
+%enhancements of SE Linux, and Access Control Module (ACM) which functions like
+%security models such as the Chinese Walls model or a type-enforcement
+%non-discretionary access control model.
+%
+%The functions definined in this model only allow event channel operations: 1)
+%from $dom0$ to other Domains, and 2) loopback event channel operations from
+%any domain to itself. This function-based apppoach can model either IBM's
+%Access Control Module or NSA's Xen Security Module.
+%
+%\subsection{XSM Check Allocate Unbound Event Channel}
+%
+%For $allocUnboundEvtchn$, the XSM policy permits the hypercall if the requester is
+%either \emph{dom0}, wants to allocate an unbound channel destined for $dom0$, or
+%the request is for a loopback channel. A request for an unprivileged domain to
+%allocate an unbound channel destined for another unprivileged domain is denied.
+%\begin{axdef}
+%        xsmEvtchnAllocUnbound : DomainID \cross DomainID \pfun \nat
+%\where
+%\Label{disabled rule dXsmEvtchnAllocUnbound}
+%        xsmEvtchnAllocUnbound = \\
+%        \t1  \{(dom0, dom0) \mapsto 1, (dom0, domU1) \mapsto 1, (dom0, domU2) \mapsto 1, \\
+%        \t1 (domU1, dom0) \mapsto 1, (domU1, domU1) \mapsto 1, (domU1, domU2) \mapsto 0, \\
+%        \t1 (domU2, dom0) \mapsto 1, (domU2, domU1) \mapsto 0, (domU2, domU2) \mapsto 1 \}
+%\end{axdef}
+%
+%\subsection{XSM Check Allocate Unbound Event Channel}
+%
+%In this version of the interface specification, we do not model the full bind
+%interdomain check, because it is so complex, i.e. it really is
+%$xsmEvtchnBindInterdomain : DomainID \cross PortNumber \cross DomainID \cross
+%PortNumber \pfun \nat$. Temporarily, we describe a check that is the same as
+%for allocating an unbound event channel.
+%\begin{axdef}
+%        xsmEvtchnBindInterdomain : DomainID \cross DomainID \pfun \nat
+%\where
+%\Label{disabled rule dXsmEvtchnBindInterdomain}
+%        xsmEvtchnBindInterdomain = \\
+%        \t1  \{(dom0, dom0) \mapsto 1, (dom0, domU1) \mapsto 1, (dom0, domU2) \mapsto 1, \\
+%        \t1 (domU1, dom0) \mapsto 1, (domU1, domU1) \mapsto 1, (domU1, domU2) \mapsto 0, \\
+%        \t1 (domU2, dom0) \mapsto 1, (domU2, domU1) \mapsto 0, (domU2, domU2) \mapsto 1 \}
+%\end{axdef}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{theorem}{rule lXsmEvtchnAllocUnboundDom}
+%    \dom~xsmEvtchnAllocUnbound = \{~ dom0, domU1, domU2 ~\} \cross \{~ dom0, domU1, domU2 ~\}
+%\end{theorem}
+%\begin{theorem}{rule lXsmEvtchnBindInterdomainDom}
+%    \dom~xsmEvtchnBindInterdomain = \{~ dom0, domU1, domU2 ~\} \cross \{~ dom0, domU1, domU2 ~\}
+%\end{theorem}
+%
+%INCOMPLETE PROOF
+%\begin{zproof}[xsmEvtchnAllocUnboundYes\$domainCheck]
+%rewrite;
+%\end{zproof}
+%INCOMPLETE PROOF
+%\begin{zproof}[xsmEvtchnAllocUnboundNo\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[lXsmEvtchnAllocUnboundDom]
+%apply dXsmEvtchnAllocUnbound;
+%rewrite;
+%apply extensionality;
+%prove;
+%apply inCross2;
+%prove;
+%cases;
+%conjunctive;
+%prove;
+%next;
+%conjunctive;
+%next;
+%\end{zproof}
+%\begin{zproof}[lXsmEvtchnBindInterdomainDom]
+%apply dXsmEvtchnBindInterdomain;
+%rewrite;
+%apply extensionality;
+%prove;
+%apply inCross2;
+%prove;
+%cases;
+%conjunctive;
+%prove;
+%next;
+%conjunctive;
+%next;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Event Channel Hypercalls}
+%
+%Event channels ``virtualize'' the functions provided by hardware
+%interrupts, for virtual CPU's.  For example, instead of an interrupt
+%notifying a hardware CPU that a device has data ready, Xenon uses
+%events to notify selected VCPU's in a domain.  Technically, event
+%channels are an asynchronous communication mechanism for notifications
+%from Xenon to its guests or from one guest to another.  Event channels
+%are similar to Unix signals but it is also possible to poll for events
+%that were delivered while event notification was disabled.
+%
+%Events delivered by event channels can correspond to physical
+%interrupts (PIRQ events), virtual interrupts (VIRQ events), or events
+%sent between domains.  Domain events can be \emph{interdomain}, such
+%as events communicated by paravirtualized devices, or
+%\emph{intradomain}, such as events used as virtual IPI's.
+%
+%Event channels are indexed by a ``port number''.  Each channel has two
+%bits of state: \verb+PENDING+ and \verb+MASKED+.  When the hypervisor
+%sets \verb+PENDING+, the Xen domain is notified of a pending event.  A
+%guest in the Xen domain may clear \verb+PENDING+.  The \verb+MASK+ bit is
+%only changed by the guest operating system.  If \verb+MASK+ is clear
+%then a when the hypervisor sets \verb+PENDING+ from a cleared state,
+%an up call to the guest will be scheduled.
+%
+%The Xenon hypervisor interface provides a \verb+do_event_channel_op+
+%hypercall with 11 sub-commands.
+%
+%This section specifies the intended behavior of the C functions and
+%macros contained in the source file \verb+common/event_channel.c+.
+%
+%\subsection{Allocate Unbound Event Channel}
+%
+%This hypercall sub-command allocates an event channel bound to the requester,
+%with the remote port free for later binding.  This form of the
+%\texttt{do\_event\_channel\_op} hypercall is made by passing a pointer to a
+%struct that gives the requesting domain, the remote domain, and space for the
+%port number of the allocated event channel.
+%
+%In normal processing, this hypercall results in the requesting domain having
+%its first available event channel port set to the unbound state. The available
+%free ports are updated to show that the allocated port number is no longer
+%available. Notice that this hypercall will result in the domain being
+%destroyed if its reference count falls to zero during the hypercall.
+%
+%The typical use case for this hypercall is for domain 0 to use it to set up an
+%event channel from itself for one of the unprivileged domains. This unbound
+%channel is later bound to the unprivileged domain, again by domain 0.
+%
+%The implementation source code for this hypercall is
+%\begin{verbatim}
+%static long evtchn_alloc_unbound(evtchn_alloc_unbound_t * alloc)
+%{
+%	struct evtchn *chn;
+%	struct domain *d;
+%	int port;
+%	domid_t dom = alloc->dom;
+%	long rc;
+%
+%	rc = rcu_lock_target_domain_by_id(dom, &d);
+%	if (rc)
+%		return rc;
+%
+%	spin_lock(&d->event_lock);
+%
+%	if ((port = get_free_port(d)) < 0) {
+%		ERROR_EXIT_DOM(port, d);
+%		goto out;
+%	}
+%	chn = evtchn_from_port(d, port);
+%
+%	rc = xsm_evtchn_unbound(d, chn, alloc->remote_dom);
+%	if (rc)
+%		goto out;
+%
+%	chn->state = ECS_UNBOUND;
+%	if ((chn->u.unbound.remote_domid = alloc->remote_dom) == DOMID_SELF)
+%		chn->u.unbound.remote_domid = current->domain->domain_id;
+%
+%	alloc->port = port;
+%
+% out:
+%	spin_unlock(&d->event_lock);
+%	rcu_unlock_domain(d);
+%
+%	return rc;
+%}
+%\end{verbatim}
+%
+%We build up the complete operation schema in parts.  The first specific change
+%that we model is the distinction between a domain's request to loop an event
+%channel back to itself or to start a connection to another domain. If the
+%input remote domain ID is not the special value indicating ``self'' then the
+%request is not for a loopback and the unbound connection is set up for the
+%requested other domain. Notice that even though this is done, the final result
+%of the hypercall may be no state change, if connection to the remote domain is
+%not authorized by the specific security policy that is in place. Notice that
+%we use the variable $rDomID$ to represent the possibly adjusted remote domain
+%identifier.
+%\begin{schema}{evtchnAllocUnboundOther}
+%        \Delta localEvtchn ; evtchnOnlyremoteDomid \\
+%        rDomID, rDomID? : DomainID
+%\where
+%        rDomID? \neq DOMID\_SELF \\
+%        localRemoteDomid' = rDomID? = rDomID
+%\end{schema}
+%The alternative to the preceding schema is a loopback channel, i.e. the guest
+%needs to send events to itself.  To do this, Xenon uses the current VCPU to
+%find the actual domain ID of the hypercalling domain. In this specific state
+%space operation sub-schema, we do not mention $current$, which is part of the
+%general state space.
+%\begin{schema}{evtchnAllocUnboundSelf}
+%        \Delta localEvtchn ; evtchnOnlyremoteDomid \\
+%        VCPU \\
+%        rDomID, rDomID? : DomainID
+%\where
+%        rDomID? = DOMID\_SELF \\
+%        localRemoteDomid' = vcpuDomain = rDomID
+%\end{schema}
+%We combine these into the schema that sets the remote domain ID appropriately.
+%\begin{zed}
+%        evtchnAllocUnboundSetRemoteDomainID \defs \\
+%                \t1 evtchnAllocUnboundOther \lor \\
+%                \t1 evtchnAllocUnboundSelf
+%\end{zed}
+%The next elaboration is the Xen Security Modules (XSM) check.
+%The structure is overly complex considering the
+%nature of the stubs, but when XSM is accurately specified, this
+%complexity will be appropriate.
+%First, the XSM check that succeeds
+%\begin{schema}{xsmEvtchnAllocUnboundYes}
+%        lDomID?, rDomID? : DomainID
+%\where
+%         (lDomID?, rDomID?) \in \dom xsmEvtchnAllocUnbound \\
+%        xsmEvtchnAllocUnbound~(lDomID?, rDomID?) = 1
+%\end{schema}
+%then the check that fails
+%\begin{schema}{xsmEvtchnAllocUnboundNo}
+%        lDomID?, rDomID? : DomainID
+%\where
+%        (lDomID?, rDomID?) \in \dom xsmEvtchnAllocUnbound \\
+%        xsmEvtchnAllocUnbound~(lDomID?, rDomID?) = 0
+%\end{schema}
+%Given the security checks per se, we combine this to show the effect on event
+%channel allocation when the check succeeds
+%\begin{zed}
+%        evtchnAllocUnboundXSMYes \defs \\
+%                \t1 evtchnAllocUnboundSetRemoteDomainID \land \\
+%                \t1 xsmEvtchnAllocUnboundYes
+%\end{zed}
+%and when it fails.
+%\begin{zed}
+%        evtchnAllocUnboundXSMNo \defs xsmEvtchnAllocUnboundNo
+%\end{zed}
+%%
+%Notice that this definition of failure results in no
+%channel allocation, even though the domain identifiers were set up.
+%
+%The total operation of checking XSM when allocating an unbound event
+%channel is
+%\begin{zed}
+%    evtchnAllocUnboundXSM \defs \\
+%        \t1 evtchnAllocUnboundXSMYes  \lor \\
+%        \t1 evtchnAllocUnboundXSMNo
+%\end{zed}
+%%
+%The next and final elaboration is to obtain a port for the channel to be
+%allocated and then allocate it.  We begin with normal processing.  The event
+%channel corresponding to port $p!$ is allocated and its state is set to
+%$ECS\_UNBOUND$. This changes the event channel table of the requesting domain,
+%and the allocated event channel. All other local state is unchanged.
+%\begin{schema}{evtchnAllocUnboundGetPortOK}
+%        \Delta Domain ; domainOnlyevtchn \\
+%        \Delta localEvtchn ; evtchnOnlystate \\
+%        p! : PortNumber \\
+%        rc! : RC
+%\where
+%        p! \in \dom evtchn \\
+%        localEvtchnID' = evtchn~p! = localEvtchnID \\
+%        localState = ECS\_FREE\\
+%        localState' = ECS\_UNBOUND \\
+%        evtchn' = evtchn \oplus \{p! \mapsto localEvtchnID' \} \\
+%        rc! = ok
+%\end{schema}
+%%
+%Attempting to allocate an unbound event channel when we cannot get a
+%free port will cause an error. That is, there is no port with a $ECS\_FREE$
+%state, in the domain's $evtchn$ ``table''. The error report is passed back to the
+%hypercaller.
+%\begin{schema}{evtchnAllocUnboundGetPortNoPort}
+%        Domain \\
+%        localEvtchn \\
+%        rc! : RC
+%\where
+%        \lnot (\exists freePort : PortNumber \\ @ (\t1
+%        \exists e : localEvtchn | \\
+%                \t2 freePort \in \dom evtchn \land e.localEvtchnID = evtchn~freePort \\ @
+%                        \t1 \t2 (~ e.localState = ECS\_FREE ~))) \\
+%        rc! = enospc
+%\end{schema}
+%
+%The total combination to get the port of the allocated channel is
+%a successful port and channel allocation combined with the
+%effects of a successful XSM check and setting of the channel state
+%\begin{zed}
+%        evtchnAllocUnboundSuccess \defs \\
+%                \t1 evtchnAllocUnboundXSMYes \land
+%                \t1 evtchnAllocUnboundGetPortOK
+%\end{zed}
+%and the hypercall will fail if it cannot get another port or if the security
+%check fails.
+%\begin{zed}
+%        evtchnAllocUnboundFailure \defs \\
+%                \t1 evtchnAllocUnboundGetPortNoPort \lor \\
+%                \t1 evtchnAllocUnboundXSMNo
+%\end{zed}
+%%
+%We promote the specific $evtchnAllocUnbound$ operation. Domain identifier
+%$lDomID?$ is the identifier of the local domain requesting the creation of the
+%unbound channel.  Notice that this hypercall places no restrictions on which
+%domain may play the role of local domain $lDomID?$. The hypervisor always
+%performs the requested operation on behalf of the requested domain. Domain
+%identifier $rDomID?$ is also an input variable, but again, its relation to the
+%general state is through the event channel ``table'' (function $evtchn$), so
+%it is not promoted directly.
+%
+%The local domain is part of the general state space and the VCPU that applies
+%is the current VCPU. The allocated local event channel is taken from the event
+%channel set $EventChannels$ of the general state space. A port number $p!$
+%is returned along with a result code $rc!$.
+%\begin{schema}{generalEvtchnAllocUnbound}
+%        \Delta Global ; globalOnlyDomainsAndEventChannels \\
+%        \Delta Domain \\
+%        Evtchn; \Delta localEvtchn \\
+%        VCPU \\
+%        lDomID?, rDomID? : DomainID \\
+%        p! : PortNumber \\
+%        rc! : RC
+%\where
+%        \exists e : Evtchn @ localEvtchnIsInGlobal \land localEvtchnIsInDomain[p!/p]
+%\end{schema}
+%%
+%Applying the generalization schema and the parameter schema results in the complete
+%general hypercall. The specific event channel is identified by its containing
+%domain, so it does not appear in the global operation.
+%\begin{zed}
+%        evtchnAllocUnbound \defs \\
+%                \t1 \exists \Delta Domain @ \exists VCPU @ \\
+%                        \t2 paramsEvtchnAllocUnbound \land \\
+%                        \t2 generalEvtchnAllocUnbound \land \\
+%                        \t2 (evtchnAllocUnboundSuccess \lor evtchnAllocUnboundFailure)
+%\end{zed}
+%
+%
+%
+%\subsection{Bind Interdomain Event Channel}
+%
+%This hypercall constructs an interdomain event channel between the calling
+%domain and a remote domain. The parameters are a remote domain ID, a remote
+%port number, and a local port number. The hypervisor obtains the applicable
+%local domain from the scheduler, i.e. the domain of the $current$ VCPU.
+%
+%The remote domain and remote port must identify a port that is unbound and
+%marked as accepting bindings from the calling domain. A fresh port is
+%allocated in the calling domain and returned as the local port variable. The
+%remote domain ID parameter may be DOMID\_SELF, allowing loopback connections.
+%
+%
+%We build up the complete operation schema in parts.  The first specific change
+%that we model is the distinction between a domain's request to loop an event
+%channel back to itself or to bind a connection to another domain. If the input
+%remote domain ID is not the special value indicating ``self'' then the request
+%is not for a loopback and the interdomain connection is bound to the requested
+%other domain. Notice that even though this is done, the final result of the
+%hypercall may be no state change, if connection to the remote domain is not
+%authorized by the specific security policy that is in place. Notice that the
+%requesting domain is represented by $localEvtchn$ because there are two even
+%channels affected by this hypercall. The domain ID variable $rDomID$ is used
+%to define the ``internal'' value of the remote domain, as used in other parts
+%of the specification of this hypecall.
+%\begin{schema}{evtchnBindInterdomainOther}
+%        \Delta localEvtchn ; evtchnOnlyremoteDomid \\
+%        rDomID, rDomID? : DomainID
+%\where
+%        rDomID? \neq DOMID\_SELF \\
+%        localRemoteDomid' = rDomID = rDomID?
+%\end{schema}
+%The alternative to the preceding schema is a loopback channel, i.e. the guest
+%needs to send events to itself.  To do this, Xenon uses the current VCPU to
+%find the actual domain ID of the hypercalling domain.
+%\begin{schema}{evtchnBindInterdomainSelf}
+%        \Delta localEvtchn ; evtchnOnlyremoteDomid \\
+%        VCPU \\
+%        SchedulerState \\
+%        rDomID, rDomID? : DomainID
+%\where
+%        rDomID? = DOMID\_SELF \\
+%        localRemoteDomid' = rDomID = vcpuDomain
+%\end{schema}
+%We combine these into the schema that sets the remote domain ID appropriately.
+%\begin{zed}
+%        evtchnBindInterdomainSetRemoteDomainID \defs \\
+%                \t1 evtchnBindInterdomainOther \lor \\
+%                \t1 evtchnBindInterdomainSelf
+%\end{zed}
+%
+%The next elaboration is to obtain a port for the local channel to be bound and
+%then allocate it.  We begin with normal processing.  The event channel
+%corresponding to local port $p!$ is allocated. This changes the event channel
+%table of the requesting domain, and the allocated event channel. All other
+%local state is unchanged.
+%\begin{schema}{evtchnBindInterdomainGetLocalPortOK}
+%        \Delta localDomain ;  domainOnlyevtchn \\
+%        \Delta localEvtchn ; evtchnOnlystate \\
+%        local\_p! : PortNumber \\
+%        rc! : RC
+%\where
+%        local\_p! \in \dom~local\_evtchn \\ %NOTE: This sounds weird. CHECK
+%        localEvtchnID' = local\_evtchn~local\_p! = localEvtchnID \\
+%        localState = ECS\_FREE\\
+%        localState' = ECS\_UNBOUND \\
+%        local\_evtchn' = local\_evtchn \oplus \{local\_p! \mapsto localEvtchnID' \} \\
+%        rc! = ok
+%\end{schema}
+%%
+%Attempting to bind an interdomain event channel when we cannot get a free
+%local port will cause an error. That is, there is no port with a $ECS\_FREE$
+%state, in the domain's $evtchn$ ``table''. The error report is passed back to
+%the hypercaller.
+%\begin{schema}{evtchnBindInterdomainGetLocalPortNoPort}
+%        localDomain \\
+%        localEvtchn \\
+%        rc! : RC
+%\where
+%        \lnot (\exists freePort : PortNumber | freePort \in \dom~local\_evtchn\\ \t1 @ (
+%            \exists e : localEvtchn | e.localEvtchnID = local\_evtchn~freePort \\ @ \t2
+%                (~ e.localState = ECS\_FREE ~))) \\
+%        rc! = enospc
+%\end{schema}
+%%
+%The complete operation sets the remote domain ID and gets the new local port,
+%if there is a port available. Otherwise, it makes no hypervisor state change
+%and reports the failure.
+%\begin{zed}
+%        evtchnBindInterdomainGetLocalPort \defs \\
+%                \t1 (evtchnBindInterdomainGetLocalPortOK \land \\
+%                \t1 evtchnBindInterdomainSetRemoteDomainID)
+%\end{zed}
+%%
+%Since the intended use of this hypercall is to bind to a remote channel that
+%is allready allocated but unbound, we do not need to get a new remote port or
+%allocate an new remote event channel. However, the bind interdomain hypercall
+%should check the requested remote channel, to be sure it is in a valid state
+%for interdomain binding. A valid remote channel will be associated with
+%requested remote port number that is in-range; the remote channel's state will
+%be $ECS\_UNBOUND$ and the remote channel's remote domain ID will match the
+%domain ID of the local channel.
+%\begin{schema}{evtchnBindInterdomainValidRemoteChan}
+%        localDomain \\
+%        remoteEvtchn \\
+%        remote\_p? : PortNumber
+%\where
+%        remote\_p? \leq MAX\_EVTCHNS - 1 \\
+%        remoteState = ECS\_UNBOUND \\
+%        remoteRemoteDomid = local\_domainID
+%\end{schema}
+%%
+%If any of the 3 conditions is not met the remote domain is not valid.
+%\begin{schema}{evtchnBindInterdomainInvalidRemoteChan}
+%        localDomain \\
+%        remoteEvtchn \\
+%        remote\_p? : PortNumber \\
+%        rc! : RC
+%\where
+%        (~ MAX\_EVTCHNS < remote\_p? \lor \\
+%        remoteState \neq ECS\_UNBOUND \lor \\
+%        remoteRemoteDomid \neq local\_domainID ~)
+%\end{schema}
+%The next elaboration is the Xen Security Modules (XSM) check.  The structure
+%is overly complex considering the nature of the stubs, but when XSM is
+%accurately specified, this complexity will be appropriate. Notice that, for a
+%request to bind an interdomain channel, the security check is against the
+%currently scheduled domain, which is obtained through $VCPU.vcpuDomain$.
+%First, the XSM check that succeeds
+%\begin{schema}{xsmEvtchnBindInterdomainYes}
+%        VCPU \\
+%        rDomID? : DomainID
+%\where
+%        xsmEvtchnBindInterdomain~(vcpuDomain, rDomID?) = 1
+%\end{schema}
+%then the check that fails
+%\begin{schema}{xsmEvtchnBindInterdomainNo}
+%        VCPU \\
+%        rDomID? : DomainID
+%\where
+%        xsmEvtchnBindInterdomain~(vcpuDomain, rDomID?) = 0
+%\end{schema}
+%%
+%Once checks for validity and security are passed, the hypercall sets the state
+%of the local channel as requested.  Notice that we have brought the domain ID
+%variable $rDomID$ forward from the point where it was used to distinguish a
+%loopback connection from a remote connection, in schema
+%$evtchnBindInterdomainSelf$.
+%\begin{schema}{evtchnBindInterdomainSetLocalChannel}
+%        \Delta localEvtchn ; evtchnOnlyremoteDomain\_remotePort\_state \\
+%        rDomID : DomainID \\
+%        remote\_p? : PortNumber
+%\where
+%        localRemoteDomid' = rDomID \\
+%        localRemotePort' = remote\_p? \\
+%        localState' = ECS\_INTERDOMAIN
+%\end{schema}
+%%
+%The state of the remote channel must be set too. Notice that, by the way
+%VCPU's are initialized, the remote channel has its remote domain set to $current$.
+%\begin{schema}{evtchnBindInterdomainSetRemoteChannel}
+%        \Delta remoteEvtchn  \\
+%        evtchnOnlyRemote\_remoteDomain\_remotePort\_state\\
+%        VCPU \\
+%        SchedulerState \\
+%        local\_p! : PortNumber
+%\where
+%        remoteRemoteDomid' = vcpuDomain \\
+%        remoteRemotePort' = local\_p! \\
+%        remoteState' = ECS\_INTERDOMAIN
+%\end{schema}
+%%
+%We also need to send a notification on the local channel, in case an event was
+%sent on the remote channel before the interdomain binding finished. In our
+%model, this schema merely sets the hypervisor's internal state to reflect this
+%change in the pending mask. In the corresponding action, a copy of the mask
+%will be sent on the appropriate channel. Notice that this schema does not
+%``invoke'' the scheduler, even though the implementation does. We defer that
+%to the corresponding action as well.
+%\begin{schema}{evtchnSetPending}
+%        \Delta VCPU \\
+%        local\_p! : PortNumber
+%\where
+%        evtchnUpcallPending' = evtchnUpcallPending \cup \{local\_p!\}
+%\end{schema}
+%%
+%If all checks for validitiy and security pass then the bind interdomain
+%hypercall succeeds.  A port for the local end of the channel is allocated, the
+%states of both ends of the channel are set, and an event on the local end of
+%the channel is marked pending.
+%\begin{zed}
+%        evtchnBindInterdomainSuccess \defs \\
+%                \t1 evtchnBindInterdomainGetLocalPort \land \\
+%                \t1 evtchnBindInterdomainValidRemoteChan \land \\
+%                \t1 xsmEvtchnBindInterdomainYes \land \\
+%                \t1 evtchnBindInterdomainSetLocalChannel \land \\
+%                \t1 evtchnBindInterdomainSetRemoteChannel \land \\
+%                \t1 evtchnSetPending
+%\end{zed}
+%%
+%The bind interdomain event channel hypercall will fail if it cannot get a new
+%local port, or the requested channel is not well-formed, or if the requested
+%interdomain binding is not allowed by the existing XSM security policy.
+%\begin{zed}
+%        evtchnBindInterdomainFailure \defs \\
+%                \t1 evtchnBindInterdomainGetLocalPortNoPort \lor \\
+%                \t1 evtchnBindInterdomainInvalidRemoteChan \lor \\
+%                \t1 xsmEvtchnBindInterdomainNo
+%\end{zed}
+%%
+%We promote the specific $evtchnBindInterdomain$ operation. We need a generalization
+%schema to connect the specific state operation to the general hypervisor
+%state.We also need a parameter schema that connects the Z operation to the
+%\Circus\ action that makes it part of the traces of our specification.
+%
+%The local domain is part of the general state space and the VCPU that applies
+%is the current VCPU. A port number $local\_p!$ is returned along
+%with a result code $rc!$. Notice that we rely on the specific bind interdomain
+%operation to establish the correct value for $rDomID$.
+%\begin{schema}{generalEvtchnBindInterdomain}
+%        \Delta Global ; globalOnlyDomainsAndEventChannels \\
+%        \Delta Domain; \Delta localDomain; \Delta remoteDomain \\
+%        \Delta localEvtchn; \Delta remoteEvtchn; \Delta Evtchn \\
+%        VCPU \\
+%        SchedulerState \\
+%        lDomID, rDomID, rDomID? : DomainID \\
+%        remote\_p?, local\_p! : PortNumber \\
+%        rc! : RC
+%\where
+%        \theta VCPU = VCPUs~current \\
+%        lDomID = \theta VCPU.vcpuDomain \\
+%        \exists local : Domain @ localDomainIsInGlobal[lDomID/targetDomID] \\
+%        \exists remote : Domain @ remoteDomainIsInGlobal[rDomID/targetDomID]\\
+%        \exists e : Evtchn @ localEvtchnIsInGlobal \land localEvtchnIsInDomain[local\_p!/p] \\
+%        \exists e : Evtchn @ remoteEvtchnIsInGlobal \land remoteEvtchnIsInDomain[remote\_p?/p]
+%\end{schema}
+%%
+%Applying the generalization schema and the parameter schema results in the complete
+%general hypercall.
+%\begin{zed}
+%        evtchnBindInterdomain \defs \\
+%                \t1 \exists \Delta Domain @ \exists \Xi VCPU @ \\
+%                        \t2 paramsEvtchnBindInterdomain \land \\
+%                        \t2 generalEvtchnBindInterdomain \land \\
+%                        \t2 (evtchnBindInterdomainSuccess \lor evtchnBindInterdomainFailure)
+%\end{zed}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[xsmEvtchnBindInterdomainYes\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[xsmEvtchnBindInterdomainNo\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[generalEvtchnBindInterdomain\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[evtchnAllocUnboundGetPortOK\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[evtchnAllocUnboundGetPortNoPort\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[evtchnBindInterdomainGetLocalPortOK\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[evtchnBindInterdomainGetLocalPortNoPort\$domainCheck]
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[domUallocUnboundChooseParams\$domainCheck]
+%invoke \Delta evtchnAllocUnboundGuestState;
+%invoke evtchnAllocUnboundGuestState;
+%invoke evtchnAllocUnboundParamIN;
+%invoke evtchnAllocUnboundParamOUT;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[initEvtchnBindInterdomainGuestState\$domainCheck]
+%invoke \Delta evtchnBindInterdomainGuestState;
+%invoke evtchnBindInterdomainGuestState;
+%invoke evtchnBindInterdomainParamIN;
+%invoke evtchnBindInterdomainParamOUT;
+%rewrite;
+%\end{zproof}
+%\begin{zproof}[domUbindInterdomainChooseParams\$domainCheck]
+%invoke \Delta evtchnBindInterdomainGuestState;
+%invoke evtchnBindInterdomainGuestState;
+%invoke evtchnBindInterdomainParamIN;
+%invoke evtchnBindInterdomainParamOUT;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\subsection{Collected Generalization Schemas}
+%
+%We collect the generalization schemas for the event channel operations, so we can
+%include them in the state of the $Hypervisor$ process.
+%\begin{zed}
+%        evtchnGeneralizationSchemas \defs \\
+%                \t1 generalEvtchnAllocUnbound \land generalEvtchnBindInterdomain
+%\end{zed}
+%
+%
+%\subsection{Hypervisor Event Channel Actions}
+%
+%A proof label variable that lets the hypervisor process synchronize with
+%either $High$ or $Low$ events. That is, unlike the guests, which only
+%participate in $Low$ events, the hypervisor also must be able to synchronize
+%with the $Balagan$ guest that only participates in $High$ events.
+%\begin{schema}{HypervisorProofLabels}
+%        proof\_label : PROOF\_LABEL
+%\end{schema}
+%
+%
+%\subsubsection{Hypervisor Process State}
+%
+%We are now ready to complete the definition of the hypervisor process. Each
+%hypercall will be defined as an action of the $Hypervisor$ processs. The
+%hypervisor state defines the variables and schemas used by the process
+%actions. It also defines the parameter schemas that relate the external
+%\Circus\ action parameters to the Z parameters of the internal hypervisor
+%state. The hypervisor state defines the generalization schemas that relate the
+%specific internal hypercall operations to the general internal hypervisor
+%state.
+%\begin{circusaction}
+%        \circstate\ HypervisorState \land \\
+%                \t1 evtchnParamSchemas \land \\
+%                \t1 evtchnGeneralizationSchemas \land \\
+%                \t1 initDomState
+%\end{circusaction}
+%
+%With the process state defined we can define all of the \Circus\ actions that
+%model the event channel hypercalls.
+%
+%\subsubsection{Allocate Unbound Event Channel Action}
+%
+%Allocating an unbound event channel is our first hypercall. The action gets an
+%operation code and an input parameter list from its environment. Then it
+%allocates a new unbound channel as defined by the $evtchnAllocUnbound$
+%schema. Finally, the action returns a result status reporting code as variable
+%$result\_code$ (understand that success, $ok$, is one possible result), and an
+%output parameter list.
+%\begin{circusaction}
+%        doEvtChnAllocUnbound \circdef \\
+%                        \t1 hyp?proof\_label.doEvtchnAllocUnbound.param\_in \then \\
+%                        \t1 (\lschexpract evtchnAllocUnbound \rschexpract \circseq \\
+%                        \t1 (ret!proof\_label.result\_code.param\_out \then \\
+%                        \t1 Run))
+%\end{circusaction}
+%
+%\subsubsection{Bind Interdomain Event Channel Action}
+%
+%Binding an interdomain event channel is our second hypercall. The action gets
+%an operation code and an input parameter list from its environment. Then it
+%binds a previously allocated but unbound event channel, as defined by the
+%$evtchnBindInterdomain$ schema. Since binding an interdomain event channel
+%kicks the scheduler (in the implementation by calling C function
+%\verb+evtchn_set_pending+), we add a $Schedule$ operation to the action; we do
+%that here in the action, since scheduling impacts other hypercalls. Finally,
+%the action returns a result status reporting code as variable $result\_code$
+%(understand that success, $ok$, is one possible result), and an output
+%parameter list.
+%\begin{circusaction}
+%        doEvtChnBindInterdomain \circdef \\
+%                        \t1 hyp?proof\_label.doEvtchnBindInterdomain.param\_in \then \\
+%                        \t1 (\lschexpract evtchnBindInterdomain \rschexpract \circseq \\
+%                        \t1 (\lschexpract Schedule \rschexpract \circseq
+%                        \t1 (ret!proof\_label.result\_code.param\_out \then \\
+%                        \t1 Run)))
+%\end{circusaction}
+%
+%\subsubsection{Running the Hypervisor Process}
+%
+%Run defines the principal structure of the hypervisor. It first schedules a
+%domain and then waits for and performs a hypercall request, for the current
+%domain. The event $cpu.current\_domain$ has the effect of ``running'' the
+%current guest, as the corresponding guest actions will always start with a
+%synchronisation on their own domain ID.
+%\begin{circusaction}
+%        Run \circdef \\
+%                \t1 cpu.current\_domain \then \lschexpract~ Schedule ~\rschexpract \circseq \\
+%                \t1 (~ doEvtChnAllocUnbound \extchoice doEvtChnBindInterdomain ~)
+%\end{circusaction}
+%%
+%We complete the process definition with its main action that initialises the
+%hypervisor state and then $Run$'s.
+%\begin{circusaction}
+%        \circspot \lschexpract startXenon \rschexpract \circseq Run
+%\end{circusaction}
+%\begin{circus}
+%        \circend
+%\end{circus}
+%
+%\section{Guests}
+%
+%We need a collection of \Circus\ processes to model both $dom0$ and the
+%untrusted guests. This section is currently under construction.
+%
+%\begin{zsection}
+%\SECTION ~ guests ~ \parents ~ hypervisor
+%\end{zsection}
+%
+%\subsection{Parameterized Dom U Guest Process}
+%
+%We need an untrusted guest process that is parameterized on its domain ID.
+%\begin{circus}
+%        \circprocess\ Guest  \circdef d : DomainID \circspot \circbegin
+%\end{circus}
+%
+%\subsubsection{State for Allocate Unbound Event Channel Hypercall}
+%
+%We use simple counters to have our guests cycle through all possible domain
+%and port values.
+%\begin{schema}{evtchnAllocUnboundGuestState}
+%        param\_in : evtchnAllocUnboundParamIN \\
+%        param\_out : evtchnAllocUnboundParamOUT \\
+%        lDomIDcounter, rDomIDcounter : DomainID \\
+%        local\_port\_counter,  remote\_port\_counter : PortNumber \\
+%        result\_code : RC
+%\end{schema}
+%%
+%The parameter lists and counters must be initialized. We also initialize the
+%result code, just for nice.
+%\begin{schema}{initEvtchnAllocUnboundGuestState}
+%        \Delta evtchnAllocUnboundGuestState
+%\where
+%        param\_in' ~ 0 = param\_in' ~ 1 = 0 \\
+%        lDomIDcounter' = rDomIDcounter' = 0 \\
+%        local\_port\_counter = remote\_port\_counter = 0 \\
+%        result\_code = ok
+%\end{schema}
+%%
+%%\circnote{To put Circus paremeter in context for Z prover.}
+%\circtoolsoff\begin{axdef}d:DomainID\end{axdef}\circtoolson
+%A well-behaved guest always requests itself as the local domain. Notice that
+%the hypercall itself uses $current$ to decide which domain applies for a
+%hypercall. The remote domain counter is used to request the next remote domain.
+%\begin{schema}{domUallocUnboundChooseParams}
+%        \Delta evtchnAllocUnboundGuestState
+%\where
+%        param\_in~0 = d \\
+%        param\_in~1 = rDomIDcounter \\
+%        rDomIDcounter < MAXdomainID \implies \\
+%                \t1 rDomIDcounter' = rDomIDcounter + 1 \\
+%        rDomIDcounter = MAXdomainID \implies \\
+%                \t1 rDomIDcounter' = 0
+%\end{schema}
+%
+%\subsubsection{State for Bind Interdomain Event Channel Hypercall}
+%
+%We use simple counters to have our guests cycle through all possible domain
+%and port values.
+%\begin{schema}{evtchnBindInterdomainGuestState}
+%        param\_in : evtchnBindInterdomainParamIN \\
+%        param\_out : evtchnBindInterdomainParamOUT \\
+%        lDomIDcounter, rDomIDcounter : DomainID \\
+%        local\_port\_counter,  remote\_port\_counter : PortNumber \\
+%        result\_code : RC
+%\end{schema}
+%%
+%The parameter lists and counters must be initialized. We also initialize the
+%result code, just for nice.
+%\begin{schema}{initEvtchnBindInterdomainGuestState}
+%        \Delta evtchnBindInterdomainGuestState
+%\where
+%        param\_in' ~ 0 = param\_in' ~ 1 = 0 \\
+%        lDomIDcounter' = rDomIDcounter' = 0 \\
+%        local\_port\_counter = remote\_port\_counter = 0 \\
+%        result\_code = ok
+%\end{schema}
+%%
+%Notice that the hypercall itself uses $current$ to decide which domain applies
+%for a hypercall. The remote domain counter is used to request the next remote
+%domain.
+%\begin{schema}{domUbindInterdomainChooseParams}
+%        \Delta evtchnBindInterdomainGuestState
+%\where
+%        param\_in~0 = rDomIDcounter \\
+%        param\_in~1 =  remote\_port\_counter \\
+%        rDomIDcounter < MAXdomainID \implies \\
+%                \t1 rDomIDcounter' = rDomIDcounter + 1 \\
+%        rDomIDcounter = MAXdomainID \implies \\
+%                \t1 rDomIDcounter' = 0 \\
+%        remote\_port\_counter < MAX\_EVTCHNS \implies \\
+%                \t1 remote\_port\_counter' = remote\_port\_counter + 1 \\
+%        remote\_port\_counter = MAX\_EVTCHNS \implies \\
+%                \t1 remote\_port\_counter' = 0 \\
+%\end{schema}
+%
+%\subsubsection{Guest Process State}
+%
+%We need process state that matches the externally visible state of the
+%hypervisor process. We begin by collecting the individual states defined
+%above.
+%\begin{zed}
+%        evtchnGuestState \defs \\
+%                \t1 evtchnAllocUnboundGuestState \land evtchnBindInterdomainGuestState
+%\also
+%        initEvtchnGuestState \defs \\
+%                \t1 initEvtchnAllocUnboundGuestState \land initEvtchnBindInterdomainGuestState
+%\end{zed}
+%%
+%\begin{circusaction}
+%        \circstate\ evtchnParamSchemas \land evtchnGuestState
+%\end{circusaction}
+%
+%\subsubsection{Guest Hypercall Allocate Unbound Event Channel Action}
+%
+%\begin{circusaction}
+%        hypercallEvtchnAllocUnbound \circdef \\
+%                \t1 cpu?d \then (\lschexpract domUallocUnboundChooseParams \rschexpract \circseq \\
+%                \t1 (hyp!Low.doEvtchnAllocUnbound.param\_in \then \\
+%                \t1 ret?Low.result\_code.param\_out \then Run))
+%\end{circusaction}
+%
+%\subsubsection{Guest Hypercall Bind Interdomain Event Channel Action}
+%
+%\begin{circusaction}
+%        hypercallEvtchnBindInterdomain \circdef \\
+%                \t1 cpu?d \then (\lschexpract domUbindInterdomainChooseParams \rschexpract \circseq \\
+%                \t1 (hyp!Low.doEvtchnBindInterdomain.param\_in \then \\
+%                \t1 ret?Low.result\_code.param\_out \then Run))
+%\end{circusaction}
+%
+%\subsubsection{Running the Parameterized Untrusted Guest}
+%
+%Each untrusted guest cycles through all possible requests that it can make for
+%itself.
+%\begin{circusaction}
+%        Run \circdef hypercallEvtchnAllocUnbound \extchoice hypercallEvtchnBindInterdomain
+%\end{circusaction}
+%
+%\begin{circusaction}
+%        \circspot ~ \lschexpract initEvtchnGuestState \rschexpract \circseq Run
+%\end{circusaction}
+%
+%\begin{circus}
+%        \circend
+%\end{circus}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%\circtoolsoff
+%\begin{zproof}[initEvtchnAllocUnboundGuestState\$domainCheck]
+%invoke \Delta evtchnAllocUnboundGuestState;
+%invoke evtchnAllocUnboundGuestState;
+%invoke evtchnAllocUnboundParamIN;
+%invoke evtchnAllocUnboundParamOUT;
+%rewrite;
+%\end{zproof}
+%\circtoolson
+%%%%%%% ZPROOF LEMMAS + PROPERTIES %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%\subsection{Combined Untrusted Guests}
+%
+%\begin{circus}
+%        \circprocess\ Guests \circdef\ \Interleave d : DomainID \circspot Guest~(d)
+%\end{circus}
+%
+%\section{Combined System}
+%
+%% Causes a bug - unexpected exception.
+%\begin{circus}
+%\circprocess\ System \circdef\ Guests \lpar HypercallInterface \cup \{cpu\} \rpar Hypervisor
+%\end{circus}
+%
+%\section{Balagan}
+%
+%\begin{circus}
+%        \circprocess\ evtchanBalagan \circdef \circbegin
+%\end{circus}
+%
+%This is an ugly way to do this, but the type checker won't allow it in a nice
+%way.
+%\begin{zed}
+%        domBalagan == 3
+%\end{zed}
+%%
+%We need a schema for process state to provide parameter passing variables.
+%\begin{schema}{evtchnBalaganState}
+%        au\_param\_in : evtchnAllocUnboundParamIN \\
+%        au\_param\_out : evtchnAllocUnboundParamOUT \\
+%        bi\_param\_in : evtchnBindInterdomainParamIN \\
+%        bi\_param\_out : evtchnBindInterdomainParamOUT \\
+%        %lDomIDcounter, rDomIDcounter : DomainID \\                    %In case we need to add
+%        %local\_port\_counter,  remote\_port\_counter : PortNumber \\  %a schema, to assign the
+%        result\_code : RC                                              %range of values.
+%\end{schema}
+%%
+%We make the schema part of the process state.
+%\begin{circusaction}
+%                \circstate\ evtchnBalaganState
+%\end{circusaction}
+%%
+%The intent here is that the traces of process $evtchnBalagan$ range over all
+%possible sequences of input and output parameters, over both
+%hypercalls. Notice that $evtchnBalagan$ will not ``run'' unless the
+%$Hypervisor$ process is prepared to engage in the event $cpu.domBalagan$.
+%\begin{circusaction}
+%        \circspot\ \circmu\ X \circspot cpu.domBalagan \then \\
+%                \t1 (\Stop \intchoice \\
+%                \t1 hyp.High.doEvtchnAllocUnbound.au\_param\_in \then \\
+%                        \t2 (ret.High.result\_code.au\_param\_out \then X) \intchoice \\
+%                \t1 hyp.High.doEvtchnBindInterdomain.bi\_param\_in \then \\
+%                        \t2 (ret.High.result\_code.bi\_param\_out \then X))
+%\end{circusaction}
+%
+%\begin{circus}
+%        \circend
+%\end{circus}
+%
+%% ==== Bibtex Stuff
+%\bibliographystyle{unsrt}
+%\bibliography{Local}
+%
+%% ==== End Bibtex Stuff
+%
+%\end{document}
+%
+%% ========== End Document

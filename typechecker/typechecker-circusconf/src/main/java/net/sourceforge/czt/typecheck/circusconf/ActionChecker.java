@@ -13,13 +13,12 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.czt.typecheck.circus;
+package net.sourceforge.czt.typecheck.circusconf;
 
 import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.ast.Action1;
 import net.sourceforge.czt.circus.ast.Action2;
 import net.sourceforge.czt.circus.ast.ActionD;
 import net.sourceforge.czt.circus.ast.ActionIte;
@@ -49,7 +48,6 @@ import net.sourceforge.czt.circus.ast.PrefixingAction;
 import net.sourceforge.czt.circus.ast.RenameAction;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.SubstitutionAction;
-import net.sourceforge.czt.circus.visitor.Action1Visitor;
 import net.sourceforge.czt.circus.visitor.Action2Visitor;
 import net.sourceforge.czt.circus.visitor.ActionIteVisitor;
 import net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor;
@@ -69,8 +67,7 @@ import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
 import net.sourceforge.czt.circus.visitor.RenameActionVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor;
-//import net.sourceforge.czt.circus.visitor.TimeoutActionVisitor;
-//import net.sourceforge.czt.circus.visitor.WaitActionVisitor;
+import net.sourceforge.czt.typecheck.circus.CommunicationChecker;
 import net.sourceforge.czt.typecheck.circus.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.impl.UnknownType;
 import net.sourceforge.czt.typecheck.z.util.UResult;
@@ -88,51 +85,7 @@ import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZRenameList;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
-//import net.sourceforge.czt.circus.ast.DeadlineAction;
-//import net.sourceforge.czt.circus.ast.TimeoutAction;
-//import net.sourceforge.czt.circus.ast.WaitAction;
-//import net.sourceforge.czt.circus.visitor.DeadlineActionVisitor;
 
-/**
- * <p> bla bla bla </p>
- * <p>
- * Scopes in Circus have three layers. 
- * <dl>
- *  <dt>Global scope (S0)</dt>
- *    <dd>
- *      <p>
- *      Contains Z, channel, channel sets, and process paragraphs.
- *      It corresponds to the section scope of Z (i.e. name type pairs 
- *      within SectTypeEnv for a given section).
- *      </p>
- *    </dd>
- *  <dt>Process scope (S1)</dt>
- *    <dd>
- *      <p>
- *      Contains information local to a process: Z, name set, and 
- *      action paragraphs, as well as the process' formal parameters and 
- *      generic types.  These will form the ProcessSignature and type.
- *      </p>
- *    </dd>
- *  <dt>Action scope (S2)</dt>
- *    <dd>
- *      <p>
- *      Contains information local to the action of a process: variable 
- *      declarations, implicit variables from input prefixing, and 
- *      action formal parameters. Note that the first two will add four
- *      variables into scope (i.e., for var x: T we add x, x', x!, x?: T).
- *      These will form the ActionSignature and type. 
- *      </p>
- *      <p>
- *      As the declared variable types are important for other tools, we wrapp 
- *      such constructs with the special LetVarAction term, as done in the 
- *      model checker, and further detailed in Circus.xsd
- *      </p>
- *    </dd>
- * </dl>
- * </p>
- * @author Leo Freitas
- */
 public class ActionChecker
   extends Checker<CircusCommunicationList>
   implements  
@@ -141,9 +94,6 @@ public class ActionChecker
   CallActionVisitor<CircusCommunicationList>,                   //  C.12.4, C.12.19, C.12.20, C.17.6
   CircusCommandVisitor<CircusCommunicationList>,                //  C.12.5
   BasicActionVisitor<CircusCommunicationList>,
-  
-  Action1Visitor<CircusCommunicationList>,				// Support for derived languages with simpler unary actions 
-  
   //SkipActionVisitor,                                      C.12.6
   //StopActionVisitor,                                      C.12.7
   //ChaosActionVisitor,                                     C.12.8
@@ -808,15 +758,6 @@ public class ActionChecker
 
     return result;
   }
-  
-  @Override
-  public CircusCommunicationList visitAction1(Action1 term)
-  {
-    // check within an action paragraph scope.
-    checkActionParaScope(term, null);
-
-    return visit(term.getCircusAction());
-  }  
 
   /**
    * Partial.

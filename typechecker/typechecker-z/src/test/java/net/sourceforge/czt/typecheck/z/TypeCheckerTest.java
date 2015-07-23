@@ -15,7 +15,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.czt.typecheck.z;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -25,12 +26,15 @@ import java.util.logging.Level;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.*;
-
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.Dialect;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  * A JUnit test class for testing the typechecker. This reads any
@@ -56,6 +60,9 @@ public class TypeCheckerTest
 
   protected final static String TEST_DIR =
     "/net/sourceforge/czt/typecheck/tests/";
+  
+  private final SectionManager manager_;
+  protected net.sourceforge.czt.base.util.PrintVisitor printer_;
 
   public static Test suite()
   {
@@ -82,8 +89,15 @@ public class TypeCheckerTest
 
   public TypeCheckerTest(boolean useBeforeDecl, boolean recursiveTypes)
   {
+	  this(Dialect.Z, useBeforeDecl, recursiveTypes);
+  }
+
+  public TypeCheckerTest(Dialect dialect, boolean useBeforeDecl, boolean recursiveTypes)
+  {
     useBeforeDecl_ = useBeforeDecl;
     recursiveTypes_ = recursiveTypes;
+    manager_ = new SectionManager(dialect);
+    printer_ = new net.sourceforge.czt.z.util.PrintVisitor();
   }
 
   /**
@@ -124,7 +138,7 @@ public class TypeCheckerTest
 
   protected SectionManager getManager()
   {
-    return new SectionManager(Dialect.Z);
+    return manager_;
   }
 
   protected Term parse(URL url, SectionManager manager)
@@ -148,7 +162,7 @@ public class TypeCheckerTest
     extends TestCase
   {
 
-    private URL url_;
+    private final URL url_;
 
     TestNormal(URL url)
     {
@@ -199,8 +213,8 @@ public class TypeCheckerTest
     extends TestCase
   {
 
-    private URL url_;
-    private String exception_;
+    private final URL url_;
+    private final String exception_;
 
     TestError(URL url, String exception)
     {
