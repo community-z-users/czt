@@ -987,7 +987,8 @@
    </extension>
    <extension
          point="org.eclipse.ui.startup">
-      <startup></startup>
+      <startup
+            class="net.sourceforge.czt.eclipse.zeves.ui.ZEvesUIPlugin"></startup>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">

@@ -25,8 +25,8 @@ which are not part of the m2e marketplace.
 
     ./comp-repo.sh <REPO_DIR> --eclipse <ECLIPSE_DIR> \
     --name "CZT m2e Support" \
-    add http://objectledge.github.com/maven-extensions/connectors/updates/development \
-    add http://nl-mwensveen-m2e-extras.googlecode.com/svn/trunk/p2
+    add http://objectledge.github.io/maven-extensions/connectors/updates/development \
+    add http://mwensveen-nl.github.io/nl-mwensveen-m2e-extras/p2/release/
 
 See [the blog post][comp-repo-blog] for more details on the script and its arguments.
 

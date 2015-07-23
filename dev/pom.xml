@@ -103,9 +103,9 @@
                         <arg value="--name"/>
                         <arg value="${repo.name}"/>
                         <arg value="add"/>
-                        <arg value="http://objectledge.github.com/maven-extensions/connectors/updates/development"/>
+                        <arg value="http://objectledge.github.io/maven-extensions/connectors/updates/development"/>
                         <arg value="add"/>
-                        <arg value="http://nl-mwensveen-m2e-extras.googlecode.com/svn/trunk/p2"/>
+                        <arg value="http://mwensveen-nl.github.io/nl-mwensveen-m2e-extras/p2/release"/>
                       </exec>
                     </tasks>
                   </configuration>

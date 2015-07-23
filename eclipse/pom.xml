@@ -19,7 +19,7 @@
   <name>CZT Eclipse</name>
   
   <properties>
-    <tycho.version>0.17.0</tycho.version>
+    <tycho.version>0.23.1</tycho.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- The build ID - normally the qualifier, but can be e.g. "M2" for milestone builds -->

@@ -4,7 +4,7 @@ Notes on branding icons for Eclipse launcher for different OS builds: their form
 on producing them.
 
 These instructions are for building a branded Eclipse product using [Eclipse Tycho][tycho]
-with Eclipse Juno (4.2) as the base.
+with Eclipse Mars (4.5) as the base.
 
 [tycho]: http://www.eclipse.org/tycho/
 
