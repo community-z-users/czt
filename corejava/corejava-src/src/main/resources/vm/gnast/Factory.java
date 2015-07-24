@@ -13,7 +13,7 @@
    * Creates a list with the given elements.
    * This is a convenience method.
    */
-  public <E> java.util.List<E> list(E... elems)
+  public <E> java.util.List<E> list(@SuppressWarnings("unchecked") E... elems)
   {
     java.util.List<E> result = new java.util.ArrayList<E>();
     result.addAll(java.util.Arrays.asList(elems));

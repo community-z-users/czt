@@ -112,12 +112,12 @@ public class CZTGui implements ActionListener,HyperlinkListener
   private JPanel languagePanel = new JPanel();
   private JLabel languageLabel = new JLabel("Language: ");
   private String[] languageOptions = {"Standard Z","Object Z","Circus","Circus Time","Z Rules", "Z/EVES"};
-  private JComboBox languageCombo = new JComboBox(languageOptions);
+  private JComboBox<?> languageCombo = new JComboBox<>(languageOptions);
 
   private JPanel markupPanel = new JPanel();
   private JLabel markupLabel = new JLabel("Markup: ");
   private String[] markupOptions = {"Latex", "UTF8","UTF16", "XML"};
-  private JComboBox markupCombo = new JComboBox(markupOptions);
+  private JComboBox<?> markupCombo = new JComboBox<>(markupOptions);
 
   private JPanel typecheckPanel = new JPanel();
   private JLabel typecheckLabel = new JLabel("Typecheck? ");

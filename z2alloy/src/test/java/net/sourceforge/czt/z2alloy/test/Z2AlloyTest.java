@@ -152,11 +152,11 @@ public class Z2AlloyTest {
 
   public boolean equal(String fileName, boolean unfolding) {
     try {
-      Scanner translate = new Scanner(Main.print(Main.translate(new File(
-          getClass().getResource("/" + fileName + ".tex").toURI()), unfolding)));
-      Scanner read = new Scanner(new File(getClass().getResource(
-          "/" + fileName + (unfolding ? "_unfold" : "_fold") + ".als").toURI()));
-
+        Scanner translate = new Scanner(Main.print(Main.translate(new File(
+                getClass().getResource("/" + fileName + ".tex").toURI()), unfolding)));
+            Scanner read = new Scanner(new File(getClass().getResource(
+                "/" + fileName + (unfolding ? "_unfold" : "_fold") + ".als").toURI()));
+    	try{
       while (translate.hasNext() && read.hasNext()) {
         String t1 = translate.nextLine();
         String t2 = read.nextLine();
@@ -168,6 +168,11 @@ public class Z2AlloyTest {
         throw new RuntimeException("error translate: " + translate.next());
       if (read.hasNext())
         throw new RuntimeException("error read: " + read.next());
+    	}
+    	finally{
+      translate.close();
+      read.close();}
+    	
       return (translate.hasNext() == read.hasNext());
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);

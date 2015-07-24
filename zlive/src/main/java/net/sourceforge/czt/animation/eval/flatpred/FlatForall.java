@@ -26,7 +26,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatForallVisitor;
 import net.sourceforge.czt.util.Visitor;

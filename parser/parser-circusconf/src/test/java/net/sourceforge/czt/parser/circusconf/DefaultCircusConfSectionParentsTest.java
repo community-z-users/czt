@@ -2,8 +2,6 @@ package net.sourceforge.czt.parser.circusconf;
 
 import static org.junit.Assert.*;
 
-import java.util.Collections;
-
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.DefaultSectionParents;
 import net.sourceforge.czt.session.Key;

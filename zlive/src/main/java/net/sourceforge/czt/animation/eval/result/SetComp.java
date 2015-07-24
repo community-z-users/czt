@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.flatpred.Bounds;
-import net.sourceforge.czt.animation.eval.flatpred.FlatForall;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;

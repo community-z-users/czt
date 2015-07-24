@@ -604,9 +604,9 @@ public class Factory
     return result;
   }
 
-  public <E> List<E> list(E... elems)
+  public <E> List<E> list(@SuppressWarnings("unchecked") E... elems)
   {
-    java.util.List<E> result = new ArrayList<E>(elems.length + PerformanceSettings.INITIAL_ARRAY_CAPACITY);
+	java.util.List<E> result = new ArrayList<E>(elems.length + PerformanceSettings.INITIAL_ARRAY_CAPACITY);
     result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
@@ -623,7 +623,7 @@ public class Factory
     return result;
   }
 
-  public <E> ListTerm<E> listTerm(E... elems)
+  public <E> ListTerm<E> listTerm(@SuppressWarnings("unchecked") E... elems)
   {
     ListTerm<E> result = listTerm();
     result.addAll(java.util.Arrays.asList(elems));

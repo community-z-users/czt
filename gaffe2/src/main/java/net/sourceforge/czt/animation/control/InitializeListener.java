@@ -39,7 +39,7 @@ public class InitializeListener implements ActionListener
 
   private String initSchemaName;             // The init SchemaName
 
-  private ArrayList<JComboBox> result;       // The result schmaTypes chosed by user
+  private ArrayList<JComboBox<String>> result;       // The result schmaTypes chosed by user
 
   private Analyzer analyzer;                 // Hold the analyzer ref
 
@@ -49,7 +49,7 @@ public class InitializeListener implements ActionListener
    * @param source
    * @param result
    */
-  public InitializeListener(ArrayList<JComboBox> result)
+  public InitializeListener(ArrayList<JComboBox<String>> result)
   {
     this.result = result;
     analyzer = GaffeFactory.getAnalyzer();
@@ -85,7 +85,7 @@ public class InitializeListener implements ActionListener
     DefaultMutableTreeNode initial = new DefaultMutableTreeNode("Initial");
     DefaultMutableTreeNode operation = new DefaultMutableTreeNode("Operation");
     DefaultMutableTreeNode ignore = new DefaultMutableTreeNode("Ignore");
-    for (JComboBox choice : result) {
+    for (JComboBox<String> choice : result) {
       schemaName = choice.getName();
       if (choice.getSelectedItem().equals("State")) {
         stateSchemaName = schemaName;

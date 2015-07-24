@@ -1157,7 +1157,7 @@ public class DesignerCore implements BeanContextProxy
 	 */
 	private static final long serialVersionUID = 8451737641558063375L;
 
-	public JComboBox scriptLibraryCB;
+	public JComboBox<String> scriptLibraryCB;
 
     public JButton scriptLibraryPaste;
 
@@ -1220,7 +1220,7 @@ public class DesignerCore implements BeanContextProxy
       layout.setConstraints(scriptLibraryPaste, constraints);
       northPane.add(scriptLibraryPaste);
 
-      scriptLibraryCB = new JComboBox();
+      scriptLibraryCB = new JComboBox<>();
       constraints.weightx = 1;
       constraints.gridwidth = GridBagConstraints.REMAINDER;
       layout.setConstraints(scriptLibraryCB, constraints);

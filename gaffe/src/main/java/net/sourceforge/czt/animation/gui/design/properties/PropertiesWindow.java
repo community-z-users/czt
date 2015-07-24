@@ -663,9 +663,9 @@ public final class PropertiesWindow extends JFrame
         componentSource = CS_CUSTOM_EDITOR;
       }
       else if ((tags = propertyEditor.getTags()) != null) {
-        currentComponent = new JComboBox(tags);
+        currentComponent = new JComboBox<>(tags);
         componentSource = CS_TAGS;
-        JComboBox cb = (JComboBox) currentComponent;
+        JComboBox<?> cb = (JComboBox<?>) currentComponent;
         cb.setSelectedItem(propertyEditor.getAsText());
         cb.addItemListener(new ItemListener()
         {
@@ -707,7 +707,7 @@ public final class PropertiesWindow extends JFrame
         return propertyEditor.getValue();
       }
       else if (componentSource == CS_TAGS) {
-        return (String) ((JComboBox) currentComponent).getSelectedItem();
+        return (String) ((JComboBox<?>) currentComponent).getSelectedItem();
       }
       else if (componentSource == CS_STRING) {
         return (String) ((JTextField) currentComponent).getText();
@@ -743,7 +743,7 @@ public final class PropertiesWindow extends JFrame
       else if (componentSource == CS_TAGS) {
         //XXX should I combine CS_TAGS and CS_STRING getting the value from
         //    getCellEditorValue()
-        JComboBox cb = (JComboBox) currentComponent;
+        JComboBox<?> cb = (JComboBox<?>) currentComponent;
         propertyEditor.setAsText((String) cb.getSelectedItem());
       }
       else if (componentSource == CS_STRING) {

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatEqualsVisitor;
-import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -122,7 +121,7 @@ public class FlatEquals extends FlatPred
   }
 
   /** Tries to find approximate information about the given name. */
-  private Expr findSetInfo(ZName name, Envir env) {
+  protected Expr findSetInfo(ZName name, Envir env) {
 	  Expr result = null;
 	  if (env.isDefined(name)) {
 		  result = env.lookup(name);

@@ -84,7 +84,7 @@ public class GaffeUtil
    * @param expr
    * @return
    */
-  public static Object encodeExpr(Expr expr)
+  public static String encodeExpr(Expr expr)
   {
     return GaffeFactory.getZLive().termToString(expr, Markup.LATEX);
   }

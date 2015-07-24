@@ -24,12 +24,13 @@
     return createCircusChannelSet(createSetExpr(createZExprList()));
   }
 
-  private <E> java.util.List<E> newList(E... elems)
+  private <E> java.util.List<E> newList(@SuppressWarnings("unchecked") E... elems)
   {
     java.util.List<E> result = new java.util.ArrayList<E>();
     result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
+  
   private final net.sourceforge.czt.z.ast.ZName synchNameWithoutID_ = createZName(
     net.sourceforge.czt.circus.util.CircusString.CIRCUSSYNCH,
     createZStrokeList(), null);

@@ -1,4 +1,4 @@
-private <E> java.util.List<E> newList(E... elems)
+private <E> java.util.List<E> newList(@SuppressWarnings("unchecked")E... elems)
 {
 	java.util.List<E> result = new java.util.ArrayList<E>();
 	result.addAll(java.util.Arrays.asList(elems));

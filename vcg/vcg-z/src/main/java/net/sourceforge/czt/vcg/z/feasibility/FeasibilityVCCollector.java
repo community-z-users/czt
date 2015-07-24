@@ -194,10 +194,10 @@ public class FeasibilityVCCollector extends
         Name other = ZUtils.getAxParaSchOrAbbrName(para);
         if (!ZUtils.namesEqual(name, other))
         { 
-          Object[] params = new Object[]
-                  {
-                    para, zsi, name, other
-                  };
+          //Object[] params = new Object[]
+          //        {
+          //          para, zsi, name, other
+          //        };
           //error(para, ErrorMessage.ZSTATEINFO_INCONSISTENCY, params);
         }
       }
@@ -205,7 +205,7 @@ public class FeasibilityVCCollector extends
     else if (para.hasAnn(ZRefinesAnn.class))
     {
       ZRefinesAnn zra = para.getAnn(ZRefinesAnn.class);
-      Name abstractName = zra.getAbstractName();
+      //Name abstractName = zra.getAbstractName();
       //Type2 absType = unwrapType(getType(abstractName));
       //if (!(absType instanceof PowerType &&
       //    ((PowerType)absType).getType() instanceof SchemaType))
@@ -221,10 +221,10 @@ public class FeasibilityVCCollector extends
       // paraName and concreteName differ or if not for a SchBox
       if (!namesEqual || !para.getBox().equals(Box.SchBox))
       {
-        Object[] params = new Object[]
-                  {
-                    para, abstractName, concreteName, paraName
-                  };
+        //Object[] params = new Object[]
+        //          {
+        //            para, abstractName, concreteName, paraName
+        //          };
         // given the parser assigns the concrete name, this error can only
         // happen if the ZRefinesAnn AST is created manually
         //error(para, ErrorMessage.ZREFINES_INCONSISTENCY, params);

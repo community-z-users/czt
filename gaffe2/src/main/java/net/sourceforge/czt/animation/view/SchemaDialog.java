@@ -23,14 +23,14 @@ public class SchemaDialog extends JDialog
   private JPanel schemaTypePane;
 
   //For submit action
-  private ArrayList<JComboBox> result;
+  private ArrayList<JComboBox<String>> result;
 
   /**
    * @param parent
    */
   public SchemaDialog()
   {
-    result = new ArrayList<JComboBox>();
+    result = new ArrayList<JComboBox<String>>();
     schemaTypePane = new JPanel();
     JPanel buttonPane = new JPanel();
     JButton confirmButton = new JButton("OK");
@@ -53,7 +53,7 @@ public class SchemaDialog extends JDialog
   /**
    * @return the result selected by user
    */
-  public ArrayList<JComboBox> getResult()
+  public ArrayList<JComboBox<String>> getResult()
   {
     return result;
   }

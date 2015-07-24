@@ -686,7 +686,7 @@ public abstract class AbstractVCG<//R,
    * @param list
    * @return
    */
-  protected <M extends Term> /*List<Pair<Para, Pred>>*/ List<VC<Pred>> collect(M... list)
+  protected final <M extends Term> /*List<Pair<Para, Pred>>*/ List<VC<Pred>> collect(@SuppressWarnings("unchecked") M... list)
   {
     /*List<Pair<Para, Pred>> result = factory_.list();*/
     List<VC<Pred>> result = factory_.list();

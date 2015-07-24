@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataEvent;
@@ -70,7 +71,7 @@ private void initComponents() {
     pathField = new javax.swing.JTextField();
     jScrollPane1 = new javax.swing.JScrollPane();
 
-    pathList = new javax.swing.JList();
+    pathList = new javax.swing.JList<>();
     downButton = new javax.swing.JButton();
     removeButton = new javax.swing.JButton();
 
@@ -280,7 +281,7 @@ private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_downButtonActionPerformed
   
   private JFileChooser fileChooser_;
-  private DefaultListModel pathListModel_;  
+  private DefaultListModel<Object> pathListModel_;  
   private ListSelection listSelectionListener_;
     
   private void initFields(List<String> paths)
@@ -305,13 +306,13 @@ private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     
     // create a default list model to use within pathList
     // populate the list model with the right known paths    
-    pathListModel_ = new DefaultListModel();                
+    pathListModel_ = new DefaultListModel<>();                
     pathListModel_.addListDataListener(new PathListModelListener());    
     for (String path : paths)
     {
       addPathToList(path);
     }
-    pathList.setModel(pathListModel_);
+    pathList.setModel((ListModel<Object>)pathListModel_);
     if (pathListModel_.size() > 0)
     {
       pathList.setSelectedIndex(0);
@@ -594,7 +595,7 @@ private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
   private javax.swing.JDialog msgDialog;
   private javax.swing.JTextField pathField;
   private javax.swing.JLabel pathLabel;
-  private javax.swing.JList pathList;
+  private javax.swing.JList<Object> pathList;
   private javax.swing.JPanel pathPanel;
   private javax.swing.JButton removeButton;
   private javax.swing.JButton upButton;

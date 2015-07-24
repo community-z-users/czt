@@ -63,7 +63,7 @@ public class ConfigDialog extends JDialog
       }
       model.setValueAt(key, row, 0);
       model.setValueAt(customMap.get(key), row, 1);
-      editors.add(new DefaultCellEditor(new JComboBox(adapterList.toArray())));
+      editors.add(new DefaultCellEditor(new JComboBox<>(adapterList.toArray())));
       row++;
     }
     customMapTable = new JTable(model)

@@ -16,7 +16,6 @@ import java.beans.SimpleBeanInfo;
  * @author Linan Zhang
  *
  */
-@SuppressWarnings("restriction")
 public class NumExpr_JSpinnerAdapterBeanInfo extends SimpleBeanInfo
 {
   PropertyDescriptor[] pds = new PropertyDescriptor[2];     // Bean Property Descriptor

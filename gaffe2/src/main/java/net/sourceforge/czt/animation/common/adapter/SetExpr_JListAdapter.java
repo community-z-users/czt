@@ -16,7 +16,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
  */
 public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
 {
-  private JList component;                      // Display the SetExpr as a JList
+  private JList<String> component;                      // Display the SetExpr as a JList
 
   /**
    * Constructor
@@ -24,7 +24,7 @@ public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
   public SetExpr_JListAdapter()
   {
     super();
-    component = new JList();
+    component = new JList<>();
   }
 
   /* (non-Javadoc)
@@ -32,12 +32,12 @@ public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
    */
   public Expr getExpr()
   {
-    ListModel model = component.getModel();
+    ListModel<String> model = component.getModel();
     ZExprList exprList = expr.getZExprList();
     exprList.clear();
     String element;
     for (int i = 0; i < model.getSize(); i++) {
-      element = (String) model.getElementAt(i);
+      element = model.getElementAt(i);
       exprList.add(GaffeUtil.decodeExpr(element));
     }
     expr.setExprList(exprList);
@@ -50,7 +50,7 @@ public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
   public JComponent getComponent()
   {
     ZExprList exprList = expr.getZExprList();
-    DefaultListModel model = (DefaultListModel) component.getModel();
+    DefaultListModel<String> model = (DefaultListModel<String>) component.getModel();
     model.clear();
     for (Expr tempExpr : exprList) {
       model.addElement(GaffeUtil.encodeExpr(tempExpr));

@@ -70,12 +70,12 @@ public class ShowSchemaDialogListener implements ActionListener
     Set<String> nameSet = analyzer.getSchemaNames();
     contentPane.setLayout(new GridLayout(nameSet.size(), 2));
     int i = 0;
-    JComboBox typeComboBox;
-    ArrayList<JComboBox> result = scd.getResult();
+    JComboBox<String> typeComboBox;
+    ArrayList<JComboBox<String>> result = scd.getResult();
     for (String key : nameSet) {
       JLabel label = new JLabel(key);
       label.setToolTipText(analyzer.getSchemaContent(key));
-      typeComboBox = new JComboBox();
+      typeComboBox = new JComboBox<String>();
       typeComboBox.setName(key);
       typeComboBox.addItem(new String("Operation"));
       typeComboBox.addItem(new String("State"));
