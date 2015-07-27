@@ -52,6 +52,6 @@ public class ShortDescriptionResourceBundle
   @Override
 public Object[][] getContents()
   {
-    return CONTENTS;
+    return CONTENTS.clone();
   }
 }

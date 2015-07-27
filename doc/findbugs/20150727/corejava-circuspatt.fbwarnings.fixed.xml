@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438008707882" analysisTimestamp="1438008700225" release="">
+  <Project projectName="corejava-circuspatt">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/generated-sources/jaxb</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/generated-sources/gnast</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb" start="1" end="726" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst" start="41" end="469" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circus/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.JaxbXmlWriter">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.JaxbXmlWriter" start="39" end="53" sourcefile="JaxbXmlWriter.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.jaxb.JaxbXmlWriter">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.JaxbXmlWriter" sourcefile="JaxbXmlWriter.java" sourcepath="net/sourceforge/czt/circus/jaxb/JaxbXmlWriter.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circuspatt.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.util.Factory" start="41" end="862" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circuspatt/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circus.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circus/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circuspatt.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.util.PrintVisitor" start="25" end="25" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circuspatt/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circus/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 15:42:21 +0100" total_classes="83" referenced_classes="1197" total_bugs="5" total_size="3013" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="112.78" clock_seconds="164.32" peak_mbytes="1528.43" alloc_mbytes="977.00" gc_seconds="2.83" priority_1="5">
+    <PackageStats package="net.sourceforge.czt.circuspatt.ast" total_bugs="0" total_types="17" total_size="127">
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.CircusJokerType" sourceFile="CircusJokerType.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.CircusJokers" sourceFile="CircusJokers.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.CircusPatternFactory" sourceFile="CircusPatternFactory.java" interface="true" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerAction" sourceFile="JokerAction.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerActionBinding" sourceFile="JokerActionBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerChannelSet" sourceFile="JokerChannelSet.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerChannelSetBinding" sourceFile="JokerChannelSetBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerCommunication" sourceFile="JokerCommunication.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerCommunicationBinding" sourceFile="JokerCommunicationBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerNameSet" sourceFile="JokerNameSet.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerNameSetBinding" sourceFile="JokerNameSetBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerPara" sourceFile="JokerPara.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerParaBinding" sourceFile="JokerParaBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerParaList" sourceFile="JokerParaList.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerParaListBinding" sourceFile="JokerParaListBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerProcess" sourceFile="JokerProcess.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.ast.JokerProcessBinding" sourceFile="JokerProcessBinding.java" interface="true" size="5" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circuspatt.impl" total_bugs="0" total_types="21" total_size="1464">
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.CircusJokersImpl" sourceFile="CircusJokersImpl.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.CircusPatternFactoryImpl" sourceFile="CircusPatternFactoryImpl.java" interface="false" size="149" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerActionBindingImpl" sourceFile="JokerActionBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerActionImpl" sourceFile="JokerActionImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerChannelSetBindingImpl" sourceFile="JokerChannelSetBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerChannelSetImpl" sourceFile="JokerChannelSetImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerCommunicationBindingImpl" sourceFile="JokerCommunicationBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerCommunicationImpl" sourceFile="JokerCommunicationImpl.java" interface="false" size="99" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerNameSetBindingImpl" sourceFile="JokerNameSetBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerNameSetImpl" sourceFile="JokerNameSetImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerParaBindingImpl" sourceFile="JokerParaBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerParaImpl" sourceFile="JokerParaImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerParaListBindingImpl" sourceFile="JokerParaListBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerParaListImpl" sourceFile="JokerParaListImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerProcessBindingImpl" sourceFile="JokerProcessBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.JokerProcessImpl" sourceFile="JokerProcessImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.LawTest" sourceFile="LawTest.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.LawTest$ExampleCircusLawVisitor" sourceFile="LawTest.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.MockActionLawsTest" sourceFile="MockActionLawsTest.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.MockActionLawsTest$GuardIntroductionSchemaExpression" sourceFile="MockActionLawsTest.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.impl.MockActionLawsTest$SequentialCompositionUnit1" sourceFile="MockActionLawsTest.java" interface="false" size="15" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circuspatt.jaxb" total_bugs="3" total_types="4" total_size="670" priority_1="3">
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="361" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="288" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="15" bugs="1" priority_1="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circuspatt.jaxb.gen" total_bugs="0" total_types="18" total_size="360">
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.CircusJokerType" sourceFile="CircusJokerType.java" interface="false" size="40" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.CircusJokers" sourceFile="CircusJokers.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerAction" sourceFile="JokerAction.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerActionBinding" sourceFile="JokerActionBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerChannelSet" sourceFile="JokerChannelSet.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerChannelSetBinding" sourceFile="JokerChannelSetBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerCommunication" sourceFile="JokerCommunication.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerCommunicationBinding" sourceFile="JokerCommunicationBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerNameSet" sourceFile="JokerNameSet.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerNameSetBinding" sourceFile="JokerNameSetBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerPara" sourceFile="JokerPara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerParaBinding" sourceFile="JokerParaBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerParaList" sourceFile="JokerParaList.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerParaListBinding" sourceFile="JokerParaListBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerProcess" sourceFile="JokerProcess.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.JokerProcessBinding" sourceFile="JokerProcessBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="95" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circuspatt.util" total_bugs="2" total_types="7" total_size="361" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.CircusLaw" sourceFile="CircusLaw.java" interface="false" size="37" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.CircusLawVisitor" sourceFile="CircusLawVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.CircusPattChar" sourceFile="CircusPattChar.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.CircusPattString" sourceFile="CircusPattString.java" interface="true" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.CircusPattUtils" sourceFile="CircusPattUtils.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.Factory" sourceFile="Factory.java" interface="false" size="268" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="3" bugs="1" priority_1="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circuspatt.visitor" total_bugs="0" total_types="16" total_size="31">
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.CircusJokersVisitor" sourceFile="CircusJokersVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.CircusPatternVisitor" sourceFile="CircusPatternVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerActionBindingVisitor" sourceFile="JokerActionBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerActionVisitor" sourceFile="JokerActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerChannelSetBindingVisitor" sourceFile="JokerChannelSetBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerChannelSetVisitor" sourceFile="JokerChannelSetVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerCommunicationBindingVisitor" sourceFile="JokerCommunicationBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerCommunicationVisitor" sourceFile="JokerCommunicationVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerNameSetBindingVisitor" sourceFile="JokerNameSetBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerNameSetVisitor" sourceFile="JokerNameSetVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerParaBindingVisitor" sourceFile="JokerParaBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerParaListBindingVisitor" sourceFile="JokerParaListBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerParaListVisitor" sourceFile="JokerParaListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerParaVisitor" sourceFile="JokerParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerProcessBindingVisitor" sourceFile="JokerProcessBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circuspatt.visitor.JokerProcessVisitor" sourceFile="JokerProcessVisitor.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="3482" invocations="1885" avgMicrosecondsPerInvocation="1847" maxMicrosecondsPerInvocation="49040" standardDeviationMircosecondsPerInvocation="2629"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="602" invocations="2" avgMicrosecondsPerInvocation="301272" maxMicrosecondsPerInvocation="543739" standardDeviationMircosecondsPerInvocation="242467"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="425" invocations="1879" avgMicrosecondsPerInvocation="226" maxMicrosecondsPerInvocation="49227" standardDeviationMircosecondsPerInvocation="1613"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="376" invocations="1197" avgMicrosecondsPerInvocation="314" maxMicrosecondsPerInvocation="27214" standardDeviationMircosecondsPerInvocation="1573"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="284" invocations="1197" avgMicrosecondsPerInvocation="237" maxMicrosecondsPerInvocation="15104" standardDeviationMircosecondsPerInvocation="1049"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="246" invocations="1284" avgMicrosecondsPerInvocation="192" maxMicrosecondsPerInvocation="38561" standardDeviationMircosecondsPerInvocation="1469"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="121" invocations="1253" avgMicrosecondsPerInvocation="97" maxMicrosecondsPerInvocation="48799" standardDeviationMircosecondsPerInvocation="1394"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="114" invocations="1197" avgMicrosecondsPerInvocation="95" maxMicrosecondsPerInvocation="41311" standardDeviationMircosecondsPerInvocation="1212"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438008707881" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>
