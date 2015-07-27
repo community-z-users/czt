@@ -39,7 +39,7 @@ public class RefinementMondexTest extends RefinementTest
   {
     SectionManager manager =  RefinementUtils.getRefinementUtils().createSectionManager(Dialect.ZEVES);
     VCGTest test = new RefinementMondexTest(manager, DEBUG_TESTING);
-    Test result = test.suite(TEST_MONDEX_DIR, null);
+    Test result = test.cztTestSuite(TEST_MONDEX_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }

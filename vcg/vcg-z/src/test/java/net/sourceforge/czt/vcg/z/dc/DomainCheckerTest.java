@@ -46,7 +46,7 @@ public class DomainCheckerTest extends VCGTest implements DomainCheckPropertyKey
     SectionManager manager = DomainCheckUtils.getDCUtils().createSectionManager(
             DomainCheckUtils.getDCUtils().getExtension());
     DomainCheckerTest test = new DomainCheckerTest(manager, DEBUG_TESTING);
-    Test result = test.suite(TEST_DIR, null);
+    Test result = test.cztTestSuite(TEST_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }

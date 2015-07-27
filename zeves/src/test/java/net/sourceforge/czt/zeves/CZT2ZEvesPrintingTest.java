@@ -88,7 +88,7 @@ public class CZT2ZEvesPrintingTest extends CztManagedTest {
   public static Test suite()
   {
     CZT2ZEvesPrintingTest test = new CZT2ZEvesPrintingTest(DEBUG_TESTING);
-    Test result = test.suite(TEST_DIR, null);
+    Test result = test.cztTestSuite(TEST_DIR, null);
     if (DEBUG_TESTING)
     {
       System.out.println("Number of tests for Z/EVES XML protocol printing: " + result.countTestCases());
