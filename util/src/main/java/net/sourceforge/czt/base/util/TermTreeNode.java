@@ -46,10 +46,15 @@ public class TermTreeNode
     node_ = node;
     parent_ = parent;
   }
+  
+  public synchronized static void setStaticToStringVisitor(Visitor<String> visitor)
+  {
+	  TermTreeNode.toStringVisitor_ = visitor;	  
+  }
 
   public void setToStringVisitor(Visitor<String> visitor)
   {
-    toStringVisitor_ = visitor;
+	  setStaticToStringVisitor(visitor);
   }
 
   public TreeNode getChildAt(int index)

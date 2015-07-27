@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437745599523" analysisTimestamp="1437745592774" release="">
+  <Project projectName="util">
+    <Jar>/Users/nljsf/Local/reps/git/czt/util/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/util/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/util/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="DM_BOXED_PRIMITIVE_FOR_PARSING" priority="1" rank="16" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.base.util.CztDatatypeConverter">
+      <SourceLine classname="net.sourceforge.czt.base.util.CztDatatypeConverter" sourcefile="CztDatatypeConverter.java" sourcepath="net/sourceforge/czt/base/util/CztDatatypeConverter.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.base.util.CztDatatypeConverter" name="parseDigit" signature="(Ljava/lang/String;)Lnet/sourceforge/czt/base/ast/Digit;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.base.util.CztDatatypeConverter" start="38" end="38" startBytecode="0" endBytecode="52" sourcefile="CztDatatypeConverter.java" sourcepath="net/sourceforge/czt/base/util/CztDatatypeConverter.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="intValue" signature="()I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="893" end="893" startBytecode="0" endBytecode="28" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="parseInt" signature="(Ljava/lang/String;)I" isStatic="true" role="SHOULD_CALL"/>
+    <SourceLine classname="net.sourceforge.czt.base.util.CztDatatypeConverter" start="38" end="38" startBytecode="4" endBytecode="4" sourcefile="CztDatatypeConverter.java" sourcepath="net/sourceforge/czt/base/util/CztDatatypeConverter.java"/>
+    <SourceLine classname="net.sourceforge.czt.base.util.CztDatatypeConverter" start="38" end="38" startBytecode="4" endBytecode="4" sourcefile="CztDatatypeConverter.java" sourcepath="net/sourceforge/czt/base/util/CztDatatypeConverter.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.base.util.TermInstanceCountManager">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.base.util.TermInstanceCountManager" name="DEFAULT_CALL_DEPTH_LOWER_BOUND" signature="I" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" start="38" end="38" startBytecode="5" endBytecode="5" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.base.util.TermInstanceCountManager">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.base.util.TermInstanceCountManager" name="DEFAULT_CALL_DEPTH_UPPER_BOUND" signature="I" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" start="39" end="39" startBytecode="10" endBytecode="10" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.base.util.TermInstanceCountManager">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.base.util.TermInstanceCountManager" name="DEFAULT_TARGET_INCREASE" signature="I" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" start="37" end="37" startBytecode="1" endBytecode="1" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.base.util.TermInstanceCountManager">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.base.util.TermInstanceCountManager" name="whoWasCalling" signature="(III)Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" start="121" end="136" startBytecode="0" endBytecode="376" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.base.util.TermInstanceCountManager" start="133" end="133" startBytecode="132" endBytecode="132" sourcefile="TermInstanceCountManager.java" sourcepath="net/sourceforge/czt/base/util/TermInstanceCountManager.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="1" rank="15" abbrev="ST" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.base.util.TermTreeNode">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermTreeNode" sourcefile="TermTreeNode.java" sourcepath="net/sourceforge/czt/base/util/TermTreeNode.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.base.util.TermTreeNode" name="setToStringVisitor" signature="(Lnet/sourceforge/czt/util/Visitor;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermTreeNode" start="52" end="53" startBytecode="0" endBytecode="78" sourcefile="TermTreeNode.java" sourcepath="net/sourceforge/czt/base/util/TermTreeNode.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.base.util.TermTreeNode" name="toStringVisitor_" signature="Lnet/sourceforge/czt/util/Visitor;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.base.util.TermTreeNode" sourcefile="TermTreeNode.java" sourcepath="net/sourceforge/czt/base/util/TermTreeNode.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.base.util.TermTreeNode" start="52" end="52" startBytecode="1" endBytecode="1" sourcefile="TermTreeNode.java" sourcepath="net/sourceforge/czt/base/util/TermTreeNode.java"/>
+    <SourceLine classname="net.sourceforge.czt.base.util.TermTreeNode" start="52" end="52" startBytecode="1" endBytecode="1" sourcefile="TermTreeNode.java" sourcepath="net/sourceforge/czt/base/util/TermTreeNode.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.util.CztLogger">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.util.CztLogger" name="DEFAULT_HANDLER_LEVEL" signature="Ljava/util/logging/Level;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.CztLogger" start="57" end="57" startBytecode="19" endBytecode="19" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.util.CztLogger">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.util.CztLogger" name="DEFAULT_SHOW_LOG_RECORD_MESSAGE" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.CztLogger" start="54" end="54" startBytecode="5" endBytecode="5" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.util.CztLogger">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.util.CztLogger" name="DEFAULT_SHOW_LOG_SOURCE_METHOD" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.CztLogger" start="55" end="55" startBytecode="9" endBytecode="9" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.util.CztLogger">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.util.CztLogger" name="DEFAULT_SHOW_LOG_STACKTRACE" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.CztLogger" start="56" end="56" startBytecode="13" endBytecode="13" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.util.CztLogger">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.util.CztLogger" name="DEFAULT_SHOW_LOG_TIME_STAMP" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.CztLogger" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.CztLogger" start="53" end="53" startBytecode="1" endBytecode="1" sourcefile="CztLogger.java" sourcepath="net/sourceforge/czt/util/CztLogger.java"/>
+  </BugInstance>
+  <BugInstance type="LI_LAZY_INIT_UPDATE_STATIC" priority="1" rank="6" abbrev="LI" category="MT_CORRECTNESS" first="1">
+    <Class classname="net.sourceforge.czt.util.Section">
+      <SourceLine classname="net.sourceforge.czt.util.Section" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.util.Section" name="standardSections" signature="()Ljava/util/Set;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.Section" start="125" end="133" startBytecode="0" endBytecode="29" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.util.Section" name="stdSect_" signature="Ljava/util/Set;" isStatic="true" role="FIELD_ON">
+      <SourceLine classname="net.sourceforge.czt.util.Section" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.Section" start="125" end="127" startBytecode="0" endBytecode="13" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+  </BugInstance>
+  <BugInstance type="LI_LAZY_INIT_UPDATE_STATIC" priority="1" rank="6" abbrev="LI" category="MT_CORRECTNESS" first="1">
+    <Class classname="net.sourceforge.czt.util.Section">
+      <SourceLine classname="net.sourceforge.czt.util.Section" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.util.Section" name="standardSections" signature="(Ljava/lang/String;)Ljava/util/Set;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.util.Section" start="139" end="157" startBytecode="0" endBytecode="63" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.util.Section" name="stdSectMap_" signature="Ljava/util/Map;" isStatic="true" role="FIELD_ON">
+      <SourceLine classname="net.sourceforge.czt.util.Section" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.util.Section" start="139" end="141" startBytecode="0" endBytecode="13" sourcefile="Section.java" sourcepath="net/sourceforge/czt/util/Section.java"/>
+  </BugInstance>
+  <BugInstance type="DE_MIGHT_IGNORE" priority="2" rank="16" abbrev="DE" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.util.SimpleFormatter">
+      <SourceLine classname="net.sourceforge.czt.util.SimpleFormatter" sourcefile="SimpleFormatter.java" sourcepath="net/sourceforge/czt/util/SimpleFormatter.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.util.SimpleFormatter" name="format" signature="(Ljava/util/logging/LogRecord;)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.util.SimpleFormatter" start="59" end="117" startBytecode="0" endBytecode="553" sourcefile="SimpleFormatter.java" sourcepath="net/sourceforge/czt/util/SimpleFormatter.java"/>
+    </Method>
+    <Class classname="java.lang.Exception" role="CLASS_EXCEPTION">
+      <SourceLine classname="java.lang.Exception" sourcefile="Exception.java" sourcepath="java/lang/Exception.java"/>
+    </Class>
+    <SourceLine classname="net.sourceforge.czt.util.SimpleFormatter" start="112" end="112" startBytecode="272" endBytecode="272" sourcefile="SimpleFormatter.java" sourcepath="net/sourceforge/czt/util/SimpleFormatter.java"/>
+    <SourceLine classname="net.sourceforge.czt.util.SimpleFormatter" start="112" end="112" startBytecode="272" endBytecode="272" sourcefile="SimpleFormatter.java" sourcepath="net/sourceforge/czt/util/SimpleFormatter.java"/>
+    <SourceLine classname="net.sourceforge.czt.util.SimpleFormatter" start="112" end="112" startBytecode="272" endBytecode="272" sourcefile="SimpleFormatter.java" sourcepath="net/sourceforge/czt/util/SimpleFormatter.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.util.TermAnnTest">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.util.TermAnnTest" name="testHasAnn" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="46" end="52" startBytecode="0" endBytecode="156" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="47" end="47" startBytecode="20" endBytecode="20" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="47" end="47" startBytecode="20" endBytecode="20" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.util.TermAnnTest">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.util.TermAnnTest" name="testRemoveAnn" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="57" end="63" startBytecode="0" endBytecode="163" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="58" end="58" startBytecode="20" endBytecode="20" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="58" end="58" startBytecode="20" endBytecode="20" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.util.TermAnnTest">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.util.TermAnnTest" name="testRemoveAnn2" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="68" end="77" startBytecode="0" endBytecode="215" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="69" end="69" startBytecode="20" endBytecode="20" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.util.TermAnnTest" start="69" end="69" startBytecode="20" endBytecode="20" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+  </BugInstance>
+  <BugInstance type="SIC_INNER_SHOULD_BE_STATIC" priority="2" rank="18" abbrev="SIC" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.util.TermAnnTest$TermAnnImpl">
+      <SourceLine classname="net.sourceforge.czt.util.TermAnnTest$TermAnnImpl" start="81" end="92" sourcefile="TermAnnTest.java" sourcepath="net/sourceforge/czt/util/TermAnnTest.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Fri, 24 Jul 2015 14:43:28 +0100" total_classes="48" referenced_classes="166" total_bugs="18" total_size="1350" num_packages="7" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="174.54" clock_seconds="888.56" peak_mbytes="1475.94" alloc_mbytes="910.50" gc_seconds="3.80" priority_2="6" priority_1="12">
+    <PackageStats package="net.sourceforge.czt.base.ast" total_bugs="0" total_types="3" total_size="67">
+      <ClassStats class="net.sourceforge.czt.base.ast.Digit" sourceFile="Digit.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.ast.ListTerm" sourceFile="ListTerm.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.ast.Term" sourceFile="Term.java" interface="true" size="11" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.impl" total_bugs="0" total_types="3" total_size="207">
+      <ClassStats class="net.sourceforge.czt.base.impl.BaseFactory" sourceFile="BaseFactory.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.impl.ListTermImpl" sourceFile="ListTermImpl.java" interface="false" size="91" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.impl.TermImpl" sourceFile="TermImpl.java" interface="false" size="77" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.util" total_bugs="6" total_types="14" total_size="296" priority_2="1" priority_1="5">
+      <ClassStats class="net.sourceforge.czt.base.util.AbstractXmlWriter" sourceFile="AbstractXmlWriter.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.BaseUtils" sourceFile="BaseUtils.java" interface="false" size="44" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.CztDatatypeConverter" sourceFile="CztDatatypeConverter.java" interface="false" size="12" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.base.util.MarshalException" sourceFile="MarshalException.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.PerformanceSettings" sourceFile="PerformanceSettings.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.TermInstanceCountManager" sourceFile="TermInstanceCountManager.java" interface="false" size="94" bugs="4" priority_2="1" priority_1="3"/>
+      <ClassStats class="net.sourceforge.czt.base.util.TermToString" sourceFile="TermToString.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.TermTreeNode" sourceFile="TermTreeNode.java" interface="false" size="48" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.base.util.UnmarshalException" sourceFile="UnmarshalException.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.UnsupportedAstClassException" sourceFile="UnsupportedAstClassException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.Visit" sourceFile="Visit.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.XmlReader" sourceFile="XmlReader.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.util.XmlWriter" sourceFile="XmlWriter.java" interface="true" size="5" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.visitor" total_bugs="0" total_types="3" total_size="67">
+      <ClassStats class="net.sourceforge.czt.base.visitor.ListTermVisitor" sourceFile="ListTermVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.visitor.TermVisitor" sourceFile="TermVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.visitor.VisitorUtils" sourceFile="VisitorUtils.java" interface="false" size="63" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.text" total_bugs="0" total_types="1" total_size="48">
+      <ClassStats class="net.sourceforge.czt.text.Position" sourceFile="Position.java" interface="false" size="48" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.util" total_bugs="12" total_types="18" total_size="556" priority_2="5" priority_1="7">
+      <ClassStats class="net.sourceforge.czt.util.CztException" sourceFile="CztException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.CztLogger" sourceFile="CztLogger.java" interface="false" size="74" bugs="5" priority_1="5"/>
+      <ClassStats class="net.sourceforge.czt.util.DebugProxy" sourceFile="DebugProxy.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Delegator" sourceFile="Delegator.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest" sourceFile="DelegatorTest.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$Bar" sourceFile="DelegatorTest.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$BarImpl" sourceFile="DelegatorTest.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$Foo" sourceFile="DelegatorTest.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.DelegatorTest$FooImpl" sourceFile="DelegatorTest.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.ObjectFactory" sourceFile="ObjectFactory.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Pair" sourceFile="Pair.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.ReflectionUtils" sourceFile="ReflectionUtils.java" interface="false" size="59" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.ReflectiveVisitor" sourceFile="ReflectiveVisitor.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.Section" sourceFile="Section.java" interface="false" size="109" bugs="2" priority_1="2"/>
+      <ClassStats class="net.sourceforge.czt.util.SimpleFormatter" sourceFile="SimpleFormatter.java" interface="false" size="60" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.util.TermAnnTest" sourceFile="TermAnnTest.java" interface="false" size="33" bugs="3" priority_2="3"/>
+      <ClassStats class="net.sourceforge.czt.util.TermAnnTest$TermAnnImpl" sourceFile="TermAnnTest.java" interface="false" size="8" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.util.Visitor" sourceFile="Visitor.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.util.cli" total_bugs="0" total_types="6" total_size="109">
+      <ClassStats class="net.sourceforge.czt.util.cli.CztCommandLineBuilder" sourceFile="CztCommandLineBuilder.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.CztTool" sourceFile="CztTool.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.CztToolBuilder" sourceFile="CztToolBuilder.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.CztToolBuilderDefaultValue" sourceFile="CztToolBuilderDefaultValue.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.TypeCheckUtils" sourceFile="CztToolBuilder.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.util.cli.TypeCheckUtilsBuilder" sourceFile="CztToolBuilder.java" interface="false" size="75" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="716" invocations="2" avgMicrosecondsPerInvocation="358267" maxMicrosecondsPerInvocation="385075" standardDeviationMircosecondsPerInvocation="26808"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="491" invocations="787" avgMicrosecondsPerInvocation="624" maxMicrosecondsPerInvocation="62593" standardDeviationMircosecondsPerInvocation="2444"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="455" invocations="790" avgMicrosecondsPerInvocation="577" maxMicrosecondsPerInvocation="44472" standardDeviationMircosecondsPerInvocation="3122"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="374" invocations="166" avgMicrosecondsPerInvocation="2254" maxMicrosecondsPerInvocation="56146" standardDeviationMircosecondsPerInvocation="5719"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="298" invocations="619" avgMicrosecondsPerInvocation="482" maxMicrosecondsPerInvocation="24112" standardDeviationMircosecondsPerInvocation="1186"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="279" invocations="166" avgMicrosecondsPerInvocation="1683" maxMicrosecondsPerInvocation="24854" standardDeviationMircosecondsPerInvocation="3362"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="258" invocations="227" avgMicrosecondsPerInvocation="1139" maxMicrosecondsPerInvocation="46274" standardDeviationMircosecondsPerInvocation="3871"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="238" invocations="238" avgMicrosecondsPerInvocation="1003" maxMicrosecondsPerInvocation="34862" standardDeviationMircosecondsPerInvocation="2875"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="224" invocations="240" avgMicrosecondsPerInvocation="934" maxMicrosecondsPerInvocation="60071" standardDeviationMircosecondsPerInvocation="4229"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="207" invocations="228" avgMicrosecondsPerInvocation="909" maxMicrosecondsPerInvocation="11291" standardDeviationMircosecondsPerInvocation="1764"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="191" invocations="228" avgMicrosecondsPerInvocation="842" maxMicrosecondsPerInvocation="26196" standardDeviationMircosecondsPerInvocation="2560"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="145" invocations="166" avgMicrosecondsPerInvocation="875" maxMicrosecondsPerInvocation="27786" standardDeviationMircosecondsPerInvocation="2921"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="135" invocations="228" avgMicrosecondsPerInvocation="592" maxMicrosecondsPerInvocation="20096" standardDeviationMircosecondsPerInvocation="1620"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="128" invocations="179" avgMicrosecondsPerInvocation="716" maxMicrosecondsPerInvocation="10909" standardDeviationMircosecondsPerInvocation="1520"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="114" invocations="203" avgMicrosecondsPerInvocation="563" maxMicrosecondsPerInvocation="60625" standardDeviationMircosecondsPerInvocation="4271"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="96" invocations="166" avgMicrosecondsPerInvocation="579" maxMicrosecondsPerInvocation="21892" standardDeviationMircosecondsPerInvocation="2028"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="91" invocations="256" avgMicrosecondsPerInvocation="356" maxMicrosecondsPerInvocation="55012" standardDeviationMircosecondsPerInvocation="3431"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="88" invocations="48" avgMicrosecondsPerInvocation="1833" maxMicrosecondsPerInvocation="70126" standardDeviationMircosecondsPerInvocation="9972"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="79" invocations="48" avgMicrosecondsPerInvocation="1647" maxMicrosecondsPerInvocation="53309" standardDeviationMircosecondsPerInvocation="7894"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="72" invocations="166" avgMicrosecondsPerInvocation="434" maxMicrosecondsPerInvocation="17690" standardDeviationMircosecondsPerInvocation="1541"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="66" invocations="166" avgMicrosecondsPerInvocation="402" maxMicrosecondsPerInvocation="19965" standardDeviationMircosecondsPerInvocation="2322"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="64" invocations="166" avgMicrosecondsPerInvocation="390" maxMicrosecondsPerInvocation="29447" standardDeviationMircosecondsPerInvocation="2314"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="63" invocations="166" avgMicrosecondsPerInvocation="383" maxMicrosecondsPerInvocation="7649" standardDeviationMircosecondsPerInvocation="861"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="63" invocations="166" avgMicrosecondsPerInvocation="380" maxMicrosecondsPerInvocation="4699" standardDeviationMircosecondsPerInvocation="727"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437745599488" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

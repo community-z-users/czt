@@ -35,7 +35,7 @@ public final class CztDatatypeConverter
 
   public static Digit parseDigit(String s)
   {
-    return Digit.fromValue(Integer.valueOf(s).intValue());
+    return Digit.fromValue(Integer.parseInt(s));
   }
 
   public static String printDigit(Digit digit)

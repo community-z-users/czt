@@ -119,41 +119,51 @@ public enum Section
     return dialect_;
   }
 
-  private static Set<String> stdSect_ = null;
-  public static Set<String> standardSections()
-  {
-    if (stdSect_ == null)
-    {
-      stdSect_ = new HashSet<String>();
-      for(Section s : values())
-      {
-        stdSect_.add(s.getName());
-      }
-    }
-    return Collections.unmodifiableSet(stdSect_);
+  private static class LazySectLoader {
+	  private static Set<String> INSTANCE = createSects();
+	  
+	  private final static Set<String> createSects()
+	  {
+	      Set<String> result = new HashSet<String>();
+	      for(Section s : values())
+	      {
+	        result.add(s.getName());
+	      }	  
+	      return Collections.unmodifiableSet(result);
+	  }
   }
   
-  private static Map<String, Set<String>> stdSectMap_ = null;
+  public static Set<String> standardSections()
+  {
+    return LazySectLoader.INSTANCE;
+  }
+  
+  
+  private static class LazySectByDialectLoader {
+	  private static Map<String, Set<String>> INSTANCE = createSectsByDialect();
+	  
+	  private static Map<String, Set<String>> createSectsByDialect()
+	  {
+	      Map<String, Set<String>> result = new HashMap<String, Set<String>>();
+	      for(Section s : values())
+	      {
+	    	  if (s.dialect_ != null)
+	    	  {
+		    	  Set<String> sects = result.get(s.dialect_);
+		    	  if (sects == null)
+		    	  {
+		    		  sects = new HashSet<String>();
+		    		  result.put(s.dialect_, sects);
+		    	  }
+		    	  sects.add(s.getName());
+	    	  }
+	      }	
+	      return Collections.unmodifiableMap(result);
+	  }
+  }
   public static Set<String> standardSections(String dialect)
   {
-	if (stdSectMap_ == null)
-    {
-      stdSectMap_ = new HashMap<String, Set<String>>();
-      for(Section s : values())
-      {
-    	  if (s.dialect_ != null)
-    	  {
-	    	  Set<String> sects = stdSectMap_.get(s.dialect_);
-	    	  if (sects == null)
-	    	  {
-	    		  sects = new HashSet<String>();
-	    		  stdSectMap_.put(s.dialect_, sects);
-	    	  }
-	    	  sects.add(s.getName());
-    	  }
-      }
-    }
-	assert stdSectMap_.containsKey(dialect);
-    return Collections.unmodifiableSet(stdSectMap_.get(dialect));
+	assert LazySectByDialectLoader.INSTANCE.containsKey(dialect);
+    return Collections.unmodifiableSet(LazySectByDialectLoader.INSTANCE.get(dialect));
   }
 }

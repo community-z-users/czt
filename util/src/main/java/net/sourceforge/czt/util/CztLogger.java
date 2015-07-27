@@ -50,11 +50,11 @@ public final class CztLogger
     return Logger.getLogger(aClass.getName());
   }
   
-  public static boolean DEFAULT_SHOW_LOG_TIME_STAMP     = true;
-  public static boolean DEFAULT_SHOW_LOG_RECORD_MESSAGE = true;
-  public static boolean DEFAULT_SHOW_LOG_SOURCE_METHOD  = false;
-  public static boolean DEFAULT_SHOW_LOG_STACKTRACE     = true;
-  public static Level DEFAULT_HANDLER_LEVEL = Level.CONFIG;
+  public final static boolean DEFAULT_SHOW_LOG_TIME_STAMP     = true;
+  public final static boolean DEFAULT_SHOW_LOG_RECORD_MESSAGE = true;
+  public final static boolean DEFAULT_SHOW_LOG_SOURCE_METHOD  = false;
+  public final static boolean DEFAULT_SHOW_LOG_STACKTRACE     = true;
+  public final static Level DEFAULT_HANDLER_LEVEL = Level.CONFIG;
       
   public static Formatter createLogFormatter()
   {
