@@ -137,7 +137,7 @@ public class ProofScriptParsingTest
     //String s, t = null;
     //s.replaceAll("", "").trim();
     ProofScriptParsingTest test = new ProofScriptParsingTest(DEBUG_TESTING);
-    Test result = test.suite(TEST_DIR, null);
+    Test result = test.cztTestSuite(TEST_DIR, null);
     if (DEBUG_TESTING)
     {
       System.out.println("Number of tests for Z/EVES proofs parsing: " + result.countTestCases());

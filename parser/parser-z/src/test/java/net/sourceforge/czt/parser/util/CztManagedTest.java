@@ -140,22 +140,22 @@ public abstract class CztManagedTest extends TestCase
    * @param negativeTestExceptionClass
    * @return
    */
-  public Test suite(String relativeTestDirectory,
+  public Test cztTestSuite(String relativeTestDirectory,
           Class<? extends Throwable> negativeTestExceptionClass)
   {
-    TestSuite suite = new TestSuite();
+    TestSuite r = new TestSuite();
     try
     {
       for(String dir : relativeTestDirectory.split(File.pathSeparator))
       {
-        collectTests(suite, getClass().getResource(dir), negativeTestExceptionClass);
+        collectTests(r, getClass().getResource(dir), negativeTestExceptionClass);
       }
     }
     catch (IOException e)
     {
       throw new CztException("CZT-TEST-IOERROR = " + relativeTestDirectory, e);
     }
-    return suite;
+    return r;
   }
 
   protected void testing(URL resource, Spec term) throws Exception
@@ -316,27 +316,34 @@ public abstract class CztManagedTest extends TestCase
     testsPath_ = dir.toString();
     setCZTPath();
     String[] content = dir.list();
-    for (String name : content)
+    if (content != null)
     {
-      //if the file name ends with error, then we have a case with
-      //the typechecker should throw the exception specified at the
-      //start of the filename
-      if (includeTest(name, false))
-      {
-        int index = name.indexOf("-");
-        if (index < 1)
-        {
-          fail(name + " does not specify an exception name");
-        }
-        String exception = name.substring(0, index);
-        suite.addTest(createNegativeTest(new URL(url, name), exception, expCls));
-      }
-      //if the file name does not end with error, then we have a
-      //normal case
-      else if (includeTest(name, true))
-      {
-        suite.addTest(createPositiveTest(new URL(url, name)));
-      }
+	    for (String name : content)
+	    {
+	      //if the file name ends with error, then we have a case with
+	      //the typechecker should throw the exception specified at the
+	      //start of the filename
+	      if (includeTest(name, false))
+	      {
+	        int index = name.indexOf("-");
+	        if (index < 1)
+	        {
+	          fail(name + " does not specify an exception name");
+	        }
+	        String exception = name.substring(0, index);
+	        suite.addTest(createNegativeTest(new URL(url, name), exception, expCls));
+	      }
+	      //if the file name does not end with error, then we have a
+	      //normal case
+	      else if (includeTest(name, true))
+	      {
+	        suite.addTest(createPositiveTest(new URL(url, name)));
+	      }
+	    }
+    }
+    else
+    {
+    	throw new IOException("Couldn't get directory contents for " + dir.getName());
     }
   }
 
@@ -548,7 +555,7 @@ public abstract class CztManagedTest extends TestCase
 
     private String removeUnderscore(String string)
     {
-      String result = new String();
+      String result = "";
       for (int i = 0; i < string.length(); i++)
       {
         char c = string.charAt(i);

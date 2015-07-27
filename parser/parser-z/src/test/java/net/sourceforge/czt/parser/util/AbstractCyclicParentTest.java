@@ -78,13 +78,18 @@ public abstract class AbstractCyclicParentTest
       }
       
       File[] files = dir.listFiles();
-      
       List<UrlSource> sources = new ArrayList<UrlSource>();
-      for (File file : files) {
-        URL url = file.toURI().toURL();
-        sources.add(new UrlSource(url));
+      if (files != null)
+      {
+	      for (File file : files) {
+	        URL url = file.toURI().toURL();
+	        sources.add(new UrlSource(url));
+	      }
       }
-      
+      else
+      {
+    	  throw new IOException("Couldn't get list of files for directory " + dir.getName());
+      }
       return sources;
     } catch (Exception ex) {
       throw new RuntimeException("Cannot resolve test files for URL " + dirUrl + "\n" + ex.getMessage(), ex);
@@ -124,7 +129,7 @@ public abstract class AbstractCyclicParentTest
             FileUtils.copyInputStreamToFile(entryInputStream, file);
           }
           finally {
-            entryInputStream.close();
+        	  if (entryInputStream != null) { entryInputStream.close(); }
           }
         }
         else {
