@@ -46,21 +46,21 @@ private final static String SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.zeves.util.ShortDescriptionResourceBundle";
 
   private final static Visitor<String> zShortDescriptionVisitor_ =
-    new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor(
+    new net.sourceforge.czt.zpatt.util.ZPattConcreteSyntaxDescriptionVisitor(
             SHORT_DESCRIPTION_RESOURCE, ZPATT_SHORT_DESCRIPTION_RESOURCE);
   private final static Visitor<String> circusShortDescriptionVisitor_ =
     new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor(
             SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE);
   private final static Visitor<String> zevesShortDescriptionVisitor_ =
-    new net.sourceforge.czt.zeves.util.ConcreteSyntaxDescriptionVisitor(
+    new net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxDescriptionVisitor(
             SHORT_DESCRIPTION_RESOURCE, ZEVES_SHORT_DESCRIPTION_RESOURCE);
 
   private final static Visitor<String> zLongDescriptionVisitor_ =
-    new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor();
+    new net.sourceforge.czt.zpatt.util.ZPattConcreteSyntaxDescriptionVisitor();
   private final static Visitor<String> circusLongDescriptionVisitor_ =
     new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor();
   private final static Visitor<String> zevesLongDescriptionVisitor_ =
-    new net.sourceforge.czt.zeves.util.ConcreteSyntaxDescriptionVisitor();
+    new net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxDescriptionVisitor();
 
 
   private final static Visitor<Term[]> getChildrenVisitor_ =

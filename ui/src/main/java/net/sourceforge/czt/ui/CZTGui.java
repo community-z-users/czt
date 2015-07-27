@@ -59,7 +59,7 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor;
+import net.sourceforge.czt.zpatt.util.ZPattConcreteSyntaxDescriptionVisitor;
 
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.print.util.UnicodeString;
@@ -562,7 +562,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
         node.setToStringVisitor(new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor());
       }
       else {
-        node.setToStringVisitor(new ConcreteSyntaxDescriptionVisitor());
+        node.setToStringVisitor(new ZPattConcreteSyntaxDescriptionVisitor());
       }
       treeView = new JTree(node);
       scrollTreeStructure.setViewportView(treeView);
