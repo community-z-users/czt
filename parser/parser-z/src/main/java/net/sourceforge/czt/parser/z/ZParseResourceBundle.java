@@ -40,6 +40,6 @@ public class ZParseResourceBundle
 
   public Object[][] getContents()
   {
-    return contents_;
+    return contents_.clone();
   }
 }

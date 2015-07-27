@@ -46,7 +46,7 @@ public abstract class CztErrorImpl
     super(locInfo);
     sectInfo_ = si;
     message_ = message;
-    params_ = params;
+    params_ = params.clone();
   }
 
   protected abstract ResourceBundle getResourceBundle();
@@ -111,11 +111,50 @@ public abstract class CztErrorImpl
 
   public int compareTo(CztError other)
   {
-    return compareTo(this, other);
+    return compareCztErrorPositionTypeAndMessage(this, other);
+  }
+  
+  public boolean equals(Object obj)
+  {
+	  if (obj != null &&
+		        this.getClass().equals(obj.getClass())) {
+		  CztErrorImpl cei = (CztErrorImpl)obj;
+		  return compareTo(cei) == 0;
+	  }
+	  return false;
+  }
+  
+  public int hashCode()
+  {
+	  int h = super.hashCode();
+	  h += baseHashCodeCztError(this);
+	  return h;
+  }
+  
+  public static boolean compareCztErrorsEquals(CztError error1, Object error2)
+  {
+	 boolean result = error1 == null && error2 == null;
+	 if (!result)
+	 {
+		 result = error1 != null ? error1.equals(error2) : error2.equals(error1);
+	 }
+	 return result; 
+  }
+  
+  public static int baseHashCodeCztError(CztError error)
+  {
+	  if (error == null) throw new NullPointerException();
+	  int h = error.getLine();
+	  h += error.getColumn();
+	  h += error.getErrorType().hashCode();
+	  h += error.getMessage().hashCode();
+	  return h;
   }
 
-  public static int compareTo(CztError error1, CztError error2)
+  public static int compareCztErrorPositionTypeAndMessage(CztError error1, CztError error2)
   {
+	if (error1 == null || error2 == null)
+		throw new NullPointerException("Cannot compare null CztErrors");
     int result = 0;
     result = error1.getLine() - error2.getLine();
     if (result == 0) {

@@ -239,7 +239,7 @@ private final LocAnn locAnn_;
   @Override
   public int compareTo(CztError o)
   {
-    return CztErrorImpl.compareTo(this, o);
+    return CztErrorImpl.compareCztErrorPositionTypeAndMessage(this, o);
   }
 
 @Override

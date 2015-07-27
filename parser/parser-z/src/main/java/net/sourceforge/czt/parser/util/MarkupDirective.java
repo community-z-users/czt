@@ -167,6 +167,16 @@ public class MarkupDirective
     }
     return false;
   }
+  
+  public int hashCode()
+  {
+	  int h = super.hashCode();
+	  h += command_.hashCode();
+	  h += unicode_.hashCode();
+	  h += type_.hashCode();
+	  h += section_.hashCode();
+	  return h;
+  }
 
   public String toString()
   {

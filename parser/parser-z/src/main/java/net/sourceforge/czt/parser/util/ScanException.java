@@ -127,11 +127,25 @@ public String toString()
   }
 
   @Override
-public int compareTo(CztError other)
+  public int compareTo(CztError other)
   {
-    return CztErrorImpl.compareTo(this, other);
+    return CztErrorImpl.compareCztErrorPositionTypeAndMessage(this, other);
   }
-
+  
+  @Override
+  public boolean equals(Object obj)
+  {
+	 return CztErrorImpl.compareCztErrorsEquals(this, obj);
+  }
+  
+  @Override
+  public int hashCode()
+  {
+	  int h = super.hashCode();
+	  h += CztErrorImpl.baseHashCodeCztError(this);
+	  return h;
+  }
+  
 	@Override
 	public boolean hasSectionInfo() {
 		return false;

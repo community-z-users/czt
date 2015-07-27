@@ -92,7 +92,7 @@ public class TokenSequenceVisitor
   public void end(String s)
   {
     TokenSequence tseq = stack_.pop();
-    if (tseq.getName() != s) throw new IllegalStateException();
+    if (!tseq.getName().equals(s)) throw new IllegalStateException();
     if (stack_.empty()) {
       stack_.push(tseq);
     }
