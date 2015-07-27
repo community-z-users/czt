@@ -31,14 +31,14 @@ import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 
 /**
  * @author Chengdong Xu
  */
 public class NameInfoResolver
 {
-  private static Visitor<String> getTypeNameVisitor_ = new PrintVisitor();
+  private static Visitor<String> getTypeNameVisitor_ = new ZSimplePrintVisitor();
 //  private static final String ID_DELTAXI = "deltaxi"; // special ID for names starting with XI/DELTA
 //  private static final String DELTA = ZString.DELTA;
 //  private static final String XI = ZString.XI;

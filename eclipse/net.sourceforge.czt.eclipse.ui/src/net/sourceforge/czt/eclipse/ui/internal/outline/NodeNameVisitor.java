@@ -127,7 +127,7 @@ public class NodeNameVisitor
    * it returns null instead of class+hex;
    * @author Andrius Velykis
    */
-  public static class PrintVisitor extends net.sourceforge.czt.z.util.PrintVisitor {
+  public static class PrintVisitor extends net.sourceforge.czt.z.util.ZSimplePrintVisitor {
 
     @Override
     public String visitTerm(Term term)

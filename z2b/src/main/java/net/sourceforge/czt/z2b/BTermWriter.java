@@ -26,7 +26,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -583,7 +583,7 @@ public class BTermWriter
 
   public Term visitZName(ZName zName)
   {
-    String name = zName.accept(new PrintVisitor());
+    String name = zName.accept(new ZSimplePrintVisitor());
     sLogger.fine("BTermWriter.visitName(" + zName + ") sees " + name);
     if (name.equals(ZString.EMPTYSET))
       out_.print("{}");
@@ -602,7 +602,7 @@ public class BTermWriter
 
   public Term visitNumExpr(NumExpr e)
   {
-    out_.print(e.getNumeral().accept(new PrintVisitor()));
+    out_.print(e.getNumeral().accept(new ZSimplePrintVisitor()));
     return e;
   }
 

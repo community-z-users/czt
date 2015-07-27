@@ -40,7 +40,7 @@ public class TermLabelVisitorFactory
       SHORT_DESCRIPTION_RESOURCE, ZPATT_SHORT_DESCRIPTION_RESOURCE);
 
   private final static TermVisitor<String> CIRCUS_SHORT_DESC_VISITOR = 
-      new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor(
+      new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor(
       SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE);
 
   private final static TermVisitor<String> CIRCUSTIME_SHORT_DESC_VISITOR = 
@@ -51,7 +51,7 @@ public class TermLabelVisitorFactory
       new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor();
 
   private final static TermVisitor<String> CIRCUS_LONG_DESC_VISITOR = 
-      new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor();
+      new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor();
 
   private static TermVisitor<String> createTermVisitor(String dialect, boolean friendly,
       boolean label)

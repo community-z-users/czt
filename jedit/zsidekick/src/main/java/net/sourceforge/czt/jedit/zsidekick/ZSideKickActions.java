@@ -245,15 +245,15 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
         String message;
         ParsedData parsedData = getParsedData(view);
         if (parsedData == null)
-          message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
+          message = term.accept(new net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor());
         else
         {
           Buffer buffer = getParsedData(view).getBuffer();
           Mode mode = buffer.getMode();
           if (mode != null && mode.getName() != null && mode.getName().startsWith("circus"))
-            message = term.accept(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
+            message = term.accept(new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor());
           else
-            message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
+            message = term.accept(new net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor());
         }
         view.getStatus().setMessage(message);
       }
@@ -291,19 +291,19 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
       net.sourceforge.czt.base.util.BasePrintVisitor visitor = null;
       ParsedData parsedData = getParsedData(view);
       if (parsedData == null)
-        visitor = new net.sourceforge.czt.z.util.PrintVisitor();
+        visitor = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
       else
       {
         Buffer buffer = parsedData.getBuffer();
         Mode mode = buffer.getMode();
         if (mode == null)
-          visitor = new net.sourceforge.czt.z.util.PrintVisitor();
+          visitor = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
         else if (mode.getName().startsWith("circus"))
-          visitor = new net.sourceforge.czt.circus.util.PrintVisitor();
+          visitor = new net.sourceforge.czt.circus.util.CircusSimplePrintVisitor();
         else if (mode.getName().startsWith("oz"))
           visitor = new net.sourceforge.czt.oz.util.PrintVisitor();
         else //if (mode.getName().startsWith("z"))
-          visitor = new net.sourceforge.czt.z.util.PrintVisitor();
+          visitor = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
       }
       final String text = type.accept(visitor);
       final JEditTextArea textArea = view.getTextArea();

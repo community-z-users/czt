@@ -80,7 +80,7 @@ import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
@@ -727,7 +727,7 @@ public AlloyExpr visitZSect(ZSect zSect) {
     System.out.println("Debug: " + foo);
   }
 
-  class AlloyPrintVisitor extends PrintVisitor implements
+  class AlloyPrintVisitor extends ZSimplePrintVisitor implements
   DecorExprVisitor<String>, RefExprVisitor<String>, StrokeVisitor<String> {
     @Override
 	public String visitZName(ZName zName) {

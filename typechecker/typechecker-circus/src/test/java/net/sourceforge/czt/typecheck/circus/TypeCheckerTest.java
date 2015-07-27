@@ -28,7 +28,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.circus.util.PrintVisitor;
+import net.sourceforge.czt.circus.util.CircusSimplePrintVisitor;
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.session.Dialect;
 import net.sourceforge.czt.session.Markup;
@@ -107,7 +107,7 @@ public class TypeCheckerTest
   public TypeCheckerTest(Dialect dialect, boolean recursiveTypes)
   {
     super(dialect, false, recursiveTypes);
-    printer_ = new net.sourceforge.czt.circus.util.PrintVisitor();
+    printer_ = new net.sourceforge.czt.circus.util.CircusSimplePrintVisitor();
   }
   
   protected void collectTests(TestSuite suite, List<String> directoryNames) 
@@ -212,9 +212,9 @@ public class TypeCheckerTest
     }
   }
   
-  protected PrintVisitor getCircusPrinter()
+  protected CircusSimplePrintVisitor getCircusPrinter()
   {
-	  return (PrintVisitor)printer_;
+	  return (CircusSimplePrintVisitor)printer_;
   }
   
   protected Term parse(String file, SectionManager manager)
@@ -224,7 +224,7 @@ public class TypeCheckerTest
     if (VERBOSE) { System.out.println("\tabout to parse as " + Markup.getMarkup(file) + " file " + file); }
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
-        PrintVisitor pv = getCircusPrinter();
+        CircusSimplePrintVisitor pv = getCircusPrinter();
         System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + file);        
         System.out.println(pv.printProcessPara(term));
         System.out.println();

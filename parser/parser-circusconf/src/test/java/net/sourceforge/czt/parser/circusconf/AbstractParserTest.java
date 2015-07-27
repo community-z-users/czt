@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.circus.util.PrintVisitor;
+import net.sourceforge.czt.circus.util.CircusSimplePrintVisitor;
 import net.sourceforge.czt.circusconf.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.circusconf.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.circus.ParseErrorLogging;
@@ -120,7 +120,7 @@ public abstract class AbstractParserTest extends TestCase
     Term term = ParseUtils.parse(source, manager_);    
     if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
-        PrintVisitor pv = new PrintVisitor();
+        CircusSimplePrintVisitor pv = new CircusSimplePrintVisitor();
         System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + source);        
         System.out.println(pv.printProcessPara(term));
         System.out.println();

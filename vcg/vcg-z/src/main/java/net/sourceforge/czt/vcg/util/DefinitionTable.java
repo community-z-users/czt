@@ -46,7 +46,7 @@ import net.sourceforge.czt.z.ast.PreExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.util.ZUtils;
 
 
@@ -65,7 +65,7 @@ public class DefinitionTable extends InfoTable
   /**
    * console printing visitor
    */
-  protected static final PrintVisitor printVisitor_ = new PrintVisitor(DEFTBL_PRINTVISITOR_UNICODE);
+  protected static final ZSimplePrintVisitor printVisitor_ = new ZSimplePrintVisitor(DEFTBL_PRINTVISITOR_UNICODE);
 
   /**
    * Records all operators defined in this section.

@@ -51,7 +51,7 @@ import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.visitor.BindExprVisitor;
 import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
 import net.sourceforge.czt.z.visitor.QntExprVisitor;
@@ -148,7 +148,7 @@ public final class Preprocess
      */
     private List<Map<String,ZName>> seen;
 
-    PrintVisitor printer = new PrintVisitor(false);
+    ZSimplePrintVisitor printer = new ZSimplePrintVisitor(false);
 
     public FixIdVisitor()
     {

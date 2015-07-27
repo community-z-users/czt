@@ -35,7 +35,7 @@ import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
@@ -265,7 +265,7 @@ public class TermHighlightInfoVisitor
     TypeAnn typeann = expr.getAnn(TypeAnn.class);
     String type = null;
     if (typeann != null)
-      type = typeann.getType().accept(new PrintVisitor());
+      type = typeann.getType().accept(new ZSimplePrintVisitor());
     if (type != null)
       result = result.concat("\nIts type is " + type);
 

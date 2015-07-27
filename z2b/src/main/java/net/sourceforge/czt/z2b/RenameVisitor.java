@@ -23,7 +23,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
 
 
@@ -65,7 +65,7 @@ public class RenameVisitor
   /** This visit method performs the renaming. */
   public Term visitName(Name name)
   {
-    String strName = name.accept(new PrintVisitor());
+    String strName = name.accept(new ZSimplePrintVisitor());
     if (subs_.containsKey(strName)) {
       return subs_.get(strName);
     }

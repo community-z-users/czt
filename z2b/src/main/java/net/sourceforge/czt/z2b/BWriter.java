@@ -304,7 +304,7 @@ public class BWriter extends PrintWriter
    */
   static public String bName(ZName name)
   {
-    return bName(name.accept(new PrintVisitor()));
+    return bName(name.accept(new ZSimplePrintVisitor()));
   }
 
   /** Convert a string into a legal B name

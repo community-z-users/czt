@@ -30,7 +30,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -49,7 +49,7 @@ public class DefinitionTableVisitor
              ZSectVisitor<Object>
 {
   private DefinitionTable table_;
-  private final PrintVisitor printVisitor_;
+  private final ZSimplePrintVisitor printVisitor_;
   
   /** The name of the section whose paragraphs are being processed. */
   private String sectName_;
@@ -63,7 +63,7 @@ public class DefinitionTableVisitor
   public DefinitionTableVisitor(SectionInfo sectInfo)
   {
     super(sectInfo);
-    printVisitor_ = new PrintVisitor();
+    printVisitor_ = new ZSimplePrintVisitor();
   }
 
   @Override

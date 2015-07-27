@@ -2,7 +2,7 @@
 package net.sourceforge.czt.eclipse.ui.internal.editors.parser;
 
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 
 /**
  * @author Chengdong Xu
@@ -76,7 +76,7 @@ public class NameInfo
 
   public String toString()
   {
-    return "(" + name_.accept(new PrintVisitor()) + ", " + section_ + ", " + type_ + ")";
+    return "(" + name_.accept(new ZSimplePrintVisitor()) + ", " + section_ + ", " + type_ + ")";
   }
 
 }

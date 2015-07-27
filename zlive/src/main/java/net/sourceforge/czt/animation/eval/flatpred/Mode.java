@@ -24,7 +24,7 @@ import java.util.Set;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 
 /** A Mode object contains information about one way of executing a FlatPred.
     It contains statistics about the number of solutions expected when
@@ -161,7 +161,7 @@ public class Mode
   {
     StringBuffer result = new StringBuffer();
     result.append("Mode{");
-    PrintVisitor printVisitor =  new PrintVisitor(false);
+    ZSimplePrintVisitor printVisitor =  new ZSimplePrintVisitor(false);
     for (ZName name : postEnvir_.definedSince(preEnvir_)) {
       result.append(name.accept(printVisitor));
       result.append(" ");

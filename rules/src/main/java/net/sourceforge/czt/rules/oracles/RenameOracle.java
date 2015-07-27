@@ -32,7 +32,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -93,11 +93,11 @@ public class RenameOracle
       renameList_ = renameList;
       Map<String,Name> names = new HashMap<String,Name>();
       for (Name name: declNames) {
-	names.put(name.accept(new PrintVisitor()), name);
+	names.put(name.accept(new ZSimplePrintVisitor()), name);
       }
       for (NewOldPair pair : renameList) {
 	Name old =
-	  names.get(pair.getName().get(1).accept(new PrintVisitor()));
+	  names.get(pair.getName().get(1).accept(new ZSimplePrintVisitor()));
 	if (old != null) {
 	  map_.put(old, (Name) pair.getName().get(0));
 	}

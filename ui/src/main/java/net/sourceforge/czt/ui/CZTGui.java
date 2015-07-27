@@ -559,7 +559,7 @@ public class CZTGui implements ActionListener,HyperlinkListener
         manager.get(new Key<Spec>(loadSource.getName(), Spec.class));
       TermTreeNode node = new TermTreeNode(0, spec, null);
       if ("circus".equals(selectedLanguage)) {
-        node.setToStringVisitor(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
+        node.setToStringVisitor(new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor());
       }
       else {
         node.setToStringVisitor(new ConcreteSyntaxDescriptionVisitor());
