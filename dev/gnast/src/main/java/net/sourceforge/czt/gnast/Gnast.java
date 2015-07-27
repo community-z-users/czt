@@ -325,6 +325,10 @@ public class Gnast implements GlobalProperties
 	      }
 	    }
     }
+    else
+    {
+    	throw new IllegalArgumentException("Couldn't get list of files for given path " + dir.getName());
+    }
     return fileUrls;
   }
 
