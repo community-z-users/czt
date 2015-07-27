@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438009584666" analysisTimestamp="1438009584268" release="">
+  <Project projectName="parsergen-maven-plugin">
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/parsergen-maven-plugin/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/parsergen-maven-plugin/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/parsergen-maven-plugin/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-plugin-api/2.0.6/maven-plugin-api-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/plugin-tools/maven-plugin-annotations/3.2/maven-plugin-annotations-3.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-artifact/3.0/maven-artifact-3.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-project/2.0.6/maven-project-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-settings/2.0.6/maven-settings-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-profile/2.0.6/maven-profile-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-model/2.0.6/maven-model-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-artifact-manager/2.0.6/maven-artifact-manager-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-repository-metadata/2.0.6/maven-repository-metadata-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-2/wagon-provider-api-1.0-beta-2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-plugin-registry/2.0.6/maven-plugin-registry-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-container-default/1.5.5/plexus-container-default-1.5.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.2.2/plexus-classworlds-2.2.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/log4j/log4j/1.2.12/log4j-1.2.12.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/com/google/collections/google-collections/1.0/google-collections-1.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.4/plexus-utils-3.0.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-resources/1.0-alpha-7/plexus-resources-1.0-alpha-7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/parsergen-maven-plugin/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/parsergen-maven-plugin/src/main/resources</SrcDir>
+    <SrcDir>/parsergen-maven-plugin/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 16:05:47 +0100" total_classes="1" referenced_classes="45" total_bugs="0" total_size="117" num_packages="1" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="4.26" clock_seconds="9.89" peak_mbytes="1538.62" alloc_mbytes="1011.50" gc_seconds="0.00">
+    <PackageStats package="net.sourceforge.czt.parsergen.maven" total_bugs="0" total_types="1" total_size="117">
+      <ClassStats class="net.sourceforge.czt.parsergen.maven.ParserGenMojo" sourceFile="ParserGenMojo.java" interface="false" size="117" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="81" invocations="460" avgMicrosecondsPerInvocation="177" maxMicrosecondsPerInvocation="3386" standardDeviationMircosecondsPerInvocation="355"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="80" invocations="463" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="373" standardDeviationMircosecondsPerInvocation="38"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="75" invocations="2" avgMicrosecondsPerInvocation="37695" maxMicrosecondsPerInvocation="47821" standardDeviationMircosecondsPerInvocation="10127"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="16" invocations="45" avgMicrosecondsPerInvocation="363" maxMicrosecondsPerInvocation="2809" standardDeviationMircosecondsPerInvocation="639"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="15" invocations="45" avgMicrosecondsPerInvocation="353" maxMicrosecondsPerInvocation="3339" standardDeviationMircosecondsPerInvocation="686"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="12" invocations="425" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="503" standardDeviationMircosecondsPerInvocation="51"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438009584666" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

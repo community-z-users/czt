@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438009422788" analysisTimestamp="1438009421793" release="">
+  <Project projectName="java-cup-runtime">
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/classes</Jar>
+    <Jar>/java-cup-runtime/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/src/main/java</SrcDir>
+    <SrcDir>/java-cup-runtime/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" priority="2" rank="11" abbrev="RCN" category="CORRECTNESS" first="1">
+    <Class classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol">
+      <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java"/>
+    </Class>
+    <Method classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" name="&lt;init&gt;" signature="(Ljava/lang/String;ILjava_cup/runtime/Symbol;Ljava_cup/runtime/Symbol;)V" isStatic="false">
+      <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="65" end="69" startBytecode="0" endBytecode="172" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java"/>
+    </Method>
+    <LocalVariable name="left" register="3" pc="13" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="65" end="65" startBytecode="5" endBytecode="5" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java"/>
+    <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="67" end="67" startBytecode="14" endBytecode="14" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="67" end="67" startBytecode="14" endBytecode="14" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" priority="2" rank="11" abbrev="RCN" category="CORRECTNESS" first="1">
+    <Class classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol">
+      <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java"/>
+    </Class>
+    <Method classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" name="&lt;init&gt;" signature="(Ljava/lang/String;ILjava_cup/runtime/Symbol;Ljava_cup/runtime/Symbol;)V" isStatic="false">
+      <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="65" end="69" startBytecode="0" endBytecode="172" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java"/>
+    </Method>
+    <LocalVariable name="right" register="4" pc="28" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="65" end="65" startBytecode="5" endBytecode="5" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java"/>
+    <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="68" end="68" startBytecode="30" endBytecode="30" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" start="68" end="68" startBytecode="30" endBytecode="30" sourcefile="ComplexSymbolFactory.java" sourcepath="java_cup/runtime/ComplexSymbolFactory.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" priority="2" rank="18" abbrev="UrF" category="STYLE" first="1">
+    <Class classname="java_cup.runtime.Symbol">
+      <SourceLine classname="java_cup.runtime.Symbol" sourcefile="Symbol.java" sourcepath="java_cup/runtime/Symbol.java"/>
+    </Class>
+    <Field classname="java_cup.runtime.Symbol" name="value" signature="Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="java_cup.runtime.Symbol" sourcefile="Symbol.java" sourcepath="java_cup/runtime/Symbol.java"/>
+    </Field>
+    <SourceLine classname="java_cup.runtime.Symbol" start="45" end="45" startBytecode="18" endBytecode="18" sourcefile="Symbol.java" sourcepath="java_cup/runtime/Symbol.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.runtime.virtual_parse_stack">
+      <SourceLine classname="java_cup.runtime.virtual_parse_stack" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+    </Class>
+    <Method classname="java_cup.runtime.virtual_parse_stack" name="get_from_real" signature="()V" isStatic="false">
+      <SourceLine classname="java_cup.runtime.virtual_parse_stack" start="84" end="94" startBytecode="0" endBytecode="146" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.runtime.virtual_parse_stack" start="93" end="93" startBytecode="62" endBytecode="62" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+    <SourceLine classname="java_cup.runtime.virtual_parse_stack" start="93" end="93" startBytecode="62" endBytecode="62" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.runtime.virtual_parse_stack">
+      <SourceLine classname="java_cup.runtime.virtual_parse_stack" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+    </Class>
+    <Method classname="java_cup.runtime.virtual_parse_stack" name="push" signature="(I)V" isStatic="false">
+      <SourceLine classname="java_cup.runtime.virtual_parse_stack" start="140" end="141" startBytecode="0" endBytecode="72" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.runtime.virtual_parse_stack" start="140" end="140" startBytecode="9" endBytecode="9" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+    <SourceLine classname="java_cup.runtime.virtual_parse_stack" start="140" end="140" startBytecode="9" endBytecode="9" sourcefile="virtual_parse_stack.java" sourcepath="java_cup/runtime/virtual_parse_stack.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 14:41:16 +0100" total_classes="9" referenced_classes="24" total_bugs="5" total_size="540" num_packages="1" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="607.43" clock_seconds="1047.34" peak_mbytes="1538.62" alloc_mbytes="1011.00" gc_seconds="13.93" priority_2="5">
+    <PackageStats package="java_cup.runtime" total_bugs="5" total_types="9" total_size="540" priority_2="5">
+      <ClassStats class="java_cup.runtime.ComplexSymbolFactory" sourceFile="ComplexSymbolFactory.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="java_cup.runtime.ComplexSymbolFactory$ComplexSymbol" sourceFile="ComplexSymbolFactory.java" interface="false" size="47" bugs="2" priority_2="2"/>
+      <ClassStats class="java_cup.runtime.ComplexSymbolFactory$Location" sourceFile="ComplexSymbolFactory.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="java_cup.runtime.DefaultSymbolFactory" sourceFile="DefaultSymbolFactory.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="java_cup.runtime.Scanner" sourceFile="Scanner.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="java_cup.runtime.Symbol" sourceFile="Symbol.java" interface="false" size="38" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.runtime.SymbolFactory" sourceFile="SymbolFactory.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="java_cup.runtime.lr_parser" sourceFile="lr_parser.java" interface="false" size="352" bugs="0"/>
+      <ClassStats class="java_cup.runtime.virtual_parse_stack" sourceFile="virtual_parse_stack.java" interface="false" size="35" bugs="2" priority_2="2"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="219" invocations="2" avgMicrosecondsPerInvocation="109914" maxMicrosecondsPerInvocation="208083" standardDeviationMircosecondsPerInvocation="98169"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="90" invocations="355" avgMicrosecondsPerInvocation="254" maxMicrosecondsPerInvocation="4532" standardDeviationMircosecondsPerInvocation="493"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="83" invocations="358" avgMicrosecondsPerInvocation="231" maxMicrosecondsPerInvocation="5635" standardDeviationMircosecondsPerInvocation="308"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="42" invocations="94" avgMicrosecondsPerInvocation="454" maxMicrosecondsPerInvocation="32841" standardDeviationMircosecondsPerInvocation="3435"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="42" invocations="85" avgMicrosecondsPerInvocation="496" maxMicrosecondsPerInvocation="9159" standardDeviationMircosecondsPerInvocation="1393"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="28" invocations="150" avgMicrosecondsPerInvocation="190" maxMicrosecondsPerInvocation="3311" standardDeviationMircosecondsPerInvocation="404"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="28" invocations="79" avgMicrosecondsPerInvocation="359" maxMicrosecondsPerInvocation="5980" standardDeviationMircosecondsPerInvocation="982"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="27" invocations="79" avgMicrosecondsPerInvocation="343" maxMicrosecondsPerInvocation="4257" standardDeviationMircosecondsPerInvocation="783"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="26" invocations="79" avgMicrosecondsPerInvocation="337" maxMicrosecondsPerInvocation="5637" standardDeviationMircosecondsPerInvocation="730"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="21" invocations="65" avgMicrosecondsPerInvocation="331" maxMicrosecondsPerInvocation="5602" standardDeviationMircosecondsPerInvocation="863"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="20" invocations="79" avgMicrosecondsPerInvocation="253" maxMicrosecondsPerInvocation="4068" standardDeviationMircosecondsPerInvocation="647"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DoInsideDoPrivileged" totalMilliseconds="17" invocations="9" avgMicrosecondsPerInvocation="1997" maxMicrosecondsPerInvocation="17416" standardDeviationMircosecondsPerInvocation="5452"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="16" invocations="24" avgMicrosecondsPerInvocation="687" maxMicrosecondsPerInvocation="5339" standardDeviationMircosecondsPerInvocation="1158"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="14" invocations="9" avgMicrosecondsPerInvocation="1620" maxMicrosecondsPerInvocation="10950" standardDeviationMircosecondsPerInvocation="3354"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="14" invocations="322" avgMicrosecondsPerInvocation="45" maxMicrosecondsPerInvocation="669" standardDeviationMircosecondsPerInvocation="76"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="13" invocations="9" avgMicrosecondsPerInvocation="1510" maxMicrosecondsPerInvocation="11099" standardDeviationMircosecondsPerInvocation="3397"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="13" invocations="24" avgMicrosecondsPerInvocation="544" maxMicrosecondsPerInvocation="5364" standardDeviationMircosecondsPerInvocation="1095"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FormatStringChecker" totalMilliseconds="12" invocations="9" avgMicrosecondsPerInvocation="1444" maxMicrosecondsPerInvocation="12214" standardDeviationMircosecondsPerInvocation="3808"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="11" invocations="79" avgMicrosecondsPerInvocation="151" maxMicrosecondsPerInvocation="1441" standardDeviationMircosecondsPerInvocation="264"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438009422788" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>
