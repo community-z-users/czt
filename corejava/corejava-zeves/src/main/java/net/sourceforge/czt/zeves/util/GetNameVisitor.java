@@ -28,7 +28,7 @@ import net.sourceforge.czt.zeves.visitor.ProofScriptVisitor;
  * @date Jul 8, 2011
  */
 public class GetNameVisitor 
-extends net.sourceforge.czt.z.util.GetNameVisitor
+extends net.sourceforge.czt.z.util.ZGetNameVisitor
 implements ProofScriptVisitor<String>
 {
 

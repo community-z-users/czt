@@ -26,7 +26,7 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * @author Petra Malik
  */
 public class GetNameVisitor
-  extends net.sourceforge.czt.z.util.GetNameVisitor
+  extends net.sourceforge.czt.z.util.ZGetNameVisitor
   implements RuleVisitor<String>
 {
   public String visitRule(Rule rule)

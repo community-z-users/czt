@@ -57,7 +57,7 @@ public class CircusConfChar extends CircusPattChar
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  public static CircusConfChar </xsl:text>
+  public static final CircusConfChar </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = new CircusConfChar(Character.toChars(0x</xsl:text>
     <xsl:value-of select="@hex"/>

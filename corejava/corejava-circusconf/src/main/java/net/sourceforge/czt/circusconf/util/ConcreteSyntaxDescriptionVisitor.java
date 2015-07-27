@@ -28,7 +28,7 @@ import net.sourceforge.czt.util.Visitor;
  * @author Petra Malik
  */
 public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor
+  extends net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
     "net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle";

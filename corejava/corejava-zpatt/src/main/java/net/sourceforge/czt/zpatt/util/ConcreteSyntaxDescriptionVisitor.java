@@ -28,7 +28,7 @@ import net.sourceforge.czt.util.Visitor;
  * @author Petra Malik
  */
 public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor
+  extends net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
     "net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle";

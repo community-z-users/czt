@@ -23,7 +23,7 @@ import net.sourceforge.czt.circusconf.visitor.CircusConfVisitor;
  * @author Leo Freitas
  */
 public class PrintVisitor
-  extends net.sourceforge.czt.circus.util.PrintVisitor
+  extends net.sourceforge.czt.circus.util.CircusSimplePrintVisitor
  // implements any element you want to have toString capability for CircusTime
   implements CircusConfVisitor<String>
 {

@@ -93,7 +93,7 @@ import net.sourceforge.czt.zeves.visitor.ZEvesVisitor;
  * @date Jun 27, 2011
  */
 public class PrintVisitor
-        extends net.sourceforge.czt.z.util.PrintVisitor
+        extends net.sourceforge.czt.z.util.ZSimplePrintVisitor
         implements ZEvesVisitor<String>,
         LatexMarkupParaVisitor<String>,
         SpecVisitor<String>,

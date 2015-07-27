@@ -20,7 +20,7 @@
 package net.sourceforge.czt.circustime.util;
 
 public class GetNameVisitor
-  extends net.sourceforge.czt.z.util.GetNameVisitor
+  extends net.sourceforge.czt.z.util.ZGetNameVisitor
 /*  implements  ADD HERE ANY ACTIONS/PROCESSES WITH NAMES */
 {
 }
