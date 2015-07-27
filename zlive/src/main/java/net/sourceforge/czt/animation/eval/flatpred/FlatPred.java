@@ -29,7 +29,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatPredVisitor;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
  Each flattened predicate can be evaluated in one or more different
@@ -91,7 +91,7 @@ public abstract class FlatPred
   protected int solutionsReturned_ = -1;
 
   /** A non-unicode print visitor used for debug and toString messages. */
-  protected static ZSimplePrintVisitor printer_ = new ZSimplePrintVisitor(false);
+  protected static PrintVisitor printer_ = new PrintVisitor(false);
 
   /** Default constructor for subclasses to call. */
   protected FlatPred()

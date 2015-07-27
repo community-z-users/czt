@@ -80,7 +80,7 @@ import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
@@ -161,7 +161,7 @@ public class Z2B
       if (stateSchemas.size() > 1) {
         msg.append("  Possible candidates are: ");
         for (NameSectTypeTriple triple : stateSchemas) {
-          msg.append(triple.getName().accept(new ZSimplePrintVisitor()) + " ");
+          msg.append(triple.getName().accept(new PrintVisitor()) + " ");
         }
       }
       throw new BException(msg.toString());
@@ -179,7 +179,7 @@ public class Z2B
       if (stateSchemas.size() > 1) {
         msg.append("  Possible candidates are: ");
         for (NameSectTypeTriple triple : stateSchemas) {
-          msg.append(triple.getName().accept(new ZSimplePrintVisitor()) + " ");
+          msg.append(triple.getName().accept(new PrintVisitor()) + " ");
         }
       }
       throw new BException(msg.toString());
@@ -258,7 +258,7 @@ public class Z2B
     String sectName = triple.getSect();
     DefinitionTable defTable = 
       manager_.get(new Key<DefinitionTable>(sectName, DefinitionTable.class));
-    String name = triple.getName().accept(new ZSimplePrintVisitor());
+    String name = triple.getName().accept(new PrintVisitor());
 
     //Expr result = defTable.lookup(name).getExpr();
     
@@ -323,7 +323,7 @@ public class Z2B
   protected BOperation operation(NameSectTypeTriple triple)
     throws CommandException
   {
-    final String opName = triple.getName().accept(new ZSimplePrintVisitor());
+    final String opName = triple.getName().accept(new PrintVisitor());
     System.out.println("Processing " + opName);
     final BOperation op = new BOperation(opName, mach_);
     final ZSchText zSchText = ((SchExpr) lookup(triple)).getZSchText();
@@ -366,7 +366,7 @@ public class Z2B
                             List<String> names,
                             List<Pred> preds)
   {
-    names.add(zName.accept(new ZSimplePrintVisitor()));
+    names.add(zName.accept(new PrintVisitor()));
     preds.add(getFactory().createMemPred(zName, expr));
   }
 
@@ -486,7 +486,7 @@ public Object visitGivenPara(GivenPara para)
   {
     Map<String,List<String>> sets = mach_.getSets();
     for (Name name : para.getNames()) {
-      sets.put(name.accept(new ZSimplePrintVisitor()), null);
+      sets.put(name.accept(new PrintVisitor()), null);
     }
     return null;
   }
@@ -531,10 +531,10 @@ public Object visitFreetype(Freetype freetype)
         throw new BException("free types must be simple enumerations, but "
 			     +branch.getName()+" branch has expression "
 			     +branch.getExpr());
-      contents.add(branch.getName().accept(new ZSimplePrintVisitor()));
+      contents.add(branch.getName().accept(new PrintVisitor()));
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
-    sets.put(freetype.getName().accept(new ZSimplePrintVisitor()), contents);
+    sets.put(freetype.getName().accept(new PrintVisitor()), contents);
     return null;
   }
 
@@ -603,7 +603,7 @@ public Object visitConstDecl(ConstDecl decl)
     boolean isSchema = typeAnn.getType() instanceof PowerType &&
       ((PowerType) typeAnn.getType()).getType() instanceof SchemaType;
     if ( ! isSchema) {
-      String name = decl.getName().accept(new ZSimplePrintVisitor());
+      String name = decl.getName().accept(new PrintVisitor());
       mach_.getDefns().put(name, decl.getExpr());
     }
     return null;

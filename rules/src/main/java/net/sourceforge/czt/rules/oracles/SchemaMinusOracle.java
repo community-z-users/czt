@@ -32,7 +32,7 @@ import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
@@ -56,7 +56,7 @@ public class SchemaMinusOracle
     for (Decl decl : decls2) {
       if (! (decl instanceof VarDecl)) return null;
       VarDecl vdecl = (VarDecl) decl;
-      String name = vdecl.getName().get(0).accept(new ZSimplePrintVisitor());
+      String name = vdecl.getName().get(0).accept(new PrintVisitor());
       map2.put(name,vdecl.getExpr());
     }
     // now go through decls1, and filter out any names in map2
@@ -64,7 +64,7 @@ public class SchemaMinusOracle
     for (Decl decl : decls1) {
       if (! (decl instanceof VarDecl)) return null;
       VarDecl vdecl = (VarDecl) decl;
-      String name = vdecl.getName().get(0).accept(new ZSimplePrintVisitor());
+      String name = vdecl.getName().get(0).accept(new PrintVisitor());
       if (map2.containsKey(name)) {
         assert map2.get(name).equals(vdecl.getExpr());
       }

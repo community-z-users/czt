@@ -97,7 +97,7 @@ public class TypeCheckerTest
     useBeforeDecl_ = useBeforeDecl;
     recursiveTypes_ = recursiveTypes;
     manager_ = new SectionManager(dialect);
-    printer_ = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
+    printer_ = new net.sourceforge.czt.z.util.PrintVisitor();
   }
 
   /**

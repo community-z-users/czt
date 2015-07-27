@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** A comparator for evaluated Z expressions.
  *  The compare method defines a total order over evaluated Z expressions,
@@ -89,7 +89,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
 
     public int compare(ConstDecl cdecl0, ConstDecl cdecl1)
     {
-      ZSimplePrintVisitor printVisitor = new ZSimplePrintVisitor(false);
+      PrintVisitor printVisitor = new PrintVisitor(false);
       String name0 = cdecl0.getZName().accept(printVisitor);
       String name1 = cdecl1.getZName().accept(printVisitor);
       return name0.compareTo(name1);
@@ -126,7 +126,7 @@ public class ExprComparator implements Comparator<Expr>, Serializable
    */
   public int compare(Expr arg0, Expr arg1)
   {
-    ZSimplePrintVisitor printVisitor = new ZSimplePrintVisitor(false);
+    PrintVisitor printVisitor = new PrintVisitor(false);
     int type0 = exprType(arg0);
     int type1 = exprType(arg1);
     int result = sign(type0 - type1);

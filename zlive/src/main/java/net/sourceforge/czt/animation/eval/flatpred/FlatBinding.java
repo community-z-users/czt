@@ -33,7 +33,7 @@ import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /**
  * Evaluates ZBinding terms.
@@ -51,7 +51,7 @@ public class FlatBinding extends FlatPred
   private List<ZName> bindNames_;
 
   /** Used for converting ZNames into strings. */
-  private ZSimplePrintVisitor namePrinter = new ZSimplePrintVisitor(false);
+  private PrintVisitor namePrinter = new PrintVisitor(false);
 
   /** Constructs a FlatBinding FlatPred.
    @param names The list of names in the binding (name1,name2,...nameN). (no duplicates)

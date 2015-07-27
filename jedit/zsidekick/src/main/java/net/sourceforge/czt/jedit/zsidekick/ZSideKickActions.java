@@ -291,19 +291,19 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
       net.sourceforge.czt.base.util.BasePrintVisitor visitor = null;
       ParsedData parsedData = getParsedData(view);
       if (parsedData == null)
-        visitor = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
+        visitor = new net.sourceforge.czt.z.util.PrintVisitor();
       else
       {
         Buffer buffer = parsedData.getBuffer();
         Mode mode = buffer.getMode();
         if (mode == null)
-          visitor = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
+          visitor = new net.sourceforge.czt.z.util.PrintVisitor();
         else if (mode.getName().startsWith("circus"))
-          visitor = new net.sourceforge.czt.circus.util.CircusSimplePrintVisitor();
+          visitor = new net.sourceforge.czt.circus.util.PrintVisitor();
         else if (mode.getName().startsWith("oz"))
           visitor = new net.sourceforge.czt.oz.util.PrintVisitor();
         else //if (mode.getName().startsWith("z"))
-          visitor = new net.sourceforge.czt.z.util.ZSimplePrintVisitor();
+          visitor = new net.sourceforge.czt.z.util.PrintVisitor();
       }
       final String text = type.accept(visitor);
       final JEditTextArea textArea = view.getTextArea();

@@ -29,7 +29,7 @@ import net.sourceforge.czt.rules.prover.ProverUtils;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
@@ -49,12 +49,12 @@ public class HideOracle
 
     ZDeclList result = factory_.createZDeclList();
     for (Name name : nameList) {
-      String string = name.accept(new ZSimplePrintVisitor());
+      String string = name.accept(new PrintVisitor());
       for (Decl decl : d1) {
 	if (decl instanceof VarDecl) {
 	  VarDecl varDecl = (VarDecl) decl;
 	  Name n = varDecl.getName().get(0);
-	  if (string.equals(n.accept(new ZSimplePrintVisitor()))) {
+	  if (string.equals(n.accept(new PrintVisitor()))) {
 	    result.add(decl);
 	  }
 	}

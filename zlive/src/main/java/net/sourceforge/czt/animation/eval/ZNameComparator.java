@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** A comparator for evaluated ZNames.
  *  This compares two names by converting them to strings first,
@@ -50,7 +50,7 @@ public class ZNameComparator implements Comparator<ZName>, Serializable
    */
   public int compare(ZName var0, ZName var1)
   {
-    ZSimplePrintVisitor printVisitor = new ZSimplePrintVisitor(false);
+    PrintVisitor printVisitor = new PrintVisitor(false);
     String name0 = var0.accept(printVisitor);
     String name1 = var1.accept(printVisitor);
     return name0.compareTo(name1);

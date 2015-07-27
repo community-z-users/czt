@@ -41,7 +41,7 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxSymbol;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.SyntaxSymbolVisitor;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -177,7 +177,7 @@ private SimpleProver prover_;
   @SuppressWarnings("unused")
 private void checkTypes(Term term1, Term term2)
   {
-    ZSimplePrintVisitor printer = new ZSimplePrintVisitor();
+    PrintVisitor printer = new PrintVisitor();
     printer.setPrintIds(true);
     if (term1 == null || term2 == null) return;
     TypeAnn type1 = term1.getAnn(TypeAnn.class);

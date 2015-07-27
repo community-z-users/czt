@@ -54,7 +54,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** This is the main class of the ZLive animator.
  *  It can be used directly by other Java programs that
@@ -125,7 +125,7 @@ public class ZLive
     // Make a factory that prints names in ASCII, not Unicode
     // (This is better for debugging and for console output).
     ZFactoryImpl tmp = new ZFactoryImpl();
-    tmp.setToStringVisitor(new ZSimplePrintVisitor(false));
+    tmp.setToStringVisitor(new PrintVisitor(false));
     factory_ = new Factory(tmp);
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager(Dialect.ZPATT);

@@ -23,7 +23,7 @@ import java.util.Stack;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZChar;
 
 /**
@@ -57,7 +57,7 @@ public class Decorword
   {
     word_ = word;
     strokes_ = strokes;
-    name_ = word + strokes.accept(new ZSimplePrintVisitor());
+    name_ = word + strokes.accept(new PrintVisitor());
   }
 
   public Decorword(String decorword, LocInfo locInfo)
