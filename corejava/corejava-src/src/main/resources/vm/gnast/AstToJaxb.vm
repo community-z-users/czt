@@ -281,7 +281,11 @@ public class $class.Name
 ##// #end
 ##// --------------------------------------
 
-  
+##// #foreach($c in $classes)
+##// #if(!$c.Abstract)
+##// ${c.getName()}.getNSAcronymn() = ${c.getNSAcronymn()}
+##// #end
+##// #end  
   
 #else
   implements ${visitor.FullName}<javax.xml.bind.JAXBElement<? extends net.sourceforge.czt.z.jaxb.gen.Term>>,
