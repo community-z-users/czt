@@ -288,7 +288,7 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
   {
     Type type = getTypeForCurrentWff(view);
     if (type != null) {
-      net.sourceforge.czt.base.util.PrintVisitor visitor = null;
+      net.sourceforge.czt.base.util.BasePrintVisitor visitor = null;
       ParsedData parsedData = getParsedData(view);
       if (parsedData == null)
         visitor = new net.sourceforge.czt.z.util.PrintVisitor();

@@ -28,7 +28,7 @@ import javax.xml.bind.JAXBContext;
  * @author Leo Freitas
  */
 public class JaxbXmlReader
-  extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
+  extends net.sourceforge.czt.base.jaxb.BaseJaxbXmlReader
 {
   public JaxbXmlReader()
   {

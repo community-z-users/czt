@@ -22,7 +22,7 @@ package net.sourceforge.czt.typecheck.oz;
 import java.io.*;
 import java.util.List;
 
-import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.base.jaxb.BaseJaxbXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -181,7 +181,7 @@ public class TypeCheckUtils
   }
 
   /** @return a Jaxb writer for Object-Z. */
-  protected JaxbXmlWriter getJaxbXmlWriter()
+  protected BaseJaxbXmlWriter getJaxbXmlWriter()
   {
     return new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
   }

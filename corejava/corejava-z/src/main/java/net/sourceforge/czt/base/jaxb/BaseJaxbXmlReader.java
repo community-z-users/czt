@@ -40,7 +40,7 @@ import net.sourceforge.czt.util.ReflectiveVisitor;
  *
  * @author Petra Malik
  */
-public abstract class JaxbXmlReader
+public abstract class BaseJaxbXmlReader
   implements XmlReader
 {
   /**
@@ -52,7 +52,7 @@ public abstract class JaxbXmlReader
    * Returns a new JaxbXmlReader.
    * @param visitor
    */
-  public JaxbXmlReader(ReflectiveVisitor visitor)
+  public BaseJaxbXmlReader(ReflectiveVisitor visitor)
   {
     visitor_ = visitor;
   }

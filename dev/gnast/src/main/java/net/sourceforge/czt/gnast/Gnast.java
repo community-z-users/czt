@@ -316,12 +316,15 @@ public class Gnast implements GlobalProperties
     }
     
     Set<URL> fileUrls = new HashSet<URL>();
-    for (File file : dir.listFiles()) {
-      if (file.getName().endsWith(".xsd")) {
-        fileUrls.add(toURL(file));
-      }
+    File[] listFiles = dir.listFiles();
+    if (listFiles != null)
+    {
+	    for (File file : listFiles) {
+	      if (file.getName().endsWith(".xsd")) {
+	        fileUrls.add(toURL(file));
+	      }
+	    }
     }
-    
     return fileUrls;
   }
 

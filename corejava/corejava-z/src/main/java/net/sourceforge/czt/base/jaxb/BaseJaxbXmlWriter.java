@@ -38,13 +38,13 @@ import net.sourceforge.czt.z.util.Version;
  *
  * @author Petra Malik
  */
-public abstract class JaxbXmlWriter
+public abstract class BaseJaxbXmlWriter
   extends AbstractXmlWriter
   implements Version
 {
   private Visitor<?> visitor_;
 
-  public JaxbXmlWriter(Visitor<?> visitor)
+  public BaseJaxbXmlWriter(Visitor<?> visitor)
   {
     visitor_ = visitor;
   }

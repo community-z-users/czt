@@ -31,7 +31,7 @@ import net.sourceforge.czt.zpatt.ast.ZpattFactory;
  * @author Petra Malik
  */
 public class JaxbXmlReader
-  extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
+  extends net.sourceforge.czt.base.jaxb.BaseJaxbXmlReader
 {
   public JaxbXmlReader(ZFactory zFactory,
                        ZpattFactory zPattFactory,

@@ -47,6 +47,7 @@ public class LongDescriptionResourceBundle
 
   public Object[][] getContents()
   {
-    return CONTENTS;
+	  // clone to avoid exposing the contents of private field.
+    return CONTENTS.clone();
   }
 }

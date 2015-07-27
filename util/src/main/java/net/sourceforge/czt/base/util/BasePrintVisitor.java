@@ -25,7 +25,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 /**
  * A printer for terms.
  */
-public class PrintVisitor
+public class BasePrintVisitor
   implements TermVisitor<String>
 {
   public String visitTerm(Term term)

@@ -39,7 +39,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class PrintVisitor
-  extends net.sourceforge.czt.base.util.PrintVisitor
+  extends net.sourceforge.czt.base.util.BasePrintVisitor
   implements GenericTypeVisitor<String>,
              GenParamTypeVisitor<String>,
              GivenTypeVisitor<String>,
@@ -74,7 +74,7 @@ public class PrintVisitor
   protected boolean printIds_;
   protected int lineOffset_;
   protected int columnOffset_;
-
+  
   /**
    * Constructs a PrintVisitor that produces Unicode strings.
    */

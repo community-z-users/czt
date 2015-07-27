@@ -62,7 +62,7 @@ public class TypeCheckerTest
     "/net/sourceforge/czt/typecheck/tests/";
   
   private final SectionManager manager_;
-  protected net.sourceforge.czt.base.util.PrintVisitor printer_;
+  protected net.sourceforge.czt.base.util.BasePrintVisitor printer_;
 
   public static Test suite()
   {

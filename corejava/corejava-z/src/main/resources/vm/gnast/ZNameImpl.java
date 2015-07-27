@@ -45,7 +45,18 @@
      return java.util.Collections.unmodifiableMap(nameIdPool_);
    }
    
-   public static boolean debugZName_ = false;
+   private static boolean debugZName_ = false;
+   
+   public static final void setDebugZName(boolean v)
+   {
+	   debugZName_ = v;
+   }
+   
+   public static final boolean getDebugZName()
+   {
+	   return debugZName_;
+   }
+   
 
   private void setWordInternal(String word)
   {

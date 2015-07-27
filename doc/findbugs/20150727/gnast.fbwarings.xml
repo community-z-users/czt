@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437992005323" analysisTimestamp="1437992003768" release="">
+  <Project projectName="gnast">
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/gnast/target/classes</Jar>
+    <Jar>/gnast/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/gnast/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/velocity/velocity/1.7/velocity-1.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.4/plexus-utils-3.0.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-container-default/1.5.5/plexus-container-default-1.5.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.2.2/plexus-classworlds-2.2.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/log4j/log4j/1.2.12/log4j-1.2.12.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/com/google/collections/google-collections/1.0/google-collections-1.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/gnast/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/gnast/src/main/java</SrcDir>
+    <SrcDir>/gnast/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="DM_BOOLEAN_CTOR" priority="2" rank="18" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Apgen">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Apgen" name="generate" signature="(Ljava/util/logging/Level;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="327" end="360" startBytecode="0" endBytecode="649" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="359" end="359" startBytecode="344" endBytecode="344" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="359" end="359" startBytecode="344" endBytecode="344" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Apgen">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Apgen" name="&lt;init&gt;" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="106" end="108" startBytecode="0" endBytecode="115" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Apgen">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Apgen" name="&lt;init&gt;" signature="(Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="117" end="120" startBytecode="0" endBytecode="134" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Apgen">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Apgen" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/util/Map;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="123" end="127" startBytecode="0" endBytecode="171" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Apgen">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Apgen" name="&lt;init&gt;" signature="(Ljava/util/Map;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="130" end="133" startBytecode="0" endBytecode="152" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Apgen">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Apgen" name="&lt;init&gt;" signature="(Ljava/util/Map;Ljava/util/Properties;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="136" end="139" startBytecode="0" endBytecode="163" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Apgen" start="96" end="96" startBytecode="39" endBytecode="39" sourcefile="Apgen.java" sourcepath="net/sourceforge/czt/gnast/Apgen.java"/>
+  </BugInstance>
+  <BugInstance type="DMI_COLLECTION_OF_URLS" priority="1" rank="16" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Gnast">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Gnast" name="schemaDirToURL" signature="(Ljava/io/File;)Ljava/util/Collection;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast" start="314" end="326" startBytecode="0" endBytecode="208" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Method>
+    <Method classname="java.util.HashSet" name="add" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.util.HashSet" start="219" end="219" startBytecode="0" endBytecode="54" sourcefile="HashSet.java" sourcepath="java/util/HashSet.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Gnast" start="322" end="322" startBytecode="54" endBytecode="54" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Gnast" start="322" end="322" startBytecode="54" endBytecode="54" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+  </BugInstance>
+  <BugInstance type="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE" priority="2" rank="13" abbrev="NP" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Gnast">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Gnast" name="schemaDirToURL" signature="(Ljava/io/File;)Ljava/util/Collection;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast" start="314" end="326" startBytecode="0" endBytecode="208" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Method>
+    <LocalVariable name="?" register="5" pc="23" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Gnast" start="320" end="320" startBytecode="23" endBytecode="23" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java" role="SOURCE_LINE_DEREF"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Gnast" start="320" end="320" startBytecode="17" endBytecode="17" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java" role="SOURCE_LINE_KNOWN_NULL"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder" start="729" end="817" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.gnast.Gnast">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DMI_COLLECTION_OF_URLS" priority="1" rank="16" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder" name="sourceSchemas" signature="Ljava/util/Set;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.gnast.Gnast$GnastBuilder" start="729" end="729" startBytecode="0" endBytecode="0" sourcefile="GnastBuilder.java" sourcepath="net/sourceforge/czt/gnast/GnastBuilder.java"/>
+  </BugInstance>
+  <BugInstance type="SIC_INNER_SHOULD_BE_STATIC" priority="2" rank="18" abbrev="SIC" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Gnast$OutputFormatter">
+      <SourceLine classname="net.sourceforge.czt.gnast.Gnast$OutputFormatter" start="717" end="725" sourcefile="Gnast.java" sourcepath="net/sourceforge/czt/gnast/Gnast.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DM_BOOLEAN_CTOR" priority="2" rank="18" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Project">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Project" name="createFile" signature="(Ljava/lang/String;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" start="231" end="271" startBytecode="0" endBytecode="648" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="270" end="270" startBytecode="214" endBytecode="214" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="270" end="270" startBytecode="214" endBytecode="214" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Project">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Project" name="createFile" signature="(Ljava/lang/String;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" start="231" end="271" startBytecode="0" endBytecode="648" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="246" end="246" startBytecode="62" endBytecode="62" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="246" end="246" startBytecode="62" endBytecode="62" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+  </BugInstance>
+  <BugInstance type="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" priority="2" rank="16" abbrev="RV" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Project">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Project" name="createFile" signature="(Ljava/lang/String;)Z" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" start="231" end="271" startBytecode="0" endBytecode="648" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Method>
+    <Method classname="java.io.File" name="mkdirs" signature="()Z" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.File" start="1340" end="1355" startBytecode="0" endBytecode="178" sourcefile="File.java" sourcepath="java/io/File.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="241" end="241" startBytecode="38" endBytecode="38" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="241" end="241" startBytecode="38" endBytecode="38" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+  </BugInstance>
+  <BugInstance type="WMI_WRONG_MAP_ITERATOR" priority="2" rank="18" abbrev="WMI" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.Project">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.Project" name="generate" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" start="330" end="417" startBytecode="0" endBytecode="1106" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="411" end="411" startBytecode="610" endBytecode="610" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.Project" start="411" end="411" startBytecode="610" endBytecode="610" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.schema.SchemaProject">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" start="59" end="715" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.gnast.Project">
+      <SourceLine classname="net.sourceforge.czt.gnast.Project" sourcefile="Project.java" sourcepath="net/sourceforge/czt/gnast/Project.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.gnast.schema.SchemaProject">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.schema.SchemaProject" name="collectNamespacePrefixes" signature="(Ljava/net/URL;)Ljava/util/Properties;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" start="606" end="630" startBytecode="0" endBytecode="472" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Method>
+    <Method classname="java.io.InputStreamReader" name="&lt;init&gt;" signature="(Ljava/io/InputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.InputStreamReader" start="72" end="79" startBytecode="0" endBytecode="108" sourcefile="InputStreamReader.java" sourcepath="java/io/InputStreamReader.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" start="609" end="609" startBytecode="26" endBytecode="26" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" start="609" end="609" startBytecode="26" endBytecode="26" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+  </BugInstance>
+  <BugInstance type="IIL_PATTERN_COMPILE_IN_LOOP" priority="2" rank="18" abbrev="IIL" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.schema.SchemaProject">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.gnast.schema.SchemaProject" name="collectNamespacePrefixes" signature="(Ljava/net/URL;)Ljava/util/Properties;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" start="606" end="630" startBytecode="0" endBytecode="472" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" start="617" end="617" startBytecode="78" endBytecode="78" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    <Method classname="java.util.regex.Pattern" name="compile" signature="(Ljava/lang/String;)Ljava/util/regex/Pattern;" isStatic="true" role="METHOD_CALLED">
+      <SourceLine classname="java.util.regex.Pattern" start="1028" end="1028" startBytecode="0" endBytecode="33" sourcefile="Pattern.java" sourcepath="java/util/regex/Pattern.java"/>
+    </Method>
+    <String value="xmlns:[a-zA-Z]+[^a-zA-Z]" role="STRING_REGEX"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.gnast.schema.SchemaProject$SchemaClass">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject$SchemaClass" start="727" end="1076" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.gnast.schema.SchemaProject">
+      <SourceLine classname="net.sourceforge.czt.gnast.schema.SchemaProject" sourcefile="SchemaProject.java" sourcepath="net/sourceforge/czt/gnast/schema/SchemaProject.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 11:13:20 +0100" total_classes="26" referenced_classes="131" total_bugs="19" total_size="1640" num_packages="3" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="34.99" clock_seconds="113.97" peak_mbytes="1333.02" alloc_mbytes="930.00" gc_seconds="1.59" priority_2="10" priority_1="9">
+    <PackageStats package="net.sourceforge.czt.gnast" total_bugs="15" total_types="13" total_size="912" priority_2="7" priority_1="8">
+      <ClassStats class="net.sourceforge.czt.gnast.Apgen" sourceFile="Apgen.java" interface="false" size="206" bugs="6" priority_2="1" priority_1="5"/>
+      <ClassStats class="net.sourceforge.czt.gnast.ConfigurationException" sourceFile="ConfigurationException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.Debug" sourceFile="Debug.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.GlobalProperties" sourceFile="GlobalProperties.java" interface="true" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.Gnast" sourceFile="Gnast.java" interface="false" size="278" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.gnast.Gnast$1" sourceFile="Gnast.java" interface="false" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.Gnast$GnastBuilder" sourceFile="Gnast.java" interface="false" size="59" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.gnast.Gnast$OutputFormatter" sourceFile="Gnast.java" interface="false" size="9" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.gnast.GnastException" sourceFile="GnastException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.Project" sourceFile="Project.java" interface="false" size="244" bugs="4" priority_2="3" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.gnast.ProjectProperties" sourceFile="ProjectProperties.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.ResourceUtils" sourceFile="ResourceUtils.java" interface="false" size="38" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.StringUtils" sourceFile="StringUtils.java" interface="false" size="7" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.gnast.gen" total_bugs="0" total_types="8" total_size="159">
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JAstObject" sourceFile="JAstObject.java" interface="true" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JAstObjectImpl" sourceFile="JAstObjectImpl.java" interface="false" size="57" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JObject" sourceFile="JObject.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JObjectImpl" sourceFile="JObjectImpl.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JProject" sourceFile="JProject.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JProperty" sourceFile="JProperty.java" interface="true" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JPropertyImpl" sourceFile="JPropertyImpl.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.gen.JVariable" sourceFile="JVariable.java" interface="true" size="4" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.gnast.schema" total_bugs="4" total_types="5" total_size="569" priority_2="3" priority_1="1">
+      <ClassStats class="net.sourceforge.czt.gnast.schema.SchemaProject" sourceFile="SchemaProject.java" interface="false" size="288" bugs="3" priority_2="2" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.gnast.schema.SchemaProject$SchemaClass" sourceFile="SchemaProject.java" interface="false" size="158" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.gnast.schema.SchemaProject$SchemaProperty" sourceFile="SchemaProject.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.schema.XPath" sourceFile="XPath.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.gnast.schema.XSDException" sourceFile="XSDException.java" interface="false" size="14" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="166" invocations="856" avgMicrosecondsPerInvocation="194" maxMicrosecondsPerInvocation="14455" standardDeviationMircosecondsPerInvocation="596"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="89" invocations="2" avgMicrosecondsPerInvocation="44766" maxMicrosecondsPerInvocation="58394" standardDeviationMircosecondsPerInvocation="13629"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="82" invocations="248" avgMicrosecondsPerInvocation="333" maxMicrosecondsPerInvocation="4542" standardDeviationMircosecondsPerInvocation="646"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="81" invocations="248" avgMicrosecondsPerInvocation="329" maxMicrosecondsPerInvocation="7382" standardDeviationMircosecondsPerInvocation="774"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="71" invocations="131" avgMicrosecondsPerInvocation="546" maxMicrosecondsPerInvocation="5080" standardDeviationMircosecondsPerInvocation="938"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="69" invocations="248" avgMicrosecondsPerInvocation="281" maxMicrosecondsPerInvocation="5194" standardDeviationMircosecondsPerInvocation="640"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="67" invocations="131" avgMicrosecondsPerInvocation="511" maxMicrosecondsPerInvocation="4855" standardDeviationMircosecondsPerInvocation="871"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="64" invocations="261" avgMicrosecondsPerInvocation="247" maxMicrosecondsPerInvocation="4342" standardDeviationMircosecondsPerInvocation="606"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="59" invocations="626" avgMicrosecondsPerInvocation="95" maxMicrosecondsPerInvocation="906" standardDeviationMircosecondsPerInvocation="129"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="53" invocations="258" avgMicrosecondsPerInvocation="208" maxMicrosecondsPerInvocation="3295" standardDeviationMircosecondsPerInvocation="433"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="42" invocations="859" avgMicrosecondsPerInvocation="50" maxMicrosecondsPerInvocation="976" standardDeviationMircosecondsPerInvocation="38"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="36" invocations="200" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="3471" standardDeviationMircosecondsPerInvocation="409"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="31" invocations="248" avgMicrosecondsPerInvocation="125" maxMicrosecondsPerInvocation="1279" standardDeviationMircosecondsPerInvocation="177"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="30" invocations="26" avgMicrosecondsPerInvocation="1185" maxMicrosecondsPerInvocation="25652" standardDeviationMircosecondsPerInvocation="4906"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="18" invocations="26" avgMicrosecondsPerInvocation="698" maxMicrosecondsPerInvocation="4370" standardDeviationMircosecondsPerInvocation="1159"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="17" invocations="131" avgMicrosecondsPerInvocation="130" maxMicrosecondsPerInvocation="1010" standardDeviationMircosecondsPerInvocation="182"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="16" invocations="131" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="1440" standardDeviationMircosecondsPerInvocation="249"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="16" invocations="121" avgMicrosecondsPerInvocation="135" maxMicrosecondsPerInvocation="1920" standardDeviationMircosecondsPerInvocation="218"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="15" invocations="26" avgMicrosecondsPerInvocation="597" maxMicrosecondsPerInvocation="5387" standardDeviationMircosecondsPerInvocation="1358"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="15" invocations="815" avgMicrosecondsPerInvocation="18" maxMicrosecondsPerInvocation="641" standardDeviationMircosecondsPerInvocation="35"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="15" invocations="26" avgMicrosecondsPerInvocation="582" maxMicrosecondsPerInvocation="3314" standardDeviationMircosecondsPerInvocation="998"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.StreamResourceTracker" totalMilliseconds="13" invocations="34" avgMicrosecondsPerInvocation="394" maxMicrosecondsPerInvocation="1216" standardDeviationMircosecondsPerInvocation="364"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="13" invocations="131" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="1875" standardDeviationMircosecondsPerInvocation="211"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="13" invocations="192" avgMicrosecondsPerInvocation="69" maxMicrosecondsPerInvocation="504" standardDeviationMircosecondsPerInvocation="89"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="12" invocations="248" avgMicrosecondsPerInvocation="51" maxMicrosecondsPerInvocation="1512" standardDeviationMircosecondsPerInvocation="130"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="11" invocations="131" avgMicrosecondsPerInvocation="90" maxMicrosecondsPerInvocation="714" standardDeviationMircosecondsPerInvocation="148"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437992005322" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>
