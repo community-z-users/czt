@@ -199,7 +199,7 @@ public class KeywordScanner
   private static void addKeyword(Map &lt;String, Integer&gt; map,
                                  String keyword,
                                  int symbol) {
-    Integer old = map.put(keyword, new Integer(symbol));        
+    Integer old = map.put(keyword, Integer.valueOf(symbol));        
     if (old != null) {
       if (symbolMap_ == null) symbolMap_ = DebugUtils.getFieldMap(Sym.class);
       final String logMessage = java.text.MessageFormat.format(
@@ -254,7 +254,7 @@ public class KeywordScanner
         logFormatted("{0}: decorword {1} -> {2} named as {3} for {4} dialect.",
             getClass().getName(), 
             value, 
-            token.intValue(), 
+            token, 
             getSymbolMap().get(token.intValue()),
             getDialect().toString());
         return new Symbol(token.intValue(),

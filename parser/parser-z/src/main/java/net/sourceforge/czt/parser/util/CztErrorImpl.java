@@ -136,7 +136,11 @@ public abstract class CztErrorImpl
 	 boolean result = error1 == null && error2 == null;
 	 if (!result)
 	 {
-		 result = error1 != null ? error1.equals(error2) : error2.equals(error1);
+		 if (error1 != null)
+		 {
+			 result = error1.equals(error2);
+		 }
+		 //result = error1 != null ? error1.equals(error2) : error2.equals(error1);
 	 }
 	 return result; 
   }

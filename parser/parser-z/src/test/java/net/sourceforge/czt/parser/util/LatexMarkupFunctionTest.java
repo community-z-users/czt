@@ -37,19 +37,19 @@ public class LatexMarkupFunctionTest
 {
   private final ZFactory factory_ = new ZFactoryImpl();
 
-  private final String fooCommand_ = "\foo";
-  private final String fooUnicode_ = "foo";
+  private static final String fooCommand_ = "\foo";
+  private static final String fooUnicode_ = "foo";
   private final DirectiveType fooType_ = DirectiveType.NONE;
   private final Directive directiveFoo_ =
       factory_.createDirective(fooCommand_, fooUnicode_, fooType_);
 
-  private final String barCommand_ = "\bar";
-  private final String barUnicode_ = "bar";
+  private static final String barCommand_ = "\bar";
+  private static final String barUnicode_ = "bar";
   private final DirectiveType barType_ = DirectiveType.IN;
   private final Directive directiveBar_ =
     factory_.createDirective(barCommand_, barUnicode_, barType_);
 
-  private final String section_ = "Specification";
+  private static final String section_ = "Specification";
   private LatexMarkupFunction markupFunction_;
   
   private final Dialect dialect_ = Dialect.Z;

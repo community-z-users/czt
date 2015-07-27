@@ -1093,7 +1093,7 @@ class <class/> extends CztScannerImpl
    */
   private String get_sym_name(Symbol symbol)
   { 
-    String sym = symbolMap_.get(new Integer(symbol.sym));
+    String sym = symbolMap_.get(Integer.valueOf(symbol.sym));
     return sym;
   }
 

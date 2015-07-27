@@ -555,16 +555,16 @@ public abstract class CztManagedTest extends TestCase
 
     private String removeUnderscore(String string)
     {
-      String result = "";
+      StringBuffer result = new StringBuffer();
       for (int i = 0; i < string.length(); i++)
       {
         char c = string.charAt(i);
         if (c != '_')
         {
-          result += c;
+          result.append( c);
         }
       }
-      return result;
+      return result.toString();
     }
 
     /**

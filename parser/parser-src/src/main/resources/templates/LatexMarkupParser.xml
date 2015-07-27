@@ -621,14 +621,14 @@ public class <class/>
   private String parseUnicode()
     throws IOException
   {
-    String result = "";
+    StringBuilder result = new StringBuilder();
     LocToken token = lexer_.next();
     while (token != null &amp;&amp;
            ! is(token, LatexSym.END_MARKUP)) {
-      result += token.spelling();
+      result.append(token.spelling());
       token = lexer_.next();
     }
-    return result;
+    return result.toString();
   }
 
   public static Directive parseCharMarkupDirective(String directive,

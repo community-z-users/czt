@@ -524,10 +524,10 @@ public class OpTable extends InfoTable
   {
     final Map<String,OperatorTokenType> parentOpTokens =
       parentTable.opTokens_;
-    for (String word : parentOpTokens.keySet()) {
-      OperatorTokenType type = parentOpTokens.get(word);
+    for (Map.Entry<String,OperatorTokenType> word : parentOpTokens.entrySet()) {
+      OperatorTokenType type = word.getValue();
       assert type != null;
-      addOpToken(word, type, parentTable.optempPara_.get(word));
+      addOpToken(word.getKey(), type, parentTable.optempPara_.get(word.getKey()));
     }
   }
 
@@ -566,10 +566,10 @@ public class OpTable extends InfoTable
     throws OperatorException
   {
     final Map<String,BigInteger> parentPrecs = parentTable.precedence_;
-    for (String word : parentPrecs.keySet()) {
-      BigInteger prec = parentPrecs.get(word);
+    for (Map.Entry<String, BigInteger> word : parentPrecs.entrySet()) {
+      BigInteger prec = word.getValue();
       assert prec != null;
-      addPrecedence(word, prec);
+      addPrecedence(word.getKey(), prec);
     }
   }
 
@@ -608,10 +608,10 @@ public class OpTable extends InfoTable
     throws OperatorException
   {
     final Map<BigInteger,Assoc> parentAssoc = parentTable.assoc_;
-    for (BigInteger precedence : parentAssoc.keySet()) {
-      Assoc assoc = parentAssoc.get(precedence);
+    for (Map.Entry<BigInteger,Assoc> precedence : parentAssoc.entrySet()) {
+      Assoc assoc = precedence.getValue();//parentAssoc.get(precedence);
       assert assoc != null;
-      addAssociativity(precedence, assoc);
+      addAssociativity(precedence.getKey(), assoc);
     }
   }
 
