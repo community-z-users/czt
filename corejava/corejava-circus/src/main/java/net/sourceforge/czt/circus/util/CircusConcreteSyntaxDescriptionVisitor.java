@@ -27,8 +27,8 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * @author Petra Malik
  */
-public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor
+public class CircusConcreteSyntaxDescriptionVisitor
+  extends net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
     "net.sourceforge.czt.circus.util.LongDescriptionResourceBundle";
@@ -36,17 +36,17 @@ public class ConcreteSyntaxDescriptionVisitor
   private Visitor<CircusConcreteSyntaxSymbol> visitor_ =
     new CircusConcreteSyntaxSymbolVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
+  public CircusConcreteSyntaxDescriptionVisitor()
   {
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new CircusGetNameVisitor());
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
+  public CircusConcreteSyntaxDescriptionVisitor(String resourceName,
                                           String circusResourceName)
   {
     super(resourceName);
     resourceName_ = circusResourceName;
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new CircusGetNameVisitor());
  }
 
   public String visitTerm(Term term)

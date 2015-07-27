@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437999098404" analysisTimestamp="1437999092577" release="">
+  <Project projectName="corejava-circustime">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/generated-sources/jaxb</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circustime/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circustime.jaxb.AstToJaxb" start="1" end="645" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circustime/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circustime.jaxb.JaxbToAst" start="41" end="375" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circustime/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="ATTIME" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="72" end="72" startBytecode="108" endBytecode="108" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="CIRCENDBY" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="52" end="52" startBytecode="45" endBytecode="45" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="CIRCSTARTBY" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="57" end="57" startBytecode="61" endBytecode="61" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="CIRCTIMEDINTERRUPT" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="67" end="67" startBytecode="93" endBytecode="93" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="CIRCTIMEOUT" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="62" end="62" startBytecode="77" endBytecode="77" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="LCIRCTIME" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="42" end="42" startBytecode="13" endBytecode="13" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.CircusTimeChar">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circustime.util.CircusTimeChar" name="RCIRCTIME" signature="Lnet/sourceforge/czt/circustime/util/CircusTimeChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.CircusTimeChar" start="47" end="47" startBytecode="29" endBytecode="29" sourcefile="CircusTimeChar.java" sourcepath="net/sourceforge/czt/circustime/util/CircusTimeChar.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor" start="33" end="63" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/circustime/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/circus/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.Factory" start="41" end="782" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circustime/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circuspatt.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circuspatt/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.GetNameVisitor" start="22" end="22" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/circustime/util/GetNameVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.GetNameVisitor" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/z/util/GetNameVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/LongDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="0" endBytecode="45" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/LongDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/LongDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/LongDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/LongDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.PrintVisitor" start="1" end="105" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circustime/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/ShortDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="0" endBytecode="45" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/ShortDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/ShortDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/ShortDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circustime/util/ShortDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 12:24:29 +0100" total_classes="83" referenced_classes="1301" total_bugs="15" total_size="2276" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="508.88" clock_seconds="2510.65" peak_mbytes="1482.10" alloc_mbytes="960.00" gc_seconds="24.18" priority_2="2" priority_1="13">
+    <PackageStats package="net.sourceforge.czt.circustime.ast" total_bugs="0" total_types="16" total_size="60">
+      <ClassStats class="net.sourceforge.czt.circustime.ast.ActionTime1" sourceFile="ActionTime1.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.ActionTime2" sourceFile="ActionTime2.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.CircusTimeFactory" sourceFile="CircusTimeFactory.java" interface="true" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.PrefixingTimeAction" sourceFile="PrefixingTimeAction.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.ProcessTime1" sourceFile="ProcessTime1.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.ProcessTime2" sourceFile="ProcessTime2.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimeEndByAction" sourceFile="TimeEndByAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimeEndByProcess" sourceFile="TimeEndByProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimeStartByAction" sourceFile="TimeStartByAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimeStartByProcess" sourceFile="TimeStartByProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimedinterruptAction" sourceFile="TimedinterruptAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimedinterruptProcess" sourceFile="TimedinterruptProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimeoutAction" sourceFile="TimeoutAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.TimeoutProcess" sourceFile="TimeoutProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.WaitAction" sourceFile="WaitAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.ast.WaitExprAction" sourceFile="WaitExprAction.java" interface="true" size="3" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circustime.impl" total_bugs="0" total_types="16" total_size="926">
+      <ClassStats class="net.sourceforge.czt.circustime.impl.ActionTime1Impl" sourceFile="ActionTime1Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.ActionTime2Impl" sourceFile="ActionTime2Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.CircusTimeFactoryImpl" sourceFile="CircusTimeFactoryImpl.java" interface="false" size="118" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.PrefixingTimeActionImpl" sourceFile="PrefixingTimeActionImpl.java" interface="false" size="100" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.ProcessTime1Impl" sourceFile="ProcessTime1Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.ProcessTime2Impl" sourceFile="ProcessTime2Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimeEndByActionImpl" sourceFile="TimeEndByActionImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimeEndByProcessImpl" sourceFile="TimeEndByProcessImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimeStartByActionImpl" sourceFile="TimeStartByActionImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimeStartByProcessImpl" sourceFile="TimeStartByProcessImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimedinterruptActionImpl" sourceFile="TimedinterruptActionImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimedinterruptProcessImpl" sourceFile="TimedinterruptProcessImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimeoutActionImpl" sourceFile="TimeoutActionImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.TimeoutProcessImpl" sourceFile="TimeoutProcessImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.WaitActionImpl" sourceFile="WaitActionImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.impl.WaitExprActionImpl" sourceFile="WaitExprActionImpl.java" interface="false" size="72" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circustime.jaxb" total_bugs="2" total_types="5" total_size="582" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="321" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="216" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.JaxbXmlWriterReaderTest" sourceFile="JaxbXmlWriterReaderTest.java" interface="false" size="19" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circustime.jaxb.gen" total_bugs="0" total_types="17" total_size="189">
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.ActionTime1" sourceFile="ActionTime1.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.ActionTime2" sourceFile="ActionTime2.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="95" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.PrefixingTimeAction" sourceFile="PrefixingTimeAction.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.ProcessTime1" sourceFile="ProcessTime1.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.ProcessTime2" sourceFile="ProcessTime2.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimeEndByAction" sourceFile="TimeEndByAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimeEndByProcess" sourceFile="TimeEndByProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimeStartByAction" sourceFile="TimeStartByAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimeStartByProcess" sourceFile="TimeStartByProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimedinterruptAction" sourceFile="TimedinterruptAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimedinterruptProcess" sourceFile="TimedinterruptProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimeoutAction" sourceFile="TimeoutAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.TimeoutProcess" sourceFile="TimeoutProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.WaitAction" sourceFile="WaitAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.WaitExprAction" sourceFile="WaitExprAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circustime.util" total_bugs="13" total_types="13" total_size="488" priority_2="2" priority_1="11">
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeChar" sourceFile="CircusTimeChar.java" interface="false" size="19" bugs="7" priority_1="7"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeConcreteSyntaxSymbol" sourceFile="CircusTimeConcreteSyntaxSymbol.java" interface="false" size="42" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeConcreteSyntaxSymbolVisitor" sourceFile="CircusTimeConcreteSyntaxSymbolVisitor.java" interface="false" size="44" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeConcreteSyntaxSymbolVisitor$Utils" sourceFile="CircusTimeConcreteSyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeConcreteSyntaxSymbolVisitor$UtilsImpl" sourceFile="CircusTimeConcreteSyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeString" sourceFile="CircusTimeString.java" interface="true" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.CircusTimeUtils" sourceFile="CircusTimeUtils.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor" sourceFile="ConcreteSyntaxDescriptionVisitor.java" interface="false" size="25" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.Factory" sourceFile="Factory.java" interface="false" size="252" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.GetNameVisitor" sourceFile="GetNameVisitor.java" interface="false" size="3" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="38" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circustime.visitor" total_bugs="0" total_types="16" total_size="31">
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.ActionTime1Visitor" sourceFile="ActionTime1Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.ActionTime2Visitor" sourceFile="ActionTime2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.CircusTimeVisitor" sourceFile="CircusTimeVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.PrefixingTimeActionVisitor" sourceFile="PrefixingTimeActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.ProcessTime1Visitor" sourceFile="ProcessTime1Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.ProcessTime2Visitor" sourceFile="ProcessTime2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimeEndByActionVisitor" sourceFile="TimeEndByActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimeEndByProcessVisitor" sourceFile="TimeEndByProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimeStartByActionVisitor" sourceFile="TimeStartByActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimeStartByProcessVisitor" sourceFile="TimeStartByProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimedinterruptActionVisitor" sourceFile="TimedinterruptActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimedinterruptProcessVisitor" sourceFile="TimedinterruptProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimeoutActionVisitor" sourceFile="TimeoutActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.TimeoutProcessVisitor" sourceFile="TimeoutProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.WaitActionVisitor" sourceFile="WaitActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circustime.visitor.WaitExprActionVisitor" sourceFile="WaitExprActionVisitor.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="738" invocations="2" avgMicrosecondsPerInvocation="369043" maxMicrosecondsPerInvocation="620439" standardDeviationMircosecondsPerInvocation="251396"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="559" invocations="2107" avgMicrosecondsPerInvocation="265" maxMicrosecondsPerInvocation="51834" standardDeviationMircosecondsPerInvocation="2172"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="515" invocations="1301" avgMicrosecondsPerInvocation="395" maxMicrosecondsPerInvocation="48744" standardDeviationMircosecondsPerInvocation="1958"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="506" invocations="1301" avgMicrosecondsPerInvocation="389" maxMicrosecondsPerInvocation="63880" standardDeviationMircosecondsPerInvocation="2494"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="444" invocations="2115" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="42055" standardDeviationMircosecondsPerInvocation="1740"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="315" invocations="1270" avgMicrosecondsPerInvocation="248" maxMicrosecondsPerInvocation="44400" standardDeviationMircosecondsPerInvocation="1703"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="182" invocations="1301" avgMicrosecondsPerInvocation="140" maxMicrosecondsPerInvocation="40483" standardDeviationMircosecondsPerInvocation="1382"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="175" invocations="1301" avgMicrosecondsPerInvocation="135" maxMicrosecondsPerInvocation="47780" standardDeviationMircosecondsPerInvocation="1440"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="131" invocations="414" avgMicrosecondsPerInvocation="316" maxMicrosecondsPerInvocation="39973" standardDeviationMircosecondsPerInvocation="2014"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="129" invocations="1301" avgMicrosecondsPerInvocation="99" maxMicrosecondsPerInvocation="29229" standardDeviationMircosecondsPerInvocation="928"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="118" invocations="1301" avgMicrosecondsPerInvocation="91" maxMicrosecondsPerInvocation="19277" standardDeviationMircosecondsPerInvocation="758"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="110" invocations="478" avgMicrosecondsPerInvocation="231" maxMicrosecondsPerInvocation="24012" standardDeviationMircosecondsPerInvocation="1171"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="99" invocations="1374" avgMicrosecondsPerInvocation="72" maxMicrosecondsPerInvocation="8005" standardDeviationMircosecondsPerInvocation="313"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="98" invocations="459" avgMicrosecondsPerInvocation="214" maxMicrosecondsPerInvocation="5616" standardDeviationMircosecondsPerInvocation="576"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="84" invocations="1301" avgMicrosecondsPerInvocation="64" maxMicrosecondsPerInvocation="15083" standardDeviationMircosecondsPerInvocation="491"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="80" invocations="1301" avgMicrosecondsPerInvocation="61" maxMicrosecondsPerInvocation="9254" standardDeviationMircosecondsPerInvocation="356"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437999098404" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

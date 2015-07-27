@@ -29,8 +29,8 @@ import net.sourceforge.czt.z.visitor.*;
 /**
  * @author Petra Malik
  */
-public class GetNameVisitor
-  extends PrintVisitor
+public class ZGetNameVisitor
+  extends ZSimplePrintVisitor
   implements TermVisitor<String>,
 	     AxParaVisitor<String>,
              ConstDeclVisitor<String>,

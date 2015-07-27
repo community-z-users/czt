@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437999104175" analysisTimestamp="1437999092578" release="">
+  <Project projectName="corejava-circus">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/generated-sources/jaxb</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/generated-sources/xml/xslt</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circus.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="1" end="4596" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zpatt.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.zpatt.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/zpatt/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.circus.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" name="visitAlphabetisedParallelAction" signature="(Lnet/sourceforge/czt/circus/ast/AlphabetisedParallelAction;)Ljavax/xml/bind/JAXBElement;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="3198" end="3284" startBytecode="0" endBytecode="1065" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="3279" end="3279" startBytecode="339" endBytecode="339" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="3279" end="3279" startBytecode="339" endBytecode="339" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.circus.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" name="visitProcessSignature" signature="(Lnet/sourceforge/czt/circus/ast/ProcessSignature;)Ljavax/xml/bind/JAXBElement;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="1439" end="1531" startBytecode="0" endBytecode="948" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="1526" end="1526" startBytecode="328" endBytecode="328" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+    <SourceLine classname="net.sourceforge.czt.circus.jaxb.AstToJaxb" start="1526" end="1526" startBytecode="328" endBytecode="328" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circus/jaxb/AstToJaxb.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circus.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circus.jaxb.JaxbToAst" start="41" end="2674" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circus/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zpatt.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.zpatt.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/zpatt/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.CircusUtils">
+      <SourceLine classname="net.sourceforge.czt.circus.util.CircusUtils" start="68" end="621" sourcefile="CircusUtils.java" sourcepath="net/sourceforge/czt/circus/util/CircusUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circus.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circus/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.impl.CircusFactoryImpl">
+      <SourceLine classname="net.sourceforge.czt.circus.impl.CircusFactoryImpl" sourcefile="CircusFactoryImpl.java" sourcepath="net/sourceforge/czt/circus/impl/CircusFactoryImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.impl.ActionSignatureImpl">
+      <SourceLine classname="net.sourceforge.czt.circus.impl.ActionSignatureImpl" sourcefile="ActionSignatureImpl.java" sourcepath="net/sourceforge/czt/circus/impl/ActionSignatureImpl.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor" start="33" end="62" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/circus/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/z/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circus.util.Factory" start="41" end="2509" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circus/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zpatt.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/zpatt/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.GetNameVisitor" start="1" end="81" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/circus/util/GetNameVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.GetNameVisitor" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/z/util/GetNameVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/LongDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="0" endBytecode="45" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/LongDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/LongDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/LongDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/LongDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.PrintVisitor" start="1" end="1149" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circus/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/ShortDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="0" endBytecode="45" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/ShortDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/ShortDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/ShortDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circus/util/ShortDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 12:24:28 +0100" total_classes="572" referenced_classes="1314" total_bugs="11" total_size="19126" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="191.82" clock_seconds="1895.05" peak_mbytes="1466.14" alloc_mbytes="943.50" gc_seconds="14.22" priority_2="5" priority_1="6">
+    <PackageStats package="net.sourceforge.czt.circus.ast" total_bugs="0" total_types="141" total_size="760">
+      <ClassStats class="net.sourceforge.czt.circus.ast.Action1" sourceFile="Action1.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Action2" sourceFile="Action2.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionD" sourceFile="ActionD.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionIte" sourceFile="ActionIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionList" sourceFile="ActionList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionPara" sourceFile="ActionPara.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionSignature" sourceFile="ActionSignature.java" interface="true" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionSignatureAnn" sourceFile="ActionSignatureAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionSignatureList" sourceFile="ActionSignatureList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionTransformerPred" sourceFile="ActionTransformerPred.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ActionType" sourceFile="ActionType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AlphabetisedParallelAction" sourceFile="AlphabetisedParallelAction.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AlphabetisedParallelActionIte" sourceFile="AlphabetisedParallelActionIte.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AlphabetisedParallelProcess" sourceFile="AlphabetisedParallelProcess.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AlphabetisedParallelProcessIdx" sourceFile="AlphabetisedParallelProcessIdx.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AlphabetisedParallelProcessIte" sourceFile="AlphabetisedParallelProcessIte.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AssignmentCommand" sourceFile="AssignmentCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.AssignmentPairs" sourceFile="AssignmentPairs.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.BasicAction" sourceFile="BasicAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.BasicChannelSetExpr" sourceFile="BasicChannelSetExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.BasicProcess" sourceFile="BasicProcess.java" interface="true" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CallAction" sourceFile="CallAction.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CallProcess" sourceFile="CallProcess.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CallUsage" sourceFile="CallUsage.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelDecl" sourceFile="ChannelDecl.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelPara" sourceFile="ChannelPara.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelSet" sourceFile="ChannelSet.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelSetList" sourceFile="ChannelSetList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelSetPara" sourceFile="ChannelSetPara.java" interface="true" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelSetType" sourceFile="ChannelSetType.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChannelType" sourceFile="ChannelType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ChaosAction" sourceFile="ChaosAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusAction" sourceFile="CircusAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusActionList" sourceFile="CircusActionList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusAnn" sourceFile="CircusAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusChannelSet" sourceFile="CircusChannelSet.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusChannelSetList" sourceFile="CircusChannelSetList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusCommand" sourceFile="CircusCommand.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusCommunicationList" sourceFile="CircusCommunicationList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusConjPara" sourceFile="CircusConjPara.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusFactory" sourceFile="CircusFactory.java" interface="true" size="209" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusFieldList" sourceFile="CircusFieldList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusGuardedCommand" sourceFile="CircusGuardedCommand.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusNameSet" sourceFile="CircusNameSet.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusNameSetList" sourceFile="CircusNameSetList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusProcess" sourceFile="CircusProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusSigType" sourceFile="CircusSigType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusSignature" sourceFile="CircusSignature.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusStateAnn" sourceFile="CircusStateAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CircusType" sourceFile="CircusType.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CommPattern" sourceFile="CommPattern.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CommUsage" sourceFile="CommUsage.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Communication" sourceFile="Communication.java" interface="true" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CommunicationList" sourceFile="CommunicationList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.CommunicationType" sourceFile="CommunicationType.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.DoGuardedCommand" sourceFile="DoGuardedCommand.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.DotField" sourceFile="DotField.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ExtChoiceAction" sourceFile="ExtChoiceAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ExtChoiceActionIte" sourceFile="ExtChoiceActionIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ExtChoiceProcess" sourceFile="ExtChoiceProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ExtChoiceProcessIdx" sourceFile="ExtChoiceProcessIdx.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ExtChoiceProcessIte" sourceFile="ExtChoiceProcessIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Field" sourceFile="Field.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.FieldList" sourceFile="FieldList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.GuardedAction" sourceFile="GuardedAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.HideAction" sourceFile="HideAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.HideProcess" sourceFile="HideProcess.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IfGuardedCommand" sourceFile="IfGuardedCommand.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ImplicitChannelAnn" sourceFile="ImplicitChannelAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IndexedProcess" sourceFile="IndexedProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InputField" sourceFile="InputField.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IntChoiceAction" sourceFile="IntChoiceAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IntChoiceActionIte" sourceFile="IntChoiceActionIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IntChoiceProcess" sourceFile="IntChoiceProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IntChoiceProcessIdx" sourceFile="IntChoiceProcessIdx.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.IntChoiceProcessIte" sourceFile="IntChoiceProcessIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InterleaveAction" sourceFile="InterleaveAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InterleaveActionIte" sourceFile="InterleaveActionIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InterleaveProcess" sourceFile="InterleaveProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InterleaveProcessIdx" sourceFile="InterleaveProcessIdx.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InterleaveProcessIte" sourceFile="InterleaveProcessIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.InterruptAction" sourceFile="InterruptAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.LetAction" sourceFile="LetAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.LetMuAction" sourceFile="LetMuAction.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.LetVarAction" sourceFile="LetVarAction.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Model" sourceFile="Model.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.MuAction" sourceFile="MuAction.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.NameSet" sourceFile="NameSet.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.NameSetList" sourceFile="NameSetList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.NameSetPara" sourceFile="NameSetPara.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.NameSetType" sourceFile="NameSetType.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.OnTheFlyDefAnn" sourceFile="OnTheFlyDefAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.OutputFieldAnn" sourceFile="OutputFieldAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParAction" sourceFile="ParAction.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParActionIte" sourceFile="ParActionIte.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParProcess" sourceFile="ParProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParProcessIdx" sourceFile="ParProcessIdx.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParProcessIte" sourceFile="ParProcessIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParallelAction" sourceFile="ParallelAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParallelActionIte" sourceFile="ParallelActionIte.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParallelProcess" sourceFile="ParallelProcess.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParallelProcessIdx" sourceFile="ParallelProcessIdx.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParallelProcessIte" sourceFile="ParallelProcessIte.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParamAction" sourceFile="ParamAction.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParamProcess" sourceFile="ParamProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ParamQualifier" sourceFile="ParamQualifier.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.PrefixingAction" sourceFile="PrefixingAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Process1" sourceFile="Process1.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Process2" sourceFile="Process2.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessD" sourceFile="ProcessD.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessIdx" sourceFile="ProcessIdx.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessIte" sourceFile="ProcessIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessPara" sourceFile="ProcessPara.java" interface="true" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessSignature" sourceFile="ProcessSignature.java" interface="true" size="40" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessSignatureAnn" sourceFile="ProcessSignatureAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessSignatureList" sourceFile="ProcessSignatureList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessTransformerPred" sourceFile="ProcessTransformerPred.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProcessType" sourceFile="ProcessType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ProofObligationAnn" sourceFile="ProofObligationAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.QualifiedDecl" sourceFile="QualifiedDecl.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.RenameAction" sourceFile="RenameAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.RenameProcess" sourceFile="RenameProcess.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SchExprAction" sourceFile="SchExprAction.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SeqAction" sourceFile="SeqAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SeqActionIte" sourceFile="SeqActionIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SeqProcess" sourceFile="SeqProcess.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SeqProcessIdx" sourceFile="SeqProcessIdx.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SeqProcessIte" sourceFile="SeqProcessIte.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SigmaExpr" sourceFile="SigmaExpr.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SignatureList" sourceFile="SignatureList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SkipAction" sourceFile="SkipAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SpecStmtCommand" sourceFile="SpecStmtCommand.java" interface="true" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.StateUpdate" sourceFile="StateUpdate.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.StateUpdateAnn" sourceFile="StateUpdateAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.StopAction" sourceFile="StopAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.SubstitutionAction" sourceFile="SubstitutionAction.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.Transformation" sourceFile="Transformation.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.TransformerPara" sourceFile="TransformerPara.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.TransformerPred" sourceFile="TransformerPred.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.VarDeclCommand" sourceFile="VarDeclCommand.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.ast.ZSignatureList" sourceFile="ZSignatureList.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circus.impl" total_bugs="0" total_types="135" total_size="9630">
+      <ClassStats class="net.sourceforge.czt.circus.impl.Action1Impl" sourceFile="Action1Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.Action2Impl" sourceFile="Action2Impl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionDImpl" sourceFile="ActionDImpl.java" interface="false" size="42" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionIteImpl" sourceFile="ActionIteImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionListImpl" sourceFile="ActionListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionParaImpl" sourceFile="ActionParaImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionSignatureAnnImpl" sourceFile="ActionSignatureAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionSignatureImpl" sourceFile="ActionSignatureImpl.java" interface="false" size="178" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionSignatureListImpl" sourceFile="ActionSignatureListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionTransformerPredImpl" sourceFile="ActionTransformerPredImpl.java" interface="false" size="96" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ActionTypeImpl" sourceFile="ActionTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AlphabetisedParallelActionImpl" sourceFile="AlphabetisedParallelActionImpl.java" interface="false" size="93" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AlphabetisedParallelActionIteImpl" sourceFile="AlphabetisedParallelActionIteImpl.java" interface="false" size="73" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AlphabetisedParallelProcessIdxImpl" sourceFile="AlphabetisedParallelProcessIdxImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AlphabetisedParallelProcessImpl" sourceFile="AlphabetisedParallelProcessImpl.java" interface="false" size="90" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AlphabetisedParallelProcessIteImpl" sourceFile="AlphabetisedParallelProcessIteImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AssignmentCommandImpl" sourceFile="AssignmentCommandImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.AssignmentPairsImpl" sourceFile="AssignmentPairsImpl.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.BasicActionImpl" sourceFile="BasicActionImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.BasicChannelSetExprImpl" sourceFile="BasicChannelSetExprImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.BasicProcessImpl" sourceFile="BasicProcessImpl.java" interface="false" size="140" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CallActionImpl" sourceFile="CallActionImpl.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CallProcessImpl" sourceFile="CallProcessImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelDeclImpl" sourceFile="ChannelDeclImpl.java" interface="false" size="101" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelParaImpl" sourceFile="ChannelParaImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelSetImpl" sourceFile="ChannelSetImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelSetListImpl" sourceFile="ChannelSetListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelSetParaImpl" sourceFile="ChannelSetParaImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelSetTypeImpl" sourceFile="ChannelSetTypeImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChannelTypeImpl" sourceFile="ChannelTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ChaosActionImpl" sourceFile="ChaosActionImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusActionImpl" sourceFile="CircusActionImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusActionListImpl" sourceFile="CircusActionListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusAnnImpl" sourceFile="CircusAnnImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusChannelSetImpl" sourceFile="CircusChannelSetImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusChannelSetListImpl" sourceFile="CircusChannelSetListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusCommandImpl" sourceFile="CircusCommandImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusCommunicationListImpl" sourceFile="CircusCommunicationListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusConjParaImpl" sourceFile="CircusConjParaImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusFactoryImpl" sourceFile="CircusFactoryImpl.java" interface="false" size="983" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusFieldListImpl" sourceFile="CircusFieldListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusGuardedCommandImpl" sourceFile="CircusGuardedCommandImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusNameSetImpl" sourceFile="CircusNameSetImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusNameSetListImpl" sourceFile="CircusNameSetListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusProcessImpl" sourceFile="CircusProcessImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusSigTypeImpl" sourceFile="CircusSigTypeImpl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusSignatureImpl" sourceFile="CircusSignatureImpl.java" interface="false" size="42" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusStateAnnImpl" sourceFile="CircusStateAnnImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CircusTypeImpl" sourceFile="CircusTypeImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CommunicationImpl" sourceFile="CommunicationImpl.java" interface="false" size="151" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CommunicationListImpl" sourceFile="CommunicationListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.CommunicationTypeImpl" sourceFile="CommunicationTypeImpl.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.DoGuardedCommandImpl" sourceFile="DoGuardedCommandImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.DotFieldImpl" sourceFile="DotFieldImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ExtChoiceActionImpl" sourceFile="ExtChoiceActionImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ExtChoiceActionIteImpl" sourceFile="ExtChoiceActionIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ExtChoiceProcessIdxImpl" sourceFile="ExtChoiceProcessIdxImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ExtChoiceProcessImpl" sourceFile="ExtChoiceProcessImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ExtChoiceProcessIteImpl" sourceFile="ExtChoiceProcessIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.FieldImpl" sourceFile="FieldImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.FieldListImpl" sourceFile="FieldListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.GuardedActionImpl" sourceFile="GuardedActionImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.HideActionImpl" sourceFile="HideActionImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.HideProcessImpl" sourceFile="HideProcessImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IfGuardedCommandImpl" sourceFile="IfGuardedCommandImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ImplicitChannelAnnImpl" sourceFile="ImplicitChannelAnnImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IndexedProcessImpl" sourceFile="IndexedProcessImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InputFieldImpl" sourceFile="InputFieldImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IntChoiceActionImpl" sourceFile="IntChoiceActionImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IntChoiceActionIteImpl" sourceFile="IntChoiceActionIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IntChoiceProcessIdxImpl" sourceFile="IntChoiceProcessIdxImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IntChoiceProcessImpl" sourceFile="IntChoiceProcessImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.IntChoiceProcessIteImpl" sourceFile="IntChoiceProcessIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InterleaveActionImpl" sourceFile="InterleaveActionImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InterleaveActionIteImpl" sourceFile="InterleaveActionIteImpl.java" interface="false" size="57" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InterleaveProcessIdxImpl" sourceFile="InterleaveProcessIdxImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InterleaveProcessImpl" sourceFile="InterleaveProcessImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InterleaveProcessIteImpl" sourceFile="InterleaveProcessIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.InterruptActionImpl" sourceFile="InterruptActionImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.LetActionImpl" sourceFile="LetActionImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.LetMuActionImpl" sourceFile="LetMuActionImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.LetVarActionImpl" sourceFile="LetVarActionImpl.java" interface="false" size="97" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.MuActionImpl" sourceFile="MuActionImpl.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.NameSetImpl" sourceFile="NameSetImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.NameSetListImpl" sourceFile="NameSetListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.NameSetParaImpl" sourceFile="NameSetParaImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.NameSetTypeImpl" sourceFile="NameSetTypeImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.OnTheFlyDefAnnImpl" sourceFile="OnTheFlyDefAnnImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.OutputFieldAnnImpl" sourceFile="OutputFieldAnnImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParActionImpl" sourceFile="ParActionImpl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParActionIteImpl" sourceFile="ParActionIteImpl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParProcessIdxImpl" sourceFile="ParProcessIdxImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParProcessImpl" sourceFile="ParProcessImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParProcessIteImpl" sourceFile="ParProcessIteImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParallelActionImpl" sourceFile="ParallelActionImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParallelActionIteImpl" sourceFile="ParallelActionIteImpl.java" interface="false" size="73" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParallelProcessIdxImpl" sourceFile="ParallelProcessIdxImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParallelProcessImpl" sourceFile="ParallelProcessImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParallelProcessIteImpl" sourceFile="ParallelProcessIteImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParamActionImpl" sourceFile="ParamActionImpl.java" interface="false" size="61" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ParamProcessImpl" sourceFile="ParamProcessImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.PrefixingActionImpl" sourceFile="PrefixingActionImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.Process1Impl" sourceFile="Process1Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.Process2Impl" sourceFile="Process2Impl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessDImpl" sourceFile="ProcessDImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessIdxImpl" sourceFile="ProcessIdxImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessIteImpl" sourceFile="ProcessIteImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessParaImpl" sourceFile="ProcessParaImpl.java" interface="false" size="128" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessSignatureAnnImpl" sourceFile="ProcessSignatureAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessSignatureImpl" sourceFile="ProcessSignatureImpl.java" interface="false" size="342" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessSignatureListImpl" sourceFile="ProcessSignatureListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessTransformerPredImpl" sourceFile="ProcessTransformerPredImpl.java" interface="false" size="96" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProcessTypeImpl" sourceFile="ProcessTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ProofObligationAnnImpl" sourceFile="ProofObligationAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.QualifiedDeclImpl" sourceFile="QualifiedDeclImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.RenameActionImpl" sourceFile="RenameActionImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.RenameProcessImpl" sourceFile="RenameProcessImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SchExprActionImpl" sourceFile="SchExprActionImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SeqActionImpl" sourceFile="SeqActionImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SeqActionIteImpl" sourceFile="SeqActionIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SeqProcessIdxImpl" sourceFile="SeqProcessIdxImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SeqProcessImpl" sourceFile="SeqProcessImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SeqProcessIteImpl" sourceFile="SeqProcessIteImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SigmaExprImpl" sourceFile="SigmaExprImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SignatureListImpl" sourceFile="SignatureListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SkipActionImpl" sourceFile="SkipActionImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SpecStmtCommandImpl" sourceFile="SpecStmtCommandImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.StateUpdateAnnImpl" sourceFile="StateUpdateAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.StateUpdateImpl" sourceFile="StateUpdateImpl.java" interface="false" size="69" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.StopActionImpl" sourceFile="StopActionImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.SubstitutionActionImpl" sourceFile="SubstitutionActionImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.TransformerParaImpl" sourceFile="TransformerParaImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.TransformerPredImpl" sourceFile="TransformerPredImpl.java" interface="false" size="61" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.VarDeclCommandImpl" sourceFile="VarDeclCommandImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.impl.ZSignatureListImpl" sourceFile="ZSignatureListImpl.java" interface="false" size="110" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circus.jaxb" total_bugs="4" total_types="5" total_size="4114" priority_2="2" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="2412" bugs="3" priority_2="2" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="1658" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.JaxbXmlWriterReaderTest" sourceFile="JaxbXmlWriterReaderTest.java" interface="false" size="19" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circus.jaxb.gen" total_bugs="0" total_types="142" total_size="2009">
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Action1" sourceFile="Action1.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Action2" sourceFile="Action2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionD" sourceFile="ActionD.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionIte" sourceFile="ActionIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionList" sourceFile="ActionList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionPara" sourceFile="ActionPara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionSignature" sourceFile="ActionSignature.java" interface="false" size="27" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionSignatureAnn" sourceFile="ActionSignatureAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionSignatureList" sourceFile="ActionSignatureList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionTransformerPred" sourceFile="ActionTransformerPred.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ActionType" sourceFile="ActionType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AlphabetisedParallelAction" sourceFile="AlphabetisedParallelAction.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AlphabetisedParallelActionIte" sourceFile="AlphabetisedParallelActionIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AlphabetisedParallelProcess" sourceFile="AlphabetisedParallelProcess.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AlphabetisedParallelProcessIdx" sourceFile="AlphabetisedParallelProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AlphabetisedParallelProcessIte" sourceFile="AlphabetisedParallelProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AssignmentCommand" sourceFile="AssignmentCommand.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.AssignmentPairs" sourceFile="AssignmentPairs.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.BasicAction" sourceFile="BasicAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.BasicChannelSetExpr" sourceFile="BasicChannelSetExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.BasicProcess" sourceFile="BasicProcess.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CallAction" sourceFile="CallAction.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CallProcess" sourceFile="CallProcess.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CallUsage" sourceFile="CallUsage.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelDecl" sourceFile="ChannelDecl.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelPara" sourceFile="ChannelPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelSet" sourceFile="ChannelSet.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelSetList" sourceFile="ChannelSetList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelSetPara" sourceFile="ChannelSetPara.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelSetType" sourceFile="ChannelSetType.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChannelType" sourceFile="ChannelType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ChaosAction" sourceFile="ChaosAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusAction" sourceFile="CircusAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusActionList" sourceFile="CircusActionList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusAnn" sourceFile="CircusAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusChannelSet" sourceFile="CircusChannelSet.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusChannelSetList" sourceFile="CircusChannelSetList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusCommand" sourceFile="CircusCommand.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusCommunicationList" sourceFile="CircusCommunicationList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusConjPara" sourceFile="CircusConjPara.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusFieldList" sourceFile="CircusFieldList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusGuardedCommand" sourceFile="CircusGuardedCommand.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusNameSet" sourceFile="CircusNameSet.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusNameSetList" sourceFile="CircusNameSetList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusProcess" sourceFile="CircusProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusSigType" sourceFile="CircusSigType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusSignature" sourceFile="CircusSignature.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusStateAnn" sourceFile="CircusStateAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CircusType" sourceFile="CircusType.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CommPattern" sourceFile="CommPattern.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CommUsage" sourceFile="CommUsage.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Communication" sourceFile="Communication.java" interface="false" size="47" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CommunicationList" sourceFile="CommunicationList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.CommunicationType" sourceFile="CommunicationType.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.DoGuardedCommand" sourceFile="DoGuardedCommand.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.DotField" sourceFile="DotField.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ExtChoiceAction" sourceFile="ExtChoiceAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ExtChoiceActionIte" sourceFile="ExtChoiceActionIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcess" sourceFile="ExtChoiceProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcessIdx" sourceFile="ExtChoiceProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ExtChoiceProcessIte" sourceFile="ExtChoiceProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Field" sourceFile="Field.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.FieldList" sourceFile="FieldList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.GuardedAction" sourceFile="GuardedAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.HideAction" sourceFile="HideAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.HideProcess" sourceFile="HideProcess.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IfGuardedCommand" sourceFile="IfGuardedCommand.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ImplicitChannelAnn" sourceFile="ImplicitChannelAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IndexedProcess" sourceFile="IndexedProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InputField" sourceFile="InputField.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IntChoiceAction" sourceFile="IntChoiceAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IntChoiceActionIte" sourceFile="IntChoiceActionIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcess" sourceFile="IntChoiceProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcessIdx" sourceFile="IntChoiceProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.IntChoiceProcessIte" sourceFile="IntChoiceProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InterleaveAction" sourceFile="InterleaveAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InterleaveActionIte" sourceFile="InterleaveActionIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InterleaveProcess" sourceFile="InterleaveProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InterleaveProcessIdx" sourceFile="InterleaveProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InterleaveProcessIte" sourceFile="InterleaveProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.InterruptAction" sourceFile="InterruptAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.LetAction" sourceFile="LetAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.LetMuAction" sourceFile="LetMuAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.LetVarAction" sourceFile="LetVarAction.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Model" sourceFile="Model.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.MuAction" sourceFile="MuAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.NameSet" sourceFile="NameSet.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.NameSetList" sourceFile="NameSetList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.NameSetPara" sourceFile="NameSetPara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.NameSetType" sourceFile="NameSetType.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="809" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.OnTheFlyDefAnn" sourceFile="OnTheFlyDefAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.OutputFieldAnn" sourceFile="OutputFieldAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParAction" sourceFile="ParAction.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParActionIte" sourceFile="ParActionIte.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParProcess" sourceFile="ParProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParProcessIdx" sourceFile="ParProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParProcessIte" sourceFile="ParProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParallelAction" sourceFile="ParallelAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParallelActionIte" sourceFile="ParallelActionIte.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParallelProcess" sourceFile="ParallelProcess.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParallelProcessIdx" sourceFile="ParallelProcessIdx.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParallelProcessIte" sourceFile="ParallelProcessIte.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParamAction" sourceFile="ParamAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParamProcess" sourceFile="ParamProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ParamQualifier" sourceFile="ParamQualifier.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.PrefixingAction" sourceFile="PrefixingAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Process1" sourceFile="Process1.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Process2" sourceFile="Process2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessD" sourceFile="ProcessD.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessIdx" sourceFile="ProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessIte" sourceFile="ProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessPara" sourceFile="ProcessPara.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessSignature" sourceFile="ProcessSignature.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessSignatureAnn" sourceFile="ProcessSignatureAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessSignatureList" sourceFile="ProcessSignatureList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessTransformerPred" sourceFile="ProcessTransformerPred.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProcessType" sourceFile="ProcessType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ProofObligationAnn" sourceFile="ProofObligationAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.QualifiedDecl" sourceFile="QualifiedDecl.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.RenameAction" sourceFile="RenameAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.RenameProcess" sourceFile="RenameProcess.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SchExprAction" sourceFile="SchExprAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SeqAction" sourceFile="SeqAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SeqActionIte" sourceFile="SeqActionIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SeqProcess" sourceFile="SeqProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SeqProcessIdx" sourceFile="SeqProcessIdx.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SeqProcessIte" sourceFile="SeqProcessIte.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SigmaExpr" sourceFile="SigmaExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SignatureList" sourceFile="SignatureList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SkipAction" sourceFile="SkipAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SpecStmtCommand" sourceFile="SpecStmtCommand.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.StateUpdate" sourceFile="StateUpdate.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.StateUpdateAnn" sourceFile="StateUpdateAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.StopAction" sourceFile="StopAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.SubstitutionAction" sourceFile="SubstitutionAction.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.Transformation" sourceFile="Transformation.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.TransformerPara" sourceFile="TransformerPara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.TransformerPred" sourceFile="TransformerPred.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.VarDeclCommand" sourceFile="VarDeclCommand.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.ZSignatureList" sourceFile="ZSignatureList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circus.util" total_bugs="7" total_types="14" total_size="2344" priority_2="3" priority_1="4">
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusChar" sourceFile="CircusChar.java" interface="false" size="89" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbol" sourceFile="CircusConcreteSyntaxSymbol.java" interface="false" size="259" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor" sourceFile="CircusConcreteSyntaxSymbolVisitor.java" interface="false" size="321" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor$Utils" sourceFile="CircusConcreteSyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusConcreteSyntaxSymbolVisitor$UtilsImpl" sourceFile="CircusConcreteSyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusString" sourceFile="CircusString.java" interface="true" size="114" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.CircusUtils" sourceFile="CircusUtils.java" interface="false" size="275" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor" sourceFile="ConcreteSyntaxDescriptionVisitor.java" interface="false" size="25" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.Factory" sourceFile="Factory.java" interface="false" size="590" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.GetNameVisitor" sourceFile="GetNameVisitor.java" interface="false" size="22" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="595" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.PrintVisitor$FindProcessPara" sourceFile="PrintVisitor.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circus.visitor" total_bugs="0" total_types="135" total_size="269">
+      <ClassStats class="net.sourceforge.czt.circus.visitor.Action1Visitor" sourceFile="Action1Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.Action2Visitor" sourceFile="Action2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionDVisitor" sourceFile="ActionDVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionIteVisitor" sourceFile="ActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionListVisitor" sourceFile="ActionListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionParaVisitor" sourceFile="ActionParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionSignatureAnnVisitor" sourceFile="ActionSignatureAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionSignatureListVisitor" sourceFile="ActionSignatureListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionSignatureVisitor" sourceFile="ActionSignatureVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionTransformerPredVisitor" sourceFile="ActionTransformerPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ActionTypeVisitor" sourceFile="ActionTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionIteVisitor" sourceFile="AlphabetisedParallelActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AlphabetisedParallelActionVisitor" sourceFile="AlphabetisedParallelActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessIdxVisitor" sourceFile="AlphabetisedParallelProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessIteVisitor" sourceFile="AlphabetisedParallelProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AlphabetisedParallelProcessVisitor" sourceFile="AlphabetisedParallelProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AssignmentCommandVisitor" sourceFile="AssignmentCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.AssignmentPairsVisitor" sourceFile="AssignmentPairsVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.BasicActionVisitor" sourceFile="BasicActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor" sourceFile="BasicChannelSetExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.BasicProcessVisitor" sourceFile="BasicProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CallActionVisitor" sourceFile="CallActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CallProcessVisitor" sourceFile="CallProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelDeclVisitor" sourceFile="ChannelDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelParaVisitor" sourceFile="ChannelParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelSetListVisitor" sourceFile="ChannelSetListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor" sourceFile="ChannelSetParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor" sourceFile="ChannelSetTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelSetVisitor" sourceFile="ChannelSetVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChannelTypeVisitor" sourceFile="ChannelTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ChaosActionVisitor" sourceFile="ChaosActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusActionListVisitor" sourceFile="CircusActionListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusActionVisitor" sourceFile="CircusActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusAnnVisitor" sourceFile="CircusAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusChannelSetListVisitor" sourceFile="CircusChannelSetListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor" sourceFile="CircusChannelSetVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusCommandVisitor" sourceFile="CircusCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusCommunicationListVisitor" sourceFile="CircusCommunicationListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusConjParaVisitor" sourceFile="CircusConjParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusFieldListVisitor" sourceFile="CircusFieldListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusGuardedCommandVisitor" sourceFile="CircusGuardedCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusNameSetListVisitor" sourceFile="CircusNameSetListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusNameSetVisitor" sourceFile="CircusNameSetVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusProcessVisitor" sourceFile="CircusProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusSigTypeVisitor" sourceFile="CircusSigTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusSignatureVisitor" sourceFile="CircusSignatureVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusStateAnnVisitor" sourceFile="CircusStateAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusTypeVisitor" sourceFile="CircusTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CircusVisitor" sourceFile="CircusVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CommunicationListVisitor" sourceFile="CommunicationListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CommunicationTypeVisitor" sourceFile="CommunicationTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.CommunicationVisitor" sourceFile="CommunicationVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.DoGuardedCommandVisitor" sourceFile="DoGuardedCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.DotFieldVisitor" sourceFile="DotFieldVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ExtChoiceActionIteVisitor" sourceFile="ExtChoiceActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ExtChoiceActionVisitor" sourceFile="ExtChoiceActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ExtChoiceProcessIdxVisitor" sourceFile="ExtChoiceProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ExtChoiceProcessIteVisitor" sourceFile="ExtChoiceProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ExtChoiceProcessVisitor" sourceFile="ExtChoiceProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.FieldListVisitor" sourceFile="FieldListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.FieldVisitor" sourceFile="FieldVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.GuardedActionVisitor" sourceFile="GuardedActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.HideActionVisitor" sourceFile="HideActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.HideProcessVisitor" sourceFile="HideProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IfGuardedCommandVisitor" sourceFile="IfGuardedCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ImplicitChannelAnnVisitor" sourceFile="ImplicitChannelAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IndexedProcessVisitor" sourceFile="IndexedProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InputFieldVisitor" sourceFile="InputFieldVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IntChoiceActionIteVisitor" sourceFile="IntChoiceActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IntChoiceActionVisitor" sourceFile="IntChoiceActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IntChoiceProcessIdxVisitor" sourceFile="IntChoiceProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IntChoiceProcessIteVisitor" sourceFile="IntChoiceProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.IntChoiceProcessVisitor" sourceFile="IntChoiceProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InterleaveActionIteVisitor" sourceFile="InterleaveActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InterleaveActionVisitor" sourceFile="InterleaveActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InterleaveProcessIdxVisitor" sourceFile="InterleaveProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InterleaveProcessIteVisitor" sourceFile="InterleaveProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InterleaveProcessVisitor" sourceFile="InterleaveProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.InterruptActionVisitor" sourceFile="InterruptActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.LetActionVisitor" sourceFile="LetActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.LetMuActionVisitor" sourceFile="LetMuActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.LetVarActionVisitor" sourceFile="LetVarActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.MuActionVisitor" sourceFile="MuActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.NameSetListVisitor" sourceFile="NameSetListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.NameSetParaVisitor" sourceFile="NameSetParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.NameSetTypeVisitor" sourceFile="NameSetTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.NameSetVisitor" sourceFile="NameSetVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.OnTheFlyDefAnnVisitor" sourceFile="OnTheFlyDefAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.OutputFieldAnnVisitor" sourceFile="OutputFieldAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParActionIteVisitor" sourceFile="ParActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParActionVisitor" sourceFile="ParActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParProcessIdxVisitor" sourceFile="ParProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParProcessIteVisitor" sourceFile="ParProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParProcessVisitor" sourceFile="ParProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParallelActionIteVisitor" sourceFile="ParallelActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParallelActionVisitor" sourceFile="ParallelActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParallelProcessIdxVisitor" sourceFile="ParallelProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParallelProcessIteVisitor" sourceFile="ParallelProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParallelProcessVisitor" sourceFile="ParallelProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParamActionVisitor" sourceFile="ParamActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ParamProcessVisitor" sourceFile="ParamProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.PrefixingActionVisitor" sourceFile="PrefixingActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.Process1Visitor" sourceFile="Process1Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.Process2Visitor" sourceFile="Process2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessDVisitor" sourceFile="ProcessDVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessIdxVisitor" sourceFile="ProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessIteVisitor" sourceFile="ProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessParaVisitor" sourceFile="ProcessParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessSignatureAnnVisitor" sourceFile="ProcessSignatureAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessSignatureListVisitor" sourceFile="ProcessSignatureListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor" sourceFile="ProcessSignatureVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessTransformerPredVisitor" sourceFile="ProcessTransformerPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProcessTypeVisitor" sourceFile="ProcessTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ProofObligationAnnVisitor" sourceFile="ProofObligationAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.QualifiedDeclVisitor" sourceFile="QualifiedDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.RenameActionVisitor" sourceFile="RenameActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.RenameProcessVisitor" sourceFile="RenameProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SchExprActionVisitor" sourceFile="SchExprActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SeqActionIteVisitor" sourceFile="SeqActionIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SeqActionVisitor" sourceFile="SeqActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SeqProcessIdxVisitor" sourceFile="SeqProcessIdxVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SeqProcessIteVisitor" sourceFile="SeqProcessIteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SeqProcessVisitor" sourceFile="SeqProcessVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SigmaExprVisitor" sourceFile="SigmaExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SignatureListVisitor" sourceFile="SignatureListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SkipActionVisitor" sourceFile="SkipActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SpecStmtCommandVisitor" sourceFile="SpecStmtCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.StateUpdateAnnVisitor" sourceFile="StateUpdateAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.StateUpdateVisitor" sourceFile="StateUpdateVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.StopActionVisitor" sourceFile="StopActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.SubstitutionActionVisitor" sourceFile="SubstitutionActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.TransformerParaVisitor" sourceFile="TransformerParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.TransformerPredVisitor" sourceFile="TransformerPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.VarDeclCommandVisitor" sourceFile="VarDeclCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circus.visitor.ZSignatureListVisitor" sourceFile="ZSignatureListVisitor.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="1118" invocations="2" avgMicrosecondsPerInvocation="559431" maxMicrosecondsPerInvocation="995392" standardDeviationMircosecondsPerInvocation="435961"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="629" invocations="2123" avgMicrosecondsPerInvocation="296" maxMicrosecondsPerInvocation="53420" standardDeviationMircosecondsPerInvocation="2418"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="532" invocations="1314" avgMicrosecondsPerInvocation="405" maxMicrosecondsPerInvocation="65580" standardDeviationMircosecondsPerInvocation="2615"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="469" invocations="3246" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="51636" standardDeviationMircosecondsPerInvocation="941"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="464" invocations="3614" avgMicrosecondsPerInvocation="128" maxMicrosecondsPerInvocation="44970" standardDeviationMircosecondsPerInvocation="901"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="457" invocations="3767" avgMicrosecondsPerInvocation="121" maxMicrosecondsPerInvocation="7114" standardDeviationMircosecondsPerInvocation="298"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="447" invocations="3630" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="4858" standardDeviationMircosecondsPerInvocation="263"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="404" invocations="1314" avgMicrosecondsPerInvocation="307" maxMicrosecondsPerInvocation="27946" standardDeviationMircosecondsPerInvocation="1691"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="373" invocations="4463" avgMicrosecondsPerInvocation="83" maxMicrosecondsPerInvocation="54909" standardDeviationMircosecondsPerInvocation="895"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="332" invocations="3772" avgMicrosecondsPerInvocation="88" maxMicrosecondsPerInvocation="22228" standardDeviationMircosecondsPerInvocation="450"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="327" invocations="2128" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="85625" standardDeviationMircosecondsPerInvocation="1933"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="285" invocations="2856" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="5257" standardDeviationMircosecondsPerInvocation="222"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="257" invocations="3630" avgMicrosecondsPerInvocation="71" maxMicrosecondsPerInvocation="29490" standardDeviationMircosecondsPerInvocation="496"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="170" invocations="1314" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="25430" standardDeviationMircosecondsPerInvocation="1111"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="170" invocations="1314" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="42786" standardDeviationMircosecondsPerInvocation="1426"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="154" invocations="1314" avgMicrosecondsPerInvocation="117" maxMicrosecondsPerInvocation="24569" standardDeviationMircosecondsPerInvocation="1059"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="151" invocations="1314" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="34127" standardDeviationMircosecondsPerInvocation="1173"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="148" invocations="69441" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="2621" standardDeviationMircosecondsPerInvocation="17"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="125" invocations="572" avgMicrosecondsPerInvocation="219" maxMicrosecondsPerInvocation="31439" standardDeviationMircosecondsPerInvocation="1463"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="119" invocations="1381" avgMicrosecondsPerInvocation="86" maxMicrosecondsPerInvocation="19221" standardDeviationMircosecondsPerInvocation="650"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="118" invocations="572" avgMicrosecondsPerInvocation="207" maxMicrosecondsPerInvocation="18772" standardDeviationMircosecondsPerInvocation="1092"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="117" invocations="1314" avgMicrosecondsPerInvocation="89" maxMicrosecondsPerInvocation="13650" standardDeviationMircosecondsPerInvocation="559"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="117" invocations="2072" avgMicrosecondsPerInvocation="56" maxMicrosecondsPerInvocation="49880" standardDeviationMircosecondsPerInvocation="1330"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="114" invocations="572" avgMicrosecondsPerInvocation="200" maxMicrosecondsPerInvocation="10589" standardDeviationMircosecondsPerInvocation="684"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="104" invocations="3630" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="3308" standardDeviationMircosecondsPerInvocation="86"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="88" invocations="572" avgMicrosecondsPerInvocation="154" maxMicrosecondsPerInvocation="19137" standardDeviationMircosecondsPerInvocation="1110"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="86" invocations="572" avgMicrosecondsPerInvocation="150" maxMicrosecondsPerInvocation="28536" standardDeviationMircosecondsPerInvocation="1288"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="85" invocations="4292" avgMicrosecondsPerInvocation="19" maxMicrosecondsPerInvocation="21348" standardDeviationMircosecondsPerInvocation="326"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="84" invocations="1314" avgMicrosecondsPerInvocation="64" maxMicrosecondsPerInvocation="19115" standardDeviationMircosecondsPerInvocation="559"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="82" invocations="572" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="8178" standardDeviationMircosecondsPerInvocation="550"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BadSyntaxForRegularExpression" totalMilliseconds="79" invocations="572" avgMicrosecondsPerInvocation="138" maxMicrosecondsPerInvocation="29077" standardDeviationMircosecondsPerInvocation="1284"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="75" invocations="572" avgMicrosecondsPerInvocation="131" maxMicrosecondsPerInvocation="9416" standardDeviationMircosecondsPerInvocation="573"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="68" invocations="572" avgMicrosecondsPerInvocation="120" maxMicrosecondsPerInvocation="13176" standardDeviationMircosecondsPerInvocation="684"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNonShortCircuit" totalMilliseconds="65" invocations="572" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="21494" standardDeviationMircosecondsPerInvocation="964"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="64" invocations="572" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="8070" standardDeviationMircosecondsPerInvocation="552"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FormatStringChecker" totalMilliseconds="63" invocations="572" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="7920" standardDeviationMircosecondsPerInvocation="609"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="59" invocations="572" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="8075" standardDeviationMircosecondsPerInvocation="535"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437999104175" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

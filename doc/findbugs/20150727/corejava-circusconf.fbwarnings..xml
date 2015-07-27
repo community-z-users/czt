@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437999097457" analysisTimestamp="1437999092574" release="">
+  <Project projectName="corejava-circusconf">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circuspatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/generated-sources/jaxb</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circusconf/target/generated-sources/xml/xslt</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circusconf.jaxb.AstToJaxb" start="1" end="157" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circusconf/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circusconf.jaxb.JaxbToAst" start="41" end="124" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circusconf/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/circuspatt/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.CircusConfChar">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.CircusConfChar" sourcefile="CircusConfChar.java" sourcepath="net/sourceforge/czt/circusconf/util/CircusConfChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circusconf.util.CircusConfChar" name="LCIRCCONF" signature="Lnet/sourceforge/czt/circusconf/util/CircusConfChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.CircusConfChar" sourcefile="CircusConfChar.java" sourcepath="net/sourceforge/czt/circusconf/util/CircusConfChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circusconf.util.CircusConfChar" start="42" end="42" startBytecode="13" endBytecode="13" sourcefile="CircusConfChar.java" sourcepath="net/sourceforge/czt/circusconf/util/CircusConfChar.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.CircusConfChar">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.CircusConfChar" sourcefile="CircusConfChar.java" sourcepath="net/sourceforge/czt/circusconf/util/CircusConfChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.circusconf.util.CircusConfChar" name="RCIRCCONF" signature="Lnet/sourceforge/czt/circusconf/util/CircusConfChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.CircusConfChar" sourcefile="CircusConfChar.java" sourcepath="net/sourceforge/czt/circusconf/util/CircusConfChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circusconf.util.CircusConfChar" start="47" end="47" startBytecode="29" endBytecode="29" sourcefile="CircusConfChar.java" sourcepath="net/sourceforge/czt/circusconf/util/CircusConfChar.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.ConcreteSyntaxDescriptionVisitor" start="33" end="64" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/circusconf/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/circus/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.Factory" start="41" end="598" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circusconf/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circuspatt.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.circuspatt.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/circuspatt/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.GetNameVisitor" start="22" end="22" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/circusconf/util/GetNameVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.GetNameVisitor" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/z/util/GetNameVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/LongDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" start="51" end="51" startBytecode="0" endBytecode="45" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/LongDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/LongDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" start="51" end="51" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/LongDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" start="51" end="51" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/LongDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.PrintVisitor" start="1" end="38" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circusconf/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.circus.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.circus.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circus/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/ShortDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" start="55" end="55" startBytecode="0" endBytecode="45" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/ShortDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/ShortDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" start="55" end="55" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/ShortDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" start="55" end="55" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/circusconf/util/ShortDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 12:24:29 +0100" total_classes="31" referenced_classes="1238" total_bugs="10" total_size="676" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="469.44" clock_seconds="2478.14" peak_mbytes="1475.61" alloc_mbytes="953.50" gc_seconds="22.58" priority_2="2" priority_1="8">
+    <PackageStats package="net.sourceforge.czt.circusconf.ast" total_bugs="0" total_types="3" total_size="7">
+      <ClassStats class="net.sourceforge.czt.circusconf.ast.CircusConfFactory" sourceFile="CircusConfFactory.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.ast.ConfidentialityAction" sourceFile="ConfidentialityAction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.ast.ConfidentialityProcess" sourceFile="ConfidentialityProcess.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circusconf.impl" total_bugs="0" total_types="3" total_size="125">
+      <ClassStats class="net.sourceforge.czt.circusconf.impl.CircusConfFactoryImpl" sourceFile="CircusConfFactoryImpl.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.impl.ConfidentialityActionImpl" sourceFile="ConfidentialityActionImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.impl.ConfidentialityProcessImpl" sourceFile="ConfidentialityProcessImpl.java" interface="false" size="51" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circusconf.jaxb" total_bugs="2" total_types="5" total_size="169" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="69" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="56" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.JaxbXmlWriterReaderTest" sourceFile="JaxbXmlWriterReaderTest.java" interface="false" size="18" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circusconf.jaxb.gen" total_bugs="0" total_types="4" total_size="24">
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.gen.ConfidentialityAction" sourceFile="ConfidentialityAction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.gen.ConfidentialityProcess" sourceFile="ConfidentialityProcess.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circusconf.util" total_bugs="8" total_types="13" total_size="346" priority_2="2" priority_1="6">
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfChar" sourceFile="CircusConfChar.java" interface="false" size="9" bugs="2" priority_1="2"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfConcreteSyntaxSymbol" sourceFile="CircusConfConcreteSyntaxSymbol.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfConcreteSyntaxSymbolVisitor" sourceFile="CircusConfConcreteSyntaxSymbolVisitor.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfConcreteSyntaxSymbolVisitor$Utils" sourceFile="CircusConfConcreteSyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfConcreteSyntaxSymbolVisitor$UtilsImpl" sourceFile="CircusConfConcreteSyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfString" sourceFile="CircusConfString.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.CircusConfUtils" sourceFile="CircusConfUtils.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.ConcreteSyntaxDescriptionVisitor" sourceFile="ConcreteSyntaxDescriptionVisitor.java" interface="false" size="25" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.Factory" sourceFile="Factory.java" interface="false" size="216" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.GetNameVisitor" sourceFile="GetNameVisitor.java" interface="false" size="3" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="10" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.circusconf.visitor" total_bugs="0" total_types="3" total_size="5">
+      <ClassStats class="net.sourceforge.czt.circusconf.visitor.CircusConfVisitor" sourceFile="CircusConfVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.visitor.ConfidentialityActionVisitor" sourceFile="ConfidentialityActionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.circusconf.visitor.ConfidentialityProcessVisitor" sourceFile="ConfidentialityProcessVisitor.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="594" invocations="1238" avgMicrosecondsPerInvocation="480" maxMicrosecondsPerInvocation="57812" standardDeviationMircosecondsPerInvocation="3068"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="570" invocations="1238" avgMicrosecondsPerInvocation="461" maxMicrosecondsPerInvocation="48745" standardDeviationMircosecondsPerInvocation="2341"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="565" invocations="2" avgMicrosecondsPerInvocation="282902" maxMicrosecondsPerInvocation="442583" standardDeviationMircosecondsPerInvocation="159681"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="553" invocations="2059" avgMicrosecondsPerInvocation="268" maxMicrosecondsPerInvocation="59740" standardDeviationMircosecondsPerInvocation="2181"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="482" invocations="2051" avgMicrosecondsPerInvocation="235" maxMicrosecondsPerInvocation="50125" standardDeviationMircosecondsPerInvocation="1769"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="260" invocations="946" avgMicrosecondsPerInvocation="275" maxMicrosecondsPerInvocation="53446" standardDeviationMircosecondsPerInvocation="1791"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="184" invocations="1238" avgMicrosecondsPerInvocation="148" maxMicrosecondsPerInvocation="32936" standardDeviationMircosecondsPerInvocation="1309"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="166" invocations="1238" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="31020" standardDeviationMircosecondsPerInvocation="1294"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="137" invocations="1310" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="45726" standardDeviationMircosecondsPerInvocation="1283"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="120" invocations="1238" avgMicrosecondsPerInvocation="96" maxMicrosecondsPerInvocation="23475" standardDeviationMircosecondsPerInvocation="725"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437999097457" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

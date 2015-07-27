@@ -153,8 +153,8 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
 /**
  * @author Leo Freitas
  */
-public class PrintVisitor
-  extends net.sourceforge.czt.z.util.PrintVisitor
+public class CircusSimplePrintVisitor
+  extends net.sourceforge.czt.z.util.ZSimplePrintVisitor
   implements
   ChannelTypeVisitor<String>,
   CommunicationTypeVisitor<String>,

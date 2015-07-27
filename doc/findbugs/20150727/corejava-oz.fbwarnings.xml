@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437999098600" analysisTimestamp="1437999092574" release="">
+  <Project projectName="corejava-oz">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/generated-sources/jaxb</SrcDir>
+    <SrcDir>/corejava-oz/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-oz/src/main/resources</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.oz.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1" end="1797" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zpatt.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.zpatt.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/zpatt/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.oz.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" name="visitClassPara" signature="(Lnet/sourceforge/czt/oz/ast/ClassPara;)Ljavax/xml/bind/JAXBElement;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="173" end="302" startBytecode="0" endBytecode="1354" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="297" end="297" startBytecode="455" endBytecode="455" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="297" end="297" startBytecode="455" endBytecode="455" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.oz.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" name="visitClassPolyType" signature="(Lnet/sourceforge/czt/oz/ast/ClassPolyType;)Ljavax/xml/bind/JAXBElement;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1486" end="1582" startBytecode="0" endBytecode="1082" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1577" end="1577" startBytecode="355" endBytecode="355" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1577" end="1577" startBytecode="355" endBytecode="355" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.oz.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" name="visitClassRefType" signature="(Lnet/sourceforge/czt/oz/ast/ClassRefType;)Ljavax/xml/bind/JAXBElement;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1174" end="1315" startBytecode="0" endBytecode="1524" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1310" end="1310" startBytecode="509" endBytecode="509" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="1310" end="1310" startBytecode="509" endBytecode="509" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.oz.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" name="visitClassUnionType" signature="(Lnet/sourceforge/czt/oz/ast/ClassUnionType;)Ljavax/xml/bind/JAXBElement;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="873" end="958" startBytecode="0" endBytecode="982" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="953" end="953" startBytecode="321" endBytecode="321" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+    <SourceLine classname="net.sourceforge.czt.oz.jaxb.AstToJaxb" start="953" end="953" startBytecode="321" endBytecode="321" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/oz/jaxb/AstToJaxb.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.oz.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.oz.jaxb.JaxbToAst" start="41" end="1038" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/oz/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zpatt.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.zpatt.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/zpatt/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.oz.util.Factory" start="41" end="1222" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/oz/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zpatt.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/zpatt/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="BOOL" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="82" end="82" startBytecode="81" endBytecode="81" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="CLASSUNION" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="57" end="57" startBytecode="36" endBytecode="36" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="CONTAINMENT" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="72" end="72" startBytecode="63" endBytecode="63" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="DCNJ" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="52" end="52" startBytecode="27" endBytecode="27" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="DGCH" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="47" end="47" startBytecode="18" endBytecode="18" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="GCH" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="37" end="37" startBytecode="0" endBytecode="0" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="OID" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="77" end="77" startBytecode="72" endBytecode="72" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="PARALLEL" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="42" end="42" startBytecode="9" endBytecode="9" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="POLY" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="67" end="67" startBytecode="54" endBytecode="54" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.OzChar">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.oz.util.OzChar" name="SDEF" signature="Lnet/sourceforge/czt/oz/util/OzChar;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.oz.util.OzChar" sourcefile="OzChar.java" sourcepath="net/sourceforge/czt/oz/util/OzChar.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.oz.util.OzString" start="62" end="62" startBytecode="45" endBytecode="45" sourcefile="OzString.java" sourcepath="net/sourceforge/czt/oz/util/OzString.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.oz.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.oz.util.PrintVisitor" start="1" end="43" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/oz/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 12:24:30 +0100" total_classes="157" referenced_classes="823" total_bugs="18" total_size="5813" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="512.85" clock_seconds="2525.93" peak_mbytes="1482.11" alloc_mbytes="960.00" gc_seconds="24.18" priority_2="4" priority_1="14">
+    <PackageStats package="net.sourceforge.czt.oz.ast" total_bugs="0" total_types="37" total_size="199">
+      <ClassStats class="net.sourceforge.czt.oz.ast.AnonOpExpr" sourceFile="AnonOpExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.AssoParallelOpExpr" sourceFile="AssoParallelOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassPara" sourceFile="ClassPara.java" interface="true" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassPolyType" sourceFile="ClassPolyType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassRef" sourceFile="ClassRef.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassRefList" sourceFile="ClassRefList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassRefType" sourceFile="ClassRefType.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassType" sourceFile="ClassType.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassUnionExpr" sourceFile="ClassUnionExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ClassUnionType" sourceFile="ClassUnionType.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ConjOpExpr" sourceFile="ConjOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ContainmentExpr" sourceFile="ContainmentExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.DeltaList" sourceFile="DeltaList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.DistChoiceOpExpr" sourceFile="DistChoiceOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.DistConjOpExpr" sourceFile="DistConjOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.DistOpExpr" sourceFile="DistOpExpr.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.DistSeqOpExpr" sourceFile="DistSeqOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ExChoiceOpExpr" sourceFile="ExChoiceOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.HideOpExpr" sourceFile="HideOpExpr.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.InitialState" sourceFile="InitialState.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.NameSignaturePair" sourceFile="NameSignaturePair.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.OpExpr" sourceFile="OpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.OpExpr2" sourceFile="OpExpr2.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.OpPromotionExpr" sourceFile="OpPromotionExpr.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.OpText" sourceFile="OpText.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.Operation" sourceFile="Operation.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.OzFactory" sourceFile="OzFactory.java" interface="true" size="65" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ParallelOpExpr" sourceFile="ParallelOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.PolyExpr" sourceFile="PolyExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.PredExpr" sourceFile="PredExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.PrimaryDecl" sourceFile="PrimaryDecl.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.RenameOpExpr" sourceFile="RenameOpExpr.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.ScopeEnrichOpExpr" sourceFile="ScopeEnrichOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.SecondaryDecl" sourceFile="SecondaryDecl.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.SeqOpExpr" sourceFile="SeqOpExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.State" sourceFile="State.java" interface="true" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.ast.VisibilityList" sourceFile="VisibilityList.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.oz.impl" total_bugs="0" total_types="37" total_size="2996">
+      <ClassStats class="net.sourceforge.czt.oz.impl.AnonOpExprImpl" sourceFile="AnonOpExprImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.AssoParallelOpExprImpl" sourceFile="AssoParallelOpExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassParaImpl" sourceFile="ClassParaImpl.java" interface="false" size="195" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassPolyTypeImpl" sourceFile="ClassPolyTypeImpl.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassRefImpl" sourceFile="ClassRefImpl.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassRefListImpl" sourceFile="ClassRefListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassRefTypeImpl" sourceFile="ClassRefTypeImpl.java" interface="false" size="123" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassTypeImpl" sourceFile="ClassTypeImpl.java" interface="false" size="72" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassUnionExprImpl" sourceFile="ClassUnionExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ClassUnionTypeImpl" sourceFile="ClassUnionTypeImpl.java" interface="false" size="60" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ConjOpExprImpl" sourceFile="ConjOpExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ContainmentExprImpl" sourceFile="ContainmentExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.DeltaListImpl" sourceFile="DeltaListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.DistChoiceOpExprImpl" sourceFile="DistChoiceOpExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.DistConjOpExprImpl" sourceFile="DistConjOpExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.DistOpExprImpl" sourceFile="DistOpExprImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.DistSeqOpExprImpl" sourceFile="DistSeqOpExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ExChoiceOpExprImpl" sourceFile="ExChoiceOpExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.HideOpExprImpl" sourceFile="HideOpExprImpl.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.InitialStateImpl" sourceFile="InitialStateImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.NameSignaturePairImpl" sourceFile="NameSignaturePairImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.OpExpr2Impl" sourceFile="OpExpr2Impl.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.OpExprImpl" sourceFile="OpExprImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.OpPromotionExprImpl" sourceFile="OpPromotionExprImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.OpTextImpl" sourceFile="OpTextImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.OperationImpl" sourceFile="OperationImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.OzFactoryImpl" sourceFile="OzFactoryImpl.java" interface="false" size="321" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ParallelOpExprImpl" sourceFile="ParallelOpExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.PolyExprImpl" sourceFile="PolyExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.PredExprImpl" sourceFile="PredExprImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.PrimaryDeclImpl" sourceFile="PrimaryDeclImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.RenameOpExprImpl" sourceFile="RenameOpExprImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.ScopeEnrichOpExprImpl" sourceFile="ScopeEnrichOpExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.SecondaryDeclImpl" sourceFile="SecondaryDeclImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.SeqOpExprImpl" sourceFile="SeqOpExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.StateImpl" sourceFile="StateImpl.java" interface="false" size="112" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.impl.VisibilityListImpl" sourceFile="VisibilityListImpl.java" interface="false" size="110" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.oz.jaxb" total_bugs="6" total_types="4" total_size="1522" priority_2="4" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="899" bugs="5" priority_2="4" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="598" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="16" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.oz.jaxb.gen" total_bugs="0" total_types="38" total_size="619">
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.AnonOpExpr" sourceFile="AnonOpExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.AssoParallelOpExpr" sourceFile="AssoParallelOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassPara" sourceFile="ClassPara.java" interface="false" size="49" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassPolyType" sourceFile="ClassPolyType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassRef" sourceFile="ClassRef.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassRefList" sourceFile="ClassRefList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassRefType" sourceFile="ClassRefType.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassType" sourceFile="ClassType.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassUnionExpr" sourceFile="ClassUnionExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ClassUnionType" sourceFile="ClassUnionType.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ConjOpExpr" sourceFile="ConjOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ContainmentExpr" sourceFile="ContainmentExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.DeltaList" sourceFile="DeltaList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.DistChoiceOpExpr" sourceFile="DistChoiceOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.DistConjOpExpr" sourceFile="DistConjOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.DistOpExpr" sourceFile="DistOpExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.DistSeqOpExpr" sourceFile="DistSeqOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ExChoiceOpExpr" sourceFile="ExChoiceOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.HideOpExpr" sourceFile="HideOpExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.InitialState" sourceFile="InitialState.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.NameSignaturePair" sourceFile="NameSignaturePair.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="221" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.OpExpr" sourceFile="OpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.OpExpr2" sourceFile="OpExpr2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.OpPromotionExpr" sourceFile="OpPromotionExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.OpText" sourceFile="OpText.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.Operation" sourceFile="Operation.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ParallelOpExpr" sourceFile="ParallelOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.PolyExpr" sourceFile="PolyExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.PredExpr" sourceFile="PredExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.PrimaryDecl" sourceFile="PrimaryDecl.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.RenameOpExpr" sourceFile="RenameOpExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.ScopeEnrichOpExpr" sourceFile="ScopeEnrichOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.SecondaryDecl" sourceFile="SecondaryDecl.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.SeqOpExpr" sourceFile="SeqOpExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.State" sourceFile="State.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.VisibilityList" sourceFile="VisibilityList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.oz.util" total_bugs="12" total_types="4" total_size="404" priority_1="12">
+      <ClassStats class="net.sourceforge.czt.oz.util.Factory" sourceFile="Factory.java" interface="false" size="336" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.oz.util.OzChar" sourceFile="OzChar.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.util.OzString" sourceFile="OzString.java" interface="true" size="30" bugs="10" priority_1="10"/>
+      <ClassStats class="net.sourceforge.czt.oz.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="13" bugs="1" priority_1="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.oz.visitor" total_bugs="0" total_types="37" total_size="73">
+      <ClassStats class="net.sourceforge.czt.oz.visitor.AnonOpExprVisitor" sourceFile="AnonOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.AssoParallelOpExprVisitor" sourceFile="AssoParallelOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassParaVisitor" sourceFile="ClassParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassPolyTypeVisitor" sourceFile="ClassPolyTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassRefListVisitor" sourceFile="ClassRefListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassRefTypeVisitor" sourceFile="ClassRefTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassRefVisitor" sourceFile="ClassRefVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassTypeVisitor" sourceFile="ClassTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassUnionExprVisitor" sourceFile="ClassUnionExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ClassUnionTypeVisitor" sourceFile="ClassUnionTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ConjOpExprVisitor" sourceFile="ConjOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ContainmentExprVisitor" sourceFile="ContainmentExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.DeltaListVisitor" sourceFile="DeltaListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.DistChoiceOpExprVisitor" sourceFile="DistChoiceOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.DistConjOpExprVisitor" sourceFile="DistConjOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.DistOpExprVisitor" sourceFile="DistOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.DistSeqOpExprVisitor" sourceFile="DistSeqOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ExChoiceOpExprVisitor" sourceFile="ExChoiceOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.HideOpExprVisitor" sourceFile="HideOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.InitialStateVisitor" sourceFile="InitialStateVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.NameSignaturePairVisitor" sourceFile="NameSignaturePairVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.OpExpr2Visitor" sourceFile="OpExpr2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.OpExprVisitor" sourceFile="OpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.OpPromotionExprVisitor" sourceFile="OpPromotionExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.OpTextVisitor" sourceFile="OpTextVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.OperationVisitor" sourceFile="OperationVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.OzVisitor" sourceFile="OzVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ParallelOpExprVisitor" sourceFile="ParallelOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.PolyExprVisitor" sourceFile="PolyExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.PredExprVisitor" sourceFile="PredExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.PrimaryDeclVisitor" sourceFile="PrimaryDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.RenameOpExprVisitor" sourceFile="RenameOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.ScopeEnrichOpExprVisitor" sourceFile="ScopeEnrichOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.SecondaryDeclVisitor" sourceFile="SecondaryDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.SeqOpExprVisitor" sourceFile="SeqOpExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.StateVisitor" sourceFile="StateVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.oz.visitor.VisibilityListVisitor" sourceFile="VisibilityListVisitor.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="385" invocations="823" avgMicrosecondsPerInvocation="468" maxMicrosecondsPerInvocation="60265" standardDeviationMircosecondsPerInvocation="3210"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="330" invocations="2" avgMicrosecondsPerInvocation="165406" maxMicrosecondsPerInvocation="227696" standardDeviationMircosecondsPerInvocation="62290"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="322" invocations="1094" avgMicrosecondsPerInvocation="294" maxMicrosecondsPerInvocation="32712" standardDeviationMircosecondsPerInvocation="1514"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="307" invocations="823" avgMicrosecondsPerInvocation="373" maxMicrosecondsPerInvocation="47894" standardDeviationMircosecondsPerInvocation="2591"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="302" invocations="1446" avgMicrosecondsPerInvocation="209" maxMicrosecondsPerInvocation="53358" standardDeviationMircosecondsPerInvocation="1814"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="288" invocations="1040" avgMicrosecondsPerInvocation="277" maxMicrosecondsPerInvocation="31616" standardDeviationMircosecondsPerInvocation="1488"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="250" invocations="1046" avgMicrosecondsPerInvocation="239" maxMicrosecondsPerInvocation="8231" standardDeviationMircosecondsPerInvocation="724"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="226" invocations="968" avgMicrosecondsPerInvocation="234" maxMicrosecondsPerInvocation="20114" standardDeviationMircosecondsPerInvocation="836"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="184" invocations="785" avgMicrosecondsPerInvocation="235" maxMicrosecondsPerInvocation="26538" standardDeviationMircosecondsPerInvocation="1107"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="170" invocations="1094" avgMicrosecondsPerInvocation="155" maxMicrosecondsPerInvocation="26533" standardDeviationMircosecondsPerInvocation="872"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="146" invocations="1612" avgMicrosecondsPerInvocation="90" maxMicrosecondsPerInvocation="5388" standardDeviationMircosecondsPerInvocation="228"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="141" invocations="1046" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="28048" standardDeviationMircosecondsPerInvocation="971"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="115" invocations="823" avgMicrosecondsPerInvocation="139" maxMicrosecondsPerInvocation="35894" standardDeviationMircosecondsPerInvocation="1688"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="114" invocations="1451" avgMicrosecondsPerInvocation="79" maxMicrosecondsPerInvocation="8428" standardDeviationMircosecondsPerInvocation="260"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="92" invocations="823" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="44482" standardDeviationMircosecondsPerInvocation="1562"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="70" invocations="157" avgMicrosecondsPerInvocation="449" maxMicrosecondsPerInvocation="19465" standardDeviationMircosecondsPerInvocation="2052"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="66" invocations="1046" avgMicrosecondsPerInvocation="63" maxMicrosecondsPerInvocation="10169" standardDeviationMircosecondsPerInvocation="408"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="64" invocations="823" avgMicrosecondsPerInvocation="78" maxMicrosecondsPerInvocation="50501" standardDeviationMircosecondsPerInvocation="1759"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="63" invocations="823" avgMicrosecondsPerInvocation="76" maxMicrosecondsPerInvocation="42647" standardDeviationMircosecondsPerInvocation="1532"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="61" invocations="19093" avgMicrosecondsPerInvocation="3" maxMicrosecondsPerInvocation="7130" standardDeviationMircosecondsPerInvocation="76"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="58" invocations="881" avgMicrosecondsPerInvocation="66" maxMicrosecondsPerInvocation="6401" standardDeviationMircosecondsPerInvocation="263"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="56" invocations="157" avgMicrosecondsPerInvocation="361" maxMicrosecondsPerInvocation="18278" standardDeviationMircosecondsPerInvocation="1634"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="51" invocations="157" avgMicrosecondsPerInvocation="327" maxMicrosecondsPerInvocation="18140" standardDeviationMircosecondsPerInvocation="1653"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="49" invocations="823" avgMicrosecondsPerInvocation="60" maxMicrosecondsPerInvocation="3055" standardDeviationMircosecondsPerInvocation="193"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="47" invocations="157" avgMicrosecondsPerInvocation="305" maxMicrosecondsPerInvocation="28266" standardDeviationMircosecondsPerInvocation="2290"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BadSyntaxForRegularExpression" totalMilliseconds="47" invocations="157" avgMicrosecondsPerInvocation="304" maxMicrosecondsPerInvocation="20329" standardDeviationMircosecondsPerInvocation="1771"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="46" invocations="157" avgMicrosecondsPerInvocation="298" maxMicrosecondsPerInvocation="11812" standardDeviationMircosecondsPerInvocation="1051"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="46" invocations="157" avgMicrosecondsPerInvocation="298" maxMicrosecondsPerInvocation="18761" standardDeviationMircosecondsPerInvocation="1701"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="44" invocations="823" avgMicrosecondsPerInvocation="54" maxMicrosecondsPerInvocation="3469" standardDeviationMircosecondsPerInvocation="182"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="41" invocations="157" avgMicrosecondsPerInvocation="263" maxMicrosecondsPerInvocation="7456" standardDeviationMircosecondsPerInvocation="918"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteNonnullReturnValues" totalMilliseconds="40" invocations="157" avgMicrosecondsPerInvocation="259" maxMicrosecondsPerInvocation="19320" standardDeviationMircosecondsPerInvocation="1621"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="38" invocations="157" avgMicrosecondsPerInvocation="247" maxMicrosecondsPerInvocation="7167" standardDeviationMircosecondsPerInvocation="955"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethodInvocations" totalMilliseconds="38" invocations="157" avgMicrosecondsPerInvocation="247" maxMicrosecondsPerInvocation="29144" standardDeviationMircosecondsPerInvocation="2319"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="38" invocations="823" avgMicrosecondsPerInvocation="47" maxMicrosecondsPerInvocation="3882" standardDeviationMircosecondsPerInvocation="209"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="37" invocations="823" avgMicrosecondsPerInvocation="45" maxMicrosecondsPerInvocation="4919" standardDeviationMircosecondsPerInvocation="194"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteRecursiveLoop" totalMilliseconds="36" invocations="157" avgMicrosecondsPerInvocation="235" maxMicrosecondsPerInvocation="15723" standardDeviationMircosecondsPerInvocation="1324"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437999098600" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

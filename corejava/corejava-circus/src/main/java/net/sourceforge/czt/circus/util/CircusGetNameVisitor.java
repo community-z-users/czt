@@ -35,8 +35,8 @@ import net.sourceforge.czt.circus.visitor.TransformerParaVisitor;
 /**
  * @author Petra Malik
  */
-public class GetNameVisitor
-  extends net.sourceforge.czt.z.util.GetNameVisitor
+public class CircusGetNameVisitor
+  extends net.sourceforge.czt.z.util.ZGetNameVisitor
   implements ChannelSetParaVisitor<String>,
              NameSetParaVisitor<String>,
              ActionParaVisitor<String>,

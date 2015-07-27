@@ -36,12 +36,12 @@ import net.sourceforge.czt.util.Visitor;
  *  string that describes the kind of AST node.  It then appends to 
  *  this string the result of applying a `name visitor' to the AST node,
  *  so that we can see the main names declared/used that AST node.
- *  The default name visitor is {@link GetNameVisitor}.
+ *  The default name visitor is {@link ZGetNameVisitor}.
  *  </p>
  * 
  * @author petra
  */
-public class ConcreteSyntaxDescriptionVisitor
+public class ZConcreteSyntaxDescriptionVisitor
   implements TermVisitor<String>
 {
   private String resourceName_ =
@@ -50,13 +50,13 @@ public class ConcreteSyntaxDescriptionVisitor
   private Visitor<ConcreteSyntaxSymbol> visitor_ =
     new ConcreteSyntaxSymbolVisitor();
 
-  private Visitor<String> nameVisitor_ = new GetNameVisitor();
+  private Visitor<String> nameVisitor_ = new ZGetNameVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
+  public ZConcreteSyntaxDescriptionVisitor()
   {
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName)
+  public ZConcreteSyntaxDescriptionVisitor(String resourceName)
   {
     resourceName_ = resourceName;
   }
