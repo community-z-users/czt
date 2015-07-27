@@ -17,43 +17,42 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.circusconf.util;
+package net.sourceforge.czt.circustime.util;
 
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 
 /**
  * @author Petra Malik
  */
-public class ConcreteSyntaxDescriptionVisitor
+public class CircusTimeConcreteSyntaxDescriptionVisitor
   extends net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
     "net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle";
 
-  private final Visitor<CircusConfConcreteSyntaxSymbol> visitor_ =
-    new CircusConfConcreteSyntaxSymbolVisitor();
+  private Visitor<CircusTimeConcreteSyntaxSymbol> visitor_ =
+    new CircusTimeConcreteSyntaxSymbolVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
+  public CircusTimeConcreteSyntaxDescriptionVisitor()
   {
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new CircusTimeGetNameVisitor());
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
+  public CircusTimeConcreteSyntaxDescriptionVisitor(String resourceName,
                                           String circusResourceName,
                                           String circustimeResourceName)
   {
     super(resourceName, circusResourceName);
     resourceName_ = circustimeResourceName;
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new CircusTimeGetNameVisitor());
  }
 
-  @Override
-public String visitTerm(Term term)
+  public String visitTerm(Term term)
   {
-	  CircusConfConcreteSyntaxSymbol symbol = term.accept(visitor_);
+    CircusTimeConcreteSyntaxSymbol symbol = term.accept(visitor_);
     if (symbol != null) {
       String localized =
         ResourceBundle.getBundle(resourceName_).getString(symbol.toString());

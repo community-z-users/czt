@@ -47,6 +47,6 @@ public class LongDescriptionResourceBundle
 
   public Object[][] getContents()
   {
-    return CONTENTS;
+    return CONTENTS.clone();
   }
 }

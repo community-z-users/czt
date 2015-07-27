@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright (C) 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,41 +17,43 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zpatt.util;
+package net.sourceforge.czt.circusconf.util;
 
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
 
 /**
  * @author Petra Malik
  */
-public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor
+public class CircusConfConcreteSyntaxDescriptionVisitor
+  extends net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
-    "net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle";
+    "net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle";
 
-  private Visitor<ConcreteSyntaxSymbol> visitor_ =
-    new ConcreteSyntaxSymbolVisitor();
+  private final Visitor<CircusConfConcreteSyntaxSymbol> visitor_ =
+    new CircusConfConcreteSyntaxSymbolVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
+  public CircusConfConcreteSyntaxDescriptionVisitor()
   {
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new CircusConfGetNameVisitor());
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
-                                          String zpattResourceName)
+  public CircusConfConcreteSyntaxDescriptionVisitor(String resourceName,
+                                          String circusResourceName,
+                                          String circustimeResourceName)
   {
-    super(resourceName);
-    resourceName_ = zpattResourceName;
-    setNameVisitor(new GetNameVisitor());
+    super(resourceName, circusResourceName);
+    resourceName_ = circustimeResourceName;
+    setNameVisitor(new CircusConfGetNameVisitor());
  }
 
-  public String visitTerm(Term term)
+  @Override
+public String visitTerm(Term term)
   {
-    ConcreteSyntaxSymbol symbol = term.accept(visitor_);
+	  CircusConfConcreteSyntaxSymbol symbol = term.accept(visitor_);
     if (symbol != null) {
       String localized =
         ResourceBundle.getBundle(resourceName_).getString(symbol.toString());

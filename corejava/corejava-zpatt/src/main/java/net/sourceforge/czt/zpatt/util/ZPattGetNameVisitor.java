@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2008 Leo Freitas
+  Copyright (C) 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,10 +17,20 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.circusconf.util;
+package net.sourceforge.czt.zpatt.util;
 
-public class GetNameVisitor
+import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.visitor.*;
+
+/**
+ * @author Petra Malik
+ */
+public class ZPattGetNameVisitor
   extends net.sourceforge.czt.z.util.ZGetNameVisitor
-/*  implements  ADD HERE ANY ACTIONS/PROCESSES WITH NAMES */
+  implements RuleVisitor<String>
 {
+  public String visitRule(Rule rule)
+  {
+    return rule.getName();
+  }
 }

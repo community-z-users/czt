@@ -38,7 +38,7 @@ import net.sourceforge.czt.z.visitor.*;
  * </p>
  * @author Petra Malik
  */
-public class ZSimplePrintVisitor
+public class PrintVisitor
   extends net.sourceforge.czt.base.util.BasePrintVisitor
   implements GenericTypeVisitor<String>,
              GenParamTypeVisitor<String>,
@@ -78,7 +78,7 @@ public class ZSimplePrintVisitor
   /**
    * Constructs a PrintVisitor that produces Unicode strings.
    */
-  public ZSimplePrintVisitor()
+  public PrintVisitor()
   {
     this(true);
   }
@@ -91,7 +91,7 @@ public class ZSimplePrintVisitor
    *
    * @param unicode true means Unicode characters may appear in the output.
    */
-  public ZSimplePrintVisitor(boolean unicode)
+  public PrintVisitor(boolean unicode)
   {
     printUnicode_ = unicode;
     printIds_ = false;

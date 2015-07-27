@@ -23,6 +23,6 @@ package net.sourceforge.czt.zpatt.util;
  * @author Petra Malik
  */
 public class PrintVisitor
-  extends net.sourceforge.czt.z.util.ZSimplePrintVisitor
+  extends net.sourceforge.czt.z.util.PrintVisitor
 {
 }

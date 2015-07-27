@@ -26,7 +26,7 @@ import net.sourceforge.czt.oz.visitor.*;
  * @author Petra Malik
  */
 public class PrintVisitor
-  extends net.sourceforge.czt.z.util.ZSimplePrintVisitor
+  extends net.sourceforge.czt.z.util.PrintVisitor
   implements ClassRefVisitor<String>,
              ClassTypeVisitor<String>
 {

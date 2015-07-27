@@ -23,7 +23,7 @@ package net.sourceforge.czt.circuspatt.util;
  * @author Leo Freitas
  */
 public class PrintVisitor
-  extends net.sourceforge.czt.circus.util.CircusSimplePrintVisitor                  
+  extends net.sourceforge.czt.circus.util.PrintVisitor                  
 {
   
 }

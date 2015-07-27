@@ -473,7 +473,7 @@ public class $class.Name
       getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
       return objectFactory_.create${c.Name}(jaxbObject);
     }
-    catch (Exception exception) {
+    catch (javax.xml.bind.JAXBException exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ${c.Name} to the corresponding "

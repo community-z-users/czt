@@ -49,6 +49,6 @@ public class ShortDescriptionResourceBundle
 
   public Object[][] getContents()
   {
-    return CONTENTS;
+    return CONTENTS.clone();
   }
 }

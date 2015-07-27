@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2007 Mark Utting
+  Copyright (C) 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.circustime.util;
+package net.sourceforge.czt.zpatt.util;
 
 import java.util.ResourceBundle;
 
@@ -27,32 +27,31 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * @author Petra Malik
  */
-public class ConcreteSyntaxDescriptionVisitor
-  extends net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor
+public class ZPattConcreteSyntaxDescriptionVisitor
+  extends net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
-    "net.sourceforge.czt.circustime.util.LongDescriptionResourceBundle";
+    "net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle";
 
-  private Visitor<CircusTimeConcreteSyntaxSymbol> visitor_ =
-    new CircusTimeConcreteSyntaxSymbolVisitor();
+  private Visitor<ConcreteSyntaxSymbol> visitor_ =
+    new ConcreteSyntaxSymbolVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
+  public ZPattConcreteSyntaxDescriptionVisitor()
   {
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new ZPattGetNameVisitor());
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
-                                          String circusResourceName,
-                                          String circustimeResourceName)
+  public ZPattConcreteSyntaxDescriptionVisitor(String resourceName,
+                                          String zpattResourceName)
   {
-    super(resourceName, circusResourceName);
-    resourceName_ = circustimeResourceName;
-    setNameVisitor(new GetNameVisitor());
+    super(resourceName);
+    resourceName_ = zpattResourceName;
+    setNameVisitor(new ZPattGetNameVisitor());
  }
 
   public String visitTerm(Term term)
   {
-    CircusTimeConcreteSyntaxSymbol symbol = term.accept(visitor_);
+    ConcreteSyntaxSymbol symbol = term.accept(visitor_);
     if (symbol != null) {
       String localized =
         ResourceBundle.getBundle(resourceName_).getString(symbol.toString());

@@ -28,7 +28,7 @@ import net.sourceforge.czt.util.Visitor;
  * @author Leo Freitas
  * @date Jul 8, 2011
  */
-public class ConcreteSyntaxDescriptionVisitor 
+public class ZEvesConcreteSyntaxDescriptionVisitor 
   extends net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor
 {
   private String resourceName_ =
@@ -37,17 +37,17 @@ public class ConcreteSyntaxDescriptionVisitor
   private Visitor<ZEvesConcreteSyntaxSymbol> visitor_ =
     new ZEvesConcreteSyntaxSymbolVisitor();
 
-  public ConcreteSyntaxDescriptionVisitor()
+  public ZEvesConcreteSyntaxDescriptionVisitor()
   {
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new ZEvesGetNameVisitor());
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
+  public ZEvesConcreteSyntaxDescriptionVisitor(String resourceName,
                                           String circusResourceName)
   {
     super(resourceName);
     resourceName_ = circusResourceName;
-    setNameVisitor(new GetNameVisitor());
+    setNameVisitor(new ZEvesGetNameVisitor());
  }
 
   public String visitTerm(Term term)

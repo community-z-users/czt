@@ -19,8 +19,8 @@
 
 package net.sourceforge.czt.circustime.util;
 
-public class GetNameVisitor
-  extends net.sourceforge.czt.z.util.ZGetNameVisitor
+public class CircusTimeGetNameVisitor
+  extends net.sourceforge.czt.circus.util.CircusGetNameVisitor
 /*  implements  ADD HERE ANY ACTIONS/PROCESSES WITH NAMES */
 {
 }
