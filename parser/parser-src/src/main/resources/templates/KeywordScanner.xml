@@ -183,7 +183,7 @@ public class KeywordScanner
     }
   }
 
-  private static Map&lt;Object, String&gt; symbolMap_ = null;
+  private static Map&lt;Object, String&gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
   /**
    * &lt;p&gt;
@@ -201,7 +201,6 @@ public class KeywordScanner
                                  int symbol) {
     Integer old = map.put(keyword, Integer.valueOf(symbol));        
     if (old != null) {
-      if (symbolMap_ == null) symbolMap_ = DebugUtils.getFieldMap(Sym.class);
       final String logMessage = java.text.MessageFormat.format(
         "Invalid keyoword mapping [{0} -> {1}] for {3} in KeywordScanner. The keyword '{0}' has already been mapped to token {2}.",
         keyword, symbolMap_.get(symbol), symbolMap_.get(old), dialect_.toString());
@@ -255,7 +254,7 @@ public class KeywordScanner
             getClass().getName(), 
             value, 
             token, 
-            getSymbolMap().get(token.intValue()),
+            getSymbolMap().get(token),
             getDialect().toString());
         return new Symbol(token.intValue(),
                           symbol.left, symbol.right,

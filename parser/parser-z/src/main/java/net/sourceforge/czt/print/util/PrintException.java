@@ -121,9 +121,9 @@ private final TreeMap<String, List<String>> warnings_ = new TreeMap<String, List
   public String toString() {
       StringBuilder str = new StringBuilder(super.toString());
       str.append("\n");
-      for(String sect : warnings_.keySet()) {          
-          str.append("Warnings for ").append(sect).append("\n");
-          for(String warn : warnings_.get(sect)) {
+      for(Map.Entry<String, List<String>> sect : warnings_.entrySet()) {          
+          str.append("Warnings for ").append(sect.getKey()).append("\n");
+          for(String warn : sect.getValue()) {
               str.append(warn);
               str.append("\n");
           }
