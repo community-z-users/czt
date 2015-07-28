@@ -45,6 +45,6 @@ public class LocString
 
   public String toString()
   {
-    return value_.toString();
+    return value_;
   }
 }

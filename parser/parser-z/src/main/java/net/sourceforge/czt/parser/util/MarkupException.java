@@ -32,8 +32,8 @@ public class MarkupException
 	 */
 	private static final long serialVersionUID = -2991741759209681172L;
   
-  private final MarkupDirective directive1_;
-  private final MarkupDirective directive2_;
+  private final transient MarkupDirective directive1_;
+  private final transient MarkupDirective directive2_;
 
   /**
    * Constructs a new exception with the specified detail message.

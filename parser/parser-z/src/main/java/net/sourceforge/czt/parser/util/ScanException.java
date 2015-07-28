@@ -34,7 +34,7 @@ public class ScanException
 	 * 
 	 */
 	private static final long serialVersionUID = -5502310625340895712L;
-private final LocInfo locInfo_;
+	private transient final LocInfo locInfo_;
   private final String symbolInfo_;
   private final Dialect dialect_;
 

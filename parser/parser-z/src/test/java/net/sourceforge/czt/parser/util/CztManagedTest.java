@@ -56,14 +56,14 @@ public abstract class CztManagedTest extends TestCase
 
   public static final Markup DEFAULT_MARKUP = Markup.LATEX;
 
-  private final SectionManager manager_;
+  protected final SectionManager manager_;
   
   /**
    * Default Markup for file tests 
    */
   private Markup markup_;
 
-  private final boolean debug_;
+  protected final boolean debug_;
 
   private String testsPath_;
 
