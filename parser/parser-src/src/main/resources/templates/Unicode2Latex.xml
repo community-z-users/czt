@@ -477,7 +477,7 @@ parser code {:
   protected Source source_ = null;
   
  
-  private Writer writer_ = new OutputStreamWriter(System.out);
+  private Writer writer_ = new OutputStreamWriter(System.out, java.nio.charset.StandardCharsets.UTF_8);
   protected SectionInfo sectInfo_ = new SectionManager(
   	<add:zcore>Dialect.Z</add:zcore>
   	<add:oldz>Dialect.Z</add:oldz>
