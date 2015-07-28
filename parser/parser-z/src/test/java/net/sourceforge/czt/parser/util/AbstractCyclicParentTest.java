@@ -91,7 +91,7 @@ public abstract class AbstractCyclicParentTest
     	  throw new IOException("Couldn't get list of files for directory " + dir.getName());
       }
       return sources;
-    } catch (Exception ex) {
+    } catch (IOException | URISyntaxException ex) {
       throw new RuntimeException("Cannot resolve test files for URL " + dirUrl + "\n" + ex.getMessage(), ex);
     }
   }

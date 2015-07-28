@@ -146,6 +146,9 @@ public class DefinitionTableVisitor
   protected void addDefinition(ZNameList genFormals, Name declName,
 		  Expr defExpr, DefinitionType type)
   {
+	if (table_ == null) {
+		throw new CztException(new DefinitionTable.DefinitionException(getSectionInfo().getDialect(), "Invalid table; not yet loaded through visitZSect"));
+	}
     String name = declName.accept(printVisitor_);
     DefinitionTable.Definition def =
       new DefinitionTable.Definition(sectName_, genFormals, defExpr, type);
@@ -195,6 +198,9 @@ public class DefinitionTableVisitor
 
   protected void processRefExpr(ZNameList genFormals, RefExpr refExpr, List<Stroke> strokes)
   {
+	if (table_ == null) {
+		throw new CztException(new DefinitionTable.DefinitionException(getSectionInfo().getDialect(), "Invalid table; not yet loaded through visitZSect"));
+	}
     // this name may contain strokes already
     Name name = refExpr.getName();
     String strName = name.accept(printVisitor_);
