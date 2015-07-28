@@ -5,6 +5,7 @@ import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import java_cup.runtime.Symbol;
 import java.lang.Error;
+import java.nio.charset.StandardCharsets;
 import java.io.InputStreamReader;
 
 
@@ -458,7 +459,7 @@ public class Lexer implements sym, java_cup.runtime.Scanner {
    * @param   in  the java.io.Inputstream to read input from.
    */
   public Lexer(java.io.InputStream in) {
-    this(new java.io.InputStreamReader(in));
+    this(new java.io.InputStreamReader(in, StandardCharsets.UTF_8));
   }
 
   /** 

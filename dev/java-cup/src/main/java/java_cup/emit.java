@@ -590,8 +590,14 @@ public class emit {
 			}
 
 			/* if there is an action string, emit it */
+			//SERIOUS: find bugs point out that this comparison is pretty bad, as it is.
+			// 		   !prod.action.equals("") will always equal false. So it should either
+			//		   be !prod.action.code_string().equals("") or not be there at all.
+			// 		   As is, effectively ,it always returns true. (28/07/2015)
+			//if (prod.action() != null && prod.action().code_string() != null
+			//		&& !prod.action().equals(""))
 			if (prod.action() != null && prod.action().code_string() != null
-					&& !prod.action().equals(""))
+				&& !prod.action().code_string().equals(""))
 				out.println(prod.action().code_string() + "/*5*/");
 
 			/*
