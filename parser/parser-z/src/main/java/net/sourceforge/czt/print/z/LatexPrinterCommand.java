@@ -38,7 +38,6 @@ import net.sourceforge.czt.z.ast.ZSect;
 
 public class LatexPrinterCommand
   extends AbstractLatexPrinterCommand
-  implements Command
 {
   /**
    * Given a section or spec name (e.g., it uses TermCommand) it computes the term

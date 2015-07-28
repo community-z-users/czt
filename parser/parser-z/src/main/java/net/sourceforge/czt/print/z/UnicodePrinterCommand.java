@@ -36,7 +36,6 @@ import net.sourceforge.czt.z.ast.ZSect;
 
 public class UnicodePrinterCommand
   extends AbstractPrinterCommand
-  implements Command
 {
   @Override
   protected boolean doCompute(String name, SectionManager manager)
