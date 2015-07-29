@@ -201,7 +201,9 @@ public class ${class.ImplName}
    * standard output information about who is creating 
    * this instance of ${class.ImplName} (e.g., ic >= sl)
    */
-  protected static long startLoggingFrom_ = Long.MAX_VALUE;
+  //TODO: investigate: findbugs doesn't like it ; made private instead; no-one changes; 
+  //	  net.sourceforge.czt.base.util.TermInstanceCountManager.log uses it via reflection
+  //private static final long startLoggingFrom_ = Long.MAX_VALUE;
 
   public static final long instanceCount()
   {
@@ -255,10 +257,17 @@ public class ${class.ImplName}
     anns_ = null;
     list_ = null;
     #if(! ${class.Abstract})
-    instanceCount_++;
+    countInstance();
   #end
   }
   
+#if(! ${class.Abstract})
+  private static synchronized void countInstance()
+  {
+	  instanceCount_++;
+  }
+#end
+
   protected java.util.List<${type}> getList()
   {
     if (list_ == null) list_ = new java.util.ArrayList<${type}>(net.sourceforge.czt.base.util.PerformanceSettings.INITIAL_ARRAY_CAPACITY);
@@ -529,7 +538,7 @@ public#abstract($class) class ${class.ImplName}
    * standard output information about who is creating 
    * this instance of ${class.ImplName} (e.g., ic >= sl)
    */
-  protected static long startLoggingFrom_ = Long.MAX_VALUE;
+  //private static final long startLoggingFrom_ = Long.MAX_VALUE;
    
   #if($addAstFinaliser)
   private static long instancesFinalised_ = 0;
@@ -575,9 +584,16 @@ public#abstract($class) class ${class.ImplName}
   {
     super(factory);
 #if(! ${class.Abstract})
-    instanceCount_++;
+    countInstance();
 #end
   }
+  
+#if(! ${class.Abstract})
+  private static synchronized void countInstance()
+  {
+	  instanceCount_++;
+  }
+#end
   
   /**
    * Compares the specified object with this ${class.ImplName}

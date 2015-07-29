@@ -290,7 +290,9 @@ public class ${class.Name}#if($ImportProject)
     ${c.Package}.${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
 
     if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getAny() != null) {
+    	// FindBugs points out this is unnecessary
+        /*&& jaxbObject.getAnns().getAny() != null*/) {
+      assert jaxbObject.getAnns().getAny() != null;
       java.util.List<Object> annsList = erg.getAnns();
       java.util.List<Object> anyList = jaxbObject.getAnns().getAny();
       for (Object obj : anyList) {
