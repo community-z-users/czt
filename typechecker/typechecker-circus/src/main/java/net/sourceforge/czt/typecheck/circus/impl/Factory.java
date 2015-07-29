@@ -116,9 +116,16 @@ public <T extends Term> T shallowCloneTerm(T term)
   }
   
   private static int freshId_ = 0;
+  
+  private static synchronized void incrementFreshId()
+  {
+	  freshId_++;
+	  
+  }
   public String createFreshName(String prefix)
   {
-    String result = prefix + (freshId_++);
+    String result = prefix + freshId_;
+    incrementFreshId();
     return result;
   }
 

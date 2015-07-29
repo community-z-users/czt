@@ -327,32 +327,32 @@ protected void printTerm(Term term,
       fh = new java.util.logging.FileHandler("TypeCheckUtils.TypeCheckCommandTest.log");
       fh.setLevel(java.util.logging.Level.ALL);
       fh.setFormatter(sfc);          
-    } catch (IOException e) {
-
-    }
-    SectionManager manager = new SectionManager(Dialect.CIRCUS);    
-    
-    java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());    
-    logger.addHandler(ch);
-    logger.addHandler(fh);
-    logger.setLevel(java.util.logging.Level.ALL);
-    
-    try{
-      Spec spec = (Spec)instance_.parse(file, manager);
-      for (net.sourceforge.czt.z.ast.Sect s : spec.getSect())
-      {
-        if (s instanceof ZSect)
+      SectionManager manager = new SectionManager(Dialect.CIRCUS);    
+      
+      java.util.logging.Logger logger = java.util.logging.Logger.getLogger(manager.getClass().getName());    
+      logger.addHandler(ch);
+      logger.addHandler(fh);
+      logger.setLevel(java.util.logging.Level.ALL);
+      
+      try{
+        Spec spec = (Spec)instance_.parse(file, manager);
+        for (net.sourceforge.czt.z.ast.Sect s : spec.getSect())
         {
-          ZSect zs = (ZSect)s;          
-          @SuppressWarnings("unused")
-		SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
-          break;
+          if (s instanceof ZSect)
+          {
+            ZSect zs = (ZSect)s;          
+            @SuppressWarnings("unused")
+  		SectTypeEnvAnn result = manager.get(new net.sourceforge.czt.session.Key<SectTypeEnvAnn>(zs.getName(), SectTypeEnvAnn.class));
+            break;
+          }
         }
       }
-    }
-    catch(Throwable e)
-    {
-      throw new RuntimeException(e);
+      catch(Throwable e)
+      {
+        throw new RuntimeException(e);
+      }
+    } catch (IOException e) {
+
     }
   }
   

@@ -57,7 +57,7 @@ public class TypeCheckerTest
   // true => executes the printing tests, which will reparse and print files.
   protected final static boolean VERBOSE = false;
   protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : VERBOSE ? Level.WARNING : Level.SEVERE;
-  protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
+  protected final static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
 
   static
   {
@@ -194,8 +194,8 @@ public class TypeCheckerTest
     //start of the filename
     if (fileName.endsWith(".error"))
     {
-      int dashIndex = fileName.lastIndexOf("-");
-      int dotIndex  = fileName.lastIndexOf(".");
+      int dashIndex = fileName.lastIndexOf('-');
+      int dotIndex  = fileName.lastIndexOf('.');
       if (dashIndex < 1 || dotIndex < 1)
       {
         fail(fileName + " does not specify an exception name");
@@ -298,7 +298,7 @@ protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Ter
           {
             fail("\nUnexpected type error" +
               "\n\tFile: " + file_ +
-              "\n\tException: " + errorAnn.getErrorMessage().toString() +
+              "\n\tException: " + errorAnn.getErrorMessage() +
               "\nError: " + errorAnn.toString());
             break;
           }
@@ -324,7 +324,7 @@ protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Ter
 	public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = new ArrayList<net.sourceforge.czt.typecheck.z.ErrorAnn>();
+      List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> errors = null;
       try
       {
         if (VERBOSE) { System.out.println("Test error: " + file_);}
@@ -352,13 +352,13 @@ protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Ter
           "\n\tFile: " + file_ +
           "\n\tException: " + e.toString());
       }
-      if (errors.size() == 0)
+      if (errors == null || errors.size() == 0)
       {
         fail("\nNo type error found" +
           "\n\tFile: " + file_ +
           "\n\tExpected: " + exception_);
       }
-      else
+      else if (errors != null)
       {
         String actual = null;
         boolean foundCorrectError = false;
@@ -367,7 +367,7 @@ protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Ter
           // only look for errors, not warnings
           if (errorAnn.getErrorType().equals(ErrorType.ERROR))
           {
-            actual = removeUnderscore(errorAnn.getErrorMessage().toString());
+            actual = removeUnderscore(errorAnn.getErrorMessage());
             foundCorrectError = (exception_.compareToIgnoreCase(actual) == 0);
             if (foundCorrectError) break;
           }
@@ -381,16 +381,16 @@ protected List<? extends net.sourceforge.czt.typecheck.z.ErrorAnn> typecheck(Ter
 
     private String removeUnderscore(String string)
     {
-      String result = new String();
+      StringBuilder result = new StringBuilder();
       for (int i = 0; i < string.length(); i++)
       {
         char c = string.charAt(i);
         if (c != '_')
         {
-          result += c;
+          result.append(c);
         }
       }
-      return result;
+      return result.toString();
     }
 
     private void incorrectError(String error)

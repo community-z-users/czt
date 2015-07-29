@@ -296,7 +296,7 @@ public class ExprChecker
               params.add(expr);
               params.add(i);
               String clsName = found.getClass().getName();
-              params.add(clsName.substring(clsName.lastIndexOf(".")+1));
+              params.add(clsName.substring(clsName.lastIndexOf('.')+1));
               params.add(found);              
               error(term, ErrorMessage.INVALID_TYPE_IN_NAMESET_EXPR, params);
             }

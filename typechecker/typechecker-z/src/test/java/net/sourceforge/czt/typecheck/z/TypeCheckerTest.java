@@ -260,7 +260,7 @@ public class TypeCheckerTest
           "\n\tFile: " + url_ +
           "\n\tExpected: " + exception_);
       }
-      else
+      else if (errors != null)
       {
         ErrorAnn errorAnn = errors.get(0);
         String actual =
