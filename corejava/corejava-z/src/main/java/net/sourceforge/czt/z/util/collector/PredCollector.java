@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.z.util.collector;
 
-import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Pred;
 
 /**
@@ -27,6 +26,6 @@ import net.sourceforge.czt.z.ast.Pred;
  * @author Leo Freitas
  * @date Jul 27, 2011
  */
-public class PredCollector extends BaseCollector<Pred> implements Visitor<Pred> {
+public class PredCollector extends BaseCollector<Pred>  {
 
 }

@@ -21,7 +21,6 @@ package net.sourceforge.czt.z.util;
 
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.ListTermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -31,7 +30,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class ZGetNameVisitor
   extends PrintVisitor
-  implements TermVisitor<String>,
+  implements //TermVisitor<String>,
 	     AxParaVisitor<String>,
              ConstDeclVisitor<String>,
              FreeParaVisitor<String>,
@@ -40,7 +39,7 @@ public class ZGetNameVisitor
              ListTermVisitor<String>,
              VarDeclVisitor<String>,
              ZDeclListVisitor<String>,
-             ZNameListVisitor<String>,
+             //ZNameListVisitor<String>,
              ZFreetypeListVisitor<String>,
              ZSchTextVisitor<String>,
              ConjParaVisitor<String>,

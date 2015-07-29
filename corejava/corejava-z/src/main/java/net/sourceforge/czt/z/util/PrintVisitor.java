@@ -451,12 +451,12 @@ public class PrintVisitor
       else if (word.startsWith(ZString.ARG_TOK) && word.endsWith(ZString.ARG_TOK))
       {
         String op = null;
-        if (word.indexOf(ZString.PLUS.toString()) != -1)
+        if (word.indexOf(ZString.PLUS) != -1)
         {
           size = ZString.PLUS.length();
           op = "+";
         }
-        else if(word.indexOf(ZString.REL.toString()) != -1)
+        else if(word.indexOf(ZString.REL) != -1)
         {
           size = ZString.REL.length();
           op = "<->";
@@ -486,7 +486,7 @@ public class PrintVisitor
           size = ZString.SUBSETEQ.length();
           op = "c=";
         }
-        else if(word.indexOf(ZString.SUBSET.toString()) != -1)
+        else if(word.indexOf(ZString.SUBSET) != -1)
         {
           size = ZString.SUBSET.length();
           op = "c";
