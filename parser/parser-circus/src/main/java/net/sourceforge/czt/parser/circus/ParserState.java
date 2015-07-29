@@ -119,6 +119,16 @@ public class ParserState
     clearAllProcessInformation();
   //processGen_ = factory_.createZNameList();
   }
+  
+  protected static synchronized void resetImplicitlyActUniqueNameSeed()
+  {
+	  implicitlyActUniqueNameSeed_ = 0;  
+  }
+
+  protected static synchronized void incrementImplicitlyActUniqueNameSeed()
+  {
+	  implicitlyActUniqueNameSeed_++;  
+  }
 
   /**
    * Clears the implicitly declared actions cache for the current
@@ -127,7 +137,7 @@ public class ParserState
    */
   private void clearBasicProcessParaCache()
   {
-    implicitlyActUniqueNameSeed_ = 0;
+	  resetImplicitlyActUniqueNameSeed();
     locallyDeclPara_.clear();
   }
 
@@ -137,7 +147,7 @@ public class ParserState
    */
   public void clearSectProcessOnTheFlyCache()
   {
-    implicitlyProcUniqueNameSeed_ = 0;
+	  resetImplicitlyActUniqueNameSeed();
     implicitlyDeclProcPara_.clear();
   }
 
@@ -192,7 +202,7 @@ public class ParserState
     String result = CircusUtils.DEFAULT_IMPLICIT_ACTION_NAME_PREFIX + implicitlyActUniqueNameSeed_;
     result = CircusUtils.createFullQualifiedName(result,
       toLocAnn(loc, false /* no file name */));
-    implicitlyActUniqueNameSeed_++;
+    incrementImplicitlyActUniqueNameSeed();
     return result;
   }
 
@@ -204,7 +214,7 @@ public class ParserState
     String result = CircusUtils.DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX + implicitlyProcUniqueNameSeed_;
     result = CircusUtils.createFullQualifiedName(result,
       toLocAnn(loc, false /* no file name */));
-    implicitlyProcUniqueNameSeed_++;
+    incrementImplicitlyActUniqueNameSeed();
     return result;
   }
 
@@ -471,7 +481,7 @@ public class ParserState
 
   protected boolean hasProcessName()
   {
-    return hasProcessPara() & processPara_.getName() != null;
+    return hasProcessPara() && processPara_.getName() != null;
   }
 
   /*

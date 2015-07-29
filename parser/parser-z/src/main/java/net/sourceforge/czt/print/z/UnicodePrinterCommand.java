@@ -28,7 +28,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.TokenSequence;
 import net.sourceforge.czt.print.util.UnicodeString;
-import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;

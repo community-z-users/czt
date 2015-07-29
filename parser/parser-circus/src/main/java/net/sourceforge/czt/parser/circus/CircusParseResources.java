@@ -29,6 +29,6 @@ public class CircusParseResources extends ListResourceBundle
 
   public Object[][] getContents()
   {
-    return contents_;
+    return contents_.clone();
   }
 }

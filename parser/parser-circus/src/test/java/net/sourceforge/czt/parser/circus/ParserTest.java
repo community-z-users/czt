@@ -20,7 +20,7 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.io.*;
-
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import junit.framework.*;
@@ -62,7 +62,7 @@ public class ParserTest extends AbstractParserTest
       return new TestNormal(name);
   }
   
-  private JaxbXmlWriter writer_ = new JaxbXmlWriter();
+  final JaxbXmlWriter writer_ = new JaxbXmlWriter();
   
   protected class TestNormal extends TestCase
   {
@@ -95,15 +95,17 @@ public class ParserTest extends AbstractParserTest
         { 
           if (VERBOSE) { System.out.println("Parsing successful, start XML printing..."); }
           String xmlFile;
-          if (file_.lastIndexOf(".") != -1)
-            xmlFile = file_.substring(0, file_.lastIndexOf(".")) + ".xml";
+          if (file_.lastIndexOf('.') != -1)
+            xmlFile = file_.substring(0, file_.lastIndexOf('.')) + ".xml";
           else
             xmlFile = file_ + ".xml";
           File f = new File(xmlFile);
-          f.delete();
-          FileWriter fw = new FileWriter(f);          
-          writer_.write(term_, fw);          
-          fw.close();          
+          boolean b = f.delete();
+          if (!b) throw new IOException("Could not delete temporary file during testing " + f.getName());
+          //FileWriter fw = new FileWriter(f);     
+          Writer w = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
+          writer_.write(term_, w);          
+          w.close();          
         }
       }
       catch (net.sourceforge.czt.parser.util.ParseException f)

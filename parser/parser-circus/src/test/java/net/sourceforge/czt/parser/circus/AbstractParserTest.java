@@ -128,7 +128,7 @@ public abstract class AbstractParserTest extends TestCase
     return term;
   }
   
-  class DeleteLocVisitor implements TermVisitor<Term>
+  static class DeleteLocVisitor implements TermVisitor<Term>
   {
     public Term visitTerm(Term term)
     {
