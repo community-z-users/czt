@@ -113,10 +113,17 @@ public class ToSpiveyZVisitor
     }
     return null;
   }
+  
+  protected static synchronized void countIncrement()
+  {
+	count_++;  
+  }
 
   protected String getNextName()
   {
-    return "cztschema" + count_++;
+	String result = "cztschema" + count_;
+	countIncrement();
+	return result;
   }
 
   protected AxPara createSchema(String name, SchExpr schExpr)

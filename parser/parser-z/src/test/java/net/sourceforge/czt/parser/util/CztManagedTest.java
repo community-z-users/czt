@@ -140,7 +140,7 @@ public abstract class CztManagedTest extends TestCase
    * @param negativeTestExceptionClass
    * @return
    */
-  public Test cztTestSuite(String relativeTestDirectory,
+  public final Test cztTestSuite(String relativeTestDirectory,
           Class<? extends Throwable> negativeTestExceptionClass)
   {
     TestSuite r = new TestSuite();
@@ -325,7 +325,7 @@ public abstract class CztManagedTest extends TestCase
 	      //start of the filename
 	      if (includeTest(name, false))
 	      {
-	        int index = name.indexOf("-");
+	        int index = name.indexOf('-');
 	        if (index < 1)
 	        {
 	          fail(name + " does not specify an exception name");
