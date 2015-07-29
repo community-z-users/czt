@@ -46,7 +46,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
 import org.apache.xerces.xs.*;
-
+import org.apache.log4j.Logger;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -258,7 +258,8 @@ public class GnastRuleCodegenMojo
     boolean b = dest.getParentFile().mkdirs();
     if (!b) 
     {
-    	throw new IOException("Could not create parent file necessary directories" + dest.getParentFile());
+    	//throw new IOException("Could not create parent file necessary directories" + dest.getParentFile());
+    	System.err.println("Could not create parent file necessary directories " + dest.getParentFile());
     }
     
     Writer writer = new OutputStreamWriter(buildContext.newFileOutputStream(dest), StandardCharsets.UTF_8);
