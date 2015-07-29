@@ -130,5 +130,5 @@ public abstract class DefaultSectionParentsCommand extends AbstractCommand
 	/**
 	 * Dialect of this default parents section calculator command
 	 */
-	public abstract Dialect getDialect();	
+	//public abstract Dialect getDialect();	in interface
 }

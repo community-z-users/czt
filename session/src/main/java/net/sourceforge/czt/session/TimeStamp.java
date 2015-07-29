@@ -42,6 +42,18 @@ public class TimeStamp
    */
   private static int lastCount_ = 0;
 
+  private static synchronized void incrementLastCount()
+  {
+	  lastCount_++;
+  }
+  
+  private static synchronized void resetLastDate(Date d)
+  {
+	  assert d != null;
+	  lastDate_ = d;
+	  lastCount_ = 0;
+  }
+  
   private Date date_;
 
   /** The second part of the creation timestamp. */
@@ -52,10 +64,9 @@ public class TimeStamp
     // create a unique timestamp.
     date_ = new Date();  // the current time
     if (date_.equals(lastDate_))
-        lastCount_ ++;
+    	incrementLastCount();
     else {
-      lastDate_ = date_;
-      lastCount_ = 0;
+    	resetLastDate(date_);
     }
     count_ = lastCount_;
   }

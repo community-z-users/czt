@@ -158,7 +158,7 @@ public class SectionManager
    * section manager ensures that the mappings stored in the cache are Key<T> to T value. Thus we
    * can perform unchecked casts, such as {@code T val = (T) content_.get(Key<T>)}.
    */
-  private Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
+  protected final Map<Key<?>, Object> content_ = new HashMap<Key<?>, Object>();
 
   /**
    * Mapping of relationships from (LHS) Key to the set of other (RHS) keys that depend on it.
@@ -188,7 +188,7 @@ public class SectionManager
    * {{@code B, C}} need removing as well.
    * </p>
    */
-  private Map<Key<?>, Set<Key<?>>> dependants_ = new HashMap<Key<?>, Set<Key<?>>>();
+  protected final Map<Key<?>, Set<Key<?>>> dependants_ = new HashMap<Key<?>, Set<Key<?>>>();
 
   /**
    * Mapping of relationships from (LHS) Key to the set of other (RHS) keys that it depends on.
@@ -205,19 +205,19 @@ public class SectionManager
    * </blockquote>
    * </p>
    */
-  private Map<Key<?>, Set<Key<?>>> dependencies_ = new HashMap<Key<?>, Set<Key<?>>>();
+  protected final Map<Key<?>, Set<Key<?>>> dependencies_ = new HashMap<Key<?>, Set<Key<?>>>();
 
   /**
    * The default commands. They are those classes capable of computing instances
    * of the resource class that comes from some key.getType().
    */
-  private Map<Class<?>,Command> commands_ = new HashMap<Class<?>,Command>();
+  private final Map<Class<?>,Command> commands_ = new HashMap<Class<?>,Command>();
 
   /**
    * Properties are used to store global settings
    * for the commands.
    */
-  private Properties properties_ = new Properties();
+  private final Properties properties_ = new Properties();
 
   //TODO: make these part of the managed properties?
 
@@ -246,7 +246,7 @@ public class SectionManager
   /**
    * Logger handler used for tracing information to the console.
    */
-  private ConsoleHandler consoleHandler_ = new ConsoleHandler();
+  private final ConsoleHandler consoleHandler_ = new ConsoleHandler();
 
   /**
    * The transaction stack contains tracks active transactions. Each transaction also has a number
@@ -265,7 +265,8 @@ public class SectionManager
    *    forall (k, i) in transactionStack.listIterator().previous() : 
    *            i < pendingDeps_.size() && hasPrevious() --> previous().i <= i
    */
-  private final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = 
+  // for LogBuilder access efficiency; final to ensure no messing around
+  protected final Stack<Pair<? extends Key<?>, Integer>> transactionStack_ = 
       new Stack<Pair<? extends Key<?>, Integer>>();
   
   /**
@@ -284,7 +285,7 @@ public class SectionManager
    * by calling {@code #get(parent, ThmTable)}. This means that the outer transaction (e.g. Sect)
    * would have these ThmTables as dependencies, even though it actually does not depend on them.
    */
-  private final List<Key<?>> pendingDeps_ = new ArrayList<Key<?>>();
+  protected final List<Key<?>> pendingDeps_ = new ArrayList<Key<?>>();
 
   /**
    * The expected transaction for the next {@link #startTransaction(Key)} call. The value is added
@@ -569,7 +570,7 @@ public class SectionManager
     {
       String value = getProperty(propertyKey);
       if (value == null) { value = ""; }
-      result = Integer.valueOf(value);
+      result = Integer.parseInt(value);
     }
     catch (NumberFormatException e)
     {
@@ -1086,7 +1087,9 @@ public class SectionManager
 
     if (isTracing_)
     {
-      new LogBuilder("").transTrace((value == null ? "CANCEL": "END") + "-EXIT")
+      new LogBuilder("").transTrace(
+    		  //(value == null ? "CANCEL": "END") never null?
+    		  "END" + "-EXIT")
         .key(key).pendingDeps().transactions(true).caller().fine();
     }
   }
@@ -1753,7 +1756,7 @@ public class SectionManager
       
       result = commandResult;
     }
-    assert result != null : "Section manager computed null result!";
+    //never null here, assert result != null : "Section manager computed null result!";
 
     if (isTracing_ && !isPermanentKey(key))
     {

@@ -254,11 +254,11 @@ public class SourceLocator extends AbstractCommand
     int barIdx = filename.lastIndexOf(File.separatorChar);
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("/");
+      barIdx = filename.lastIndexOf('/');
     }
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("\\");
+      barIdx = filename.lastIndexOf('\\');
     }
     return barIdx == -1 ? filename : filename.substring(barIdx + 1);
   }
@@ -276,11 +276,11 @@ public class SourceLocator extends AbstractCommand
     int barIdx = filename.lastIndexOf(File.separatorChar);
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("/");
+      barIdx = filename.lastIndexOf('/');
     }
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("\\");
+      barIdx = filename.lastIndexOf('\\');
     }
     return barIdx == -1 ? "./" : filename.substring(0, barIdx);
   }
@@ -294,7 +294,7 @@ public class SourceLocator extends AbstractCommand
   public static String getFileNameNoExt(String filename)
   {
     checkString(filename);
-    int dotIdx = filename.lastIndexOf(".");
+    int dotIdx = filename.lastIndexOf('.');
     return dotIdx == -1 ? filename : filename.substring(0, dotIdx);
   }
 

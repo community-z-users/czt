@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The source of a specification.
@@ -62,7 +63,7 @@ public abstract class Source
   {
     final InputStreamReader isr = encoding_ != null ?
       new InputStreamReader(getStream(), encoding_) :
-      new InputStreamReader(getStream());
+      new InputStreamReader(getStream(), Markup.getDefaultEncoding(markup_));
     return new BufferedReader(isr);
   }
 
@@ -83,7 +84,7 @@ public abstract class Source
    */
   protected void guessSettings(String name)
   {
-    if (name.endsWith(".tex") || name.endsWith(".zed")) {
+    if (name.endsWith(".tex") || name.endsWith(".zed") || name.endsWith("circus")) {
       setMarkup(Markup.LATEX);
     }
     else if (name.endsWith("8")) {
