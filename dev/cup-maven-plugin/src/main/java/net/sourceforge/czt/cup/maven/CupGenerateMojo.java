@@ -440,10 +440,10 @@ public class CupGenerateMojo extends AbstractMojo
       args.add("-package");
       args.add(packageName);
     }
-    if (className != null) {
+    //always non null? if (className != null) {
       args.add("-parser");
       args.add(className);
-    }
+    //}
     if (typeArgs != null) {
       args.add("-typearg");
       args.add(typeArgs);
@@ -517,7 +517,7 @@ public class CupGenerateMojo extends AbstractMojo
 
     try {
       // run generator
-      Main.main(args.toArray(new String[0]));
+      Main.main(args.toArray(new String[args.size()]));
     }
     catch (Exception e) {
       throw new MojoExecutionException("CUP generation failed: " + e.getMessage(), e);
