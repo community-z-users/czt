@@ -101,7 +101,8 @@ public class ParserTest extends AbstractParserTest
             xmlFile = file_ + ".xml";
           File f = new File(xmlFile);
           boolean b = f.delete();
-          if (!b) throw new IOException("Could not delete temporary file during testing " + f.getName());
+          //if (!b) throw new IOException("Could not delete temporary file during testing " + f.getName());
+          if (!b) System.err.println("Could not delete temporary file during testing " + f.getName());
           //FileWriter fw = new FileWriter(f);     
           Writer w = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
           writer_.write(term_, w);          
