@@ -108,16 +108,17 @@ public class TypeCheckerTest
     try {
       String protocol = url.getProtocol();
       if (! "file".equals(protocol)) {
-	throw new IllegalArgumentException("Unsupported Protocol");
+    	  throw new IllegalArgumentException("Unsupported Protocol");
       }
       final File dir = new File(URLDecoder.decode(url.getFile(), "UTF-8"));
       String[] content = dir.list();
+      if (content == null) throw new IOException("Couldn't get contents of directory " + dir.getName());
       for (String name : content) {
 	//if the file name ends with error, then we have a case with
 	//the typechecker should throw the exception specified at the
 	//start of the filename
 	if (name.endsWith(".error")) {
-	  int index = name.indexOf("-");
+	  int index = name.indexOf('-');
 	  if (index < 1) {
 	    fail(name + " does not specify an exception name");
 	  }
@@ -174,7 +175,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      List<? extends ErrorAnn> errors = null;
       Term term = null;
       try
       {
@@ -196,14 +197,14 @@ public class TypeCheckerTest
           "\n\tFile: " + url_ +
           "\n\tException: " + e.toString());
       }
-      if (errors.size() > 0)
+      if (errors != null && errors.size() > 0)
       {
         System.out.println("\tfound type errors on normal spec " + this.url_);
         System.out.println("\t"+errors.toString());
         ErrorAnn errorAnn = errors.get(0);
         fail("\nUnexpected type error" +
           "\n\tFile: " + url_ +
-          "\n\tException: " + errorAnn.getErrorMessage().toString() +
+          "\n\tException: " + errorAnn.getErrorMessage() +
           "\nError: " + errorAnn.toString());
       }
     }
@@ -227,7 +228,7 @@ public class TypeCheckerTest
     public void runTest()
     {
       SectionManager manager = getManager();
-      List<? extends ErrorAnn> errors = new ArrayList<ErrorAnn>();
+      List<? extends ErrorAnn> errors = null;
       try
       {
         Term term = parse(url_, manager);
@@ -253,7 +254,7 @@ public class TypeCheckerTest
           "\n\tFile: " + url_ +
           "\n\tException: " + e.toString());
       }
-      if (errors.size() == 0)
+      if (errors == null || errors.size() == 0)
       {
         fail("\nNo type error found" +
           "\n\tFile: " + url_ +
@@ -263,7 +264,7 @@ public class TypeCheckerTest
       {
         ErrorAnn errorAnn = errors.get(0);
         String actual =
-          removeUnderscore(errorAnn.getErrorMessage().toString());
+          removeUnderscore(errorAnn.getErrorMessage());
         if (exception_.compareToIgnoreCase(actual) != 0)
         {
           System.out.println("\tfound type error " + actual + " expected " + exception_ + " for " + url_);
@@ -275,16 +276,16 @@ public class TypeCheckerTest
 
     private String removeUnderscore(String string)
     {
-      String result = new String();
+      StringBuilder result = new StringBuilder();
       for (int i = 0; i < string.length(); i++)
       {
         char c = string.charAt(i);
         if (c != '_')
         {
-          result += c;
+          result.append(c);
         }
       }
-      return result;
+      return result.toString();
     }
 
     private void incorrectError(String error)

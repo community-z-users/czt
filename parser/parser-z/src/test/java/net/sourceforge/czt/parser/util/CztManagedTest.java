@@ -358,12 +358,24 @@ public abstract class CztManagedTest extends TestCase
     if (positive)
       return hasKnownSuffixes(sourceName);
     else
-      return sourceName.endsWith(".error");
+      return hasErrorSuffixes(sourceName);
+  }
+  
+  protected boolean hasErrorSuffixes(String sourceName)
+  {
+	  for(String suffix : Markup.getAllErrorSufixes())
+	    {
+	      if (sourceName.endsWith(suffix))
+	      {
+	        return true;
+	      }
+	    }
+	    return false;
   }
 
   protected boolean hasKnownSuffixes(String sourceName)
   {
-    for(String suffix : Markup.KNOWN_FILENAME_SUFFIXES)
+    for(String suffix : Markup.getAllSufixes())
     {
       if (sourceName.endsWith(suffix))
       {

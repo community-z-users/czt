@@ -33,19 +33,25 @@ public class VariableType
   protected static final String ALPHA = "_" + Character.toString('\u03B1');
 
   /** The number stroke of the next alpha variable. */
-  protected static int serial_ = 0;
+  static int serial_ = 0;
 
   /** The name of this variable. */
   protected ZName zName_ = null;
 
   /** The value of this variable. */
   protected Type2 value_ = null;
+  
+  private static synchronized void incrementSerial()
+  {
+	  serial_++;
+  }
 
   protected VariableType(Factory factory)
   {
     super(null);
     ZStrokeList strokes = factory.getZFactory().createZStrokeList();
-    String strokeString = Integer.toString(serial_++);
+    String strokeString = Integer.toString(serial_);
+    incrementSerial();
     for (int i = 0; i < strokeString.length(); i++) {
       Integer iStroke = Integer.parseInt(strokeString.substring(i, i + 1));
       strokes.add(factory.createNumStroke(iStroke));
@@ -134,7 +140,7 @@ public class VariableType
 
   public String toString()
   {
-    String result = new String();
+    String result = "";
 
     if (value_ != null) {
       result += value_.toString();

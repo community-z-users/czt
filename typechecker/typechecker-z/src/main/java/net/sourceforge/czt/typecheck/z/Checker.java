@@ -478,7 +478,7 @@ abstract public class Checker<R>
    */
   protected String sectName()
   {
-    return typeChecker_.getSectName().toString();
+    return typeChecker_.getSectName();
   }
   
   /**
@@ -762,7 +762,7 @@ abstract public class Checker<R>
 
     //get the result and return it
     Boolean typecheckResult = getResult();
-    if (typecheckResult == Boolean.FALSE) {
+    if (typecheckResult.equals(Boolean.FALSE)) {
       removeTypeAnns(zSect);
     }
     
@@ -1909,7 +1909,7 @@ abstract public class Checker<R>
     {
       type = pending().getType(zName);
       if (!(type instanceof UnknownType) ||
-        ((type instanceof UnknownType) &&
+        (//(type instanceof UnknownType) &&
         unknownType(type).getZName() != null) )
       {
         setIsPending(true);
@@ -2208,9 +2208,14 @@ abstract public class Checker<R>
     return TypeChecker.debug_;
   }
   
+  private static synchronized void  setTCDebug(boolean b)
+  {
+	  TypeChecker.debug_ = b;
+  }
+  
   protected void setDebug(boolean b)
   {
-    TypeChecker.debug_ = b;
+	  setTCDebug(b);
   }
   
   protected void debug(String message)
