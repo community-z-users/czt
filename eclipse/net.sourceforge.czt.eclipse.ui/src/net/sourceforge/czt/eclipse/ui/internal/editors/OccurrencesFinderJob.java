@@ -14,7 +14,7 @@ import net.sourceforge.czt.eclipse.ui.internal.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.ui.internal.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.ui.internal.util.IZAnnotationType;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -47,6 +47,10 @@ public class OccurrencesFinderJob extends Job
   private boolean fCanceled = false;
 
   private IProgressMonitor fProgressMonitor;
+  
+  private static final class LazyPVLoader {
+	  private static final PrintVisitor INSTANCE = new PrintVisitor();
+  } 
 
   public OccurrencesFinderJob(ZEditor editor, Term selection)
   {
@@ -117,7 +121,7 @@ public class OccurrencesFinderJob extends Job
     if (fSelectedTerm instanceof ZName)
       message = ((ZName) fSelectedTerm).getWord();
     else
-      message = fSelectedTerm.accept(new ZSimplePrintVisitor());
+      message = fSelectedTerm.accept(LazyPVLoader.INSTANCE);
 
     computeOccurrenceAnnotations(annotationMap, fEditor.getParsedData()
         .getSpec(), fSelectedTerm, message);

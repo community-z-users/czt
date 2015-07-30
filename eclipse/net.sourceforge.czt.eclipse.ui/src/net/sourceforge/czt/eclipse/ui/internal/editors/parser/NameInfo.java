@@ -2,7 +2,7 @@
 package net.sourceforge.czt.eclipse.ui.internal.editors.parser;
 
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.ZSimplePrintVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /**
  * @author Chengdong Xu
@@ -17,6 +17,10 @@ public class NameInfo
   private String type_;
   
   private boolean isLocal_;
+  
+  private static final class LazyPVLoader {
+	  private static final PrintVisitor INSTANCE = new PrintVisitor();
+  }
 
   public NameInfo(ZName name, String section, String type, boolean isLocal)
   {
@@ -76,7 +80,7 @@ public class NameInfo
 
   public String toString()
   {
-    return "(" + name_.accept(new ZSimplePrintVisitor()) + ", " + section_ + ", " + type_ + ")";
+    return "(" + name_.accept(LazyPVLoader.INSTANCE) + ", " + section_ + ", " + type_ + ")";
   }
 
 }
