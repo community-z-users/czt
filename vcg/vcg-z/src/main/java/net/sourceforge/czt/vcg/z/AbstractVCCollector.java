@@ -166,8 +166,8 @@ public abstract class AbstractVCCollector<//R,
    * null terms, as they appear within a properly parsed Z Spec(!)
    * @param term term to visit
    */
-  @Override
-  public abstract Pred visit(Term term);
+  //@Override
+  //public abstract Pred visit(Term term);
   
   protected Dialect getDialect()
   {
@@ -233,8 +233,8 @@ public abstract class AbstractVCCollector<//R,
 
   protected abstract VCType getVCType(Pred vc) throws VCCollectionException;
 
-  @Override
-  public abstract VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException;
+  //@Override
+  //public abstract VC<Pred> createVC(long vcId, Para term, VCType type, Pred vc) throws VCCollectionException;
 
   /**
    * Calculate the verification condition for a given term in the context of

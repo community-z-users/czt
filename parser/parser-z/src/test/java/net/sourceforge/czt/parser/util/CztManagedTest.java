@@ -111,12 +111,12 @@ public abstract class CztManagedTest extends TestCase
     manager_.getLogger().info(msg);
   }
 
-  protected SectionManager getManager()
+  public final SectionManager getManager()
   {
     return manager_;
   }
 
-  protected boolean isDebugging()
+  public final boolean isDebugging()
   {
     return debug_;
   }
@@ -168,7 +168,7 @@ public abstract class CztManagedTest extends TestCase
     return false;
   }
 
-  protected String getTestsPath()
+  public final String getTestsPath()
   {
     return testsPath_;
   }
@@ -411,7 +411,7 @@ public abstract class CztManagedTest extends TestCase
       return url_;
     }
 
-    protected String getSourceName()
+    public final String getSourceName()
     {
       return CztManagedTest.this.getSourceName(url_);
     }

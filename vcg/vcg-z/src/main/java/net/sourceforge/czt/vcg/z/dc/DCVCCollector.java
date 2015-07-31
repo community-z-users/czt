@@ -193,8 +193,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   QntPredVisitor<Pred>,  
   NegPredVisitor<Pred>,
   MemPredVisitor<Pred>,
-  ExprPredVisitor<Pred>,
-  DomainCheckPropertyKeys
+  ExprPredVisitor<Pred>//,
+  //DomainCheckPropertyKeys
 {
 
   /** 
@@ -252,8 +252,8 @@ public class DCVCCollector extends TrivialDCVCCollector implements
   
   /** AUXILIARY TERM FACTORY METHODS */
   
-  public static final String[] TOTAL_OPS   = { ZString.FUN, ZString.SURJ, ZString.INJ, ZString.BIJ };
-  public static final String[] PARTIAL_OPS = { ZString.PFUN, ZString.PSURJ, ZString.PINJ };
+   static final String[] TOTAL_OPS   = { ZString.FUN, ZString.SURJ, ZString.INJ, ZString.BIJ };
+   static final String[] PARTIAL_OPS = { ZString.PFUN, ZString.PSURJ, ZString.PINJ };
 
   protected enum ApplType { TOTAL, PARTIAL, RELATIONAL };
 
@@ -372,11 +372,11 @@ public class DCVCCollector extends TrivialDCVCCollector implements
    * @throws VCCollectionException
    */
   
-  @Override
-  public VCGContext<Type2, SortedSet<Definition>> getVCGContext()
-  {
-	  return super.getVCGContext();
-  }
+  //@Override
+  //public VCGContext<Type2, SortedSet<Definition>> getVCGContext()
+  //{
+	//  return super.getVCGContext();
+  //}
 
   @Override
   protected VCType getVCType(Pred vc) throws VCCollectionException
@@ -391,13 +391,13 @@ public class DCVCCollector extends TrivialDCVCCollector implements
     return super.createVC(vcId, term, type, vc);
   }
 
-  @Override
-  protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
-          throws VCCollectionException
-  {
-    super.beforeCalculateVC(term, tables);
-    // no need to check for null defTable_
-  }
+  //@Override
+  //protected void beforeCalculateVC(Term term, List<? extends InfoTable> tables)
+  //        throws VCCollectionException
+  //{
+  //  super.beforeCalculateVC(term, tables);
+  //  // no need to check for null defTable_
+  //}
 
   /** PARAGRAPH VISITING METHODS */
   

@@ -41,18 +41,27 @@ public class DefaultVCNameFactory extends AbstractVCNameFactory
     this.vcSuffix = vcSuffix;
     this.vcSectSuffix = vcSectSuffix;
   }
+  
+  private static synchronized final void incrementAxCnt()
+  {
+	  axiomCnt_++;
+  }
 
   @Override
   protected String getAxDefName(AxPara para)
   {
     assert ZUtils.isAxPara(para) && para.getBox().equals(Box.AxBox);
-    return "axiom" + ++axiomCnt_;
+    incrementAxCnt();
+    String result = "axiom" + axiomCnt_;
+    return result;
   }
 
   @Override
   protected String getGenericName(Para para)
   {
-    return "vc" + ++axiomCnt_;
+    incrementAxCnt();
+    String result = "vc" + axiomCnt_;
+    return result;
   }
 
   @Override
@@ -70,7 +79,9 @@ public class DefaultVCNameFactory extends AbstractVCNameFactory
   protected String createAxDefName(AxPara para, String name, String type)
   {
     assert ZUtils.isAxPara(para) && para.getBox().equals(Box.AxBox);
-    return name + axiomCnt_++;
+    incrementAxCnt();
+    String result = name + axiomCnt_;
+    return result;
   }
 
   @Override

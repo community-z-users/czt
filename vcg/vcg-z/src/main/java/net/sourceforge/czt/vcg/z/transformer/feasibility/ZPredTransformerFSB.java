@@ -94,7 +94,7 @@ public class ZPredTransformerFSB extends ZPredTransformer
     }
     if (result == null)
     {
-      assert expr != null && zSchText.getPred() != null;
+      assert /*expr != null &&*/ zSchText.getPred() != null;
       result = getFactory().createForallExpr(zSchText, expr);
       //checkNeg(getFactory().createExprPred(getFactory().createForallExpr(zSchText, expr)));
     }
@@ -121,7 +121,7 @@ public class ZPredTransformerFSB extends ZPredTransformer
     }
     if (result == null)
     {
-      assert expr != null && zSchText.getPred() != null;
+      assert /*expr != null &&*/ zSchText.getPred() != null;
       result = getFactory().createExistsExpr(zSchText, expr);
       //checkNeg(getFactory().createExprPred(getFactory().createExistsExpr(zSchText, expr)));
     }

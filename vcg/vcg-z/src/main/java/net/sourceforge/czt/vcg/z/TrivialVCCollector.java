@@ -61,8 +61,8 @@ public abstract class TrivialVCCollector<T, B> extends AbstractVCCollector<//Pre
         AnnVisitor<Pred>,
         StrokeVisitor<Pred>,
         ZStrokeListVisitor<Pred>,
-        OptempParaVisitor<Pred>,
-        TermVisitor<Pred>
+        OptempParaVisitor<Pred>//,
+        //TermVisitor<Pred>
 {
 
   /** Creates a new instance of TrivialVCCollector

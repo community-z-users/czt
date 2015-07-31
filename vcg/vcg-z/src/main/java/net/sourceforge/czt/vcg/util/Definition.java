@@ -141,10 +141,15 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
    */
   protected Definition(ZNameList contextGenerics, Definition deepCopy) throws DefinitionException
   {
-    super(deepCopy == null ? null : deepCopy.getSectionName());
+    //super(deepCopy == null ? null : deepCopy.getSectionName());
+	super("");
+    if (deepCopy == null) {
+    	throw new NullPointerException("Cannot deep copy null definition");
+    }
+    setSectionName(deepCopy.getSectionName());
     DefinitionTable.checkLocalDef(deepCopy.getSectionName(), deepCopy);
 
-    assert contextGenerics != null && deepCopy != null;
+    assert contextGenerics != null;
     genericParams_ = cloneTerm(deepCopy.genericParams_);
     defName_ = cloneTerm(deepCopy.defName_);
     defKind_ = deepCopy.defKind_; //new DefinitionKind(local.defKind_);
@@ -643,18 +648,28 @@ public class Definition extends InfoTable.Info implements Comparable<Definition>
                       (specialBindings_.isEmpty() ? "" :
            "\n\t SPECIAL-BINDINGS = \n\t\t   " + printSpecialBindings(false).replaceAll("\n\t", "\n\t\t").replaceAll("}", "}\n\t"));
   }
+  
+  private static synchronized final void incrementLocalsDepth()
+  {
+	  localsDepth_++;
+  }
+
+  private static synchronized final void decrementLocalsDepth()
+  {
+	  localsDepth_--;
+  }
 
   public String toString(boolean simple)
   {
     if (simple)
     {
-      localsDepth_++;
+      incrementLocalsDepth();
       String result = (genericParams_.isEmpty() ? "" : " [" + DefinitionTable.printTerm(genericParams_) + "]") + defKind_.toString() +
              //"(" + DefinitionTable.printTerm(defName_) + ", " +
                     //+ ")"
                    (!locals_.isEmpty() ? printLocals(simple) : "") +
                    (!specialBindings_.isEmpty() ? printSpecialBindings(simple) : "");
-      localsDepth_--;
+      decrementLocalsDepth();
       return result;
     }
     else

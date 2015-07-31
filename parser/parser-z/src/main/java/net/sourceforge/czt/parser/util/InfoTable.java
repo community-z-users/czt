@@ -96,7 +96,13 @@ public abstract class InfoTable {
     public String getSectionName()
     {
       return sectionName_;
-    }    
+    }
+    
+    protected void setSectionName(String name)
+    {
+    	if (name == null) throw new NullPointerException("InfoTable.Info section name cannot be null");
+    	sectionName_ = name;
+    }
   }
   
   public static class InfoTableException extends CommandException 

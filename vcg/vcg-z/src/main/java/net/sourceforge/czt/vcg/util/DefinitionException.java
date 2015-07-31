@@ -154,6 +154,16 @@ private final LocAnn locAnn_;
     }
     return builder.toString();
   }
+  
+  private static synchronized final void increaseInnerExprDepth()
+  {
+	  innerExpDepth_++;
+  }
+
+  private static synchronized final void decreaseInnerExprDepth()
+  {
+	  innerExpDepth_--;
+  }
 
   public String getMessage(boolean printInner)
   {
@@ -161,7 +171,7 @@ private final LocAnn locAnn_;
     StringBuilder result = null;
     if (!exceptions_.isEmpty() && printInner)
     {
-      innerExpDepth_++;
+      increaseInnerExprDepth();
       // previous msg + msg below + about 30 in length for each exception +/-
       result = new StringBuilder(s.length() + 40 + (exceptions_.size()+1 * 30));
       result.append(" with inner definition exceptions list as:");
@@ -171,7 +181,7 @@ private final LocAnn locAnn_;
         result.append(asMany('\t', innerExpDepth_));
         result.append(de.getMessage());
       }
-      innerExpDepth_--;
+      decreaseInnerExprDepth();
     }
     return s + (result != null ? result.toString() : "");
   }
@@ -240,6 +250,18 @@ private final LocAnn locAnn_;
   public int compareTo(CztError o)
   {
     return CztErrorImpl.compareCztErrorPositionTypeAndMessage(this, o);
+  }
+  
+  @Override
+  public int hashCode()
+  {
+	  return CztErrorImpl.baseHashCodeCztError(this);
+  }
+  
+  @Override
+  public boolean equals(Object o)
+  {
+	  return CztErrorImpl.compareCztErrorsEquals(this, o);
   }
 
 @Override

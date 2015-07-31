@@ -548,8 +548,10 @@ public class DefinitionTable extends InfoTable
                         // renaming case
                         else
                         {
-                          // should already be the localNameOfGlobalBindingName ?
-                          bindingFound = ZUtils.namesEqual(localNameOfGlobalBindingName, pair.getOldName());
+                          // old code changed after find bugs report: this seems like a copy-paste error :=(
+                        	//bindingFound = ZUtils.namesEqual(localNameOfGlobalBindingName, pair.getOldName());
+                            // should already be the localNameOfGlobalBindingName ?
+                          bindingFound = ZUtils.namesEqual(localNameOfGlobalBindingName, pair.getNewName());
                         }
                         if (bindingFound) 
                         {
@@ -940,7 +942,7 @@ public class DefinitionTable extends InfoTable
             boolean isNew = result.add(localDefToAdd);
             if (!isNew)
             {
-              //System.out.println("HAS COLLUSION FOR " + localDefToAdd.getDefName());
+              System.out.println("HAS COLLUSION FOR " + localDefToAdd.getDefName());
             }
           }
 

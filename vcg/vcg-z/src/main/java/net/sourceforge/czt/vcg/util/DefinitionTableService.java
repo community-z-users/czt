@@ -411,7 +411,7 @@ public class DefinitionTableService
     }
     System.err.println("-------------------------------------------");
     System.err.println("\n\n");
-    if (status < 0) System.exit(status);
+    if (status < 0) throw new CztException("Negative status while handling command exception, should exit JVM");//System.exit(status);
   }
 
   private static void printException(CommandException e)

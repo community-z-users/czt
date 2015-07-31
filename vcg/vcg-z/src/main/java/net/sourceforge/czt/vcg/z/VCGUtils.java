@@ -20,11 +20,15 @@
 package net.sourceforge.czt.vcg.z;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -302,10 +306,10 @@ public abstract class VCGUtils<//R,
 //              vcgErrors, printErrors, parsingTime, typeCheckTime,
 //              vcgTime, printTime, typeCheckTime + vcgTime + printTime));
 //
-    for (String file : timesPerFile.keySet())
+    for (Map.Entry<String, List<Long>> entry: timesPerFile.entrySet())
     {
-      List<Long> times = timesPerFile.get(file);
-      System.out.println("\t" + times.get(8) + "ms for " + file + ":");
+      List<Long> times = entry.getValue();
+      System.out.println("\t" + times.get(8) + "ms for " + entry.getKey() + ":");
       System.out.println("\t\tparsing errors.." + times.get(0));
       System.out.println("\t\ttype errors....." + times.get(1));
       System.out.println("\t\tVCG errors......" + times.get(2));
@@ -325,7 +329,8 @@ public abstract class VCGUtils<//R,
     // write the printed result on to the dc filename
     try
     {
-      FileWriter writer = new FileWriter(vcFileName);
+      //FileWriter writer = new FileWriter(vcFileName);
+      Writer writer = new OutputStreamWriter(new FileOutputStream(vcFileName), StandardCharsets.UTF_8);
       writer.write(output.toString());
       writer.close();
     }
@@ -631,9 +636,9 @@ public abstract class VCGUtils<//R,
     if (args.length == 0)
     {
       printUsage();
-      System.exit(0);
+      //System.exit(0);
+      return;
     }
-
     List<String> files = new java.util.ArrayList<String>();
     boolean printBenchmark = printBenchmarkDefault();
     String cztpath = cztPathDefault();
@@ -830,10 +835,11 @@ public abstract class VCGUtils<//R,
       String oldpipath = manager.getProperty(PROP_VCG_PARENTS_TO_IGNORE);
 
       // upsate the old new property
-      String prop = "";
+      StringBuilder prop = new StringBuilder();
       if (oldpipath != null && !oldpipath.trim().isEmpty())
       {
-        prop += oldpipath + File.pathSeparator;
+        prop.append(oldpipath);
+        prop.append(File.pathSeparator);
       }
 
       // build it from parents to ignore
@@ -841,15 +847,17 @@ public abstract class VCGUtils<//R,
       {
         // add any extra ones
         if (prop.indexOf(path) == -1)
-          prop += path + File.pathSeparator;
+            prop.append(path);
+            prop.append(File.pathSeparator);
       }
-      if (!prop.isEmpty())
+      String propS = prop.toString();
+      if (prop.length() > 0 )//!prop.isEmpty())
       {
-        prop = prop.substring(0, prop.lastIndexOf(File.pathSeparator));
+        propS = prop.substring(0, prop.lastIndexOf(File.pathSeparator));
       }
 
       // set the value
-      manager.setProperty(PROP_VCG_PARENTS_TO_IGNORE, prop);
+      manager.setProperty(PROP_VCG_PARENTS_TO_IGNORE, propS);
       //parentsToIgnoreList = manager.getListProperty(parentsToIgnore);
     }
 
@@ -874,7 +882,7 @@ public abstract class VCGUtils<//R,
       // add the file parent to the path as well.
       File archive = new File(file);
       String filePath = ".";
-      if (archive != null && archive.getParent() != null)
+      if (archive.getParent() != null)
       {
         filePath = archive.getParent();
         if (filePath != null && !filePath.isEmpty())
@@ -886,7 +894,7 @@ public abstract class VCGUtils<//R,
           localcztpath = filePath + File.pathSeparator + cztpath;
         }
       }
-      if (localcztpath != null && !localcztpath.trim().isEmpty())
+      if (/*localcztpath != null && */!localcztpath.trim().isEmpty())
       {
         manager.setProperty("czt.path", localcztpath);
       }
@@ -989,7 +997,7 @@ public abstract class VCGUtils<//R,
         typeCheckTime = currentTime - lastTime;
 
         //if the typecheck succeeded, domain check the spec
-        assert spec != null;
+        //assert spec != null;
 
         if (wellTyped)
         {
@@ -1376,7 +1384,7 @@ public abstract class VCGUtils<//R,
   {
     checkString(filename);
     checkString(suffix);
-    int dotIdx = filename.lastIndexOf(".");
+    int dotIdx = filename.lastIndexOf('.');
     if (dotIdx == -1)
     {
       return filename + suffix;
@@ -1402,11 +1410,11 @@ public abstract class VCGUtils<//R,
     int barIdx = filename.lastIndexOf(File.separatorChar);
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("/");
+      barIdx = filename.lastIndexOf('/');
     }
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("\\");
+      barIdx = filename.lastIndexOf('\\');
     }
     return barIdx == -1 ? filename : filename.substring(barIdx + 1);
   }
@@ -1424,11 +1432,11 @@ public abstract class VCGUtils<//R,
     int barIdx = filename.lastIndexOf(File.separatorChar);
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("/");
+      barIdx = filename.lastIndexOf('/');
     }
     if (barIdx == -1)
     {
-      barIdx = filename.lastIndexOf("\\");
+      barIdx = filename.lastIndexOf('\\');
     }
     return barIdx == -1 ? "./" : filename.substring(0, barIdx);
   }
@@ -1442,7 +1450,7 @@ public abstract class VCGUtils<//R,
   public static String getFileNameNoExt(String filename)
   {
     checkString(filename);
-    int dotIdx = filename.lastIndexOf(".");
+    int dotIdx = filename.lastIndexOf('.');
     return dotIdx == -1 ? filename : filename.substring(0, dotIdx);
   }
 

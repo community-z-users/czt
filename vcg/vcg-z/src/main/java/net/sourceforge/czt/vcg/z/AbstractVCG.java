@@ -97,7 +97,7 @@ public abstract class AbstractVCG<//R,
    */
   protected static final String ONTHEFLY_SCHEMA_NAME = "OnTheFlySchemaVC$";
   protected static final String ONTHEFLY_ZSECT_NAME = "CZTtmpVCZSect$";
-  protected static int onTheFlyNamesSeed_ = 0;
+  static int onTheFlyNamesSeed_ = 0;
 
   /**
    * Flag for adding or not trivial VCs (i.e. those that are tantamount to true like (true or a)).
@@ -271,9 +271,9 @@ public abstract class AbstractVCG<//R,
    *
    * @return
    */
-  @Override
-  public abstract VCCollector<//R, 
-  								T, B> getVCCollector();
+  //@Override
+  //public abstract VCCollector<//R, 
+  //								T, B> getVCCollector();
 
   @Override
   public SectionManager getManager()
@@ -508,16 +508,18 @@ public abstract class AbstractVCG<//R,
             String.valueOf(defaultCheckDefTblConsistency()));
 
       // build it from parents to ignore
-      String prop = "";
+      StringBuilder prop = new StringBuilder();
       for (String path : defaultParentsToIgnore())
       {
-        prop += path + File.pathSeparator;
+        prop.append(path);
+        prop.append(File.pathSeparator);
       }
-      if (!prop.isEmpty())
+      String propS = prop.toString();
+      if (prop.length() > 0)//!prop.isEmpty())
       {
-        prop = prop.substring(0, prop.lastIndexOf(File.pathSeparator));
+        propS = prop.substring(0, prop.lastIndexOf(File.pathSeparator));
       }
-      manager.setProperty(PROP_VCG_PARENTS_TO_IGNORE, prop);
+      manager.setProperty(PROP_VCG_PARENTS_TO_IGNORE, propS);
 
       doDefaultProperties(manager);
     }
@@ -716,8 +718,8 @@ public abstract class AbstractVCG<//R,
    * the result should be a DCVCEnvAnn class.
    * @return class for the kind of section management key to use.
    */
-  @Override
-  public abstract Class<? extends VCEnvAnn> getVCEnvAnnClass();
+  //@Override
+  //public abstract Class<? extends VCEnvAnn> getVCEnvAnnClass();
 
   /**
    *
@@ -1009,7 +1011,7 @@ public abstract class AbstractVCG<//R,
     List<VC<Pred>> result = factory_.list();
     
     // process section parents, if needed
-    result.addAll(collect(term.getParent().toArray(new Parent[0])));
+    result.addAll(collect(term.getParent().toArray(new Parent[term.getParent().size()])));
     
     // calculate necessary tables
     retrieveTables(term);

@@ -21,7 +21,6 @@ package net.sourceforge.czt.vcg.z.dc;
 
 import java.util.SortedSet;
 
-import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.vcg.util.DefaultVCNameFactory;
 import net.sourceforge.czt.vcg.util.Definition;
 import net.sourceforge.czt.vcg.z.TrivialVCCollector;
@@ -70,7 +69,7 @@ public abstract class TrivialDCVCCollector extends
         GivenParaVisitor<Pred>,
         ThetaExprVisitor<Pred>,
         FactVisitor<Pred>,
-        Visitor<Pred>,
+        //Visitor<Pred>,
         NameTypePairVisitor<Pred>,
         NameSectTypeTripleVisitor<Pred>,
         OperVisitor<Pred>,
