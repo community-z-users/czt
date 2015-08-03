@@ -39,7 +39,7 @@ import net.sourceforge.czt.util.Visitor;
  */
 public class ListTermImpl<E>
   extends AbstractList<E>
-  implements List<E>, ListTerm<E>
+  implements ListTerm<E>
 {
   /**
    * The list containing the data.
