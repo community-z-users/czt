@@ -104,7 +104,7 @@ public class ZSchTextCollector<R> extends BaseCollector<R>
   public R visitZSchText(ZSchText term)
   {
     term.getDeclList().accept(this);
-    //term.getPred().;
+    term.getPred().accept(fPredCollector);
     return null;
   }
 

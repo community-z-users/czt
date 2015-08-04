@@ -57,7 +57,7 @@ public class CircusTimeChar extends CircusPattChar
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  public static CircusTimeChar </xsl:text>
+  public static final CircusTimeChar </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = new CircusTimeChar(Character.toChars(0x</xsl:text>
     <xsl:value-of select="@hex"/>

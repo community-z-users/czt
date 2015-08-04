@@ -210,7 +210,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     }
     if (result == null)
     {
-      assert lhs != null && rhs != null;
+      //assert lhs != null && rhs != null;
       result = checkNeg(factory_.createAndPred(lhs, rhs, And.Wedge));
     }
     assert result != null;
@@ -366,7 +366,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     }
     if (result == null)
     {
-      assert pred != null && zSchText.getPred() != null;
+      assert /*pred != null &&*/ zSchText.getPred() != null;
       result = checkNeg(factory_.createForallPred(zSchText, pred));
     }
     assert result != null;
@@ -395,7 +395,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     }
     if (result == null)
     {
-      assert pred != null && zSchText.getPred() != null;
+      assert /*pred != null &&*/ zSchText.getPred() != null;
       result = checkNeg(factory_.createExistsPred(zSchText, pred));
     }
     assert result != null;
@@ -455,7 +455,7 @@ public abstract class AbstractPredTransformer extends AbstractTermTransformer<Pr
     }
     if (result == null)
     {
-      assert lhs != null && rhs != null;
+     // assert lhs != null && rhs != null;
       result = checkNeg(factory_.createImpliesPred(lhs, rhs));
     }
     assert result != null;

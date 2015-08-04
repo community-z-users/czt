@@ -68,7 +68,7 @@ public class ErrorAnn
                   LocAnn locAnn, Term term, Markup markup)
   {
     super(manager, errorMessage, params, null);
-    sectName_ = new String(sectName);
+    sectName_ = sectName;
     locAnn_ = locAnn;
     term_ = term;
     markup_ = markup;
@@ -174,7 +174,7 @@ public class ErrorAnn
   @Override
   public String toString()
   {
-    String result = new String();
+    String result = "";
     //format the error location as a string
     String localised = null;
     String [] args = null;

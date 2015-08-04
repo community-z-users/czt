@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +46,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
 import org.apache.xerces.xs.*;
-
+import org.apache.log4j.Logger;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -231,7 +233,8 @@ public class GnastRuleCodegenMojo
       context.put("jokers", jokers);
       write(velocity, dest, "Factory.vm", context);
     }
-    catch (Exception e) {
+    catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ClassCastException | IOException | URISyntaxException e)
+    {
       e.printStackTrace();
       throw new MojoExecutionException(e.getMessage(), e);
     }
@@ -252,9 +255,14 @@ public class GnastRuleCodegenMojo
     }
     
     File dest = new File(destination);
-    dest.getParentFile().mkdirs();
+    boolean b = dest.getParentFile().mkdirs();
+    if (!b) 
+    {
+    	//throw new IOException("Could not create parent file necessary directories" + dest.getParentFile());
+    	System.err.println("Could not create parent file necessary directories " + dest.getParentFile());
+    }
     
-    Writer writer = new OutputStreamWriter(buildContext.newFileOutputStream(dest));
+    Writer writer = new OutputStreamWriter(buildContext.newFileOutputStream(dest), StandardCharsets.UTF_8);
     try {
       Template template = velocity.getTemplate(templateName);
       template.merge(context, writer);

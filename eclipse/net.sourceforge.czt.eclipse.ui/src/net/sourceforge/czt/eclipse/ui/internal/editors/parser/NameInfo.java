@@ -17,6 +17,10 @@ public class NameInfo
   private String type_;
   
   private boolean isLocal_;
+  
+  private static final class LazyPVLoader {
+	  private static final PrintVisitor INSTANCE = new PrintVisitor();
+  }
 
   public NameInfo(ZName name, String section, String type, boolean isLocal)
   {
@@ -76,7 +80,7 @@ public class NameInfo
 
   public String toString()
   {
-    return "(" + name_.accept(new PrintVisitor()) + ", " + section_ + ", " + type_ + ")";
+    return "(" + name_.accept(LazyPVLoader.INSTANCE) + ", " + section_ + ", " + type_ + ")";
   }
 
 }

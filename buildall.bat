@@ -6,7 +6,7 @@
 
 :: See http://wiki.eclipse.org/Tycho/How_Tos/Dependency_on_pom-first_artifacts
 
-call set MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=512m
+:: call set MAVEN_OPTS=-Xmx1024m -XX:MaxPermSize=512m
 
 :: Step 1: Build the CZT core
 :: Note a check for errors, which stops the execution if Maven fails

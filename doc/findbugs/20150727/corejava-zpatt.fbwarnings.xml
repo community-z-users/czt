@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437999097608" analysisTimestamp="1437999092576" release="">
+  <Project projectName="corejava-zpatt">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/corejava-zpatt/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/generated-sources/jaxb</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.zpatt.jaxb.AstToJaxb" start="1" end="1168" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/zpatt/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.z.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/z/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.zpatt.jaxb.JaxbToAst" start="41" end="730" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/zpatt/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.z.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/z/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor" start="33" end="62" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/zpatt/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor" sourcefile="ConcreteSyntaxDescriptionVisitor.java" sourcepath="net/sourceforge/czt/z/util/ConcreteSyntaxDescriptionVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.Factory" start="41" end="1074" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/zpatt/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.z.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/z/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.GetNameVisitor" start="1" end="34" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/zpatt/util/GetNameVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.GetNameVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.GetNameVisitor" sourcefile="GetNameVisitor.java" sourcepath="net/sourceforge/czt/z/util/GetNameVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/LongDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="0" endBytecode="45" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/LongDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/LongDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/LongDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" start="50" end="50" startBytecode="3" endBytecode="3" sourcefile="LongDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/LongDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.PrintVisitor" start="25" end="25" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/zpatt/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/ShortDescriptionResourceBundle.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" name="getContents" signature="()[[Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="0" endBytecode="45" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/ShortDescriptionResourceBundle.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" name="CONTENTS" signature="[[Ljava/lang/Object;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/ShortDescriptionResourceBundle.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/ShortDescriptionResourceBundle.java"/>
+    <SourceLine classname="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" start="52" end="52" startBytecode="3" endBytecode="3" sourcefile="ShortDescriptionResourceBundle.java" sourcepath="net/sourceforge/czt/zpatt/util/ShortDescriptionResourceBundle.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 12:24:28 +0100" total_classes="142" referenced_classes="741" total_bugs="8" total_size="4848" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="519.17" clock_seconds="2550.77" peak_mbytes="1482.11" alloc_mbytes="960.00" gc_seconds="24.18" priority_2="2" priority_1="6">
+    <PackageStats package="net.sourceforge.czt.zpatt.ast" total_bugs="0" total_types="32" total_size="204">
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.Binding" sourceFile="Binding.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.CheckPassed" sourceFile="CheckPassed.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.Deduction" sourceFile="Deduction.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.HeadDeclList" sourceFile="HeadDeclList.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerDeclList" sourceFile="JokerDeclList.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerDeclListBinding" sourceFile="JokerDeclListBinding.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerExpr" sourceFile="JokerExpr.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerExprBinding" sourceFile="JokerExprBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerExprList" sourceFile="JokerExprList.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerExprListBinding" sourceFile="JokerExprListBinding.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerName" sourceFile="JokerName.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerNameBinding" sourceFile="JokerNameBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerNameList" sourceFile="JokerNameList.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerNameListBinding" sourceFile="JokerNameListBinding.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerPred" sourceFile="JokerPred.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerPredBinding" sourceFile="JokerPredBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerRenameList" sourceFile="JokerRenameList.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerRenameListBinding" sourceFile="JokerRenameListBinding.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerStroke" sourceFile="JokerStroke.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerStrokeBinding" sourceFile="JokerStrokeBinding.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.JokerType" sourceFile="JokerType.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.Jokers" sourceFile="Jokers.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.Oracle" sourceFile="Oracle.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.OracleAnswer" sourceFile="OracleAnswer.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.OracleAppl" sourceFile="OracleAppl.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.Rule" sourceFile="Rule.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.RuleAppl" sourceFile="RuleAppl.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.RulePara" sourceFile="RulePara.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.Sequent" sourceFile="Sequent.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.SequentContext" sourceFile="SequentContext.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.SequentList" sourceFile="SequentList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.ast.ZpattFactory" sourceFile="ZpattFactory.java" interface="true" size="52" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zpatt.impl" total_bugs="0" total_types="31" total_size="2467">
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.BindingImpl" sourceFile="BindingImpl.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.CheckPassedImpl" sourceFile="CheckPassedImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.DeductionImpl" sourceFile="DeductionImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.HeadDeclListImpl" sourceFile="HeadDeclListImpl.java" interface="false" size="84" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerDeclListBindingImpl" sourceFile="JokerDeclListBindingImpl.java" interface="false" size="90" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerDeclListImpl" sourceFile="JokerDeclListImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerExprBindingImpl" sourceFile="JokerExprBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerExprImpl" sourceFile="JokerExprImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerExprListBindingImpl" sourceFile="JokerExprListBindingImpl.java" interface="false" size="90" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerExprListImpl" sourceFile="JokerExprListImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerNameBindingImpl" sourceFile="JokerNameBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerNameImpl" sourceFile="JokerNameImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerNameListBindingImpl" sourceFile="JokerNameListBindingImpl.java" interface="false" size="90" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerNameListImpl" sourceFile="JokerNameListImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerPredBindingImpl" sourceFile="JokerPredBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerPredImpl" sourceFile="JokerPredImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerRenameListBindingImpl" sourceFile="JokerRenameListBindingImpl.java" interface="false" size="90" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerRenameListImpl" sourceFile="JokerRenameListImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerStrokeBindingImpl" sourceFile="JokerStrokeBindingImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokerStrokeImpl" sourceFile="JokerStrokeImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.JokersImpl" sourceFile="JokersImpl.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.OracleAnswerImpl" sourceFile="OracleAnswerImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.OracleApplImpl" sourceFile="OracleApplImpl.java" interface="false" size="95" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.OracleImpl" sourceFile="OracleImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.RuleApplImpl" sourceFile="RuleApplImpl.java" interface="false" size="95" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.RuleImpl" sourceFile="RuleImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.RuleParaImpl" sourceFile="RuleParaImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.SequentContextImpl" sourceFile="SequentContextImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.SequentImpl" sourceFile="SequentImpl.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.SequentListImpl" sourceFile="SequentListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.impl.ZpattFactoryImpl" sourceFile="ZpattFactoryImpl.java" interface="false" size="242" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zpatt.jaxb" total_bugs="2" total_types="4" total_size="1078" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="600" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="454" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="15" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zpatt.jaxb.gen" total_bugs="0" total_types="33" total_size="608">
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.Binding" sourceFile="Binding.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.CheckPassed" sourceFile="CheckPassed.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.Deduction" sourceFile="Deduction.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.HeadDeclList" sourceFile="HeadDeclList.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerDeclList" sourceFile="JokerDeclList.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerDeclListBinding" sourceFile="JokerDeclListBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerExpr" sourceFile="JokerExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerExprBinding" sourceFile="JokerExprBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerExprList" sourceFile="JokerExprList.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerExprListBinding" sourceFile="JokerExprListBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerName" sourceFile="JokerName.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerNameBinding" sourceFile="JokerNameBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerNameList" sourceFile="JokerNameList.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerNameListBinding" sourceFile="JokerNameListBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerPred" sourceFile="JokerPred.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerPredBinding" sourceFile="JokerPredBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerRenameList" sourceFile="JokerRenameList.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerRenameListBinding" sourceFile="JokerRenameListBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerStroke" sourceFile="JokerStroke.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerStrokeBinding" sourceFile="JokerStrokeBinding.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.JokerType" sourceFile="JokerType.java" interface="false" size="43" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.Jokers" sourceFile="Jokers.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="185" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.Oracle" sourceFile="Oracle.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.OracleAnswer" sourceFile="OracleAnswer.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.OracleAppl" sourceFile="OracleAppl.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.Rule" sourceFile="Rule.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.RuleAppl" sourceFile="RuleAppl.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.RulePara" sourceFile="RulePara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.Sequent" sourceFile="Sequent.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.SequentContext" sourceFile="SequentContext.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.SequentList" sourceFile="SequentList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zpatt.util" total_bugs="6" total_types="11" total_size="430" priority_2="2" priority_1="4">
+      <ClassStats class="net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor" sourceFile="ConcreteSyntaxDescriptionVisitor.java" interface="false" size="25" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.ConcreteSyntaxSymbol" sourceFile="ConcreteSyntaxSymbol.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.ConcreteSyntaxSymbolVisitor" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.Factory" sourceFile="Factory.java" interface="false" size="310" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.GetNameVisitor" sourceFile="GetNameVisitor.java" interface="false" size="7" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.HeadList" sourceFile="HeadList.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="3" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.ZPattChar" sourceFile="ZPattChar.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.util.ZPattString" sourceFile="ZPattString.java" interface="true" size="14" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zpatt.visitor" total_bugs="0" total_types="31" total_size="61">
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.BindingVisitor" sourceFile="BindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.CheckPassedVisitor" sourceFile="CheckPassedVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.DeductionVisitor" sourceFile="DeductionVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.HeadDeclListVisitor" sourceFile="HeadDeclListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerDeclListBindingVisitor" sourceFile="JokerDeclListBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor" sourceFile="JokerDeclListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerExprBindingVisitor" sourceFile="JokerExprBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerExprListBindingVisitor" sourceFile="JokerExprListBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerExprListVisitor" sourceFile="JokerExprListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerExprVisitor" sourceFile="JokerExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerNameBindingVisitor" sourceFile="JokerNameBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerNameListBindingVisitor" sourceFile="JokerNameListBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerNameListVisitor" sourceFile="JokerNameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerNameVisitor" sourceFile="JokerNameVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerPredBindingVisitor" sourceFile="JokerPredBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerPredVisitor" sourceFile="JokerPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerRenameListBindingVisitor" sourceFile="JokerRenameListBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerRenameListVisitor" sourceFile="JokerRenameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerStrokeBindingVisitor" sourceFile="JokerStrokeBindingVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokerStrokeVisitor" sourceFile="JokerStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.JokersVisitor" sourceFile="JokersVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.OracleAnswerVisitor" sourceFile="OracleAnswerVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.OracleApplVisitor" sourceFile="OracleApplVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.OracleVisitor" sourceFile="OracleVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.RuleApplVisitor" sourceFile="RuleApplVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.RuleParaVisitor" sourceFile="RuleParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.RuleVisitor" sourceFile="RuleVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.SequentContextVisitor" sourceFile="SequentContextVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.SequentListVisitor" sourceFile="SequentListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.SequentVisitor" sourceFile="SequentVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zpatt.visitor.ZpattVisitor" sourceFile="ZpattVisitor.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="276" invocations="1435" avgMicrosecondsPerInvocation="192" maxMicrosecondsPerInvocation="44782" standardDeviationMircosecondsPerInvocation="1666"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="265" invocations="923" avgMicrosecondsPerInvocation="287" maxMicrosecondsPerInvocation="28032" standardDeviationMircosecondsPerInvocation="1568"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="234" invocations="741" avgMicrosecondsPerInvocation="316" maxMicrosecondsPerInvocation="48896" standardDeviationMircosecondsPerInvocation="2262"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="227" invocations="865" avgMicrosecondsPerInvocation="262" maxMicrosecondsPerInvocation="27883" standardDeviationMircosecondsPerInvocation="1395"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="223" invocations="1440" avgMicrosecondsPerInvocation="154" maxMicrosecondsPerInvocation="45798" standardDeviationMircosecondsPerInvocation="1945"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="209" invocations="741" avgMicrosecondsPerInvocation="282" maxMicrosecondsPerInvocation="32146" standardDeviationMircosecondsPerInvocation="1412"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="189" invocations="1511" avgMicrosecondsPerInvocation="125" maxMicrosecondsPerInvocation="53425" standardDeviationMircosecondsPerInvocation="1401"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="187" invocations="921" avgMicrosecondsPerInvocation="203" maxMicrosecondsPerInvocation="20780" standardDeviationMircosecondsPerInvocation="1071"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="186" invocations="2" avgMicrosecondsPerInvocation="93206" maxMicrosecondsPerInvocation="111338" standardDeviationMircosecondsPerInvocation="18129"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="150" invocations="953" avgMicrosecondsPerInvocation="158" maxMicrosecondsPerInvocation="7721" standardDeviationMircosecondsPerInvocation="450"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="137" invocations="654" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="26431" standardDeviationMircosecondsPerInvocation="1158"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="129" invocations="741" avgMicrosecondsPerInvocation="175" maxMicrosecondsPerInvocation="49944" standardDeviationMircosecondsPerInvocation="2450"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="106" invocations="741" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="50725" standardDeviationMircosecondsPerInvocation="1927"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="96" invocations="953" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="7898" standardDeviationMircosecondsPerInvocation="310"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="82" invocations="741" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="36089" standardDeviationMircosecondsPerInvocation="1336"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="82" invocations="923" avgMicrosecondsPerInvocation="89" maxMicrosecondsPerInvocation="3679" standardDeviationMircosecondsPerInvocation="235"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="59" invocations="14860" avgMicrosecondsPerInvocation="4" maxMicrosecondsPerInvocation="8626" standardDeviationMircosecondsPerInvocation="108"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="55" invocations="142" avgMicrosecondsPerInvocation="392" maxMicrosecondsPerInvocation="19899" standardDeviationMircosecondsPerInvocation="1998"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadForLoop" totalMilliseconds="54" invocations="142" avgMicrosecondsPerInvocation="383" maxMicrosecondsPerInvocation="34049" standardDeviationMircosecondsPerInvocation="2869"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="54" invocations="142" avgMicrosecondsPerInvocation="381" maxMicrosecondsPerInvocation="35531" standardDeviationMircosecondsPerInvocation="2984"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="52" invocations="741" avgMicrosecondsPerInvocation="70" maxMicrosecondsPerInvocation="19252" standardDeviationMircosecondsPerInvocation="712"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="52" invocations="923" avgMicrosecondsPerInvocation="56" maxMicrosecondsPerInvocation="18483" standardDeviationMircosecondsPerInvocation="610"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="51" invocations="741" avgMicrosecondsPerInvocation="69" maxMicrosecondsPerInvocation="5943" standardDeviationMircosecondsPerInvocation="321"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDerefsInvolvingNonShortCircuitEvaluation" totalMilliseconds="46" invocations="142" avgMicrosecondsPerInvocation="329" maxMicrosecondsPerInvocation="17859" standardDeviationMircosecondsPerInvocation="1698"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteRecursiveLoop" totalMilliseconds="45" invocations="142" avgMicrosecondsPerInvocation="319" maxMicrosecondsPerInvocation="23733" standardDeviationMircosecondsPerInvocation="2044"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="42" invocations="795" avgMicrosecondsPerInvocation="53" maxMicrosecondsPerInvocation="1468" standardDeviationMircosecondsPerInvocation="111"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="40" invocations="142" avgMicrosecondsPerInvocation="285" maxMicrosecondsPerInvocation="5133" standardDeviationMircosecondsPerInvocation="660"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="39" invocations="1105" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="11445" standardDeviationMircosecondsPerInvocation="393"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="38" invocations="142" avgMicrosecondsPerInvocation="271" maxMicrosecondsPerInvocation="13775" standardDeviationMircosecondsPerInvocation="1224"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="38" invocations="142" avgMicrosecondsPerInvocation="268" maxMicrosecondsPerInvocation="19602" standardDeviationMircosecondsPerInvocation="1670"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="37" invocations="142" avgMicrosecondsPerInvocation="262" maxMicrosecondsPerInvocation="7359" standardDeviationMircosecondsPerInvocation="786"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.XMLFactoryBypass" totalMilliseconds="37" invocations="142" avgMicrosecondsPerInvocation="262" maxMicrosecondsPerInvocation="33432" standardDeviationMircosecondsPerInvocation="2794"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="36" invocations="20257" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="19079" standardDeviationMircosecondsPerInvocation="134"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="35" invocations="142" avgMicrosecondsPerInvocation="248" maxMicrosecondsPerInvocation="4297" standardDeviationMircosecondsPerInvocation="634"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="34" invocations="142" avgMicrosecondsPerInvocation="246" maxMicrosecondsPerInvocation="5083" standardDeviationMircosecondsPerInvocation="784"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUseOfNonSerializableValue" totalMilliseconds="34" invocations="142" avgMicrosecondsPerInvocation="245" maxMicrosecondsPerInvocation="16477" standardDeviationMircosecondsPerInvocation="1465"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="31" invocations="142" avgMicrosecondsPerInvocation="225" maxMicrosecondsPerInvocation="16249" standardDeviationMircosecondsPerInvocation="1377"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="31" invocations="142" avgMicrosecondsPerInvocation="223" maxMicrosecondsPerInvocation="9581" standardDeviationMircosecondsPerInvocation="935"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437999097608" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

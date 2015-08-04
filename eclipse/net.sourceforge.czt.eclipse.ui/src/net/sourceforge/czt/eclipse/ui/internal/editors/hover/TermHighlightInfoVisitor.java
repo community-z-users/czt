@@ -254,6 +254,10 @@ public class TermHighlightInfoVisitor
     return result;
   }
 
+  private static final class LazyPVLoader {
+	  private static final PrintVisitor INSTANCE = new PrintVisitor();
+  }
+
   /**
    * @see net.sourceforge.czt.z.visitor.ExprVisitor
    *    #visitExpr(net.sourceforge.czt.z.ast.Expr)
@@ -265,7 +269,7 @@ public class TermHighlightInfoVisitor
     TypeAnn typeann = expr.getAnn(TypeAnn.class);
     String type = null;
     if (typeann != null)
-      type = typeann.getType().accept(new PrintVisitor());
+      type = typeann.getType().accept(LazyPVLoader.INSTANCE);
     if (type != null)
       result = result.concat("\nIts type is " + type);
 

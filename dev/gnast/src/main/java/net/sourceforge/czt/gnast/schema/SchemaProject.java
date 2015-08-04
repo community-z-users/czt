@@ -121,7 +121,9 @@ public class SchemaProject
    *
    * Should never be <code>null</code>.
    */
-  private Properties nsPrefixProps_;
+  private final Properties nsPrefixProps_;
+  
+  private final String nsAcronymn_;
 
   /**
    * A mapping from objects that does not belong to the project
@@ -132,7 +134,7 @@ public class SchemaProject
   /**
    * The target namespace of the schema.
    */
-  private String targetNamespace_;
+  private final String targetNamespace_;
 
   /**
    *
@@ -178,7 +180,14 @@ public class SchemaProject
     Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
-      //System.err.println("XPath target name space = " + targetNamespace_);
+      nsAcronymn_ = getNameSpaceAcronymn(nsPrefixProps_, targetNamespace_);
+      LOGGER.info("XPath target name space = " + targetNamespace_);
+    }
+    else
+    {	
+    	targetNamespace_ = null;
+    	nsAcronymn_ = null;
+    	LOGGER.warning("Could not define target name space");
     }
     jproject_ = proj;
   }
@@ -627,7 +636,32 @@ public class SchemaProject
     } finally {
       reader.close();
     }
+    LOGGER.info("Collecting properties for " + url.toString());
+    LOGGER.info(result.toString());
+    System.out.println("Collecting properties for " + url.toString());
+    System.out.println(result.toString());	
     return result;
+  }
+  
+  /**
+   * This is the xmlns:??? property mathing the current targetNameSpace. 
+   * That is, Z for Z, P for ZPattern, CT for CircusTime, CIRCUS for Circus, etc.
+   * This is useful when generating GnAST code that requires different names to 
+   * avoid FindBugs issue about confusing class names. 
+   * @return
+   */
+  private static final String getNameSpaceAcronymn(Properties props, String ns)
+  	throws XSDException
+  {
+	 assert props.containsValue(ns);
+	 for(Object p : props.keySet())
+	 {
+		 if (p instanceof String && ns.equals(props.getProperty((String)p)))
+		 {
+			 return p.toString();
+		 }
+	 }
+	 throw new XSDException("Couldn't find name space acronymn for " + ns + "\n\t" + props.toString());	 
   }
 
   /**
@@ -830,6 +864,11 @@ public class SchemaProject
     public String getExtends()
     {
       return extends_;
+    }
+    
+    public String getNSAcronymn()
+    {
+    	return nsAcronymn_;
     }
 
     public String getPackage()

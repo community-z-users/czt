@@ -84,6 +84,11 @@ public class CarrierSet
     circusFactory_ = new net.sourceforge.czt.circus.util.Factory(circusFactory);
   }
   
+  public net.sourceforge.czt.circus.util.Factory getCircusFactory()
+  {
+	  return circusFactory_;
+  }
+  
   @Override
   public Term visitChannelType(ChannelType term)
   {

@@ -1,0 +1,1424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438009425549" analysisTimestamp="1438009421792" release="">
+  <Project projectName="java-cup">
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/java-cup/target/classes</Jar>
+    <Jar>/java-cup/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/java-cup/src/main/java</SrcDir>
+    <SrcDir>/java-cup/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="DM_STRING_VOID_CTOR" priority="2" rank="18" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.CUP$parser$actions">
+      <SourceLine classname="java_cup.CUP$parser$actions" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Method classname="java_cup.CUP$parser$actions" name="&lt;init&gt;" signature="(Ljava_cup/parser;)V" isStatic="false">
+      <SourceLine classname="java_cup.CUP$parser$actions" start="558" end="560" startBytecode="0" endBytecode="190" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Method>
+    <SourceLine classname="java_cup.CUP$parser$actions" start="499" end="499" startBytecode="31" endBytecode="31" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    <SourceLine classname="java_cup.CUP$parser$actions" start="499" end="499" startBytecode="31" endBytecode="31" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="DM_STRING_VOID_CTOR" priority="2" rank="18" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.CUP$parser$actions">
+      <SourceLine classname="java_cup.CUP$parser$actions" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Method classname="java_cup.CUP$parser$actions" name="CUP$parser$do_action" signature="(ILjava_cup/runtime/lr_parser;Ljava/util/Stack;I)Ljava_cup/runtime/Symbol;" isStatic="false">
+      <SourceLine classname="java_cup.CUP$parser$actions" start="574" end="1984" startBytecode="0" endBytecode="12745" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Method>
+    <SourceLine classname="java_cup.CUP$parser$actions" start="936" end="936" startBytecode="2228" endBytecode="2228" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    <SourceLine classname="java_cup.CUP$parser$actions" start="936" end="936" startBytecode="2228" endBytecode="2228" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" rank="18" abbrev="SS" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.CUP$parser$actions">
+      <SourceLine classname="java_cup.CUP$parser$actions" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Field classname="java_cup.CUP$parser$actions" name="MAX_RHS" signature="I" isStatic="false">
+      <SourceLine classname="java_cup.CUP$parser$actions" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.CUP$parser$actions" start="476" end="476" startBytecode="8" endBytecode="8" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="zzUnpackAction" signature="()[I" isStatic="true">
+      <SourceLine classname="java_cup.Lexer" start="153" end="156" startBytecode="0" endBytecode="11" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <LocalVariable name="offset" register="1" pc="16" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="java_cup.Lexer" start="155" end="155" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="155" end="155" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="offset"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="zzUnpackAttribute" signature="()[I" isStatic="true">
+      <SourceLine classname="java_cup.Lexer" start="353" end="356" startBytecode="0" endBytecode="11" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <LocalVariable name="offset" register="1" pc="16" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="java_cup.Lexer" start="355" end="355" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="355" end="355" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="offset"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="zzUnpackRowMap" signature="()[I" isStatic="true">
+      <SourceLine classname="java_cup.Lexer" start="196" end="199" startBytecode="0" endBytecode="11" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <LocalVariable name="offset" register="1" pc="16" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="java_cup.Lexer" start="198" end="198" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="198" end="198" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="offset"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="zzUnpackTrans" signature="()[I" isStatic="true">
+      <SourceLine classname="java_cup.Lexer" start="309" end="312" startBytecode="0" endBytecode="11" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <LocalVariable name="offset" register="1" pc="16" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="java_cup.Lexer" start="311" end="311" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="311" end="311" startBytecode="15" endBytecode="15" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="offset"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="&lt;init&gt;" signature="(Ljava/io/InputStream;)V" isStatic="false">
+      <SourceLine classname="java_cup.Lexer" start="461" end="462" startBytecode="0" endBytecode="68" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <Method classname="java.io.InputStreamReader" name="&lt;init&gt;" signature="(Ljava/io/InputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.InputStreamReader" start="72" end="79" startBytecode="0" endBytecode="108" sourcefile="InputStreamReader.java" sourcepath="java/io/InputStreamReader.java"/>
+    </Method>
+    <SourceLine classname="java_cup.Lexer" start="461" end="461" startBytecode="6" endBytecode="6" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="461" end="461" startBytecode="6" endBytecode="6" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="&lt;init&gt;" signature="(Ljava_cup/runtime/ComplexSymbolFactory;)V" isStatic="false">
+      <SourceLine classname="java_cup.Lexer" start="422" end="424" startBytecode="0" endBytecode="79" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <Method classname="java.io.InputStreamReader" name="&lt;init&gt;" signature="(Ljava/io/InputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.InputStreamReader" start="72" end="79" startBytecode="0" endBytecode="108" sourcefile="InputStreamReader.java" sourcepath="java/io/InputStreamReader.java"/>
+    </Method>
+    <SourceLine classname="java_cup.Lexer" start="422" end="422" startBytecode="8" endBytecode="8" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="422" end="422" startBytecode="8" endBytecode="8" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+  </BugInstance>
+  <BugInstance type="SF_SWITCH_FALLTHROUGH" priority="2" rank="17" abbrev="SF" category="STYLE" first="1">
+    <Class classname="java_cup.Lexer">
+      <SourceLine classname="java_cup.Lexer" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Class>
+    <Method classname="java_cup.Lexer" name="next_token" signature="()Ljava_cup/runtime/Symbol;" isStatic="false">
+      <SourceLine classname="java_cup.Lexer" start="691" end="964" startBytecode="0" endBytecode="2563" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.Lexer" start="846" end="848" startBytecode="997" endBytecode="1000" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+    <SourceLine classname="java_cup.Lexer" start="846" end="848" startBytecode="997" endBytecode="1000" sourcefile="Lexer.java" sourcepath="java_cup/Lexer.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Method classname="java_cup.Main" name="open_files" signature="()V" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="438" end="460" startBytecode="0" endBytecode="434" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Method>
+    <Method classname="java.io.PrintWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintWriter" start="131" end="132" startBytecode="0" endBytecode="34" sourcefile="PrintWriter.java" sourcepath="java/io/PrintWriter.java"/>
+    </Method>
+    <SourceLine classname="java_cup.Main" start="441" end="441" startBytecode="56" endBytecode="56" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    <SourceLine classname="java_cup.Main" start="441" end="441" startBytecode="56" endBytecode="56" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="action_table" signature="Ljava_cup/parse_action_table;" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="561" end="561" startBytecode="0" endBytecode="0" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="build_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="128" end="128" startBytecode="73" endBytecode="73" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="check_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="124" end="124" startBytecode="65" endBytecode="65" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="dest_dir" signature="Ljava/io/File;" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="426" end="426" startBytecode="105" endBytecode="105" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="dump_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="126" end="126" startBytecode="69" endBytecode="69" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="emit_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="140" end="140" startBytecode="97" endBytecode="97" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="expect_conflicts" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="101" end="101" startBytecode="37" endBytecode="37" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="final_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="142" end="142" startBytecode="101" endBytecode="101" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="first_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="132" end="132" startBytecode="81" endBytecode="81" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="include_non_terms" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="97" end="97" startBytecode="29" endBytecode="29" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="input_file" signature="Ljava/io/BufferedInputStream;" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="417" end="417" startBytecode="0" endBytecode="0" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="lr_values" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="105" end="105" startBytecode="41" endBytecode="41" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="machine_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="134" end="134" startBytecode="85" endBytecode="85" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="no_summary" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="99" end="99" startBytecode="33" endBytecode="33" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="nullability_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="130" end="130" startBytecode="77" endBytecode="77" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="opt_compact_red" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="94" end="94" startBytecode="25" endBytecode="25" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="opt_do_debug" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="91" end="91" startBytecode="21" endBytecode="21" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="opt_dump_grammar" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="87" end="87" startBytecode="13" endBytecode="13" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="opt_dump_states" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="83" end="83" startBytecode="5" endBytecode="5" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="opt_dump_tables" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="85" end="85" startBytecode="9" endBytecode="9" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="opt_show_timing" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="89" end="89" startBytecode="17" endBytecode="17" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="parse_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="122" end="122" startBytecode="61" endBytecode="61" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="parser_class_file" signature="Ljava/io/PrintWriter;" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="420" end="420" startBytecode="0" endBytecode="0" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="prelim_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="120" end="120" startBytecode="57" endBytecode="57" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="print_progress" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="81" end="81" startBytecode="1" endBytecode="1" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="reduce_check_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="138" end="138" startBytecode="93" endBytecode="93" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="reduce_table" signature="Ljava_cup/parse_reduce_table;" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="564" end="564" startBytecode="0" endBytecode="0" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="start_state" signature="Ljava_cup/lalr_state;" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="558" end="558" startBytecode="0" endBytecode="0" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="start_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="118" end="118" startBytecode="53" endBytecode="53" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="suppress_scanner" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="112" end="112" startBytecode="49" endBytecode="49" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="sym_interface" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="108" end="108" startBytecode="45" endBytecode="45" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="symbol_class_file" signature="Ljava/io/PrintWriter;" isStatic="true">
+      <SourceLine classname="java_cup.Main" start="423" end="423" startBytecode="0" endBytecode="0" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.Main">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Class>
+    <Field classname="java_cup.Main" name="table_end" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.Main" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+    </Field>
+    <SourceLine classname="java_cup.Main" start="136" end="136" startBytecode="89" endBytecode="89" sourcefile="Main.java" sourcepath="java_cup/Main.java"/>
+  </BugInstance>
+  <BugInstance type="EQ_DOESNT_OVERRIDE_EQUALS" priority="2" rank="17" abbrev="Eq" category="STYLE" first="1">
+    <Class classname="java_cup.action_production">
+      <SourceLine classname="java_cup.action_production" sourcefile="action_production.java" sourcepath="java_cup/action_production.java"/>
+    </Class>
+    <SourceLine classname="java_cup.action_production" start="1" end="1" startBytecode="0" endBytecode="0" sourcefile="action_production.java" sourcepath="java_cup/action_production.java"/>
+    <Method classname="java_cup.production" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_DID_YOU_MEAN_TO_OVERRIDE">
+      <SourceLine classname="java_cup.production" start="766" end="769" startBytecode="0" endBytecode="86" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.assoc">
+      <SourceLine classname="java_cup.assoc" start="8" end="8" sourcefile="assoc.java" sourcepath="java_cup/assoc.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="EC_UNRELATED_TYPES" priority="1" rank="1" abbrev="EC" category="CORRECTNESS" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Method classname="java_cup.emit" name="emit_action_code" signature="(Ljava/io/PrintWriter;Ljava_cup/production;)V" isStatic="true">
+      <SourceLine classname="java_cup.emit" start="390" end="657" startBytecode="0" endBytecode="766" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Method>
+    <Type descriptor="Ljava/lang/String;" role="TYPE_FOUND">
+      <SourceLine classname="java.lang.String" start="111" end="3129" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Type>
+    <Type descriptor="Ljava_cup/action_part;" role="TYPE_EXPECTED">
+      <SourceLine classname="java_cup.action_part" start="26" end="93" sourcefile="action_part.java" sourcepath="java_cup/action_part.java"/>
+    </Type>
+    <String value="" role="STRING_CONSTANT"/>
+    <Method classname="java_cup.production" name="action" signature="()Ljava_cup/action_part;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java_cup.production" start="325" end="325" startBytecode="0" endBytecode="46" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <Method classname="java_cup.action_part" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_EQUALS_USED">
+      <SourceLine classname="java_cup.action_part" start="71" end="74" startBytecode="0" endBytecode="86" sourcefile="action_part.java" sourcepath="java_cup/action_part.java"/>
+    </Method>
+    <SourceLine classname="java_cup.emit" start="594" end="594" startBytecode="1440" endBytecode="1440" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    <SourceLine classname="java_cup.emit" start="594" end="594" startBytecode="1440" endBytecode="1440" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="_lr_values" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.emit" start="233" end="233" startBytecode="0" endBytecode="0" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="action_code" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="158" end="158" startBytecode="37" endBytecode="37" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="action_code_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="221" end="221" startBytecode="95" endBytecode="95" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="action_table_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="227" end="227" startBytecode="103" endBytecode="103" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="class_type_argument" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="136" end="136" startBytecode="21" endBytecode="21" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="external_tables" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="145" end="145" startBytecode="25" endBytecode="25" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="goto_table_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="230" end="230" startBytecode="107" endBytecode="107" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="import_list" signature="Ljava/util/Stack;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="183" end="183" startBytecode="63" endBytecode="63" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="init_code" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="168" end="168" startBytecode="45" endBytecode="45" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="not_reduced" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="198" end="198" startBytecode="75" endBytecode="75" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="nowarn" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="193" end="193" startBytecode="71" endBytecode="71" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="num_conflicts" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="188" end="188" startBytecode="67" endBytecode="67" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="package_name" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="118" end="118" startBytecode="7" endBytecode="7" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="parser_class_name" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="128" end="128" startBytecode="17" endBytecode="17" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="parser_code" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="163" end="163" startBytecode="41" endBytecode="41" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="parser_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="218" end="218" startBytecode="91" endBytecode="91" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="production_table_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="224" end="224" startBytecode="99" endBytecode="99" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="scan_code" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="173" end="173" startBytecode="49" endBytecode="49" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="start_production" signature="Ljava_cup/production;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="178" end="178" startBytecode="53" endBytecode="53" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="suppress_generated_java_warnings_unchecked" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="152" end="152" startBytecode="29" endBytecode="29" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="suppress_generated_java_warnings_unused" signature="Z" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="153" end="153" startBytecode="33" endBytecode="33" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="symbol_const_class_name" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="123" end="123" startBytecode="12" endBytecode="12" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="symbols_time" signature="J" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="215" end="215" startBytecode="87" endBytecode="87" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="unused_non_term" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="208" end="208" startBytecode="83" endBytecode="83" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="unused_term" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="203" end="203" startBytecode="79" endBytecode="79" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Field classname="java_cup.emit" name="prefix" signature="Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Field>
+    <SourceLine classname="java_cup.emit" start="113" end="113" startBytecode="3" endBytecode="3" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" start="105" end="1247" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="UC_USELESS_CONDITION" priority="2" rank="16" abbrev="UC" category="STYLE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Method classname="java_cup.emit" name="do_escaped" signature="(Ljava/io/PrintWriter;C)I" isStatic="true">
+      <SourceLine classname="java_cup.emit" start="1047" end="1068" startBytecode="0" endBytecode="282" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Method>
+    <String value="c &gt;= 1"/>
+    <SourceLine classname="java_cup.emit" start="1064" end="1064" startBytecode="103" endBytecode="103" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    <SourceLine classname="java_cup.emit" start="1064" end="1064" startBytecode="103" endBytecode="103" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="UC_USELESS_CONDITION" priority="2" rank="16" abbrev="UC" category="STYLE" first="1">
+    <Class classname="java_cup.emit">
+      <SourceLine classname="java_cup.emit" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Class>
+    <Method classname="java_cup.emit" name="do_escaped" signature="(Ljava/io/PrintWriter;C)I" isStatic="true">
+      <SourceLine classname="java_cup.emit" start="1047" end="1068" startBytecode="0" endBytecode="282" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    </Method>
+    <String value="c &gt;= 128"/>
+    <SourceLine classname="java_cup.emit" start="1066" end="1066" startBytecode="118" endBytecode="118" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+    <SourceLine classname="java_cup.emit" start="1066" end="1066" startBytecode="118" endBytecode="118" sourcefile="emit.java" sourcepath="java_cup/emit.java"/>
+  </BugInstance>
+  <BugInstance type="EQ_OVERRIDING_EQUALS_NOT_SYMMETRIC" priority="2" rank="8" abbrev="Eq" category="CORRECTNESS" first="1">
+    <Class classname="java_cup.lalr_item">
+      <SourceLine classname="java_cup.lalr_item" sourcefile="lalr_item.java" sourcepath="java_cup/lalr_item.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_item" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false">
+      <SourceLine classname="java_cup.lalr_item" start="280" end="283" startBytecode="0" endBytecode="86" sourcefile="lalr_item.java" sourcepath="java_cup/lalr_item.java"/>
+    </Method>
+    <Method classname="java_cup.lr_item_core" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_OVERRIDDEN">
+      <SourceLine classname="java_cup.lr_item_core" start="180" end="183" startBytecode="0" endBytecode="86" sourcefile="lr_item_core.java" sourcepath="java_cup/lr_item_core.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.lalr_item">
+      <SourceLine classname="java_cup.lalr_item" sourcefile="lalr_item.java" sourcepath="java_cup/lalr_item.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_item" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.lalr_item" start="303" end="329" startBytecode="0" endBytecode="347" sourcefile="lalr_item.java" sourcepath="java_cup/lalr_item.java"/>
+    </Method>
+    <SourceLine classname="java_cup.lalr_item" start="315" end="315" startBytecode="112" endBytecode="112" sourcefile="lalr_item.java" sourcepath="java_cup/lalr_item.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.lalr_item_set">
+      <SourceLine classname="java_cup.lalr_item_set" sourcefile="lalr_item_set.java" sourcepath="java_cup/lalr_item_set.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_item_set" name="hashCode" signature="()I" isStatic="false">
+      <SourceLine classname="java_cup.lalr_item_set" start="336" end="353" startBytecode="0" endBytecode="179" sourcefile="lalr_item_set.java" sourcepath="java_cup/lalr_item_set.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.lalr_item_set" start="350" end="350" startBytecode="47" endBytecode="47" sourcefile="lalr_item_set.java" sourcepath="java_cup/lalr_item_set.java"/>
+    <SourceLine classname="java_cup.lalr_item_set" start="350" end="350" startBytecode="47" endBytecode="47" sourcefile="lalr_item_set.java" sourcepath="java_cup/lalr_item_set.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Field classname="java_cup.lalr_state" name="_all" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Field>
+    <SourceLine classname="java_cup.lalr_state" start="86" end="86" startBytecode="7" endBytecode="7" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Field classname="java_cup.lalr_state" name="_all_kernels" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Field>
+    <SourceLine classname="java_cup.lalr_state" start="109" end="109" startBytecode="17" endBytecode="17" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Field classname="java_cup.lalr_state" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Field>
+    <SourceLine classname="java_cup.lalr_state" start="131" end="131" startBytecode="21" endBytecode="21" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_state" name="report_reduce_reduce" signature="(Ljava_cup/lalr_item;Ljava_cup/lalr_item;)V" isStatic="false">
+      <SourceLine classname="java_cup.lalr_state" start="768" end="791" startBytecode="0" endBytecode="448" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Method>
+    <SourceLine classname="java_cup.lalr_state" start="779" end="779" startBytecode="136" endBytecode="136" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_state" name="report_shift_reduce" signature="(Ljava_cup/lalr_item;I)V" isStatic="false">
+      <SourceLine classname="java_cup.lalr_state" start="809" end="835" startBytecode="0" endBytecode="403" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Method>
+    <SourceLine classname="java_cup.lalr_state" start="825" end="825" startBytecode="111" endBytecode="111" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_state" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.lalr_state" start="878" end="887" startBytecode="0" endBytecode="197" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Method>
+    <SourceLine classname="java_cup.lalr_state" start="884" end="884" startBytecode="68" endBytecode="68" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.lalr_state">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Class>
+    <Method classname="java_cup.lalr_state" name="&lt;init&gt;" signature="(Ljava_cup/lalr_item_set;)V" isStatic="false">
+      <SourceLine classname="java_cup.lalr_state" start="61" end="79" startBytecode="0" endBytecode="180" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Method>
+    <Field classname="java_cup.lalr_state" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.lalr_state" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    </Field>
+    <SourceLine classname="java_cup.lalr_state" start="72" end="72" startBytecode="47" endBytecode="47" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+    <SourceLine classname="java_cup.lalr_state" start="72" end="72" startBytecode="47" endBytecode="47" sourcefile="lalr_state.java" sourcepath="java_cup/lalr_state.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.lr_item_core">
+      <SourceLine classname="java_cup.lr_item_core" sourcefile="lr_item_core.java" sourcepath="java_cup/lr_item_core.java"/>
+    </Class>
+    <Method classname="java_cup.lr_item_core" name="to_simple_string" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.lr_item_core" start="223" end="262" startBytecode="0" endBytecode="574" sourcefile="lr_item_core.java" sourcepath="java_cup/lr_item_core.java"/>
+    </Method>
+    <SourceLine classname="java_cup.lr_item_core" start="254" end="254" startBytecode="279" endBytecode="279" sourcefile="lr_item_core.java" sourcepath="java_cup/lr_item_core.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Method classname="java_cup.non_terminal" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="java_cup.non_terminal" start="28" end="44" startBytecode="0" endBytecode="249" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.non_terminal" start="43" end="43" startBytecode="106" endBytecode="106" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    <SourceLine classname="java_cup.non_terminal" start="43" end="43" startBytecode="106" endBytecode="106" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Method classname="java_cup.non_terminal" name="find" signature="(I)Ljava_cup/non_terminal;" isStatic="true">
+      <SourceLine classname="java_cup.non_terminal" start="93" end="95" startBytecode="0" endBytecode="75" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.non_terminal" start="93" end="93" startBytecode="5" endBytecode="5" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    <SourceLine classname="java_cup.non_terminal" start="93" end="93" startBytecode="5" endBytecode="5" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Field classname="java_cup.non_terminal" name="_all" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.non_terminal" start="63" end="63" startBytecode="7" endBytecode="7" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Field classname="java_cup.non_terminal" name="_all_by_index" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.non_terminal" start="88" end="88" startBytecode="17" endBytecode="17" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Field classname="java_cup.non_terminal" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.non_terminal" start="106" end="106" startBytecode="21" endBytecode="21" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Field classname="java_cup.non_terminal" name="next_nt" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.non_terminal" start="111" end="111" startBytecode="25" endBytecode="25" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.non_terminal">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Class>
+    <Method classname="java_cup.non_terminal" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="java_cup.non_terminal" start="28" end="44" startBytecode="0" endBytecode="249" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Method>
+    <Field classname="java_cup.non_terminal" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.non_terminal" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.non_terminal" start="40" end="40" startBytecode="89" endBytecode="89" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+    <SourceLine classname="java_cup.non_terminal" start="40" end="40" startBytecode="89" endBytecode="89" sourcefile="non_terminal.java" sourcepath="java_cup/non_terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parse_action_row">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Class>
+    <Field classname="java_cup.parse_action_row" name="_size" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parse_action_row" start="34" end="34" startBytecode="1" endBytecode="1" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parse_action_row">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Class>
+    <Field classname="java_cup.parse_action_row" name="reduction_count" signature="[I" isStatic="true">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parse_action_row" start="48" end="48" startBytecode="5" endBytecode="5" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.parse_action_row">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Class>
+    <Method classname="java_cup.parse_action_row" name="&lt;init&gt;" signature="()V" isStatic="false">
+      <SourceLine classname="java_cup.parse_action_row" start="17" end="27" startBytecode="0" endBytecode="155" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Method>
+    <Field classname="java_cup.parse_action_row" name="_size" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parse_action_row" start="19" end="19" startBytecode="13" endBytecode="13" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    <SourceLine classname="java_cup.parse_action_row" start="19" end="19" startBytecode="13" endBytecode="13" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.parse_action_row">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Class>
+    <Method classname="java_cup.parse_action_row" name="compute_default" signature="()V" isStatic="false">
+      <SourceLine classname="java_cup.parse_action_row" start="81" end="107" startBytecode="0" endBytecode="285" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Method>
+    <Field classname="java_cup.parse_action_row" name="reduction_count" signature="[I" isStatic="true">
+      <SourceLine classname="java_cup.parse_action_row" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parse_action_row" start="82" end="82" startBytecode="11" endBytecode="11" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+    <SourceLine classname="java_cup.parse_action_row" start="82" end="82" startBytecode="11" endBytecode="11" sourcefile="parse_action_row.java" sourcepath="java_cup/parse_action_row.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.parse_action_table">
+      <SourceLine classname="java_cup.parse_action_table" sourcefile="parse_action_table.java" sourcepath="java_cup/parse_action_table.java"/>
+    </Class>
+    <Method classname="java_cup.parse_action_table" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.parse_action_table" start="112" end="138" startBytecode="0" endBytecode="394" sourcefile="parse_action_table.java" sourcepath="java_cup/parse_action_table.java"/>
+    </Method>
+    <SourceLine classname="java_cup.parse_action_table" start="128" end="128" startBytecode="131" endBytecode="131" sourcefile="parse_action_table.java" sourcepath="java_cup/parse_action_table.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parse_reduce_row">
+      <SourceLine classname="java_cup.parse_reduce_row" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+    </Class>
+    <Field classname="java_cup.parse_reduce_row" name="_size" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.parse_reduce_row" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parse_reduce_row" start="29" end="29" startBytecode="1" endBytecode="1" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.parse_reduce_row">
+      <SourceLine classname="java_cup.parse_reduce_row" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+    </Class>
+    <Method classname="java_cup.parse_reduce_row" name="&lt;init&gt;" signature="()V" isStatic="false">
+      <SourceLine classname="java_cup.parse_reduce_row" start="16" end="22" startBytecode="0" endBytecode="98" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+    </Method>
+    <Field classname="java_cup.parse_reduce_row" name="_size" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.parse_reduce_row" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parse_reduce_row" start="18" end="18" startBytecode="13" endBytecode="13" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+    <SourceLine classname="java_cup.parse_reduce_row" start="18" end="18" startBytecode="13" endBytecode="13" sourcefile="parse_reduce_row.java" sourcepath="java_cup/parse_reduce_row.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.parse_reduce_table">
+      <SourceLine classname="java_cup.parse_reduce_table" sourcefile="parse_reduce_table.java" sourcepath="java_cup/parse_reduce_table.java"/>
+    </Class>
+    <Method classname="java_cup.parse_reduce_table" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.parse_reduce_table" start="62" end="92" startBytecode="0" endBytecode="465" sourcefile="parse_reduce_table.java" sourcepath="java_cup/parse_reduce_table.java"/>
+    </Method>
+    <SourceLine classname="java_cup.parse_reduce_table" start="82" end="82" startBytecode="146" endBytecode="146" sourcefile="parse_reduce_table.java" sourcepath="java_cup/parse_reduce_table.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Method classname="java_cup.parser" name="action_table" signature="()[[S" isStatic="false">
+      <SourceLine classname="java_cup.parser" start="284" end="284" startBytecode="0" endBytecode="45" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Method>
+    <Field classname="java_cup.parser" name="_action_table" signature="[[S" isStatic="true">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parser" start="284" end="284" startBytecode="3" endBytecode="3" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    <SourceLine classname="java_cup.parser" start="284" end="284" startBytecode="3" endBytecode="3" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Method classname="java_cup.parser" name="production_table" signature="()[[S" isStatic="false">
+      <SourceLine classname="java_cup.parser" start="69" end="69" startBytecode="0" endBytecode="45" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Method>
+    <Field classname="java_cup.parser" name="_production_table" signature="[[S" isStatic="true">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parser" start="69" end="69" startBytecode="3" endBytecode="3" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    <SourceLine classname="java_cup.parser" start="69" end="69" startBytecode="3" endBytecode="3" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Method classname="java_cup.parser" name="reduce_table" signature="()[[S" isStatic="false">
+      <SourceLine classname="java_cup.parser" start="370" end="370" startBytecode="0" endBytecode="45" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Method>
+    <Field classname="java_cup.parser" name="_reduce_table" signature="[[S" isStatic="true">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parser" start="370" end="370" startBytecode="3" endBytecode="3" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    <SourceLine classname="java_cup.parser" start="370" end="370" startBytecode="3" endBytecode="3" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Field classname="java_cup.parser" name="_action_table" signature="[[S" isStatic="true">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parser" start="73" end="73" startBytecode="27" endBytecode="27" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Field classname="java_cup.parser" name="_production_table" signature="[[S" isStatic="true">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parser" start="29" end="29" startBytecode="12" endBytecode="12" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+    <Field classname="java_cup.parser" name="_reduce_table" signature="[[S" isStatic="true">
+      <SourceLine classname="java_cup.parser" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Field>
+    <SourceLine classname="java_cup.parser" start="288" end="288" startBytecode="42" endBytecode="42" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.parser">
+      <SourceLine classname="java_cup.parser" start="19" end="456" sourcefile="parser.java" sourcepath="java_cup/parser.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="&lt;init&gt;" signature="(Ljava_cup/non_terminal;[Ljava_cup/production_part;ILjava/lang/String;)V" isStatic="false">
+      <SourceLine classname="java_cup.production" start="65" end="177" startBytecode="0" endBytecode="897" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.production" start="173" end="173" startBytecode="440" endBytecode="440" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    <SourceLine classname="java_cup.production" start="173" end="173" startBytecode="440" endBytecode="440" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="find" signature="(I)Ljava_cup/production;" isStatic="true">
+      <SourceLine classname="java_cup.production" start="235" end="235" startBytecode="0" endBytecode="59" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.production" start="235" end="235" startBytecode="8" endBytecode="8" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    <SourceLine classname="java_cup.production" start="235" end="235" startBytecode="8" endBytecode="8" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Field classname="java_cup.production" name="_all" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Field>
+    <SourceLine classname="java_cup.production" start="226" end="226" startBytecode="7" endBytecode="7" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Field classname="java_cup.production" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.production" start="252" end="252" startBytecode="0" endBytecode="0" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" start="65" end="828" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="2" rank="18" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="&lt;init&gt;" signature="(Ljava_cup/non_terminal;[Ljava_cup/production_part;ILjava/lang/String;)V" isStatic="false">
+      <SourceLine classname="java_cup.production" start="65" end="177" startBytecode="0" endBytecode="897" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <LocalVariable name="action_str" register="4" pc="347" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="java_cup.production" start="158" end="158" startBytecode="349" endBytecode="349" sourcefile="production.java" sourcepath="java_cup/production.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="java_cup.production" start="158" end="158" startBytecode="349" endBytecode="349" sourcefile="production.java" sourcepath="java_cup/production.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="declare_labels" signature="([Ljava_cup/production_part;ILjava/lang/String;)Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.production" start="499" end="519" startBytecode="0" endBytecode="253" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <SourceLine classname="java_cup.production" start="512" end="512" startBytecode="40" endBytecode="40" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.production" start="790" end="813" startBytecode="0" endBytecode="501" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <SourceLine classname="java_cup.production" start="794" end="794" startBytecode="95" endBytecode="95" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="to_simple_string" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.production" start="822" end="828" startBytecode="0" endBytecode="218" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <SourceLine classname="java_cup.production" start="826" end="826" startBytecode="64" endBytecode="64" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.production">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Class>
+    <Method classname="java_cup.production" name="&lt;init&gt;" signature="(Ljava_cup/non_terminal;[Ljava_cup/production_part;ILjava/lang/String;)V" isStatic="false">
+      <SourceLine classname="java_cup.production" start="65" end="177" startBytecode="0" endBytecode="897" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Method>
+    <Field classname="java_cup.production" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.production" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    </Field>
+    <SourceLine classname="java_cup.production" start="170" end="170" startBytecode="423" endBytecode="423" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+    <SourceLine classname="java_cup.production" start="170" end="170" startBytecode="423" endBytecode="423" sourcefile="production.java" sourcepath="java_cup/production.java"/>
+  </BugInstance>
+  <BugInstance type="EQ_OVERRIDING_EQUALS_NOT_SYMMETRIC" priority="2" rank="8" abbrev="Eq" category="CORRECTNESS" first="1">
+    <Class classname="java_cup.reduce_action">
+      <SourceLine classname="java_cup.reduce_action" sourcefile="reduce_action.java" sourcepath="java_cup/reduce_action.java"/>
+    </Class>
+    <Method classname="java_cup.reduce_action" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false">
+      <SourceLine classname="java_cup.reduce_action" start="62" end="65" startBytecode="0" endBytecode="86" sourcefile="reduce_action.java" sourcepath="java_cup/reduce_action.java"/>
+    </Method>
+    <Method classname="java_cup.parse_action" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_OVERRIDDEN">
+      <SourceLine classname="java_cup.parse_action" start="71" end="74" startBytecode="0" endBytecode="86" sourcefile="parse_action.java" sourcepath="java_cup/parse_action.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="EQ_OVERRIDING_EQUALS_NOT_SYMMETRIC" priority="2" rank="8" abbrev="Eq" category="CORRECTNESS" first="1">
+    <Class classname="java_cup.shift_action">
+      <SourceLine classname="java_cup.shift_action" sourcefile="shift_action.java" sourcepath="java_cup/shift_action.java"/>
+    </Class>
+    <Method classname="java_cup.shift_action" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false">
+      <SourceLine classname="java_cup.shift_action" start="62" end="65" startBytecode="0" endBytecode="86" sourcefile="shift_action.java" sourcepath="java_cup/shift_action.java"/>
+    </Method>
+    <Method classname="java_cup.parse_action" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" role="METHOD_OVERRIDDEN">
+      <SourceLine classname="java_cup.parse_action" start="71" end="74" startBytecode="0" endBytecode="86" sourcefile="parse_action.java" sourcepath="java_cup/parse_action.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.symbol">
+      <SourceLine classname="java_cup.symbol" start="26" end="103" sourcefile="symbol.java" sourcepath="java_cup/symbol.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.symbol_set">
+      <SourceLine classname="java_cup.symbol_set" sourcefile="symbol_set.java" sourcepath="java_cup/symbol_set.java"/>
+    </Class>
+    <Method classname="java_cup.symbol_set" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.symbol_set" start="215" end="228" startBytecode="0" endBytecode="247" sourcefile="symbol_set.java" sourcepath="java_cup/symbol_set.java"/>
+    </Method>
+    <SourceLine classname="java_cup.symbol_set" start="224" end="224" startBytecode="48" endBytecode="48" sourcefile="symbol_set.java" sourcepath="java_cup/symbol_set.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Method classname="java_cup.terminal" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;II)V" isStatic="false">
+      <SourceLine classname="java_cup.terminal" start="29" end="49" startBytecode="0" endBytecode="251" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.terminal" start="48" end="48" startBytecode="90" endBytecode="90" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    <SourceLine classname="java_cup.terminal" start="48" end="48" startBytecode="90" endBytecode="90" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NUMBER_CTOR" priority="2" rank="18" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Method classname="java_cup.terminal" name="find" signature="(I)Ljava_cup/terminal;" isStatic="true">
+      <SourceLine classname="java_cup.terminal" start="117" end="119" startBytecode="0" endBytecode="75" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="&lt;init&gt;" signature="(I)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="849" end="851" startBytecode="0" endBytecode="41" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="valueOf" signature="(I)Ljava/lang/Integer;" isStatic="true" role="SHOULD_CALL">
+      <SourceLine classname="java.lang.Integer" start="830" end="832" startBytecode="0" endBytecode="72" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <SourceLine classname="java_cup.terminal" start="117" end="117" startBytecode="5" endBytecode="5" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    <SourceLine classname="java_cup.terminal" start="117" end="117" startBytecode="5" endBytecode="5" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Field classname="java_cup.terminal" name="_all" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.terminal" start="85" end="85" startBytecode="7" endBytecode="7" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_FINAL_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Field classname="java_cup.terminal" name="_all_by_index" signature="Ljava/util/Hashtable;" isStatic="true">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.terminal" start="112" end="112" startBytecode="17" endBytecode="17" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Field classname="java_cup.terminal" name="EOF" signature="Ljava_cup/terminal;" isStatic="true">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.terminal" start="135" end="135" startBytecode="33" endBytecode="33" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Field classname="java_cup.terminal" name="error" signature="Ljava_cup/terminal;" isStatic="true">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.terminal" start="140" end="140" startBytecode="45" endBytecode="45" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Field classname="java_cup.terminal" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.terminal" start="130" end="130" startBytecode="21" endBytecode="21" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" start="29" end="176" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="java_cup.terminal">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Class>
+    <Method classname="java_cup.terminal" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;II)V" isStatic="false">
+      <SourceLine classname="java_cup.terminal" start="29" end="49" startBytecode="0" endBytecode="251" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Method>
+    <Field classname="java_cup.terminal" name="next_index" signature="I" isStatic="true">
+      <SourceLine classname="java_cup.terminal" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    </Field>
+    <SourceLine classname="java_cup.terminal" start="41" end="41" startBytecode="62" endBytecode="62" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+    <SourceLine classname="java_cup.terminal" start="41" end="41" startBytecode="62" endBytecode="62" sourcefile="terminal.java" sourcepath="java_cup/terminal.java"/>
+  </BugInstance>
+  <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" rank="14" abbrev="HE" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.terminal_set">
+      <SourceLine classname="java_cup.terminal_set" sourcefile="terminal_set.java" sourcepath="java_cup/terminal_set.java"/>
+    </Class>
+    <Method classname="java_cup.terminal_set" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false">
+      <SourceLine classname="java_cup.terminal_set" start="218" end="221" startBytecode="0" endBytecode="86" sourcefile="terminal_set.java" sourcepath="java_cup/terminal_set.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="SBSC_USE_STRINGBUFFER_CONCATENATION" priority="2" rank="18" abbrev="SBSC" category="PERFORMANCE" first="1">
+    <Class classname="java_cup.terminal_set">
+      <SourceLine classname="java_cup.terminal_set" sourcefile="terminal_set.java" sourcepath="java_cup/terminal_set.java"/>
+    </Class>
+    <Method classname="java_cup.terminal_set" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="java_cup.terminal_set" start="233" end="249" startBytecode="0" endBytecode="240" sourcefile="terminal_set.java" sourcepath="java_cup/terminal_set.java"/>
+    </Method>
+    <SourceLine classname="java_cup.terminal_set" start="244" end="244" startBytecode="54" endBytecode="54" sourcefile="terminal_set.java" sourcepath="java_cup/terminal_set.java"/>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="java_cup.version">
+      <SourceLine classname="java_cup.version" start="21" end="21" sourcefile="version.java" sourcepath="java_cup/version.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 14:36:18 +0100" total_classes="35" referenced_classes="100" total_bugs="135" total_size="3631" num_packages="1" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="605.81" clock_seconds="1038.85" peak_mbytes="1538.62" alloc_mbytes="1011.00" gc_seconds="13.93" priority_2="129" priority_1="6">
+    <PackageStats package="java_cup" total_bugs="135" total_types="35" total_size="3631" priority_2="129" priority_1="6">
+      <ClassStats class="java_cup.CUP$parser$actions" sourceFile="parser.java" interface="false" size="585" bugs="3" priority_2="3"/>
+      <ClassStats class="java_cup.CupParserException" sourceFile="CupParserException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="java_cup.ErrorManager" sourceFile="ErrorManager.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="java_cup.ErrorManager$CupLogMessage" sourceFile="ErrorManager.java" interface="false" size="44" bugs="0"/>
+      <ClassStats class="java_cup.Lexer" sourceFile="Lexer.java" interface="false" size="350" bugs="7" priority_2="5" priority_1="2"/>
+      <ClassStats class="java_cup.Main" sourceFile="Main.java" interface="false" size="407" bugs="34" priority_2="33" priority_1="1"/>
+      <ClassStats class="java_cup.action_part" sourceFile="action_part.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="java_cup.action_production" sourceFile="action_production.java" interface="false" size="12" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.assoc" sourceFile="assoc.java" interface="false" size="7" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.emit" sourceFile="emit.java" interface="false" size="540" bugs="30" priority_2="28" priority_1="2"/>
+      <ClassStats class="java_cup.internal_error" sourceFile="internal_error.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="java_cup.lalr_item" sourceFile="lalr_item.java" interface="false" size="91" bugs="2" priority_2="2"/>
+      <ClassStats class="java_cup.lalr_item_set" sourceFile="lalr_item_set.java" interface="false" size="106" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.lalr_state" sourceFile="lalr_state.java" interface="false" size="260" bugs="7" priority_2="7"/>
+      <ClassStats class="java_cup.lalr_transition" sourceFile="lalr_transition.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="java_cup.lr_item_core" sourceFile="lr_item_core.java" interface="false" size="84" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.non_terminal" sourceFile="non_terminal.java" interface="false" size="103" bugs="7" priority_2="7"/>
+      <ClassStats class="java_cup.nonassoc_action" sourceFile="nonassoc_action.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="java_cup.parse_action" sourceFile="parse_action.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="java_cup.parse_action_row" sourceFile="parse_action_row.java" interface="false" size="37" bugs="4" priority_2="4"/>
+      <ClassStats class="java_cup.parse_action_table" sourceFile="parse_action_table.java" interface="false" size="40" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.parse_reduce_row" sourceFile="parse_reduce_row.java" interface="false" size="15" bugs="2" priority_2="2"/>
+      <ClassStats class="java_cup.parse_reduce_table" sourceFile="parse_reduce_table.java" interface="false" size="29" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.parser" sourceFile="parser.java" interface="false" size="55" bugs="7" priority_2="7"/>
+      <ClassStats class="java_cup.production" sourceFile="production.java" interface="false" size="256" bugs="10" priority_2="10"/>
+      <ClassStats class="java_cup.production_part" sourceFile="production_part.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="java_cup.reduce_action" sourceFile="reduce_action.java" interface="false" size="22" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.shift_action" sourceFile="shift_action.java" interface="false" size="22" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.sym" sourceFile="sym.java" interface="true" size="95" bugs="0"/>
+      <ClassStats class="java_cup.symbol" sourceFile="symbol.java" interface="false" size="29" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.symbol_part" sourceFile="symbol_part.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="java_cup.symbol_set" sourceFile="symbol_set.java" interface="false" size="73" bugs="1" priority_2="1"/>
+      <ClassStats class="java_cup.terminal" sourceFile="terminal.java" interface="false" size="60" bugs="9" priority_2="9"/>
+      <ClassStats class="java_cup.terminal_set" sourceFile="terminal_set.java" interface="false" size="72" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="java_cup.version" sourceFile="version.java" interface="false" size="10" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="258" invocations="2" avgMicrosecondsPerInvocation="129106" maxMicrosecondsPerInvocation="235752" standardDeviationMircosecondsPerInvocation="106646"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="258" invocations="585" avgMicrosecondsPerInvocation="441" maxMicrosecondsPerInvocation="9559" standardDeviationMircosecondsPerInvocation="560"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="220" invocations="388" avgMicrosecondsPerInvocation="567" maxMicrosecondsPerInvocation="39130" standardDeviationMircosecondsPerInvocation="2733"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="193" invocations="388" avgMicrosecondsPerInvocation="499" maxMicrosecondsPerInvocation="60217" standardDeviationMircosecondsPerInvocation="3182"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="179" invocations="582" avgMicrosecondsPerInvocation="307" maxMicrosecondsPerInvocation="19732" standardDeviationMircosecondsPerInvocation="1025"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="173" invocations="388" avgMicrosecondsPerInvocation="448" maxMicrosecondsPerInvocation="36150" standardDeviationMircosecondsPerInvocation="2233"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="146" invocations="413" avgMicrosecondsPerInvocation="354" maxMicrosecondsPerInvocation="18158" standardDeviationMircosecondsPerInvocation="1395"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="141" invocations="655" avgMicrosecondsPerInvocation="216" maxMicrosecondsPerInvocation="6890" standardDeviationMircosecondsPerInvocation="555"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="123" invocations="100" avgMicrosecondsPerInvocation="1236" maxMicrosecondsPerInvocation="12794" standardDeviationMircosecondsPerInvocation="2381"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="107" invocations="100" avgMicrosecondsPerInvocation="1070" maxMicrosecondsPerInvocation="21639" standardDeviationMircosecondsPerInvocation="2498"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="106" invocations="397" avgMicrosecondsPerInvocation="267" maxMicrosecondsPerInvocation="15366" standardDeviationMircosecondsPerInvocation="993"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="82" invocations="35" avgMicrosecondsPerInvocation="2361" maxMicrosecondsPerInvocation="32537" standardDeviationMircosecondsPerInvocation="6116"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="81" invocations="295" avgMicrosecondsPerInvocation="275" maxMicrosecondsPerInvocation="14537" standardDeviationMircosecondsPerInvocation="1027"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="71" invocations="388" avgMicrosecondsPerInvocation="183" maxMicrosecondsPerInvocation="9244" standardDeviationMircosecondsPerInvocation="532"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.StreamResourceTracker" totalMilliseconds="68" invocations="114" avgMicrosecondsPerInvocation="598" maxMicrosecondsPerInvocation="10347" standardDeviationMircosecondsPerInvocation="1204"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="61" invocations="35" avgMicrosecondsPerInvocation="1764" maxMicrosecondsPerInvocation="43203" standardDeviationMircosecondsPerInvocation="7213"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LazyInit" totalMilliseconds="59" invocations="35" avgMicrosecondsPerInvocation="1710" maxMicrosecondsPerInvocation="52691" standardDeviationMircosecondsPerInvocation="8778"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="55" invocations="35" avgMicrosecondsPerInvocation="1583" maxMicrosecondsPerInvocation="9154" standardDeviationMircosecondsPerInvocation="2363"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="49" invocations="35" avgMicrosecondsPerInvocation="1428" maxMicrosecondsPerInvocation="29437" standardDeviationMircosecondsPerInvocation="4902"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="40" invocations="388" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="5710" standardDeviationMircosecondsPerInvocation="405"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="38" invocations="100" avgMicrosecondsPerInvocation="387" maxMicrosecondsPerInvocation="20194" standardDeviationMircosecondsPerInvocation="2036"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="38" invocations="35" avgMicrosecondsPerInvocation="1096" maxMicrosecondsPerInvocation="13211" standardDeviationMircosecondsPerInvocation="2963"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="35" invocations="35" avgMicrosecondsPerInvocation="1015" maxMicrosecondsPerInvocation="15500" standardDeviationMircosecondsPerInvocation="2636"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSpinLoop" totalMilliseconds="34" invocations="35" avgMicrosecondsPerInvocation="976" maxMicrosecondsPerInvocation="29624" standardDeviationMircosecondsPerInvocation="4920"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="32" invocations="100" avgMicrosecondsPerInvocation="325" maxMicrosecondsPerInvocation="10533" standardDeviationMircosecondsPerInvocation="1089"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="29" invocations="100" avgMicrosecondsPerInvocation="294" maxMicrosecondsPerInvocation="8127" standardDeviationMircosecondsPerInvocation="1257"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DuplicateBranches" totalMilliseconds="28" invocations="35" avgMicrosecondsPerInvocation="824" maxMicrosecondsPerInvocation="21843" standardDeviationMircosecondsPerInvocation="3658"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="28" invocations="538" avgMicrosecondsPerInvocation="53" maxMicrosecondsPerInvocation="5367" standardDeviationMircosecondsPerInvocation="239"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="27" invocations="35" avgMicrosecondsPerInvocation="786" maxMicrosecondsPerInvocation="6159" standardDeviationMircosecondsPerInvocation="1315"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="26" invocations="388" avgMicrosecondsPerInvocation="69" maxMicrosecondsPerInvocation="6083" standardDeviationMircosecondsPerInvocation="358"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="23" invocations="35" avgMicrosecondsPerInvocation="678" maxMicrosecondsPerInvocation="3956" standardDeviationMircosecondsPerInvocation="881"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438009425546" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

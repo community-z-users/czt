@@ -38,7 +38,7 @@ public class DefinitionTableMondexTest extends DefinitionTableTest {
   {
     SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(Dialect.ZEVES);
     VCGTest test = new DefinitionTableMondexTest(manager, DEBUG_TESTING);
-    Test result = test.suite(TEST_MONDEX_DIR, null);
+    Test result = test.cztTestSuite(TEST_MONDEX_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }

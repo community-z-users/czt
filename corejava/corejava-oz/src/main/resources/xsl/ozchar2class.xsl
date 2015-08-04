@@ -57,7 +57,7 @@ public class OzChar extends ZChar
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  public static OzChar </xsl:text>
+  public static final OzChar </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = new OzChar(Character.toChars(0x</xsl:text>
     <xsl:value-of select="@hex"/>

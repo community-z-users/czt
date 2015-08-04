@@ -23,6 +23,8 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.*;
@@ -57,6 +59,9 @@ public class ToSpiveyZVisitor
 
   public Object visitSchExpr(SchExpr schExpr)
   {
+	if (anns_ == null) {
+		throw new CztException("Invalid annotations; not yet loaded through visitAxPara");
+	}
     Term parent = parents_.pop();
     if (! (parent instanceof ConstDecl)) {
       String name = getNextName();
@@ -108,10 +113,17 @@ public class ToSpiveyZVisitor
     }
     return null;
   }
+  
+  protected static synchronized void countIncrement()
+  {
+	count_++;  
+  }
 
   protected String getNextName()
   {
-    return "cztschema" + count_++;
+	String result = "cztschema" + count_;
+	countIncrement();
+	return result;
   }
 
   protected AxPara createSchema(String name, SchExpr schExpr)

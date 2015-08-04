@@ -72,7 +72,8 @@ public class ${class.Name}
     factory_ = factory;
   }
 
-  public void setChildren(Object[] children)
+  // TODO: perhaps make it protected and copy contents?
+  private final void setChildren(Object[] children)
   {
     children_ = children;
   }

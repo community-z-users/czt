@@ -245,15 +245,15 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
         String message;
         ParsedData parsedData = getParsedData(view);
         if (parsedData == null)
-          message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
+          message = term.accept(new net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor());
         else
         {
           Buffer buffer = getParsedData(view).getBuffer();
           Mode mode = buffer.getMode();
           if (mode != null && mode.getName() != null && mode.getName().startsWith("circus"))
-            message = term.accept(new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor());
+            message = term.accept(new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor());
           else
-            message = term.accept(new net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor());
+            message = term.accept(new net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor());
         }
         view.getStatus().setMessage(message);
       }
@@ -288,7 +288,7 @@ private static final DefaultErrorSource vcgErrors_ = new DefaultErrorSource("VCG
   {
     Type type = getTypeForCurrentWff(view);
     if (type != null) {
-      net.sourceforge.czt.base.util.PrintVisitor visitor = null;
+      net.sourceforge.czt.base.util.BasePrintVisitor visitor = null;
       ParsedData parsedData = getParsedData(view);
       if (parsedData == null)
         visitor = new net.sourceforge.czt.z.util.PrintVisitor();

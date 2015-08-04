@@ -168,12 +168,12 @@ public class Z2AlloyTest {
         throw new RuntimeException("error translate: " + translate.next());
       if (read.hasNext())
         throw new RuntimeException("error read: " + read.next());
+      return (translate.hasNext() == read.hasNext());
     	}
     	finally{
       translate.close();
       read.close();}
     	
-      return (translate.hasNext() == read.hasNext());
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     } catch (Exception e) {

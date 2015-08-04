@@ -78,13 +78,13 @@ public class TypeParser
 
   protected String currentToken()
   {
-    String result = new String(current_);
-    return result;
+    //String result = new String(current_);
+    return current_;
   }
 
   protected String lookAhead()
   {
-    String result = new String();
+    String result = "";
 
     final int currentIndex = index_;
     result = nextToken();
@@ -95,7 +95,7 @@ public class TypeParser
 
   protected String nextToken()
   {
-    current_ = new String();
+    current_ = "";
 
     //skip whitespace
     while (index_ < sType_.length() && sType_.charAt(index_) == ' ') {

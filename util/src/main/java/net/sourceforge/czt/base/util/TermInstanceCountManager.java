@@ -34,9 +34,9 @@ import net.sourceforge.czt.base.impl.TermImpl;
  */
 public class TermInstanceCountManager 
 {
-  public static int DEFAULT_TARGET_INCREASE = 3;
-  public static int DEFAULT_CALL_DEPTH_LOWER_BOUND = 0;
-  public static int DEFAULT_CALL_DEPTH_UPPER_BOUND = 6;
+  public final static int DEFAULT_TARGET_INCREASE = 3;
+  public final static int DEFAULT_CALL_DEPTH_LOWER_BOUND = 0;
+  public final static int DEFAULT_CALL_DEPTH_UPPER_BOUND = 6;
   
   public static void log(Term term, String extra)
   {
@@ -121,7 +121,7 @@ public class TermInstanceCountManager
     Throwable t = new Throwable();
     t.fillInStackTrace();
     StackTraceElement[] stes = t.getStackTrace();
-    String result = "";
+    StringBuffer result = new StringBuffer();
     for(int i = callDepthUpperBound; i >= callDepthLowerBound; i--)
     {
       int targetDepth = targetIncrease + i;
@@ -129,11 +129,11 @@ public class TermInstanceCountManager
       {
         StackTraceElement el = stes[targetDepth];
         final String msg = el.getClassName() + "." + el.getMethodName() + ", " + el.getLineNumber();
-        result += msg;
-        if (i > callDepthLowerBound) result += "\n\t";
+        result.append(msg);
+        if (i > callDepthLowerBound) result.append("\n\t");
       }
     }
-    return result;
+    return result.toString();
   }
   
   public static long instancesCount(Term term, boolean live)

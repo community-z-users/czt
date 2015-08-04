@@ -104,6 +104,11 @@ public class SignatureChecker
   /** Fresh str name ID seed */
   private static long id_ = 0;
   
+  private static synchronized void incrementId()
+  {
+	  id_++;
+  }
+  
   /** Default signature variable name */
   private static final String DEFAULT_SIGNATURE_IMPLICIT_NAME = "$$sigVar";
   
@@ -113,7 +118,7 @@ public class SignatureChecker
   protected String freshStrName()
   {
     String result = DEFAULT_SIGNATURE_IMPLICIT_NAME + id_;
-    id_++;
+    incrementId();
     return result;
   }
   

@@ -22,6 +22,8 @@ package net.sourceforge.czt.print.ast;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.attribute.IntegerSyntax;
+
 public class Precedence
   implements Comparable<Precedence>
 {
@@ -32,14 +34,14 @@ public class Precedence
 
   private Precedence(int prec)
   {
-    prec1_ = new Integer(prec);
-    prec2_ = new Integer(0);
+    prec1_ = Integer.valueOf(prec);
+    prec2_ = Integer.valueOf(0);
   }
 
   private Precedence(int prec1, int prec2)
   {
-    prec1_ = new Integer(prec1);
-    prec2_ = new Integer(prec2);
+    prec1_ = Integer.valueOf(prec1);
+    prec2_ = Integer.valueOf(prec2);
   }
 
   public static Precedence precedence(int prec)

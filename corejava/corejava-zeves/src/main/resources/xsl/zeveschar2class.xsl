@@ -64,7 +64,7 @@ public class ZEvesChar extends ZChar
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  public static ZEvesChar </xsl:text>
+  public static final ZEvesChar </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = new ZEvesChar(Character.toChars(0x</xsl:text>
     <xsl:value-of select="@hex"/>

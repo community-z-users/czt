@@ -39,7 +39,7 @@ public class Factory
 {
   /** Used for generating unique ids in names. */
   // TODO: CHECK: made it a long in case of large specs?
-  static protected int id_ = 0;
+  static int id_ = 0;
 
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
@@ -499,13 +499,20 @@ public class Factory
     updateIds(oldId, newId);
     setId(oldName, newId);
   }
+  
+  private static synchronized void incrementId()
+  {
+	  id_++;
+  }
 
   /**
    * Creates a fresh ID seed to be used for unique ids.
    */
   protected Integer freshId()
   {
-    return new Integer(id_++);
+    Integer result = Integer.valueOf(id_);
+    incrementId();
+    return result;
   }
 
   /**

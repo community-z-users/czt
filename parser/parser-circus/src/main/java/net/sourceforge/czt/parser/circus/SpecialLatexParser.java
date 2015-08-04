@@ -10,6 +10,7 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -38,9 +39,6 @@ import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-
 
 import net.sourceforge.czt.print.circus.PrintUtils;
 import net.sourceforge.czt.session.Key;
@@ -52,7 +50,7 @@ import net.sourceforge.czt.session.Key;
  * @see net.sourceforge.czt.parser.z
  */
 public class SpecialLatexParser {
-    ZFactory factory_ = new ZFactoryImpl();
+    //ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     LatexScanner scanner_;
     Parser parser_;
     static Logger logger;
@@ -75,47 +73,49 @@ public class SpecialLatexParser {
           fh = new FileHandler("SpecialLatexParser.log");
           fh.setLevel(Level.FINEST);
           fh.setFormatter(sfc);          
-        } catch (IOException e) {
-          
-        }
-      /*
-      logger = CztLogger.getLogger(KeywordScanner.class);
-      logger.addHandler(ch);
-      logger.setLevel(Level.FINEST);*/
-       
-      logger = CztLogger.getLogger(Latex2Unicode.class);
-      logger.addHandler(ch);
-      logger.addHandler(fh);
-      logger.setLevel(Level.FINEST);      
-       
-      logger = CztLogger.getLogger(LatexMarkupParser.class);
-      logger.addHandler(ch);
-      logger.addHandler(fh);
-      logger.setLevel(Level.FINEST);
-       
-      logger = CztLogger.getLogger(LatexParser.class);
-      logger.addHandler(ch);
-      logger.addHandler(fh);
-      logger.setLevel(Level.FINEST);
-      
-      logger = CztLogger.getLogger(Parser.class);
-      logger.addHandler(ch);
-      logger.addHandler(fh);
-      logger.setLevel(Level.FINEST);
-      
-      logger = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
-      logger.addHandler(ch);
-      logger.addHandler(fh);
-      logger.setLevel(Level.FINEST);
 
-      logger = CztLogger.getLogger(UnicodeParser.class);
-      logger.addHandler(ch);
-      logger.addHandler(fh);
-      logger.setLevel(Level.FINEST);
-      
-      sm = new SectionManager(Dialect.CIRCUS);                                  
-      sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\src\\main\\resources\\lib;" +
-          "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser-circus\\src\\main\\resources\\lib");
+          /*
+          logger = CztLogger.getLogger(KeywordScanner.class);
+          logger.addHandler(ch);
+          logger.setLevel(Level.FINEST);*/
+           
+          logger = CztLogger.getLogger(Latex2Unicode.class);
+          logger.addHandler(ch);
+          logger.addHandler(fh);
+          logger.setLevel(Level.FINEST);      
+           
+          logger = CztLogger.getLogger(LatexMarkupParser.class);
+          logger.addHandler(ch);
+          logger.addHandler(fh);
+          logger.setLevel(Level.FINEST);
+           
+          logger = CztLogger.getLogger(LatexParser.class);
+          logger.addHandler(ch);
+          logger.addHandler(fh);
+          logger.setLevel(Level.FINEST);
+          
+          logger = CztLogger.getLogger(Parser.class);
+          logger.addHandler(ch);
+          logger.addHandler(fh);
+          logger.setLevel(Level.FINEST);
+          
+          logger = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
+          logger.addHandler(ch);
+          logger.addHandler(fh);
+          logger.setLevel(Level.FINEST);
+
+          logger = CztLogger.getLogger(UnicodeParser.class);
+          logger.addHandler(ch);
+          logger.addHandler(fh);
+          logger.setLevel(Level.FINEST);
+          
+          sm = new SectionManager(Dialect.CIRCUS);                                  
+          sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\src\\main\\resources\\lib;" +
+              "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser-circus\\src\\main\\resources\\lib");
+
+        } catch (IOException e) {
+          System.err.println("IO Exception = " + e.getMessage());
+        }
     }
     
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
@@ -166,14 +166,16 @@ public class SpecialLatexParser {
     public static void printLatex(Term term, String filename, SectionInfo sectInfo) 
       throws IOException {
         logger.fine("Print term to LaTex file " + filename + PRINT_LATEX_EXT);
-        FileWriter writer = new FileWriter( filename + PRINT_LATEX_EXT );        
+        //FileWriter writer = new FileWriter( filename + PRINT_LATEX_EXT );
+        Writer writer = new OutputStreamWriter(new FileOutputStream(filename + PRINT_LATEX_EXT ), StandardCharsets.US_ASCII);
         PrintUtils.print(term, writer, (SectionManager)sectInfo, Markup.LATEX);
     }
     
     public static void printUnicode(Term term, String filename, SectionInfo sectInfo)  
       throws IOException {
         logger.fine("Print term to Unicode file " + filename + PRINT_UNICODE_EXT);
-        FileWriter writer = new FileWriter( filename + PRINT_UNICODE_EXT );        
+        //FileWriter writer = new FileWriter( filename + PRINT_UNICODE_EXT );        
+        Writer writer = new OutputStreamWriter(new FileOutputStream(filename + PRINT_UNICODE_EXT ), StandardCharsets.UTF_8);
         PrintUtils.print(term, writer, (SectionManager)sectInfo, Markup.UNICODE);
     }
     
@@ -183,7 +185,9 @@ public class SpecialLatexParser {
       StringWriter stw = new StringWriter();
       writer.write(term, stw);      
       stw.close();
-      BufferedWriter out = new BufferedWriter(new FileWriter(filename + PRINT_ZML_EXT));
+      //new FileWriter(filename + PRINT_ZML_EXT)
+      Writer w = new OutputStreamWriter(new FileOutputStream(filename + PRINT_ZML_EXT ), StandardCharsets.UTF_8);
+      BufferedWriter out = new BufferedWriter(w);
       out.write(stw.toString());
       out.close();   
     }
@@ -401,14 +405,14 @@ public class SpecialLatexParser {
             }
             if (fShowStackTrace) {
                 if (record.getThrown() != null) {
-                    try {
+                    //try {
                         StringWriter sw = new StringWriter();
                         PrintWriter pw = new PrintWriter(sw);
                         record.getThrown().printStackTrace(pw);
                         pw.close();
                         sb.append(sw.toString());
-                    } catch (Exception ex) {
-                    }
+                    //} catch (Exception ex) {
+                    //}
                 }
             }            
             return sb.toString();

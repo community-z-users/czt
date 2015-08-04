@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438177459490" analysisTimestamp="1438177458796" release="">
+  <Project projectName="cup-maven-plugin">
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/cup-maven-plugin/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/cup-maven-plugin/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/cup-maven-plugin/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/cup-maven-plugin/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-plugin-api/2.0.6/maven-plugin-api-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/plugin-tools/maven-plugin-annotations/3.2/maven-plugin-annotations-3.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-artifact/3.0/maven-artifact-3.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-project/2.0.6/maven-project-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-settings/2.0.6/maven-settings-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-profile/2.0.6/maven-profile-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-model/2.0.6/maven-model-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-artifact-manager/2.0.6/maven-artifact-manager-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-repository-metadata/2.0.6/maven-repository-metadata-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-2/wagon-provider-api-1.0-beta-2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-plugin-registry/2.0.6/maven-plugin-registry-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-container-default/1.5.5/plexus-container-default-1.5.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.2.2/plexus-classworlds-2.2.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/log4j/log4j/1.2.12/log4j-1.2.12.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/com/google/collections/google-collections/1.0/google-collections-1.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.4/plexus-utils-3.0.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/cup-maven-plugin/src/main/resources</SrcDir>
+    <SrcDir>/cup-maven-plugin/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/cup-maven-plugin/src/main/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 29 Jul 2015 14:44:13 +0100" total_classes="1" referenced_classes="46" total_bugs="0" total_size="190" num_packages="1" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="8.87" clock_seconds="10.61" peak_mbytes="1468.10" alloc_mbytes="910.50" gc_seconds="0.92">
+    <PackageStats package="net.sourceforge.czt.cup.maven" total_bugs="0" total_types="1" total_size="190">
+      <ClassStats class="net.sourceforge.czt.cup.maven.CupGenerateMojo" sourceFile="CupGenerateMojo.java" interface="false" size="190" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="341" invocations="499" avgMicrosecondsPerInvocation="684" maxMicrosecondsPerInvocation="1273" standardDeviationMircosecondsPerInvocation="189"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="101" invocations="496" avgMicrosecondsPerInvocation="205" maxMicrosecondsPerInvocation="10083" standardDeviationMircosecondsPerInvocation="656"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="59" invocations="2" avgMicrosecondsPerInvocation="29809" maxMicrosecondsPerInvocation="52233" standardDeviationMircosecondsPerInvocation="22424"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="17" invocations="46" avgMicrosecondsPerInvocation="382" maxMicrosecondsPerInvocation="2785" standardDeviationMircosecondsPerInvocation="649"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438177459490" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

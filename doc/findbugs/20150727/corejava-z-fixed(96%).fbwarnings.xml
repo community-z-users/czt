@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438008031790" analysisTimestamp="1438008021716" release="">
+  <Project projectName="corejava-z">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/generated-sources/jaxb</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.impl.ZFactoryImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZFactoryImpl" start="51" end="1491" sourcefile="ZFactoryImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZFactoryImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.z.util.Factory" start="40" end="2431" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/z/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.impl.ZFactoryImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZFactoryImpl" sourcefile="ZFactoryImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZFactoryImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.impl.ZNameImpl">
+      <SourceLine classname="net.sourceforge.czt.z.impl.ZNameImpl" sourcefile="ZNameImpl.java" sourcepath="net/sourceforge/czt/z/impl/ZNameImpl.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.StandardZ">
+      <SourceLine classname="net.sourceforge.czt.z.util.StandardZ" start="25" end="30" sourcefile="StandardZ.java" sourcepath="net/sourceforge/czt/z/util/StandardZ.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.TermSelector">
+      <SourceLine classname="net.sourceforge.czt.z.util.TermSelector" start="40" end="128" sourcefile="TermSelector.java" sourcepath="net/sourceforge/czt/z/util/TermSelector.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.TermSelector$FindTermVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.TermSelector$FindTermVisitor" sourcefile="TermSelector.java" sourcepath="net/sourceforge/czt/z/util/TermSelector.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" start="38" end="1803" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameComparator" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.ZUtils">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils" start="38" end="1803" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator">
+      <SourceLine classname="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator" sourcefile="ZUtils.java" sourcepath="net/sourceforge/czt/z/util/ZUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.z.util.collector.ExprCollector">
+      <SourceLine classname="net.sourceforge.czt.z.util.collector.ExprCollector" start="1" end="74" sourcefile="ExprCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ExprCollector.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector">
+      <SourceLine classname="net.sourceforge.czt.z.util.collector.ZSchTextCollector" sourcefile="ZSchTextCollector.java" sourcepath="net/sourceforge/czt/z/util/collector/ZSchTextCollector.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 15:40:14 +0100" total_classes="584" referenced_classes="781" total_bugs="7" total_size="21643" num_packages="10" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="414.36" clock_seconds="707.71" peak_mbytes="1528.43" alloc_mbytes="973.50" gc_seconds="8.15" priority_2="7">
+    <PackageStats package="net.sourceforge.czt.base.ast" total_bugs="0" total_types="2" total_size="37">
+      <ClassStats class="net.sourceforge.czt.base.ast.TermTest" sourceFile="TermTest.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.ast.TermTest$ExampleTermVisitor" sourceFile="TermTest.java" interface="false" size="6" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.jaxb" total_bugs="0" total_types="2" total_size="73">
+      <ClassStats class="net.sourceforge.czt.base.jaxb.BaseJaxbXmlReader" sourceFile="BaseJaxbXmlReader.java" interface="false" size="38" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.base.jaxb.BaseJaxbXmlWriter" sourceFile="BaseJaxbXmlWriter.java" interface="false" size="35" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.base.util" total_bugs="0" total_types="1" total_size="31">
+      <ClassStats class="net.sourceforge.czt.base.util.XmlWriterReaderTest" sourceFile="XmlWriterReaderTest.java" interface="false" size="31" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.ast" total_bugs="0" total_types="132" total_size="621">
+      <ClassStats class="net.sourceforge.czt.z.ast.And" sourceFile="And.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.AndExpr" sourceFile="AndExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.AndPred" sourceFile="AndPred.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Ann" sourceFile="Ann.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ApplExpr" sourceFile="ApplExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Assoc" sourceFile="Assoc.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.AxPara" sourceFile="AxPara.java" interface="true" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.BindExpr" sourceFile="BindExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.BindSelExpr" sourceFile="BindSelExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Box" sourceFile="Box.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Branch" sourceFile="Branch.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.BranchList" sourceFile="BranchList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Cat" sourceFile="Cat.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.CompExpr" sourceFile="CompExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.CondExpr" sourceFile="CondExpr.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ConjPara" sourceFile="ConjPara.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ConstDecl" sourceFile="ConstDecl.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Decl" sourceFile="Decl.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.DeclList" sourceFile="DeclList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.DecorExpr" sourceFile="DecorExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Directive" sourceFile="Directive.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.DirectiveType" sourceFile="DirectiveType.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Exists1Expr" sourceFile="Exists1Expr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Exists1Pred" sourceFile="Exists1Pred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExistsExpr" sourceFile="ExistsExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExistsPred" sourceFile="ExistsPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr" sourceFile="Expr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr0N" sourceFile="Expr0N.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr1" sourceFile="Expr1.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr2" sourceFile="Expr2.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Expr2N" sourceFile="Expr2N.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExprList" sourceFile="ExprList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ExprPred" sourceFile="ExprPred.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Fact" sourceFile="Fact.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.FalsePred" sourceFile="FalsePred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ForallExpr" sourceFile="ForallExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ForallPred" sourceFile="ForallPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.FreePara" sourceFile="FreePara.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Freetype" sourceFile="Freetype.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.FreetypeList" sourceFile="FreetypeList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GenParamType" sourceFile="GenParamType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GenericType" sourceFile="GenericType.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GivenPara" sourceFile="GivenPara.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.GivenType" sourceFile="GivenType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.HideExpr" sourceFile="HideExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.IffExpr" sourceFile="IffExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.IffPred" sourceFile="IffPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ImpliesExpr" sourceFile="ImpliesExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ImpliesPred" sourceFile="ImpliesPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.InStroke" sourceFile="InStroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.InclDecl" sourceFile="InclDecl.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LambdaExpr" sourceFile="LambdaExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LatexMarkupPara" sourceFile="LatexMarkupPara.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LetExpr" sourceFile="LetExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.LocAnn" sourceFile="LocAnn.java" interface="true" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.MemPred" sourceFile="MemPred.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.MuExpr" sourceFile="MuExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Name" sourceFile="Name.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NameList" sourceFile="NameList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NameSectTypeTriple" sourceFile="NameSectTypeTriple.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NameTypePair" sourceFile="NameTypePair.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NarrPara" sourceFile="NarrPara.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NarrSect" sourceFile="NarrSect.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NegExpr" sourceFile="NegExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NegPred" sourceFile="NegPred.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NewOldPair" sourceFile="NewOldPair.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NextStroke" sourceFile="NextStroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NumExpr" sourceFile="NumExpr.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.NumStroke" sourceFile="NumStroke.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Numeral" sourceFile="Numeral.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Oper" sourceFile="Oper.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Operand" sourceFile="Operand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Operator" sourceFile="Operator.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OptempPara" sourceFile="OptempPara.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OrExpr" sourceFile="OrExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OrPred" sourceFile="OrPred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.OutStroke" sourceFile="OutStroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Para" sourceFile="Para.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ParaList" sourceFile="ParaList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ParenAnn" sourceFile="ParenAnn.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Parent" sourceFile="Parent.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PipeExpr" sourceFile="PipeExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PowerExpr" sourceFile="PowerExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PowerType" sourceFile="PowerType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.PreExpr" sourceFile="PreExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Pred" sourceFile="Pred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Pred2" sourceFile="Pred2.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ProdExpr" sourceFile="ProdExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ProdType" sourceFile="ProdType.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ProjExpr" sourceFile="ProjExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Qnt1Expr" sourceFile="Qnt1Expr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.QntExpr" sourceFile="QntExpr.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.QntPred" sourceFile="QntPred.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.RefExpr" sourceFile="RefExpr.java" interface="true" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.RenameExpr" sourceFile="RenameExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.RenameList" sourceFile="RenameList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchExpr" sourceFile="SchExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchExpr2" sourceFile="SchExpr2.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchText" sourceFile="SchText.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SchemaType" sourceFile="SchemaType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Sect" sourceFile="Sect.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SectTypeEnvAnn" sourceFile="SectTypeEnvAnn.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SetCompExpr" sourceFile="SetCompExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SetExpr" sourceFile="SetExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Signature" sourceFile="Signature.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.SignatureAnn" sourceFile="SignatureAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Spec" sourceFile="Spec.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Stroke" sourceFile="Stroke.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.StrokeList" sourceFile="StrokeList.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ThetaExpr" sourceFile="ThetaExpr.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TruePred" sourceFile="TruePred.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TupleExpr" sourceFile="TupleExpr.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TupleSelExpr" sourceFile="TupleSelExpr.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Type" sourceFile="Type.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.Type2" sourceFile="Type2.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.TypeAnn" sourceFile="TypeAnn.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.UnparsedPara" sourceFile="UnparsedPara.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.UnparsedZSect" sourceFile="UnparsedZSect.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.VarDecl" sourceFile="VarDecl.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZBranchList" sourceFile="ZBranchList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZDeclList" sourceFile="ZDeclList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZExprList" sourceFile="ZExprList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZFactory" sourceFile="ZFactory.java" interface="true" size="185" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZFreetypeList" sourceFile="ZFreetypeList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZName" sourceFile="ZName.java" interface="true" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZNameList" sourceFile="ZNameList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZNumeral" sourceFile="ZNumeral.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZParaList" sourceFile="ZParaList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZRenameList" sourceFile="ZRenameList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZSchText" sourceFile="ZSchText.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZSect" sourceFile="ZSect.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.ast.ZStrokeList" sourceFile="ZStrokeList.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.impl" total_bugs="1" total_types="131" total_size="8596" priority_2="1">
+      <ClassStats class="net.sourceforge.czt.z.impl.AndExprImpl" sourceFile="AndExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AndPredImpl" sourceFile="AndPredImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AnnImpl" sourceFile="AnnImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ApplExprImpl" sourceFile="ApplExprImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest" sourceFile="AstTest.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest$AndExprTest" sourceFile="AstTest.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest$OptempParaTest" sourceFile="AstTest.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AstTest$OrExprTest" sourceFile="AstTest.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.AxParaImpl" sourceFile="AxParaImpl.java" interface="false" size="117" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BindExprImpl" sourceFile="BindExprImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BindSelExprImpl" sourceFile="BindSelExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BranchImpl" sourceFile="BranchImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.BranchListImpl" sourceFile="BranchListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.CompExprImpl" sourceFile="CompExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.CondExprImpl" sourceFile="CondExprImpl.java" interface="false" size="89" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ConjParaImpl" sourceFile="ConjParaImpl.java" interface="false" size="102" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ConstDeclImpl" sourceFile="ConstDeclImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DeclImpl" sourceFile="DeclImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DeclListImpl" sourceFile="DeclListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DecorExprImpl" sourceFile="DecorExprImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.DirectiveImpl" sourceFile="DirectiveImpl.java" interface="false" size="96" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Exists1ExprImpl" sourceFile="Exists1ExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Exists1PredImpl" sourceFile="Exists1PredImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExistsExprImpl" sourceFile="ExistsExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExistsPredImpl" sourceFile="ExistsPredImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr0NImpl" sourceFile="Expr0NImpl.java" interface="false" size="42" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr1Impl" sourceFile="Expr1Impl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr2Impl" sourceFile="Expr2Impl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Expr2NImpl" sourceFile="Expr2NImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExprImpl" sourceFile="ExprImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExprListImpl" sourceFile="ExprListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ExprPredImpl" sourceFile="ExprPredImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FactImpl" sourceFile="FactImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FalsePredImpl" sourceFile="FalsePredImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ForallExprImpl" sourceFile="ForallExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ForallPredImpl" sourceFile="ForallPredImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FreeParaImpl" sourceFile="FreeParaImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FreetypeImpl" sourceFile="FreetypeImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.FreetypeListImpl" sourceFile="FreetypeListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GenParamTypeImpl" sourceFile="GenParamTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GenericTypeImpl" sourceFile="GenericTypeImpl.java" interface="false" size="86" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GivenParaImpl" sourceFile="GivenParaImpl.java" interface="false" size="78" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.GivenTypeImpl" sourceFile="GivenTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.HideExprImpl" sourceFile="HideExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.IffExprImpl" sourceFile="IffExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.IffPredImpl" sourceFile="IffPredImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ImpliesExprImpl" sourceFile="ImpliesExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ImpliesPredImpl" sourceFile="ImpliesPredImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.InStrokeImpl" sourceFile="InStrokeImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.InclDeclImpl" sourceFile="InclDeclImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LambdaExprImpl" sourceFile="LambdaExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LatexMarkupParaImpl" sourceFile="LatexMarkupParaImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LetExprImpl" sourceFile="LetExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.LocAnnImpl" sourceFile="LocAnnImpl.java" interface="false" size="132" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.MemPredImpl" sourceFile="MemPredImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.MuExprImpl" sourceFile="MuExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameImpl" sourceFile="NameImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameListImpl" sourceFile="NameListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameSectTypeTripleImpl" sourceFile="NameSectTypeTripleImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NameTypePairImpl" sourceFile="NameTypePairImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NarrParaImpl" sourceFile="NarrParaImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NarrSectImpl" sourceFile="NarrSectImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NegExprImpl" sourceFile="NegExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NegPredImpl" sourceFile="NegPredImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NewOldPairImpl" sourceFile="NewOldPairImpl.java" interface="false" size="99" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NextStrokeImpl" sourceFile="NextStrokeImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NumExprImpl" sourceFile="NumExprImpl.java" interface="false" size="78" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NumStrokeImpl" sourceFile="NumStrokeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.NumeralImpl" sourceFile="NumeralImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OperImpl" sourceFile="OperImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OperandImpl" sourceFile="OperandImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OperatorImpl" sourceFile="OperatorImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OptempParaImpl" sourceFile="OptempParaImpl.java" interface="false" size="111" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OrExprImpl" sourceFile="OrExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OrPredImpl" sourceFile="OrPredImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.OutStrokeImpl" sourceFile="OutStrokeImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParaImpl" sourceFile="ParaImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParaListImpl" sourceFile="ParaListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParenAnnImpl" sourceFile="ParenAnnImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ParentImpl" sourceFile="ParentImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PipeExprImpl" sourceFile="PipeExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PowerExprImpl" sourceFile="PowerExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PowerTypeImpl" sourceFile="PowerTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PreExprImpl" sourceFile="PreExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Pred2Impl" sourceFile="Pred2Impl.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.PredImpl" sourceFile="PredImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ProdExprImpl" sourceFile="ProdExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ProdTypeImpl" sourceFile="ProdTypeImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ProjExprImpl" sourceFile="ProjExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Qnt1ExprImpl" sourceFile="Qnt1ExprImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.QntExprImpl" sourceFile="QntExprImpl.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.QntPredImpl" sourceFile="QntPredImpl.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.RefExprImpl" sourceFile="RefExprImpl.java" interface="false" size="126" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.RenameExprImpl" sourceFile="RenameExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.RenameListImpl" sourceFile="RenameListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchExpr2Impl" sourceFile="SchExpr2Impl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchExprImpl" sourceFile="SchExprImpl.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchTextImpl" sourceFile="SchTextImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SchemaTypeImpl" sourceFile="SchemaTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SectImpl" sourceFile="SectImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SectTypeEnvAnnImpl" sourceFile="SectTypeEnvAnnImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SetCompExprImpl" sourceFile="SetCompExprImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SetExprImpl" sourceFile="SetExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SignatureAnnImpl" sourceFile="SignatureAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SignatureImpl" sourceFile="SignatureImpl.java" interface="false" size="63" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.SpecImpl" sourceFile="SpecImpl.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.StrokeImpl" sourceFile="StrokeImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.StrokeListImpl" sourceFile="StrokeListImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ThetaExprImpl" sourceFile="ThetaExprImpl.java" interface="false" size="74" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TruePredImpl" sourceFile="TruePredImpl.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TupleExprImpl" sourceFile="TupleExprImpl.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TupleSelExprImpl" sourceFile="TupleSelExprImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.Type2Impl" sourceFile="Type2Impl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TypeAnnImpl" sourceFile="TypeAnnImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.TypeImpl" sourceFile="TypeImpl.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.UnparsedParaImpl" sourceFile="UnparsedParaImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.UnparsedZSectImpl" sourceFile="UnparsedZSectImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.VarDeclImpl" sourceFile="VarDeclImpl.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZBranchListImpl" sourceFile="ZBranchListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZDeclListImpl" sourceFile="ZDeclListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZExprListImpl" sourceFile="ZExprListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZFactoryImpl" sourceFile="ZFactoryImpl.java" interface="false" size="823" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZFreetypeListImpl" sourceFile="ZFreetypeListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZNameImpl" sourceFile="ZNameImpl.java" interface="false" size="149" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZNameListImpl" sourceFile="ZNameListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZNumeralImpl" sourceFile="ZNumeralImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZParaListImpl" sourceFile="ZParaListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZRenameListImpl" sourceFile="ZRenameListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZSchTextImpl" sourceFile="ZSchTextImpl.java" interface="false" size="87" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZSectImpl" sourceFile="ZSectImpl.java" interface="false" size="102" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.impl.ZStrokeListImpl" sourceFile="ZStrokeListImpl.java" interface="false" size="110" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.jaxb" total_bugs="0" total_types="5" total_size="3695">
+      <ClassStats class="net.sourceforge.czt.z.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="2131" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="1520" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.JaxbXmlWriterReaderTest" sourceFile="JaxbXmlWriterReaderTest.java" interface="false" size="21" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.jaxb.gen" total_bugs="0" total_types="136" total_size="1911">
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Adapter1" sourceFile="Adapter1.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.And" sourceFile="And.java" interface="false" size="30" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.AndExpr" sourceFile="AndExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.AndPred" sourceFile="AndPred.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Ann" sourceFile="Ann.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ApplExpr" sourceFile="ApplExpr.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Assoc" sourceFile="Assoc.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.AxPara" sourceFile="AxPara.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.BindExpr" sourceFile="BindExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.BindSelExpr" sourceFile="BindSelExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Box" sourceFile="Box.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Branch" sourceFile="Branch.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.BranchList" sourceFile="BranchList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Cat" sourceFile="Cat.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.CompExpr" sourceFile="CompExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.CondExpr" sourceFile="CondExpr.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ConjPara" sourceFile="ConjPara.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ConstDecl" sourceFile="ConstDecl.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Decl" sourceFile="Decl.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.DeclList" sourceFile="DeclList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.DecorExpr" sourceFile="DecorExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Directive" sourceFile="Directive.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.DirectiveType" sourceFile="DirectiveType.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Exists1Expr" sourceFile="Exists1Expr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Exists1Pred" sourceFile="Exists1Pred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExistsExpr" sourceFile="ExistsExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExistsPred" sourceFile="ExistsPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr" sourceFile="Expr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr0N" sourceFile="Expr0N.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr1" sourceFile="Expr1.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr2" sourceFile="Expr2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Expr2N" sourceFile="Expr2N.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExprList" sourceFile="ExprList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ExprPred" sourceFile="ExprPred.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Fact" sourceFile="Fact.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.FalsePred" sourceFile="FalsePred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ForallExpr" sourceFile="ForallExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ForallPred" sourceFile="ForallPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.FreePara" sourceFile="FreePara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Freetype" sourceFile="Freetype.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.FreetypeList" sourceFile="FreetypeList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GenParamType" sourceFile="GenParamType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GenericType" sourceFile="GenericType.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GivenPara" sourceFile="GivenPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.GivenType" sourceFile="GivenType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.HideExpr" sourceFile="HideExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.IffExpr" sourceFile="IffExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.IffPred" sourceFile="IffPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ImpliesExpr" sourceFile="ImpliesExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ImpliesPred" sourceFile="ImpliesPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.InStroke" sourceFile="InStroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.InclDecl" sourceFile="InclDecl.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LambdaExpr" sourceFile="LambdaExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LatexMarkupPara" sourceFile="LatexMarkupPara.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LetExpr" sourceFile="LetExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.LocAnn" sourceFile="LocAnn.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.MemPred" sourceFile="MemPred.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.MuExpr" sourceFile="MuExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Name" sourceFile="Name.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NameList" sourceFile="NameList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NameSectTypeTriple" sourceFile="NameSectTypeTriple.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NameTypePair" sourceFile="NameTypePair.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NarrPara" sourceFile="NarrPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NarrSect" sourceFile="NarrSect.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NegExpr" sourceFile="NegExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NegPred" sourceFile="NegPred.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NewOldPair" sourceFile="NewOldPair.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NextStroke" sourceFile="NextStroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NumExpr" sourceFile="NumExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.NumStroke" sourceFile="NumStroke.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Numeral" sourceFile="Numeral.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="765" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Oper" sourceFile="Oper.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Operand" sourceFile="Operand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Operator" sourceFile="Operator.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OptempPara" sourceFile="OptempPara.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OrExpr" sourceFile="OrExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OrPred" sourceFile="OrPred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.OutStroke" sourceFile="OutStroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Para" sourceFile="Para.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ParaList" sourceFile="ParaList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ParenAnn" sourceFile="ParenAnn.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Parent" sourceFile="Parent.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PipeExpr" sourceFile="PipeExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PowerExpr" sourceFile="PowerExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PowerType" sourceFile="PowerType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.PreExpr" sourceFile="PreExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Pred" sourceFile="Pred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Pred2" sourceFile="Pred2.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ProdExpr" sourceFile="ProdExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ProdType" sourceFile="ProdType.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ProjExpr" sourceFile="ProjExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Qnt1Expr" sourceFile="Qnt1Expr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.QntExpr" sourceFile="QntExpr.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.QntPred" sourceFile="QntPred.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.RefExpr" sourceFile="RefExpr.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.RenameExpr" sourceFile="RenameExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.RenameList" sourceFile="RenameList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchExpr" sourceFile="SchExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchExpr2" sourceFile="SchExpr2.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchText" sourceFile="SchText.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SchemaType" sourceFile="SchemaType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Sect" sourceFile="Sect.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SectTypeEnvAnn" sourceFile="SectTypeEnvAnn.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SetCompExpr" sourceFile="SetCompExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SetExpr" sourceFile="SetExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Signature" sourceFile="Signature.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.SignatureAnn" sourceFile="SignatureAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Spec" sourceFile="Spec.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Stroke" sourceFile="Stroke.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.StrokeList" sourceFile="StrokeList.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Term" sourceFile="Term.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Term$Anns" sourceFile="Term.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ThetaExpr" sourceFile="ThetaExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TruePred" sourceFile="TruePred.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TupleExpr" sourceFile="TupleExpr.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TupleSelExpr" sourceFile="TupleSelExpr.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Type" sourceFile="Type.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.Type2" sourceFile="Type2.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.TypeAnn" sourceFile="TypeAnn.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.UnparsedPara" sourceFile="UnparsedPara.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.UnparsedZSect" sourceFile="UnparsedZSect.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.VarDecl" sourceFile="VarDecl.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZBranchList" sourceFile="ZBranchList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZDeclList" sourceFile="ZDeclList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZExprList" sourceFile="ZExprList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZFreetypeList" sourceFile="ZFreetypeList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZName" sourceFile="ZName.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZNameList" sourceFile="ZNameList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZNumeral" sourceFile="ZNumeral.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZParaList" sourceFile="ZParaList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZRenameList" sourceFile="ZRenameList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZSchText" sourceFile="ZSchText.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZSect" sourceFile="ZSect.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.ZStrokeList" sourceFile="ZStrokeList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.util" total_bugs="5" total_types="35" total_size="6111" priority_2="5">
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbol" sourceFile="ConcreteSyntaxSymbol.java" interface="false" size="222" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor$Utils" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ConcreteSyntaxSymbolVisitor$UtilsImpl" sourceFile="ConcreteSyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.CreateVisitor" sourceFile="CreateVisitor.java" interface="false" size="859" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.DeleteMarkupParaVisitor" sourceFile="DeleteMarkupParaVisitor.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.DeleteNarrVisitor" sourceFile="DeleteNarrVisitor.java" interface="false" size="38" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.Factory" sourceFile="Factory.java" interface="false" size="576" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.Fixity" sourceFile="Fixity.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.FlyweightFactory" sourceFile="FlyweightFactory.java" interface="false" size="1905" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.IsEmptyNameList" sourceFile="IsEmptyNameList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.OperatorName" sourceFile="OperatorName.java" interface="false" size="92" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.OperatorName$OperatorNameException" sourceFile="OperatorName.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.OperatorNameTest" sourceFile="OperatorNameTest.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="433" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.StandardZ" sourceFile="StandardZ.java" interface="false" size="5" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.SyntaxSymbolVisitor" sourceFile="SyntaxSymbolVisitor.java" interface="false" size="292" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.SyntaxSymbolVisitor$Utils" sourceFile="SyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.SyntaxSymbolVisitor$UtilsImpl" sourceFile="SyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.TermSelector" sourceFile="TermSelector.java" interface="false" size="36" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.TermSelector$FindTermVisitor" sourceFile="TermSelector.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.Version" sourceFile="Version.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.WarningManager" sourceFile="WarningManager.java" interface="false" size="61" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.WarningManager$WarningOutput" sourceFile="WarningManager.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZChar" sourceFile="ZChar.java" interface="false" size="282" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor" sourceFile="ZConcreteSyntaxDescriptionVisitor.java" interface="false" size="32" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZGetNameVisitor" sourceFile="ZGetNameVisitor.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZString" sourceFile="ZString.java" interface="true" size="266" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils" sourceFile="ZUtils.java" interface="false" size="681" bugs="2" priority_2="2"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils$ZExprKind" sourceFile="ZUtils.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils$ZNameComparator" sourceFile="ZUtils.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtils$ZNameIgnoreStrokesComparator" sourceFile="ZUtils.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.ZUtilsTest" sourceFile="ZUtilsTest.java" interface="false" size="17" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.util.collector" total_bugs="1" total_types="13" total_size="315" priority_2="1">
+      <ClassStats class="net.sourceforge.czt.z.util.collector.AxDefElements" sourceFile="AxDefElements.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.BaseCollector" sourceFile="BaseCollector.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.BaseElements" sourceFile="BaseElements.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ExprCollector" sourceFile="ExprCollector.java" interface="false" size="26" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ExprElements" sourceFile="ExprElements.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.GenericElements" sourceFile="GenericElements.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ParaCollector" sourceFile="ParaCollector.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.PredCollector" sourceFile="PredCollector.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.PredElements" sourceFile="PredElements.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.SchemaElements" sourceFile="SchemaElements.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ZSchTextCollector" sourceFile="ZSchTextCollector.java" interface="false" size="32" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ZSectElements" sourceFile="ZSectElements.java" interface="false" size="66" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.util.collector.ZSectElements$GetSect" sourceFile="ZSectElements.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.z.visitor" total_bugs="0" total_types="127" total_size="253">
+      <ClassStats class="net.sourceforge.czt.z.visitor.AndExprVisitor" sourceFile="AndExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.AndPredVisitor" sourceFile="AndPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.AnnVisitor" sourceFile="AnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ApplExprVisitor" sourceFile="ApplExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.AxParaVisitor" sourceFile="AxParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BindExprVisitor" sourceFile="BindExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BindSelExprVisitor" sourceFile="BindSelExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BranchListVisitor" sourceFile="BranchListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.BranchVisitor" sourceFile="BranchVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.CompExprVisitor" sourceFile="CompExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.CondExprVisitor" sourceFile="CondExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ConjParaVisitor" sourceFile="ConjParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ConstDeclVisitor" sourceFile="ConstDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DeclListVisitor" sourceFile="DeclListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DeclVisitor" sourceFile="DeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DecorExprVisitor" sourceFile="DecorExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.DirectiveVisitor" sourceFile="DirectiveVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Exists1ExprVisitor" sourceFile="Exists1ExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Exists1PredVisitor" sourceFile="Exists1PredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExistsExprVisitor" sourceFile="ExistsExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExistsPredVisitor" sourceFile="ExistsPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr0NVisitor" sourceFile="Expr0NVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr1Visitor" sourceFile="Expr1Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr2NVisitor" sourceFile="Expr2NVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Expr2Visitor" sourceFile="Expr2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExprListVisitor" sourceFile="ExprListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExprPredVisitor" sourceFile="ExprPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ExprVisitor" sourceFile="ExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FactVisitor" sourceFile="FactVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FalsePredVisitor" sourceFile="FalsePredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ForallExprVisitor" sourceFile="ForallExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ForallPredVisitor" sourceFile="ForallPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FreeParaVisitor" sourceFile="FreeParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FreetypeListVisitor" sourceFile="FreetypeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.FreetypeVisitor" sourceFile="FreetypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GenParamTypeVisitor" sourceFile="GenParamTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GenericTypeVisitor" sourceFile="GenericTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GivenParaVisitor" sourceFile="GivenParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.GivenTypeVisitor" sourceFile="GivenTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.HideExprVisitor" sourceFile="HideExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.IffExprVisitor" sourceFile="IffExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.IffPredVisitor" sourceFile="IffPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ImpliesExprVisitor" sourceFile="ImpliesExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ImpliesPredVisitor" sourceFile="ImpliesPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.InStrokeVisitor" sourceFile="InStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.InclDeclVisitor" sourceFile="InclDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LambdaExprVisitor" sourceFile="LambdaExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor" sourceFile="LatexMarkupParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LetExprVisitor" sourceFile="LetExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.LocAnnVisitor" sourceFile="LocAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.MemPredVisitor" sourceFile="MemPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.MuExprVisitor" sourceFile="MuExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameListVisitor" sourceFile="NameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameSectTypeTripleVisitor" sourceFile="NameSectTypeTripleVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameTypePairVisitor" sourceFile="NameTypePairVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NameVisitor" sourceFile="NameVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NarrParaVisitor" sourceFile="NarrParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NarrSectVisitor" sourceFile="NarrSectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NegExprVisitor" sourceFile="NegExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NegPredVisitor" sourceFile="NegPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NewOldPairVisitor" sourceFile="NewOldPairVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NextStrokeVisitor" sourceFile="NextStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NumExprVisitor" sourceFile="NumExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NumStrokeVisitor" sourceFile="NumStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.NumeralVisitor" sourceFile="NumeralVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OperVisitor" sourceFile="OperVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OperandVisitor" sourceFile="OperandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OperatorVisitor" sourceFile="OperatorVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OptempParaVisitor" sourceFile="OptempParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OrExprVisitor" sourceFile="OrExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OrPredVisitor" sourceFile="OrPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.OutStrokeVisitor" sourceFile="OutStrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParaListVisitor" sourceFile="ParaListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParaVisitor" sourceFile="ParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParenAnnVisitor" sourceFile="ParenAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ParentVisitor" sourceFile="ParentVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PipeExprVisitor" sourceFile="PipeExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PowerExprVisitor" sourceFile="PowerExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PowerTypeVisitor" sourceFile="PowerTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PreExprVisitor" sourceFile="PreExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Pred2Visitor" sourceFile="Pred2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.PredVisitor" sourceFile="PredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ProdExprVisitor" sourceFile="ProdExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ProdTypeVisitor" sourceFile="ProdTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ProjExprVisitor" sourceFile="ProjExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Qnt1ExprVisitor" sourceFile="Qnt1ExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.QntExprVisitor" sourceFile="QntExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.QntPredVisitor" sourceFile="QntPredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.RefExprVisitor" sourceFile="RefExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.RenameExprVisitor" sourceFile="RenameExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.RenameListVisitor" sourceFile="RenameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchExpr2Visitor" sourceFile="SchExpr2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchExprVisitor" sourceFile="SchExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchTextVisitor" sourceFile="SchTextVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SchemaTypeVisitor" sourceFile="SchemaTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SectTypeEnvAnnVisitor" sourceFile="SectTypeEnvAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SectVisitor" sourceFile="SectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SetCompExprVisitor" sourceFile="SetCompExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SetExprVisitor" sourceFile="SetExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SignatureAnnVisitor" sourceFile="SignatureAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SignatureVisitor" sourceFile="SignatureVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.SpecVisitor" sourceFile="SpecVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.StrokeListVisitor" sourceFile="StrokeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.StrokeVisitor" sourceFile="StrokeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ThetaExprVisitor" sourceFile="ThetaExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TruePredVisitor" sourceFile="TruePredVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TupleExprVisitor" sourceFile="TupleExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TupleSelExprVisitor" sourceFile="TupleSelExprVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.Type2Visitor" sourceFile="Type2Visitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TypeAnnVisitor" sourceFile="TypeAnnVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.TypeVisitor" sourceFile="TypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.UnparsedParaVisitor" sourceFile="UnparsedParaVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.UnparsedZSectVisitor" sourceFile="UnparsedZSectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.VarDeclVisitor" sourceFile="VarDeclVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZBranchListVisitor" sourceFile="ZBranchListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZDeclListVisitor" sourceFile="ZDeclListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZExprListVisitor" sourceFile="ZExprListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZFreetypeListVisitor" sourceFile="ZFreetypeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZNameListVisitor" sourceFile="ZNameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZNameVisitor" sourceFile="ZNameVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZNumeralVisitor" sourceFile="ZNumeralVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZParaListVisitor" sourceFile="ZParaListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZRenameListVisitor" sourceFile="ZRenameListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZSchTextVisitor" sourceFile="ZSchTextVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZSectVisitor" sourceFile="ZSectVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZStrokeListVisitor" sourceFile="ZStrokeListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.z.visitor.ZVisitor" sourceFile="ZVisitor.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="2034" invocations="1580" avgMicrosecondsPerInvocation="1287" maxMicrosecondsPerInvocation="435095" standardDeviationMircosecondsPerInvocation="13583"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="1032" invocations="2" avgMicrosecondsPerInvocation="516236" maxMicrosecondsPerInvocation="958663" standardDeviationMircosecondsPerInvocation="442427"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="476" invocations="3571" avgMicrosecondsPerInvocation="133" maxMicrosecondsPerInvocation="34439" standardDeviationMircosecondsPerInvocation="826"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="422" invocations="4059" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="41842" standardDeviationMircosecondsPerInvocation="685"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="411" invocations="4043" avgMicrosecondsPerInvocation="101" maxMicrosecondsPerInvocation="29169" standardDeviationMircosecondsPerInvocation="721"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="389" invocations="4357" avgMicrosecondsPerInvocation="89" maxMicrosecondsPerInvocation="11553" standardDeviationMircosecondsPerInvocation="265"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="372" invocations="4361" avgMicrosecondsPerInvocation="85" maxMicrosecondsPerInvocation="44948" standardDeviationMircosecondsPerInvocation="809"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="290" invocations="1576" avgMicrosecondsPerInvocation="184" maxMicrosecondsPerInvocation="38026" standardDeviationMircosecondsPerInvocation="1172"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="283" invocations="3276" avgMicrosecondsPerInvocation="86" maxMicrosecondsPerInvocation="30121" standardDeviationMircosecondsPerInvocation="734"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="187" invocations="4059" avgMicrosecondsPerInvocation="46" maxMicrosecondsPerInvocation="2237" standardDeviationMircosecondsPerInvocation="71"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="170" invocations="4747" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="13690" standardDeviationMircosecondsPerInvocation="205"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="146" invocations="781" avgMicrosecondsPerInvocation="187" maxMicrosecondsPerInvocation="17955" standardDeviationMircosecondsPerInvocation="866"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="133" invocations="781" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="8840" standardDeviationMircosecondsPerInvocation="591"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="128" invocations="584" avgMicrosecondsPerInvocation="219" maxMicrosecondsPerInvocation="59720" standardDeviationMircosecondsPerInvocation="2622"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="96" invocations="584" avgMicrosecondsPerInvocation="165" maxMicrosecondsPerInvocation="30921" standardDeviationMircosecondsPerInvocation="1446"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="93" invocations="87211" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="1751" standardDeviationMircosecondsPerInvocation="7"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="87" invocations="4059" avgMicrosecondsPerInvocation="21" maxMicrosecondsPerInvocation="504" standardDeviationMircosecondsPerInvocation="42"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="85" invocations="584" avgMicrosecondsPerInvocation="146" maxMicrosecondsPerInvocation="31412" standardDeviationMircosecondsPerInvocation="1387"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="82" invocations="584" avgMicrosecondsPerInvocation="141" maxMicrosecondsPerInvocation="6645" standardDeviationMircosecondsPerInvocation="482"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.IntCast2LongAsInstant" totalMilliseconds="81" invocations="584" avgMicrosecondsPerInvocation="139" maxMicrosecondsPerInvocation="24264" standardDeviationMircosecondsPerInvocation="1202"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="76" invocations="584" avgMicrosecondsPerInvocation="131" maxMicrosecondsPerInvocation="27193" standardDeviationMircosecondsPerInvocation="1166"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="76" invocations="1515" avgMicrosecondsPerInvocation="50" maxMicrosecondsPerInvocation="40161" standardDeviationMircosecondsPerInvocation="1033"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="72" invocations="584" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="10828" standardDeviationMircosecondsPerInvocation="635"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="65" invocations="584" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="14570" standardDeviationMircosecondsPerInvocation="701"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="58" invocations="3571" avgMicrosecondsPerInvocation="16" maxMicrosecondsPerInvocation="781" standardDeviationMircosecondsPerInvocation="24"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="57" invocations="584" avgMicrosecondsPerInvocation="99" maxMicrosecondsPerInvocation="16147" standardDeviationMircosecondsPerInvocation="739"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="57" invocations="584" avgMicrosecondsPerInvocation="98" maxMicrosecondsPerInvocation="8608" standardDeviationMircosecondsPerInvocation="498"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="56" invocations="584" avgMicrosecondsPerInvocation="96" maxMicrosecondsPerInvocation="7321" standardDeviationMircosecondsPerInvocation="490"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438008031789" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

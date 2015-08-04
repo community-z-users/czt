@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438180964674" analysisTimestamp="1438180955903" release="">
+  <Project projectName="typechecker-circus">
+    <Jar>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/target/test-classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/target/classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zpatt/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-circus/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-circus/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/parser/parser-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/session/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/session/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-io/commons-io/2.1/commons-io-2.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/java-cup-runtime/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/src/test/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/src/main/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/typechecker/typechecker-circus/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ActionChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="1" end="1002" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ActionChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="1" end="1002" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.CommunicationChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.CommunicationChecker" sourcefile="CommunicationChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/CommunicationChecker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ActionChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.ActionChecker" name="visitHideAction" signature="(Lnet/sourceforge/czt/circus/ast/HideAction;)Lnet/sourceforge/czt/circus/ast/CircusCommunicationList;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="857" end="869" startBytecode="0" endBytecode="26" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Method>
+    <LocalVariable name="csType" register="3" pc="24" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="861" end="861" startBytecode="23" endBytecode="23" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="861" end="861" startBytecode="23" endBytecode="23" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="csType"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ActionChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.ActionChecker" name="typeCheckParAction" signature="(Lnet/sourceforge/czt/circus/ast/ParAction;Ljava/util/List;)Lnet/sourceforge/czt/circus/ast/CircusCommunicationList;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="382" end="415" startBytecode="0" endBytecode="68" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Method>
+    <LocalVariable name="cst" register="9" pc="126" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="411" end="411" startBytecode="124" endBytecode="124" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="411" end="411" startBytecode="124" endBytecode="124" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="cst"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ActionChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.ActionChecker" name="typeCheckParActionIte" signature="(Lnet/sourceforge/czt/circus/ast/ParActionIte;Lnet/sourceforge/czt/circus/ast/ChannelSet;)Lnet/sourceforge/czt/circus/ast/CircusCommunicationList;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="356" end="377" startBytecode="0" endBytecode="36" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    </Method>
+    <LocalVariable name="commList" register="4" pc="30" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="363" end="363" startBytecode="30" endBytecode="30" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ActionChecker" start="363" end="363" startBytecode="30" endBytecode="30" sourcefile="ActionChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ActionChecker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="commList"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.Checker" name="getCircusTypeChecker" signature="()Lnet/sourceforge/czt/typecheck/circus/TypeChecker;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="144" end="144" startBytecode="0" endBytecode="3" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/TypeChecker;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeChecker" start="68" end="315" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeChecker.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/circus/TypeChecker;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" start="1" end="234" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+    </Type>
+    <Field classname="net.sourceforge.czt.typecheck.z.Checker" name="typeChecker_" signature="Lnet/sourceforge/czt/typecheck/z/TypeChecker;" isStatic="false" role="FIELD_VALUE_OF">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/z/Checker.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="144" end="144" startBytecode="4" endBytecode="4" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="144" end="144" startBytecode="4" endBytecode="4" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.Checker" name="checkForDuplicateNames" signature="(Lnet/sourceforge/czt/z/ast/ZNameList;Lnet/sourceforge/czt/base/ast/Term;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="2390" end="2411" startBytecode="0" endBytecode="67" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Method>
+    <LocalVariable name="iter" register="5" pc="147" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="2410" end="2410" startBytecode="145" endBytecode="145" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="2410" end="2410" startBytecode="145" endBytecode="145" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="iter"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE_OF_NULL" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.Checker" name="getResult" signature="()Ljava/lang/Boolean;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="2862" end="2881" startBytecode="0" endBytecode="49" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Method>
+    <LocalVariable name="it" register="2" pc="114" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="2878" end="2878" startBytecode="113" endBytecode="113" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="2878" end="2878" startBytecode="113" endBytecode="113" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEFENSIVE_CONSTANT_OPCODE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="it"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.STORE_OF_NULL" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" start="1" end="2890" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/z/Checker.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.CyclicParentTypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.CyclicParentTypeCheckerTest" start="12" end="18" sourcefile="CyclicParentTypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/CyclicParentTypeCheckerTest.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.CyclicParentTypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.CyclicParentTypeCheckerTest" sourcefile="CyclicParentTypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/z/CyclicParentTypeCheckerTest.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ErrorAnn">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ErrorAnn" start="1" end="128" sourcefile="ErrorAnn.java" sourcepath="net/sourceforge/czt/typecheck/circus/ErrorAnn.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.ErrorAnn">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.ErrorAnn" sourcefile="ErrorAnn.java" sourcepath="net/sourceforge/czt/typecheck/z/ErrorAnn.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ParaChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ParaChecker" start="1" end="385" sourcefile="ParaChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ParaChecker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.Checker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.Checker" sourcefile="Checker.java" sourcepath="net/sourceforge/czt/typecheck/circus/Checker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.ProcessChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.BasicProcessChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.BasicProcessChecker" sourcefile="BasicProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/BasicProcessChecker.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ParaChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ParaChecker" sourcefile="ParaChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ParaChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.ParaChecker" name="visitProcessPara" signature="(Lnet/sourceforge/czt/circus/ast/ProcessPara;)Lnet/sourceforge/czt/z/ast/Signature;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ParaChecker" start="309" end="364" startBytecode="0" endBytecode="120" sourcefile="ParaChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ParaChecker.java"/>
+    </Method>
+    <LocalVariable name="commList" register="7" pc="121" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ParaChecker" start="341" end="341" startBytecode="119" endBytecode="119" sourcefile="ParaChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ParaChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ParaChecker" start="341" end="341" startBytecode="119" endBytecode="119" sourcefile="ParaChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ParaChecker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="commList"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ProcessChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" name="visitHideProcess" signature="(Lnet/sourceforge/czt/circus/ast/HideProcess;)Lnet/sourceforge/czt/circus/ast/CircusCommunicationList;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" start="608" end="620" startBytecode="0" endBytecode="31" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    </Method>
+    <LocalVariable name="csType" register="3" pc="24" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" start="613" end="613" startBytecode="23" endBytecode="23" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" start="613" end="613" startBytecode="23" endBytecode="23" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="csType"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="3" rank="20" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.ProcessChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" name="typeCheckParProcess" signature="(Lnet/sourceforge/czt/circus/ast/ParProcess;Ljava/util/List;)Lnet/sourceforge/czt/circus/ast/CircusCommunicationList;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" start="216" end="232" startBytecode="0" endBytecode="32" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    </Method>
+    <LocalVariable name="cst" register="6" pc="43" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" start="225" end="225" startBytecode="41" endBytecode="41" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.ProcessChecker" start="225" end="225" startBytecode="41" endBytecode="41" sourcefile="ProcessChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/ProcessChecker.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="cst"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckCommand">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckCommand" start="31" end="39" sourcefile="TypeCheckCommand.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckCommand.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckCommand">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckCommand" start="31" end="39" sourcefile="TypeCheckCommand.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckCommand.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.TypeCheckCommand">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeCheckCommand" sourcefile="TypeCheckCommand.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeCheckCommand.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckResources">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckResources" start="22" end="34" sourcefile="TypeCheckResources.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckResources.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.TypeCheckResources">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeCheckResources" sourcefile="TypeCheckResources.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeCheckResources.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" name="typeCheckCommandTest" signature="(Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="316" end="357" startBytecode="0" endBytecode="97" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    </Method>
+    <LocalVariable name="result" register="11" pc="201" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="345" end="345" startBytecode="199" endBytecode="199" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="345" end="345" startBytecode="199" endBytecode="199" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="result"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE" priority="1" rank="10" abbrev="LG" category="EXPERIMENTAL" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" name="typeCheckCommandTest" signature="(Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="316" end="357" startBytecode="0" endBytecode="612" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    </Method>
+    <LocalVariable name="logger" register="6" pc="98" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="333" end="333" startBytecode="98" endBytecode="98" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="333" end="333" startBytecode="98" endBytecode="98" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" start="53" end="390" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.TypeCheckUtils">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeCheckUtils" sourcefile="TypeCheckUtils.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeCheckUtils.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeChecker" name="getFactory" signature="()Lnet/sourceforge/czt/typecheck/circus/impl/Factory;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" start="215" end="215" startBytecode="0" endBytecode="3" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/z/impl/Factory;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.impl.Factory" start="38" end="648" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/typecheck/z/impl/Factory.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/typecheck/circus/impl/Factory;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.impl.Factory" start="73" end="398" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/typecheck/circus/impl/Factory.java"/>
+    </Type>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" start="215" end="215" startBytecode="4" endBytecode="4" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" start="215" end="215" startBytecode="4" endBytecode="4" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeChecker" start="1" end="234" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeChecker.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.TypeChecker">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeChecker" sourcefile="TypeChecker.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeChecker.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" name="getCircusPrinter" signature="()Lnet/sourceforge/czt/circus/util/PrintVisitor;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="217" end="217" startBytecode="0" endBytecode="3" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/base/util/BasePrintVisitor;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.base.util.BasePrintVisitor" start="1" end="34" sourcefile="BasePrintVisitor.java" sourcepath="net/sourceforge/czt/base/util/BasePrintVisitor.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/util/PrintVisitor;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.util.PrintVisitor" start="1" end="1149" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/circus/util/PrintVisitor.java"/>
+    </Type>
+    <Field classname="net.sourceforge.czt.typecheck.z.TypeCheckerTest" name="printer_" signature="Lnet/sourceforge/czt/base/util/BasePrintVisitor;" isStatic="false" role="FIELD_VALUE_OF">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeCheckerTest.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="217" end="217" startBytecode="4" endBytecode="4" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="217" end="217" startBytecode="4" endBytecode="4" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="1" end="251" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="1" end="251" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="MS_MUTABLE_COLLECTION_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" name="TESTS_SOURCEDIR" signature="Ljava/util/List;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="60" end="60" startBytecode="29" endBytecode="29" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_REFACTORED_TO_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" name="DEBUG_LEVEL" signature="Ljava/util/logging/Level;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="59" end="59" startBytecode="19" endBytecode="19" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_REFACTORED_TO_BE_FINAL" priority="1" rank="16" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" name="DEBUG_TESTING" signature="Z" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="56" end="56" startBytecode="1" endBytecode="1" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="1" end="251" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/z/TypeCheckerTest.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="3" rank="20" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" name="collectTests" signature="(Ljunit/framework/TestSuite;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="122" end="185" startBytecode="0" endBytecode="942" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <LocalVariable name="cztHome" register="3" pc="47" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="135" end="135" startBytecode="48" endBytecode="48" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="135" end="135" startBytecode="48" endBytecode="48" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="UI_INHERITANCE_UNSAFE_GETRESOURCE" priority="3" rank="19" abbrev="UI" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" name="collectTests" signature="(Ljunit/framework/TestSuite;Ljava/lang/String;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="122" end="185" startBytecode="0" endBytecode="942" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" start="147" end="147" startBytecode="168" endBytecode="168" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" name="runTest" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" start="326" end="380" startBytecode="0" endBytecode="722" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" start="326" end="326" startBytecode="4" endBytecode="4" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="2" rank="18" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" name="runTest" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" start="326" end="380" startBytecode="0" endBytecode="722" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <LocalVariable name="errors" register="2" pc="175" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" start="361" end="361" startBytecode="176" endBytecode="176" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" start="361" end="361" startBytecode="176" endBytecode="176" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" name="runTest" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" start="268" end="307" startBytecode="0" endBytecode="98" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <LocalVariable name="errors" register="2" pc="16" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" start="269" end="269" startBytecode="15" endBytecode="15" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" start="269" end="269" startBytecode="15" endBytecode="15" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="errors"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" name="runTest" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" start="268" end="307" startBytecode="0" endBytecode="566" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" start="268" end="268" startBytecode="4" endBytecode="4" sourcefile="TypeCheckerTest.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypeCheckerTest.java"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_INTERFACE" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.TypecheckPropertiesKeys">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.TypecheckPropertiesKeys" sourcefile="TypecheckPropertiesKeys.java" sourcepath="net/sourceforge/czt/typecheck/circus/TypecheckPropertiesKeys.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.TypecheckPropertiesKeys" sourcefile="TypecheckPropertiesKeys.java" sourcepath="net/sourceforge/czt/typecheck/z/TypecheckPropertiesKeys.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.WarningManager">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.WarningManager" start="31" end="172" sourcefile="WarningManager.java" sourcepath="net/sourceforge/czt/typecheck/circus/WarningManager.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.WarningManager">
+      <SourceLine classname="net.sourceforge.czt.z.util.WarningManager" sourcefile="WarningManager.java" sourcepath="net/sourceforge/czt/z/util/WarningManager.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.impl.Factory">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.impl.Factory" start="73" end="398" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/typecheck/circus/impl/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.impl.Factory">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.impl.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/typecheck/z/impl/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.CarrierSet">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.CarrierSet" start="1" end="150" sourcefile="CarrierSet.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/CarrierSet.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.util.CarrierSet">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.CarrierSet" sourcefile="CarrierSet.java" sourcepath="net/sourceforge/czt/typecheck/z/util/CarrierSet.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.GlobalDefs">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.GlobalDefs" start="39" end="157" sourcefile="GlobalDefs.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/GlobalDefs.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.util.GlobalDefs">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.GlobalDefs" sourcefile="GlobalDefs.java" sourcepath="net/sourceforge/czt/typecheck/z/util/GlobalDefs.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="actionType" signature="(Lnet/sourceforge/czt/z/ast/Type2;)Lnet/sourceforge/czt/circus/ast/ActionType;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="133" end="133" startBytecode="0" endBytecode="2" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/Type2;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.Type2" sourcefile="Type2.java" sourcepath="net/sourceforge/czt/z/ast/Type2.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/ast/ActionType;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.ast.ActionType" sourcefile="ActionType.java" sourcepath="net/sourceforge/czt/circus/ast/ActionType.java"/>
+    </Type>
+    <LocalVariable name="type" register="1" pc="0" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="133" end="133" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="133" end="133" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="channelSetType" signature="(Lnet/sourceforge/czt/z/ast/Type2;)Lnet/sourceforge/czt/circus/ast/ChannelSetType;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="163" end="163" startBytecode="0" endBytecode="2" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/Type2;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.Type2" sourcefile="Type2.java" sourcepath="net/sourceforge/czt/z/ast/Type2.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/ast/ChannelSetType;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.ast.ChannelSetType" sourcefile="ChannelSetType.java" sourcepath="net/sourceforge/czt/circus/ast/ChannelSetType.java"/>
+    </Type>
+    <LocalVariable name="type" register="1" pc="0" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="163" end="163" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="163" end="163" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="channelType" signature="(Lnet/sourceforge/czt/z/ast/Type2;)Lnet/sourceforge/czt/circus/ast/ChannelType;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="143" end="143" startBytecode="0" endBytecode="2" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/Type2;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.Type2" sourcefile="Type2.java" sourcepath="net/sourceforge/czt/z/ast/Type2.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/ast/ChannelType;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.ast.ChannelType" sourcefile="ChannelType.java" sourcepath="net/sourceforge/czt/circus/ast/ChannelType.java"/>
+    </Type>
+    <LocalVariable name="type" register="1" pc="0" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="143" end="143" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="143" end="143" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="communicationType" signature="(Lnet/sourceforge/czt/z/ast/Type2;)Lnet/sourceforge/czt/circus/ast/CommunicationType;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="153" end="153" startBytecode="0" endBytecode="2" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/Type2;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.Type2" sourcefile="Type2.java" sourcepath="net/sourceforge/czt/z/ast/Type2.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/ast/CommunicationType;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.ast.CommunicationType" sourcefile="CommunicationType.java" sourcepath="net/sourceforge/czt/circus/ast/CommunicationType.java"/>
+    </Type>
+    <LocalVariable name="type" register="1" pc="0" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="153" end="153" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="153" end="153" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="nameSetType" signature="(Lnet/sourceforge/czt/z/ast/Type2;)Lnet/sourceforge/czt/circus/ast/NameSetType;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="173" end="173" startBytecode="0" endBytecode="2" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/Type2;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.Type2" sourcefile="Type2.java" sourcepath="net/sourceforge/czt/z/ast/Type2.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/ast/NameSetType;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.ast.NameSetType" sourcefile="NameSetType.java" sourcepath="net/sourceforge/czt/circus/ast/NameSetType.java"/>
+    </Type>
+    <LocalVariable name="type" register="1" pc="0" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="173" end="173" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="173" end="173" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+  </BugInstance>
+  <BugInstance type="BC_UNCONFIRMED_CAST" priority="3" rank="20" abbrev="BC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="processType" signature="(Lnet/sourceforge/czt/z/ast/Type2;)Lnet/sourceforge/czt/circus/ast/ProcessType;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="123" end="123" startBytecode="0" endBytecode="2" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <Type descriptor="Lnet/sourceforge/czt/z/ast/Type2;" role="TYPE_FOUND">
+      <SourceLine classname="net.sourceforge.czt.z.ast.Type2" sourcefile="Type2.java" sourcepath="net/sourceforge/czt/z/ast/Type2.java"/>
+    </Type>
+    <Type descriptor="Lnet/sourceforge/czt/circus/ast/ProcessType;" role="TYPE_EXPECTED">
+      <SourceLine classname="net.sourceforge.czt.circus.ast.ProcessType" sourcefile="ProcessType.java" sourcepath="net/sourceforge/czt/circus/ast/ProcessType.java"/>
+    </Type>
+    <LocalVariable name="type" register="1" pc="0" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="123" end="123" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="123" end="123" startBytecode="1" endBytecode="1" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" name="unifyProcessType" signature="(Lnet/sourceforge/czt/circus/ast/ProcessType;Lnet/sourceforge/czt/circus/ast/ProcessType;)Lnet/sourceforge/czt/typecheck/z/util/UResult;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="178" end="189" startBytecode="0" endBytecode="29" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Method>
+    <LocalVariable name="result" register="5" pc="51" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="186" end="186" startBytecode="49" endBytecode="49" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="186" end="186" startBytecode="49" endBytecode="49" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="result"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.TWO_STORES_MULTIPLE_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" start="36" end="284" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/circus/util/UnificationEnv.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.typecheck.z.util.UnificationEnv">
+      <SourceLine classname="net.sourceforge.czt.typecheck.z.util.UnificationEnv" sourcefile="UnificationEnv.java" sourcepath="net/sourceforge/czt/typecheck/z/util/UnificationEnv.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 29 Jul 2015 15:42:13 +0100" total_classes="37" referenced_classes="497" total_bugs="49" total_size="3943" num_packages="3" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="16.22" clock_seconds="32.85" peak_mbytes="1471.83" alloc_mbytes="910.50" gc_seconds="0.32" priority_3="18" priority_2="15" priority_1="16">
+    <PackageStats package="net.sourceforge.czt.typecheck.circus" total_bugs="38" total_types="31" total_size="3502" priority_3="12" priority_2="14" priority_1="12">
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ActionChecker" sourceFile="ActionChecker.java" interface="false" size="319" bugs="5" priority_3="2" priority_2="3"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ActionChecker$SubstResolution" sourceFile="ActionChecker.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.BasicProcessChecker" sourceFile="BasicProcessChecker.java" interface="false" size="100" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.Checker" sourceFile="Checker.java" interface="false" size="893" bugs="4" priority_3="3" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.Checker$CallResolution" sourceFile="Checker.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.CommandChecker" sourceFile="CommandChecker.java" interface="false" size="116" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.CommunicationChecker" sourceFile="CommunicationChecker.java" interface="false" size="328" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.CommunicationChecker$CommFormatResolution" sourceFile="CommunicationChecker.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.CyclicParentTypeCheckerTest" sourceFile="CyclicParentTypeCheckerTest.java" interface="false" size="6" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.DeclChecker" sourceFile="DeclChecker.java" interface="false" size="94" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ErrorAnn" sourceFile="ErrorAnn.java" interface="false" size="42" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ErrorMessage" sourceFile="ErrorMessage.java" interface="false" size="150" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ExprChecker" sourceFile="ExprChecker.java" interface="false" size="201" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ParaChecker" sourceFile="ParaChecker.java" interface="false" size="97" bugs="2" priority_2="2"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.PostChecker" sourceFile="PostChecker.java" interface="false" size="62" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.PredChecker" sourceFile="PredChecker.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ProcessChecker" sourceFile="ProcessChecker.java" interface="false" size="277" bugs="2" priority_3="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ProcessChecker$PSigResolution" sourceFile="ProcessChecker.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.ProcessParaChecker" sourceFile="ProcessParaChecker.java" interface="false" size="69" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.SignatureChecker" sourceFile="SignatureChecker.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.SpecChecker" sourceFile="SpecChecker.java" interface="false" size="27" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeCheckCommand" sourceFile="TypeCheckCommand.java" interface="false" size="6" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeCheckResources" sourceFile="TypeCheckResources.java" interface="false" size="9" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeCheckUtils" sourceFile="TypeCheckUtils.java" interface="false" size="113" bugs="3" priority_2="1" priority_1="2"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeChecker" sourceFile="TypeChecker.java" interface="false" size="90" bugs="2" priority_3="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeCheckerTest" sourceFile="TypeCheckerTest.java" interface="false" size="103" bugs="9" priority_3="3" priority_2="3" priority_1="3"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestError" sourceFile="TypeCheckerTest.java" interface="false" size="57" bugs="2" priority_3="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypeCheckerTest$TestNormal" sourceFile="TypeCheckerTest.java" interface="false" size="34" bugs="2" priority_3="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.TypecheckPropertiesKeys" sourceFile="TypecheckPropertiesKeys.java" interface="true" size="5" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.WarningManager" sourceFile="WarningManager.java" interface="false" size="85" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.WarningMessage" sourceFile="WarningMessage.java" interface="false" size="64" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.typecheck.circus.impl" total_bugs="1" total_types="3" total_size="235" priority_1="1">
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.impl.ChannelTypeImpl" sourceFile="ChannelTypeImpl.java" interface="false" size="42" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.impl.CommunicationTypeImpl" sourceFile="CommunicationTypeImpl.java" interface="false" size="57" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.impl.Factory" sourceFile="Factory.java" interface="false" size="136" bugs="1" priority_1="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.typecheck.circus.util" total_bugs="10" total_types="3" total_size="206" priority_3="6" priority_2="1" priority_1="3">
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.util.CarrierSet" sourceFile="CarrierSet.java" interface="false" size="41" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.util.GlobalDefs" sourceFile="GlobalDefs.java" interface="false" size="50" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.typecheck.circus.util.UnificationEnv" sourceFile="UnificationEnv.java" interface="false" size="115" bugs="8" priority_3="6" priority_2="1" priority_1="1"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="5234" invocations="1871" avgMicrosecondsPerInvocation="2797" maxMicrosecondsPerInvocation="78172" standardDeviationMircosecondsPerInvocation="4944"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="522" invocations="2" avgMicrosecondsPerInvocation="261347" maxMicrosecondsPerInvocation="495003" standardDeviationMircosecondsPerInvocation="233656"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="309" invocations="1866" avgMicrosecondsPerInvocation="165" maxMicrosecondsPerInvocation="15344" standardDeviationMircosecondsPerInvocation="606"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="204" invocations="676" avgMicrosecondsPerInvocation="302" maxMicrosecondsPerInvocation="38654" standardDeviationMircosecondsPerInvocation="2057"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="191" invocations="518" avgMicrosecondsPerInvocation="369" maxMicrosecondsPerInvocation="26653" standardDeviationMircosecondsPerInvocation="1763"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="161" invocations="610" avgMicrosecondsPerInvocation="264" maxMicrosecondsPerInvocation="41675" standardDeviationMircosecondsPerInvocation="1783"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438180964673" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

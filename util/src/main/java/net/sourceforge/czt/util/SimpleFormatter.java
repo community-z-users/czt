@@ -111,6 +111,8 @@ public class SimpleFormatter extends Formatter
         }
         catch (Exception ex)
         {
+          sb.append("Exception thrown: ");
+          sb.append(ex.toString());
         }
       }
     }

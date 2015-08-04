@@ -14,21 +14,25 @@ public enum Dialect {
    
    private static final int NUM_OF_DIALECTS = CIRCUSCONF.ordinal()+1;
    
-   private static String[] known_ = null;
-   public static String[] knownDialectsAsStringArray()
-   {
-	   if (known_ == null)
+   private static final class LazyKnownDialectsLoader {
+	   private final static String[] INSTANCE = loadKnownDialects();
+	   
+	   private static final String[] loadKnownDialects()
 	   {
 		   int i = 0;
-		   known_ = new String[NUM_OF_DIALECTS];
+		   String[] result = new String[NUM_OF_DIALECTS];
 		   for(Dialect d : values())
 		   {
-			   known_[i] = d.toString();
+			   result[i] = d.toString();
 			   i++;
 		   }
+		   return result;
 	   }
-	   assert known_ != null && known_.length == NUM_OF_DIALECTS;
-	   return known_;
+   }
+   
+   public static String[] knownDialectsAsStringArray()
+   {
+	   return LazyKnownDialectsLoader.INSTANCE;
    }
    
    /**

@@ -49,7 +49,7 @@ public class DefinitionTableTest extends VCGTest
   {
     SectionManager manager = FeasibilityUtils.getFeasibilityUtils().createSectionManager(SectionManager.DEFAULT_EXTENSION);
     VCGTest test = new DefinitionTableTest(manager, DEBUG_TESTING);
-    Test result = test.suite(TEST_DIR, null);
+    Test result = test.cztTestSuite(TEST_DIR, null);
     if (DEBUG_TESTING) { System.out.println("Number of tests: " + result.countTestCases()); }
     return result;
   }

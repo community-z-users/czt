@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.z;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -110,8 +111,10 @@ public class LatexMarkupConverterTest
       final Source source = new UrlSource(url);
       final Writer writer =
         new OutputStreamWriter(new FileOutputStream(uniFile), "UTF-8");
+      try {
       latexToUnicode(source, writer);
-      writer.close();
+      } finally {
+      writer.close();}
       unicodeToLatex(uniFile, latexFile);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
                               manager);
@@ -143,9 +146,10 @@ public class LatexMarkupConverterTest
     manager.put(new Key<Source>(name, Source.class), new UrlSource(url));
     LatexString latex = manager.get(new Key<LatexString>(name, LatexString.class));
     FileOutputStream stream = new FileOutputStream(latexFileName);
-    Writer writer = new OutputStreamWriter(stream);
-    writer.write(latex.toString());
-    writer.close();
+    Writer writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+    try {
+    writer.write(latex.toString()); } finally {
+    writer.close(); }
   }
 
   private void latexToUnicode(Source source, Writer writer)

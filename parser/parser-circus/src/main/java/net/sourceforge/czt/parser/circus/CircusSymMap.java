@@ -36,7 +36,7 @@ public class CircusSymMap
   }
   
   private static Map<String,Integer> MAP = createMap(Sym.class);
-  public static Set<String> CIRCUS_SYMBOL_NAMES_ONLY = getCircusSymbolNamesOnly();
+  public final static Set<String> CIRCUS_SYMBOL_NAMES_ONLY = getCircusSymbolNamesOnly();
   
   public static Map<String,Integer> createMap(Class<?> symClass)
   {

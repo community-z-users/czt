@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438074171153" analysisTimestamp="1438074169839" release="">
+  <Project projectName="session">
+    <Jar>/Users/nljsf/Local/reps/git/czt/session/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/session/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/session/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/session/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/session/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/session/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/session/src/main/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="USM_USELESS_ABSTRACT_METHOD" priority="3" rank="20" abbrev="USM" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.DefaultSectionParentsCommand">
+      <SourceLine classname="net.sourceforge.czt.session.DefaultSectionParentsCommand" sourcefile="DefaultSectionParentsCommand.java" sourcepath="net/sourceforge/czt/session/DefaultSectionParentsCommand.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.DefaultSectionParentsCommand" name="getDialect" signature="()Lnet/sourceforge/czt/session/Dialect;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.DefaultSectionParentsCommand" sourcefile="DefaultSectionParentsCommand.java" sourcepath="net/sourceforge/czt/session/DefaultSectionParentsCommand.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.session.Dialect">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.Dialect" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" start="59" end="59" startBytecode="0" endBytecode="49" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.Dialect" start="59" end="59" startBytecode="4" endBytecode="4" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.Dialect" start="59" end="59" startBytecode="4" endBytecode="4" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+  </BugInstance>
+  <BugInstance type="LI_LAZY_INIT_UPDATE_STATIC" priority="1" rank="6" abbrev="LI" category="MT_CORRECTNESS" first="1">
+    <Class classname="net.sourceforge.czt.session.Dialect">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.Dialect" name="knownDialectsAsStringArray" signature="()[Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" start="20" end="31" startBytecode="0" endBytecode="42" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.session.Dialect" name="known_" signature="[Ljava/lang/String;" isStatic="true" role="FIELD_ON">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.session.Dialect" start="20" end="23" startBytecode="0" endBytecode="14" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+  </BugInstance>
+  <BugInstance type="MS_EXPOSE_REP" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.session.Dialect">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.Dialect" name="knownDialectsAsStringArray" signature="()[Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" start="20" end="31" startBytecode="0" endBytecode="202" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.session.Dialect" name="known_" signature="[Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.Dialect" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.session.Dialect" start="31" end="31" startBytecode="88" endBytecode="88" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.Dialect" start="31" end="31" startBytecode="88" endBytecode="88" sourcefile="Dialect.java" sourcepath="net/sourceforge/czt/session/Dialect.java"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.session.KnownExtensions">
+      <SourceLine classname="net.sourceforge.czt.session.KnownExtensions" sourcefile="KnownExtensions.java" sourcepath="net/sourceforge/czt/session/KnownExtensions.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.KnownExtensions" name="toString" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.KnownExtensions" start="39" end="39" startBytecode="0" endBytecode="49" sourcefile="KnownExtensions.java" sourcepath="net/sourceforge/czt/session/KnownExtensions.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.KnownExtensions" start="39" end="39" startBytecode="4" endBytecode="4" sourcefile="KnownExtensions.java" sourcepath="net/sourceforge/czt/session/KnownExtensions.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.KnownExtensions" start="39" end="39" startBytecode="4" endBytecode="4" sourcefile="KnownExtensions.java" sourcepath="net/sourceforge/czt/session/KnownExtensions.java"/>
+  </BugInstance>
+  <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.session.Markup">
+      <SourceLine classname="net.sourceforge.czt.session.Markup" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.Markup" name="getMarkup" signature="(Ljava/lang/String;)Lnet/sourceforge/czt/session/Markup;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.Markup" start="59" end="73" startBytecode="0" endBytecode="323" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.Markup" start="63" end="63" startBytecode="45" endBytecode="45" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.Markup" start="63" end="63" startBytecode="45" endBytecode="45" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" rank="18" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="net.sourceforge.czt.session.Markup">
+      <SourceLine classname="net.sourceforge.czt.session.Markup" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.session.Markup" name="KNOWN_FILENAME_SUFFIXES" signature="[Ljava/lang/String;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.Markup" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.session.Markup" start="34" end="34" startBytecode="165" endBytecode="165" sourcefile="Markup.java" sourcepath="net/sourceforge/czt/session/Markup.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1" end="1864" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CN_IDIOM_NO_SUPER_CALL" priority="2" rank="16" abbrev="CN" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager" name="clone" signature="()Lnet/sourceforge/czt/session/SectionManager;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="378" end="396" startBytecode="0" endBytecode="310" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="DM_BOXED_PRIMITIVE_FOR_PARSING" priority="1" rank="16" abbrev="Bx" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager" name="getIntegerProperty" signature="(Ljava/lang/String;)I" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="570" end="580" startBytecode="0" endBytecode="198" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="intValue" signature="()I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.Integer" start="893" end="893" startBytecode="0" endBytecode="28" sourcefile="Integer.java" sourcepath="java/lang/Integer.java"/>
+    </Method>
+    <Method classname="java.lang.Integer" name="parseInt" signature="(Ljava/lang/String;)I" isStatic="true" role="SHOULD_CALL"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="572" end="572" startBytecode="18" endBytecode="18" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="572" end="572" startBytecode="18" endBytecode="18" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="1" rank="16" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager" name="endTransaction" signature="(Lnet/sourceforge/czt/session/Key;Ljava/lang/Object;Ljava/util/Collection;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1057" end="1092" startBytecode="0" endBytecode="535" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <LocalVariable name="value" register="2" pc="180" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1089" end="1089" startBytecode="181" endBytecode="181" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1089" end="1089" startBytecode="181" endBytecode="181" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" priority="3" rank="20" abbrev="RCN" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager" name="get" signature="(Lnet/sourceforge/czt/session/Key;)Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1674" end="1766" startBytecode="0" endBytecode="775" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <LocalVariable name="result" register="5" pc="273" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <Method classname="java.util.Map" name="get" signature="(Ljava/lang/Object;)Ljava/lang/Object;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java.util.Map" sourcefile="Map.java" sourcepath="java/util/Map.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1756" end="1756" startBytecode="275" endBytecode="275" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager" start="1756" end="1756" startBytecode="275" endBytecode="275" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java" role="SOURCE_REDUNDANT_NULL_CHECK"/>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="content" signature="()Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2013" end="2019" startBytecode="0" endBytecode="246" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2014" end="2014" startBytecode="12" endBytecode="12" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="content_" signature="Ljava/util/Map;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="contentKeys" signature="()Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2006" end="2007" startBytecode="0" endBytecode="69" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2006" end="2006" startBytecode="8" endBytecode="8" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="content_" signature="Ljava/util/Map;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="dependants" signature="()Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2024" end="2025" startBytecode="0" endBytecode="64" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2024" end="2024" startBytecode="8" endBytecode="8" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="dependants_" signature="Ljava/util/Map;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="dependencies" signature="()Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2030" end="2031" startBytecode="0" endBytecode="65" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2030" end="2030" startBytecode="9" endBytecode="9" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="dependencies_" signature="Ljava/util/Map;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="pendingDeps" signature="()Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2000" end="2001" startBytecode="0" endBytecode="64" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="2000" end="2000" startBytecode="8" endBytecode="8" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="pendingDeps_" signature="Ljava/util/List;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="transTrace" signature="(Ljava/lang/String;)Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="1886" end="1887" startBytecode="0" endBytecode="101" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="1886" end="1886" startBytecode="26" endBytecode="26" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="transactionStack_" signature="Ljava/util/Stack;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="transactions" signature="(Z)Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="1980" end="1990" startBytecode="0" endBytecode="333" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="1980" end="1980" startBytecode="8" endBytecode="8" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="transactionStack_" signature="Ljava/util/Stack;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="IMA_INEFFICIENT_MEMBER_ACCESS" priority="3" rank="20" abbrev="IMA" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManager$LogBuilder">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SectionManager$LogBuilder" name="transactions" signature="(Z)Lnet/sourceforge/czt/session/SectionManager$LogBuilder;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="1980" end="1990" startBytecode="0" endBytecode="333" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManager$LogBuilder" start="1981" end="1981" startBytecode="22" endBytecode="22" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    <Field classname="net.sourceforge.czt.session.SectionManager" name="transactionStack_" signature="Ljava/util/Stack;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManager" sourcefile="SectionManager.java" sourcepath="net/sourceforge/czt/session/SectionManager.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" priority="3" rank="20" abbrev="UwF" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManagerTest">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.session.SectionManagerTest" name="manager_" signature="Lnet/sourceforge/czt/session/SectionManager;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Field>
+    <Method classname="net.sourceforge.czt.session.SectionManagerTest" name="testCachedAndRetrieveKey" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="81" end="100" startBytecode="0" endBytecode="437" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="87" end="87" startBytecode="55" endBytecode="55" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="87" end="87" startBytecode="55" endBytecode="55" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+  </BugInstance>
+  <BugInstance type="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" priority="3" rank="20" abbrev="UwF" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManagerTest">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.session.SectionManagerTest" name="manager_" signature="Lnet/sourceforge/czt/session/SectionManager;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Field>
+    <Method classname="net.sourceforge.czt.session.SectionManagerTest" name="testClone" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="44" end="55" startBytecode="0" endBytecode="275" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="47" end="47" startBytecode="15" endBytecode="15" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="47" end="47" startBytecode="15" endBytecode="15" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+  </BugInstance>
+  <BugInstance type="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" priority="3" rank="20" abbrev="UwF" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SectionManagerTest">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Class>
+    <Field classname="net.sourceforge.czt.session.SectionManagerTest" name="manager_" signature="Lnet/sourceforge/czt/session/SectionManager;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Field>
+    <Method classname="net.sourceforge.czt.session.SectionManagerTest" name="testReset" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="60" end="77" startBytecode="0" endBytecode="384" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="63" end="63" startBytecode="43" endBytecode="43" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.SectionManagerTest" start="63" end="63" startBytecode="43" endBytecode="43" sourcefile="SectionManagerTest.java" sourcepath="net/sourceforge/czt/session/SectionManagerTest.java"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.session.Source">
+      <SourceLine classname="net.sourceforge.czt.session.Source" sourcefile="Source.java" sourcepath="net/sourceforge/czt/session/Source.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.Source" name="getReader" signature="()Ljava/io/Reader;" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.Source" start="63" end="66" startBytecode="0" endBytecode="122" sourcefile="Source.java" sourcepath="net/sourceforge/czt/session/Source.java"/>
+    </Method>
+    <Method classname="java.io.InputStreamReader" name="&lt;init&gt;" signature="(Ljava/io/InputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.InputStreamReader" start="72" end="79" startBytecode="0" endBytecode="108" sourcefile="InputStreamReader.java" sourcepath="java/io/InputStreamReader.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.Source" start="65" end="65" startBytecode="33" endBytecode="33" sourcefile="Source.java" sourcepath="net/sourceforge/czt/session/Source.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.Source" start="65" end="65" startBytecode="33" endBytecode="33" sourcefile="Source.java" sourcepath="net/sourceforge/czt/session/Source.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SourceLocator">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SourceLocator" name="extractPath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="275" end="285" startBytecode="0" endBytecode="146" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="279" end="279" startBytecode="20" endBytecode="20" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SourceLocator">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SourceLocator" name="extractPath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="275" end="285" startBytecode="0" endBytecode="146" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="283" end="283" startBytecode="32" endBytecode="32" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SourceLocator">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SourceLocator" name="getFileNameNoExt" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="296" end="298" startBytecode="0" endBytecode="102" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="297" end="297" startBytecode="7" endBytecode="7" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SourceLocator">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SourceLocator" name="removePath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="253" end="263" startBytecode="0" endBytecode="146" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="257" end="257" startBytecode="20" endBytecode="20" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+  </BugInstance>
+  <BugInstance type="IIO_INEFFICIENT_LAST_INDEX_OF" priority="3" rank="20" abbrev="IIO" category="PERFORMANCE" first="1">
+    <Class classname="net.sourceforge.czt.session.SourceLocator">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.SourceLocator" name="removePath" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" role="STRING_MESSAGE">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="253" end="263" startBytecode="0" endBytecode="146" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Method>
+    <Method classname="java.lang.String" name="lastIndexOf" signature="(Ljava/lang/String;)I" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1795" end="1795" startBytecode="0" endBytecode="34" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.session.SourceLocator" start="261" end="261" startBytecode="32" endBytecode="32" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.SourceLocator$ToolkitProviders">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator$ToolkitProviders" start="380" end="385" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.session.SourceLocator">
+      <SourceLine classname="net.sourceforge.czt.session.SourceLocator" sourcefile="SourceLocator.java" sourcepath="net/sourceforge/czt/session/SourceLocator.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.TimeStamp">
+      <SourceLine classname="net.sourceforge.czt.session.TimeStamp" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.TimeStamp" name="&lt;init&gt;" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.TimeStamp" start="51" end="61" startBytecode="0" endBytecode="146" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.session.TimeStamp" name="lastCount_" signature="I" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.TimeStamp" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.session.TimeStamp" start="55" end="55" startBytecode="33" endBytecode="33" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.TimeStamp" start="55" end="55" startBytecode="33" endBytecode="33" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+  </BugInstance>
+  <BugInstance type="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" priority="2" rank="17" abbrev="ST" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.session.TimeStamp">
+      <SourceLine classname="net.sourceforge.czt.session.TimeStamp" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.session.TimeStamp" name="&lt;init&gt;" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.session.TimeStamp" start="51" end="61" startBytecode="0" endBytecode="146" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    </Method>
+    <Field classname="net.sourceforge.czt.session.TimeStamp" name="lastDate_" signature="Ljava/util/Date;" isStatic="true">
+      <SourceLine classname="net.sourceforge.czt.session.TimeStamp" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    </Field>
+    <SourceLine classname="net.sourceforge.czt.session.TimeStamp" start="57" end="57" startBytecode="43" endBytecode="43" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+    <SourceLine classname="net.sourceforge.czt.session.TimeStamp" start="57" end="57" startBytecode="43" endBytecode="43" sourcefile="TimeStamp.java" sourcepath="net/sourceforge/czt/session/TimeStamp.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 12:21:57 +0100" total_classes="27" referenced_classes="123" total_bugs="32" total_size="1425" num_packages="1" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="17.99" clock_seconds="80.55" peak_mbytes="1538.62" alloc_mbytes="910.50" gc_seconds="1.19" priority_3="21" priority_2="7" priority_1="4">
+    <PackageStats package="net.sourceforge.czt.session" total_bugs="32" total_types="27" total_size="1425" priority_3="21" priority_2="7" priority_1="4">
+      <ClassStats class="net.sourceforge.czt.session.AbstractCommand" sourceFile="AbstractCommand.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.Command" sourceFile="Command.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.CommandException" sourceFile="CommandException.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.DefaultSectionParents" sourceFile="DefaultSectionParents.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.DefaultSectionParentsCommand" sourceFile="DefaultSectionParentsCommand.java" interface="false" size="36" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.session.Dialect" sourceFile="Dialect.java" interface="false" size="45" bugs="3" priority_3="1" priority_2="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.session.DialectTest" sourceFile="DialectTest.java" interface="false" size="96" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.FileSource" sourceFile="FileSource.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.Key" sourceFile="Key.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.KnownExtensions" sourceFile="KnownExtensions.java" interface="false" size="23" bugs="1" priority_3="1"/>
+      <ClassStats class="net.sourceforge.czt.session.Markup" sourceFile="Markup.java" interface="false" size="40" bugs="2" priority_3="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.session.Markup$1" sourceFile="Markup.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.SectionInfo" sourceFile="SectionInfo.java" interface="true" size="23" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.SectionInfoException" sourceFile="SectionInfoException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.SectionManager" sourceFile="SectionManager.java" interface="false" size="546" bugs="5" priority_3="1" priority_2="2" priority_1="2"/>
+      <ClassStats class="net.sourceforge.czt.session.SectionManager$LogBuilder" sourceFile="SectionManager.java" interface="false" size="112" bugs="8" priority_3="8"/>
+      <ClassStats class="net.sourceforge.czt.session.SectionManagerTest" sourceFile="SectionManagerTest.java" interface="false" size="66" bugs="3" priority_3="3"/>
+      <ClassStats class="net.sourceforge.czt.session.Session" sourceFile="Session.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.Source" sourceFile="Source.java" interface="false" size="41" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.session.SourceLocator" sourceFile="SourceLocator.java" interface="false" size="158" bugs="5" priority_3="5"/>
+      <ClassStats class="net.sourceforge.czt.session.SourceLocator$SourceLocatorException" sourceFile="SourceLocator.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.SourceLocator$ToolkitProviders" sourceFile="SourceLocator.java" interface="false" size="12" bugs="1" priority_2="1"/>
+      <ClassStats class="net.sourceforge.czt.session.StdInSource" sourceFile="StdInSource.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.StringSource" sourceFile="StringSource.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.TimeStamp" sourceFile="TimeStamp.java" interface="false" size="19" bugs="2" priority_2="2"/>
+      <ClassStats class="net.sourceforge.czt.session.UnknownCommandException" sourceFile="UnknownCommandException.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.session.UrlSource" sourceFile="UrlSource.java" interface="false" size="13" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="309" invocations="675" avgMicrosecondsPerInvocation="458" maxMicrosecondsPerInvocation="12889" standardDeviationMircosecondsPerInvocation="525"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="159" invocations="2" avgMicrosecondsPerInvocation="79897" maxMicrosecondsPerInvocation="147316" standardDeviationMircosecondsPerInvocation="67419"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="116" invocations="672" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="10973" standardDeviationMircosecondsPerInvocation="512"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="37" invocations="123" avgMicrosecondsPerInvocation="303" maxMicrosecondsPerInvocation="2828" standardDeviationMircosecondsPerInvocation="503"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="35" invocations="235" avgMicrosecondsPerInvocation="152" maxMicrosecondsPerInvocation="2203" standardDeviationMircosecondsPerInvocation="260"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="35" invocations="251" avgMicrosecondsPerInvocation="140" maxMicrosecondsPerInvocation="1974" standardDeviationMircosecondsPerInvocation="242"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="35" invocations="123" avgMicrosecondsPerInvocation="285" maxMicrosecondsPerInvocation="2615" standardDeviationMircosecondsPerInvocation="510"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="32" invocations="236" avgMicrosecondsPerInvocation="137" maxMicrosecondsPerInvocation="2656" standardDeviationMircosecondsPerInvocation="237"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="31" invocations="235" avgMicrosecondsPerInvocation="135" maxMicrosecondsPerInvocation="3006" standardDeviationMircosecondsPerInvocation="258"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="30" invocations="516" avgMicrosecondsPerInvocation="58" maxMicrosecondsPerInvocation="769" standardDeviationMircosecondsPerInvocation="73"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="28" invocations="253" avgMicrosecondsPerInvocation="112" maxMicrosecondsPerInvocation="2547" standardDeviationMircosecondsPerInvocation="218"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory" totalMilliseconds="25" invocations="6" avgMicrosecondsPerInvocation="4324" maxMicrosecondsPerInvocation="25232" standardDeviationMircosecondsPerInvocation="9351"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="24" invocations="208" avgMicrosecondsPerInvocation="116" maxMicrosecondsPerInvocation="1472" standardDeviationMircosecondsPerInvocation="196"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="21" invocations="27" avgMicrosecondsPerInvocation="796" maxMicrosecondsPerInvocation="18757" standardDeviationMircosecondsPerInvocation="3525"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="20" invocations="123" avgMicrosecondsPerInvocation="168" maxMicrosecondsPerInvocation="10610" standardDeviationMircosecondsPerInvocation="953"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="16" invocations="629" avgMicrosecondsPerInvocation="25" maxMicrosecondsPerInvocation="533" standardDeviationMircosecondsPerInvocation="46"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="15" invocations="236" avgMicrosecondsPerInvocation="65" maxMicrosecondsPerInvocation="799" standardDeviationMircosecondsPerInvocation="84"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438074171152" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

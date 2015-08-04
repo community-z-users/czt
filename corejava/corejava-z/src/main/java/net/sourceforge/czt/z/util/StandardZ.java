@@ -19,7 +19,8 @@
 
 package net.sourceforge.czt.z.util;
 
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.NameList;
+import net.sourceforge.czt.z.util.ZUtils;
 
 public class StandardZ
   implements IsEmptyNameList

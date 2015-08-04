@@ -28,7 +28,7 @@ import javax.xml.bind.JAXBException;
  * @author Petra Malik
  */
 public class JaxbXmlWriter
-  extends net.sourceforge.czt.base.jaxb.JaxbXmlWriter
+  extends net.sourceforge.czt.base.jaxb.BaseJaxbXmlWriter
 {
   
   // static field for the JAXB context, because it is heavy to initialise,

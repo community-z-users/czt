@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
@@ -35,8 +36,8 @@ public class TypeCheckResources
 
   //the contents are represented in two formats to make it easy for
   //typecheckers that build on this to add and override error messages
-  protected static Properties properties_ = new Properties();
-  protected static Object [][] contents_;
+  final static Properties properties_ = new Properties();
+  static Object [][] contents_;
 
   static {
     addFile(TypeCheckResources.class.getResource(MESSAGES));
@@ -52,7 +53,7 @@ public class TypeCheckResources
         urlStream.close();
       }
     }
-    catch (Exception exception) {
+    catch (IOException exception) {
       String message = "Cannot open properties file " + file;
       CztLogger.getLogger(TypeCheckResources.class).warning(message);
     }
@@ -68,7 +69,7 @@ public class TypeCheckResources
 
   public Object[][] getContents()
   {
-    return contents_;
+    return contents_.clone();
   }
 }
 

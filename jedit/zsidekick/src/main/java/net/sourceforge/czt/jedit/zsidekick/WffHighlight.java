@@ -26,8 +26,8 @@ import org.gjt.sp.jedit.textarea.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
-import net.sourceforge.czt.z.util.GetNameVisitor;
+import net.sourceforge.czt.z.util.ZConcreteSyntaxDescriptionVisitor;
+import net.sourceforge.czt.z.util.ZGetNameVisitor;
 import net.sourceforge.czt.z.util.TermSelector;
 
 public class WffHighlight
@@ -51,12 +51,12 @@ public class WffHighlight
         final LocAnn locAnn = term.getAnn(LocAnn.class);
         if (locAnn.getStart().intValue() <= offset &&
             offset <= locAnn.getEnd().intValue()) {
-          GetNameVisitor visitor = new GetNameVisitor();
+          ZGetNameVisitor visitor = new ZGetNameVisitor();
           if (jEdit.getBooleanProperty(ZSideKickPlugin.PROPERTY_PREFIX + ZSideKickPlugin.PROP_PRINT_NAME_IDS)) {
             visitor.setPrintIds(true);
           }
-          ConcreteSyntaxDescriptionVisitor csdv =
-            new ConcreteSyntaxDescriptionVisitor();
+          ZConcreteSyntaxDescriptionVisitor csdv =
+            new ZConcreteSyntaxDescriptionVisitor();
           csdv.setNameVisitor(visitor);
           String text = "<html>" + term.accept(csdv);
           TypeAnn typeAnn = term.getAnn(TypeAnn.class);

@@ -563,9 +563,10 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
 
     if (args == null || args.length == 0) {
       printUsage();
-      System.exit(result);
+      //System.exit(result);
     }
-
+    else
+    {
     List<String> files = new java.util.ArrayList<String>();
 
     // If we initialise flags here with default values, and different
@@ -694,6 +695,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
                 useBeforeDecl = true;
                 defaultFlags = false;
                 manager.setProperty(PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(useBeforeDecl));
+                break;
               case 't':
                 printTypes = true;
                 defaultFlags = false;
@@ -974,7 +976,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
     
     if (printBenchmark) {      
       System.out.println(totalTime + "ms for " + files.size() + " files.");
-      for(String file : benchmarkPerFile.keySet()) {
+      for(java.util.Map.Entry<String, List<Long>> entry : benchmarkPerFile.entrySet()) {
         // 0=parsingErrors,
         // 1=numberOfErrors,
         // 2=numberOfWarnings,
@@ -983,7 +985,8 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
         // 5=printTypeTime
         // 6=printZmlTime
         // 7=totalTime
-        List<Long> benchmarks = benchmarkPerFile.get(file);
+    	  String file = entry.getKey();
+        List<Long> benchmarks = entry.getValue();
         assert benchmarks != null && benchmarks.size() == 8;
         System.out.println("\t" + benchmarks.get(7) + "ms for " + file + ":");
         System.out.println("\t\tparsing errors.." + benchmarks.get(0));
@@ -1084,6 +1087,7 @@ public class TypeCheckUtils implements TypecheckPropertiesKeys
 
     }
     System.exit(result);
+    }
   }
 
   private static void printSet(String extra, Set<Key<?>> keys)

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1437992180714" analysisTimestamp="1437992180013" release="">
+  <Project projectName="gnast-maven-plugin">
+    <Jar>/Users/nljsf/Local/reps/git/czt/dev/gnast-maven-plugin/target/classes</Jar>
+    <Jar>/gnast-maven-plugin/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/gnast-maven-plugin/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-plugin-api/2.0.6/maven-plugin-api-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/plugin-tools/maven-plugin-annotations/3.2/maven-plugin-annotations-3.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-artifact/3.0/maven-artifact-3.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-project/2.0.6/maven-project-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-settings/2.0.6/maven-settings-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-profile/2.0.6/maven-profile-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-model/2.0.6/maven-model-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-artifact-manager/2.0.6/maven-artifact-manager-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-repository-metadata/2.0.6/maven-repository-metadata-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-2/wagon-provider-api-1.0-beta-2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/maven/maven-plugin-registry/2.0.6/maven-plugin-registry-2.0.6.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/xerces/xercesImpl/2.8.0/xercesImpl-2.8.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/xml-apis/xml-apis/1.3.03/xml-apis-1.3.03.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/dev/gnast/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/velocity/velocity/1.7/velocity-1.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.4/plexus-utils-3.0.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-container-default/1.5.5/plexus-container-default-1.5.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.2.2/plexus-classworlds-2.2.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/log4j/log4j/1.2.12/log4j-1.2.12.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/com/google/collections/google-collections/1.0/google-collections-1.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/org/codehaus/plexus/plexus-resources/1.0-alpha-7/plexus-resources-1.0-alpha-7.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/gnast-maven-plugin/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/dev/gnast-maven-plugin/src/main/java</SrcDir>
+    <SrcDir>/gnast-maven-plugin/src/test/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" rank="19" abbrev="Dm" category="I18N" first="1">
+    <Class classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo">
+      <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" name="write" signature="(Lorg/apache/velocity/runtime/RuntimeInstance;Ljava/lang/String;Ljava/lang/String;Lorg/apache/velocity/VelocityContext;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="248" end="264" startBytecode="0" endBytecode="350" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    </Method>
+    <Method classname="java.io.OutputStreamWriter" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.OutputStreamWriter" start="109" end="115" startBytecode="0" endBytecode="108" sourcefile="OutputStreamWriter.java" sourcepath="java/io/OutputStreamWriter.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="257" end="257" startBytecode="80" endBytecode="80" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="257" end="257" startBytecode="80" endBytecode="80" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="2" rank="17" abbrev="REC" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo">
+      <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" name="execute" signature="()V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="143" end="238" startBytecode="0" endBytecode="1442" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="234" end="234" startBytecode="757" endBytecode="757" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="234" end="234" startBytecode="757" endBytecode="757" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+  </BugInstance>
+  <BugInstance type="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" priority="2" rank="16" abbrev="RV" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo">
+      <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    </Class>
+    <Method classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" name="write" signature="(Lorg/apache/velocity/runtime/RuntimeInstance;Ljava/lang/String;Ljava/lang/String;Lorg/apache/velocity/VelocityContext;)V" isStatic="false">
+      <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="248" end="264" startBytecode="0" endBytecode="350" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    </Method>
+    <Method classname="java.io.File" name="mkdirs" signature="()Z" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.File" start="1340" end="1355" startBytecode="0" endBytecode="178" sourcefile="File.java" sourcepath="java/io/File.java"/>
+    </Method>
+    <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="255" end="255" startBytecode="61" endBytecode="61" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+    <SourceLine classname="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" start="255" end="255" startBytecode="61" endBytecode="61" sourcefile="GnastRuleCodegenMojo.java" sourcepath="net/sourceforge/czt/rules/codegen/GnastRuleCodegenMojo.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Fri, 24 Jul 2015 15:14:01 +0100" total_classes="4" referenced_classes="73" total_bugs="3" total_size="195" num_packages="2" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="6.43" clock_seconds="33.92" peak_mbytes="1337.52" alloc_mbytes="910.50" gc_seconds="0.01" priority_2="2" priority_1="1">
+    <PackageStats package="net.sourceforge.czt.gnast.maven" total_bugs="0" total_types="1" total_size="63">
+      <ClassStats class="net.sourceforge.czt.gnast.maven.GnastGenerateMojo" sourceFile="GnastGenerateMojo.java" interface="false" size="63" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.rules.codegen" total_bugs="3" total_types="3" total_size="132" priority_2="2" priority_1="1">
+      <ClassStats class="net.sourceforge.czt.rules.codegen.ErrorHandler" sourceFile="GnastRuleCodegenMojo.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.rules.codegen.GnastRuleCodegenMojo" sourceFile="GnastRuleCodegenMojo.java" interface="false" size="100" bugs="3" priority_2="2" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.rules.codegen.JokerClass" sourceFile="JokerClass.java" interface="false" size="22" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="114" invocations="653" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="3130" standardDeviationMircosecondsPerInvocation="332"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="113" invocations="2" avgMicrosecondsPerInvocation="56501" maxMicrosecondsPerInvocation="98150" standardDeviationMircosecondsPerInvocation="41648"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="53" invocations="656" avgMicrosecondsPerInvocation="81" maxMicrosecondsPerInvocation="4990" standardDeviationMircosecondsPerInvocation="208"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory" totalMilliseconds="43" invocations="30" avgMicrosecondsPerInvocation="1447" maxMicrosecondsPerInvocation="20361" standardDeviationMircosecondsPerInvocation="3933"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="38" invocations="73" avgMicrosecondsPerInvocation="534" maxMicrosecondsPerInvocation="6598" standardDeviationMircosecondsPerInvocation="1068"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="33" invocations="187" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="2202" standardDeviationMircosecondsPerInvocation="276"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="31" invocations="73" avgMicrosecondsPerInvocation="424" maxMicrosecondsPerInvocation="3397" standardDeviationMircosecondsPerInvocation="727"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="13" invocations="73" avgMicrosecondsPerInvocation="184" maxMicrosecondsPerInvocation="3413" standardDeviationMircosecondsPerInvocation="464"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="11" invocations="17" avgMicrosecondsPerInvocation="705" maxMicrosecondsPerInvocation="6521" standardDeviationMircosecondsPerInvocation="1536"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="11" invocations="19" avgMicrosecondsPerInvocation="612" maxMicrosecondsPerInvocation="6870" standardDeviationMircosecondsPerInvocation="1512"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="11" invocations="17" avgMicrosecondsPerInvocation="678" maxMicrosecondsPerInvocation="6235" standardDeviationMircosecondsPerInvocation="1451"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="11" invocations="73" avgMicrosecondsPerInvocation="156" maxMicrosecondsPerInvocation="3317" standardDeviationMircosecondsPerInvocation="424"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1437992180714" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

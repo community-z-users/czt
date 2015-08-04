@@ -85,6 +85,9 @@ public class ThmTableVisitor
   @Override
   public ThmTable visitConjPara(ConjPara conjPara)
   {
+	if (table_ == null) {
+		throw new CztException(new OpTable.OperatorException(getSectionInfo().getDialect(), "Invalid table; not yet loaded through visitZSect"));
+	}
     try {
       table_.add(conjPara);
     }

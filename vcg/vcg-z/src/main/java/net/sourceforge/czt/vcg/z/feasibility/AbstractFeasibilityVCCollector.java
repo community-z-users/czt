@@ -43,8 +43,9 @@ import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 public abstract class AbstractFeasibilityVCCollector<T, B> extends
 		TrivialFeasibilityVCCollector<T, B> implements GivenParaVisitor<Pred>,
 		FreeParaVisitor<Pred>, AxParaVisitor<Pred>, ZFreetypeListVisitor<Pred>,
-		FreetypeVisitor<Pred>, ZBranchListVisitor<Pred>, BranchVisitor<Pred>,
-		FeasibilityPropertyKeys {
+		FreetypeVisitor<Pred>, ZBranchListVisitor<Pred>, BranchVisitor<Pred>//,
+		//FeasibilityPropertyKeys 
+{
 
 	private ZPredTransformerFSB predTransformer_;
 

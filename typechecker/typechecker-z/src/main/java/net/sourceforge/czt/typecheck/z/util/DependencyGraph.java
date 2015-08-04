@@ -195,13 +195,25 @@ public class DependencyGraph<E> {
 
     public boolean equals(Object o)
     {
-      @SuppressWarnings("unchecked")
-	Pair<K,F> p = (Pair<K,F>)o;
-      return (p.left.equals(left) && p.right.equals(right));
+      if (o != null && o instanceof Pair)
+      {
+    	@SuppressWarnings("unchecked")
+    	Pair<K,F> p = (Pair<K,F>)o;
+    	return (p.left.equals(left) && p.right.equals(right));
+      }
+      return false;
+    }
+    
+    public int hashCode()
+    {
+    	int h = super.hashCode();
+    	h += left.hashCode();
+    	h += right.hashCode();
+    	return h;
     }
 
     public String toString() {
-      return new String("(" + left + ", " + right + ")");
+      return ("(" + left + ", " + right + ")");
     }
   }
 }

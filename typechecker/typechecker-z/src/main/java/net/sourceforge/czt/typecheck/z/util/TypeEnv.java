@@ -37,7 +37,7 @@ public class TypeEnv
   extends AbstractTypeEnv<NameTypePair>
 {
   /** A Factory. */
-  protected Factory factory_;
+  //protected Factory factory_; already defined in AbstractTypeEnv!
 
   /** The names and their types. */
   protected Stack<Map<ZName, NameTypePair>> typeInfo_;

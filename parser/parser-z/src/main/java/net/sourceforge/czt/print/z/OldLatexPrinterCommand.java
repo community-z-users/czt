@@ -34,7 +34,6 @@ import net.sourceforge.czt.util.Section;
 
 public class OldLatexPrinterCommand
   extends AbstractLatexPrinterCommand
-  implements Command
 {
   @Override
   protected boolean doCompute(String name, SectionManager manager)

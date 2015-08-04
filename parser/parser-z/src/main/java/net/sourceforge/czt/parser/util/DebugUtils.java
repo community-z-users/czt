@@ -112,7 +112,7 @@ public final class DebugUtils
     Symbol symbol = null; long i = 1;
     while ((symbol = scanner.next_token()).sym != 0)
     {
-      final String symbolName = symbols.get(new Integer(symbol.sym));
+      final String symbolName = symbols.get(Integer.valueOf(symbol.sym));
       final String symbolValue;
 
       if (symbol.value != null)

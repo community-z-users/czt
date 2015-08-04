@@ -20,6 +20,8 @@
 package net.sourceforge.czt.z.util;
 
 import net.sourceforge.czt.util.Section;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -1666,9 +1668,14 @@ public final class ZUtils
     names.add(i, name);
   }
   
-  private static class ZNameComparator implements Comparator<ZName> 
+  private static class ZNameComparator implements Comparator<ZName>, Serializable
   {    
-    ZNameComparator() { }    
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7870560078174949531L;
+
+	ZNameComparator() { }    
 
     @Override
     public int compare(ZName n1, ZName n2) 
@@ -1691,9 +1698,14 @@ public final class ZUtils
     }
   }
 
-  private static class ZNameIgnoreStrokesComparator implements Comparator<ZName>
+  private static class ZNameIgnoreStrokesComparator implements Comparator<ZName>, Serializable
   {
-    ZNameIgnoreStrokesComparator() { }
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4365878619491704087L;
+
+	ZNameIgnoreStrokesComparator() { }
 
     @Override
     public int compare(ZName n1, ZName n2)

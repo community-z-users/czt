@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -34,7 +35,6 @@ import net.sourceforge.czt.vcg.z.VC;
 import net.sourceforge.czt.vcg.z.VCCollectionException;
 import net.sourceforge.czt.vcg.z.VCConfig;
 import net.sourceforge.czt.vcg.z.VCConfig.Precedence;
-import net.sourceforge.czt.vcg.z.VCGContext;
 import net.sourceforge.czt.vcg.z.VCSource;
 import net.sourceforge.czt.vcg.z.VCType;
 import net.sourceforge.czt.vcg.z.feasibility.util.ZStateAnn;
@@ -65,13 +65,6 @@ import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.z.visitor.AxParaVisitor;
-import net.sourceforge.czt.z.visitor.BranchVisitor;
-import net.sourceforge.czt.z.visitor.FreeParaVisitor;
-import net.sourceforge.czt.z.visitor.FreetypeVisitor;
-import net.sourceforge.czt.z.visitor.GivenParaVisitor;
-import net.sourceforge.czt.z.visitor.ZBranchListVisitor;
-import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
 
 /**
  *
@@ -79,15 +72,15 @@ import net.sourceforge.czt.z.visitor.ZFreetypeListVisitor;
  * @since Jan 02, 2011
  */
 public class FeasibilityVCCollector extends 
-	AbstractFeasibilityVCCollector<SchemaType, SortedSet<Definition>> implements
-  GivenParaVisitor<Pred>,
-  FreeParaVisitor<Pred>,
-  AxParaVisitor<Pred>,
-  ZFreetypeListVisitor<Pred>,
-  FreetypeVisitor<Pred>,
-  ZBranchListVisitor<Pred>,
-  BranchVisitor<Pred>,
-  FeasibilityPropertyKeys
+	AbstractFeasibilityVCCollector<SchemaType, SortedSet<Definition>> //implements
+  //GivenParaVisitor<Pred>,
+  //FreeParaVisitor<Pred>,
+  //AxParaVisitor<Pred>,
+  //ZFreetypeListVisitor<Pred>,
+  //FreetypeVisitor<Pred>,
+  //ZBranchListVisitor<Pred>,
+  //BranchVisitor<Pred>,
+  //FeasibilityPropertyKeys
 {
 	private ZName currentName_;
 	private final ZName setInterName_;
@@ -117,11 +110,11 @@ public class FeasibilityVCCollector extends
   }
   
   
-  @Override
-  public VCGContext<SchemaType, SortedSet<Definition>> getVCGContext()
-  {
-	  return super.getVCGContext();
-  }
+//  @Override
+//  public VCGContext<SchemaType, SortedSet<Definition>> getVCGContext()
+//  {
+//	  return super.getVCGContext();
+//  }
   
   public FeasibilityVCGContext getFSBVCGContext()
   {
@@ -228,7 +221,7 @@ public class FeasibilityVCCollector extends
         // given the parser assigns the concrete name, this error can only
         // happen if the ZRefinesAnn AST is created manually
         //error(para, ErrorMessage.ZREFINES_INCONSISTENCY, params);
-        //Logger.getLogger(getClass().getName()).warning(msg)
+        Logger.getLogger(getClass().getName()).warning("ZREFINES_INCONSISTENCY");  
       }
     }
   }
@@ -728,6 +721,7 @@ public class FeasibilityVCCollector extends
       }
       
       VCConfig config = createVCConfig(vcType, Precedence.AFTER);
+      if (config == null) throw new DefinitionException(getDialect(), "Couldn't create VC configuration for FSB schema");
       result.getAnns().add(config);
       
       return result;

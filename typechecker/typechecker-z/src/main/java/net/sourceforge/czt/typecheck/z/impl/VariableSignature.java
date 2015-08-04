@@ -148,7 +148,7 @@ public class VariableSignature
 
   public String toString()
   {
-    String result = new String();
+    String result = "";
 
     if (value_ != null) {
       result += value_.toString();

@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.vcg.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.czt.z.util.ZUtils;
 
@@ -27,10 +28,14 @@ import net.sourceforge.czt.z.util.ZUtils;
  * @author Leo Freitas
  * @date Nov 24, 2011
  */
-public class DefinitionComparator implements Comparator<Definition>
+public class DefinitionComparator implements Comparator<Definition>, Serializable
 {
 
-  private final boolean ignoreStrokes_;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3386230387378783217L;
+private final boolean ignoreStrokes_;
   
   public DefinitionComparator()
   {

@@ -34,11 +34,11 @@ import java.util.logging.Logger;
  * @author leo
  */
 public class ParseErrorLogging {
-    public static boolean SHOW_TIMESTAMP        = true;
-    public static boolean SHOW_STACK_TRACE      = true;
-    public static boolean SHOW_SOURCE_METHOD    = false;
-    public static boolean SHOW_RECORDED_MESSAGE = true;
-    public static boolean SHOW_DIRECTORY        = false;
+    public final static boolean SHOW_TIMESTAMP        = true;
+    public final static boolean SHOW_STACK_TRACE      = true;
+    public final static boolean SHOW_SOURCE_METHOD    = false;
+    public final static boolean SHOW_RECORDED_MESSAGE = true;
+    public final static boolean SHOW_DIRECTORY        = false;
 
     //~--- fields -------------------------------------------------------------
 
@@ -133,17 +133,17 @@ public class ParseErrorLogging {
 
     //~--- inner classes ------------------------------------------------------
 
-    public class NameFilter implements Filter {
+    public static class NameFilter implements Filter {
         @Override
         public boolean isLoggable(LogRecord record) {
             String message = record.getMessage();
 
             // If the mssage have "c:....\/..." remove the path
             int cidx     = message.toUpperCase().indexOf("\"C:");
-            int slashidx = message.lastIndexOf("/");
+            int slashidx = message.lastIndexOf('/');
 
             slashidx = (slashidx == -1)
-                       ? message.lastIndexOf("\\")
+                       ? message.lastIndexOf('\\')
                        : -1;
 
             int quoteidx = message.lastIndexOf("\",");

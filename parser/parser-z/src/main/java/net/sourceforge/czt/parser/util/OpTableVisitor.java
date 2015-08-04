@@ -85,6 +85,9 @@ public class OpTableVisitor
   @Override
   public OpTable visitOptempPara(OptempPara optempPara)
   {
+	if (table_ == null) {
+		throw new CztException(new OpTable.OperatorException(getSectionInfo().getDialect(), "Invalid table; not yet loaded through visitZSect"));
+	}
     try {
       table_.add(optempPara);
     }

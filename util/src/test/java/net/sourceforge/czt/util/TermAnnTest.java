@@ -44,7 +44,7 @@ public class TermAnnTest extends TestCase
   public void testHasAnn()
   {
     Term t = new TermAnnImpl();
-    t.getAnns().add(new Integer(0));
+    t.getAnns().add(Integer.valueOf(0));
     t.getAnns().add(Boolean.TRUE);
     assertEquals(true, t.hasAnn(Integer.class));
     assertEquals(true, t.hasAnn(Boolean.class));
@@ -55,9 +55,9 @@ public class TermAnnTest extends TestCase
   public void testRemoveAnn()
   {
     Term t = new TermAnnImpl();
-    t.getAnns().add(new Integer(0));
+    t.getAnns().add(Integer.valueOf(0));
     t.getAnns().add(Boolean.TRUE);
-    assertEquals(true, t.removeAnn(new Integer(0)));
+    assertEquals(true, t.removeAnn(Integer.valueOf(0)));
     assertEquals(true, t.removeAnn(Boolean.TRUE));
     assertEquals(false, t.removeAnn("bla bla"));
   }
@@ -66,17 +66,17 @@ public class TermAnnTest extends TestCase
   public void testRemoveAnn2()
   {
     Term t = new TermAnnImpl();
-    t.getAnns().add(new Integer(0));
-    t.getAnns().add(new Integer(1));
+    t.getAnns().add(Integer.valueOf(0));
+    t.getAnns().add(Integer.valueOf(1));
     t.getAnns().add(Boolean.TRUE);
-    assertEquals(true, t.removeAnn(new Integer(0)));
+    assertEquals(true, t.removeAnn(Integer.valueOf(0)));
     t.removeAnn(Integer.class);
     assertEquals(false, t.hasAnn(Integer.class));
     assertEquals(true, t.removeAnn(Boolean.TRUE));
     assertEquals(false, t.removeAnn("bla bla"));
   }
 
-  class TermAnnImpl extends TermImpl
+  static class TermAnnImpl extends TermImpl
   {
     TermAnnImpl() {}
 

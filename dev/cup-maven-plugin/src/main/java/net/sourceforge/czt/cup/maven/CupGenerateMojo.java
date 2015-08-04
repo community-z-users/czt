@@ -26,8 +26,10 @@ package net.sourceforge.czt.cup.maven;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -423,7 +425,10 @@ public class CupGenerateMojo extends AbstractMojo
 
     // create parent dirs
     if (!destDir.exists()) {
-      destDir.mkdirs();
+      if (!destDir.mkdirs())
+      {
+    	  throw new MojoExecutionException("Couldn't create directories for " + destDir.getName());
+      }
     }
 
     File destFile = new File(destDir, className + ".java");
@@ -435,10 +440,10 @@ public class CupGenerateMojo extends AbstractMojo
       args.add("-package");
       args.add(packageName);
     }
-    if (className != null) {
+    //always non null? if (className != null) {
       args.add("-parser");
       args.add(className);
-    }
+    //}
     if (typeArgs != null) {
       args.add("-typearg");
       args.add(typeArgs);
@@ -512,7 +517,7 @@ public class CupGenerateMojo extends AbstractMojo
 
     try {
       // run generator
-      Main.main(args.toArray(new String[0]));
+      Main.main(args.toArray(new String[args.size()]));
     }
     catch (Exception e) {
       throw new MojoExecutionException("CUP generation failed: " + e.getMessage(), e);
@@ -525,13 +530,20 @@ public class CupGenerateMojo extends AbstractMojo
     refreshFile(destFile);
     refreshFile(symbolsFile);
     
-    // refresh generated external parser tables (*.dat files)
-    for (File resourceFile : destDir.listFiles()) {
-      if (resourceFile.getName().endsWith(".dat")) {
-        refreshFile(resourceFile);
-      }
+    File[] listFiles = destDir.listFiles();
+    if (listFiles != null)
+    {
+	    // refresh generated external parser tables (*.dat files)
+	    for (File resourceFile : listFiles) {
+	      if (resourceFile.getName().endsWith(".dat")) {
+	        refreshFile(resourceFile);
+	      }
+	    }
     }
-
+    else
+    {
+    	throw new MojoExecutionException("Couldn't get destination directory list of files - " + destDir.getName());
+    }
   }
 
   /**
@@ -543,7 +555,9 @@ public class CupGenerateMojo extends AbstractMojo
    */
   private String getPackageName(File cupFile) throws IOException
   {
-    BufferedReader reader = new BufferedReader(new FileReader(cupFile));
+	//FileReader fl = new FileReader(cupFile);; avoid default encoding
+    BufferedReader reader = new BufferedReader(
+    		new InputStreamReader(new FileInputStream(cupFile), StandardCharsets.US_ASCII));
 
     try {
 

@@ -47,6 +47,10 @@ public class OccurrencesFinderJob extends Job
   private boolean fCanceled = false;
 
   private IProgressMonitor fProgressMonitor;
+  
+  private static final class LazyPVLoader {
+	  private static final PrintVisitor INSTANCE = new PrintVisitor();
+  } 
 
   public OccurrencesFinderJob(ZEditor editor, Term selection)
   {
@@ -117,7 +121,7 @@ public class OccurrencesFinderJob extends Job
     if (fSelectedTerm instanceof ZName)
       message = ((ZName) fSelectedTerm).getWord();
     else
-      message = fSelectedTerm.accept(new PrintVisitor());
+      message = fSelectedTerm.accept(LazyPVLoader.INSTANCE);
 
     computeOccurrenceAnnotations(annotationMap, fEditor.getParsedData()
         .getSpec(), fSelectedTerm, message);

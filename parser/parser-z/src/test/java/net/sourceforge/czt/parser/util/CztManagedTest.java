@@ -56,14 +56,14 @@ public abstract class CztManagedTest extends TestCase
 
   public static final Markup DEFAULT_MARKUP = Markup.LATEX;
 
-  private final SectionManager manager_;
+  protected final SectionManager manager_;
   
   /**
    * Default Markup for file tests 
    */
   private Markup markup_;
 
-  private final boolean debug_;
+  protected final boolean debug_;
 
   private String testsPath_;
 
@@ -111,12 +111,12 @@ public abstract class CztManagedTest extends TestCase
     manager_.getLogger().info(msg);
   }
 
-  protected SectionManager getManager()
+  public final SectionManager getManager()
   {
     return manager_;
   }
 
-  protected boolean isDebugging()
+  public final boolean isDebugging()
   {
     return debug_;
   }
@@ -140,22 +140,22 @@ public abstract class CztManagedTest extends TestCase
    * @param negativeTestExceptionClass
    * @return
    */
-  public Test suite(String relativeTestDirectory,
+  public final Test cztTestSuite(String relativeTestDirectory,
           Class<? extends Throwable> negativeTestExceptionClass)
   {
-    TestSuite suite = new TestSuite();
+    TestSuite r = new TestSuite();
     try
     {
       for(String dir : relativeTestDirectory.split(File.pathSeparator))
       {
-        collectTests(suite, getClass().getResource(dir), negativeTestExceptionClass);
+        collectTests(r, getClass().getResource(dir), negativeTestExceptionClass);
       }
     }
     catch (IOException e)
     {
       throw new CztException("CZT-TEST-IOERROR = " + relativeTestDirectory, e);
     }
-    return suite;
+    return r;
   }
 
   protected void testing(URL resource, Spec term) throws Exception
@@ -168,7 +168,7 @@ public abstract class CztManagedTest extends TestCase
     return false;
   }
 
-  protected String getTestsPath()
+  public final String getTestsPath()
   {
     return testsPath_;
   }
@@ -316,27 +316,34 @@ public abstract class CztManagedTest extends TestCase
     testsPath_ = dir.toString();
     setCZTPath();
     String[] content = dir.list();
-    for (String name : content)
+    if (content != null)
     {
-      //if the file name ends with error, then we have a case with
-      //the typechecker should throw the exception specified at the
-      //start of the filename
-      if (includeTest(name, false))
-      {
-        int index = name.indexOf("-");
-        if (index < 1)
-        {
-          fail(name + " does not specify an exception name");
-        }
-        String exception = name.substring(0, index);
-        suite.addTest(createNegativeTest(new URL(url, name), exception, expCls));
-      }
-      //if the file name does not end with error, then we have a
-      //normal case
-      else if (includeTest(name, true))
-      {
-        suite.addTest(createPositiveTest(new URL(url, name)));
-      }
+	    for (String name : content)
+	    {
+	      //if the file name ends with error, then we have a case with
+	      //the typechecker should throw the exception specified at the
+	      //start of the filename
+	      if (includeTest(name, false))
+	      {
+	        int index = name.indexOf('-');
+	        if (index < 1)
+	        {
+	          fail(name + " does not specify an exception name");
+	        }
+	        String exception = name.substring(0, index);
+	        suite.addTest(createNegativeTest(new URL(url, name), exception, expCls));
+	      }
+	      //if the file name does not end with error, then we have a
+	      //normal case
+	      else if (includeTest(name, true))
+	      {
+	        suite.addTest(createPositiveTest(new URL(url, name)));
+	      }
+	    }
+    }
+    else
+    {
+    	throw new IOException("Couldn't get directory contents for " + dir.getName());
     }
   }
 
@@ -351,12 +358,24 @@ public abstract class CztManagedTest extends TestCase
     if (positive)
       return hasKnownSuffixes(sourceName);
     else
-      return sourceName.endsWith(".error");
+      return hasErrorSuffixes(sourceName);
+  }
+  
+  protected boolean hasErrorSuffixes(String sourceName)
+  {
+	  for(String suffix : Markup.getAllErrorSufixes())
+	    {
+	      if (sourceName.endsWith(suffix))
+	      {
+	        return true;
+	      }
+	    }
+	    return false;
   }
 
   protected boolean hasKnownSuffixes(String sourceName)
   {
-    for(String suffix : Markup.KNOWN_FILENAME_SUFFIXES)
+    for(String suffix : Markup.getAllSufixes())
     {
       if (sourceName.endsWith(suffix))
       {
@@ -392,7 +411,7 @@ public abstract class CztManagedTest extends TestCase
       return url_;
     }
 
-    protected String getSourceName()
+    public final String getSourceName()
     {
       return CztManagedTest.this.getSourceName(url_);
     }
@@ -548,16 +567,16 @@ public abstract class CztManagedTest extends TestCase
 
     private String removeUnderscore(String string)
     {
-      String result = new String();
+      StringBuffer result = new StringBuffer();
       for (int i = 0; i < string.length(); i++)
       {
         char c = string.charAt(i);
         if (c != '_')
         {
-          result += c;
+          result.append( c);
         }
       }
-      return result;
+      return result.toString();
     }
 
     /**

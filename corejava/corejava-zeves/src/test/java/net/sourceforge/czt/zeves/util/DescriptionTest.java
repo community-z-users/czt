@@ -50,7 +50,7 @@ public class DescriptionTest extends TestCase {
 
   public void testSymbolVisitorShort()
   {
-    Visitor<String> zevesShortDescriptionVisitor_ = new ConcreteSyntaxDescriptionVisitor(SHORT_DESCRIPTION_RESOURCE, ZEVES_SHORT_DESCRIPTION_RESOURCE);
+    Visitor<String> zevesShortDescriptionVisitor_ = new ZEvesConcreteSyntaxDescriptionVisitor(SHORT_DESCRIPTION_RESOURCE, ZEVES_SHORT_DESCRIPTION_RESOURCE);
     System.out.println(zevesShortDescriptionVisitor_.toString());
 
     ProofCommand cmd = ZEvesUtils.FACTORY.getZEvesFactory().createGlobalInvokeCommand();
@@ -60,7 +60,7 @@ public class DescriptionTest extends TestCase {
 
   public void testSymbolVisitorLong()
   {
-    Visitor<String> zevesLongDescriptionVisitor_ = new ConcreteSyntaxDescriptionVisitor();
+    Visitor<String> zevesLongDescriptionVisitor_ = new ZEvesConcreteSyntaxDescriptionVisitor();
     System.out.println(zevesLongDescriptionVisitor_.toString());
 
     ProofCommand cmd = ZEvesUtils.FACTORY.getZEvesFactory().createGlobalInvokeCommand();

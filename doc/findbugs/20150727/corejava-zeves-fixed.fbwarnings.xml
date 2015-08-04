@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1-dev-20150306-5afe4d1" sequence="1" timestamp="1438008706828" analysisTimestamp="1438008700226" release="">
+  <Project projectName="corejava-zeves">
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/classes</Jar>
+    <Jar>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/test-classes</Jar>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/corejava/corejava-z/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/zml/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/junit/junit/4.5/junit-4.5.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/reps/git/czt/util/target/test-classes</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre/lib/rt.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/nljsf/Local/workspace/czt-devel/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.10.100.v20150529-1857.jar</AuxClasspathEntry>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/generated-sources/jaxb</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/generated-sources/xml/xslt</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/target/generated-sources/gnast</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/src/main/resources</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/src/test/java</SrcDir>
+    <SrcDir>/Users/nljsf/Local/reps/git/czt/corejava/corejava-zeves/src/main/java</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zeves.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.zeves.jaxb.AstToJaxb" start="1" end="966" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/zeves/jaxb/AstToJaxb.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.jaxb.AstToJaxb">
+      <SourceLine classname="net.sourceforge.czt.z.jaxb.AstToJaxb" sourcefile="AstToJaxb.java" sourcepath="net/sourceforge/czt/z/jaxb/AstToJaxb.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zeves.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.zeves.jaxb.JaxbToAst" start="41" end="619" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/zeves/jaxb/JaxbToAst.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.jaxb.JaxbToAst">
+      <SourceLine classname="net.sourceforge.czt.z.jaxb.JaxbToAst" sourcefile="JaxbToAst.java" sourcepath="net/sourceforge/czt/z/jaxb/JaxbToAst.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zeves.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.zeves.util.Factory" start="41" end="931" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/zeves/util/Factory.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.Factory">
+      <SourceLine classname="net.sourceforge.czt.z.util.Factory" sourcefile="Factory.java" sourcepath="net/sourceforge/czt/z/util/Factory.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" priority="1" rank="14" abbrev="Nm" category="BAD_PRACTICE" first="1">
+    <Class classname="net.sourceforge.czt.zeves.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.zeves.util.PrintVisitor" start="1" end="838" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/zeves/util/PrintVisitor.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.z.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.z.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/z/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="CD_CIRCULAR_DEPENDENCY" priority="2" rank="17" abbrev="CD" category="STYLE" first="1">
+    <Class classname="net.sourceforge.czt.zeves.util.ZEvesUtils">
+      <SourceLine classname="net.sourceforge.czt.zeves.util.ZEvesUtils" start="39" end="190" sourcefile="ZEvesUtils.java" sourcepath="net/sourceforge/czt/zeves/util/ZEvesUtils.java"/>
+    </Class>
+    <Class classname="net.sourceforge.czt.zeves.util.PrintVisitor">
+      <SourceLine classname="net.sourceforge.czt.zeves.util.PrintVisitor" sourcefile="PrintVisitor.java" sourcepath="net/sourceforge/czt/zeves/util/PrintVisitor.java"/>
+    </Class>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Mon, 27 Jul 2015 15:43:00 +0100" total_classes="131" referenced_classes="734" total_bugs="5" total_size="5179" num_packages="6" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="121.52" clock_seconds="190.81" peak_mbytes="1528.43" alloc_mbytes="977.50" gc_seconds="3.57" priority_2="1" priority_1="4">
+    <PackageStats package="net.sourceforge.czt.zeves.ast" total_bugs="0" total_types="33" total_size="300">
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ApplyCommand" sourceFile="ApplyCommand.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.CaseAnalysisCommand" sourceFile="CaseAnalysisCommand.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.CaseAnalysisKind" sourceFile="CaseAnalysisKind.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ComplexCommand" sourceFile="ComplexCommand.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.Instantiation" sourceFile="Instantiation.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.InstantiationCommand" sourceFile="InstantiationCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.InstantiationKind" sourceFile="InstantiationKind.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.InstantiationList" sourceFile="InstantiationList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.LabelAbility" sourceFile="LabelAbility.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.LabelUsage" sourceFile="LabelUsage.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.NormalizationCommand" sourceFile="NormalizationCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.NormalizationKind" sourceFile="NormalizationKind.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofCommand" sourceFile="ProofCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofCommandInfo" sourceFile="ProofCommandInfo.java" interface="true" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofCommandInfoList" sourceFile="ProofCommandInfoList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofCommandList" sourceFile="ProofCommandList.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofScript" sourceFile="ProofScript.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofStepKind" sourceFile="ProofStepKind.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofStepScope" sourceFile="ProofStepScope.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ProofType" sourceFile="ProofType.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.QuantifiersCommand" sourceFile="QuantifiersCommand.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.RewriteKind" sourceFile="RewriteKind.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.RewritePower" sourceFile="RewritePower.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.SimplificationCommand" sourceFile="SimplificationCommand.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.SorryCommand" sourceFile="SorryCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.SubstitutionCommand" sourceFile="SubstitutionCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.SubstitutionKind" sourceFile="SubstitutionKind.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.UseCommand" sourceFile="UseCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.WithCommand" sourceFile="WithCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.WrappedCommand" sourceFile="WrappedCommand.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ZEvesFactory" sourceFile="ZEvesFactory.java" interface="true" size="72" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ZEvesLabel" sourceFile="ZEvesLabel.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.ast.ZEvesNote" sourceFile="ZEvesNote.java" interface="true" size="3" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zeves.impl" total_bugs="0" total_types="23" total_size="1973">
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ApplyCommandImpl" sourceFile="ApplyCommandImpl.java" interface="false" size="69" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.CaseAnalysisCommandImpl" sourceFile="CaseAnalysisCommandImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ComplexCommandImpl" sourceFile="ComplexCommandImpl.java" interface="false" size="68" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.InstantiationCommandImpl" sourceFile="InstantiationCommandImpl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.InstantiationImpl" sourceFile="InstantiationImpl.java" interface="false" size="104" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.InstantiationListImpl" sourceFile="InstantiationListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.NormalizationCommandImpl" sourceFile="NormalizationCommandImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ProofCommandImpl" sourceFile="ProofCommandImpl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ProofCommandInfoImpl" sourceFile="ProofCommandInfoImpl.java" interface="false" size="96" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ProofCommandInfoListImpl" sourceFile="ProofCommandInfoListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ProofCommandListImpl" sourceFile="ProofCommandListImpl.java" interface="false" size="110" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ProofScriptImpl" sourceFile="ProofScriptImpl.java" interface="false" size="89" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ProofTypeImpl" sourceFile="ProofTypeImpl.java" interface="false" size="64" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.QuantifiersCommandImpl" sourceFile="QuantifiersCommandImpl.java" interface="false" size="54" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.SimplificationCommandImpl" sourceFile="SimplificationCommandImpl.java" interface="false" size="83" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.SorryCommandImpl" sourceFile="SorryCommandImpl.java" interface="false" size="67" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.SubstitutionCommandImpl" sourceFile="SubstitutionCommandImpl.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.UseCommandImpl" sourceFile="UseCommandImpl.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.WithCommandImpl" sourceFile="WithCommandImpl.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.WrappedCommandImpl" sourceFile="WrappedCommandImpl.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ZEvesFactoryImpl" sourceFile="ZEvesFactoryImpl.java" interface="false" size="296" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ZEvesLabelImpl" sourceFile="ZEvesLabelImpl.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.impl.ZEvesNoteImpl" sourceFile="ZEvesNoteImpl.java" interface="false" size="64" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zeves.jaxb" total_bugs="2" total_types="4" total_size="863" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.AstToJaxb" sourceFile="AstToJaxb.java" interface="false" size="471" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.JaxbToAst" sourceFile="JaxbToAst.java" interface="false" size="368" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.JaxbXmlReader" sourceFile="JaxbXmlReader.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.JaxbXmlWriter" sourceFile="JaxbXmlWriter.java" interface="false" size="15" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zeves.jaxb.gen" total_bugs="0" total_types="34" total_size="688">
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ApplyCommand" sourceFile="ApplyCommand.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.CaseAnalysisCommand" sourceFile="CaseAnalysisCommand.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.CaseAnalysisKind" sourceFile="CaseAnalysisKind.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ComplexCommand" sourceFile="ComplexCommand.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.Instantiation" sourceFile="Instantiation.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.InstantiationCommand" sourceFile="InstantiationCommand.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.InstantiationKind" sourceFile="InstantiationKind.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.InstantiationList" sourceFile="InstantiationList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.LabelAbility" sourceFile="LabelAbility.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.LabelUsage" sourceFile="LabelUsage.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.NormalizationCommand" sourceFile="NormalizationCommand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.NormalizationKind" sourceFile="NormalizationKind.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ObjectFactory" sourceFile="ObjectFactory.java" interface="false" size="137" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofCommand" sourceFile="ProofCommand.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofCommandInfo" sourceFile="ProofCommandInfo.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofCommandInfoList" sourceFile="ProofCommandInfoList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofCommandList" sourceFile="ProofCommandList.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofScript" sourceFile="ProofScript.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofStepKind" sourceFile="ProofStepKind.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofStepScope" sourceFile="ProofStepScope.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ProofType" sourceFile="ProofType.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.QuantifiersCommand" sourceFile="QuantifiersCommand.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.RewriteKind" sourceFile="RewriteKind.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.RewritePower" sourceFile="RewritePower.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.SimplificationCommand" sourceFile="SimplificationCommand.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.SorryCommand" sourceFile="SorryCommand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.SubstitutionCommand" sourceFile="SubstitutionCommand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.SubstitutionKind" sourceFile="SubstitutionKind.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.UseCommand" sourceFile="UseCommand.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.WithCommand" sourceFile="WithCommand.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.WrappedCommand" sourceFile="WrappedCommand.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ZEvesLabel" sourceFile="ZEvesLabel.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.ZEvesNote" sourceFile="ZEvesNote.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.jaxb.gen.package-info" sourceFile="package-info.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zeves.util" total_bugs="3" total_types="14" total_size="1310" priority_2="1" priority_1="2">
+      <ClassStats class="net.sourceforge.czt.zeves.util.DescriptionTest" sourceFile="DescriptionTest.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.Factory" sourceFile="Factory.java" interface="false" size="280" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.LongDescriptionResourceBundle" sourceFile="LongDescriptionResourceBundle.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.PrintVisitor" sourceFile="PrintVisitor.java" interface="false" size="455" bugs="1" priority_1="1"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ShortDescriptionResourceBundle" sourceFile="ShortDescriptionResourceBundle.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesChar" sourceFile="ZEvesChar.java" interface="false" size="43" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxDescriptionVisitor" sourceFile="ZEvesConcreteSyntaxDescriptionVisitor.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbol" sourceFile="ZEvesConcreteSyntaxSymbol.java" interface="false" size="109" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor" sourceFile="ZEvesConcreteSyntaxSymbolVisitor.java" interface="false" size="132" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor$Utils" sourceFile="ZEvesConcreteSyntaxSymbolVisitor.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesConcreteSyntaxSymbolVisitor$UtilsImpl" sourceFile="ZEvesConcreteSyntaxSymbolVisitor.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesGetNameVisitor" sourceFile="ZEvesGetNameVisitor.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesString" sourceFile="ZEvesString.java" interface="true" size="122" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.util.ZEvesUtils" sourceFile="ZEvesUtils.java" interface="false" size="79" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="net.sourceforge.czt.zeves.visitor" total_bugs="0" total_types="23" total_size="45">
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ApplyCommandVisitor" sourceFile="ApplyCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.CaseAnalysisCommandVisitor" sourceFile="CaseAnalysisCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ComplexCommandVisitor" sourceFile="ComplexCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.InstantiationCommandVisitor" sourceFile="InstantiationCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.InstantiationListVisitor" sourceFile="InstantiationListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.InstantiationVisitor" sourceFile="InstantiationVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.NormalizationCommandVisitor" sourceFile="NormalizationCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ProofCommandInfoListVisitor" sourceFile="ProofCommandInfoListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ProofCommandInfoVisitor" sourceFile="ProofCommandInfoVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ProofCommandListVisitor" sourceFile="ProofCommandListVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ProofCommandVisitor" sourceFile="ProofCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ProofScriptVisitor" sourceFile="ProofScriptVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ProofTypeVisitor" sourceFile="ProofTypeVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.QuantifiersCommandVisitor" sourceFile="QuantifiersCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.SimplificationCommandVisitor" sourceFile="SimplificationCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.SorryCommandVisitor" sourceFile="SorryCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.SubstitutionCommandVisitor" sourceFile="SubstitutionCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.UseCommandVisitor" sourceFile="UseCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.WithCommandVisitor" sourceFile="WithCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.WrappedCommandVisitor" sourceFile="WrappedCommandVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ZEvesLabelVisitor" sourceFile="ZEvesLabelVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ZEvesNoteVisitor" sourceFile="ZEvesNoteVisitor.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="net.sourceforge.czt.zeves.visitor.ZEvesVisitor" sourceFile="ZEvesVisitor.java" interface="true" size="1" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="1783" invocations="1482" avgMicrosecondsPerInvocation="1203" maxMicrosecondsPerInvocation="49082" standardDeviationMircosecondsPerInvocation="1878"/>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="429" invocations="2" avgMicrosecondsPerInvocation="214929" maxMicrosecondsPerInvocation="342739" standardDeviationMircosecondsPerInvocation="127810"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="356" invocations="1478" avgMicrosecondsPerInvocation="241" maxMicrosecondsPerInvocation="40840" standardDeviationMircosecondsPerInvocation="1548"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="244" invocations="734" avgMicrosecondsPerInvocation="333" maxMicrosecondsPerInvocation="39631" standardDeviationMircosecondsPerInvocation="1738"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="238" invocations="734" avgMicrosecondsPerInvocation="325" maxMicrosecondsPerInvocation="44964" standardDeviationMircosecondsPerInvocation="1896"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="233" invocations="871" avgMicrosecondsPerInvocation="268" maxMicrosecondsPerInvocation="38081" standardDeviationMircosecondsPerInvocation="1589"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="233" invocations="971" avgMicrosecondsPerInvocation="240" maxMicrosecondsPerInvocation="22417" standardDeviationMircosecondsPerInvocation="1257"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="186" invocations="965" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="32016" standardDeviationMircosecondsPerInvocation="1085"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="181" invocations="1590" avgMicrosecondsPerInvocation="114" maxMicrosecondsPerInvocation="32709" standardDeviationMircosecondsPerInvocation="838"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="149" invocations="1017" avgMicrosecondsPerInvocation="147" maxMicrosecondsPerInvocation="8370" standardDeviationMircosecondsPerInvocation="369"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="108" invocations="971" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="20875" standardDeviationMircosecondsPerInvocation="859"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="105" invocations="1019" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="2311" standardDeviationMircosecondsPerInvocation="195"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="94" invocations="778" avgMicrosecondsPerInvocation="121" maxMicrosecondsPerInvocation="2508" standardDeviationMircosecondsPerInvocation="217"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="91" invocations="734" avgMicrosecondsPerInvocation="124" maxMicrosecondsPerInvocation="36688" standardDeviationMircosecondsPerInvocation="1367"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="90" invocations="792" avgMicrosecondsPerInvocation="114" maxMicrosecondsPerInvocation="47139" standardDeviationMircosecondsPerInvocation="1676"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="75" invocations="734" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="46903" standardDeviationMircosecondsPerInvocation="1734"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="51" invocations="734" avgMicrosecondsPerInvocation="69" maxMicrosecondsPerInvocation="4553" standardDeviationMircosecondsPerInvocation="237"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="46" invocations="131" avgMicrosecondsPerInvocation="351" maxMicrosecondsPerInvocation="17767" standardDeviationMircosecondsPerInvocation="1743"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="43" invocations="734" avgMicrosecondsPerInvocation="59" maxMicrosecondsPerInvocation="1841" standardDeviationMircosecondsPerInvocation="148"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="41" invocations="1419" avgMicrosecondsPerInvocation="29" maxMicrosecondsPerInvocation="1395" standardDeviationMircosecondsPerInvocation="75"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="40" invocations="16198" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="2439" standardDeviationMircosecondsPerInvocation="28"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="39" invocations="131" avgMicrosecondsPerInvocation="302" maxMicrosecondsPerInvocation="15977" standardDeviationMircosecondsPerInvocation="1438"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteRecursiveLoop" totalMilliseconds="37" invocations="131" avgMicrosecondsPerInvocation="289" maxMicrosecondsPerInvocation="16396" standardDeviationMircosecondsPerInvocation="1473"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1438008706828" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

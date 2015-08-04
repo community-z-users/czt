@@ -59,6 +59,7 @@ public class AstToPrintTreeVisitor
   
   protected WarningManager getWM()
   {
+	  assert warningManager_ instanceof WarningManager;
     return (WarningManager)warningManager_;
   }
   

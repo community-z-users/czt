@@ -1780,15 +1780,8 @@ public abstract class Checker<R>
   
          ;
 
-  protected static final  CallResolution    
-  
-       
-        
-    
-         
-      
-    
-         [][] CALL_TYPE = 
+  static final  CallResolution    
+           [][] CALL_TYPE = 
       {                             /* sig.isEmpty                           !sig.isEmpty  */
         /* call.isEmpty          */  { CallResolution.NormalCall           , CallResolution.WrongNumberParameters },  
         /* !call.isEmpty         */  { CallResolution.NotParameterisedCall , CallResolution.Inconclusive          } 

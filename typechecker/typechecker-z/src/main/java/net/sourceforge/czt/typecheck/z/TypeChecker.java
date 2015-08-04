@@ -74,7 +74,7 @@ public class TypeChecker
              TypecheckPropertiesKeys
 {
   //print debuging info
-  protected static boolean debug_ = PROP_TYPECHECK_DEBUG_DEFAULT;
+  static boolean debug_ = PROP_TYPECHECK_DEBUG_DEFAULT;
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
@@ -240,7 +240,7 @@ public class TypeChecker
   {
     if (sectName != null && sectInfo != null) {
       setSectName(sectName);
-      sectTypeEnv_.setSection(getSectName().toString());
+      sectTypeEnv_.setSection(getSectName());
 
       SectTypeEnvAnn sectTypeEnvAnn = null;
       try {

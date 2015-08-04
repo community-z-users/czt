@@ -36,22 +36,22 @@ public class TermLabelVisitorFactory
 	      "net.sourceforge.czt.circustime.util.ShortDescriptionResourceBundle";
 
   private final static TermVisitor<String> Z_SHORT_DESC_VISITOR = 
-      new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor(
+      new net.sourceforge.czt.zpatt.util.ZPattConcreteSyntaxDescriptionVisitor(
       SHORT_DESCRIPTION_RESOURCE, ZPATT_SHORT_DESCRIPTION_RESOURCE);
 
   private final static TermVisitor<String> CIRCUS_SHORT_DESC_VISITOR = 
-      new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor(
+      new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor(
       SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE);
 
   private final static TermVisitor<String> CIRCUSTIME_SHORT_DESC_VISITOR = 
-	      new net.sourceforge.czt.circustime.util.ConcreteSyntaxDescriptionVisitor(
+	      new net.sourceforge.czt.circustime.util.CircusTimeConcreteSyntaxDescriptionVisitor(
 	      SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE, CIRCUSTIME_SHORT_DESCRIPTION_RESOURCE);
 
   private final static TermVisitor<String> Z_LONG_DESC_VISITOR = 
-      new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor();
+      new net.sourceforge.czt.zpatt.util.ZPattConcreteSyntaxDescriptionVisitor();
 
   private final static TermVisitor<String> CIRCUS_LONG_DESC_VISITOR = 
-      new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor();
+      new net.sourceforge.czt.circus.util.CircusConcreteSyntaxDescriptionVisitor();
 
   private static TermVisitor<String> createTermVisitor(String dialect, boolean friendly,
       boolean label)

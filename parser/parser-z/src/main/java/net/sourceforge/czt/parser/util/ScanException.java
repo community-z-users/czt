@@ -34,7 +34,7 @@ public class ScanException
 	 * 
 	 */
 	private static final long serialVersionUID = -5502310625340895712L;
-private final LocInfo locInfo_;
+	private transient final LocInfo locInfo_;
   private final String symbolInfo_;
   private final Dialect dialect_;
 
@@ -127,11 +127,25 @@ public String toString()
   }
 
   @Override
-public int compareTo(CztError other)
+  public int compareTo(CztError other)
   {
-    return CztErrorImpl.compareTo(this, other);
+    return CztErrorImpl.compareCztErrorPositionTypeAndMessage(this, other);
   }
-
+  
+  @Override
+  public boolean equals(Object obj)
+  {
+	 return CztErrorImpl.compareCztErrorsEquals(this, obj);
+  }
+  
+  @Override
+  public int hashCode()
+  {
+	  int h = super.hashCode();
+	  h += CztErrorImpl.baseHashCodeCztError(this);
+	  return h;
+  }
+  
 	@Override
 	public boolean hasSectionInfo() {
 		return false;

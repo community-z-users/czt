@@ -73,6 +73,7 @@ public class SectionManagerCircusParserTest extends TestCase
     //System.out.println("CZT-HOME = " + cztHome);
     if (cztHome == null || cztHome.length() == 0)
     {
+      assert manager_ != null;
       cztHome = manager_.getProperty("czt.path");
       //System.out.println("CZT-PATH = " + cztHome);
       if (cztHome == null)
@@ -114,6 +115,7 @@ public class SectionManagerCircusParserTest extends TestCase
     }
     if (files != null)
     {
+      assert files_ != null;
       for (File file : files)
       {
         files_.add(file);
@@ -134,6 +136,7 @@ public class SectionManagerCircusParserTest extends TestCase
   
   public void testSectionManagerParse()
   {
+	  assert files_ != null && manager_ != null;
     if (!files_.isEmpty())
     {
       for(File file : files_)

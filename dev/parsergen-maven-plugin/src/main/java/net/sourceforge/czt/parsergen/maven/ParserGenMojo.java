@@ -298,7 +298,10 @@ public class ParserGenMojo
   {
     
     if (! outFile.getParentFile().exists()) {
-      outFile.getParentFile().mkdirs();
+      if (! outFile.getParentFile().mkdirs()) 
+      {
+    	  throw new MojoExecutionException("Couldn't create directories for " + outFile.getParentFile().getName());
+      }
     }
     
     URL transformerSourceUrl = ParserGenMojo.class.getResource(TRANSFORMER_SOURCE);

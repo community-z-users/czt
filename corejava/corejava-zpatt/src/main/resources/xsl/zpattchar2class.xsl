@@ -57,7 +57,7 @@ public class ZPattChar extends ZChar
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  public static ZPattChar </xsl:text>
+  public static final ZPattChar </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = new ZPattChar(Character.toChars(0x</xsl:text>
     <xsl:value-of select="@hex"/>

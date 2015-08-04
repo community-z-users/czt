@@ -160,7 +160,7 @@ public class UnknownType
 
   public Object [] getChildren()
   {
-    Object [] children = { getZName(), getType(), new Boolean(getIsMem()) };
+    Object [] children = { getZName(), getType(), Boolean.valueOf(getIsMem()) };
     return children;
   }
 
@@ -197,39 +197,39 @@ public class UnknownType
 
   public String toString()
   {
-    String result = "unknown";
+    StringBuilder result = new StringBuilder("unknown");
 
     if (zName_ != null) {
-      result += "(";
+      result.append("(");
       if (getIsMem()) {
-        result += "member(";
+        result.append("member(");
       }
-      result += zName_;
+      result.append(zName_);
       if (getIsMem()) {
-        result += ")";
+    	  result.append(")");
       }
       if (types_.size() > 0) {
-        result += "[";
-        result += types_.get(0).toString();
+    	  result.append("[");
+    	  result.append(types_.get(0).toString());
         for (int i = 1; i < types_.size(); i++) {
-          result += ", ";
-          result += types_.get(i).toString();
+        	result.append(", ");
+        	result.append(types_.get(i).toString());
         }
-        result += "]";
+        result.append("]");
       }
       if (pairs_.size() > 0) {
-        result += "[";
-        result += pairs_.get(0).getNewName().toString() + "/";
-        result += pairs_.get(0).getOldName().toString();
+    	  result.append("[");
+    	  result.append(pairs_.get(0).getNewName().toString() + "/");
+    	  result.append(pairs_.get(0).getOldName().toString());
         for (int i = 1; i < pairs_.size(); i++) {
-          result += ", ";
-          result += pairs_.get(i).getNewName().toString() + "/";
-          result += pairs_.get(i).getOldName().toString();
+        	result.append(", ");
+        	result.append(pairs_.get(i).getNewName().toString() + "/");
+        	result.append(pairs_.get(i).getOldName().toString());
         }
-        result += "]";
+        result.append("]");
       }
-      result += ")";
+      result.append(")");
     }
-    return result;
+    return result.toString();
   }
 }

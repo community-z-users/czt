@@ -19,11 +19,13 @@
 
 package net.sourceforge.czt.z.util.collector;
 
+import net.sourceforge.czt.z.ast.Pred;
+
 /**
  *
  * @author Leo Freitas
  * @date Jul 27, 2011
  */
-public class PredCollector {
+public class PredCollector extends BaseCollector<Pred>  {
 
 }

@@ -761,12 +761,15 @@ ZREFINES = //{NL_SPACE}*
 
   /* error fallback */
   "\ud835" .    {
-                   String msg = "Unexpected character "+ yytext() + "(";
+                   StringBuilder msg = new StringBuilder("Unexpected character "+ yytext() + "(");
                    for (int i = 0; i &lt; yytext().length(); i++) {
-                     msg += "\\u" + Integer.toString(yytext().charAt(i), 16);
+                     msg.append("\\u"); 
+                     msg.append(Integer.toString(yytext().charAt(i), 16));
                    }
-                   msg += ") for " + dialect_.toString() + " in ContextFreeScanner.";
-                   throw new ScanException(dialect_, msg, getLocation());
+                   msg.append(") for ");
+                   msg.append(dialect_.toString());
+                   msg.append(" in ContextFreeScanner.");
+                   throw new ScanException(dialect_, msg.toString(), getLocation());
                 }
   .             {
                    String msg = "Unexpected character "+ yytext() + "(" +

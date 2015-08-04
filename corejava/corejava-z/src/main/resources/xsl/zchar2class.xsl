@@ -35,8 +35,8 @@ package net.sourceforge.czt.z.util;
  */
 public class ZChar
 {
-  private final int ASCII = 256;
-  private int codePoint_;
+  private static final int ASCII = 256;
+  private final int codePoint_;
 
   public ZChar(char c)
   {
@@ -89,6 +89,13 @@ public class ZChar
       }
     }
     return false;
+  }
+  
+  public int hashCode()
+  {
+	int hashCode = super.hashCode();
+    hashCode += codePoint_;
+    return hashCode;
   }
 
   public String toString()
@@ -162,7 +169,7 @@ public class ZChar
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  public static ZChar </xsl:text>
+  public static final ZChar </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = new ZChar(0x</xsl:text>
     <xsl:value-of select="@hex"/>
