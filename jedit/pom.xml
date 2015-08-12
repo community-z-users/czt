@@ -114,7 +114,7 @@
   <profiles>
     <profile>
       <!-- A profile to deploy nightly build artifacts to release area.
-           Deploy using `mvn clean deploy -P nightly -P sonatype-oss-release` and provide the
+           Deploy using `mvn clean deploy -P nightly -P release` and provide the
            appropriate logins in settings.xml.
            -->
       <id>nightly</id>

@@ -142,10 +142,10 @@
   <profiles>
     <profile>
       <!-- A profile to deploy nightly build artifacts to release area.
-           Deploy using `mvn clean deploy -P nightly -P sonatype-oss-release` and provide the
+           Deploy using `mvn clean deploy -P nightly -P release` and provide the
            appropriate logins in settings.xml.
 
-           The `sonatype-oss-release` profile is used to ensure that Maven SNAPSHOT artifacts
+           The `release` profile is used to ensure that Maven SNAPSHOT artifacts
            are signed and have sources and javadocs attached during deployment to repository.
            -->
       <id>nightly</id>
