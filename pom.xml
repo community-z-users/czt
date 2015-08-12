@@ -290,9 +290,21 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.3</version>
+          <configuration>
+            <detectLinks>true</detectLinks>
+            <!-- Disable doclint in JDK 8 for now:
+                 http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html -->
+            <additionalparam>-Xdoclint:none</additionalparam>
+          </configuration>
+        </plugin>
+
         <!-- Generate OSGI bundles for core CZT projects. This will add additional information to
-		     their manifest files, which indicate OSGI properties, e.g. name/version/packages/etc.
-			 This way the CZT core can be used in OSGI environment, e.g. Eclipse. -->
+             their manifest files, which indicate OSGI properties, e.g. name/version/packages/etc.
+             This way the CZT core can be used in OSGI environment, e.g. Eclipse. -->
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
@@ -414,7 +426,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -422,12 +433,6 @@
             </reports>
           </reportSet>
         </reportSets>
-        <configuration>
-          <detectLinks>true</detectLinks>
-          <!-- Disable doclint in JDK 8 for now:
-               http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html -->
-          <additionalparam>-Xdoclint:none</additionalparam>
-        </configuration>
       </plugin>
 
     </plugins>
@@ -480,7 +485,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.10.3</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
