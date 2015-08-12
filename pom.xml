@@ -2,13 +2,6 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Inherit Sonatype OSS POM for Maven Central deployment -->
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
-
   <groupId>net.sourceforge.czt</groupId>
   <artifactId>czt-parent</artifactId>
   <version>1.6-SNAPSHOT</version>
@@ -262,6 +255,22 @@
         </configuration>
       </plugin>
 
+      <!--
+        Maven Release plugin configured according to
+        http://central.sonatype.org/pages/apache-maven.html
+       -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.2</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy</goals>
+        </configuration>
+      </plugin>
+
     </plugins>
 
 
@@ -443,6 +452,60 @@
       <modules>
         <module>eclipse</module>
       </modules>
+    </profile>
+
+
+    <!--
+      Profile for doing CZT Maven release.
+      See instructions on http://central.sonatype.org/pages/apache-maven.html
+      (We are doing the deployment with Maven Release Plugin)
+     -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.4</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.3</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
 
@@ -694,6 +757,18 @@
       <name>CZT SourceForge Project Website</name>
       <url>${site.deploy.url}</url>
     </site>
+    <!-- Snapshot repository needed for deployment to OSSRH:
+         http://central.sonatype.org/pages/apache-maven.html -->
+    <snapshotRepository>
+      <id>ossrh</id>
+      <name>Sonatype OSSRH</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <name>Sonatype OSSRH</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
 </project>
