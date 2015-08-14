@@ -95,7 +95,10 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>2.9</version>
+        <!-- Private key authentication does not work with wagon-ssh versions 2.6-2.9.
+             Will be fixed in 2.10 - update when released.
+             See https://issues.apache.org/jira/browse/WAGON-413 -->
+        <version>2.5</version>
       </extension>
     </extensions>
 
