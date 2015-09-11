@@ -27,6 +27,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
@@ -56,27 +57,46 @@ public class ProdSet extends DefaultEvalSet
   @Override
   public int size()
   {
-    BigInteger size = maxSize();
-    if (size == null ||
-        size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+    if (baseSets_.size() == 0) {
+      throw new UndefException("cartesian product over no sets");
+    }
+    // multiply the exact sizes of the bases sets together.
+    // if some are infinite (represented by Integer.MAX_VALUE) the result will be really big,
+    // so we must return Integer.MAX_VALUE (to represent infinity).
+    BigInteger result = BigInteger.ONE;
+    for (EvalSet s : baseSets_) {
+      result = result.multiply(BigInteger.valueOf(s.size()));
+    }
+    if (result.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
       return Integer.MAX_VALUE;
     }
-    return size.intValue();
+    return result.intValue();
   }
 
   /** Returns the exact size of the set, or
-   *  null if it is infinite.
+   *  null if it is likely to be infinite.
    */
   @Override
   public BigInteger maxSize()
   {
-    if (baseSets_.size() == 0) return BigInteger.ZERO;
+    if (baseSets_.size() == 0) {
+      throw new UndefException("cartesian product over no sets");
+    }
     BigInteger result = BigInteger.ONE;
+    boolean hasInfiniteSet = false;
     for (EvalSet s : baseSets_) {
       BigInteger smax = s.maxSize();
-      if (smax == null)
-        return null;
-      result = result.multiply(s.maxSize());
+      if (smax == null) {
+    	hasInfiniteSet = true;
+      } else {
+        result = result.multiply(s.maxSize());
+      }
+    }
+    if (hasInfiniteSet && result.equals(BigInteger.ZERO)) {
+    	hasInfiniteSet = false;  // empty sets win!
+    }
+    if (hasInfiniteSet) {
+    	return null;
     }
     return result;
   }
