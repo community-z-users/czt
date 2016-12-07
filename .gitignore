@@ -42,3 +42,5 @@ doc/papers/class-types/main.fls
 doc/papers/class-types/main.synctex.gz(busy)
 typechecker/typechecker-z/src/test/resources/net/sourceforge/czt/typecheck/tests/z/typechecker_speed.fdb_latexmk
 typechecker/typechecker-z/src/test/resources/net/sourceforge/czt/typecheck/tests/z/typechecker_speed.fls
+parser/parser-circus/src/test/resources/tests/circus/channels.fdb_latexmk
+parser/parser-circus/src/test/resources/tests/circus/channels.fls
