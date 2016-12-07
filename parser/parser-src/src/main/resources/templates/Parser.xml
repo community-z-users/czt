@@ -5940,6 +5940,7 @@ channelSetPara ::=
         */
         ;
 
+// NOTE: channel sets wrap Expr tree into Para tree for Circus
 channelSet ::=
         expression:e
         {:
@@ -8856,6 +8857,19 @@ term ::=
            RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
+        
+        /* 
+        |
+        // NOTE: No, take Communication to be an expression and have \lchanset c?x?y \rchanset to be the same as c. Don't allow partial instantiation (type checker)
+        
+        // channel set comprehension : always must have characteristic expression to make binding variables into a channel 
+        // NOTE: that is, \lchanset m, n: \nat | m > n @ c.m.n \rchanset is okay, whereas \lchanset m, n: \nat \rchanset isn't
+        LCIRCCHANSET:lc schemaText:st SPOT communication:c RCIRCCHANSET:rc
+        {:
+           RESULT = factory_.createSetCompExpr(st, e);
+           addLocAnn(RESULT, getLocation(lbrace, rbrace));
+        :}
+        */
 </add:circus>
         ;
 
@@ -8877,12 +8891,17 @@ communicationList ::=
         |
         chanSetComm:c
         {:
+        	// NOTE: Typechecker takes this pattern into account to know what's implictly given in fields.
            c.setCommPattern(CommPattern.ChannelSet);
            RESULT = factory_.list(c);
         :}
         ;
 
 chanSetComm ::=
+		/* NOTE: now we allow communicaiton as whole, and because BasicChannelSetExpr already allows for CommunicationList,
+				 we can enable communication listing within \lchanset\rchanset, where the communication patterns language
+				 will enable comprehension as needed. This is the simplest change in AS/Parser/TypeChecker
+		
         DECORWORD:dw LSQUARE expressionList:el RSQUARE
         {:
             RESULT = factory_.createCommunication(
@@ -8899,7 +8918,7 @@ chanSetComm ::=
         |
         DECORWORD:dw
         {:
-            /* RefExpr: mixfix=false, explicit=false */
+            // RefExpr: mixfix=false, explicit=false 
             RESULT = factory_.createCommunication(
                 factory_.createRefExpr(createCircusName(dw)),  // channel name
                 factory_.createCircusFieldList(),      // communication fields
@@ -8910,7 +8929,13 @@ chanSetComm ::=
             );
             addLocAnn(RESULT, dw.getLocation());
         :}
+        */
+        communication:c 
+        {:
+        	RESULT = c;
+        :}
         ;
+        
 </add:circus>
 
 func_appl ::=
