@@ -207,7 +207,14 @@ class <class/> extends CztScannerImpl
    * a communication of a prefixing action. That is because a BasicChannelSetExpr
    * contains a list of communications.
    */
-  //private boolean inBasicChannelSet = false;
+  private boolean inBasicChannelSet = false;
+  
+  /**
+   * This counts the bracket numbers in c?x \prefixcolon (....) so that at depth 0,
+   * commas are interpreted as real separators of communications rather than part 
+   * of the prefix colon predicate
+   */
+  private int commBracketDepth = 0;
 
   /**
    *  Set of Z Symbol table names. Note that because of the order they appear in 
@@ -350,13 +357,14 @@ class <class/> extends CztScannerImpl
         debugFlags(result, DEBUG_FINEST);        
         assert checkChannelName(result) : "not valid channel name transformation in smart scanner at prefixing action \n\t" + get_sym_info(result);
       }
-      //else if (inBasicChannelSet)
-      //{        
-      //  updateCommunicationInBasicChannelSetExpr(result);
-      //  inBasicChannelSet = false;
-      //  debugFlags(result, DEBUG_FINEST);
-      //  assert checkChannelName(result) : "not valid channel name transformation in smart scanner at basic channel set expression";
-      //}
+      // if within a basic channel set enumeration, then check for channel names 
+      else if (inBasicChannelSet &amp;&amp; isChannelSetCommunicationList(result))
+      {        
+      	 //  updateCommunicationInBasicChannelSetExpr(result);
+ 	     //  inBasicChannelSet = false; wait to see RCIRCCHANSET before closing the flag
+        debugFlags(result, DEBUG_FINEST);
+        assert checkChannelName(result) : "not valid channel name transformation in smart scanner at basic channel set expression";
+      }
       else 
 </add:circus>
       //if this is a colon decl, convert the DECORWORD to a DECLWORD
@@ -563,19 +571,32 @@ class <class/> extends CztScannerImpl
     }
     // When declaring a basic channel set expression, change inner elements
     // DECORWORDs accordingly to CHANNELNAME and FIELDNAME.
-    //else if (result.sym == Sym.LCIRCCHANSET)
-    //{
-    //  inBasicChannelSet = true;
-    //  debugFlags(result, DEBIG_FINEST);
-    //}  
+    else if (result.sym == Sym.LCIRCCHANSET)
+    {
+      inBasicChannelSet = true;
+      commBracketDepth = 0;
+      debugFlags(result, DEBUG_FINEST);
+    }  
     // Although the processing of DECORWORDs after a LCIRCCHANSET may reset
     // the inBasicChannelSet flag, we still need to cope with the empty case
     // ex: \circchannelset\ C0 == \lchanset \rchanset 
-    //else if (result.sym == Sym.RCIRCCHANSET)
-    //{
-    //  inBasicChannelSet = false;
-    //  debugFlags(result, DEBIG_FINEST);
-    //}
+    // Also this is important to get out of the BasicChannelSet enumeration case.
+    else if (result.sym == Sym.RCIRCCHANSET)
+    {
+      inBasicChannelSet = false;
+      debugFlags(result, DEBUG_FINEST);
+      
+      // TODO: raise ScanException here if commBracketDepth different from 0?
+    }
+    // this caters for both c.(x?).y, and c?x \prefixcolon (...),
+    else if (result.sym == Sym.LPAREN &amp;&amp; inBasicChannelSet)
+    {
+      commBracketDepth++;	
+    }
+    else if (result.sym == Sym.RPAREN &amp;&amp; inBasicChannelSet)
+    {
+      commBracketDepth--;	
+    }
 </add:circus>    
     return result;
   }
@@ -692,7 +713,7 @@ class <class/> extends CztScannerImpl
           "; WAITING_PREFIXTHEN = " + (waitingPrefixThen ? "T" : "F") +
           "; FIELD_COUNT = " + fieldCount +
           "; STROKE_COUNT = " + strokeCount +
-          //"; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F") +
+          "; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F") +
           " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName(),
           level);
   }
@@ -941,6 +962,96 @@ class <class/> extends CztScannerImpl
    *                          prefixing action that is PREFIXCOLON or PREFIXTHEN, whereas for basic channel
    *                          set expression that is RCIRCCHANSET.
    */  
+   
+   
+  // TODO: refactor this mostly copied code from isColonDecl + isChannelName adjusted to handle/cope with communication lists
+  //	   within channel set brackets
+  //
+  // * use of bracket depth in context to differentiate between commas within predicates of PREFIXCOLON and commas separating channel set communicaiton lists
+  private boolean isChannelSetCommunicationList(Symbol symbol)
+  	throws Exception
+  {
+  	// look ahead on the right place only please
+  	assert inBasicChannelSet : "invalid point to lookahead for channel name";
+  	
+  	// assumie it is not channel name, but keep looking ahead in case of Sym.COMMA
+  	boolean result = false;
+    boolean doLookahead = true;
+  	
+    debug(symbol, DEBUG_FINER);
+    
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    Symbol currsym;
+
+	// get the next symbol handling any new lines involved
+    do {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    while (currsym.sym == Sym.NL);
+ 
+ 
+	// while not having all brackets closed, then carry on looking ahead 
+	// (i.e commas are part of the predicate of PREFIXCOLON)   
+    // and also, in case of a quite messy spec that reaches EOF too early
+    //
+    // PREFIXCOLON is a special case: we still need to look forward
+    while (currsym.sym == Sym.PREFIXCOLON ||
+            commBracketDepth != 0 || 
+             (currsym.sym != Sym.COMMA &amp;&amp; 
+              currsym.sym != Sym.RCIRCCHANSET &amp;&amp;
+            currsym.sym != Sym.EOF))
+     {    
+       currsym = dumb_.pop();
+       tokens.addLast(currsym);
+     }
+    
+    // Checks if in EOF and if so raise error; otherwise see what to do with the lookahead buffer
+    if (currsym.sym == Sym.EOF)
+    {
+      checkEOF(currsym, tokens);
+    }
+    else
+    {
+      // if found a COMMA or RCIRCCHANSET symbol
+      // the bracket deptdh is meant to be established by the while loop, here we double check on it
+      result = commBracketDepth == 0 &amp;&amp; 
+      		   (currsym.sym == Sym.COMMA || currsym.sym == Sym.RCIRCCHANSET);
+    }
+    
+    // update the calling symbol to become a channel name, adding any
+    // strokes to the list of tokens. Repeated strokes (i.e. c??x) will 
+    // be caught by the parser as an error.
+    if (result)
+    {       
+      // update the symbol to be channel name and add any possible strokes
+      symbol.sym   = Sym.CHANNELNAME;      
+      processDecorwordStrokes(tokens, symbol);      
+    }
+      
+    // push the tokens back, changing them to FIELDNAME according to the result.
+    pushCommPatternList(tokens, result);
+    
+    if (result &amp;&amp; fieldCount != strokeCount)
+    {      
+      symbol.sym = Sym.CHANNELERROR;            
+      Decorword channelName = (Decorword)symbol.value;
+      
+      // if this is a Decorword, add the information to it
+      if (channelName != null)
+      {
+        channelName.setExtraInfo(new Pair&lt;Integer, Integer&gt;(strokeCount, fieldCount));
+      }      
+      debug(symbol, DEBUG_FEW);
+    }    
+    
+    // reset  stroke and field name count
+    strokeCount = 0;
+    fieldCount = 0;
+    
+    // return the result to the next_token() call    
+    return result;
+  }
   
   /**
    * Looks ahead from the current DECORDWORD symbol at the right place
@@ -956,7 +1067,7 @@ class <class/> extends CztScannerImpl
     throws Exception 
   {
     // look ahead on the right place only, please
-    assert inCircusBasicProcess &amp;&amp; inActionDef : "invalid point to lookahead for channel name";
+    assert (inCircusBasicProcess &amp;&amp; inActionDef) : "invalid point to lookahead for channel name";
 
     // assume it is not channel name
     boolean result = false;    
@@ -981,6 +1092,7 @@ class <class/> extends CztScannerImpl
       tokens.addLast(currsym);
     }
     
+    // Checks if in EOF and if so raise error; otherwise see what to do with the lookahead buffer
     if (currsym.sym == Sym.EOF)
     {
       checkEOF(currsym, tokens);
