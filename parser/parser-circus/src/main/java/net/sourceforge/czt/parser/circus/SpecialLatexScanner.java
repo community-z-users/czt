@@ -96,6 +96,7 @@ public class SpecialLatexScanner {
       
       SectionInfo sectInfo_ = new SectionManager(Dialect.CIRCUS);
       assert args[0].equals("-in");
+      System.out.println("Scanning " + args[1]);
       Source source = new FileSource(args[1]); // args[0] = -in
       source.setMarkup(Markup.LATEX);      
       LatexScanner scanner = new LatexScanner(source, sectInfo_, new Properties());      
