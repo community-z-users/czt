@@ -298,7 +298,7 @@ class <class/> extends CztScannerImpl
       final int tks = tokens.size();
       final Symbol last = tokens.get(tks &gt; 1 ? tks-2 : tks-1);
       final Symbol first = tokens.getFirst();
-      final String message = "Hit EOF whilst trying to find end of a proof command during smart scanning. Lookahead size = " + tks
+      final String message = "Hit EOF whilst trying to find end of a token during smart scanning. Lookahead size = " + tks
               + "; stack token before EOF = " + get_sym_info(last) + "; lookahead starting token = " + get_sym_info(first) 
               + "; dialect = " + dialect_.toString();
       System.err.println(message);
@@ -808,11 +808,11 @@ class <class/> extends CztScannerImpl
   
   /**
    * Pushes the list of symbols collected during the check for communication token stream
-   * back into the main lexer. Depending on the value of isChannelName, it changes decorwords
+   * back into the main lexer. Depending on the value of isChannelName_, it changes decorwords
    * to properly represent the target symbol to FIELDNAME.
    *
    */
-  private void pushCommPatternList(List &lt; Symbol &gt; tokens, boolean isChannelName)
+  private void pushCommPatternList(List &lt; Symbol &gt; tokens, boolean isChannelName_)
   {
     // if within gen actuals - or renaming of expressions for that matter, just don't 
     // change any name within the L/RSQUARE tokens.
@@ -829,7 +829,7 @@ class <class/> extends CztScannerImpl
       symbol = tokens.get(i);
       
       // check whether to consider changing DECORWORDs or not.
-      if (isChannelName)
+      if (isChannelName_)
       {
         // check whether to ignore DECORWORDs within (possibly nested) "[...]"
         withinGenActuals = symbol.sym == Sym.RSQUARE ? withinGenActuals + 1 :
