@@ -1,21 +1,18 @@
-
-
-\begin{zsection}
-  \SECTION\ circus\_channels \parents\ circus\_toolkit
-\end{zsection}
-
-
+%\begin{zsection}
+%  \SECTION\ channelsetExpr \parents\ circus\_toolkit
+%\end{zsection}
+%
+%	%, c?x?y \prefixcolon (x \in \{ 1,2,3 \} \land (y \neq x))
+%
+%	\\
 \begin{circus}
-	\circchannel\ c, d: \nat \cross \nat
-	\\
-	\circprocess\ P \circdef \circbegin \\
-		\t1 A \circdef c?x?y \then A \\ 
-		\t1 \circspot A \\
-	\circend 
-	\\
-%	\circchannelset\ C2 == \lchanset c?x?y \prefixcolon (x \in \{ 1,2,3 \}), d?x \rchanset
-
-	\\
-	\circchannelset\ C1 == \lchanset c, d \rchanset
-	
+%	\circchannel\ c, d, e: \nat \cross \nat
+%	\\
+%	\circprocess\ P \circdef \circbegin \\
+%		\t1 A \circdef c?x?y \then A \\ 
+%		\t1	B \circdef c.(x?)!(y!) \then \Skip \\
+%		\t1 \circspot A \\
+%	\circend	
+% \\
+	\circchannelset\ C1 == \lchanset \rchanset % e?(a!)!b \rchanset 
 \end{circus}
