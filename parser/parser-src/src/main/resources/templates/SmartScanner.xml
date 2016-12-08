@@ -210,6 +210,19 @@ class <class/> extends CztScannerImpl
   private boolean inBasicChannelSet = false;
   
   /**
+   * Similar to waitingPrefixThen, we must mark that DECORWORD within predicates of 
+   * communications do not need to be smart lexed. That is, if we find
+   * 
+   * \lchanset ... c?x?y \prefixcolon (PRED), d?y \rchanset 
+   * 
+   * any DECORDWORD between prefixcolon and "," is to be left alone by smart scanning. 
+   * We could have kept the same flag for handling (PRED) but added specific ones for 
+   * communication (waitingPrefixThen) and channelset (waitingNextChanSetComm) as they
+   * have quite different logic in what/how they are triggered. See commBracketDepth.
+   */
+  private boolean waitingNextChanSetComm = false;
+  
+  /**
    * This counts the bracket numbers in c?x \prefixcolon (....) so that at depth 0,
    * commas are interpreted as real separators of communications rather than part 
    * of the prefix colon predicate
@@ -358,10 +371,8 @@ class <class/> extends CztScannerImpl
         assert checkChannelName(result) : "not valid channel name transformation in smart scanner at prefixing action \n\t" + get_sym_info(result);
       }
       // if within a basic channel set enumeration, then check for channel names 
-      else if (inBasicChannelSet &amp;&amp; isChannelSetCommunicationList(result))
+      else if (inBasicChannelSet &amp;&amp; !waitingNextChanSetComm &amp;&amp; isChannelSetCommunicationList(result))
       {        
-      	 //  updateCommunicationInBasicChannelSetExpr(result);
- 	     //  inBasicChannelSet = false; wait to see RCIRCCHANSET before closing the flag
         debugFlags(result, DEBUG_FINEST);
         assert checkChannelName(result) : "not valid channel name transformation in smart scanner at basic channel set expression";
       }
@@ -574,6 +585,7 @@ class <class/> extends CztScannerImpl
     else if (result.sym == Sym.LCIRCCHANSET)
     {
       inBasicChannelSet = true;
+      waitingNextChanSetComm = false;
       commBracketDepth = 0;
       debugFlags(result, DEBUG_FINEST);
     }  
@@ -584,16 +596,28 @@ class <class/> extends CztScannerImpl
     else if (result.sym == Sym.RCIRCCHANSET)
     {
       inBasicChannelSet = false;
+      waitingNextChanSetComm = false;
       debugFlags(result, DEBUG_FINEST);
       
       // TODO: raise ScanException here if commBracketDepth different from 0?
+      assert commBracketDepth == 0 : "scanning error wtihin communication predicate - unbalanced parenthesis";
+    }
+    // When we find a COMMA, reset its waiting flag if outside PRED brackets. 
+    // This is important to avoid problems when having chained communication enumerations in channel sets.
+    // ex:  \lchanset c?x?y \prefixcolon (x > y), d?a \rchanset
+    else if (inBasicChannelSet &amp;&amp; waitingNextChanSetComm &amp;&amp; commBracketDepth == 0 &amp;&amp; result.sym == Sym.COMMA)
+    {
+      waitingNextChanSetComm = false;
+      debugFlags(result, DEBUG_FINEST);    	
     }
     // this caters for both c.(x?).y, and c?x \prefixcolon (...),
-    else if (result.sym == Sym.LPAREN &amp;&amp; inBasicChannelSet)
+    // we need to update them globally as well as within when we need to check for channel set expressions
+    // this is to enable appropriate scanning of the updated stream resulting from lookahead scanning 
+    else if (inBasicChannelSet &amp;&amp; waitingNextChanSetComm &amp;&amp; result.sym == Sym.LPAREN)
     {
       commBracketDepth++;	
     }
-    else if (result.sym == Sym.RPAREN &amp;&amp; inBasicChannelSet)
+    else if (inBasicChannelSet &amp;&amp; waitingNextChanSetComm &amp;&amp; result.sym == Sym.RPAREN)
     {
       commBracketDepth--;	
     }
@@ -714,6 +738,8 @@ class <class/> extends CztScannerImpl
           "; FIELD_COUNT = " + fieldCount +
           "; STROKE_COUNT = " + strokeCount +
           "; IN_BASIC_CHANSET = " + (inBasicChannelSet ? "T" : "F") +
+          "; WAITING_NEXT_CS_COMM = " + (waitingNextChanSetComm ? "T" : "F") +
+          "; COM_BRACKET_DEPTH = " + commBracketDepth +
           " at line " + t.getStackTrace()[1].getLineNumber() + " of " + t.getStackTrace()[1].getMethodName(),
           level);
   }
@@ -833,7 +859,7 @@ class <class/> extends CztScannerImpl
    * to properly represent the target symbol to FIELDNAME.
    *
    */
-  private void pushCommPatternList(List &lt; Symbol &gt; tokens, boolean isChannelName_)
+  private void pushCommPatternList(List &lt; Symbol &gt; tokens, boolean isFrontSymbolChannelName)
   {
     // if within gen actuals - or renaming of expressions for that matter, just don't 
     // change any name within the L/RSQUARE tokens.
@@ -850,7 +876,7 @@ class <class/> extends CztScannerImpl
       symbol = tokens.get(i);
       
       // check whether to consider changing DECORWORDs or not.
-      if (isChannelName_)
+      if (isFrontSymbolChannelName)
       {
         // check whether to ignore DECORWORDs within (possibly nested) "[...]"
         withinGenActuals = symbol.sym == Sym.RSQUARE ? withinGenActuals + 1 :
@@ -962,92 +988,58 @@ class <class/> extends CztScannerImpl
    *                          prefixing action that is PREFIXCOLON or PREFIXTHEN, whereas for basic channel
    *                          set expression that is RCIRCCHANSET.
    */  
-   
-   
-  // TODO: refactor this mostly copied code from isColonDecl + isChannelName adjusted to handle/cope with communication lists
-  //	   within channel set brackets
-  //
-  // * use of bracket depth in context to differentiate between commas within predicates of PREFIXCOLON and commas separating channel set communicaiton lists
-  private boolean isChannelSetCommunicationList(Symbol symbol)
+  private boolean isChannelSetCommunicationList(Symbol frontSymbol)
   	throws Exception
   {
   	// look ahead on the right place only please
   	assert inBasicChannelSet : "invalid point to lookahead for channel name";
   	
-  	// assumie it is not channel name, but keep looking ahead in case of Sym.COMMA
-  	boolean result = false;
-    boolean doLookahead = true;
-  	
-    debug(symbol, DEBUG_FINER);
-    
-    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
-    Symbol currsym;
-
-	// get the next symbol handling any new lines involved
-    do {
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);
-    }
-    while (currsym.sym == Sym.NL);
- 
- 
-	// while not having all brackets closed, then carry on looking ahead 
-	// (i.e commas are part of the predicate of PREFIXCOLON)   
-    // and also, in case of a quite messy spec that reaches EOF too early
-    //
-    // PREFIXCOLON is a special case: we still need to look forward
-    while (currsym.sym == Sym.PREFIXCOLON ||
-            commBracketDepth != 0 || 
-             (currsym.sym != Sym.COMMA &amp;&amp; 
-              currsym.sym != Sym.RCIRCCHANSET &amp;&amp;
-            currsym.sym != Sym.EOF))
-     {    
-       currsym = dumb_.pop();
-       tokens.addLast(currsym);
-     }
-    
-    // Checks if in EOF and if so raise error; otherwise see what to do with the lookahead buffer
-    if (currsym.sym == Sym.EOF)
-    {
-      checkEOF(currsym, tokens);
-    }
-    else
-    {
-      // if found a COMMA or RCIRCCHANSET symbol
-      // the bracket deptdh is meant to be established by the while loop, here we double check on it
-      result = commBracketDepth == 0 &amp;&amp; 
-      		   (currsym.sym == Sym.COMMA || currsym.sym == Sym.RCIRCCHANSET);
-    }
-    
-    // update the calling symbol to become a channel name, adding any
-    // strokes to the list of tokens. Repeated strokes (i.e. c??x) will 
-    // be caught by the parser as an error.
-    if (result)
-    {       
-      // update the symbol to be channel name and add any possible strokes
-      symbol.sym   = Sym.CHANNELNAME;      
-      processDecorwordStrokes(tokens, symbol);      
-    }
-      
-    // push the tokens back, changing them to FIELDNAME according to the result.
-    pushCommPatternList(tokens, result);
-    
-    if (result &amp;&amp; fieldCount != strokeCount)
-    {      
-      symbol.sym = Sym.CHANNELERROR;            
-      Decorword channelName = (Decorword)symbol.value;
-      
-      // if this is a Decorword, add the information to it
-      if (channelName != null)
+  	CommunicationScanner commS = new CommunicationScanner() 
+  	{
+      public boolean lookaheadTest(Symbol currentSymbol)
       {
-        channelName.setExtraInfo(new Pair&lt;Integer, Integer&gt;(strokeCount, fieldCount));
-      }      
-      debug(symbol, DEBUG_FEW);
-    }    
+    		// while not having all brackets closed, then carry on looking ahead 
+    		// (i.e commas are part of the predicate of PREFIXCOLON)   
+    	    // and also, in case of a quite messy spec that reaches EOF too early
+    	    //
+    	    // PREFIXCOLON is a special case: we still need to look forward
+        return currentSymbol.sym == Sym.PREFIXCOLON ||
+	         commBracketDepth != 0 || 
+             (currentSymbol.sym != Sym.COMMA &amp;&amp; 
+              currentSymbol.sym != Sym.RCIRCCHANSET &amp;&amp;
+              currentSymbol.sym != Sym.EOF);
+      }
+      
+      public boolean scanningResult(Symbol currentSymbol)
+   	  {
+          // if found a COMMA or RCIRCCHANSET symbol
+          // the bracket deptdh is meant to be established by the while loop, here we double check on it
+      	return commBracketDepth == 0 &amp;&amp; 
+       		   (currentSymbol.sym == Sym.COMMA || currentSymbol.sym == Sym.RCIRCCHANSET);
+   	  }
+      
+      public void doWithinLookaheadLoop(Symbol currentSymbol)
+      {
+        if (currentSymbol.sym == Sym.LPAREN) 
+        {
+          commBracketDepth++;
+        }
+        else if (currentSymbol.sym == Sym.RPAREN)
+        {
+          commBracketDepth--;   	   
+        }
+      }
+    };
     
-    // reset  stroke and field name count
-    strokeCount = 0;
-    fieldCount = 0;
+    // process communication with specific communication scanner
+    boolean result = processSymbolWithCommunicationScanner(commS, frontSymbol);
+    
+    // Waiting for next communication? important to tell normal lexing to not
+    // consider DECORWORDs between \prefixcolon PRED and comma , separating channelset comms
+    //
+    // This is important to prevent smart lexing within the communication predicate part
+    // for DECORWORDS (i.e. they never need to become CHANNELNAMEs. 
+    waitingNextChanSetComm = result;
     
     // return the result to the next_token() call    
     return result;
@@ -1063,44 +1055,115 @@ class <class/> extends CztScannerImpl
    * within the communication pattern (i.e. those on expressions) to
    * FIELDNAME or CHANNELNAME.
    */
-  private boolean isChannelName(Symbol symbol) 
+  private boolean isChannelName(Symbol frontSymbol) 
     throws Exception 
   {
     // look ahead on the right place only, please
     assert (inCircusBasicProcess &amp;&amp; inActionDef) : "invalid point to lookahead for channel name";
 
-    // assume it is not channel name
-    boolean result = false;    
+    CommunicationScanner commS = new CommunicationScanner() 
+  	{
+      public boolean lookaheadTest(Symbol currentSymbol)
+      {
+      	// while finding non Circus symbols, then carry on looking ahead    
+        // and also, in case of a quite messy spec that reaches EOF too early
+        //
+        // PREFIXCOLON is a special case: we still need to look forward
+        return (currentSymbol.sym == Sym.PREFIXCOLON ||
+            (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currentSymbol)) &amp;&amp; 
+            		currentSymbol.sym != Sym.EOF));
+      }
+      
+      public boolean scanningResult(Symbol currentSymbol)
+   	  {
+      	// if we see PREFIXTHEN, we know we are finished and this is a communication 
+        return (currentSymbol.sym == Sym.PREFIXTHEN);
+   	  }
+      
+      public void doWithinLookaheadLoop(Symbol currentSymbol)
+      {
+        // nothing special todo
+      }
+    };
     
-    debug(symbol, DEBUG_FINER);
+    // process communication with specific communication scanner
+    boolean result = processSymbolWithCommunicationScanner(commS, frontSymbol);
     
-    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();    
-    
-    // get the next symbol
-    Symbol currsym = dumb_.pop();
-    tokens.addLast(currsym);
-  
-    // while finding non Circus symbols, then carry on looking ahead    
-    // and also, in case of a quite messy spec that reaches EOF too early
+    // if is a channel name, we are waiting for the PREFIXTHEN symbol.
+    // until that point, there is no need to search for DECORWORDs
+    // to be changed as CHANNELNAME. This may happen within fields with
+    // complex expressions. (e.g., read?i!(ring~i) \then Skip, DECORWORD("ring")).
     //
-    // PREFIXCOLON is a special case: we still need to look forward
-    while (currsym.sym == Sym.PREFIXCOLON ||
-           (!CIRCUS_SYMBOL_NAMES_ONLY.contains(get_sym_name(currsym)) &amp;&amp; 
-           currsym.sym != Sym.EOF))
+    // This is important to prevent smart lexing within the communication predicate part
+    // for DECORWORDS (i.e. they never need to become CHANNELNAMEs. 
+    waitingPrefixThen = result;
+
+    // return the result to the next_token() call    
+    return result;
+  } 
+  
+  interface CommunicationScanner 
+  {
+  	public boolean lookaheadTest(Symbol currentSymbol);
+  	public boolean scanningResult(Symbol currentSymbol);
+  	public void doWithinLookaheadLoop(Symbol currentSymbol);
+  }
+  
+  /**
+   * Given a frontSymbol (DECORWORD), and final symbol being processed update token stream to reflect the
+   * tokens the parser expects for communication patterns (e.g. CHANNELNAME for DECORWORD, DOTFIELD for DOT, etc).
+   * For prefixing, the expected final symbol is PREFIXTHEN, whereas for channel set expressions that is either COMMA or RCHANSET.
+   * 
+   * The communication scanner delegates the test for the result of this function to see whether the final symbol
+   * represents an appropriate decisions to whether or not to change the token stream. 
+   * 
+   * @param commS communication scanner used to delegate final symbol test.
+   * @param frontSymbol initial DECORWORD to consider in smart scanning of communication
+   * @return whether or not to change the underlying token stream within the communication pattern.
+   */
+  private boolean processSymbolWithCommunicationScanner(CommunicationScanner commS, Symbol frontSymbol)
+  	throws Exception
+  {
+  	assert frontSymbol.sym == Sym.DECORWORD : "front symbol in communication must be DECORWORD";
+
+  	debug(frontSymbol, DEBUG_FINER);
+  	
+  	LinkedList&lt;Symbol&gt; tokens = new LinkedList&lt;Symbol&gt;();
+    Symbol currentSymbol;
+
+    // get the next symbol handling any new lines involved
+    do {
+      currentSymbol = dumb_.pop();
+      tokens.addLast(currentSymbol);
+      commS.doWithinLookaheadLoop(currentSymbol);
+    }
+    while (currentSymbol.sym == Sym.NL);
+    
+    // perform lookahead test and processing depending on the 
+    // delegated communication scanner needs
+    while (commS.lookaheadTest(currentSymbol))
     {    
-      currsym = dumb_.pop();
-      tokens.addLast(currsym);
+      currentSymbol = dumb_.pop();
+      tokens.addLast(currentSymbol);
+      commS.doWithinLookaheadLoop(currentSymbol);
     }
     
-    // Checks if in EOF and if so raise error; otherwise see what to do with the lookahead buffer
-    if (currsym.sym == Sym.EOF)
+    // assume this processing will not change the token stream
+    boolean result = false;
+    
+    // process communication tokens by changing their inner tokens to communication tokens
+    // e.g. DECORDWORD to CHANNELNAME/ERROR, DOT to DOTFIELD, IN to FIELDIN etc.
+    Symbol finalSymbol = currentSymbol;
+    
+ 	  // Checks if in EOF and if so raise error; otherwise see what to do with the lookahead buffer
+    if (finalSymbol.sym == Sym.EOF)
     {
-      checkEOF(currsym, tokens);
+      checkEOF(finalSymbol, tokens);
     }
     else
     {
-      // if found a Circus symbol, the result depends on what the symbol is.
-      result = (currsym.sym == Sym.PREFIXTHEN);// || currsym.sym == Sym.PREFIXCOLON);
+      // i.e. Sym.XXXX = expectedCurrSymbolAs = currsym.sym
+      result = commS.scanningResult(finalSymbol); //(finalSymbol.sym == expectedFinalSymbolSymCode); 
     }
     
     // update the calling symbol to become a channel name, adding any
@@ -1109,32 +1172,26 @@ class <class/> extends CztScannerImpl
     if (result)
     {       
       // update the symbol to be channel name and add any possible strokes
-      symbol.sym   = Sym.CHANNELNAME;      
-      processDecorwordStrokes(tokens, symbol);      
+    	frontSymbol.sym   = Sym.CHANNELNAME;      
+      processDecorwordStrokes(tokens, frontSymbol);      
       // debug(symbol, DEBUG_FINER); - debugFlags called outside will do it.
     }
       
-    // push the tokens back, chaning them to FIELDNAME according to the result.
+    // push the tokens back, changing them to FIELDNAME according to the result.
     pushCommPatternList(tokens, result);
-    
-    // if is a channel name, we are waiting for the PREFIXTHEN symbol.
-    // until that point, there is no need to search for DECORWORDs
-    // to be changed as CHANNELNAME. This may happen within fields with
-    // complex expressions. (e.g., read?i!(ring~i) \then Skip, DECORWORD("ring")).
-    waitingPrefixThen = result;
     
     if (result &amp;&amp; fieldCount != strokeCount)
     {      
-      symbol.sym = Sym.CHANNELERROR;            
-      Decorword channelName = (Decorword)symbol.value;
+    	frontSymbol.sym = Sym.CHANNELERROR;            
+      Decorword channelName = (Decorword)frontSymbol.value;
       
       // if this is a Decorword, add the information to it
       if (channelName != null)
       {
         channelName.setExtraInfo(new Pair&lt;Integer, Integer&gt;(strokeCount, fieldCount));
       }      
-      debug(symbol, DEBUG_FEW);
-      //warningManager_ = new WarningManager(<class/>);
+      debug(frontSymbol, DEBUG_FEW);
+      //warningManager_ = new WarningManager(SmartScanner);
       //warningManager_.warn(WarningMessage.WRONG_NUMBER_FIELD_STROKES, 
       //  channelName, strokeCount, fieldCount, get_sym_name(symbol), 
       //  channelName != null ? channelName.getLocation() : 
@@ -1145,35 +1202,10 @@ class <class/> extends CztScannerImpl
     strokeCount = 0;
     fieldCount = 0;
     
-    // return the result to the next_token() call    
     return result;
-  } 
+  }
   
   // NOTE: BasicChannelSetExpr does not accept fields (for now) - so easy = list of names!
-  /**
-   * Looks ahead from the current DECORWORD symbol whenever the previous one was
-   * a LCIRCCHANSET token. That is, right after starting a BasicChannelSetExpr, 
-   * we need to update the communication list within it. This is an easier producation
-   * as we need to just look for RCIRCCHANSET.
-   */
-//  private void updateCommunicationInBasicChannelSetExpr(Symbol symbol)
-//    throws Exception
-//  {
-//    assert inBasicChannelSet : "cannot update communications outside a basic channel set expression";
-//    assert symbol.value instanceof Decorword : "invalid communication a basic channel set expression - not DECORWORD";
-//    
-//    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
-//    
-//    // get the next symbol
-//    Symbol currsym = dumb_.pop();
-//    tokens.addLast(currsym);
-//    
-//    //skip any newlines
-//    while (currsym.sym == Sym.NL) {
-//      currsym = dumb_.pop();
-//      tokens.addLast(currsym);
-//    }
-//    
 //    //skip any formal parameters
 //    if (currsym.sym == Sym.LSQUARE) 
 //    {
@@ -1189,10 +1221,6 @@ class <class/> extends CztScannerImpl
 //    {
 //      net.sourceforge.czt.util.CztLogger.getLogger(<class/>.class).warning("Could not find closing basic channel set bracket token (RCIRCCHANSET) at \n\t" + ((Decorword)symbol.value).getLocation());
 //    }
-//    
-//    // push the tokens back, chaning them to CHANNELNAME according to the result.
-//    pushCommPatternList(tokens, isCommPattern);    
-//  }
 </add:circus>  
   
   private Map&lt; Object, String &gt; symbolMap_ = DebugUtils.getFieldMap(Sym.class);  
