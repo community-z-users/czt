@@ -1767,6 +1767,7 @@ action code
      */
     protected Expr validateChannelSetExpr(Expr e) {
       Expr result = e;
+      
       // For reference empty sets transform them into basic set extension.
       if (isEmptySetRefExpr(result)) {
         result = createBasicChannelSetExpr(getLocation(e), factory_.&lt;Communication&gt;list());
@@ -8851,10 +8852,17 @@ term ::=
         |
         /* channel set extension */
         // NOTE: It must be an optExpressionList because of generic actuals on channel names.
-        LCIRCCHANSET:lc optCommunicationList:ocl RCIRCCHANSET:rc
+        LCIRCCHANSET:lc communicationList:ocl RCIRCCHANSET:rc
         {:
            CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl + " for " + getDialect().toString() + " in Parser.");
            RESULT = createBasicChannelSetExpr(getLocation(lc, rc), ocl);
+           addLocAnn(RESULT, getLocation(lc, rc));
+        :}
+        |
+        LCIRCCHANSET:lc  RCIRCCHANSET:rc
+        {:
+           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: empty for " + getDialect().toString() + " in Parser.");
+           RESULT = createBasicChannelSetExpr(getLocation(lc, rc), factory_.&lt;Communication&gt;list());
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
         
@@ -8874,22 +8882,14 @@ term ::=
         ;
 
 <add:circus>
-optCommunicationList ::=
-        //empty
-        {: RESULT = factory_.list(); :}
-        |
-        communicationList:el
-        {: RESULT = el; :}
-        ;
-
 communicationList ::=
-        communicationList:cl COMMA chanSetComm:c
+        communicationList:cl COMMA communication:c
         {:
            cl.add(c);
            RESULT = cl;
         :}
         |
-        chanSetComm:c
+        communication:c
         {:
         	// NOTE: Typechecker takes this pattern into account to know what's implictly given in fields.
            c.setCommPattern(CommPattern.ChannelSet);
@@ -8897,12 +8897,11 @@ communicationList ::=
         :}
         ;
 
-chanSetComm ::=
-		/* NOTE: now we allow communicaiton as whole, and because BasicChannelSetExpr already allows for CommunicationList,
+/*   NOTE: now we allow communicaiton as whole, and because BasicChannelSetExpr already allows for CommunicationList,
 				 we can enable communication listing within \lchanset\rchanset, where the communication patterns language
 				 will enable comprehension as needed. This is the simplest change in AS/Parser/TypeChecker
-		
-        DECORWORD:dw LSQUARE expressionList:el RSQUARE
+chanSetComm ::=
+		    DECORWORD:dw LSQUARE expressionList:el RSQUARE
         {:
             RESULT = factory_.createCommunication(
               factory_.createRefExpr(createCircusName(dw),     // channel name with generic parameters
@@ -8929,13 +8928,13 @@ chanSetComm ::=
             );
             addLocAnn(RESULT, dw.getLocation());
         :}
-        */
+        |
         communication:c 
         {:
         	RESULT = c;
         :}
         ;
-        
+        */
 </add:circus>
 
 func_appl ::=
