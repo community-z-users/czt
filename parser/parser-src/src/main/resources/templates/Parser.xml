@@ -8885,6 +8885,9 @@ term ::=
 communicationList ::=
         communicationList:cl COMMA communication:c
         {:
+           // NOTE: Typechecker takes this pattern into account to know what's implictly given in fields.
+           //		Because communication:c appears earlier in 7390, the below might/won't match?
+           c.setCommPattern(CommPattern.ChannelSet);
            cl.add(c);
            RESULT = cl;
         :}

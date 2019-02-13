@@ -603,7 +603,7 @@ public class CommunicationChecker extends Checker<List<NameTypePair>>
            getCurrentActionName().toString()) :
           (((ExprChecker)exprChecker()).inProcessPara_ ? getCurrentProcessName() :
               (((ExprChecker)exprChecker()).inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
-        params.add(comm);
+        params.add(comm + ": " + type + " -> " + comm.getCommPattern());
         params.add(i);
         error(comm, ErrorMessage.NON_CHANNELSET_IN_COMMLIST, params);                
       }

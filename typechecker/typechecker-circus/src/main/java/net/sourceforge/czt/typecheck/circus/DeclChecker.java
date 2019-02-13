@@ -125,6 +125,7 @@ public class DeclChecker
     //visit the expression
     // \Gamma \rhd e: Expression, C.4.2
     Type2 exprType = expr.accept(exprChecker());
+    //System.out.println("type for " + declNames + " : " + exprType);
     
     // channel from declarations declare all elements from the signature
     // of a given schema reference type. That means, they must be a RefExpr

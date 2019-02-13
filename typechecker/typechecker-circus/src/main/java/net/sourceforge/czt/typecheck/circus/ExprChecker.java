@@ -144,6 +144,7 @@ public class ExprChecker
     int i = 1;
     for(NameTypePair pair : pairs)
     {
+      //System.out.println("Basic CS with channel " + pair.getName() + " : " + pair.getType());
       if (!(GlobalDefs.unwrapType(pair.getType()) instanceof ChannelType))
       {
         List<Object> params = factory().list();    
@@ -155,7 +156,7 @@ public class ExprChecker
            getCurrentActionName().toString()) :
           (inProcessPara_ ? getCurrentProcessName() :
               (inChannelSetPara_ ? getCurrentChannelSetName() : "error"))));
-        params.add(pair.getName());
+        params.add(pair.getName() + ": " + pair.getType());
         params.add(i);
         error(term, ErrorMessage.NON_CHANNELSET_IN_COMMLIST, params);                
       }
