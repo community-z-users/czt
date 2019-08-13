@@ -1,0 +1,373 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION ModuleManagerTest \parents ModuleManager
+\end{zsection}
+
+This specification defines several unit tests for the Module Manager.
+
+We start by defining some members of the given sets,
+so that we can use meaningful names within our examples.
+
+
+\begin{zed}
+  % ClassName examples
+  networkReaderClass == 10 \\
+  pvReaderClass == 11 \\
+  pvAssetFactory == 12 \\
+  pvAllocationReader == 13 \\
+  pvCharacteristicsReader == 14 \\
+  networkAssetFactory == 15 \\
+  pvMinorParameterReader == 16 \\
+  pvExactAllocationReader == 17 \\
+  pvAssetSpecificReader == 18 \\
+  pvAssetCommonReader == 19 \\
+
+  % ExtId examples
+  extAssetFactory == 20 \\
+  extAgentFactory == 21 \\
+  extDataProvider == 22 \\
+
+  % DataId examples
+  dataIdNetworkData == 30 \\
+  dataIdBillingData == 31 \\
+  dataIdPvAssetDataAllocMinor == 32 \\
+  dataIdPvAssetDataAllocExact == 33 \\
+  dataIdPvSystems == 34 \\
+  dataIdPvCharacteristics == 35 \\
+  dataIdPvExactAllocation == 36 \\
+
+  % Path examples
+  pathTownsvilleNetwork == 40 \\
+  pathTownsvilleBillingData == 41 \\
+  pathMinorParameterCsv == 42 \\
+  pathExactPvAllocationCsv == 43 \\
+  pathTownsvillePvInstallsCsv == 44 \\
+  pathCommonPvCsv == 45 \\
+
+  % Contributor examples
+  contributorPvAsset == 50 \\
+  contributorPvAssetReader == 51 \\
+\end{zed}
+
+To help us validate the behaviour specified in the previous sections,
+we define an example asset factory (for PhotoVoltaic Solar Panels), with a
+compulsory property called \emph{pvCharacteristics} that takes any
+data provider that subclasses \emph{pvCharacteristicsReader} (these
+data providers provide a list of typical PV systems), and an optional
+getter-setter called \emph{exactAllocation} that takes a data provider
+of type \emph{pvExactAllocationReader} (this is used when precise
+information is available about which houses have PV systems, and the
+details of those systems).
+
+\begin{schema}{pvCharacteristics}
+  SetterGetter
+\where
+  name = dataIdPvCharacteristics \\
+  argType = pvCharacteristicsReader \\
+  value = nullClass \\
+  optional = NO
+\end{schema}
+
+\begin{schema}{exactAllocation}
+  SetterGetter
+\where
+  name = dataIdPvExactAllocation \\
+  argType = pvExactAllocationReader \\
+  value = nullClass \\
+  optional = YES
+\end{schema}
+
+\begin{schema}{PvAssetFactory}
+  AssetFactory
+\where
+  className = pvAssetFactory \\
+  consumes = \{ dataIdPvCharacteristics, dataIdPvExactAllocation \} \\
+  prior = \{ \} \\
+  methods = pvCharacteristics \cup exactAllocation
+\end{schema}
+
+We also prove that these two getter-setters and the factory are correctly and
+unambiguously defined (we have not defined any contradictory properties,
+or left any properties unspecified), as follows:
+
+\begin{theorem}{pvCharacteristicsIsValid}
+  \vdash? \# pvCharacteristics = 1
+\end{theorem}
+
+\begin{theorem}{exactAllocationIsValid}
+  \vdash? \# exactAllocation = 1
+\end{theorem}
+
+\begin{theorem}{PvAssetReaderFactoryIsValid}
+  \vdash? \# PvAssetFactory = 1
+\end{theorem}
+
+However, when we ask ZLive to prove these conjectures, the first two fail,
+because we specified a Java class name rather than a Java type for 'argType'.
+This is a minor error that is picked up by the Z typechecker
+when we use separate given types for each kind of value, or is picked up
+by the above conjectures when we just use integers for animation purposes.
+Reflecting on these failures led us to revise our model so that the $value$
+and $argType$ are now both Java class names, representing the actual and
+expected types of parameter, respectively.
+
+
+Next we define an example plugin module.
+
+\begin{schema}{EgModulePvAsset}
+  Module
+\where
+  contributor = contributorPvAsset \\
+  classes = PvAssetFactory \\
+\end{schema}
+
+\begin{theorem}{EgModulePvAssetIsValid}
+  \vdash? \# EgModulePvAsset = 1
+\end{theorem}
+
+%% An older example
+%%=================
+%\begin{schema}{EgModulePvAssetReader}
+%  Module \\
+%  contributor == contributorPvAssetReader \\
+%  extensionClass == \{ (extDataProvider, pvMinorParameterReader), \\
+%  \t2		 (extDataProvider, pvExactAllocationReader), \\
+%  \t2		 (extDataProvider, pvAssetSpecificReader), \\
+%  \t2	     	 (extDataProvider, pvAssetCommonReader)
+%  	 \} \\
+%  enabledClasses == \{ pvMinorParameterReader, pvAssetCommonReader \} \\
+%  consumes == \{ \} \\
+%  produces == \{ (pvMinorParameterReader, dataIdPvAssetDataAllocMinor), \\
+%  \t2			(pvExactAllocationReader, dataIdPvAssetDataAllocExact),\\
+%  \t2			(pvAssetSpecificReader, dataIdPvSystems),\\
+%  \t2			(pvAssetCommonReader, dataIdPvSystems)
+%  		 \} \\
+%  path == \{ (pvMinorParameterReader, pathMinorParameterCsv), \\
+%  \t2			(pvExactAllocationReader, pathExactPvAllocationCsv),\\
+%  \t2			(pvAssetSpecificReader, pathTownsvillePvInstallsCsv),\\
+%  \t2			(pvAssetCommonReader, pathCommonPvCsv)
+%  		 \} \\
+%  prior == \{ \}
+%\end{schema}
+
+%\begin{theorem}{EgModulePvAssetReaderIsValid}
+%  \vdash? \# EgModulePvAssetReader = 1
+%\end{theorem}
+
+%\begin{theorem}{EgModulePvAssetReaderFactories}
+%  \vdash? \forall m : EgModulePvAssetReader @ m.assetFactories = \{\} \land
+%      m.agentFactories = \{\} 
+%\end{theorem}
+
+
+\section{Testing $GetMissingDependencies$}
+%=========================================
+
+\begin{schema}{EgSystem}
+  ModuleManager
+\where
+  modules = EgModulePvAsset
+\end{schema}
+
+\begin{theorem}{EgSystemIsValid}
+  \vdash?  \# EgSystem = 1
+\end{theorem}
+
+\begin{schema}{testGetMissing}
+  GetMissingDependencies
+\where
+  modules = EgModulePvAsset \\
+  factories? = PvAssetFactory \\
+%  \# missing! = 1
+\end{schema}
+
+ZLive returns one missing data ID: the compulsory dataIdPvCharacteristics ID (35).
+\[
+1: \lblot modules == \\
+  \t1	 \{ \lblot contributor == 50 , \\
+    \t1	 classes == \\
+     \t1	 \{ \lblot extId == 29 , className == 12 , consumes == \{ 35 , 36 \} , \\
+       \t2	 produces == 39 , path == 49 , prior == \{ \} , \\
+       \t2	 methods == \\
+        \t2	 \{ \lblot name == 35 , argType == 14 , value == 9 , optional == 0 \rblot , \\
+         \t2	 \lblot name == 36 , argType == 17 , value == 9 , optional == 1 \rblot \} \rblot \} \\
+    \t1	 , consumes == \{ ( 12 , \{ 35 , 36 \} ) \} , produces == \{ ( 12 , 39 ) \} \rblot \} , \\
+ outputid == \{ ( 12 , 39 ) \} , \\
+ modules' == \\
+  \t1	 \{ \lblot contributor == 50 , \\
+    \t1	 classes == \\
+     \t1	 \{ \lblot extId == 29 , className == 12 , consumes == \{ 35 , 36 \} , \\
+       \t2	 produces == 39 , path == 49 , prior == \{ \} , \\
+       \t2	 methods == \\
+        \t2	 \{ \lblot name == 35 , argType == 14 , value == 9 , optional == 0 \rblot , \\
+         \t2	 \lblot name == 36 , argType == 17 , value == 9 , optional == 1 \rblot \} \rblot \} \\
+    \t1	 , consumes == \{ ( 12 , \{ 35 , 36 \} ) \} , produces == \{ ( 12 , 39 ) \} \rblot \} , \\
+ outputid' == \{ ( 12 , 39 ) \} , \\
+ factories? == \\
+  \t1	 \{ \lblot extId == 29 , className == 12 , consumes == \{ 35 , 36 \} , produces == 39 , \\
+    \t1	 path == 49 , prior == \{ \} , \\
+    \t1	 methods == \\
+     \t1	 \{ \lblot name == 35 , argType == 14 , value == 9 , optional == 0 \rblot , \\
+      \t1	 \lblot name == 36 , argType == 17 , value == 9 , optional == 1 \rblot \} \rblot \} , \\
+ missing! == \{ 35 \} \rblot
+\]
+
+\section{Testing $SatisfySetterMethod$}
+%======================================
+
+Now we test each of the four cases of the $SatisfySetterMethod$.
+
+\begin{enumerate}
+\item First, we test the success path, where there is exactly one match.
+
+\begin{schema}{testUniqMatch}
+  SatisfySetterMethod
+\where
+  m \in pvCharacteristics \\
+  dataProviders? = \{pvCharacteristicsReader, pvExactAllocationReader\} \\
+  outputid = \{ pvCharacteristicsReader \mapsto dataIdPvCharacteristics, \\
+  \t3           pvExactAllocationReader \mapsto dataIdPvExactAllocation \}
+\end{schema}
+
+In this case, ZLive updates $m'.value$ to the unique matching data provider class
+$pvCharacteristicsReader$ (whose ID is 14), and also returns that class in $value!$.
+ZLive returns the following in LaTeX Z syntax (we have manually highlighted the generated return values in bold):
+\[
+  1: \lblot m == \lblot name == 35 , argType == 14 , value == 9 , optional == 0 \rblot , \\
+  m' == \lblot name == 35 , argType == 14 , \mathbf{value == 14} , optional == 0 \rblot , \\
+  dataProviders? == \{ 14 , 17 \} , outputid == \{ ( 14 , 35 ) , ( 17 , 36 ) \} , \\
+  matching! == \{ 14 \} , \mathbf{value! == 14} \rblot
+\]
+
+
+\item When there are multiple matching data providers, ZLive reports a unique
+  solution, with the $value!$ output set to $dataProviderError$ (8):
+
+\begin{schema}{testSeveralMatch}
+  SatisfySetterMethod
+\where
+  m \in pvCharacteristics \\
+  dataProviders? = \{pvCharacteristicsReader, pvExactAllocationReader\} \\
+  outputid = \{ pvCharacteristicsReader \mapsto dataIdPvCharacteristics, \\
+  \t3           pvExactAllocationReader \mapsto dataIdPvCharacteristics \}
+\end{schema}
+
+ZLive gives:
+\[
+  1: \lblot m == \lblot name == 35 , argType == 14 , value == 9 , optional == 0 \rblot , \\
+  m' == \lblot name == 35 , argType == 14 , \mathbf{value == 8} , optional == 0 \rblot , \\
+  dataProviders? == \{ 14 , 17 \} , outputid == \{ ( 14 , 35 ) , ( 17 , 35 ) \} , \\
+  matching! == \{ 14 , 17 \} , \mathbf{value! == 8} \rblot
+\]
+
+
+\item When there are no matching data providers and the setter is optional:
+
+\begin{schema}{testNoMatchOptional}
+  SatisfySetterMethod
+\where
+  m \in exactAllocation \\
+  dataProviders? = \{\} \\
+  outputid =  \{\}
+\end{schema}
+
+ZLive gives:
+\[
+1: \lblot m == \lblot name == 36 , argType == 17 , value == 9 , optional == 1 \rblot , \\
+  m' == \lblot name == 36 , argType == 17 , value == 9 , optional == 1 \rblot , \\
+  dataProviders? == \{ \} , outputid == \{ \} , matching! == \{ \} , value! == 9 \rblot
+\]
+
+This leaves the $m.value$ field unchanged ($nullClass$) and returns $nullClass$
+in $value!$ as well, which indicates that no error has occurred. 
+
+
+\item When there are no matching data providers and the setter is compulsory:
+
+\begin{schema}{testNoMatch}
+  SatisfySetterMethod
+\where
+  m \in pvCharacteristics \\
+  dataProviders? = \{\} \\
+  outputid =  \{\}
+\end{schema}
+
+Animating this test in ZLive gives the following (unique) result 
+-- note that the output $value!$ is set to $dataProviderError$ (8):
+\[
+1: \lblot m == \lblot name == 35 , argType == 14 , value == 9 , optional == 0 \rblot , \\
+ m' == \lblot name == 35 , argType == 14 , value == 8 , optional == 0 \rblot , \\
+ dataProviders? == \{ \} , outputid == \{ \} , matching! == \{ \} , value! == 8 \rblot
+\] 
+
+\end{enumerate}
+
+This testing approach uses the set-oriented nature of Z to check that
+each of the four test cases is correctly defined, with no inconsistent values,
+no missing/unspecified values, and returns a unique solution (a singleton set)
+that contains the expected results.  This gives us strong confidence that the
+specified operation is correct, and that it has the four behaviours that we desire.
+
+
+\section{Testing SatisfyFactoryInputs}
+%=====================================
+
+The next step is to test the lifted operation $SatisfyFactoryInputs$ that sets
+all the properties of a whole factory.  To do this, we need an example instance
+of a $ModuleManager$ that contains some $Module$ objects.
+
+\begin{schema}{ExamplePvModule}
+  Module
+\where
+  contributor = contributorPvAsset \\
+  classes = PvAssetFactory
+\end{schema}
+
+\begin{schema}{ExampleModuleManager}
+  ModuleManager
+\where
+  modules = ExamplePvModule
+\end{schema}
+
+As usual, we check that these examples are uniquely defined.
+\begin{theorem}{ExamplePvModuleIsValid}
+  \vdash?  \# ExamplePvModule = 1
+\end{theorem}
+\begin{theorem}{ExampleModuleManagerIsValid}
+  \vdash?  \# ExampleModuleManager = 1
+\end{theorem}
+
+\begin{schema}{testSatisfyFactoryInputs1}
+  SatisfyFactoryInputs \\
+  ExampleModuleManager
+\where
+  factory? \in PvAssetFactory \\
+  dataProviders? = \{pvCharacteristicsReader, pvExactAllocationReader\} \\
+  outputid = \{ pvCharacteristicsReader \mapsto dataIdPvCharacteristics, \\
+  \t4           pvExactAllocationReader \mapsto dataIdPvExactAllocation \}
+\end{schema}
+
+
+\section{Examples of ZLive WHY Command}
+%=======================================
+
+\begin{schema}{EgWhy}
+  f : \nat \rel \nat \\
+  num : \nat \\
+  in? : \nat \\
+  out! : \nat
+\where
+  f = \{ a,b:\nat | a*b = num \} \\
+  (in?,out!) \in f
+\end{schema}
+
+\begin{zed}
+  Factors == [num,fact : \nat | fact \in \dom \{a,b:0..num | a*b = num\}] \\
+\end{zed}
+
+do Factors \land [num==10]
+
+\end{document}

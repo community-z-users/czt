@@ -1,0 +1,262 @@
+\documentclass{article}
+\usepackage{czt}
+
+\title{Module Manager Specification}
+\author{Fanny Boulaire \and Mark Utting}
+\begin{document}
+\maketitle
+\begin{zsection}
+  %\SECTION ModuleManager \parents ModamTypes
+  \SECTION ModuleManager \parents ModamTypesAnimate
+\end{zsection}
+
+This specification describes the ModuleManager of MODAM.
+  
+A $SetterGetter$ represents a property of an object whose value can be read and set
+via getter/setter methods.  It has a name, an argument type (one only), 
+a current value (for Modam, this is always a reference to a Java object that
+is an instance of the $value$ class, which must be a subtype of the $argType$ class),
+and a flag which specifies whether the property is optional or compulsory.
+
+\begin{schema}{SetterGetter}
+  name : DataId \\
+  argType, value : ClassName \\
+  optional : OPTIONAL \\
+\end{schema}
+
+
+We start by defining the Eclipse concept of 'extension class' (or extension point?),
+which contains a class name plus several properties.  We call these extension
+classes \emph{Factory} classes, because in MODAM they are used to create
+assets and agents and data provider objects.
+
+\begin{schema}{Factory}  
+  extId : ExtId \\
+  className : ClassName \\
+  consumes : \power DataId \\
+  produces : DataId \\   % optional
+  path : Path \\ % actually optional
+  prior : \power ClassName \\
+  methods : \power SetterGetter \\ 
+\where
+  true
+\end{schema}
+
+In MODAM we use three extension points, for assets, behaviours, and data providers
+respectively.  So we use a separate ID for each extension point:
+$modamAssetFactory$, $modamBehavFactory$, and $modamDataProvider$.
+
+
+We also define the special (subclass) characteristics of each kind of extension point.
+For example, asset factories and behaviour factories may consume data providers
+but they do not produce data, whereas data providers produce data but do not
+not consume other data providers.  Asset factories are the only kinds of factories
+whose execution has to be ordered, so we set $prior = \emptyset$ for the other factories.
+\begin{zed}
+  AssetFactory == [Factory | extId = modamAssetFactory \land \\
+      \t4                    produces = noDataId \land path = noPath] \\
+  BehavFactory == [Factory | extId = modamBehavFactory \land \\
+      \t4                    produces = noDataId \land prior = \emptyset \land path = noPath] \\
+  DataProvider == [Factory | extId = modamDataProvider \land \\
+      \t4                    consumes = \emptyset \land prior = \emptyset \land produces \neq noDataId] \\
+\end{zed}
+
+
+A Module in MODAM is essentially just a contributor ID plus a set of extension classes, which must all have unique names.  The $consumes$ and $produces$ maps are derived by collecting into a single map all the data IDs consumed by all the factories, or produced by all the data providers, respectively.   Similar maps are used in the Java implementation of the Module class in MODAM.
+\begin{schema}{Module}
+  contributor : Contributor \\
+  classes : \power Factory \\
+  consumes : ClassName \ffun \power DataId \\
+  produces : ClassName \ffun DataId
+\where
+  (\forall c1,c2:classes @ c1.className = c2.className \implies c1 = c2) \\
+  consumes = \{c:classes @ (c.className, c.consumes) \} \\
+  produces = \{c:classes @ (c.className, c.produces) \} \\
+\end{schema}
+
+%% Full spec of Module.
+% A Module in MODAM is essentially just a contributor ID plus a set of extension classes,
+% which must all have unique names.
+% \begin{schema}{Module0}
+%   contributor : Contributor \\
+%   classes : \power Factory
+% \where
+%   (\forall c1,c2:classes @ c1.className = c2.className \implies c1 = c2)
+% \end{schema}
+% 
+% For specification convenience, we extend Module to derive several mappings
+% from factory class names to various attributes of those factories.  
+% \begin{schema}{Module}
+%   Module0 \\
+%   extensionClass : ExtId \rel ClassName\\
+%   consumes : ClassName \ffun \power DataId \\
+%   produces : ClassName \ffun DataId \\
+%   path : ClassName \ffun Path \\
+%   prior : ClassName \ffun \power ClassName \\
+%   % assetFactories, agentFactories, dataProviders : \power ClassName
+% \where
+%   extensionClass = \{c:classes @ (c.extId, c.className) \} \\
+%   consumes = \{c:classes @ (c.className, c.consumes) \} \\
+%   produces = \{c:classes @ (c.className, c.produces) \} \\
+%   path = \{c:classes @ (c.className, c.path) \} \\
+%   prior = \{c:classes @ (c.className, c.prior) \} \\
+% \end{schema}
+
+
+
+%%%%%%%%%%%%%%%%%%% OLDER VERSION OF THE SPEC %%%%%%%%%%%%%%%%%%%%%%%
+%This is the definition of a Module in MODAM.
+
+%\begin{schema}{Module}
+%  contributor : Contributor\\
+%  extensionClass : ExtId \rel ClassName\\
+%  enabledClasses : \power ClassName \\
+%  consumes : ClassName \ffun \power DataId \\
+%  produces : ClassName \ffun DataId \\
+%  path : ClassName \ffun Path \\
+%  enabled : OPTIONAL \\
+%  prior : ClassName \ffun \power ClassName \\
+%  assetFactories, agentFactories, dataProviders : \power ClassName
+%\where
+%  dataProviders = dom ~ produces \\
+%  assetFactories = dom ~prior \\
+%  agentFactories = dom ~consumes \setminus assetFactories \\
+%  dom ~ consumes \subseteq ran ~ extensionClass \\
+%  dataProviders \subseteq ran ~ extensionClass \\
+%  enabledClasses \subseteq ran ~ extensionClass \\
+%  dom ~ path \subseteq dataProviders  \\
+%  % WRONG: (\forall s : ran ~ prior @ s \subseteq dom ~ prior) \\
+%  % \bigcup (ran ~ prior) \subseteq dom ~ prior \\
+%  enabled = NO \implies enabledClasses = \emptyset \\
+%  dataProviders \cap assetFactories = \emptyset \\
+%  dataProviders \cap agentFactories = \emptyset \\
+%  assetFactories \cap agentFactories = \emptyset \\
+%\end{schema}
+
+% The $consumes$ field maps every factory (asset factories and agent factories)
+% to its allowable input data identifiers.  
+% \emph{Note that the implementation goes the other way around, which assumes
+% that each input data id is required by only one class within each module.}
+% The domain of $consumes$ is made of agentFactories and assetFactories that are 
+% distinct classes, and that make the whole set of classnames.
+ 
+% The $produces$ maps every data provider class name to the data id that it produces.
+ 
+% The $path$ maps each data provider class name to its default path (if one has been specified).
+ 
+% The $contributor$ field is used to access the OSGi bundle but the name will be sufficient.
+ 
+% The domain of $produces$ is the set of all data providers. 
+% The domain of $consumes$ is the set of all factories. 
+% The domain of $prior$ is the asset factories, and the remaining ones in $consumes$ are agent factories.
+ 
+% % The $assetFactories$, $agentFactories$ and $dataProviders$ are distinct sets of class names
+ 
+% The union of the range of $prior$ is within the domain of prior, which is the set of assetFactories.
+ 
+
+The $ModuleManager$ is simply a set of modules.
+An $outputid$ is the union of all the contributors  which have a set of data providers
+
+\begin{schema}{ModuleManager}
+  modules: \power Module \\
+  outputid : ClassName \ffun DataId \\
+\where
+  outputid = \bigcup \{ m : modules @ m.produces \} \\
+\end{schema}
+
+%% We omit these incremental-add operations, to save space.
+%\begin{schema}{MMInit}
+%  ModuleManager
+%\where
+%  modules = \{ \}
+%\end{schema}
+%
+%\begin{schema}{AddModule}
+%  \Delta ModuleManager \\
+%  m? : Module \\
+%\where
+%  modules' = modules \cup \{ m? \}
+%\end{schema}
+
+
+One of the important operations in MODAM is automatically analyzing each
+property of a requested factory to see if it can be satisfied by the
+available data providers.  The following $SatisfySetterMethod$ specifies
+how this is done for one property.
+ 
+\begin{schema}{SatisfySetterMethod}
+  m, m' : SetterGetter \\
+  dataProviders? : \power ClassName \\
+  outputid : ClassName \ffun DataId \\
+  matching! : \power ClassName \\
+  value! : ClassName
+\where
+ m' = \lblot name==m.name, argType==m.argType, optional==m.optional, value==value! \rblot \\
+ % m'.name = m.name \\
+ % m'.argType = m.argType \\
+ % m'.optional = m.optional \\
+ % m'.value = value! \\
+ matching! = \{d : dataProviders? | outputid ~ d = m.name\} \\
+ \#matching! = 1 \implies value! \in matching! \\
+ \#matching! > 1 \implies value! = dataProviderError \\
+ \#matching! = 0 \land m.optional = YES \implies value! = m.value \\
+ %\#matching! = 0 \implies value! = m.value \\
+ \#matching! = 0 \land m.optional = NO \implies value! = dataProviderError \\
+\end{schema}
+
+The $SatisfySetterMethod$ transforms the value of a $SetterGetter$
+method after having matched an $outputid$ to its dataProvider from a
+set of input $dataProviders$.  The $matching!$ output set contains all
+the available data providers that can satisfy this property.
+Then there are four cases:
+\begin{itemize}
+\item the sweet path corresponds to having exactly one matching data ID, 
+  in which case, that property is set to the class that produces that data ID;
+\item another path where there is no match found but the matching was
+  optional, so the property is left unchanged;
+\item an error is thrown if no matches are found and the property is
+  not optional;
+\item an error is thrown if there are multiple matches, so it is
+  ambiguous which data provider the user intended to be used.
+\end{itemize}
+
+
+The $SatisfyFactoryInputs$ operation lifts the $SatisfySetterMethod$ up to the factory level by trying to satisfy all the properties in a given factory, by finding a suitable data provider.
+However, if any of those properties throw an error, then the last line
+in this operation ensures that the whole operation fails.
+  
+\begin{schema}{SatisfyFactoryInputs}
+  dataProviders? : \power ClassName \\
+  factory?, factory! : Factory \\
+  \Xi ModuleManager \\
+\where
+  factory?.className = factory!.className \\
+  factory!.methods = \{m': SetterGetter | (\exists  m: factory?.methods; \\
+  \t4                        matching! : \power ClassName; value! : ClassName \\
+  \t5                           @ SatisfySetterMethod) \} \\ 
+  \lnot (\exists m:factory!.methods @ m.value = dataProviderError) \\
+\end{schema}
+
+
+Finally, this $GetMissingDependencies$ operation finds all the non-optional
+data requirements that are not satisfied by any of the data providers.
+If the result $missing!$ set is non-empty, this indicates that the
+current model setup is incomplete, so the model cannot be run.
+
+\begin{schema}{GetMissingDependencies}
+  \Xi ModuleManager \\
+  factories? : \power Factory \\
+  missing! : \power DataId \\
+\where
+   missing! =  \{ unsatisfied : DataId | \\
+   \t1  (\exists m : modules; f:factories?; s : SetterGetter @ \\
+   \t2      f.className \in dom ~ m.consumes \land \\
+   \t2      unsatisfied \in m.consumes ~ (f.className) \land \\
+   \t2      s \in f.methods \land s.optional = NO \land \\
+   %\t2      s.name = unsatisfied \land \\
+   \t2      s.name = noDataId \land \\      % Example of an erroneous spec.
+   \t2      (\lnot \exists m' : modules @ s.name \in ran ~ m'.produces) ~ )\}
+\end{schema}
+
+\end{document}

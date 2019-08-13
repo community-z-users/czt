@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{czt}
+
+\title{Module Manager Types}
+\author{Fanny Boulaire \and Mark Utting}
+\begin{document}
+\maketitle
+\begin{zsection}
+  \SECTION ModamTypes \parents standard\_toolkit
+\end{zsection}
+
+First we declare the basic types used by the ModuleManager of MODAM.
+\begin{zed}
+  [ ClassName, ExtId, DataId, Path, Contributor ] \\
+  OPTIONAL ::= YES | NO
+\end{zed}
+
+$ClassName$ is the set of all possible Java class names, $ExtId$ is the set all possible Eclipse extension point
+identifiers (for example, \texttt{au.edu.qut.modam.assetfactory}), $DataId$ is the set of all possible Data identifiers
+(eg. \texttt{NetworkData}) -- these are used to link providers and consumers together via named ports, $Path$ is the set
+of all filesystem paths to input data files, and a $Contributor$ is a unique identifier for a module.
+The $OPTIONAL$ type is used to specify whether properties are optional or compulsory. 
+
+We define an extension point ID for the three key MODAM extension points, plus several constants to represent unknown values, and the \textbf{dataProvidedError} to model the exception that is returned when suitable data providers cannot be found.
+\begin{axdef}
+  modamAssetFactory, modamBehavFactory, modamDataProvider : ExtId \\
+  noDataId : DataId \\
+  noPath : Path \\
+  nullClass, dataProviderError : ClassName
+\where
+  modamAssetFactory \neq modamBehavFactory \\
+  modamAssetFactory \neq modamDataProvider \\
+  modamBehavFactory \neq modamDataProvider \\
+  dataProviderError \neq nullClass
+\end{axdef}
+
+\end{document}
