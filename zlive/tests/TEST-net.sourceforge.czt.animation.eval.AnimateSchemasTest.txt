@@ -1,0 +1,249 @@
+Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
+Tests run: 37, Failures: 2, Errors: 8, Skipped: 0, Time elapsed: 2.323 sec
+------------- Standard Output ---------------
+Passed test:animate_schemas.tex:22
+Passed test:animate_schemas.tex:23
+Passed test:animate_schemas.tex:24
+Passed test:animate_schemas.tex:25
+Passed test:animate_schemas.tex:26
+Passed test:animate_schemas.tex:27
+WARNING: changing a id from 27545 to 27544
+Passed test:animate_schemas.tex:28
+Passed test:animate_schemas.tex:31
+Passed test:animate_schemas.tex:32
+Passed test:animate_schemas.tex:33
+Passed test:animate_schemas.tex:36
+Passed test:animate_schemas.tex:37
+Passed test:animate_schemas.tex:65
+Passed test:animate_schemas.tex:68
+Passed test:animate_schemas.tex:71
+Passed test:animate_schemas.tex:74
+Passed test:animate_schemas.tex:84
+Passed test:animate_schemas.tex:85
+Passed test:animate_schemas.tex:86
+Passed test:animate_schemas.tex:91
+Passed test:animate_schemas.tex:94
+Passed test:animate_schemas.tex:98
+Passed test:animate_schemas.tex:99
+Passed test:animate_schemas.tex:100
+Passed test:animate_schemas.tex:102
+Passed test:animate_schemas.tex:115
+Passed test:animate_schemas.tex:136
+WARNING: changing i id from 27882 to 29001
+WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@fc98f70b
+WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@58f14ec7
+WARNING: InclDecl not unfolded: net.sourceforge.czt.z.impl.InclDeclImpl@58f14ec7
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+Sep 11, 2015 7:12:50 PM net.sourceforge.czt.parser.util.DefinitionTableVisitor processRefExpr
+WARNING: DEFTBL-VISITOR-DELTAXI-SCHEMA-INCL = ΔSimpleHeap
+Sep 11, 2015 7:12:50 PM net.sourceforge.czt.parser.util.DefinitionTableVisitor processRefExpr
+WARNING: DEFTBL-VISITOR-DELTAXI-SCHEMA-INCL = ΔSimpleHeap
+------------- ---------------- ---------------
+
+Testcase: animate_schemas.tex:22 took 0.041 sec
+Testcase: animate_schemas.tex:23 took 0.038 sec
+Testcase: animate_schemas.tex:24 took 0.032 sec
+Testcase: animate_schemas.tex:25 took 0.033 sec
+Testcase: animate_schemas.tex:26 took 0.028 sec
+Testcase: animate_schemas.tex:27 took 0.028 sec
+Testcase: animate_schemas.tex:28 took 0.03 sec
+Testcase: animate_schemas.tex:31 took 0.033 sec
+Testcase: animate_schemas.tex:32 took 0.027 sec
+Testcase: animate_schemas.tex:33 took 0.026 sec
+Testcase: animate_schemas.tex:36 took 0.035 sec
+Testcase: animate_schemas.tex:37 took 0.039 sec
+Testcase: animate_schemas.tex:65 took 0.049 sec
+Testcase: animate_schemas.tex:68 took 0.048 sec
+Testcase: animate_schemas.tex:71 took 0.084 sec
+Testcase: animate_schemas.tex:74 took 0.079 sec
+Testcase: animate_schemas.tex:77 took 0.127 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_schemas.tex:80 took 0.122 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_schemas.tex:84 took 0.043 sec
+Testcase: animate_schemas.tex:85 took 0.045 sec
+Testcase: animate_schemas.tex:86 took 0.049 sec
+Testcase: animate_schemas.tex:87 took 0.041 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:279)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:319)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:68)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:109)
+	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:135)
+	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:132)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:91 took 0.061 sec
+Testcase: animate_schemas.tex:94 took 0.056 sec
+Testcase: animate_schemas.tex:98 took 0.065 sec
+Testcase: animate_schemas.tex:99 took 0.058 sec
+Testcase: animate_schemas.tex:100 took 0.075 sec
+Testcase: animate_schemas.tex:102 took 0.138 sec
+Testcase: animate_schemas.tex:115 took 0.05 sec
+Testcase: animate_schemas.tex:116 took 0.053 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:279)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:319)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:68)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:109)
+	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:135)
+	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:132)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:347)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsSchText(FlatPredList.java:238)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:64)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:814)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:143)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:579)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:143)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:358)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:156)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:119 took 0.052 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp11256_n_x
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp11256_n_x
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:280)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:121 took 0.047 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp11267_n_x
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp11267_n_x
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:280)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:123 took 0.053 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp11278_n_x
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp11278_n_x
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:280)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:136 took 0.063 sec
+Testcase: animate_schemas.tex:164 took 0.18 sec
+	Caused an ERROR
+Cannot find mode to evaluate: \# [ [ offheap! : \nat ; [ [ items : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize : \nat ; currsize : \nat | maxsize \geq currsize \\
+ currsize =~\# \{ x : items | true @ x . 2 \} ] ; [ items' : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize' : \nat ; currsize' : \nat | maxsize' \geq currsize' \\
+ currsize' =~\# \{ x : items' | true @ x . 2 \} ] | true ] | currsize > 0 \\
+ \exists i : \nat ; v : \nat | ( i , v ) \in items \land v = min \{ x : items | true @ x . 2 \} @ items' = \{ p : \{ x : items | x \notin \{ ( i , v ) \} \} | true @ ( \# \{ i : \{ x : \{ x : items | x \notin \{ ( i , v ) \} \} | true @ x . 1 \} | i \leq p . 1 \} , p . 2 ) \} \land offheap! = v \\
+ currsize' = currsize - 1 \\
+ maxsize' = maxsize ] | maxsize = 10 \land items = \{ s : \{ f : \nat \pfun \arithmos | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} | true @ ( s , s ) \} \{ ( 1 , 2 ) \} ] = 1
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate: \# [ [ offheap! : \nat ; [ [ items : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize : \nat ; currsize : \nat | maxsize \geq currsize \\
+ currsize =~\# \{ x : items | true @ x . 2 \} ] ; [ items' : \{ f : \nat \pfun \nat | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} ; maxsize' : \nat ; currsize' : \nat | maxsize' \geq currsize' \\
+ currsize' =~\# \{ x : items' | true @ x . 2 \} ] | true ] | currsize > 0 \\
+ \exists i : \nat ; v : \nat | ( i , v ) \in items \land v = min \{ x : items | true @ x . 2 \} @ items' = \{ p : \{ x : items | x \notin \{ ( i , v ) \} \} | true @ ( \# \{ i : \{ x : \{ x : items | x \notin \{ ( i , v ) \} \} | true @ x . 1 \} | i \leq p . 1 \} , p . 2 ) \} \land offheap! = v \\
+ currsize' = currsize - 1 \\
+ maxsize' = maxsize ] | maxsize = 10 \land items = \{ s : \{ f : \nat \pfun \arithmos | \{ x : f | true @ x . 1 \} = 1 \upto \# f \} | true @ ( s , s ) \} \{ ( 1 , 2 ) \} ] = 1
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:391)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:174 took 0.099 sec
+	Caused an ERROR
+Type error in FlatBindSel: {(1,1), (2,3), (3,5), (4,7)} . deref
+net.sourceforge.czt.animation.eval.EvalException: Type error in FlatBindSel: {(1,1), (2,3), (3,5), (4,7)} . deref
+	at net.sourceforge.czt.animation.eval.flatpred.FlatBindSel.nextEvaluation(FlatBindSel.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_schemas.tex:175 took 0.191 sec
+	Caused an ERROR
+Type error in FlatBindSel: {(1,1), (2,3), (3,5), (4,7)} . deref
+net.sourceforge.czt.animation.eval.EvalException: Type error in FlatBindSel: {(1,1), (2,3), (3,5), (4,7)} . deref
+	at net.sourceforge.czt.animation.eval.flatpred.FlatBindSel.nextEvaluation(FlatBindSel.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.contains(PowerSet.java:102)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:266)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:138)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:266)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+

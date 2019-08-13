@@ -1,0 +1,1535 @@
+Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
+Tests run: 87, Failures: 7, Errors: 25, Skipped: 0, Time elapsed: 6.341 sec
+------------- Standard Output ---------------
+Passed test:animate_sequences.tex:28
+Passed test:animate_sequences.tex:29
+Passed test:animate_sequences.tex:31
+Passed test:animate_sequences.tex:32
+Passed test:animate_sequences.tex:34
+Passed test:animate_sequences.tex:35
+Passed test:animate_sequences.tex:36
+Passed test:animate_sequences.tex:40
+Passed test:animate_sequences.tex:41
+Passed test:animate_sequences.tex:44
+Passed test:animate_sequences.tex:48
+Passed test:animate_sequences.tex:50
+Passed test:animate_sequences.tex:57
+Passed test:animate_sequences.tex:60
+Passed test:animate_sequences.tex:61
+Passed test:animate_sequences.tex:63
+Passed test:animate_sequences.tex:64
+Passed test:animate_sequences.tex:67
+Passed test:animate_sequences.tex:68
+Passed test:animate_sequences.tex:69
+Passed test:animate_sequences.tex:70
+Passed test:animate_sequences.tex:71
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+Passed undef test: animate_sequences.tex:72
+Passed test:animate_sequences.tex:75
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+ baseset 0.._ IS INFINITE!
+ baseset _.._ IS INFINITE!
+ maxSize of Prod([0.._, _.._]) is null
+Passed test:animate_sequences.tex:76
+Passed test:animate_sequences.tex:77
+Passed test:animate_sequences.tex:78
+Passed test:animate_sequences.tex:79
+Passed undef test: animate_sequences.tex:80
+Passed test:animate_sequences.tex:83
+Passed test:animate_sequences.tex:84
+Passed test:animate_sequences.tex:85
+Passed test:animate_sequences.tex:86
+Passed test:animate_sequences.tex:87
+Passed undef test: animate_sequences.tex:88
+Passed test:animate_sequences.tex:91
+Passed test:animate_sequences.tex:92
+Passed test:animate_sequences.tex:93
+Passed test:animate_sequences.tex:94
+Passed test:animate_sequences.tex:95
+Passed undef test: animate_sequences.tex:96
+Passed test:animate_sequences.tex:100
+Passed test:animate_sequences.tex:101
+Passed test:animate_sequences.tex:102
+Passed test:animate_sequences.tex:103
+Passed test:animate_sequences.tex:104
+Passed test:animate_sequences.tex:135
+Passed test:animate_sequences.tex:136
+Passed test:animate_sequences.tex:137
+Passed test:animate_sequences.tex:138
+Passed test:animate_sequences.tex:139
+Passed undef test: animate_sequences.tex:140
+FAILED undef test (not undefined): animate_sequences.tex:141
+Passed test:animate_sequences.tex:144
+Passed test:animate_sequences.tex:147
+Passed test:animate_sequences.tex:151
+------------- ---------------- ---------------
+
+Testcase: animate_sequences.tex:28 took 0.067 sec
+Testcase: animate_sequences.tex:29 took 0.069 sec
+Testcase: animate_sequences.tex:31 took 0.077 sec
+Testcase: animate_sequences.tex:32 took 0.08 sec
+Testcase: animate_sequences.tex:34 took 0.069 sec
+Testcase: animate_sequences.tex:35 took 0.061 sec
+Testcase: animate_sequences.tex:36 took 0.063 sec
+Testcase: animate_sequences.tex:40 took 0.057 sec
+Testcase: animate_sequences.tex:41 took 0.069 sec
+Testcase: animate_sequences.tex:43 took 0.077 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_sequences.tex:44 took 0.102 sec
+Testcase: animate_sequences.tex:46 took 0.076 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_sequences.tex:47 took 0.075 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_sequences.tex:48 took 0.07 sec
+Testcase: animate_sequences.tex:50 took 0.068 sec
+Testcase: animate_sequences.tex:54 took 0.056 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_sequences.tex:55 took 0.065 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_sequences.tex:57 took 0.063 sec
+Testcase: animate_sequences.tex:58 took 0.058 sec
+	FAILED
+null
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
+
+Testcase: animate_sequences.tex:60 took 0.063 sec
+Testcase: animate_sequences.tex:61 took 0.068 sec
+Testcase: animate_sequences.tex:63 took 0.057 sec
+Testcase: animate_sequences.tex:64 took 0.045 sec
+Testcase: animate_sequences.tex:67 took 0.051 sec
+Testcase: animate_sequences.tex:68 took 0.051 sec
+Testcase: animate_sequences.tex:69 took 0.029 sec
+Testcase: animate_sequences.tex:70 took 0.03 sec
+Testcase: animate_sequences.tex:71 took 0.043 sec
+Testcase: animate_sequences.tex:72 took 0.051 sec
+Testcase: animate_sequences.tex:75 took 0.073 sec
+Testcase: animate_sequences.tex:76 took 0.106 sec
+Testcase: animate_sequences.tex:77 took 0.053 sec
+Testcase: animate_sequences.tex:78 took 0.058 sec
+Testcase: animate_sequences.tex:79 took 0.058 sec
+Testcase: animate_sequences.tex:80 took 0.061 sec
+Testcase: animate_sequences.tex:83 took 0.067 sec
+Testcase: animate_sequences.tex:84 took 0.063 sec
+Testcase: animate_sequences.tex:85 took 0.04 sec
+Testcase: animate_sequences.tex:86 took 0.049 sec
+Testcase: animate_sequences.tex:87 took 0.065 sec
+Testcase: animate_sequences.tex:88 took 0.034 sec
+Testcase: animate_sequences.tex:91 took 0.07 sec
+Testcase: animate_sequences.tex:92 took 0.075 sec
+Testcase: animate_sequences.tex:93 took 0.037 sec
+Testcase: animate_sequences.tex:94 took 0.036 sec
+Testcase: animate_sequences.tex:95 took 0.047 sec
+Testcase: animate_sequences.tex:96 took 0.043 sec
+Testcase: animate_sequences.tex:100 took 0.059 sec
+Testcase: animate_sequences.tex:101 took 0.057 sec
+Testcase: animate_sequences.tex:102 took 0.063 sec
+Testcase: animate_sequences.tex:103 took 0.062 sec
+Testcase: animate_sequences.tex:104 took 0.07 sec
+Testcase: animate_sequences.tex:107 took 0.088 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp7588
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp7588
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:108 took 0.1 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp7685
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp7685
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:109 took 0.088 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp7788
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp7788
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:110 took 0.093 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp7903
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp7903
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:111 took 0.088 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp8006
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp8006
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:114 took 0.122 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp8109
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp8109
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:115 took 0.121 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp8283
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp8283
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:116 took 0.147 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp8469
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp8469
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:117 took 0.118 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp8655
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp8655
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:118 took 0.122 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp8841
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp8841
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:119 took 0.124 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp9039
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp9039
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:120 took 0.111 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp9237
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp9237
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:121 took 0.15 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp9447
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp9447
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:122 took 0.131 sec
+	Caused an ERROR
+Cannot start iteration through ALL integers in RangeSet tmp9645
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers in RangeSet tmp9645
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:195)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatExists.nextEvaluation(FlatExists.java:60)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:58)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:126 took 0.117 sec
+	Caused an ERROR
+Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp9843
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results in RangeSet tmp9843
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:280)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.next(ProdSet.java:210)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:128)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.hasNext(PowerSet.java:176)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:117)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:129 took 0.055 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:182)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:219)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:626)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:143)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:358)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:156)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:130 took 0.121 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:182)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:219)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:626)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:143)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:358)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:156)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:131 took 0.132 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:182)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:219)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:626)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:143)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:358)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:156)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:132 took 0.084 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:284)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:454)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:182)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:95)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:262)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:219)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:626)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:143)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:358)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:156)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:79)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:306)
+	at net.sourceforge.czt.animation.eval.ZLive.compile(ZLive.java:378)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:343)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:135 took 0.045 sec
+Testcase: animate_sequences.tex:136 took 0.043 sec
+Testcase: animate_sequences.tex:137 took 0.065 sec
+Testcase: animate_sequences.tex:138 took 0.057 sec
+Testcase: animate_sequences.tex:139 took 0.061 sec
+Testcase: animate_sequences.tex:140 took 0.045 sec
+Testcase: animate_sequences.tex:141 took 0.045 sec
+	FAILED
+Should be undefined: squash[𝔸]net.sourceforge.czt.z.impl.SetExprImpl@ecc494a71
+junit.framework.AssertionFailedError: Should be undefined: squash[𝔸]net.sourceforge.czt.z.impl.SetExprImpl@ecc494a71
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:159)
+
+Testcase: animate_sequences.tex:144 took 0.074 sec
+Testcase: animate_sequences.tex:145 took 0.08 sec
+	Caused an ERROR
+Mu expression has no solutions: (mu
+  tmp10235 = {
+      tmp10236 = {
+          tmp10239 == 0;
+          tmp10238 = tmp10239 .. _;
+          tmp10240 = _ .. _;
+          tmp10237 = tmp10238 -|-> tmp10240;
+          tmp10243 == 0;
+          tmp10242 = tmp10243 .. _;
+          tmp10244 = _ .. _;
+          tmp10245 = tmp10242 x tmp10244;
+          tmp10241 = P tmp10245;
+          f in tmp10241 :: 1000.0 ;
+          tmp10246 = {
+              x in f :: 1000.0 ;
+              tmp10247 = x.1
+            @ tmp10247
+            };
+          tmp10249 == 1;
+          # f = tmp10250;
+          tmp10248 = tmp10249 .. tmp10250;
+          tmp10246 = tmp10248
+        @ f
+        };                          %% tmp10236:set(1000.0,null),    
+      %%---------------
+      tmp10251 = (s, s);            %% s    
+      s in tmp10236 :: 800.0 
+    @ tmp10251
+    };                          %% tmp10235:set(1000.0,null),    
+  %%---------------
+  p in tmp10235 :: 1000.0 ;
+  tmp10252 = p.1;               %% tmp10252:set(2.0,2),    
+  tmp10254 == 1;                %% tmp10254:1..1,    
+  tmp10255 == 3;                %% tmp10255:3..3,    
+  tmp10253 = (tmp10254, tmp10255); %% tmp10253={1=tmp10254, 2=tmp10255},    
+  tmp10257 == 2;                %% tmp10257:2..2,    
+  tmp10258 == 5;                %% tmp10258:5..5,    
+  tmp10256 = (tmp10257, tmp10258); %% tmp10256={1=tmp10257, 2=tmp10258},    
+  tmp10259 = { tmp10253, tmp10256 }; %% tmp10259=tmp10252,:set(2.0,2),    
+  tmp10252 = tmp10259;
+  tmp10260 = p.2                %% tmp10260    
+@ tmp10260
+)
+net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
+  tmp10235 = {
+      tmp10236 = {
+          tmp10239 == 0;
+          tmp10238 = tmp10239 .. _;
+          tmp10240 = _ .. _;
+          tmp10237 = tmp10238 -|-> tmp10240;
+          tmp10243 == 0;
+          tmp10242 = tmp10243 .. _;
+          tmp10244 = _ .. _;
+          tmp10245 = tmp10242 x tmp10244;
+          tmp10241 = P tmp10245;
+          f in tmp10241 :: 1000.0 ;
+          tmp10246 = {
+              x in f :: 1000.0 ;
+              tmp10247 = x.1
+            @ tmp10247
+            };
+          tmp10249 == 1;
+          # f = tmp10250;
+          tmp10248 = tmp10249 .. tmp10250;
+          tmp10246 = tmp10248
+        @ f
+        };                          %% tmp10236:set(1000.0,null),    
+      %%---------------
+      tmp10251 = (s, s);            %% s    
+      s in tmp10236 :: 800.0 
+    @ tmp10251
+    };                          %% tmp10235:set(1000.0,null),    
+  %%---------------
+  p in tmp10235 :: 1000.0 ;
+  tmp10252 = p.1;               %% tmp10252:set(2.0,2),    
+  tmp10254 == 1;                %% tmp10254:1..1,    
+  tmp10255 == 3;                %% tmp10255:3..3,    
+  tmp10253 = (tmp10254, tmp10255); %% tmp10253={1=tmp10254, 2=tmp10255},    
+  tmp10257 == 2;                %% tmp10257:2..2,    
+  tmp10258 == 5;                %% tmp10258:5..5,    
+  tmp10256 = (tmp10257, tmp10258); %% tmp10256={1=tmp10257, 2=tmp10258},    
+  tmp10259 = { tmp10253, tmp10256 }; %% tmp10259=tmp10252,:set(2.0,2),    
+  tmp10252 = tmp10259;
+  tmp10260 = p.2                %% tmp10260    
+@ tmp10260
+)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:146 took 0.087 sec
+	Caused an ERROR
+Mu expression has no solutions: (mu
+  tmp10318 = {
+      tmp10319 = {
+          tmp10322 == 0;
+          tmp10321 = tmp10322 .. _;
+          tmp10323 = _ .. _;
+          tmp10320 = tmp10321 -|-> tmp10323;
+          tmp10326 == 0;
+          tmp10325 = tmp10326 .. _;
+          tmp10327 = _ .. _;
+          tmp10328 = tmp10325 x tmp10327;
+          tmp10324 = P tmp10328;
+          f in tmp10324 :: 1000.0 ;
+          tmp10329 = {
+              x in f :: 1000.0 ;
+              tmp10330 = x.1
+            @ tmp10330
+            };
+          tmp10332 == 1;
+          # f = tmp10333;
+          tmp10331 = tmp10332 .. tmp10333;
+          tmp10329 = tmp10331
+        @ f
+        };                          %% tmp10319:set(1000.0,null),    
+      %%---------------
+      tmp10334 = (s, s);            %% s    
+      s in tmp10319 :: 800.0 
+    @ tmp10334
+    };                          %% tmp10318:set(1000.0,null),    
+  %%---------------
+  p in tmp10318 :: 1000.0 ;
+  tmp10335 = p.1;               %% tmp10335:set(5.0,5),    
+  tmp10337 == 1;                %% tmp10337:1..1,    
+  tmp10338 == 3;                %% tmp10338:3..3,    
+  tmp10336 = (tmp10337, tmp10338); %% tmp10336={1=tmp10337, 2=tmp10338},    
+  tmp10340 == 2;                %% tmp10340:2..2,    
+  tmp10341 == 5;                %% tmp10341:5..5,    
+  tmp10339 = (tmp10340, tmp10341); %% tmp10339={1=tmp10340, 2=tmp10341},    
+  tmp10343 == 3;                %% tmp10343:3..3,    
+  tmp10344 == 7;                %% tmp10344:7..7,    
+  tmp10342 = (tmp10343, tmp10344); %% tmp10342={1=tmp10343, 2=tmp10344},    
+  tmp10346 == 4;                %% tmp10346:4..4,    
+  tmp10347 == 6;                %% tmp10347:6..6,    
+  tmp10345 = (tmp10346, tmp10347); %% tmp10345={1=tmp10346, 2=tmp10347},    
+  tmp10349 == 5;                %% tmp10349:5..5,    
+  tmp10350 == 9;                %% tmp10350:9..9,    
+  tmp10348 = (tmp10349, tmp10350); %% tmp10348={1=tmp10349, 2=tmp10350},    
+  tmp10351 = { tmp10342, tmp10339, tmp10336, tmp10348, tmp10345 }; %% tmp10351=tmp10335,:set(5.0,5),    
+  tmp10335 = tmp10351;
+  tmp10352 = p.2                %% tmp10352    
+@ tmp10352
+)
+net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
+  tmp10318 = {
+      tmp10319 = {
+          tmp10322 == 0;
+          tmp10321 = tmp10322 .. _;
+          tmp10323 = _ .. _;
+          tmp10320 = tmp10321 -|-> tmp10323;
+          tmp10326 == 0;
+          tmp10325 = tmp10326 .. _;
+          tmp10327 = _ .. _;
+          tmp10328 = tmp10325 x tmp10327;
+          tmp10324 = P tmp10328;
+          f in tmp10324 :: 1000.0 ;
+          tmp10329 = {
+              x in f :: 1000.0 ;
+              tmp10330 = x.1
+            @ tmp10330
+            };
+          tmp10332 == 1;
+          # f = tmp10333;
+          tmp10331 = tmp10332 .. tmp10333;
+          tmp10329 = tmp10331
+        @ f
+        };                          %% tmp10319:set(1000.0,null),    
+      %%---------------
+      tmp10334 = (s, s);            %% s    
+      s in tmp10319 :: 800.0 
+    @ tmp10334
+    };                          %% tmp10318:set(1000.0,null),    
+  %%---------------
+  p in tmp10318 :: 1000.0 ;
+  tmp10335 = p.1;               %% tmp10335:set(5.0,5),    
+  tmp10337 == 1;                %% tmp10337:1..1,    
+  tmp10338 == 3;                %% tmp10338:3..3,    
+  tmp10336 = (tmp10337, tmp10338); %% tmp10336={1=tmp10337, 2=tmp10338},    
+  tmp10340 == 2;                %% tmp10340:2..2,    
+  tmp10341 == 5;                %% tmp10341:5..5,    
+  tmp10339 = (tmp10340, tmp10341); %% tmp10339={1=tmp10340, 2=tmp10341},    
+  tmp10343 == 3;                %% tmp10343:3..3,    
+  tmp10344 == 7;                %% tmp10344:7..7,    
+  tmp10342 = (tmp10343, tmp10344); %% tmp10342={1=tmp10343, 2=tmp10344},    
+  tmp10346 == 4;                %% tmp10346:4..4,    
+  tmp10347 == 6;                %% tmp10347:6..6,    
+  tmp10345 = (tmp10346, tmp10347); %% tmp10345={1=tmp10346, 2=tmp10347},    
+  tmp10349 == 5;                %% tmp10349:5..5,    
+  tmp10350 == 9;                %% tmp10350:9..9,    
+  tmp10348 = (tmp10349, tmp10350); %% tmp10348={1=tmp10349, 2=tmp10350},    
+  tmp10351 = { tmp10342, tmp10339, tmp10336, tmp10348, tmp10345 }; %% tmp10351=tmp10335,:set(5.0,5),    
+  tmp10335 = tmp10351;
+  tmp10352 = p.2                %% tmp10352    
+@ tmp10352
+)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:147 took 0.069 sec
+Testcase: animate_sequences.tex:148 took 0.08 sec
+	Caused an ERROR
+Mu expression has no solutions: (mu
+  tmp10464 = {
+      tmp10465 = {
+          tmp10468 == 0;
+          tmp10467 = tmp10468 .. _;
+          tmp10469 = _ .. _;
+          tmp10466 = tmp10467 -|-> tmp10469;
+          tmp10472 == 0;
+          tmp10471 = tmp10472 .. _;
+          tmp10473 = _ .. _;
+          tmp10474 = tmp10471 x tmp10473;
+          tmp10470 = P tmp10474;
+          f in tmp10470 :: 1000.0 ;
+          tmp10475 = {
+              x in f :: 1000.0 ;
+              tmp10476 = x.1
+            @ tmp10476
+            };
+          tmp10478 == 1;
+          # f = tmp10479;
+          tmp10477 = tmp10478 .. tmp10479;
+          tmp10475 = tmp10477
+        @ f
+        };                          %% tmp10465:set(1000.0,null),    
+      %%---------------
+      tmp10480 = (s, s);            %% s    
+      s in tmp10465 :: 800.0 
+    @ tmp10480
+    };                          %% tmp10464:set(1000.0,null),    
+  %%---------------
+  p in tmp10464 :: 1000.0 ;
+  tmp10481 = p.1;               %% tmp10481:set(2.0,2),    
+  tmp10483 == 1;                %% tmp10483:1..1,    
+  tmp10484 == 3;                %% tmp10484:3..3,    
+  tmp10482 = (tmp10483, tmp10484); %% tmp10482={1=tmp10483, 2=tmp10484},    
+  tmp10486 == 2;                %% tmp10486:2..2,    
+  tmp10487 == 5;                %% tmp10487:5..5,    
+  tmp10485 = (tmp10486, tmp10487); %% tmp10485={1=tmp10486, 2=tmp10487},    
+  tmp10488 = { tmp10482, tmp10485 }; %% tmp10488=tmp10481,:set(2.0,2),    
+  tmp10481 = tmp10488;
+  tmp10489 = p.2                %% tmp10489    
+@ tmp10489
+)
+net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
+  tmp10464 = {
+      tmp10465 = {
+          tmp10468 == 0;
+          tmp10467 = tmp10468 .. _;
+          tmp10469 = _ .. _;
+          tmp10466 = tmp10467 -|-> tmp10469;
+          tmp10472 == 0;
+          tmp10471 = tmp10472 .. _;
+          tmp10473 = _ .. _;
+          tmp10474 = tmp10471 x tmp10473;
+          tmp10470 = P tmp10474;
+          f in tmp10470 :: 1000.0 ;
+          tmp10475 = {
+              x in f :: 1000.0 ;
+              tmp10476 = x.1
+            @ tmp10476
+            };
+          tmp10478 == 1;
+          # f = tmp10479;
+          tmp10477 = tmp10478 .. tmp10479;
+          tmp10475 = tmp10477
+        @ f
+        };                          %% tmp10465:set(1000.0,null),    
+      %%---------------
+      tmp10480 = (s, s);            %% s    
+      s in tmp10465 :: 800.0 
+    @ tmp10480
+    };                          %% tmp10464:set(1000.0,null),    
+  %%---------------
+  p in tmp10464 :: 1000.0 ;
+  tmp10481 = p.1;               %% tmp10481:set(2.0,2),    
+  tmp10483 == 1;                %% tmp10483:1..1,    
+  tmp10484 == 3;                %% tmp10484:3..3,    
+  tmp10482 = (tmp10483, tmp10484); %% tmp10482={1=tmp10483, 2=tmp10484},    
+  tmp10486 == 2;                %% tmp10486:2..2,    
+  tmp10487 == 5;                %% tmp10487:5..5,    
+  tmp10485 = (tmp10486, tmp10487); %% tmp10485={1=tmp10486, 2=tmp10487},    
+  tmp10488 = { tmp10482, tmp10485 }; %% tmp10488=tmp10481,:set(2.0,2),    
+  tmp10481 = tmp10488;
+  tmp10489 = p.2                %% tmp10489    
+@ tmp10489
+)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:151 took 0.073 sec
+Testcase: animate_sequences.tex:152 took 0.083 sec
+	Caused an ERROR
+Mu expression has no solutions: (mu
+  tmp10609 = {
+      tmp10610 = {
+          tmp10613 == 0;
+          tmp10612 = tmp10613 .. _;
+          tmp10614 = _ .. _;
+          tmp10611 = tmp10612 -|-> tmp10614;
+          tmp10617 == 0;
+          tmp10616 = tmp10617 .. _;
+          tmp10618 = _ .. _;
+          tmp10619 = tmp10616 x tmp10618;
+          tmp10615 = P tmp10619;
+          f in tmp10615 :: 1000.0 ;
+          tmp10620 = {
+              x in f :: 1000.0 ;
+              tmp10621 = x.1
+            @ tmp10621
+            };
+          tmp10623 == 1;
+          # f = tmp10624;
+          tmp10622 = tmp10623 .. tmp10624;
+          tmp10620 = tmp10622
+        @ f
+        };                          %% tmp10610:set(1000.0,null),    
+      %%---------------
+      tmp10625 = (s, s);            %% s    
+      s in tmp10610 :: 800.0 
+    @ tmp10625
+    };                          %% tmp10609:set(1000.0,null),    
+  %%---------------
+  p in tmp10609 :: 1000.0 ;
+  tmp10626 = p.1;               %% tmp10626:set(2.0,2),    
+  tmp10628 == 1;                %% tmp10628:1..1,    
+  tmp10629 == 3;                %% tmp10629:3..3,    
+  tmp10627 = (tmp10628, tmp10629); %% tmp10627={1=tmp10628, 2=tmp10629},    
+  tmp10631 == 2;                %% tmp10631:2..2,    
+  tmp10632 == 5;                %% tmp10632:5..5,    
+  tmp10630 = (tmp10631, tmp10632); %% tmp10630={1=tmp10631, 2=tmp10632},    
+  tmp10633 = { tmp10627, tmp10630 }; %% tmp10633=tmp10626,:set(2.0,2),    
+  tmp10626 = tmp10633;
+  tmp10634 = p.2                %% tmp10634    
+@ tmp10634
+)
+net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
+  tmp10609 = {
+      tmp10610 = {
+          tmp10613 == 0;
+          tmp10612 = tmp10613 .. _;
+          tmp10614 = _ .. _;
+          tmp10611 = tmp10612 -|-> tmp10614;
+          tmp10617 == 0;
+          tmp10616 = tmp10617 .. _;
+          tmp10618 = _ .. _;
+          tmp10619 = tmp10616 x tmp10618;
+          tmp10615 = P tmp10619;
+          f in tmp10615 :: 1000.0 ;
+          tmp10620 = {
+              x in f :: 1000.0 ;
+              tmp10621 = x.1
+            @ tmp10621
+            };
+          tmp10623 == 1;
+          # f = tmp10624;
+          tmp10622 = tmp10623 .. tmp10624;
+          tmp10620 = tmp10622
+        @ f
+        };                          %% tmp10610:set(1000.0,null),    
+      %%---------------
+      tmp10625 = (s, s);            %% s    
+      s in tmp10610 :: 800.0 
+    @ tmp10625
+    };                          %% tmp10609:set(1000.0,null),    
+  %%---------------
+  p in tmp10609 :: 1000.0 ;
+  tmp10626 = p.1;               %% tmp10626:set(2.0,2),    
+  tmp10628 == 1;                %% tmp10628:1..1,    
+  tmp10629 == 3;                %% tmp10629:3..3,    
+  tmp10627 = (tmp10628, tmp10629); %% tmp10627={1=tmp10628, 2=tmp10629},    
+  tmp10631 == 2;                %% tmp10631:2..2,    
+  tmp10632 == 5;                %% tmp10632:5..5,    
+  tmp10630 = (tmp10631, tmp10632); %% tmp10630={1=tmp10631, 2=tmp10632},    
+  tmp10633 = { tmp10627, tmp10630 }; %% tmp10633=tmp10626,:set(2.0,2),    
+  tmp10626 = tmp10633;
+  tmp10634 = p.2                %% tmp10634    
+@ tmp10634
+)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:153 took 0.078 sec
+	Caused an ERROR
+Mu expression has no solutions: (mu
+  tmp10681 = {
+      tmp10682 = {
+          tmp10685 == 0;
+          tmp10684 = tmp10685 .. _;
+          tmp10686 = _ .. _;
+          tmp10683 = tmp10684 -|-> tmp10686;
+          tmp10689 == 0;
+          tmp10688 = tmp10689 .. _;
+          tmp10690 = _ .. _;
+          tmp10691 = tmp10688 x tmp10690;
+          tmp10687 = P tmp10691;
+          f in tmp10687 :: 1000.0 ;
+          tmp10692 = {
+              x in f :: 1000.0 ;
+              tmp10693 = x.1
+            @ tmp10693
+            };
+          tmp10695 == 1;
+          # f = tmp10696;
+          tmp10694 = tmp10695 .. tmp10696;
+          tmp10692 = tmp10694
+        @ f
+        };                          %% tmp10682:set(1000.0,null),    
+      %%---------------
+      tmp10697 = (s, s);            %% s    
+      s in tmp10682 :: 800.0 
+    @ tmp10697
+    };                          %% tmp10681:set(1000.0,null),    
+  %%---------------
+  p in tmp10681 :: 1000.0 ;
+  tmp10698 = p.1;               %% tmp10698:set(2.0,2),    
+  tmp10700 == 1;                %% tmp10700:1..1,    
+  tmp10701 == 3;                %% tmp10701:3..3,    
+  tmp10699 = (tmp10700, tmp10701); %% tmp10699={1=tmp10700, 2=tmp10701},    
+  tmp10703 == 2;                %% tmp10703:2..2,    
+  tmp10704 == 5;                %% tmp10704:5..5,    
+  tmp10702 = (tmp10703, tmp10704); %% tmp10702={1=tmp10703, 2=tmp10704},    
+  tmp10705 = { tmp10699, tmp10702 }; %% tmp10705=tmp10698,:set(2.0,2),    
+  tmp10698 = tmp10705;
+  tmp10706 = p.2                %% tmp10706    
+@ tmp10706
+)
+net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
+  tmp10681 = {
+      tmp10682 = {
+          tmp10685 == 0;
+          tmp10684 = tmp10685 .. _;
+          tmp10686 = _ .. _;
+          tmp10683 = tmp10684 -|-> tmp10686;
+          tmp10689 == 0;
+          tmp10688 = tmp10689 .. _;
+          tmp10690 = _ .. _;
+          tmp10691 = tmp10688 x tmp10690;
+          tmp10687 = P tmp10691;
+          f in tmp10687 :: 1000.0 ;
+          tmp10692 = {
+              x in f :: 1000.0 ;
+              tmp10693 = x.1
+            @ tmp10693
+            };
+          tmp10695 == 1;
+          # f = tmp10696;
+          tmp10694 = tmp10695 .. tmp10696;
+          tmp10692 = tmp10694
+        @ f
+        };                          %% tmp10682:set(1000.0,null),    
+      %%---------------
+      tmp10697 = (s, s);            %% s    
+      s in tmp10682 :: 800.0 
+    @ tmp10697
+    };                          %% tmp10681:set(1000.0,null),    
+  %%---------------
+  p in tmp10681 :: 1000.0 ;
+  tmp10698 = p.1;               %% tmp10698:set(2.0,2),    
+  tmp10700 == 1;                %% tmp10700:1..1,    
+  tmp10701 == 3;                %% tmp10701:3..3,    
+  tmp10699 = (tmp10700, tmp10701); %% tmp10699={1=tmp10700, 2=tmp10701},    
+  tmp10703 == 2;                %% tmp10703:2..2,    
+  tmp10704 == 5;                %% tmp10704:5..5,    
+  tmp10702 = (tmp10703, tmp10704); %% tmp10702={1=tmp10703, 2=tmp10704},    
+  tmp10705 = { tmp10699, tmp10702 }; %% tmp10705=tmp10698,:set(2.0,2),    
+  tmp10698 = tmp10705;
+  tmp10706 = p.2                %% tmp10706    
+@ tmp10706
+)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:154 took 0.078 sec
+	Caused an ERROR
+Mu expression has no solutions: (mu
+  tmp10764 = {
+      tmp10765 = {
+          tmp10768 == 0;
+          tmp10767 = tmp10768 .. _;
+          tmp10769 = _ .. _;
+          tmp10766 = tmp10767 -|-> tmp10769;
+          tmp10772 == 0;
+          tmp10771 = tmp10772 .. _;
+          tmp10773 = _ .. _;
+          tmp10774 = tmp10771 x tmp10773;
+          tmp10770 = P tmp10774;
+          f in tmp10770 :: 1000.0 ;
+          tmp10775 = {
+              x in f :: 1000.0 ;
+              tmp10776 = x.1
+            @ tmp10776
+            };
+          tmp10778 == 1;
+          # f = tmp10779;
+          tmp10777 = tmp10778 .. tmp10779;
+          tmp10775 = tmp10777
+        @ f
+        };                          %% tmp10765:set(1000.0,null),    
+      %%---------------
+      tmp10780 = (s, s);            %% s    
+      s in tmp10765 :: 800.0 
+    @ tmp10780
+    };                          %% tmp10764:set(1000.0,null),    
+  %%---------------
+  p in tmp10764 :: 1000.0 ;
+  tmp10781 = p.1;               %% tmp10781:set(5.0,5),    
+  tmp10783 == 1;                %% tmp10783:1..1,    
+  tmp10784 == 3;                %% tmp10784:3..3,    
+  tmp10782 = (tmp10783, tmp10784); %% tmp10782={1=tmp10783, 2=tmp10784},    
+  tmp10786 == 2;                %% tmp10786:2..2,    
+  tmp10787 == 5;                %% tmp10787:5..5,    
+  tmp10785 = (tmp10786, tmp10787); %% tmp10785={1=tmp10786, 2=tmp10787},    
+  tmp10789 == 3;                %% tmp10789:3..3,    
+  tmp10790 == 7;                %% tmp10790:7..7,    
+  tmp10788 = (tmp10789, tmp10790); %% tmp10788={1=tmp10789, 2=tmp10790},    
+  tmp10792 == 4;                %% tmp10792:4..4,    
+  tmp10793 == 6;                %% tmp10793:6..6,    
+  tmp10791 = (tmp10792, tmp10793); %% tmp10791={1=tmp10792, 2=tmp10793},    
+  tmp10795 == 5;                %% tmp10795:5..5,    
+  tmp10796 == 9;                %% tmp10796:9..9,    
+  tmp10794 = (tmp10795, tmp10796); %% tmp10794={1=tmp10795, 2=tmp10796},    
+  tmp10797 = { tmp10791, tmp10782, tmp10788, tmp10794, tmp10785 }; %% tmp10797=tmp10781,:set(5.0,5),    
+  tmp10781 = tmp10797;
+  tmp10798 = p.2                %% tmp10798    
+@ tmp10798
+)
+net.sourceforge.czt.animation.eval.UndefException: Mu expression has no solutions: (mu
+  tmp10764 = {
+      tmp10765 = {
+          tmp10768 == 0;
+          tmp10767 = tmp10768 .. _;
+          tmp10769 = _ .. _;
+          tmp10766 = tmp10767 -|-> tmp10769;
+          tmp10772 == 0;
+          tmp10771 = tmp10772 .. _;
+          tmp10773 = _ .. _;
+          tmp10774 = tmp10771 x tmp10773;
+          tmp10770 = P tmp10774;
+          f in tmp10770 :: 1000.0 ;
+          tmp10775 = {
+              x in f :: 1000.0 ;
+              tmp10776 = x.1
+            @ tmp10776
+            };
+          tmp10778 == 1;
+          # f = tmp10779;
+          tmp10777 = tmp10778 .. tmp10779;
+          tmp10775 = tmp10777
+        @ f
+        };                          %% tmp10765:set(1000.0,null),    
+      %%---------------
+      tmp10780 = (s, s);            %% s    
+      s in tmp10765 :: 800.0 
+    @ tmp10780
+    };                          %% tmp10764:set(1000.0,null),    
+  %%---------------
+  p in tmp10764 :: 1000.0 ;
+  tmp10781 = p.1;               %% tmp10781:set(5.0,5),    
+  tmp10783 == 1;                %% tmp10783:1..1,    
+  tmp10784 == 3;                %% tmp10784:3..3,    
+  tmp10782 = (tmp10783, tmp10784); %% tmp10782={1=tmp10783, 2=tmp10784},    
+  tmp10786 == 2;                %% tmp10786:2..2,    
+  tmp10787 == 5;                %% tmp10787:5..5,    
+  tmp10785 = (tmp10786, tmp10787); %% tmp10785={1=tmp10786, 2=tmp10787},    
+  tmp10789 == 3;                %% tmp10789:3..3,    
+  tmp10790 == 7;                %% tmp10790:7..7,    
+  tmp10788 = (tmp10789, tmp10790); %% tmp10788={1=tmp10789, 2=tmp10790},    
+  tmp10792 == 4;                %% tmp10792:4..4,    
+  tmp10793 == 6;                %% tmp10793:6..6,    
+  tmp10791 = (tmp10792, tmp10793); %% tmp10791={1=tmp10792, 2=tmp10793},    
+  tmp10795 == 5;                %% tmp10795:5..5,    
+  tmp10796 == 9;                %% tmp10796:9..9,    
+  tmp10794 = (tmp10795, tmp10796); %% tmp10794={1=tmp10795, 2=tmp10796},    
+  tmp10797 = { tmp10791, tmp10782, tmp10788, tmp10794, tmp10785 }; %% tmp10797=tmp10781,:set(5.0,5),    
+  tmp10781 = tmp10797;
+  tmp10798 = p.2                %% tmp10798    
+@ tmp10798
+)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:144)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:48)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:282)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:83)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:152)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:125)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:163)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:611)
+	at net.sourceforge.czt.animation.eval.ZLive.evaluate(ZLive.java:459)
+	at net.sourceforge.czt.animation.eval.ZLive.evalTerm(ZLive.java:344)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:311)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
