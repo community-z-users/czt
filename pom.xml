@@ -127,7 +127,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.10.0</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -137,7 +137,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.2.2</version>
         <configuration>
           <skipIfEmpty>true</skipIfEmpty>
         </configuration>
@@ -153,7 +153,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.18.1</version>
+        <version>3.0.0-M5</version>
         <configuration>
           <systemProperties>
             <property>
@@ -174,7 +174,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>copy-site-files</id>
@@ -255,7 +255,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.4</version>
+        <version>3.11.0</version>
         <dependencies>
           <dependency>
             <groupId>lt.velykis.maven.skins</groupId>
@@ -286,7 +286,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.2</version>
+        <version>3.0.0-M5</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <useReleaseProfile>false</useReleaseProfile>
@@ -303,6 +303,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
+	  <!--     <version>3.2.2</version> -->
           <configuration>
             <!--
               Indicate to use a custom manifest file if available in /META-INF/MANIFEST.MF.
@@ -310,14 +311,14 @@
               Where this is not generated, default is used (as opposed to explicit entry for manifest file, 
               which crashes build for other project types, e.g. `maven-plugin`.
             -->
-            <useDefaultManifestFile>true</useDefaultManifestFile>
+		  <!-- <useDefaultManifestFile>true</useDefaultManifestFile> -->
           </configuration>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.3</version>
+          <version>3.3.2</version>
           <configuration>
             <detectLinks>true</detectLinks>
             <!-- Disable doclint in JDK 8 for now:
@@ -332,7 +333,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>2.5.3</version>
+          <version>5.1.4</version>
           <extensions>true</extensions>
           <configuration>
             <instructions>
@@ -376,7 +377,8 @@
                   <pluginExecutionFilter>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <versionRange>[1.0.0,)</versionRange>
+		    <!-- <versionRange>[1.0.0,)</versionRange> -->
+		    <version>3.0.0</version>
                     <goals>
                       <goal>enforce</goal>
                     </goals>
@@ -399,7 +401,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.8</version>
+        <version>3.2.2</version>
         <configuration>
           <webAccessUrl>http://sourceforge.net/p/czt/code/ci/master/tree</webAccessUrl>
           <anonymousConnection>scm:git:git://git.code.sf.net/p/czt/code</anonymousConnection>
@@ -437,7 +439,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.11</version>
+        <version>2.12.1</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -496,7 +498,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>2.4</version>
+            <version>3.2.1</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -521,7 +523,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -547,7 +549,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>2.9.1</version>
+            <version>3.1.2</version>
             <dependencies>
               <dependency>
                 <groupId>${czt.dev.groupId}</groupId>
@@ -567,7 +569,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>2.9.1</version>
+            <version>3.1.2</version>
             <configuration>
               <configLocation>/net/sourceforge/czt/checkstyle.xml</configLocation>
             </configuration>
