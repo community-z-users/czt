@@ -16,7 +16,7 @@
 set -e
 
 # Step 1: Build the CZT core
-mvn clean install -U
+mvn clean install -U 2>err_log
 
 # Step 2: Build the CZT Eclipse plug-ins
 mvn -f eclipse/pom.xml clean install -U
